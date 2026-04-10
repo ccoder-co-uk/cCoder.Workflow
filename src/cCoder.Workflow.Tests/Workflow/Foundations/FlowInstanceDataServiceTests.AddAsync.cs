@@ -1,0 +1,117 @@
+using System.Security;
+using cCoder.Data.Models.Security;
+using cCoder.Data.Models.Workflow;
+using FluentAssertions;
+using Moq;
+using Xunit;
+
+
+namespace cCoder.Core.Services.Tests.Workflow.Foundations;
+
+public partial class FlowInstanceDataServiceTests
+{
+    [Fact]
+    public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForAddAsync()
+    {
+        // Given
+        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(new User { Id = "test-user" });
+        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
+
+        FlowInstanceData submitted = null;
+
+        flowInstanceDataBrokerMock.Setup(x => x.GetAppId(It.IsAny<FlowInstanceData>())).Returns((int?)7);
+        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "FlowInstanceData_create"));
+
+        flowInstanceDataBrokerMock
+            .Setup(x =>
+                x.AddFlowInstanceDataAsync(
+                    It.Is<FlowInstanceData>(candidate =>
+                        !ReferenceEquals(candidate, flowInstanceData)
+                    )
+                )
+            )
+            .Callback<FlowInstanceData>(candidate => submitted = candidate)
+            .ReturnsAsync((FlowInstanceData value) => value);
+
+        // When
+        FlowInstanceData result = await flowInstanceDataService.AddAsync(flowInstanceData);
+
+        // Then
+        result.Should().NotBeSameAs(flowInstanceData);
+        submitted.Should().NotBeNull();
+
+        submitted
+            .Should()
+            .BeEquivalentTo(
+                flowInstanceData,
+                options => options.Excluding(candidate => candidate.Id)
+            );
+
+        result
+            .Should()
+            .BeEquivalentTo(
+                flowInstanceData,
+                options => options.Excluding(candidate => candidate.Id)
+            );
+
+        flowInstanceDataBrokerMock.Verify(
+            x =>
+                x.AddFlowInstanceDataAsync(
+                    It.Is<FlowInstanceData>(candidate =>
+                        !ReferenceEquals(candidate, flowInstanceData)
+                    )
+                ),
+            Times.Once
+        );
+        flowInstanceDataBrokerMock.Verify(
+            x => x.GetAppId(It.IsAny<FlowInstanceData>()),
+            Times.AtMostOnce()
+        );
+        flowInstanceDataBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.Verify(
+            x => x.Authorize((int?)7, "FlowInstanceData_create"),
+            Times.Once
+        );
+        authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldThrowSecurityExceptionWhenUserLacksCreatePrivilegeForAddAsync()
+    {
+        // Given
+        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
+
+        flowInstanceDataBrokerMock.Setup(x => x.GetAppId(It.IsAny<FlowInstanceData>())).Returns((int?)7);
+        authorizationBrokerMock
+            .Setup(x => x.Authorize((int?)7, "FlowInstanceData_create"))
+            .Throws(new SecurityException("Access Denied!"));
+
+        // When
+        Func<Task> action = async () => await flowInstanceDataService.AddAsync(flowInstanceData);
+
+        // Then
+        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
+        flowInstanceDataBrokerMock.Verify(
+            x => x.GetAppId(It.IsAny<FlowInstanceData>()),
+            Times.AtMostOnce()
+        );
+        flowInstanceDataBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.Verify(
+            x => x.Authorize((int?)7, "FlowInstanceData_create"),
+            Times.Once
+        );
+        authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+

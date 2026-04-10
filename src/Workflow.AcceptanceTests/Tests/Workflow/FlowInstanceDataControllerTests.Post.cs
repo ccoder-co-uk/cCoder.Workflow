@@ -1,0 +1,44 @@
+using cCoder.Data.Models.Workflow;
+using FluentAssertions;
+using Xunit;
+
+
+namespace Web.AcceptanceTests.Tests.Workflow;
+
+public sealed partial class FlowInstanceDataControllerTests
+{
+    [Fact]
+    public async Task Post_CreatesFlowInstanceData()
+    {
+        // Given
+        SeededFlowInstanceDataContext seededContext = await SeedDatabase();
+        FlowInstanceData expectedInstance;
+        FlowInstanceData actualInstance;
+
+        // When
+        expectedInstance = await CreateFlowInstanceDataAsync(new
+        {
+            id = Guid.NewGuid(),
+            flowDefinitionId = seededContext.FlowId,
+            name = Unique("Instance"),
+            state = "Queued",
+            caller = "Guest",
+            contextString = "{}",
+            start = DateTimeOffset.UtcNow,
+        });
+
+        actualInstance = await GetFlowInstanceDataAsync(expectedInstance.Id);
+
+        // Then
+        actualInstance.Should().NotBeNull();
+        actualInstance!.Id.Should().Be(expectedInstance.Id);
+
+        await DeleteFlowInstanceDataAsync(expectedInstance.Id);
+        await Teardown(seededContext);
+    }
+}
+
+
+
+
+

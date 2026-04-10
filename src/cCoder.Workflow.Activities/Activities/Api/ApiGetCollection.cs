@@ -1,0 +1,20 @@
+using cCoder.Workflow.Activities.Support;
+using cCoder.Workflow.Activities.Models;
+
+
+namespace cCoder.Workflow.Activities.Activities.Api;
+
+public class ApiGetCollection<T> : ApiActivity<IEnumerable<T>>
+{
+    public override async Task ExecuteAsync()
+    {
+        using HttpClient api = GetHttpClient();
+        Log(WorkflowLogLevel.Info, $"HTTP GET {api.BaseAddress}{Query}");
+        Result = await api.GetODataCollection<T>(Query);
+    }
+}
+
+
+
+
+

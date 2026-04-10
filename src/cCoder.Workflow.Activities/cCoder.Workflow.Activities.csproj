@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <NoWarn>1591</NoWarn>
+    <PackageId>cCoder.Workflow.Activities</PackageId>
+    <PackageTags>cCoder;Workflow;Activities;cCoder.Workflow.Activities</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ProjectUrl>https://github.com/ccoder-co-uk/cCoder.Workflow</ProjectUrl>
+    <RepositoryUrl>https://github.com/ccoder-co-uk/cCoder.Workflow.git</RepositoryUrl>
+    <PrivateRepositoryUrl>https://github.com/ccoder-co-uk/cCoder.Workflow.git</PrivateRepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>cCoder.Workflow.Activities</Description>
+    <Authors>cCoder</Authors>
+    <Copyright>2026 Paul Ward</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="cCoder.Data" Version="2026.4.10.1053" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SSH.NET" Version="2020.0.2" />
+  </ItemGroup>
+</Project>
