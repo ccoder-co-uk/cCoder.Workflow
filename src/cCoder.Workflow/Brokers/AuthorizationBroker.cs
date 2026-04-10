@@ -10,6 +10,7 @@ namespace cCoder.Workflow.Brokers;
 public interface IAuthorizationBroker
 {
     User GetCurrentUser();
+    User GetUser(string id);
     bool IsAdminOfApp(int? appId);
     bool IsAdmin(int appId, string userName);
     void Authorize(int? appId, string privilege);
@@ -21,6 +22,16 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAu
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.User;
+    }
+
+    public User GetUser(string id)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        return coreDataContext.Users
+            .Include(foundUser => foundUser.Roles)
+                .ThenInclude(foundUserRole => foundUserRole.Role)
+            .FirstOrDefault(foundUser => foundUser.Id == id);
     }
 
     public bool IsAdminOfApp(int? appId)

@@ -30,7 +30,20 @@ internal class FlowInstanceDataProcessingService(
 
     public ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity)
     {
-        return flowInstanceDataBroker.AddFlowInstanceDataAsync(entity);
+        FlowInstanceData queuedEntity = new()
+        {
+            Id = entity.Id,
+            FlowDefinitionId = entity.FlowDefinitionId,
+            Name = entity.Name,
+            ContextString = entity.ContextString,
+            State = entity.State,
+            ReportingComponentName = entity.ReportingComponentName,
+            Caller = entity.Caller,
+            Start = entity.Start,
+            End = entity.End,
+        };
+
+        return flowInstanceDataBroker.AddFlowInstanceDataAsync(queuedEntity);
     }
 
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)

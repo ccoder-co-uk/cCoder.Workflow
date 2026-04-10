@@ -25,6 +25,13 @@ internal class FlowInstanceDataOrchestrationService(IFlowInstanceDataProcessingS
         return result;
     }
 
+    public async ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity)
+    {
+        FlowInstanceData result = await processingService.AddQueuedAsync(entity);
+        await eventService.RaiseFlowInstanceDataAddEventAsync(result);
+        return result;
+    }
+
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)
     {
         FlowInstanceData result = await processingService.UpdateAsync(entity);

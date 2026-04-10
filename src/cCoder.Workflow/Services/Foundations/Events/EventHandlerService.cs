@@ -27,6 +27,9 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         ListenToWorkflowTriggerEvents();
     }
 
+    public void ListenToScheduledTaskExecuteEvents() =>
+        ListenToScheduledTaskExecuteEventsInternal();
+
     void ListenToAppEvents()
     {
         ListenToAppAddEvents();
@@ -81,6 +84,7 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         ListenToWorkflowTriggerEvents<UserRole>("user_role");
         ListenToWorkflowTriggerEvents<WorkflowEvent>("workflow");
         ListenToWorkflowPackageImportEvents();
+        ListenToScheduledTaskExecuteEventsInternal();
     }
 
     void ListenToAppAddEvents() =>
@@ -134,6 +138,14 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         eventHubBroker.ListenToEvent<(int appId, Package package), IEventHandlingOrchestrationService>(
             "package_import",
             (service, args) => new ValueTask(service.RaiseEvents(args.package, "package_import", args.appId)));
+
+    void ListenToScheduledTaskExecuteEventsInternal() =>
+        eventHubBroker.ListenToEvent<ScheduledTask, IFlowDefinitionOrchestrationService>(
+            "scheduled_task_execute",
+            async (service, task) =>
+            {
+                _ = await service.QueueAsync(task.FlowId, task.ExecuteAs, task.ExecutionArgs);
+            });
 
     static WorkflowPackage ToLocalPackage(Package package) =>
         package == null ? null : new WorkflowPackage(package.Name)

@@ -7,6 +7,8 @@ internal class WorkflowEventHandlers(IEventHandlerService eventHandlerService)
     : IWorkflowEventHandlers
 {
     public void ListenToAllEvents() => eventHandlerService.ListenToAllEvents();
+
+    public void ListenToScheduledTaskExecuteEvents() => eventHandlerService.ListenToScheduledTaskExecuteEvents();
 }
 
 

@@ -40,11 +40,16 @@ internal class FlowDefinitionOrchestrationService(IFlowDefinitionProcessingServi
         return QueueAsync(id, ToExternalUser(authorizationBroker.GetCurrentUser()), args);
     }
 
+    public ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
+    {
+        return QueueAsync(id, ToExternalUser(authorizationBroker.GetUser(asUserId)), args);
+    }
+
     public async ValueTask<Guid> QueueAsync(Guid id, cCoder.Data.Models.Security.User asUser, string args)
     {
         FlowDefinition flowDefinition = flowDefinitionService.Get(id);
         FlowInstanceData flowInstance = CreateFlowInstanceData(flowDefinition, asUser, args, jsonBroker);
-        return (await flowInstanceDataOrchestrationService.AddAsync(flowInstance)).Id;
+        return (await flowInstanceDataOrchestrationService.AddQueuedAsync(flowInstance)).Id;
     }
 
     public async ValueTask DeleteAsync(Guid id)

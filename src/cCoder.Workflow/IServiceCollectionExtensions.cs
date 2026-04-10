@@ -2,6 +2,7 @@ using cCoder.Data;
 using cCoder.Data.Brokers;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Packaging;
+using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Api.OData;
 using cCoder.Workflow.Brokers;
@@ -71,6 +72,7 @@ public static class IServiceCollectionExtensions
         services.AddEventingForType<Package>();
         services.AddEventingForType<PackageItem>();
         services.AddEventingForType<(int, Package)>();
+        services.AddEventingForType<ScheduledTask>();
         services.AddEventingForType<WorkflowEvent>();
         services.AddEventingForType<cCoder.Data.Models.Workflow.FlowDefinition>();
     }

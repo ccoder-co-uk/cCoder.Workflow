@@ -45,6 +45,17 @@ public static class WebApplicationExtensions
         return app;
     }
 
+    public static WebApplication UseWorkflowScheduledTaskExecutionHandlers(this WebApplication app)
+    {
+        using IServiceScope scope = app.Services.CreateScope();
+        IServiceProvider services = scope.ServiceProvider;
+
+        foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
+            handlers.ListenToScheduledTaskExecuteEvents();
+
+        return app;
+    }
+
     private static void PopulateMetadataTypeCache(WebApplication app)
     {
         IMetadataTypeCache metadataTypeCache = app.Services.GetRequiredService<IMetadataTypeCache>();

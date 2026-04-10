@@ -12,6 +12,7 @@ public interface IFlowInstanceDataOrchestrationService
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
 
     ValueTask<FlowInstanceData> AddAsync(FlowInstanceData entity);
+    ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity);
 
     ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity);
 
