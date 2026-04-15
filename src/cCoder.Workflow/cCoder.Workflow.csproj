@@ -24,8 +24,8 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.4.10.1053" />
-    <PackageReference Include="cCoder.Eventing.EventLibrary" Version="2026.3.13.1755" />
+    <PackageReference Include="cCoder.Data" Version="2026.4.10.1156" />
+    <PackageReference Include="cCoder.Eventing.EventLibrary" Version="2026.4.15.1800" />
     <PackageReference Include="cCoder.Security.Objects" Version="2026.2.10.1440" />
     <PackageReference Include="cCoder.Security.Services" Version="2026.2.10.1440" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
@@ -38,3 +38,4 @@
     <ProjectReference Include="..\cCoder.Workflow.Activities\cCoder.Workflow.Activities.csproj" />
   </ItemGroup>
 </Project>
+
