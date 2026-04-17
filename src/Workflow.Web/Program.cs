@@ -1,6 +1,7 @@
 using System.Security;
 using Apps.Shared;
 using Apps.Shared.Models;
+using cCoder.Security;
 using cCoder.Security.Api;
 using cCoder.Security.Data.EF.MSSQL;
 using cCoder.Security.Objects;
