@@ -34,6 +34,12 @@
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalData)' == 'true'">
+    <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurityData=$(UseLocalSecurity)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalSecurity)' == 'true'">
+    <ProjectReference Include="$(LocalSecurityProject)" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.Data" Version="2026.4.17.1729" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing.EventLibrary" Version="2026.4.15.1800" />
@@ -45,7 +51,7 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cCoder.Workflow.Activities\cCoder.Workflow.Activities.csproj" />
+    <ProjectReference Include="..\cCoder.Workflow.Activities\cCoder.Workflow.Activities.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity)" />
   </ItemGroup>
 </Project>
 
