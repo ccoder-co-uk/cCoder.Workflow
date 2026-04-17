@@ -1,8 +1,8 @@
 using System.Net;
 using System.Text.Json;
 using cCoder.Data.Models.Workflow;
+using cCoder.Security.Exposures;
 using cCoder.Security.Objects.Entities;
-using cCoder.Security.Services.Processing.Interfaces;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 
@@ -84,8 +84,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         if (dbInstance == null)
             return;
 
-        ITokenProcessingService tokenProcessingService = serviceProvider.GetRequiredService<ITokenProcessingService>();
-        Token token = await tokenProcessingService.AddTokenForUserIdAsync(dbInstance.Caller);
+        IAccountManager accountManager = serviceProvider.GetRequiredService<IAccountManager>();
+        Token token = await accountManager.IssueTokenAsync(dbInstance.Caller);
 
         WorkflowRequest request = new()
         {
