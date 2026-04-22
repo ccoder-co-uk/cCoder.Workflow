@@ -7,9 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
     <PackageReference Include="cCoder.Data" Version="2026.4.17.1729" />
     <PackageReference Include="cCoder.Eventing.EventLibrary" Version="2026.4.15.1800" />
     <PackageReference Include="cCoder.Security" Version="2026.4.17.1806" />
