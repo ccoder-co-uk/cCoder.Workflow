@@ -66,8 +66,8 @@ public partial class FlowDefinitionController(
     {
         try
         {
-            IQueryable<FlowDefinition> result = service.GetAll().Where(flowDefinition => flowDefinition.Id == key);
-            return Ok(SingleResult.Create(result));
+            FlowDefinition result = service.Get(key);
+            return result is null ? NotFound() : Ok(result);
         }
         catch (System.Security.SecurityException)
         {

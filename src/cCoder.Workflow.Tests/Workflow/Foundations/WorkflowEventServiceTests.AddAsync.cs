@@ -35,8 +35,10 @@ public partial class WorkflowEventServiceTests
         WorkflowEvent result = await workflowEventService.AddAsync(workflowEvent);
 
         // Then
-        result.Should().NotBeSameAs(workflowEvent);
+        result.Should().BeSameAs(workflowEvent);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(workflowEvent);
+        result.Should().NotBeSameAs(submitted);
 
         submitted
             .Should()

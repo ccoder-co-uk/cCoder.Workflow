@@ -31,8 +31,10 @@ public partial class FlowInstanceDataServiceTests
         FlowInstanceData result = await flowInstanceDataService.UpdateAsync(flowInstanceData);
 
         // Then
-        result.Should().NotBeSameAs(flowInstanceData);
+        result.Should().BeSameAs(flowInstanceData);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(flowInstanceData);
+        result.Should().NotBeSameAs(submitted);
         submitted.Should().BeEquivalentTo(flowInstanceData);
         result.Should().BeEquivalentTo(flowInstanceData);
         flowInstanceDataBrokerMock.Verify(

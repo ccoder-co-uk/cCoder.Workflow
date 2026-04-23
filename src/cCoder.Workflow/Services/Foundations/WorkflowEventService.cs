@@ -53,8 +53,15 @@ internal class WorkflowEventService(
         newWorkflowEvent.CreatedOn = now;
         newWorkflowEvent.CreatedBy = currentUserId;
 
-        newWorkflowEvent = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent);
-        return ToExternalWorkflowEvent(newWorkflowEvent, workflowEvent.Flow, workflowEvent.ExecuteAsUser);
+        DataWorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent);
+        workflowEvent.Id = result.Id;
+        workflowEvent.Type = result.Type;
+        workflowEvent.EventContext = result.EventContext;
+        workflowEvent.CreatedBy = result.CreatedBy;
+        workflowEvent.CreatedOn = result.CreatedOn;
+        workflowEvent.FlowId = result.FlowId;
+        workflowEvent.ExecuteAs = result.ExecuteAs;
+        return workflowEvent;
     }
 
     public async ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent)
@@ -75,10 +82,17 @@ internal class WorkflowEventService(
             ExecuteAs = workflowEvent.ExecuteAs,
         };
 
-        updateWorkflowEvent = await workflowEventBroker.UpdateWorkflowEventAsync(
+        DataWorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
             updateWorkflowEvent
         );
-        return ToExternalWorkflowEvent(updateWorkflowEvent, workflowEvent.Flow, workflowEvent.ExecuteAsUser);
+        workflowEvent.Id = result.Id;
+        workflowEvent.Type = result.Type;
+        workflowEvent.EventContext = result.EventContext;
+        workflowEvent.CreatedBy = result.CreatedBy;
+        workflowEvent.CreatedOn = result.CreatedOn;
+        workflowEvent.FlowId = result.FlowId;
+        workflowEvent.ExecuteAs = result.ExecuteAs;
+        return workflowEvent;
     }
 
     public async ValueTask DeleteAsync(Guid id)

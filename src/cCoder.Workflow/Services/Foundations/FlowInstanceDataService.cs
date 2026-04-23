@@ -49,10 +49,19 @@ internal class FlowInstanceDataService(
             End = flowInstanceData.End,
         };
 
-        newFlowInstanceData = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
+        DataFlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
             newFlowInstanceData
         );
-        return ToExternalFlowInstanceData(newFlowInstanceData, flowInstanceData.FlowDefinition);
+        flowInstanceData.Id = result.Id;
+        flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
+        flowInstanceData.Name = result.Name;
+        flowInstanceData.ContextJson = result.ContextJson;
+        flowInstanceData.State = result.State;
+        flowInstanceData.ReportingComponentName = result.ReportingComponentName;
+        flowInstanceData.Caller = result.Caller;
+        flowInstanceData.Start = result.Start;
+        flowInstanceData.End = result.End ?? default;
+        return flowInstanceData;
     }
 
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData)
@@ -74,10 +83,19 @@ internal class FlowInstanceDataService(
             End = flowInstanceData.End,
         };
 
-        updateFlowInstanceData = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
+        DataFlowInstanceData result = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
             updateFlowInstanceData
         );
-        return ToExternalFlowInstanceData(updateFlowInstanceData, flowInstanceData.FlowDefinition);
+        flowInstanceData.Id = result.Id;
+        flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
+        flowInstanceData.Name = result.Name;
+        flowInstanceData.ContextJson = result.ContextJson;
+        flowInstanceData.State = result.State;
+        flowInstanceData.ReportingComponentName = result.ReportingComponentName;
+        flowInstanceData.Caller = result.Caller;
+        flowInstanceData.Start = result.Start;
+        flowInstanceData.End = result.End ?? default;
+        return flowInstanceData;
     }
 
     public async ValueTask DeleteAsync(Guid id)

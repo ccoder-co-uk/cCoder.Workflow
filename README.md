@@ -18,13 +18,13 @@
 ## Build
 
 ```powershell
-dotnet build cCoder.Workflow.sln -v minimal
+dotnet build src/cCoder.Workflow.sln -v minimal
 ```
 
 ## Test
 
 ```powershell
-dotnet test cCoder.Workflow.sln -v minimal --no-build
+dotnet test src/cCoder.Workflow.sln -v minimal --no-build
 ```
 
 ## Packages

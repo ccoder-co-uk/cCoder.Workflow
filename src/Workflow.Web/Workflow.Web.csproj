@@ -4,20 +4,35 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <LocalDataProject>..\..\..\cCoder.Data\src\cCoder.Data\cCoder.Data.csproj</LocalDataProject>
+    <LocalSecurityProject>..\..\..\cCoder.Security\src\cCoder.Security\cCoder.Security.csproj</LocalSecurityProject>
+    <LocalSecurityEfMssqlProject>..\..\..\cCoder.Security\src\cCoder.Security.Data.EF.MSSQL\cCoder.Security.Data.EF.MSSQL.csproj</LocalSecurityEfMssqlProject>
+    <UseLocalData Condition="'$(UseLocalData)' == '' and Exists('$(LocalDataProject)')">true</UseLocalData>
+    <UseLocalData Condition="'$(UseLocalData)' == ''">false</UseLocalData>
+    <UseLocalData Condition="'$(UseLocalData)' == 'true' and !Exists('$(LocalDataProject)')">false</UseLocalData>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == '' and Exists('$(LocalSecurityProject)')">true</UseLocalSecurity>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == ''">false</UseLocalSecurity>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !Exists('$(LocalSecurityProject)')">false</UseLocalSecurity>
+    <UseLocalData Condition="'$(UseLocalSecurity)' == 'true' and Exists('$(LocalDataProject)')">true</UseLocalData>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(UseLocalSecurity)' == 'true'">
+    <ProjectReference Include="$(LocalSecurityProject)" />
+    <ProjectReference Include="$(LocalSecurityEfMssqlProject)" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
-    <PackageReference Include="cCoder.Data" Version="2026.4.*" />
+    <PackageReference Include="cCoder.Data" Version="2026.4.*" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing" Version="2026.4.*" />
-    <PackageReference Include="cCoder.Security" Version="2026.4.*" />
-    <PackageReference Include="cCoder.Security.Data.EF.MSSQL" Version="2026.4.*" />
+    <PackageReference Include="cCoder.Security" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data.EF.MSSQL" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cCoder.Workflow\cCoder.Workflow.csproj" />
+    <ProjectReference Include="..\cCoder.Workflow\cCoder.Workflow.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />
   </ItemGroup>
 </Project>
-
 
