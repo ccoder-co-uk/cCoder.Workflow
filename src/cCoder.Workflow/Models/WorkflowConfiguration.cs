@@ -1,4 +1,4 @@
-using EventLibrary.Models;
+using cCoder.Eventing.Models;
 
 namespace cCoder.Workflow.Models;
 

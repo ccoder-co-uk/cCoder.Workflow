@@ -1,6 +1,6 @@
 using cCoder.Data.Models.Workflow;
-using EventLibrary;
-using EventLibrary.Models;
+using cCoder.Eventing;
+using cCoder.Eventing.Models;
 
 
 namespace cCoder.Workflow.Brokers.Events;

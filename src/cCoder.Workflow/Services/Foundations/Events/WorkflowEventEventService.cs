@@ -4,7 +4,7 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
-using EventLibrary.Models;
+using cCoder.Eventing.Models;
 using DataFlowDefinition = cCoder.Data.Models.Workflow.FlowDefinition;
 using DataUser = cCoder.Data.Models.Security.User;
 using DataWorkflowEvent = cCoder.Data.Models.Workflow.WorkflowEvent;
