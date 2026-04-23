@@ -55,8 +55,20 @@ internal class FlowDefinitionService(
         newFlowDefinition.LastUpdated = now;
         newFlowDefinition.LastUpdatedBy = currentUserId;
 
-        newFlowDefinition = await flowDefinitionBroker.AddFlowDefinitionAsync(newFlowDefinition);
-        return ToExternalFlowDefinition(newFlowDefinition, flowDefinition.App, flowDefinition.Instances);
+        DataFlowDefinition result = await flowDefinitionBroker.AddFlowDefinitionAsync(newFlowDefinition);
+        flowDefinition.Id = result.Id;
+        flowDefinition.Name = result.Name;
+        flowDefinition.Description = result.Description;
+        flowDefinition.LastUpdated = result.LastUpdated;
+        flowDefinition.LastUpdatedBy = result.LastUpdatedBy;
+        flowDefinition.CreatedOn = result.CreatedOn;
+        flowDefinition.CreatedBy = result.CreatedBy;
+        flowDefinition.AppId = result.AppId;
+        flowDefinition.DefinitionJson = result.DefinitionJson;
+        flowDefinition.ConfigJson = result.ConfigJson;
+        flowDefinition.ReportingComponentName = result.ReportingComponentName;
+        flowDefinition.InstanceReportingComponentName = result.InstanceReportingComponentName;
+        return flowDefinition;
     }
 
     public async ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition)
@@ -82,10 +94,22 @@ internal class FlowDefinitionService(
         updateFlowDefinition.LastUpdated = now;
         updateFlowDefinition.LastUpdatedBy = currentUserId;
 
-        updateFlowDefinition = await flowDefinitionBroker.UpdateFlowDefinitionAsync(
+        DataFlowDefinition result = await flowDefinitionBroker.UpdateFlowDefinitionAsync(
             updateFlowDefinition
         );
-        return ToExternalFlowDefinition(updateFlowDefinition, flowDefinition.App, flowDefinition.Instances);
+        flowDefinition.Id = result.Id;
+        flowDefinition.Name = result.Name;
+        flowDefinition.Description = result.Description;
+        flowDefinition.LastUpdated = result.LastUpdated;
+        flowDefinition.LastUpdatedBy = result.LastUpdatedBy;
+        flowDefinition.CreatedOn = result.CreatedOn;
+        flowDefinition.CreatedBy = result.CreatedBy;
+        flowDefinition.AppId = result.AppId;
+        flowDefinition.DefinitionJson = result.DefinitionJson;
+        flowDefinition.ConfigJson = result.ConfigJson;
+        flowDefinition.ReportingComponentName = result.ReportingComponentName;
+        flowDefinition.InstanceReportingComponentName = result.InstanceReportingComponentName;
+        return flowDefinition;
     }
 
     public async ValueTask DeleteAsync(Guid id)

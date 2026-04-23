@@ -38,10 +38,10 @@ jobs:
           "value=$(Get-Date -Format 'yyyy.M.d.HHmm')" >> $env:GITHUB_OUTPUT
 
       - name: Restore
-        run: dotnet restore cCoder.Workflow.sln
+        run: dotnet restore src/cCoder.Workflow.sln
 
       - name: Build
-        run: dotnet build cCoder.Workflow.sln -c Release --no-restore -m:1 /p:BuildInParallel=false /p:UseSharedCompilation=false /p:Version="${{ steps.version.outputs.value }}"
+        run: dotnet build src/cCoder.Workflow.sln -c Release --no-restore -m:1 /p:BuildInParallel=false /p:UseSharedCompilation=false /p:Version="${{ steps.version.outputs.value }}"
 
       - name: Test
         run: dotnet test src/cCoder.Workflow.Tests/cCoder.Workflow.Tests.csproj -c Release --no-build -m:1 /p:BuildInParallel=false /p:UseSharedCompilation=false

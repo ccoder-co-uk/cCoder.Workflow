@@ -32,8 +32,10 @@ public partial class FlowDefinitionServiceTests
         FlowDefinition result = await flowDefinitionService.UpdateAsync(flowDefinition);
 
         // Then
-        result.Should().NotBeSameAs(flowDefinition);
+        result.Should().BeSameAs(flowDefinition);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(flowDefinition);
+        result.Should().NotBeSameAs(submitted);
 
         submitted
             .Should()

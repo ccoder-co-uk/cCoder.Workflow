@@ -53,7 +53,6 @@ public sealed partial class FlowDefinitionControllerTests
     {
         SeededFlowDefinitionContext seededContext = await SeedDatabase(
             includeFlow: true,
-            "app_admin",
             "flowdefinition_create",
             "flowdefinition_update",
             "flowdefinition_execute",

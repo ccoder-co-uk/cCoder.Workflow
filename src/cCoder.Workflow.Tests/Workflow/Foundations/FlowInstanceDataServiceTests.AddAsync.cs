@@ -37,8 +37,10 @@ public partial class FlowInstanceDataServiceTests
         FlowInstanceData result = await flowInstanceDataService.AddAsync(flowInstanceData);
 
         // Then
-        result.Should().NotBeSameAs(flowInstanceData);
+        result.Should().BeSameAs(flowInstanceData);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(flowInstanceData);
+        result.Should().NotBeSameAs(submitted);
 
         submitted
             .Should()
