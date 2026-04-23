@@ -6,7 +6,7 @@ using cCoder.Security.Api;
 using cCoder.Security.Data.EF.MSSQL;
 using cCoder.Security.Objects;
 using cCoder.Workflow;
-using EventLibrary;
+using cCoder.Eventing;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.OData;
 
