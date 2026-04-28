@@ -19,7 +19,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <LocalDataProject>..\..\..\cCoder.Data\src\cCoder.Data\cCoder.Data.csproj</LocalDataProject>
-    <UseLocalData Condition="'$(UseLocalData)' == '' and Exists('$(LocalDataProject)')">true</UseLocalData>
     <UseLocalData Condition="'$(UseLocalData)' == ''">false</UseLocalData>
     <UseLocalData Condition="'$(UseLocalData)' == 'true' and !Exists('$(LocalDataProject)')">false</UseLocalData>
   </PropertyGroup>
