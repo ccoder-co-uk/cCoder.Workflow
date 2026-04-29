@@ -44,7 +44,7 @@ public class Program
             builder.Services,
             coreConnection);
 
-        builder.Services.AddWorkflowApi();
+        builder.Services.AddWorkflowWeb();
         builder.Services.AddWorkflowHostedServices();
 
         WebApplication app = builder.Build();
@@ -64,7 +64,7 @@ public class Program
             .UseODataRouteDebug();
 
         app.UseDomainApiShell();
-        app.UseWorkflowExposure(log);
+        app.StartWorkflowWeb(log);
         app.UseDomainDefaultCors();
         app.UseDomainExceptionHandling(HandleUnhandledException);
         app.Run();

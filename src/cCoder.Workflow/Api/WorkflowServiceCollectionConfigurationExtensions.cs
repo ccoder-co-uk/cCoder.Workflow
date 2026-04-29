@@ -10,24 +10,24 @@ using Microsoft.OpenApi;
 
 namespace cCoder.Workflow;
 
-public static class WorkflowServiceCollectionConfigurationExtensions
+public static partial class IServiceCollectionExtensions
 {
-    public static WorkflowConfiguration AddWorkflow(
+    private static WorkflowConfiguration AddConfiguredWorkflow(
         this IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> configure)
     {
         WorkflowConfiguration configuration = CreateConfiguration(services, configure);
-        IServiceCollectionExtensions.AddWorkflow(services);
+        services.AddWorkflow();
         return configuration;
     }
 
-    public static WorkflowConfiguration AddWorkflowApi(
+    private static WorkflowConfiguration AddConfiguredWorkflowWeb(
         this IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> configure,
         ODataConventionModelBuilder builder = null)
     {
         WorkflowConfiguration configuration = CreateConfiguration(services, configure);
-        IServiceCollectionExtensions.AddWorkflow(services);
+        services.AddWorkflowWeb(builder);
         services.AddConfiguredApi(
             configuration,
             "Workflow",
@@ -37,12 +37,12 @@ public static class WorkflowServiceCollectionConfigurationExtensions
         return configuration;
     }
 
-    public static WorkflowConfiguration AddWorkflowHostedServices(
+    private static WorkflowConfiguration AddConfiguredWorkflowHostedServices(
         this IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> configure)
     {
         WorkflowConfiguration configuration = CreateConfiguration(services, configure);
-        IServiceCollectionExtensions.AddWorkflowHostedServices(services);
+        services.AddWorkflowHostedServices();
         return configuration;
     }
 
