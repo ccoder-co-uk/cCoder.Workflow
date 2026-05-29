@@ -46,7 +46,7 @@ public static partial class IServiceCollectionExtensions
         return configuration;
     }
 
-    internal static void ConfigureWorkflowApiModel(this ODataConventionModelBuilder builder) =>
+    public static void ConfigureWorkflowApiModel(this ODataConventionModelBuilder builder) =>
         new WorkflowModelBuilder(builder).Configure();
 
     private static WorkflowConfiguration CreateConfiguration(
