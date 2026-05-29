@@ -27,6 +27,18 @@ dotnet build src/cCoder.Workflow.sln -v minimal
 dotnet test src/cCoder.Workflow.sln -v minimal --no-build
 ```
 
+## Local Configuration
+
+The standalone web host reads local secrets from environment variables rather than committed config.
+
+Before running `src/Workflow.Web`, set:
+
+- `ConnectionStrings__Core`
+- `ConnectionStrings__SSO`
+- `Settings__DecryptionKey`
+
+The committed `appsettings.json` keeps these values blank so user or machine environment variables can supply them during local development.
+
 ## Packages
 
 The NuGet packages produced by this repository are:
