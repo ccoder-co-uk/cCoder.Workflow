@@ -25,9 +25,6 @@ internal class WorkflowMigrationAggregationService(
             if (item.Type != "Core/FlowDefinition")
                 continue;
 
-            dynamic[] dynamicSet = item.Data.StartsWith("{")
-                ? [jsonBroker.ParseJson<dynamic>(item.Data)]
-                : jsonBroker.ParseJson<dynamic[]>(item.Data);
             FlowDefinition[] flowDefinitions = item.Data.StartsWith("{")
                 ? [jsonBroker.ParseJson<FlowDefinition>(item.Data)]
                 : jsonBroker.ParseJson<FlowDefinition[]>(item.Data);
@@ -53,8 +50,6 @@ internal class WorkflowMigrationAggregationService(
             for (int index = 0; index < flowDefinitions.Length; index++)
             {
                 FlowDefinition flowDefinition = flowDefinitions[index];
-                dynamic dynamicFlowDefinition = dynamicSet[index];
-                string name = (string)dynamicFlowDefinition.Name;
                 var existingFlowDefinition = existingFlowDefinitions.FirstOrDefault(existing => existing.Name.Equals(flowDefinition.Name, StringComparison.OrdinalIgnoreCase));
                 flowDefinition.AppId = appId;
                 flowDefinition.Id = existingFlowDefinition?.Id ?? Guid.Empty;
