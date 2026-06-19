@@ -41,8 +41,7 @@ internal class WorkflowMigrationAggregationService(
                 .Select(flowDefinition => new
                 {
                     flowDefinition.Id,
-                    flowDefinition.Name,
-                    ProcessName = flowDefinition.App.Name,
+                    flowDefinition.Name
                 })
                 .ToArray();
 
@@ -55,11 +54,8 @@ internal class WorkflowMigrationAggregationService(
             {
                 FlowDefinition flowDefinition = flowDefinitions[index];
                 dynamic dynamicFlowDefinition = dynamicSet[index];
-                string processName = (string)dynamicFlowDefinition.ProcessName;
-                var existingFlowDefinition = existingFlowDefinitions.FirstOrDefault(existing =>
-                    existing.ProcessName == processName
-                    && existing.Name.Equals(flowDefinition.Name, StringComparison.OrdinalIgnoreCase));
-
+                string name = (string)dynamicFlowDefinition.Name;
+                var existingFlowDefinition = existingFlowDefinitions.FirstOrDefault(existing => existing.Name.Equals(flowDefinition.Name, StringComparison.OrdinalIgnoreCase));
                 flowDefinition.AppId = appId;
                 flowDefinition.Id = existingFlowDefinition?.Id ?? Guid.Empty;
             }
