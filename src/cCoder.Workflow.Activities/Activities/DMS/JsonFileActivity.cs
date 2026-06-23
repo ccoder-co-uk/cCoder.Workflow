@@ -14,10 +14,3 @@ public class JsonFileActivity : DMSActivity
         Result = cCoder.Workflow.Activities.Support.Data.ParseJson(results);
     }
 }
-
-
-
-
-
-
-
