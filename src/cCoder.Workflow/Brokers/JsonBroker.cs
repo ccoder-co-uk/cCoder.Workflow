@@ -41,11 +41,9 @@ public class JsonBroker : IJsonBroker
         private const string WorkflowAssemblyName = "cCoder.Workflow.Activities";
         private const string CoreObjectsWorkflowDtoNamespace = "cCoder.Core.Objects.Dtos.Workflow";
         private const string CoreObjectsWorkflowActivityNamespace = "cCoder.Core.Objects.Workflow.Activities";
-        private const string CoreConnectivitySftpNamespace = "cCoder.Core.Connectivity.Workflow.Sftp";
         private const string WorkflowDtoNamespace = "cCoder.Workflow.Activities";
         private const string WorkflowActivityNamespace = "cCoder.Workflow.Activities";
         private const string WorkflowNestedActivityNamespace = "cCoder.Workflow.Activities.Activities";
-        private const string WorkflowSftpNamespace = "cCoder.Workflow.Activities.Activities.Sftp";
 
         private readonly DefaultSerializationBinder binder = new();
 
@@ -95,15 +93,6 @@ public class JsonBroker : IJsonBroker
                     WorkflowNestedActivityNamespace + suffix
                 );
 
-                yield break;
-            }
-
-            if (typeName?.StartsWith(CoreConnectivitySftpNamespace, StringComparison.Ordinal) == true)
-            {
-                yield return (
-                    WorkflowAssemblyName,
-                    WorkflowSftpNamespace + typeName[CoreConnectivitySftpNamespace.Length..]
-                );
                 yield break;
             }
 
