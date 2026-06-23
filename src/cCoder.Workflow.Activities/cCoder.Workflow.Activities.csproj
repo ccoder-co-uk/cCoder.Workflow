@@ -32,6 +32,6 @@
   <ItemGroup>
     <PackageReference Include="cCoder.Data" Version="2026.5.*" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="SSH.NET" Version="2020.0.2" />
+    <PackageReference Include="SSH.NET" Version="2025.1.0" />
   </ItemGroup>
 </Project>

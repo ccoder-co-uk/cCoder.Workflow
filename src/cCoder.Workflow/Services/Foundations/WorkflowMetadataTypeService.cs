@@ -65,11 +65,13 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
         ]),
         Set("SftpActivity",
         [
-            typeof(SftpFetchActivity),
-            typeof(SftpMoveActivity),
-            typeof(SftpCreateBinaryFilesActivity),
-            typeof(SftpCreateTextFilesActivity),
-            typeof(SftpDeleteActivity),
+            typeof(SftpDeleteFilesActivity),
+            typeof(SftpDeleteFoldersActivity),
+            typeof(SftpGetFolderContentsActivity),
+            typeof(SftpGetListOfFilesActivity),
+            typeof(SftpGetListOfFoldersActivity),
+            typeof(SftpMoveFilesToFolderActivity),
+            typeof(SftpUploadTextFilesToFolderActivity),
         ]),
         Set("TemplatingActivity",
         [

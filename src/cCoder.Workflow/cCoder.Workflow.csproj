@@ -43,10 +43,10 @@
     <PackageReference Include="cCoder.Eventing" Version="2026.4.*" />
     <PackageReference Include="cCoder.Security" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cCoder.Workflow.Activities\cCoder.Workflow.Activities.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity)" />
