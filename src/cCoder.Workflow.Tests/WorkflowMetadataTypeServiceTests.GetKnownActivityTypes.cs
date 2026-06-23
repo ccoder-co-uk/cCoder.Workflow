@@ -40,9 +40,21 @@ public partial class WorkflowMetadataTypeServiceTests
                 nameof(Start),
                 nameof(PageBuilder),
                 nameof(SendEmailActivity),
-                nameof(SftpFetchActivity),
+                nameof(SftpGetFolderContentsActivity),
+                nameof(SftpMoveFilesToFolderActivity),
+                nameof(SftpUploadTextFilesToFolderActivity),
                 nameof(Flow),
                 nameof(WorkflowLogEntry),
+            ]);
+
+        result.Types.Select(type => type.Name)
+            .Should()
+            .NotContain([
+                "SftpFetchActivity",
+                "SftpMoveActivity",
+                "SftpCreateBinaryFilesActivity",
+                "SftpCreateTextFilesActivity",
+                "SftpDeleteActivity",
             ]);
     }
 
