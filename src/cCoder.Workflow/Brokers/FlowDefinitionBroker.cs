@@ -5,18 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers;
 
-public interface IFlowDefinitionBroker
-{
-    IQueryable<FlowDefinition> GetAllFlowDefinitions(bool ignoreFilters);
-    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity);
-    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition entity);
-    ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition entity);
-    ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid id);
-    ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items);
-    int? GetAppId(FlowDefinition entity);
-}
-
-public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory) : IFlowDefinitionBroker
+public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory) 
+    : IFlowDefinitionBroker
 {
 
     public IQueryable<FlowDefinition> GetAllFlowDefinitions(bool ignoreFilters)

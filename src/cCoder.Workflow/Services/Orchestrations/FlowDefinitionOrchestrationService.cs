@@ -1,5 +1,8 @@
 using System.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Activities;
+using cCoder.Workflow.Activities.Activities;
+using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
@@ -103,6 +106,42 @@ internal class FlowDefinitionOrchestrationService(
         if (string.IsNullOrWhiteSpace(caller))
             throw new SecurityException("Access Denied!");
 
-        return FlowInstanceDataFactory.Create(flowDefinition, caller, args, jsonBroker);
+        Guid instanceId = Guid.NewGuid();
+        Flow flow = ParseFlow(flowDefinition.DefinitionJson);
+
+        if (flow == null)
+            throw new InvalidOperationException("Flow definition does not contain a valid workflow definition.");
+
+        WorkflowContext context = new()
+        {
+            ExecutionState = "Queued",
+            InstanceId = instanceId,
+            Flow = flow,
+            Variables = new Dictionary<string, object> { { "Data", args } },
+            ExecutionLog = Array.Empty<WorkflowLogEntry>()
+        };
+
+        Start start = context.Flow.Activities.OfType<Start>().FirstOrDefault();
+
+        if (start == null)
+            throw new InvalidOperationException("Flow definition does not contain a Start activity.");
+
+        start.Data = jsonBroker.ParseJson(args);
+
+        return new FlowInstanceData
+        {
+            Id = instanceId,
+            State = "Queued",
+            FlowDefinitionId = flowDefinition.Id,
+            Start = DateTimeOffset.UtcNow,
+            Caller = caller,
+            ContextString = jsonBroker.Serialize(context),
+            FlowDefinition = flowDefinition
+        };
     }
+
+    private Flow ParseFlow(string definitionJson) =>
+        string.IsNullOrWhiteSpace(definitionJson)
+            ? null
+            : jsonBroker.ParseJson<Flow>(definitionJson);
 }

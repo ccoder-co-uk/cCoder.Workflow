@@ -1,24 +1,12 @@
 using System.Security;
 using cCoder.Data;
-using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace cCoder.Workflow.Brokers;
 
-public interface IAuthorizationBroker
-{
-    User GetCurrentUser();
-    User GetUser(string id);
-    bool IsAdminOfApp(int? appId);
-    bool IsAdmin(int appId, string userName);
-    void Authorize(int? appId, string privilege);
-    void Authorize(string userId, int? appId, string privilege);
-    bool UserBelongsToApp(string userId, int? appId);
-}
-
-internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAuthorizationBroker
+internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) 
+    : IAuthorizationBroker
 {
     public User GetCurrentUser()
     {
@@ -38,7 +26,7 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAu
         return user != null && appId.HasValue && HasAppAdminPrivilege(user, appId.Value);
     }
 
-    public bool IsAdmin(int appId, string userName)
+    public bool IsAdminOfApp(int appId, string userName)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
@@ -46,11 +34,7 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAu
             .Include(foundUser => foundUser.Roles)
             .FirstOrDefault(foundUser => foundUser.Id == userName);
 
-        App app = coreDataContext.Apps
-            .Include(foundApp => foundApp.Roles.Select(role => role.Users))
-            .FirstOrDefault(foundApp => foundApp.Id == appId);
-
-        return app?.IsAppAdmin(user) ?? false;
+        return user != null && HasAppAdminPrivilege(user, appId);
     }
 
     public void Authorize(int? appId, string privilege)
@@ -117,6 +101,3 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAu
                 .ThenInclude(userRole => userRole.Role)
             .FirstOrDefault(foundUser => foundUser.Id == userId);
 }
-
-
-
