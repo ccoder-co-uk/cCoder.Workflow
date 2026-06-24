@@ -15,11 +15,6 @@ public interface IFlowDefinitionOrchestrationService
 
     ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity);
 
-    ValueTask<Guid> QueueAsync(Guid id, string args);
-    ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args);
-
-    ValueTask<Guid> QueueAsync(Guid id, User asUser, string args);
-
     ValueTask DeleteAsync(Guid id);
     ValueTask DeleteByAppIdAsync(int appId);
 

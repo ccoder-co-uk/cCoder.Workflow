@@ -12,10 +12,3 @@ public interface IFlowInstanceDataBroker
     ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> items);
     int? GetAppId(FlowInstanceData entity);
 }
-
-
-
-
-
-
-

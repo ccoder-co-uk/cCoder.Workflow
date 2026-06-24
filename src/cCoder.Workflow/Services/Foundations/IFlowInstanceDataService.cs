@@ -11,6 +11,7 @@ public interface IFlowInstanceDataService
     FlowInstanceData Get(Guid id);
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
     ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData);
+    ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData);
     ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData);
     ValueTask DeleteAsync(Guid id);
 }

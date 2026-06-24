@@ -1,16 +1,11 @@
 using System.Security;
-using cCoder.Workflow.Models;
-using cCoder.Workflow.Brokers;
-using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal class FlowInstanceDataProcessingService(
-    IFlowInstanceDataService service,
-    IFlowInstanceDataBroker flowInstanceDataBroker)
+internal class FlowInstanceDataProcessingService(IFlowInstanceDataService service)
     : IFlowInstanceDataProcessingService
 {
     public FlowInstanceData Get(Guid id)
@@ -30,20 +25,7 @@ internal class FlowInstanceDataProcessingService(
 
     public ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity)
     {
-        FlowInstanceData queuedEntity = new()
-        {
-            Id = entity.Id,
-            FlowDefinitionId = entity.FlowDefinitionId,
-            Name = entity.Name,
-            ContextString = entity.ContextString,
-            State = entity.State,
-            ReportingComponentName = entity.ReportingComponentName,
-            Caller = entity.Caller,
-            Start = entity.Start,
-            End = entity.End,
-        };
-
-        return flowInstanceDataBroker.AddFlowInstanceDataAsync(queuedEntity);
+        return service.AddQueuedAsync(entity);
     }
 
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)

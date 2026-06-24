@@ -10,6 +10,7 @@ public interface IWorkflowEventService
 {
     WorkflowEvent Get(Guid id);
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
+    int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent);
     ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent);
     ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent);
     ValueTask DeleteAsync(Guid id);

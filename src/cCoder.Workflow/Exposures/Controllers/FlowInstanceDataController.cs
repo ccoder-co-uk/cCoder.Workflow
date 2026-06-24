@@ -19,10 +19,7 @@ public partial class FlowInstanceDataController : ODataController
 {
     protected IFlowInstanceDataOrchestrationService Service { get; }
 
-    public FlowInstanceDataController(
-        IFlowInstanceDataOrchestrationService service,
-        ILogger<FlowInstanceDataController> log
-    )
+    public FlowInstanceDataController(IFlowInstanceDataOrchestrationService service)
     {
         Service = service;
     }

@@ -9,6 +9,7 @@ using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Workflow.Exposures;
+using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures.EventHandlers;
 using cCoder.Workflow.Exposures.HostedServices;
 using cCoder.Workflow.Services.Aggregations;
@@ -61,7 +62,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddWorkflowWeb(this IServiceCollection services, ODataConventionModelBuilder builder = null)
     {
         services.AddWorkflow();
-
+        services.AddTransient<IFlowDefinitionControllerService, FlowDefinitionControllerService>();
     }
 
     private static void AddWorkflowHostedServices(this IServiceCollection services)

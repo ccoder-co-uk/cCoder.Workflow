@@ -1,20 +1,12 @@
-using System.Security;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Activities;
-using cCoder.Workflow.Activities.Activities;
-using cCoder.Workflow.Activities.Models;
-using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal class FlowDefinitionOrchestrationService(
-    IFlowDefinitionProcessingService processingService, 
-    IFlowDefinitionEventProcessingService eventService, 
-    IFlowInstanceDataProcessingService flowInstanceDataProcessingService, 
-    IAuthorizationBroker authorizationBroker, 
-    IJsonBroker jsonBroker) 
+    IFlowDefinitionProcessingService processingService,
+    IFlowDefinitionEventProcessingService eventService)
         : IFlowDefinitionOrchestrationService
 {
     public FlowDefinition Get(Guid id)
@@ -39,34 +31,6 @@ internal class FlowDefinitionOrchestrationService(
         FlowDefinition result = await processingService.UpdateAsync(entity);
         await eventService.RaiseFlowDefinitionUpdateEventAsync(result);
         return result;
-    }
-
-    public ValueTask<Guid> QueueAsync(Guid id, string args)
-    {
-        FlowDefinition flowDefinition = processingService.Get(id);
-        authorizationBroker.Authorize(flowDefinition?.AppId, "flowdefinition_execute");
-        string caller = authorizationBroker.GetCurrentUser()?.Id;
-        return QueueAsync(flowDefinition, caller, args);
-    }
-
-    public ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
-    {
-        FlowDefinition flowDefinition = processingService.Get(id);
-        authorizationBroker.Authorize(asUserId, flowDefinition?.AppId, "flowdefinition_execute");
-        return QueueAsync(flowDefinition, asUserId, args);
-    }
-
-    public async ValueTask<Guid> QueueAsync(Guid id, cCoder.Data.Models.Security.User asUser, string args)
-    {
-        FlowDefinition flowDefinition = processingService.Get(id);
-        FlowInstanceData flowInstance = CreateFlowInstanceData(flowDefinition, asUser?.Id, args);
-        return (await flowInstanceDataProcessingService.AddQueuedAsync(flowInstance)).Id;
-    }
-
-    private async ValueTask<Guid> QueueAsync(FlowDefinition flowDefinition, string caller, string args)
-    {
-        FlowInstanceData flowInstance = CreateFlowInstanceData(flowDefinition, caller, args);
-        return (await flowInstanceDataProcessingService.AddQueuedAsync(flowInstance)).Id;
     }
 
     public async ValueTask DeleteAsync(Guid id)
@@ -97,51 +61,4 @@ internal class FlowDefinitionOrchestrationService(
     {
         return processingService.DeleteAllAsync(items);
     }
-
-    private FlowInstanceData CreateFlowInstanceData(FlowDefinition flowDefinition, string caller, string args)
-    {
-        if (flowDefinition == null)
-            throw new SecurityException("Access Denied!");
-
-        if (string.IsNullOrWhiteSpace(caller))
-            throw new SecurityException("Access Denied!");
-
-        Guid instanceId = Guid.NewGuid();
-        Flow flow = ParseFlow(flowDefinition.DefinitionJson);
-
-        if (flow == null)
-            throw new InvalidOperationException("Flow definition does not contain a valid workflow definition.");
-
-        WorkflowContext context = new()
-        {
-            ExecutionState = "Queued",
-            InstanceId = instanceId,
-            Flow = flow,
-            Variables = new Dictionary<string, object> { { "Data", args } },
-            ExecutionLog = Array.Empty<WorkflowLogEntry>()
-        };
-
-        Start start = context.Flow.Activities.OfType<Start>().FirstOrDefault();
-
-        if (start == null)
-            throw new InvalidOperationException("Flow definition does not contain a Start activity.");
-
-        start.Data = jsonBroker.ParseJson(args);
-
-        return new FlowInstanceData
-        {
-            Id = instanceId,
-            State = "Queued",
-            FlowDefinitionId = flowDefinition.Id,
-            Start = DateTimeOffset.UtcNow,
-            Caller = caller,
-            ContextString = jsonBroker.Serialize(context),
-            FlowDefinition = flowDefinition
-        };
-    }
-
-    private Flow ParseFlow(string definitionJson) =>
-        string.IsNullOrWhiteSpace(definitionJson)
-            ? null
-            : jsonBroker.ParseJson<Flow>(definitionJson);
 }

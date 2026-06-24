@@ -19,10 +19,7 @@ public partial class WorkflowEventController : ODataController
 {
     protected IWorkflowEventOrchestrationService Service { get; }
 
-    public WorkflowEventController(
-        IWorkflowEventOrchestrationService service,
-        ILogger<WorkflowEventController> log
-    )
+    public WorkflowEventController(IWorkflowEventOrchestrationService service)
     {
         Service = service;
     }

@@ -27,6 +27,9 @@ internal class WorkflowEventService(
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false) =>
         workflowEventBroker.GetAllWorkflowEvents(ignoreFilters);
 
+    public int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
+        workflowEventBroker.GetAppId(workflowEvent);
+
     public async ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(

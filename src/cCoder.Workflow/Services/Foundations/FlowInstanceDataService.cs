@@ -49,6 +49,25 @@ internal class FlowInstanceDataService(
         return flowInstanceData;
     }
 
+    public async ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData)
+    {
+        FlowInstanceData queuedFlowInstanceData = CreateQueuedStorageFlowInstanceData(flowInstanceData);
+
+        FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
+            queuedFlowInstanceData
+        );
+        flowInstanceData.Id = result.Id;
+        flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
+        flowInstanceData.Name = result.Name;
+        flowInstanceData.ContextJson = result.ContextJson;
+        flowInstanceData.State = result.State;
+        flowInstanceData.ReportingComponentName = result.ReportingComponentName;
+        flowInstanceData.Caller = result.Caller;
+        flowInstanceData.Start = result.Start;
+        flowInstanceData.End = result.End ?? default;
+        return flowInstanceData;
+    }
+
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
@@ -99,6 +118,22 @@ internal class FlowInstanceDataService(
                 Start = item.Start,
                 End = item.End,
                 FlowDefinition = item.FlowDefinition,
+            };
+
+    private static FlowInstanceData CreateQueuedStorageFlowInstanceData(FlowInstanceData item) =>
+        item == null
+            ? null
+            : new()
+            {
+                Id = item.Id,
+                FlowDefinitionId = item.FlowDefinitionId,
+                Name = item.Name,
+                ContextString = item.ContextString,
+                State = item.State,
+                ReportingComponentName = item.ReportingComponentName,
+                Caller = item.Caller,
+                Start = item.Start,
+                End = item.End,
             };
 }
 

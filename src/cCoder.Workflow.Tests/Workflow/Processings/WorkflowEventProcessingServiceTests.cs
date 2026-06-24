@@ -14,7 +14,6 @@ namespace cCoder.Core.Services.Tests.Workflow.Processings;
 public partial class WorkflowEventProcessingServiceTests
 {
     private readonly Mock<IWorkflowEventService> workflowEventServiceMock = new();
-    private readonly Mock<IFlowDefinitionService> flowDefinitionServiceMock = new();
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock = new();
     private readonly WorkflowEventProcessingService workflowEventProcessingService;
 
@@ -22,7 +21,6 @@ public partial class WorkflowEventProcessingServiceTests
     {
         workflowEventProcessingService = new WorkflowEventProcessingService(
             workflowEventServiceMock.Object,
-            flowDefinitionServiceMock.Object,
             authorizationBrokerMock.Object
         );
     }
