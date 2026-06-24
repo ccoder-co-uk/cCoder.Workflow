@@ -2,14 +2,13 @@ using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal class WorkflowEventProcessingService(IWorkflowEventService service, IFlowDefinitionService flowDefinitionService, IUserBroker userBroker, IAuthorizationBroker authorizationBroker) : IWorkflowEventProcessingService
+internal class WorkflowEventProcessingService(IWorkflowEventService service, IFlowDefinitionService flowDefinitionService, IAuthorizationBroker authorizationBroker) : IWorkflowEventProcessingService
 {
     public WorkflowEvent Get(Guid id)
     {
@@ -103,12 +102,12 @@ internal class WorkflowEventProcessingService(IWorkflowEventService service, IFl
     private bool SecurityCheckEvent(WorkflowEvent workflowEvent)
     {
         FlowDefinition flow = flowDefinitionService.GetAll().FirstOrDefault((FlowDefinition f) => f.Id == workflowEvent.FlowId);
+
         if (flow == null)
-        {
             throw new SecurityException("Access Denied!");
-        }
-        bool flag = authorizationBroker.IsAdminOfApp(flow.AppId);
-        bool flag2 = userBroker.GetAllUsers(ignoreFilters: false).Any((cCoder.Data.Models.Security.User u) => u.Id == workflowEvent.ExecuteAs && u.Roles.Any((cCoder.Data.Models.Security.UserRole r) => r.Role.AppId == flow.AppId));
-        return flag && flag2;
+
+        authorizationBroker.Authorize(flow.AppId, "app_admin");
+
+        return authorizationBroker.UserBelongsToApp(workflowEvent.ExecuteAs, flow.AppId);
     }
 }

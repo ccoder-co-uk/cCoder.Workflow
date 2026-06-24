@@ -2,7 +2,6 @@ using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Processings;
@@ -37,18 +36,29 @@ internal class FlowDefinitionOrchestrationService(IFlowDefinitionProcessingServi
 
     public ValueTask<Guid> QueueAsync(Guid id, string args)
     {
-        return QueueAsync(id, ToExternalUser(authorizationBroker.GetCurrentUser()), args);
+        FlowDefinition flowDefinition = flowDefinitionService.Get(id);
+        authorizationBroker.Authorize(flowDefinition?.AppId, "flowdefinition_execute");
+        string caller = authorizationBroker.GetCurrentUser()?.Id;
+        return QueueAsync(flowDefinition, caller, args);
     }
 
     public ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
     {
-        return QueueAsync(id, ToExternalUser(authorizationBroker.GetUser(asUserId)), args);
+        FlowDefinition flowDefinition = flowDefinitionService.Get(id);
+        authorizationBroker.Authorize(asUserId, flowDefinition?.AppId, "flowdefinition_execute");
+        return QueueAsync(flowDefinition, asUserId, args);
     }
 
     public async ValueTask<Guid> QueueAsync(Guid id, cCoder.Data.Models.Security.User asUser, string args)
     {
         FlowDefinition flowDefinition = flowDefinitionService.Get(id);
-        FlowInstanceData flowInstance = CreateFlowInstanceData(flowDefinition, asUser, args, jsonBroker);
+        FlowInstanceData flowInstance = CreateFlowInstanceData(flowDefinition, asUser?.Id, args);
+        return (await flowInstanceDataOrchestrationService.AddQueuedAsync(flowInstance)).Id;
+    }
+
+    private async ValueTask<Guid> QueueAsync(FlowDefinition flowDefinition, string caller, string args)
+    {
+        FlowInstanceData flowInstance = CreateFlowInstanceData(flowDefinition, caller, args);
         return (await flowInstanceDataOrchestrationService.AddQueuedAsync(flowInstance)).Id;
     }
 
@@ -81,39 +91,14 @@ internal class FlowDefinitionOrchestrationService(IFlowDefinitionProcessingServi
         return processingService.DeleteAllAsync(items);
     }
 
-    private static FlowInstanceData CreateFlowInstanceData(FlowDefinition flowDefinition, cCoder.Data.Models.Security.User asUser, string args, IJsonBroker jsonBroker)
+    private FlowInstanceData CreateFlowInstanceData(FlowDefinition flowDefinition, string caller, string args)
     {
         if (flowDefinition == null)
-        {
             throw new SecurityException("Access Denied!");
-        }
-        if (!asUser.IsAdminOfApp(flowDefinition.AppId) && !asUser.Can(flowDefinition.AppId, "flowdefinition_execute"))
-        {
-            throw new SecurityException("Access Denied!");
-        }
-        return FlowInstanceDataFactory.Create(flowDefinition, asUser.Id, args, jsonBroker);
-    }
 
-    private static cCoder.Data.Models.Security.User ToExternalUser(cCoder.Data.Models.Security.User item)
-    {
-        return new cCoder.Data.Models.Security.User
-        {
-            Id = item.Id,
-            DisplayName = item.DisplayName,
-            Email = item.Email,
-            Roles = item.Roles?.Select((cCoder.Data.Models.Security.UserRole role) => new cCoder.Data.Models.Security.UserRole
-            {
-                RoleId = role.RoleId,
-                UserId = role.UserId,
-                Role = ((role.Role == null) ? null : new cCoder.Data.Models.Security.Role
-                {
-                    Id = role.Role.Id,
-                    AppId = role.Role.AppId,
-                    Name = role.Role.Name,
-                    Description = role.Role.Description,
-                    Privs = role.Role.Privs
-                })
-            }).ToArray()
-        };
+        if (string.IsNullOrWhiteSpace(caller))
+            throw new SecurityException("Access Denied!");
+
+        return FlowInstanceDataFactory.Create(flowDefinition, caller, args, jsonBroker);
     }
 }

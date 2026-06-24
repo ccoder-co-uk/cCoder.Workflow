@@ -1,12 +1,10 @@
 using System.Security;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using DataUser = cCoder.Data.Models.Security.User;
 
 
 namespace cCoder.Core.Services.Tests.Workflow.Processings;
@@ -18,14 +16,6 @@ public partial class WorkflowEventProcessingServiceTests
     {
         // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
-        DataUser admin = TestUsers.WithPrivilege("app_admin", 1);
-        DataUser executeAsUser = TestUsers.WithPrivilege("page_read", 1);
-        executeAsUser.Id = workflowEvent.ExecuteAs;
-        currentUser = admin;
-
-        authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns((int appId) => currentUser?.IsAdminOfApp(appId) ?? false);
 
         flowDefinitionServiceMock
             .Setup(x => x.GetAll())
@@ -41,7 +31,8 @@ public partial class WorkflowEventProcessingServiceTests
                 }.AsQueryable()
             );
 
-        userBrokerMock.Setup(x => x.GetAllUsers(false)).Returns(new[] { executeAsUser }.AsQueryable());
+        authorizationBrokerMock.Setup(x => x.Authorize(1, "app_admin"));
+        authorizationBrokerMock.Setup(x => x.UserBelongsToApp(workflowEvent.ExecuteAs, 1)).Returns(true);
         workflowEventServiceMock.Setup(x => x.UpdateAsync(workflowEvent)).ReturnsAsync(workflowEvent);
 
         // When
@@ -53,9 +44,8 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock.VerifyNoOtherCalls();
         flowDefinitionServiceMock.Verify(x => x.GetAll(), Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
-        userBrokerMock.Verify(x => x.GetAllUsers(false), Times.Once);
-        userBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.IsAdminOfApp(1), Times.Once);
+        authorizationBrokerMock.Verify(x => x.Authorize(1, "app_admin"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.UserBelongsToApp(workflowEvent.ExecuteAs, 1), Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -64,10 +54,6 @@ public partial class WorkflowEventProcessingServiceTests
     {
         // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
-        authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns(false);
-
         flowDefinitionServiceMock
             .Setup(x => x.GetAll())
             .Returns(Enumerable.Empty<FlowDefinition>().AsQueryable());
@@ -82,7 +68,6 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock.VerifyNoOtherCalls();
         flowDefinitionServiceMock.Verify(x => x.GetAll(), Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
-        userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 }

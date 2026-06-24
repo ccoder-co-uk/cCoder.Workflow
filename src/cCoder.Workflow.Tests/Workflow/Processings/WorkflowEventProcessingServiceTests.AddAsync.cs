@@ -6,7 +6,6 @@ using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using DataUser = cCoder.Data.Models.Security.User;
 
 
 namespace cCoder.Core.Services.Tests.Workflow.Processings;
@@ -17,32 +16,14 @@ public partial class WorkflowEventProcessingServiceTests
     public async Task ShouldDelegateToFoundationServiceWhenSecurityChecksPassForAddAsync()
     {
         // Given
-        authorizationBrokerMock
-            .Setup(x => x.Authorize(It.IsAny<int?>(), It.IsAny<string>()))
-            .Callback((int? appId, string privilege) =>
-            {
-                if (!(currentUser?.Can(appId, privilege) ?? false))
-                    throw new SecurityException("Access Denied!");
-            });
-
-        authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns((int appId) => currentUser?.IsAdminOfApp(appId) ?? false);
-
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(() => currentUser);
-
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
-        DataUser admin = TestUsers.WithPrivilege("app_admin", 1);
-        DataUser executeAsUser = TestUsers.WithPrivilege("page_read", 1);
-        executeAsUser.Id = workflowEvent.ExecuteAs;
-        currentUser = admin;
-        authorizationBrokerMock.Setup(x => x.IsAdminOfApp(1)).Returns(true);
 
         flowDefinitionServiceMock
             .Setup(x => x.GetAll())
             .Returns(new[] { new FlowDefinition { Id = workflowEvent.FlowId, AppId = 1, Name = "Flow" } }.AsQueryable());
 
-        userBrokerMock.Setup(x => x.GetAllUsers(false)).Returns(new[] { executeAsUser }.AsQueryable());
+        authorizationBrokerMock.Setup(x => x.Authorize(1, "app_admin"));
+        authorizationBrokerMock.Setup(x => x.UserBelongsToApp(workflowEvent.ExecuteAs, 1)).Returns(true);
         workflowEventServiceMock.Setup(x => x.AddAsync(workflowEvent)).ReturnsAsync(workflowEvent);
 
         // When
@@ -54,28 +35,15 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock.VerifyNoOtherCalls();
         flowDefinitionServiceMock.Verify(x => x.GetAll(), Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
-        userBrokerMock.Verify(x => x.GetAllUsers(false), Times.Once);
-        userBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.Verify(x => x.Authorize(1, "app_admin"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.UserBelongsToApp(workflowEvent.ExecuteAs, 1), Times.Once);
+        authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
     [Fact]
     public async Task ShouldThrowSecurityExceptionWhenSecurityChecksFailForAddAsync()
     {
         // Given
-        authorizationBrokerMock
-            .Setup(x => x.Authorize(It.IsAny<int?>(), It.IsAny<string>()))
-            .Callback((int? appId, string privilege) =>
-            {
-                if (!(currentUser?.Can(appId, privilege) ?? false))
-                    throw new SecurityException("Access Denied!");
-            });
-
-        authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns((int appId) => currentUser?.IsAdminOfApp(appId) ?? false);
-
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(() => currentUser);
-
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         flowDefinitionServiceMock
@@ -91,34 +59,14 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock.VerifyNoOtherCalls();
         flowDefinitionServiceMock.Verify(x => x.GetAll(), Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
-        userBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
     [Fact]
     public async Task ShouldThrowSecurityExceptionWhenExecuteUserIsNotInFlowAppForAddAsync()
     {
         // Given
-        authorizationBrokerMock
-            .Setup(x => x.Authorize(It.IsAny<int?>(), It.IsAny<string>()))
-            .Callback((int? appId, string privilege) =>
-            {
-                if (!(currentUser?.Can(appId, privilege) ?? false))
-                    throw new SecurityException("Access Denied!");
-            });
-
-        authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns((int appId) => currentUser?.IsAdminOfApp(appId) ?? false);
-
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(() => currentUser);
-
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
-        DataUser admin = TestUsers.WithPrivilege("app_admin", 1);
-        DataUser unrelatedUser = TestUsers.WithPrivilege("page_read", 2);
-        unrelatedUser.Id = workflowEvent.ExecuteAs;
-
-        currentUser = admin;
-        authorizationBrokerMock.Setup(x => x.IsAdminOfApp(1)).Returns(true);
 
         flowDefinitionServiceMock
             .Setup(x => x.GetAll())
@@ -134,7 +82,8 @@ public partial class WorkflowEventProcessingServiceTests
                 }.AsQueryable()
             );
 
-        userBrokerMock.Setup(x => x.GetAllUsers(false)).Returns(new[] { unrelatedUser }.AsQueryable());
+        authorizationBrokerMock.Setup(x => x.Authorize(1, "app_admin"));
+        authorizationBrokerMock.Setup(x => x.UserBelongsToApp(workflowEvent.ExecuteAs, 1)).Returns(false);
 
         // When
         Func<Task> act = async () => await workflowEventProcessingService.AddAsync(workflowEvent);
@@ -145,8 +94,9 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock.VerifyNoOtherCalls();
         flowDefinitionServiceMock.Verify(x => x.GetAll(), Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
-        userBrokerMock.Verify(x => x.GetAllUsers(false), Times.Once);
-        userBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.Verify(x => x.Authorize(1, "app_admin"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.UserBelongsToApp(workflowEvent.ExecuteAs, 1), Times.Once);
+        authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
