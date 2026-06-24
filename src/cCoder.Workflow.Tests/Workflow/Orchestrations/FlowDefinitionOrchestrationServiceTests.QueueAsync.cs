@@ -15,7 +15,6 @@ public partial class FlowDefinitionOrchestrationServiceTests
     [Fact]
     public async Task ShouldCreateAndPersistFlowInstanceWhenQueueAsync()
     {
-        // Given
         Guid id = Guid.NewGuid();
         DataUser user = TestUsers.WithPrivilege("flowdefinition_execute", 1);
         Guid queuedId = Guid.NewGuid();
@@ -23,7 +22,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         {
             Id = id,
             AppId = 1,
-            App = new cCoder.Data.Models.CMS.App
+            App = new App
             {
                 Id = 1,
                 Domain = "app.local",
@@ -34,10 +33,10 @@ public partial class FlowDefinitionOrchestrationServiceTests
             ConfigJson = "{}"
         };
 
-        flowDefinitionServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
+        flowDefinitionProcessingServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
         authorizationBrokerMock.Setup(x => x.Authorize(flowDefinition.AppId, "flowdefinition_execute"));
         authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(user);
-        flowInstanceDataOrchestrationServiceMock
+        flowInstanceDataProcessingServiceMock
             .Setup(x => x.AddQueuedAsync(It.IsAny<FlowInstanceData>()))
             .ReturnsAsync((FlowInstanceData instance) =>
             {
@@ -45,30 +44,24 @@ public partial class FlowDefinitionOrchestrationServiceTests
                 return instance;
             });
 
-        // When
         Guid result = await orchestrationService.QueueAsync(id, "{}");
 
-        // Then
         result.Should().Be(queuedId);
-        flowDefinitionServiceMock.Verify(x => x.Get(id), Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
         authorizationBrokerMock.Verify(x => x.Authorize(flowDefinition.AppId, "flowdefinition_execute"), Times.Once);
         authorizationBrokerMock.Verify(x => x.GetCurrentUser(), Times.Once);
-        flowInstanceDataOrchestrationServiceMock.Verify(
+        flowInstanceDataProcessingServiceMock.Verify(
             x =>
                 x.AddQueuedAsync(
                     It.Is<FlowInstanceData>(instance =>
                         instance.FlowDefinitionId == id
                         && instance.Caller == user.Id
                         && instance.State == "Queued"
-                        && instance.ContextString.Contains("\"ExecutionState\":\"Queued\"")
-                    )
-                ),
-            Times.Once
-        );
+                        && instance.ContextString.Contains("\"ExecutionState\":\"Queued\""))),
+            Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
-        flowDefinitionServiceMock.VerifyNoOtherCalls();
-        flowInstanceDataOrchestrationServiceMock.VerifyNoOtherCalls();
+        flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -82,7 +75,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         {
             Id = id,
             AppId = 1,
-            App = new cCoder.Data.Models.CMS.App
+            App = new App
             {
                 Id = 1,
                 Domain = "app.local",
@@ -93,9 +86,9 @@ public partial class FlowDefinitionOrchestrationServiceTests
             ConfigJson = "{}"
         };
 
-        flowDefinitionServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
+        flowDefinitionProcessingServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
         authorizationBrokerMock.Setup(x => x.Authorize(asUserId, flowDefinition.AppId, "flowdefinition_execute"));
-        flowInstanceDataOrchestrationServiceMock
+        flowInstanceDataProcessingServiceMock
             .Setup(x => x.AddQueuedAsync(It.IsAny<FlowInstanceData>()))
             .ReturnsAsync((FlowInstanceData instance) =>
             {
@@ -106,24 +99,20 @@ public partial class FlowDefinitionOrchestrationServiceTests
         Guid result = await orchestrationService.QueueAsync(id, asUserId, "{}");
 
         result.Should().Be(queuedId);
-        flowDefinitionServiceMock.Verify(x => x.Get(id), Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
         authorizationBrokerMock.Verify(x => x.Authorize(asUserId, flowDefinition.AppId, "flowdefinition_execute"), Times.Once);
-        flowInstanceDataOrchestrationServiceMock.Verify(
+        flowInstanceDataProcessingServiceMock.Verify(
             x =>
                 x.AddQueuedAsync(
                     It.Is<FlowInstanceData>(instance =>
                         instance.FlowDefinitionId == id
                         && instance.Caller == asUserId
                         && instance.State == "Queued"
-                        && instance.ContextString.Contains("\"ExecutionState\":\"Queued\"")
-                    )
-                ),
-            Times.Once
-        );
+                        && instance.ContextString.Contains("\"ExecutionState\":\"Queued\""))),
+            Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
-        flowDefinitionServiceMock.VerifyNoOtherCalls();
-        flowInstanceDataOrchestrationServiceMock.VerifyNoOtherCalls();
+        flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -137,7 +126,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         {
             Id = id,
             AppId = 1,
-            App = new cCoder.Data.Models.CMS.App
+            App = new App
             {
                 Id = 1,
                 Domain = "app.local",
@@ -148,9 +137,9 @@ public partial class FlowDefinitionOrchestrationServiceTests
             ConfigJson = "{}"
         };
 
-        flowDefinitionServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
+        flowDefinitionProcessingServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
         authorizationBrokerMock.Setup(x => x.Authorize(asUserId, flowDefinition.AppId, "flowdefinition_execute"));
-        flowInstanceDataOrchestrationServiceMock
+        flowInstanceDataProcessingServiceMock
             .Setup(x => x.AddQueuedAsync(It.IsAny<FlowInstanceData>()))
             .ReturnsAsync((FlowInstanceData instance) =>
             {
@@ -161,25 +150,21 @@ public partial class FlowDefinitionOrchestrationServiceTests
         Guid result = await orchestrationService.QueueAsync(id, asUserId, "{}");
 
         result.Should().Be(queuedId);
-        flowDefinitionServiceMock.Verify(x => x.Get(id), Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
         authorizationBrokerMock.Verify(x => x.Authorize(asUserId, flowDefinition.AppId, "flowdefinition_execute"), Times.Once);
         authorizationBrokerMock.Verify(x => x.GetUser(It.IsAny<string>()), Times.Never);
-        flowInstanceDataOrchestrationServiceMock.Verify(
+        flowInstanceDataProcessingServiceMock.Verify(
             x =>
                 x.AddQueuedAsync(
                     It.Is<FlowInstanceData>(instance =>
                         instance.FlowDefinitionId == id
                         && instance.Caller == asUserId
                         && instance.State == "Queued"
-                        && instance.ContextString.Contains("\"ExecutionState\":\"Queued\"")
-                    )
-                ),
-            Times.Once
-        );
+                        && instance.ContextString.Contains("\"ExecutionState\":\"Queued\""))),
+            Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
-        flowDefinitionServiceMock.VerifyNoOtherCalls();
-        flowInstanceDataOrchestrationServiceMock.VerifyNoOtherCalls();
+        flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -192,7 +177,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         {
             Id = id,
             AppId = 1,
-            App = new cCoder.Data.Models.CMS.App
+            App = new App
             {
                 Id = 1,
                 Domain = "app.local",
@@ -203,7 +188,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
             ConfigJson = "{}"
         };
 
-        flowDefinitionServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
+        flowDefinitionProcessingServiceMock.Setup(x => x.Get(id)).Returns(flowDefinition);
         authorizationBrokerMock
             .Setup(x => x.Authorize(asUserId, flowDefinition.AppId, "flowdefinition_execute"))
             .Throws(new System.Security.SecurityException("Access Denied!"));
@@ -212,21 +197,11 @@ public partial class FlowDefinitionOrchestrationServiceTests
 
         await action.Should().ThrowAsync<System.Security.SecurityException>()
             .WithMessage("Access Denied!");
-        flowDefinitionServiceMock.Verify(x => x.Get(id), Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
         authorizationBrokerMock.Verify(x => x.Authorize(asUserId, flowDefinition.AppId, "flowdefinition_execute"), Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
-        flowDefinitionServiceMock.VerifyNoOtherCalls();
-        flowInstanceDataOrchestrationServiceMock.VerifyNoOtherCalls();
+        flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
-
 }
-
-
-
-
-
-
-
-

@@ -2,7 +2,6 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
@@ -17,8 +16,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
 {
     private readonly Mock<IFlowDefinitionProcessingService> flowDefinitionProcessingServiceMock;
     private readonly Mock<IFlowDefinitionEventProcessingService> flowDefinitionEventProcessingServiceMock;
-    private readonly Mock<IFlowDefinitionService> flowDefinitionServiceMock;
-    private readonly Mock<IFlowInstanceDataOrchestrationService> flowInstanceDataOrchestrationServiceMock;
+    private readonly Mock<IFlowInstanceDataProcessingService> flowInstanceDataProcessingServiceMock;
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
     private readonly FlowDefinitionOrchestrationService orchestrationService;
 
@@ -26,14 +24,12 @@ public partial class FlowDefinitionOrchestrationServiceTests
     {
         flowDefinitionProcessingServiceMock = new Mock<IFlowDefinitionProcessingService>(MockBehavior.Strict);
         flowDefinitionEventProcessingServiceMock = new Mock<IFlowDefinitionEventProcessingService>(MockBehavior.Strict);
-        flowDefinitionServiceMock = new Mock<IFlowDefinitionService>(MockBehavior.Strict);
-        flowInstanceDataOrchestrationServiceMock = new Mock<IFlowInstanceDataOrchestrationService>(MockBehavior.Strict);
+        flowInstanceDataProcessingServiceMock = new Mock<IFlowInstanceDataProcessingService>(MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
         orchestrationService = new FlowDefinitionOrchestrationService(
             flowDefinitionProcessingServiceMock.Object,
             flowDefinitionEventProcessingServiceMock.Object,
-            flowDefinitionServiceMock.Object,
-            flowInstanceDataOrchestrationServiceMock.Object,
+            flowInstanceDataProcessingServiceMock.Object,
             authorizationBrokerMock.Object,
             new JsonBroker()
         );
