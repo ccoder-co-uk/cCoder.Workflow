@@ -26,8 +26,10 @@ internal class FlowDefinitionCoordinationService(
 
     public async ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
     {
-        FlowDefinition flowDefinition = 
-            flowDefinitionOrchestrationService.Get(id);
+        FlowDefinition flowDefinition =
+            flowDefinitionOrchestrationService
+                .GetAll(ignoreFilters: true)
+                .FirstOrDefault(foundFlowDefinition => foundFlowDefinition.Id == id);
 
         authorizationBroker.Authorize(
             asUserId, 
