@@ -3,6 +3,7 @@ using System.Text;
 using cCoder.Data;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Foundations;
@@ -14,6 +15,7 @@ public sealed class FlowDefinitionControllerService(
     IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
     IFlowDefinitionCoordinationService flowDefinitionCoordinationService,
     IWorkflowMetadataTypeService workflowMetadataTypeService,
+    IAuthorizationBroker authorizationBroker,
     Config config)
     : IFlowDefinitionControllerService
 {
@@ -32,8 +34,11 @@ public sealed class FlowDefinitionControllerService(
     public ValueTask DeleteAsync(Guid id) =>
         flowDefinitionOrchestrationService.DeleteAsync(id);
 
-    public ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args) =>
-        flowDefinitionCoordinationService.QueueAsync(id, asUserId, args);
+    public ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
+    {
+        string callerId = ResolveCallerId(asUserId);
+        return flowDefinitionCoordinationService.QueueAsync(id, callerId, args);
+    }
 
     public async Task<string> ExecuteScriptAsync(string script)
     {
@@ -60,4 +65,12 @@ public sealed class FlowDefinitionControllerService(
 
     public MetadataContainerSet[] GetKnownSystemTypes() =>
         workflowMetadataTypeService.GetKnownSystemTypes();
+
+    private string ResolveCallerId(string asUserId)
+    {
+        if (!string.IsNullOrWhiteSpace(asUserId) && !string.Equals(asUserId, "Guest", StringComparison.Ordinal))
+            return asUserId;
+
+        return authorizationBroker.GetCurrentUser()?.Id ?? "Guest";
+    }
 }

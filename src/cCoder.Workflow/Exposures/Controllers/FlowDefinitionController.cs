@@ -119,7 +119,7 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
     public async Task<IActionResult> ExecuteAsync([FromRoute] Guid key)
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
-        string asUserId = User?.Identity?.Name ?? "Guest";
+        string asUserId = User?.Identity?.Name;
         return Ok(await service.QueueAsync(key, asUserId, await reader.ReadToEndAsync()));
     }
 
