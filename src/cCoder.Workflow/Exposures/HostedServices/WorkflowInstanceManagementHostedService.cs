@@ -1,12 +1,12 @@
 using cCoder.Workflow.Services.Orchestrations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
 namespace cCoder.Workflow.Exposures.HostedServices;
 
 public sealed class WorkflowInstanceManagementHostedService(
-    IServiceScopeFactory serviceScopeFactory,
-    ILogger<WorkflowInstanceManagementHostedService> log)
+    IServiceScopeFactory serviceScopeFactory)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,6 +31,9 @@ public sealed class WorkflowInstanceManagementHostedService(
             }
             catch (Exception ex)
             {
+                using IServiceScope scope = serviceScopeFactory.CreateScope();
+                ILogger<WorkflowInstanceManagementHostedService> log =
+                    scope.ServiceProvider.GetRequiredService<ILogger<WorkflowInstanceManagementHostedService>>();
                 log.LogError(ex, ex.Message);
             }
         }

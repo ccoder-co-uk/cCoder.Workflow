@@ -1,14 +1,7 @@
-using System.Net;
 using System.Text;
-using cCoder.Data;
-using cCoder.Data.Extensions;
 using cCoder.Workflow.Api.OData;
 using cCoder.Workflow.Models;
-using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Services.Foundations;
-using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
@@ -16,14 +9,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
-
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class FlowDefinitionController(
-        IFlowDefinitionOrchestrationService service,
-        IWorkflowMetadataTypeService metadataTypeService,
-        Config config
-    ) : ODataController
+public partial class FlowDefinitionController(IFlowDefinitionControllerService service) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()
@@ -131,29 +119,15 @@ public partial class FlowDefinitionController(
     public async Task<IActionResult> ExecuteAsync([FromRoute] Guid key)
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
-        return Ok(await service.QueueAsync(key, await reader.ReadToEndAsync()));
+        string asUserId = User?.Identity?.Name ?? "Guest";
+        return Ok(await service.QueueAsync(key, asUserId, await reader.ReadToEndAsync()));
     }
 
     [HttpPost]
     public async Task<IActionResult> ExecuteScript()
     {
-        using HttpClient api = new(
-            new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            }
-        )
-        {
-            BaseAddress = new Uri(config.Services["Workflow"]),
-            Timeout = TimeSpan.FromMinutes(10),
-        };
-
         string script = await new StreamReader(Request.Body).ReadToEndAsync();
-        HttpResponseMessage response = await api.PostAsync(
-            "ExecuteScript",
-            new StringContent(script, Encoding.UTF8, "text/plain")
-        );
-        return Ok(await response.Content.ReadAsStringAsync());
+        return Ok(await service.ExecuteScriptAsync(script));
     }
 
     [HttpGet]
@@ -167,30 +141,13 @@ public partial class FlowDefinitionController(
     )]
     public IActionResult KnownActivityTypes()
     {
-        return Ok(metadataTypeService.GetKnownActivityTypes());
+        return Ok(service.GetKnownActivityTypes());
     }
 
     [AllowAnonymous]
     [HttpGet]
     public IActionResult KnownSystemTypes()
     {
-        return Ok(metadataTypeService.GetKnownSystemTypes());
+        return Ok(service.GetKnownSystemTypes());
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

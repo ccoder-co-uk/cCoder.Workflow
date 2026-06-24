@@ -1,13 +1,13 @@
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed class EventHandlingOrchestrationService(
     IWorkflowEventProcessingService workflowEventProcessingService,
-    IFlowInstanceDataProcessingService flowInstanceDataProcessingService,
-    IFlowInstanceDataEventProcessingService flowInstanceDataEventProcessingService,
+    IFlowDefinitionCoordinationService flowDefinitionCoordinationService,
     IJsonBroker jsonBroker,
     ILogger<EventHandlingOrchestrationService> log)
     : IEventHandlingOrchestrationService
@@ -42,14 +42,10 @@ internal sealed class EventHandlingOrchestrationService(
     {
         try
         {
-            FlowInstanceData flowInstance = FlowInstanceDataFactory.Create(
-                subscription.Flow,
+            _ = await flowDefinitionCoordinationService.QueueAsync(
+                subscription.FlowId,
                 subscription.ExecuteAsUser?.Id ?? subscription.ExecuteAs,
-                args,
-                jsonBroker);
-
-            FlowInstanceData savedFlowInstance = await flowInstanceDataProcessingService.AddQueuedAsync(flowInstance);
-            await flowInstanceDataEventProcessingService.RaiseFlowInstanceDataAddEventAsync(savedFlowInstance);
+                args);
         }
         catch (Exception ex)
         {

@@ -1,23 +1,18 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-
 namespace cCoder.Workflow.Brokers;
-
-public interface IJsonBroker
-{
-    object ParseJson(string json);
-    T ParseJson<T>(string json);
-    string Serialize(object value);
-}
 
 public class JsonBroker : IJsonBroker
 {
-    public object ParseJson(string json) => JsonConvert.DeserializeObject(json, CreateJsonSettings());
+    public object ParseJson(string json) => 
+        JsonConvert.DeserializeObject(json, CreateJsonSettings());
 
-    public T ParseJson<T>(string json) => JsonConvert.DeserializeObject<T>(json, CreateJsonSettings());
+    public T ParseJson<T>(string json) => 
+        JsonConvert.DeserializeObject<T>(json, CreateJsonSettings());
 
-    public string Serialize(object value) => JsonConvert.SerializeObject(value, CreateJsonSettings());
+    public string Serialize(object value) => 
+        JsonConvert.SerializeObject(value, CreateJsonSettings());
 
     private static JsonSerializerSettings CreateJsonSettings() =>
         new()
@@ -104,5 +99,3 @@ public class JsonBroker : IJsonBroker
         }
     }
 }
-
-

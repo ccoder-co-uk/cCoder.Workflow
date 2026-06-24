@@ -1,8 +1,7 @@
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Activities;
-using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Services.Coordinations;
 using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
@@ -15,19 +14,16 @@ namespace cCoder.Core.Services.Tests.Workflow.Orchestrations;
 public partial class EventHandlingOrchestrationServiceTests
 {
     private readonly Mock<IWorkflowEventProcessingService> workflowEventProcessingServiceMock;
-    private readonly Mock<IFlowInstanceDataProcessingService> flowInstanceDataProcessingServiceMock;
-    private readonly Mock<IFlowInstanceDataEventProcessingService> flowInstanceDataEventProcessingServiceMock;
+    private readonly Mock<IFlowDefinitionCoordinationService> flowDefinitionCoordinationServiceMock;
     private readonly EventHandlingOrchestrationService orchestrationService;
 
     public EventHandlingOrchestrationServiceTests()
     {
         workflowEventProcessingServiceMock = new Mock<IWorkflowEventProcessingService>(MockBehavior.Strict);
-        flowInstanceDataProcessingServiceMock = new Mock<IFlowInstanceDataProcessingService>(MockBehavior.Strict);
-        flowInstanceDataEventProcessingServiceMock = new Mock<IFlowInstanceDataEventProcessingService>(MockBehavior.Strict);
+        flowDefinitionCoordinationServiceMock = new Mock<IFlowDefinitionCoordinationService>(MockBehavior.Strict);
         orchestrationService = new EventHandlingOrchestrationService(
             workflowEventProcessingServiceMock.Object,
-            flowInstanceDataProcessingServiceMock.Object,
-            flowInstanceDataEventProcessingServiceMock.Object,
+            flowDefinitionCoordinationServiceMock.Object,
             new JsonBroker(),
             Mock.Of<ILogger<EventHandlingOrchestrationService>>());
     }
@@ -52,16 +48,5 @@ public partial class EventHandlingOrchestrationServiceTests
             FlowId = flowId,
             ExecuteAs = executeAs,
             ExecuteAsUser = new User { Id = executeAs },
-            Flow = new FlowDefinition
-            {
-                Id = flowId,
-                AppId = page.AppId,
-                DefinitionJson = new JsonBroker().Serialize(new Flow
-                {
-                    Name = "Test Flow",
-                    Activities = [new Start()],
-                    Links = []
-                })
-            }
         };
 }

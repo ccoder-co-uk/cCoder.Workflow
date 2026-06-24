@@ -1,5 +1,4 @@
 using cCoder.Workflow.Models;
-using cCoder.Workflow.Brokers;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
@@ -14,15 +13,13 @@ namespace cCoder.Core.Services.Tests.Workflow.Processings;
 public partial class FlowInstanceDataProcessingServiceTests
 {
     private readonly Mock<IFlowInstanceDataService> flowInstanceDataServiceMock = new();
-    private readonly Mock<IFlowInstanceDataBroker> flowInstanceDataBrokerMock = new();
     private DataUser currentUser = TestUsers.WithoutPrivileges();
     private readonly FlowInstanceDataProcessingService flowInstanceDataProcessingService;
 
     public FlowInstanceDataProcessingServiceTests()
     {
         flowInstanceDataProcessingService = new FlowInstanceDataProcessingService(
-            flowInstanceDataServiceMock.Object,
-            flowInstanceDataBrokerMock.Object
+            flowInstanceDataServiceMock.Object
         );
     }
 

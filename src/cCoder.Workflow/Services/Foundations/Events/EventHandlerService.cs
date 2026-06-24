@@ -39,8 +39,6 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
 
     void ListenToFlowDefinitionEvents()
     {
-        ListenToFlowDefinitionAddEvents();
-        ListenToFlowDefinitionUpdateEvents();
         ListenToFlowDefinitionDeleteEvents();
     }
 
@@ -102,16 +100,6 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
             "app_delete",
             (service, app) => service.DeleteAsync(app.Id));
 
-    void ListenToFlowDefinitionAddEvents() =>
-        eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionCoordinationService>(
-            "flow_definition_add",
-            (service, flowDefinition) => service.HandleFlowDefinitionAddAsync(flowDefinition));
-
-    void ListenToFlowDefinitionUpdateEvents() =>
-        eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionCoordinationService>(
-            "flow_definition_update",
-            (service, flowDefinition) => service.HandleFlowDefinitionUpdateAsync(flowDefinition));
-
     void ListenToFlowDefinitionDeleteEvents() =>
         eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionCoordinationService>(
             "flow_definition_delete",
@@ -140,7 +128,7 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
             (service, args) => new ValueTask(service.RaiseEvents(args.package, "package_import", args.appId)));
 
     void ListenToScheduledTaskExecuteEventsInternal() =>
-        eventHubBroker.ListenToEvent<ScheduledTask, IFlowDefinitionOrchestrationService>(
+        eventHubBroker.ListenToEvent<ScheduledTask, IFlowDefinitionCoordinationService>(
             "scheduled_task_execute",
             async (service, task) =>
             {

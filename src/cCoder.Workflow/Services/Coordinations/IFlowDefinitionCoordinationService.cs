@@ -8,11 +8,9 @@ namespace cCoder.Workflow.Services.Coordinations;
 
 public interface IFlowDefinitionCoordinationService
 {
-    ValueTask HandleFlowDefinitionAddAsync(FlowDefinition flowDefinition);
-
-    ValueTask HandleFlowDefinitionUpdateAsync(FlowDefinition flowDefinition);
-
     ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition);
+
+    ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args);
 }
 
 
