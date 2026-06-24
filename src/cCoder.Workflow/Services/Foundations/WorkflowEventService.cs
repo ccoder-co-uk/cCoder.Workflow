@@ -1,11 +1,7 @@
 using System.Security;
 using cCoder.Data.Brokers;
-using cCoder.Workflow.Models;
-using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
+using cCoder.Workflow.Brokers;
 using cCoder.Data.Models.Workflow;
-using DataWorkflowEvent = cCoder.Data.Models.Workflow.WorkflowEvent;
-using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 
 
 namespace cCoder.Workflow.Services.Foundations;
@@ -34,26 +30,18 @@ internal class WorkflowEventService(
     public async ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(ToExternalWorkflowEvent(workflowEvent)),
+            workflowEventBroker.GetAppId(workflowEvent),
             $"{nameof(WorkflowEvent)}_create"
         );
 
-        DataWorkflowEvent newWorkflowEvent = new()
-        {
-            Type = workflowEvent.Type,
-            EventContext = workflowEvent.EventContext,
-            CreatedBy = workflowEvent.CreatedBy,
-            CreatedOn = workflowEvent.CreatedOn,
-            FlowId = workflowEvent.FlowId,
-            ExecuteAs = workflowEvent.ExecuteAs,
-        };
+        WorkflowEvent newWorkflowEvent = CreateStorageWorkflowEvent(workflowEvent);
 
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         newWorkflowEvent.CreatedOn = now;
         newWorkflowEvent.CreatedBy = currentUserId;
 
-        DataWorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent);
+        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent);
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
         workflowEvent.EventContext = result.EventContext;
@@ -67,22 +55,13 @@ internal class WorkflowEventService(
     public async ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(ToExternalWorkflowEvent(workflowEvent)),
+            workflowEventBroker.GetAppId(workflowEvent),
             $"{nameof(WorkflowEvent)}_update"
         );
 
-        DataWorkflowEvent updateWorkflowEvent = new()
-        {
-            Id = workflowEvent.Id,
-            Type = workflowEvent.Type,
-            EventContext = workflowEvent.EventContext,
-            CreatedBy = workflowEvent.CreatedBy,
-            CreatedOn = workflowEvent.CreatedOn,
-            FlowId = workflowEvent.FlowId,
-            ExecuteAs = workflowEvent.ExecuteAs,
-        };
+        WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(workflowEvent);
 
-        DataWorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
+        WorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
             updateWorkflowEvent
         );
         workflowEvent.Id = result.Id;
@@ -99,114 +78,29 @@ internal class WorkflowEventService(
     {
         WorkflowEvent workflowEvent = Get(id);
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(ToExternalWorkflowEvent(workflowEvent)),
+            workflowEventBroker.GetAppId(workflowEvent),
             $"{nameof(WorkflowEvent)}_delete"
         );
-        _ = await workflowEventBroker.DeleteWorkflowEventAsync(ToExternalWorkflowEvent(workflowEvent));
+        _ = await workflowEventBroker.DeleteWorkflowEventAsync(
+            CreateStorageWorkflowEvent(workflowEvent)
+        );
     }
 
-    private static WorkflowEvent ToExternalWorkflowEvent(
-        DataWorkflowEvent item,
-        FlowDefinition originalFlow = null,
-        User originalExecuteAsUser = null
-    ) =>
-        new()
-        {
-            Id = item.Id,
-            Type = item.Type,
-            EventContext = item.EventContext,
-            CreatedBy = item.CreatedBy,
-            CreatedOn = item.CreatedOn,
-            FlowId = item.FlowId,
-            Flow = originalFlow ?? (item.Flow == null ? null : ToLocalFlowDefinitionShallow(item.Flow)),
-            ExecuteAs = item.ExecuteAs,
-            ExecuteAsUser = originalExecuteAsUser ?? (item.ExecuteAsUser == null ? null : ToLocalUser(item.ExecuteAsUser)),
-        };
-
-    static WorkflowEvent ToLocalWorkflowEvent(DataWorkflowEvent item) =>
-        new()
-        {
-            Id = item.Id,
-            Type = item.Type,
-            EventContext = item.EventContext,
-            CreatedBy = item.CreatedBy,
-            CreatedOn = item.CreatedOn,
-            FlowId = item.FlowId,
-            Flow = item.Flow == null ? null : ToLocalFlowDefinitionShallow(item.Flow),
-            ExecuteAs = item.ExecuteAs,
-            ExecuteAsUser = item.ExecuteAsUser == null ? null : ToLocalUser(item.ExecuteAsUser),
-        };
-
-    static DataWorkflowEvent ToExternalWorkflowEvent(WorkflowEvent item) =>
-        new()
-        {
-            Id = item.Id,
-            Type = item.Type,
-            EventContext = item.EventContext,
-            CreatedBy = item.CreatedBy,
-            CreatedOn = item.CreatedOn,
-            FlowId = item.FlowId,
-            Flow = item.Flow == null ? null : new cCoder.Data.Models.Workflow.FlowDefinition
+    private static WorkflowEvent CreateStorageWorkflowEvent(WorkflowEvent item) =>
+        item == null
+            ? null
+            : new()
             {
-                Id = item.Flow.Id,
-                Name = item.Flow.Name,
-                Description = item.Flow.Description,
-                LastUpdated = item.Flow.LastUpdated,
-                LastUpdatedBy = item.Flow.LastUpdatedBy,
-                CreatedOn = item.Flow.CreatedOn,
-                CreatedBy = item.Flow.CreatedBy,
-                AppId = item.Flow.AppId,
-                DefinitionJson = item.Flow.DefinitionJson,
-                ConfigJson = item.Flow.ConfigJson,
-                ReportingComponentName = item.Flow.ReportingComponentName,
-                InstanceReportingComponentName = item.Flow.InstanceReportingComponentName,
-            },
-            ExecuteAs = item.ExecuteAs,
-            ExecuteAsUser = item.ExecuteAsUser == null ? null : new cCoder.Data.Models.Security.User
-            {
-                Id = item.ExecuteAsUser.Id,
-                DisplayName = item.ExecuteAsUser.DisplayName,
-                Email = item.ExecuteAsUser.Email,
-            },
-        };
-
-    static FlowDefinition ToLocalFlowDefinitionShallow(cCoder.Data.Models.Workflow.FlowDefinition item) =>
-        new()
-        {
-            Id = item.Id,
-            Name = item.Name,
-            Description = item.Description,
-            LastUpdated = item.LastUpdated,
-            LastUpdatedBy = item.LastUpdatedBy,
-            CreatedOn = item.CreatedOn,
-            CreatedBy = item.CreatedBy,
-            AppId = item.AppId,
-            DefinitionJson = item.DefinitionJson,
-            ConfigJson = item.ConfigJson,
-            ReportingComponentName = item.ReportingComponentName,
-            InstanceReportingComponentName = item.InstanceReportingComponentName,
-        };
-
-    static User ToLocalUser(cCoder.Data.Models.Security.User item) =>
-        new()
-        {
-            Id = item.Id,
-            DisplayName = item.DisplayName,
-            Email = item.Email,
-            Roles = item.Roles?.Select(userRole => new UserRole
-            {
-                RoleId = userRole.RoleId,
-                UserId = userRole.UserId,
-                Role = userRole.Role == null ? null : new Role
-                {
-                    Id = userRole.Role.Id,
-                    AppId = userRole.Role.AppId,
-                    Name = userRole.Role.Name,
-                    Description = userRole.Role.Description,
-                    Privs = userRole.Role.Privs,
-                },
-            }).ToArray(),
-        };
+                Id = item.Id,
+                Type = item.Type,
+                EventContext = item.EventContext,
+                CreatedBy = item.CreatedBy,
+                CreatedOn = item.CreatedOn,
+                FlowId = item.FlowId,
+                Flow = item.Flow,
+                ExecuteAs = item.ExecuteAs,
+                ExecuteAsUser = item.ExecuteAsUser,
+            };
 }
 
 
