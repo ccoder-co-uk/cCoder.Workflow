@@ -30,6 +30,9 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
     public void ListenToScheduledTaskExecuteEvents() =>
         ListenToScheduledTaskExecuteEventsInternal();
 
+    public void ListenToQueuedFlowInstanceExecuteEvents() =>
+        ListenToQueuedFlowInstanceExecuteEventsInternal();
+
     void ListenToAppEvents()
     {
         ListenToAppAddEvents();
@@ -82,7 +85,6 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         ListenToWorkflowTriggerEvents<UserRole>("user_role");
         ListenToWorkflowTriggerEvents<WorkflowEvent>("workflow");
         ListenToWorkflowPackageImportEvents();
-        ListenToScheduledTaskExecuteEventsInternal();
     }
 
     void ListenToAppAddEvents() =>
@@ -133,6 +135,21 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
             async (service, task) =>
             {
                 _ = await service.QueueAsync(task.FlowId, task.ExecuteAs, task.ExecutionArgs);
+            });
+
+    void ListenToQueuedFlowInstanceExecuteEventsInternal()
+    {
+        ListenToQueuedFlowInstanceExecuteEvent("flow_instance_data_add");
+        ListenToQueuedFlowInstanceExecuteEvent("flow_instance_data_update");
+    }
+
+    void ListenToQueuedFlowInstanceExecuteEvent(string eventName) =>
+        eventHubBroker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManagementOrchestrationService>(
+            eventName,
+            async (service, instance) =>
+            {
+                if (string.Equals(instance?.State, "Queued", StringComparison.OrdinalIgnoreCase))
+                    await service.ExecuteWaitingQueuedInstanceByIdAsync(instance.Id);
             });
 
     static WorkflowPackage ToLocalPackage(Package package) =>

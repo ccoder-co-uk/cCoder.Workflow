@@ -16,26 +16,32 @@ public sealed class WorkflowInstanceManagementHostedService(
 
         using PeriodicTimer timer = new(TimeSpan.FromMinutes(1));
 
+        await RunWorkflowInstanceManagementAsync(stoppingToken);
+
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
         {
-            try
-            {
-                using IServiceScope scope = serviceScopeFactory.CreateScope();
-                IWorkflowInstanceManagementOrchestrationService orchestrationService =
-                    scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
-                await orchestrationService.RunAsync(stoppingToken);
-            }
-            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
-            {
-                return;
-            }
-            catch (Exception ex)
-            {
-                using IServiceScope scope = serviceScopeFactory.CreateScope();
-                ILogger<WorkflowInstanceManagementHostedService> log =
-                    scope.ServiceProvider.GetRequiredService<ILogger<WorkflowInstanceManagementHostedService>>();
-                log.LogError(ex, ex.Message);
-            }
+            await RunWorkflowInstanceManagementAsync(stoppingToken);
+        }
+    }
+
+    private async Task RunWorkflowInstanceManagementAsync(CancellationToken stoppingToken)
+    {
+        try
+        {
+            using IServiceScope scope = serviceScopeFactory.CreateScope();
+            IWorkflowInstanceManagementOrchestrationService orchestrationService =
+                scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
+            await orchestrationService.RunAsync(stoppingToken);
+        }
+        catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            using IServiceScope scope = serviceScopeFactory.CreateScope();
+            ILogger<WorkflowInstanceManagementHostedService> log =
+                scope.ServiceProvider.GetRequiredService<ILogger<WorkflowInstanceManagementHostedService>>();
+            log.LogError(ex, ex.Message);
         }
     }
 }

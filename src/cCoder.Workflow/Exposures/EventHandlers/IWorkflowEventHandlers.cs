@@ -4,6 +4,7 @@ public interface IWorkflowEventHandlers
 {
     void ListenToAllEvents();
     void ListenToScheduledTaskExecuteEvents();
+    void ListenToQueuedFlowInstanceExecuteEvents();
 }
 
 

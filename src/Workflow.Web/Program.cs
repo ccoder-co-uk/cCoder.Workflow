@@ -20,15 +20,18 @@ public class Program
     public static void Main(string[] args)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+        IConfiguration configuration = ConfigureApplication(builder.Configuration, builder.Environment);
 
-        string coreConnection = builder.Configuration.GetConnectionString("Core")
-            ?? throw new InvalidOperationException("ConnectionStrings:Core is required.");
+        string coreConnection = GetRequiredConfigurationValue(
+            configuration,
+            "ConnectionStrings:Core");
 
-        string ssoConnection = builder.Configuration.GetConnectionString("SSO")
-            ?? throw new InvalidOperationException("ConnectionStrings:SSO is required.");
+        string ssoConnection = GetRequiredConfigurationValue(
+            configuration,
+            "ConnectionStrings:SSO");
 
         Config config = new();
-        builder.Configuration.Bind(config);
+        configuration.Bind(config);
         builder.Services.AddSingleton(config);
         builder.Services.AddEventing();
 
@@ -37,7 +40,7 @@ public class Program
             securityConfig.AddMSSQLModelProvider(services, ssoConnection);
             securityConfig.UseAESHMMACPasswordEncryption(
                 services,
-                builder.Configuration.GetSection("Settings")["DecryptionKey"]);
+                GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));
         });
 
         cCoder.Data.IServiceCollectionExtensions.AddCoreData(
@@ -68,6 +71,31 @@ public class Program
         app.UseDomainDefaultCors();
         app.UseDomainExceptionHandling(HandleUnhandledException);
         app.Run();
+    }
+
+    private static IConfiguration ConfigureApplication(
+        ConfigurationManager configuration,
+        IWebHostEnvironment environment)
+    {
+        configuration
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("appsettings.testing.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+
+        return configuration;
+    }
+
+    private static string GetRequiredConfigurationValue(
+        IConfiguration configuration,
+        string key)
+    {
+        string value = configuration.GetValue<string>(key);
+
+        return string.IsNullOrWhiteSpace(value)
+            ? throw new InvalidOperationException($"{key} is required.")
+            : value;
     }
 
     private static async Task HandleUnhandledException(HttpContext context)
