@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using cCoder.Data.Exposures;
 using cCoder.Workflow.Exposures.EventHandlers;
@@ -11,14 +12,34 @@ namespace cCoder.Workflow;
 public static partial class WebApplicationExtensions
 {
     private const string MetadataScope = "Workflow";
+    private static readonly ConditionalWeakTable<WebApplication, object> StartedHostedServiceApps = new();
+    private static readonly object StartedHostedServiceAppsLock = new();
 
     public static WebApplication StartWorkflowWeb(this WebApplication app, ILogger log = null) =>
         app.UseWorkflowExposure(log)
             .UseWorkflowEventHandlers();
 
-    public static WebApplication StartWorkflowHostedServices(this WebApplication app) =>
-        app.UseWorkflowEventHandlers()
-            .UseWorkflowScheduledTaskExecutionHandlers();
+    public static WebApplication StartWorkflowHostedServices(this WebApplication app)
+    {
+        if (!TryMarkWorkflowHostedServicesStarted(app))
+            return app;
+
+        return app.UseWorkflowEventHandlers()
+            .UseWorkflowScheduledTaskExecutionHandlers()
+            .UseWorkflowQueuedInstanceExecutionHandlers();
+    }
+
+    private static bool TryMarkWorkflowHostedServicesStarted(WebApplication app)
+    {
+        lock (StartedHostedServiceAppsLock)
+        {
+            if (StartedHostedServiceApps.TryGetValue(app, out _))
+                return false;
+
+            StartedHostedServiceApps.Add(app, new object());
+            return true;
+        }
+    }
 
     private static WebApplication UseWorkflowExposure(this WebApplication app, ILogger log = null)
     {
@@ -58,6 +79,17 @@ public static partial class WebApplicationExtensions
 
         foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
             handlers.ListenToScheduledTaskExecuteEvents();
+
+        return app;
+    }
+
+    private static WebApplication UseWorkflowQueuedInstanceExecutionHandlers(this WebApplication app)
+    {
+        using IServiceScope scope = app.Services.CreateScope();
+        IServiceProvider services = scope.ServiceProvider;
+
+        foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
+            handlers.ListenToQueuedFlowInstanceExecuteEvents();
 
         return app;
     }

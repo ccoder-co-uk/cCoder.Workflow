@@ -9,6 +9,8 @@ internal class WorkflowEventHandlers(IEventHandlerService eventHandlerService)
     public void ListenToAllEvents() => eventHandlerService.ListenToAllEvents();
 
     public void ListenToScheduledTaskExecuteEvents() => eventHandlerService.ListenToScheduledTaskExecuteEvents();
+
+    public void ListenToQueuedFlowInstanceExecuteEvents() => eventHandlerService.ListenToQueuedFlowInstanceExecuteEvents();
 }
 
 

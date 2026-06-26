@@ -7,10 +7,10 @@ namespace cCoder.Workflow.Brokers;
 public interface IWorkflowInstanceManagementBroker
 {
     object[] GetFailedExecutionStats();
-    FlowInstanceData GetNextQueuedOrExecutingInstance(Guid flowDefinitionId);
-    FlowInstanceData[] GetNextQueuedOrExecutingInstances();
+    FlowInstanceData[] GetQueuedInstances();
     ValueTask<int> FlushOldInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
-    ValueTask<FlowInstanceData> MarkExecutingAsync(Guid id, CancellationToken cancellationToken = default);
+    ValueTask<int> RequeueHungExecutingInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
+    ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(Guid id, CancellationToken cancellationToken = default);
 }
 
 internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreContextFactory)
@@ -40,29 +40,16 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
             .ToArray();
     }
 
-    public FlowInstanceData GetNextQueuedOrExecutingInstance(Guid flowDefinitionId)
+    public FlowInstanceData[] GetQueuedInstances()
     {
         using CoreDataContext core = coreContextFactory.CreateCoreContext();
 
         return core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.State == "Queued" || instance.State == "Executing")
-            .Where(instance => instance.FlowDefinitionId == flowDefinitionId)
-            .OrderBy(instance => instance.Start)
-            .FirstOrDefault();
-    }
-
-    public FlowInstanceData[] GetNextQueuedOrExecutingInstances()
-    {
-        using CoreDataContext core = coreContextFactory.CreateCoreContext();
-
-        return core.FlowInstances
-            .Where(instance => instance.State == "Queued" || instance.State == "Executing")
+            .Where(instance => instance.State == "Queued")
             .Include(instance => instance.FlowDefinition)
                 .ThenInclude(definition => definition.App)
-            .GroupBy(instance => instance.FlowDefinitionId)
-            .ToArray()
-            .Select(group => group.OrderBy(instance => instance.Start).First())
+            .OrderBy(instance => instance.Start)
             .ToArray();
     }
 
@@ -78,11 +65,44 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
             .ExecuteDeleteAsync(cancellationToken);
     }
 
-    public async ValueTask<FlowInstanceData> MarkExecutingAsync(
+    public async ValueTask<int> RequeueHungExecutingInstancesAsync(
+        DateTimeOffset cutoff,
+        CancellationToken cancellationToken = default)
+    {
+        using CoreDataContext core = coreContextFactory.CreateCoreContext();
+
+        return await core.FlowInstances
+            .IgnoreQueryFilters()
+            .Where(instance => instance.State == "Executing")
+            .Where(instance => instance.Start < cutoff)
+            .ExecuteUpdateAsync(
+                setters => setters
+                    .SetProperty(instance => instance.State, "Queued")
+                    .SetProperty(instance => instance.End, (DateTimeOffset?)null),
+                cancellationToken);
+    }
+
+    public async ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {
         using CoreDataContext core = coreContextFactory.CreateCoreContext();
+
+        DateTimeOffset claimedAt = DateTimeOffset.UtcNow;
+
+        int claimedCount = await core.FlowInstances
+            .IgnoreQueryFilters()
+            .Where(instance => instance.Id == id)
+            .Where(instance => instance.State == "Queued")
+            .ExecuteUpdateAsync(
+                setters => setters
+                    .SetProperty(instance => instance.State, "Executing")
+                    .SetProperty(instance => instance.Start, claimedAt)
+                    .SetProperty(instance => instance.End, (DateTimeOffset?)null),
+                cancellationToken);
+
+        if (claimedCount == 0)
+            return null;
 
         FlowInstanceData instance = await core.FlowInstances
             .IgnoreQueryFilters()
@@ -93,10 +113,6 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
         if (instance == null)
             return null;
 
-        instance.Start = DateTimeOffset.UtcNow;
-        instance.State = "Executing";
-
-        _ = await core.SaveChangesAsync(cancellationToken);
         return instance;
     }
 }

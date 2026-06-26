@@ -4,5 +4,6 @@ public interface IEventHandlerService
 {
     void ListenToAllEvents();
     void ListenToScheduledTaskExecuteEvents();
+    void ListenToQueuedFlowInstanceExecuteEvents();
 }
 
