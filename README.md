@@ -2,6 +2,19 @@
 
 `cCoder.Workflow` contains the Workflow domain for the cCoder platform.
 
+## Functionality
+
+The repository provides the Workflow domain packages and standalone host used by cCoder applications.
+
+- Workflow API
+  Exposes OData endpoints for flow definitions, flow instance data, workflow events, execution, and metadata discovery.
+- Workflow activities
+  Provides reusable activities for API calls, DMS operations, templating, flow control, transformations, and workflow composition.
+- Workflow engine
+  Manages queued workflow instances, scheduled execution handoff, workflow event subscriptions, and background execution orchestration.
+- Workflow web host
+  Runs the standalone Workflow API, SignalR workflow hub, Swagger documentation, and `/Health` readiness endpoint.
+
 ## Contents
 
 - `src/cCoder.Workflow`
@@ -38,6 +51,25 @@ Before running `src/Workflow.Web`, set:
 - `Settings__DecryptionKey`
 
 The committed `appsettings.json` keeps these values blank so user or machine environment variables can supply them during local development.
+
+The acceptance tests can also read environment connection strings:
+
+- `CCODER_ACCEPTANCE_CORE_CONNECTION_STRING`
+- `CCODER_ACCEPTANCE_SSO_CONNECTION_STRING`
+
+The test fixture creates suffixed databases from those connection strings and drops them when the suite completes.
+
+## Run Locally
+
+```powershell
+dotnet run --project src/Workflow.Web/Workflow.Web.csproj -c Release --launch-profile https
+```
+
+Once the host is running, verify readiness with:
+
+```powershell
+Invoke-RestMethod https://localhost:7157/Health
+```
 
 ## Packages
 
