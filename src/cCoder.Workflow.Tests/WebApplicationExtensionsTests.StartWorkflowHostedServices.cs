@@ -29,6 +29,29 @@ public sealed class WebApplicationExtensionsTests
         handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should().Be(1);
     }
 
+    [Fact]
+    public async Task StartWorkflowWeb_ShouldNotRegisterEventOrEngineExecutionHandlers()
+    {
+        // Given
+        WebApplicationBuilder builder = WebApplication.CreateBuilder();
+        TestWorkflowEventHandlers handlers = new();
+        builder.Services.AddLogging();
+        builder.Services.AddSignalR();
+        builder.Services.AddSingleton<IWorkflowEventHandlers>(handlers);
+        builder.Services.AddSingleton<cCoder.Data.Exposures.IMetadataTypeCache, TestMetadataTypeCache>();
+        builder.Services.AddSingleton<cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService>(
+            new MockWorkflowMetadataTypeService());
+        await using WebApplication app = builder.Build();
+
+        // When
+        app.StartWorkflowWeb();
+
+        // Then
+        handlers.ListenToAllEventsCallCount.Should().Be(0);
+        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should().Be(0);
+        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should().Be(0);
+    }
+
     private sealed class TestWorkflowEventHandlers : IWorkflowEventHandlers
     {
         public int ListenToAllEventsCallCount { get; private set; }
@@ -44,5 +67,32 @@ public sealed class WebApplicationExtensionsTests
 
         public void ListenToQueuedFlowInstanceExecuteEvents() =>
             ListenToQueuedFlowInstanceExecuteEventsCallCount++;
+    }
+
+    private sealed class TestMetadataTypeCache : cCoder.Data.Exposures.IMetadataTypeCache
+    {
+        private readonly HashSet<string> keys = [];
+
+        public bool Contains(string key) => keys.Contains(key);
+
+        public string[] Get(string key) => [];
+
+        public string[] GetAll() => [];
+
+        public void Clear(string key) => keys.Remove(key);
+
+        public void Set(string key, IEnumerable<string> values) => keys.Add(key);
+    }
+
+    private sealed class MockWorkflowMetadataTypeService
+        : cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService
+    {
+        public cCoder.Workflow.Api.OData.MetadataContainerSet GetCoreMetadata() => new();
+
+        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownActivityTypes() => [];
+
+        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownSystemTypes() => [];
+
+        public cCoder.Workflow.Api.OData.MetadataContainerSet GetSharedMetadata() => new();
     }
 }

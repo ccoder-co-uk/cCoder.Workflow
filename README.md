@@ -4,16 +4,16 @@
 
 ## Functionality
 
-The repository provides the Workflow domain packages and standalone host used by cCoder applications.
+The repository provides the Workflow domain packages and standalone hosts used by cCoder applications.
 
-- Workflow API
-  Exposes OData endpoints for flow definitions, flow instance data, workflow events, execution, and metadata discovery.
+- Workflow web API
+  Exposes OData endpoints for flow definitions, flow instance data, workflow events, execution, metadata discovery, SignalR workflow progress, and `/Health` through `AddWorkflowWeb` and `StartWorkflowWeb`.
 - Workflow activities
   Provides reusable activities for API calls, DMS operations, templating, flow control, transformations, and workflow composition.
 - Workflow engine
-  Manages queued workflow instances, scheduled execution handoff, workflow event subscriptions, and background execution orchestration.
-- Workflow web host
-  Runs the standalone Workflow API, SignalR workflow hub, Swagger documentation, and `/Health` readiness endpoint.
+  Lives in the `src/cCoder.Workflow.Engine` package. It exposes `IFlowRunner`, script execution services, and `AddWorkflowEngine()` for apps that need to execute workflow instances.
+- Workflow hosted-services host
+  Runs background workflow event receivers, scheduled-task handlers, queued workflow handoff, and `/Health` through `AddWorkflowHostedServices` and `StartWorkflowHostedServices`. It uses the default `cCoder.Eventing.Http` `/Api/Eventing` dispatcher.
 
 ## Contents
 
@@ -21,12 +21,28 @@ The repository provides the Workflow domain packages and standalone host used by
   The main workflow library package published to NuGet.
 - `src/cCoder.Workflow.Activities`
   Shared workflow activities package published from the same repository.
+- `src/cCoder.Workflow.Engine`
+  Workflow execution engine package consumed by the Functions app.
 - `src/Workflow.Web`
-  The standalone web host for the Workflow domain.
+  The standalone API web host for the Workflow domain.
+- `src/Workflow.HostedServices`
+  The standalone hosted-services app for background workflow execution.
+- `src/Apps/Workflow`
+  The Azure Functions app that hosts thin HTTP/function triggers and delegates execution to `cCoder.Workflow.Engine`.
 - `src/cCoder.Workflow.Tests`
   Unit tests for the domain.
+- `src/cCoder.Workflow.Activities.Tests`
+  Unit tests for workflow activity behaviour.
+- `src/cCoder.Workflow.Engine.Tests`
+  Unit tests for the workflow engine public exposures and orchestration wiring.
 - `src/Workflow.AcceptanceTests`
-  Acceptance tests for the standalone host.
+  Acceptance tests for the Workflow Functions app.
+- `src/Workflow.Web.AcceptanceTests`
+  Acceptance tests for the standalone Workflow web API host.
+- `src/Workflow.HostedServices.AcceptanceTests`
+  Acceptance tests for the standalone Workflow hosted-services host.
+- `src/cCoder.Workflow.IntegrationTests`
+  Cross-process tests for Web, Hosted Services, and Workflow execution scenarios.
 
 ## Build
 
@@ -42,15 +58,23 @@ dotnet test src/cCoder.Workflow.sln -v minimal --no-build
 
 ## Local Configuration
 
-The standalone web host reads local secrets from environment variables rather than committed config.
+The standalone hosts read local secrets from environment variables rather than committed config.
 
-Before running `src/Workflow.Web`, set:
+Before running `src/Workflow.Web` or `src/Workflow.HostedServices`, set:
 
 - `ConnectionStrings__Core`
 - `ConnectionStrings__SSO`
 - `Settings__DecryptionKey`
+- `Settings__sslPort`
+- `Services__HostedServices`
+- `Eventing__Http__MaxConcurrency`
 
-The committed `appsettings.json` keeps these values blank so user or machine environment variables can supply them during local development.
+`Services__HostedServices` should point to the hosted-services HTTP base URL, for example `http://localhost:5060`.
+`Services:Workflow` is committed in app config with the local Functions default `http://localhost:7071/api/`. Override it with `Services__Workflow` only when the Functions app is hosted elsewhere.
+`Settings__sslPort` should match the HTTPS port used by `Workflow.Web`, for example `7157`.
+`Eventing__Http__MaxConcurrency` controls the shared HTTP event dispatcher concurrency and can be `1` for local verification.
+
+The committed `appsettings.json` files keep these values blank so user or machine environment variables can supply them during local development.
 
 The acceptance tests can also read environment connection strings:
 
@@ -60,6 +84,8 @@ The acceptance tests can also read environment connection strings:
 The test fixture creates suffixed databases from those connection strings and drops them when the suite completes.
 
 ## Run Locally
+
+Run the API host:
 
 ```powershell
 dotnet run --project src/Workflow.Web/Workflow.Web.csproj -c Release --launch-profile https
@@ -71,12 +97,43 @@ Once the host is running, verify readiness with:
 Invoke-RestMethod https://localhost:7157/Health
 ```
 
+Run the hosted-services host:
+
+```powershell
+dotnet run --project src/Workflow.HostedServices/Workflow.HostedServices.csproj -c Release --launch-profile https
+```
+
+Once the hosted-services host is running, verify readiness with:
+
+```powershell
+Invoke-RestMethod https://localhost:7158/Health
+```
+
+Run the Workflow Functions host:
+
+```powershell
+func start --script-root src/Apps/Workflow --port 7071
+```
+
+Once the Functions host is running, verify readiness with:
+
+```powershell
+Invoke-RestMethod http://localhost:7071/api/Health
+```
+
 ## Packages
 
 The NuGet packages produced by this repository are:
 
 - `cCoder.Workflow`
 - `cCoder.Workflow.Activities`
+- `cCoder.Workflow.Engine`
+
+## Repository Alignment Notes
+
+`Workflow.HostedServices` intentionally uses the default `cCoder.Eventing.Http` controller and receive-provider pipeline. The older custom HTTP event controller override pattern should not be copied here.
+
+Follow-up outside this repository: `ccoder.Core` still has the same HTTP event controller override pattern and should be cleaned up to align with the default `cCoder.Eventing.Http` dispatcher model.
 
 ## Publishing
 

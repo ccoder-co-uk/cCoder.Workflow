@@ -16,8 +16,7 @@ public static partial class WebApplicationExtensions
     private static readonly object StartedHostedServiceAppsLock = new();
 
     public static WebApplication StartWorkflowWeb(this WebApplication app, ILogger log = null) =>
-        app.UseWorkflowExposure(log)
-            .UseWorkflowEventHandlers();
+        app.UseWorkflowExposure(log);
 
     public static WebApplication StartWorkflowHostedServices(this WebApplication app)
     {

@@ -39,6 +39,7 @@ internal class WorkflowModelBuilder : ODataModelBuilder
     private void ConfigureModel()
     {
         AddCommonComplextypes();
+        base.Builder.EntityType<App>().Ignore(i => i.Config);
         base.Builder.EntityType<FlowInstanceData>().Ignore(i => i.ContextJson);
         AddSet<WorkflowEvent, Guid>();
         AddSet<FlowDefinition, Guid>();

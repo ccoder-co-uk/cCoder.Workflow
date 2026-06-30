@@ -9,13 +9,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Web.AcceptanceTests.Models;
-using Workflow.Web;
 
 
 namespace Web.AcceptanceTests.Infrastructure;
 
 internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
-    : WebApplicationFactory<Program>
+    : WebApplicationFactory<Workflow.Web.Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

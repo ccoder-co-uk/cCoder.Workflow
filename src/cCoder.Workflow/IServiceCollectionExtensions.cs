@@ -67,13 +67,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddWorkflowHostedServices(this IServiceCollection services)
     {
-        services.AddEventingTypes();
-        services.AddBrokers();
-        services.AddFoundations();
-        services.AddProcessings();
-        services.AddOrchestrations();
-        services.AddCoordinations();
-        services.AddTransient<IWorkflowInstanceManagementOrchestrationService, WorkflowInstanceManagementOrchestrationService>();
+        services.AddWorkflow();
         services.AddHostedService<WorkflowInstanceManagementHostedService>();
     }
 

@@ -26,6 +26,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
     <PackageReference Include="cCoder.Data" Version="2026.5.*" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing" Version="2026.4.*" />
+    <PackageReference Include="cCoder.Eventing.Http" Version="2026.4.*" />
     <PackageReference Include="cCoder.Security" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="cCoder.Security.Data.EF.MSSQL" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>
