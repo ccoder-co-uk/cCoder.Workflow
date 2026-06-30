@@ -10,6 +10,19 @@ namespace cCoder.Workflow.Tests;
 public class HostedServicesRegistrationTests
 {
     [Fact]
+    public void AddWorkflowWeb_DoesNotRegisterWorkflowInstanceManagementHostedService()
+    {
+        IServiceCollection services = new ServiceCollection();
+
+        services.AddWorkflowWeb();
+
+        Assert.DoesNotContain(
+            services,
+            descriptor => descriptor.ServiceType == typeof(IHostedService)
+                && descriptor.ImplementationType == typeof(WorkflowInstanceManagementHostedService));
+    }
+
+    [Fact]
     public void AddWorkflowHostedServices_RegistersWorkflowInstanceManagementHostedService()
     {
         IServiceCollection services = new ServiceCollection();

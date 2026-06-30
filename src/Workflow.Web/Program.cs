@@ -7,6 +7,9 @@ using cCoder.Security.Data.EF.MSSQL;
 using cCoder.Security.Objects;
 using cCoder.Workflow;
 using cCoder.Eventing;
+using cCoder.Eventing.Http;
+using cCoder.Eventing.Models;
+using cCoder.Data.Models.Workflow;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.OData;
 
@@ -47,8 +50,27 @@ public class Program
             builder.Services,
             coreConnection);
 
-        builder.Services.AddWorkflowWeb();
-        builder.Services.AddWorkflowHostedServices();
+        string eventProviderType = ResolveEventProviderType(configuration);
+        string httpEventHubUrl = HttpEventHubUrlResolver.Resolve(configuration);
+
+        if (IsHttpEventProvider(eventProviderType) && !string.IsNullOrWhiteSpace(httpEventHubUrl))
+        {
+            builder.Services.AddHttpEventingWeb(options =>
+            {
+                options.HubUrl = httpEventHubUrl;
+                options.MaxConcurrency = ResolveMaxConcurrency(configuration);
+            });
+        }
+
+        builder.Services.AddWorkflowWeb(workflowConfig =>
+        {
+            if (IsHttpEventProvider(eventProviderType) && !string.IsNullOrWhiteSpace(httpEventHubUrl))
+            {
+                workflowConfig.WithEventProviders(
+                    CreateExternalSendProvider<FlowInstanceData>(["flow_instance_data_add"])
+                );
+            }
+        });
 
         WebApplication app = builder.Build();
         log = app.Services.GetRequiredService<ILogger<Program>>();
@@ -97,6 +119,28 @@ public class Program
             ? throw new InvalidOperationException($"{key} is required.")
             : value;
     }
+
+    private static EventProvider<T> CreateExternalSendProvider<T>(string[] eventNames) =>
+        new()
+        {
+            Events = eventNames,
+            SendHandler = async (serviceProvider, eventName, message) =>
+            {
+                IHttpEventHub httpEventHub = serviceProvider.GetRequiredService<IHttpEventHub>();
+                await httpEventHub.RaiseEventAsync(eventName, message);
+            }
+        };
+
+    private static string ResolveEventProviderType(IConfiguration configuration) =>
+        configuration.GetValue<string>("Eventing:ProviderType")
+        ?? configuration.GetValue<string>("Eventing:Provider")
+        ?? "Http";
+
+    private static int ResolveMaxConcurrency(IConfiguration configuration) =>
+        configuration.GetValue<int?>("Eventing:Http:MaxConcurrency") ?? 1;
+
+    private static bool IsHttpEventProvider(string eventProviderType) =>
+        string.Equals(eventProviderType, "Http", StringComparison.OrdinalIgnoreCase);
 
     private static async Task HandleUnhandledException(HttpContext context)
     {

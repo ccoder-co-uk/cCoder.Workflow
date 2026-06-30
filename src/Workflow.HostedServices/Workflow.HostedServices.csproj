@@ -19,11 +19,6 @@
     <ProjectReference Include="$(LocalSecurityEfMssqlProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.9" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
     <PackageReference Include="cCoder.Data" Version="2026.5.*" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing" Version="2026.4.*" />
     <PackageReference Include="cCoder.Eventing.Http" Version="2026.4.*" />
@@ -34,4 +29,3 @@
     <ProjectReference Include="..\cCoder.Workflow\cCoder.Workflow.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />
   </ItemGroup>
 </Project>
-
