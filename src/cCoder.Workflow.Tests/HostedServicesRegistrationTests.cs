@@ -1,3 +1,5 @@
+using cCoder.Eventing;
+using cCoder.Workflow.Exposures.EventHandlers;
 using cCoder.Workflow.Exposures.HostedServices;
 using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,5 +39,21 @@ public class HostedServicesRegistrationTests
             services,
             descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceManagementOrchestrationService)
                 && descriptor.ImplementationType?.Name == "WorkflowInstanceManagementOrchestrationService");
+    }
+
+    [Fact]
+    public void AddWorkflowHostedServices_RegistersWorkflowEventHandlerPayloadTypes()
+    {
+        IServiceCollection services = new ServiceCollection();
+        services.AddLogging();
+        services.AddEventing();
+        services.AddWorkflowHostedServices();
+
+        IServiceProvider serviceProvider = services.BuildServiceProvider();
+        IWorkflowEventHandlers handlers = serviceProvider.GetRequiredService<IWorkflowEventHandlers>();
+
+        handlers.ListenToAllEvents();
+        handlers.ListenToScheduledTaskExecuteEvents();
+        handlers.ListenToQueuedFlowInstanceExecuteEvents();
     }
 }
