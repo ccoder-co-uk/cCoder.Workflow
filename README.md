@@ -11,9 +11,9 @@ The repository provides the Workflow domain packages and standalone hosts used b
 - Workflow activities
   Provides reusable activities for API calls, DMS operations, templating, flow control, transformations, and workflow composition.
 - Workflow engine
-  Lives in the `src/Apps/Workflow` Functions app and executes workflow instances handed off by the hosted-services app.
+  Lives in the `src/cCoder.Workflow.Engine` package. It exposes `IFlowRunner`, script execution services, and `AddWorkflowEngine()` for apps that need to execute workflow instances.
 - Workflow hosted-services host
-  Runs background workflow event receivers, scheduled-task handlers, queued workflow handoff, and `/Health` through `AddWorkflowHostedServices` and `StartWorkflowHostedServices`.
+  Runs background workflow event receivers, scheduled-task handlers, queued workflow handoff, and `/Health` through `AddWorkflowHostedServices` and `StartWorkflowHostedServices`. It uses the default `cCoder.Eventing.Http` `/Api/Eventing` dispatcher.
 
 ## Contents
 
@@ -21,16 +21,28 @@ The repository provides the Workflow domain packages and standalone hosts used b
   The main workflow library package published to NuGet.
 - `src/cCoder.Workflow.Activities`
   Shared workflow activities package published from the same repository.
+- `src/cCoder.Workflow.Engine`
+  Workflow execution engine package consumed by the Functions app.
 - `src/Workflow.Web`
   The standalone API web host for the Workflow domain.
 - `src/Workflow.HostedServices`
   The standalone hosted-services app for background workflow execution.
 - `src/Apps/Workflow`
-  The Azure Functions app that hosts the workflow execution engine.
+  The Azure Functions app that hosts thin HTTP/function triggers and delegates execution to `cCoder.Workflow.Engine`.
 - `src/cCoder.Workflow.Tests`
   Unit tests for the domain.
+- `src/cCoder.Workflow.Activities.Tests`
+  Unit tests for workflow activity behaviour.
+- `src/cCoder.Workflow.Engine.Tests`
+  Unit tests for the workflow engine public exposures and orchestration wiring.
 - `src/Workflow.AcceptanceTests`
-  Acceptance tests for the standalone app hosts, including cross-app execution through Web, Hosted Services, and Workflow.
+  Acceptance tests for the Workflow Functions app.
+- `src/Workflow.Web.AcceptanceTests`
+  Acceptance tests for the standalone Workflow web API host.
+- `src/Workflow.HostedServices.AcceptanceTests`
+  Acceptance tests for the standalone Workflow hosted-services host.
+- `src/cCoder.Workflow.IntegrationTests`
+  Cross-process tests for Web, Hosted Services, and Workflow execution scenarios.
 
 ## Build
 
@@ -55,11 +67,12 @@ Before running `src/Workflow.Web` or `src/Workflow.HostedServices`, set:
 - `Settings__DecryptionKey`
 - `Settings__sslPort`
 - `Services__HostedServices`
-- `Services__Workflow`
+- `Eventing__Http__MaxConcurrency`
 
 `Services__HostedServices` should point to the hosted-services HTTP base URL, for example `http://localhost:5060`.
-`Services__Workflow` should point to the Functions execution endpoint root, for example `http://localhost:7071/api/`.
+`Services:Workflow` is committed in app config with the local Functions default `http://localhost:7071/api/`. Override it with `Services__Workflow` only when the Functions app is hosted elsewhere.
 `Settings__sslPort` should match the HTTPS port used by `Workflow.Web`, for example `7157`.
+`Eventing__Http__MaxConcurrency` controls the shared HTTP event dispatcher concurrency and can be `1` for local verification.
 
 The committed `appsettings.json` files keep these values blank so user or machine environment variables can supply them during local development.
 
@@ -114,6 +127,13 @@ The NuGet packages produced by this repository are:
 
 - `cCoder.Workflow`
 - `cCoder.Workflow.Activities`
+- `cCoder.Workflow.Engine`
+
+## Repository Alignment Notes
+
+`Workflow.HostedServices` intentionally uses the default `cCoder.Eventing.Http` controller and receive-provider pipeline. The older custom HTTP event controller override pattern should not be copied here.
+
+Follow-up outside this repository: `ccoder.Core` still has the same HTTP event controller override pattern and should be cleaned up to align with the default `cCoder.Eventing.Http` dispatcher model.
 
 ## Publishing
 

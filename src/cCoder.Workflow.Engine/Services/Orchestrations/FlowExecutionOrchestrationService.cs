@@ -3,16 +3,20 @@ using System.Text;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
+using cCoder.Workflow.Engine.Support;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Workflow;
+namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
-public sealed class FlowRunner
+public sealed class FlowExecutionOrchestrationService(
+    ILogger<FlowExecutionOrchestrationService> logger)
+    : IFlowExecutionOrchestrationService
 {
     private HubConnection connection;
 
-    public async Task RunAsync(WorkflowRequest request)
+    public async Task ExecuteAsync(WorkflowRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -21,7 +25,7 @@ public sealed class FlowRunner
         try
         {
             await LogAsync(WorkflowLogLevel.Info, "Request received by workflow, processing ...", request.InstanceId);
-            await LogAsync(WorkflowLogLevel.Debug, request.ToJson(), request.InstanceId);
+            await LogAsync(WorkflowLogLevel.Debug, WorkflowJson.ToJson(request), request.InstanceId);
 
             FlowInstance instance = new((level, message) => LogAsync(level, message, request.InstanceId));
             FlowInstanceData result = await instance.ExecuteAsync(request);
@@ -29,6 +33,8 @@ public sealed class FlowRunner
         }
         catch (Exception exception)
         {
+            logger.LogError(exception, "Workflow execution failed for instance {InstanceId}.", request.InstanceId);
+
             await LogAsync(
                 WorkflowLogLevel.Fatal,
                 $"Failed to process request, abandoning execution{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}",
@@ -41,7 +47,7 @@ public sealed class FlowRunner
         }
     }
 
-    public async Task LogAsync(WorkflowLogLevel level, string message, Guid instanceId)
+    private async Task LogAsync(WorkflowLogLevel level, string message, Guid instanceId)
     {
         if (message?.Length > 4000 && !message.Contains("Failed to deserialise", StringComparison.OrdinalIgnoreCase))
             message = $"{message[..1900]} ... {message.Length - 1900} characters cut due to excessive length.";

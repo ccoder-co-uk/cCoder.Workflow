@@ -6,9 +6,11 @@ using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
+using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Support;
 using Newtonsoft.Json;
 
-namespace Workflow;
+namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
 public sealed class FlowInstance
 {
@@ -36,7 +38,7 @@ public sealed class FlowInstance
 
     public DateTimeOffset Start { get; private set; }
 
-    internal ScriptRunner Script { get; }
+    internal IScriptProcessingService Script { get; }
 
     public async Task<FlowInstanceData> ExecuteAsync(WorkflowRequest request)
     {

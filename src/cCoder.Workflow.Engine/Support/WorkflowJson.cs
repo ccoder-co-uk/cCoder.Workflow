@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Workflow;
+namespace cCoder.Workflow.Engine.Support;
 
-internal static class WorkflowJson
+public static class WorkflowJson
 {
     public static JsonSerializerSettings GetJsonSettings() =>
         new()

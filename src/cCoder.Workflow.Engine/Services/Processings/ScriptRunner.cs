@@ -4,9 +4,9 @@ using cCoder.Workflow.Activities.Models;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
-namespace Workflow;
+namespace cCoder.Workflow.Engine.Services.Processings;
 
-public sealed class ScriptRunner : IScriptRunner
+public sealed class ScriptRunner : IScriptProcessingService
 {
     private readonly Assembly[] references;
 

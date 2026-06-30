@@ -1,13 +1,14 @@
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Workflow;
 using cCoder.Eventing;
 using cCoder.Eventing.Http;
+using cCoder.Eventing.Models;
 using cCoder.Security;
 using cCoder.Security.Api;
 using cCoder.Security.Data.EF.MSSQL;
 using cCoder.Security.Objects;
 using cCoder.Workflow;
-using cCoder.Eventing.Http.Controllers;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Controllers;
+using cCoder.Workflow.Services.Orchestrations;
 
 namespace Workflow.HostedServices;
 
@@ -31,11 +32,7 @@ public class Program
         {
             options.MaxConcurrency = ResolveMaxConcurrency(configuration);
         });
-        builder.Services.AddControllers()
-            .ConfigureApplicationPartManager(manager =>
-                manager.FeatureProviders.Add(
-                    new ExcludeHttpEventControllerFeatureProvider(typeof(HttpEventController))));
-        builder.Services.AddScoped<ReceivedHttpEventProcessor>();
+        builder.Services.AddControllers();
 
         builder.Services.AddSecurityApi((services, securityConfig) =>
         {
@@ -49,7 +46,10 @@ public class Program
             builder.Services,
             coreConnection);
 
-        builder.Services.AddWorkflowHostedServices();
+        builder.Services.AddWorkflowHostedServices(workflowConfiguration =>
+            workflowConfiguration.WithEventProviders(
+                CreateAppReceiveProvider(),
+                CreateQueuedFlowInstanceReceiveProvider()));
 
         WebApplication app = builder.Build();
         app.UseSession();
@@ -66,7 +66,6 @@ public class Program
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-            .AddJsonFile("appsettings.testing.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
         return configuration;
@@ -86,18 +85,45 @@ public class Program
     private static int ResolveMaxConcurrency(IConfiguration configuration) =>
         configuration.GetValue<int?>("Eventing:Http:MaxConcurrency") ?? 1;
 
-    private sealed class ExcludeHttpEventControllerFeatureProvider(Type controllerType)
-        : IApplicationFeatureProvider<ControllerFeature>
-    {
-        public void PopulateFeature(
-            IEnumerable<ApplicationPart> parts,
-            ControllerFeature feature)
+    private static EventProvider<App> CreateAppReceiveProvider() =>
+        new()
         {
-            for (int index = feature.Controllers.Count - 1; index >= 0; index--)
+            Events = ["app_add", "app_update", "app_delete"],
+            ReceiveHandler = async (serviceProvider, eventName, message) =>
             {
-                if (feature.Controllers[index].AsType() == controllerType)
-                    feature.Controllers.RemoveAt(index);
-            }
-        }
-    }
+                IEventHub eventHub = serviceProvider.GetRequiredService<IEventHub>();
+
+                await eventHub.RaiseEventAsync(
+                    eventName,
+                    new EventMessage<App>
+                    {
+                        AuthInfo = new EventAuthInfo
+                        {
+                            SSOUserId = message.AuthInfo?.SSOUserId ?? "Guest",
+                        },
+                        Data = message.Data,
+                    });
+            },
+        };
+
+    private static EventProvider<FlowInstanceData> CreateQueuedFlowInstanceReceiveProvider() =>
+        new()
+        {
+            Events = ["flow_instance_data_add"],
+            ReceiveHandler = async (serviceProvider, _, message) =>
+            {
+                if (message.Data?.Id == Guid.Empty)
+                    throw new InvalidOperationException(
+                        "You must provide a workflow instance payload with a valid id.");
+
+                if (!string.Equals(message.Data?.State, "Queued", StringComparison.OrdinalIgnoreCase))
+                    return;
+
+                IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementService =
+                    serviceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
+
+                await workflowInstanceManagementService.ExecuteWaitingQueuedInstanceByIdAsync(
+                    message.Data.Id);
+            },
+        };
 }

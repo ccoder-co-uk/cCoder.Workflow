@@ -1,4 +1,4 @@
-namespace Workflow;
+namespace cCoder.Workflow.Engine.Support;
 
 internal static class TypeNameExtensions
 {
