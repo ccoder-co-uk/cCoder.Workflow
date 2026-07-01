@@ -2,8 +2,7 @@ using System.Security;
 using Apps.Shared;
 using Apps.Shared.Models;
 using cCoder.Security;
-using cCoder.Security.Api;
-using cCoder.Security.Data.EF.MSSQL;
+using cCoder.Security.Data.EF;
 using cCoder.Security.Objects;
 using cCoder.Workflow;
 using cCoder.Eventing;
@@ -76,6 +75,8 @@ public class Program
         log = app.Services.GetRequiredService<ILogger<Program>>();
 
         app.UseHttpsRedirection();
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
         app.UseSession();
 
         app.UseSwagger()

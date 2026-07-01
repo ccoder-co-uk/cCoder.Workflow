@@ -74,7 +74,12 @@ public static partial class IServiceCollectionExtensions
     private static void AddWorkflowHostedServices(this IServiceCollection services)
     {
         services.AddWorkflow();
-        services.AddHostedService<WorkflowInstanceManagementHostedService>();
+        services.AddSingleton<IInstanceMaintenanceManagement, InstanceMaintenanceManagement>();
+        services.AddSingleton<IHostedService>(serviceProvider =>
+            serviceProvider.GetRequiredService<IInstanceMaintenanceManagement>());
+        services.AddSingleton<IQueueInstanceManagement, QueueInstanceManagement>();
+        services.AddSingleton<IHostedService>(serviceProvider =>
+            serviceProvider.GetRequiredService<IQueueInstanceManagement>());
     }
 
     private static void AddEventingTypes(this IServiceCollection services)

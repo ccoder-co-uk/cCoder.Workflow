@@ -10,4 +10,7 @@ public sealed partial class HealthControllerTests(HostedServicesAcceptanceFixtur
 
     private async Task<string> GetHealthAsync() =>
         await Client.GetStringAsync("Health");
+
+    private async Task<string> GetHomeAsync() =>
+        await Client.GetStringAsync("/");
 }
