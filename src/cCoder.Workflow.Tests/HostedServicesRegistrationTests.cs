@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Tests;
 public class HostedServicesRegistrationTests
 {
     [Fact]
-    public void AddWorkflowWeb_DoesNotRegisterWorkflowInstanceManagementHostedService()
+    public void AddWorkflowWeb_DoesNotRegisterHostedServiceExposures()
     {
         IServiceCollection services = new ServiceCollection();
 
@@ -21,11 +21,11 @@ public class HostedServicesRegistrationTests
         Assert.DoesNotContain(
             services,
             descriptor => descriptor.ServiceType == typeof(IHostedService)
-                && descriptor.ImplementationType == typeof(WorkflowInstanceManagementHostedService));
+                && descriptor.ImplementationFactory is not null);
     }
 
     [Fact]
-    public void AddWorkflowHostedServices_RegistersWorkflowInstanceManagementHostedService()
+    public void AddWorkflowHostedServices_RegistersHostedServiceExposures()
     {
         IServiceCollection services = new ServiceCollection();
 
@@ -33,8 +33,16 @@ public class HostedServicesRegistrationTests
 
         Assert.Contains(
             services,
-            descriptor => descriptor.ServiceType == typeof(IHostedService)
-                && descriptor.ImplementationType == typeof(WorkflowInstanceManagementHostedService));
+            descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceManagement)
+                && descriptor.ImplementationType == typeof(InstanceMaintenanceManagement));
+        Assert.Contains(
+            services,
+            descriptor => descriptor.ServiceType == typeof(IQueueInstanceManagement)
+                && descriptor.ImplementationType == typeof(QueueInstanceManagement));
+        Assert.Equal(
+            2,
+            services.Count(descriptor => descriptor.ServiceType == typeof(IHostedService)
+                && descriptor.ImplementationFactory is not null));
         Assert.Contains(
             services,
             descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceManagementOrchestrationService)

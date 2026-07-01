@@ -7,13 +7,13 @@
 The repository provides the Workflow domain packages and standalone hosts used by cCoder applications.
 
 - Workflow web API
-  Exposes OData endpoints for flow definitions, flow instance data, workflow events, execution, metadata discovery, SignalR workflow progress, and `/Health` through `AddWorkflowWeb` and `StartWorkflowWeb`.
+  Exposes OData endpoints for flow definitions, flow instance data, workflow events, execution, metadata discovery, SignalR workflow progress, `/Health`, and a simple root Workflow tester UI through `AddWorkflowWeb` and `StartWorkflowWeb`.
 - Workflow activities
   Provides reusable activities for API calls, DMS operations, templating, flow control, transformations, and workflow composition.
 - Workflow engine
   Lives in the `src/cCoder.Workflow.Engine` package. It exposes `IFlowRunner`, script execution services, and `AddWorkflowEngine()` for apps that need to execute workflow instances.
 - Workflow hosted-services host
-  Runs background workflow event receivers, scheduled-task handlers, queued workflow handoff, and `/Health` through `AddWorkflowHostedServices` and `StartWorkflowHostedServices`. It uses the default `cCoder.Eventing.Http` `/Api/Eventing` dispatcher.
+  Runs background workflow event receivers, scheduled-task handlers, queued workflow handoff, instance maintenance, queue-state repair, `/Health`, and a root hosted-services report through `AddWorkflowHostedServices` and `StartWorkflowHostedServices`. It uses the default `cCoder.Eventing.Http` `/Api/Eventing` dispatcher.
 
 ## Contents
 
@@ -76,6 +76,10 @@ Before running `src/Workflow.Web` or `src/Workflow.HostedServices`, set:
 
 The committed `appsettings.json` files keep these values blank so user or machine environment variables can supply them during local development.
 
+Before running `src/Apps/Workflow`, set `AzureWebJobsStorage` to a valid Functions storage connection string. For local development this is usually `UseDevelopmentStorage=true` with Azurite running. The HTTP functions can respond without it, but the Functions host reports storage health as unhealthy until the setting is present and reachable.
+
+Visual Studio installations may include Azurite under `Common7\IDE\Extensions\Microsoft\Azure Storage Emulator`. Add that folder to `PATH` if `azurite --version` does not resolve in a terminal.
+
 The acceptance tests can also read environment connection strings:
 
 - `CCODER_ACCEPTANCE_CORE_CONNECTION_STRING`
@@ -97,6 +101,8 @@ Once the host is running, verify readiness with:
 Invoke-RestMethod https://localhost:7157/Health
 ```
 
+Open `https://localhost:7157/` to use the lightweight Workflow tester UI for flow management, definition editing, and execution handoff.
+
 Run the hosted-services host:
 
 ```powershell
@@ -108,6 +114,8 @@ Once the hosted-services host is running, verify readiness with:
 ```powershell
 Invoke-RestMethod https://localhost:7158/Health
 ```
+
+Open `https://localhost:7158/` to see the hosted services and event listeners registered by the app.
 
 Run the Workflow Functions host:
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workflow</title>
+    <link rel="stylesheet" href="/styles/workflow.css">
+</head>
+<body>
+    <header class="app-header">
+        <div>
+            <h1>Workflow</h1>
+            <p id="health-status">Checking service...</p>
+        </div>
+        <button id="refresh-flows" type="button">Refresh</button>
+    </header>
+
+    <main class="shell">
+        <section class="panel flow-list-panel" aria-labelledby="flows-heading">
+            <div class="panel-header">
+                <h2 id="flows-heading">Flow Management</h2>
+                <button id="new-flow" type="button">New</button>
+            </div>
+            <div id="flow-list" class="flow-list"></div>
+        </section>
+
+        <section class="panel editor-panel" aria-labelledby="editor-heading">
+            <div class="panel-header">
+                <h2 id="editor-heading">Flow Designer</h2>
+                <div class="button-row">
+                    <button id="save-flow" type="button">Save</button>
+                    <button id="run-flow" type="button">Run</button>
+                    <button id="delete-flow" type="button">Delete</button>
+                </div>
+            </div>
+
+            <form id="flow-form" class="flow-form">
+                <label>
+                    App Id
+                    <input id="flow-app-id" name="appId" inputmode="numeric" autocomplete="off">
+                </label>
+                <label>
+                    Name
+                    <input id="flow-name" name="name" autocomplete="off">
+                </label>
+                <label>
+                    Description
+                    <input id="flow-description" name="description" autocomplete="off">
+                </label>
+            </form>
+
+            <div class="designer-layout">
+                <div class="designer-surface">
+                    <canvas id="flow-canvas" width="900" height="420"></canvas>
+                </div>
+                <label class="json-editor">
+                    Definition
+                    <textarea id="flow-definition" spellcheck="false"></textarea>
+                </label>
+            </div>
+        </section>
+
+        <section class="panel operations-panel" aria-labelledby="operations-heading">
+            <h2 id="operations-heading">Operations</h2>
+            <label>
+                Execution Payload
+                <textarea id="execution-payload" spellcheck="false">{}</textarea>
+            </label>
+            <pre id="operation-log" aria-live="polite"></pre>
+        </section>
+    </main>
+
+    <script src="/scripts/api.js"></script>
+    <script src="/scripts/flowDesigner.js"></script>
+    <script src="/scripts/flowManagement.js"></script>
+    <script src="/scripts/app.js"></script>
+</body>
+</html>

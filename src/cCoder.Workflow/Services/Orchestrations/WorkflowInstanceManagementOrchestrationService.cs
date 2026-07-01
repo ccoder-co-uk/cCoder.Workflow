@@ -24,9 +24,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     {
         try
         {
-            await DropOldInstancesAsync(cancellationToken);
-            await RequeueHungExecutingInstancesAsync(cancellationToken);
-            await ExecuteWaitingQueuedInstancesAsync(cancellationToken);
+            await RunInstanceMaintenanceAsync(cancellationToken);
+            await RunQueueInstanceManagementAsync(cancellationToken);
         }
         catch (Exception ex)
         {
@@ -40,6 +39,36 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     public object[] GetStats()
         => workflowInstanceManagementBroker.GetFailedExecutionStats();
 
+    public async Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await DropOldInstancesAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, ex.Message);
+
+            if (ex.InnerException != null)
+                log.LogError(ex.InnerException, ex.InnerException.Message);
+        }
+    }
+
+    public async Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await RequeueHungExecutingInstancesAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, ex.Message);
+
+            if (ex.InnerException != null)
+                log.LogError(ex.InnerException, ex.InnerException.Message);
+        }
+    }
+
     public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid id)
     {
         await ExecuteInstanceAsync(id);
@@ -48,38 +77,29 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     private async ValueTask DropOldInstancesAsync(CancellationToken cancellationToken)
     {
         int dropCount = await workflowInstanceManagementBroker
-            .FlushOldInstancesAsync(DateTimeOffset.UtcNow.AddDays(-7), cancellationToken);
+            .FlushOldInstancesAsync(DateTimeOffset.UtcNow.Subtract(GetInstanceMaintenanceMaxAge()), cancellationToken);
 
         if (dropCount > 0)
-            log.LogInformation("Dropped {Count} Workflow instances older than 7 days.", dropCount);
+        {
+            log.LogInformation(
+                "Dropped {Count} Workflow instances older than {MaxAge}.",
+                dropCount,
+                GetInstanceMaintenanceMaxAge());
+        }
     }
 
     private async ValueTask RequeueHungExecutingInstancesAsync(CancellationToken cancellationToken)
     {
         int requeueCount = await workflowInstanceManagementBroker
-            .RequeueHungExecutingInstancesAsync(DateTimeOffset.UtcNow.AddMinutes(-30), cancellationToken);
+            .RequeueHungExecutingInstancesAsync(DateTimeOffset.UtcNow.Subtract(GetExecutingInstanceTimeout()), cancellationToken);
 
         if (requeueCount > 0)
         {
             log.LogWarning(
-                "Requeued {Count} Workflow instances that were still executing after 30 minutes.",
-                requeueCount);
+                "Requeued {Count} Workflow instances that were still executing after {Timeout}.",
+                requeueCount,
+                GetExecutingInstanceTimeout());
         }
-    }
-
-    private async ValueTask ExecuteWaitingQueuedInstancesAsync(CancellationToken cancellationToken)
-    {
-        List<Task> executions = [];
-
-        foreach (Guid instanceId in workflowInstanceManagementBroker.GetQueuedInstances()
-            .Select(instance => instance.Id)
-            .Distinct())
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            executions.Add(ExecuteInstanceAsync(instanceId, cancellationToken));
-        }
-
-        await Task.WhenAll(executions);
     }
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
@@ -90,8 +110,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         if (dbInstance == null)
             return;
 
-        IAccountManager accountManager = serviceProvider.GetRequiredService<IAccountManager>();
-        Token token = await accountManager.IssueTokenAsync(dbInstance.Caller);
+        ITokenManager tokenManager = serviceProvider.GetRequiredService<ITokenManager>();
+        Token token = await tokenManager.IssueTokenAsync(dbInstance.Caller, TokenUse.WorkflowExecution);
 
         WorkflowRequest request = new()
         {
@@ -121,4 +141,10 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             "Execute",
             new StringContent(JsonSerializer.Serialize(request), System.Text.Encoding.UTF8, "application/json"));
     }
+
+    private TimeSpan GetInstanceMaintenanceMaxAge() =>
+        TimeSpan.FromDays(configuration.GetValue<double?>("Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
+
+    private TimeSpan GetExecutingInstanceTimeout() =>
+        TimeSpan.FromMinutes(configuration.GetValue<double?>("Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30);
 }

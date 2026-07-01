@@ -22,6 +22,8 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             {
                 ["Services:Workflow"] = "https://workflow.test/",
                 ["Settings:sslPort"] = "443",
+                ["Workflow:InstanceMaintenance:MaxAgeDays"] = "5",
+                ["Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes"] = "45",
             })
             .Build();
 
@@ -33,12 +35,9 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
     }
 
     [Fact]
-    public async Task RunAsync_ShouldRequeueHungExecutingInstancesBeforeClaimingAllQueuedInstances()
+    public async Task RunAsync_ShouldMaintainInstancesAndRequeueHungExecutingInstancesWithoutClaimingQueuedInstances()
     {
         // Given
-        FlowInstanceData firstQueuedInstance = CreateQueuedFlowInstanceData();
-        FlowInstanceData secondQueuedInstance = CreateQueuedFlowInstanceData();
-
         workflowInstanceManagementBrokerMock
             .Setup(broker => broker.FlushOldInstancesAsync(
                 It.IsAny<DateTimeOffset>(),
@@ -51,43 +50,29 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(1);
 
-        workflowInstanceManagementBrokerMock
-            .Setup(broker => broker.GetQueuedInstances())
-            .Returns([firstQueuedInstance, secondQueuedInstance]);
-
-        workflowInstanceManagementBrokerMock
-            .Setup(broker => broker.ClaimQueuedInstanceAsync(
-                It.IsAny<Guid>(),
-                It.IsAny<CancellationToken>()))
-            .ReturnsAsync((FlowInstanceData)null);
-
         // When
         await orchestrationService.RunAsync();
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
             broker => broker.RequeueHungExecutingInstancesAsync(
-                It.Is<DateTimeOffset>(cutoff => cutoff < DateTimeOffset.UtcNow.AddMinutes(-29)),
+                It.Is<DateTimeOffset>(cutoff =>
+                    cutoff < DateTimeOffset.UtcNow.AddMinutes(-44)
+                    && cutoff > DateTimeOffset.UtcNow.AddMinutes(-46)),
                 It.IsAny<CancellationToken>()),
             Times.Once);
 
         workflowInstanceManagementBrokerMock.Verify(
             broker => broker.FlushOldInstancesAsync(
-                It.Is<DateTimeOffset>(cutoff => cutoff < DateTimeOffset.UtcNow.AddDays(-6)),
+                It.Is<DateTimeOffset>(cutoff =>
+                    cutoff < DateTimeOffset.UtcNow.AddDays(-4)
+                    && cutoff > DateTimeOffset.UtcNow.AddDays(-6)),
                 It.IsAny<CancellationToken>()),
             Times.Once);
 
         workflowInstanceManagementBrokerMock.Verify(
             broker => broker.GetQueuedInstances(),
-            Times.Once);
-
-        workflowInstanceManagementBrokerMock.Verify(
-            broker => broker.ClaimQueuedInstanceAsync(firstQueuedInstance.Id, It.IsAny<CancellationToken>()),
-            Times.Once);
-
-        workflowInstanceManagementBrokerMock.Verify(
-            broker => broker.ClaimQueuedInstanceAsync(secondQueuedInstance.Id, It.IsAny<CancellationToken>()),
-            Times.Once);
+            Times.Never);
 
         workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
     }
