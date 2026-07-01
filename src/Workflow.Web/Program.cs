@@ -75,7 +75,6 @@ public class Program
         log = app.Services.GetRequiredService<ILogger<Program>>();
 
         app.UseHttpsRedirection();
-        app.UseDefaultFiles();
         app.UseStaticFiles();
         app.UseSession();
 
@@ -90,6 +89,7 @@ public class Program
             .UseODataRouteDebug();
 
         app.UseDomainApiShell();
+        app.MapGet("/", () => Results.Redirect("/tools/index.html"));
         app.StartWorkflowWeb(log);
         app.UseDomainDefaultCors();
         app.UseDomainExceptionHandling(HandleUnhandledException);
