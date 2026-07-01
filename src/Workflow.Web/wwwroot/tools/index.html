@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workflow</title>
+    <link rel="stylesheet" href="/dependencies/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/dependencies/kendo/kendo.v2024.2.514.bootstrap.css">
+    <link rel="stylesheet" href="/bootstrap/css/kendo-font-icons.css">
+    <link rel="stylesheet" href="/bootstrap/css/site.css">
+    <link rel="stylesheet" href="/tools/styles.css?v=workflow-tools-20260701">
+</head>
+<body class="wf-shell">
+    <header class="wf-header">
+        <div class="wf-brand">
+            <span class="wf-mark">WF</span>
+            <div>
+                <h1>Workflow</h1>
+                <span>Flow definition and execution management</span>
+            </div>
+        </div>
+
+        <div class="wf-auth">
+            <span id="auth-user" class="wf-auth-user">Guest</span>
+            <input id="auth-username" class="form-control form-control-sm" autocomplete="username" placeholder="User">
+            <input id="auth-password" class="form-control form-control-sm" autocomplete="current-password" placeholder="Password" type="password">
+            <button id="auth-login" class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-primary" type="button">
+                <span class="k-icon k-i-login"></span>
+                Login
+            </button>
+            <button id="auth-logout" class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-base" type="button" hidden>
+                <span class="k-icon k-i-logout"></span>
+                Logout
+            </button>
+        </div>
+
+        <div class="wf-header-actions">
+            <span id="status-message" class="wf-status">Ready</span>
+            <a class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" href="/swagger" target="_blank" rel="noreferrer">
+                <span class="k-icon k-i-search"></span>
+                Swagger
+            </a>
+            <button id="health-check" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary" type="button">
+                <span class="k-icon k-i-check-circle"></span>
+                Health
+            </button>
+        </div>
+    </header>
+
+    <main class="wf-workbench">
+        <nav id="workspace-nav" class="wf-nav" aria-label="Workflow workspaces"></nav>
+        <section id="workspace-surfaces" class="wf-main"></section>
+    </main>
+
+    <script src="/dependencies/jquery/jquery-3.7.0.min.js"></script>
+    <script src="/dependencies/kendo/kendo.all.v2024.2.514.min.js"></script>
+    <script src="/dependencies/kendo/kendo-ui-license.js?v=workflow-tools-20260701"></script>
+    <script src="/dependencies/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/tools/api.js?v=workflow-tools-20260701"></script>
+    <script src="/tools/grids.js?v=workflow-tools-20260701"></script>
+</body>
+</html>
