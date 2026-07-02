@@ -1,5 +1,6 @@
 window.WorkflowGrids = {
     apiRoot: "/Api/Core",
+    initialized: false,
     context: {
         flowId: null
     },
@@ -94,6 +95,11 @@ window.WorkflowGrids = {
     ],
 
     init: function () {
+        if (this.initialized || !WorkflowApi.isAuthenticated()) {
+            return;
+        }
+
+        this.initialized = true;
         this.buildWorkspaces();
         this.workspaces
             .filter(config => !config.custom)
@@ -111,7 +117,7 @@ window.WorkflowGrids = {
             button.className = `wf-nav-item${index === 0 ? " active" : ""}`;
             button.type = "button";
             button.dataset.workspaceTarget = surfaceId;
-            button.innerHTML = `<span class="k-icon k-i-table"></span>${config.title}`;
+            button.textContent = config.title;
             button.addEventListener("click", () => this.showSurface(button));
             nav.appendChild(button);
 
@@ -628,5 +634,11 @@ window.WorkflowGrids = {
         return 190;
     }
 };
+
+document.addEventListener("workflow-auth-changed", event => {
+    if (event.detail.isAuthenticated) {
+        window.WorkflowGrids.init();
+    }
+});
 
 document.addEventListener("DOMContentLoaded", () => window.WorkflowGrids.init());
