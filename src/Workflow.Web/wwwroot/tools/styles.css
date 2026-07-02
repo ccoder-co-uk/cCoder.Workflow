@@ -57,6 +57,14 @@ body.wf-shell {
     letter-spacing: 0;
 }
 
+.wf-logo {
+    width: 126px;
+    height: 42px;
+    object-fit: contain;
+    border-radius: 3px;
+    background: #000;
+}
+
 .wf-auth,
 .wf-header-actions,
 .wf-button-row {
@@ -92,35 +100,70 @@ body.wf-shell {
 .wf-workbench {
     height: calc(100% - 58px);
     display: grid;
-    grid-template-columns: 230px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     overflow: hidden;
 }
 
+.wf-login-gate {
+    height: calc(100% - 58px);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+}
+
+.wf-login-gate h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.wf-login-gate p {
+    margin: 0;
+    color: #607085;
+}
+
+body.wf-shell:not(.is-authenticated) .wf-workbench,
+body.wf-shell:not(.is-authenticated) .wf-header-actions {
+    display: none;
+}
+
+body.wf-shell.is-authenticated .wf-login-gate {
+    display: none;
+}
+
 .wf-nav {
-    border-right: 1px solid #c8d2df;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    min-height: 42px;
+    padding: 6px 10px 0;
+    border-bottom: 1px solid #c8d2df;
     background: #f7f9fc;
-    padding: 8px;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .wf-nav-item {
-    width: 100%;
+    width: auto;
     min-height: 38px;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 4px;
-    padding: 8px 10px;
+    margin-bottom: -1px;
+    padding: 8px 12px;
     border: 1px solid transparent;
-    border-radius: 3px;
+    border-radius: 4px 4px 0 0;
     background: transparent;
     color: #27384a;
     text-align: left;
+    white-space: nowrap;
 }
 
 .wf-nav-item:hover,
 .wf-nav-item.active {
     border-color: #b6c4d4;
+    border-bottom-color: #fff;
     background: #fff;
 }
 
@@ -273,7 +316,6 @@ a > span.k-icon {
     .wf-workbench {
         height: auto;
         min-height: calc(100vh - 58px);
-        grid-template-columns: 180px minmax(0, 1fr);
     }
 
     .wf-toolbar {
@@ -287,14 +329,7 @@ a > span.k-icon {
 }
 
 @media (max-width: 760px) {
-    .wf-workbench {
-        grid-template-columns: 1fr;
-    }
-
     .wf-nav {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        border-right: none;
-        border-bottom: 1px solid #c8d2df;
+        align-items: stretch;
     }
 }

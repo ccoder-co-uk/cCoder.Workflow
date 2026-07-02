@@ -1,5 +1,6 @@
 window.WorkflowGrids = {
     apiRoot: "/Api/Core",
+    initialized: false,
     context: {
         flowId: null
     },
@@ -94,6 +95,11 @@ window.WorkflowGrids = {
     ],
 
     init: function () {
+        if (this.initialized || !WorkflowApi.isAuthenticated()) {
+            return;
+        }
+
+        this.initialized = true;
         this.buildWorkspaces();
         this.workspaces
             .filter(config => !config.custom)
@@ -628,5 +634,11 @@ window.WorkflowGrids = {
         return 190;
     }
 };
+
+document.addEventListener("workflow-auth-changed", event => {
+    if (event.detail.isAuthenticated) {
+        window.WorkflowGrids.init();
+    }
+});
 
 document.addEventListener("DOMContentLoaded", () => window.WorkflowGrids.init());

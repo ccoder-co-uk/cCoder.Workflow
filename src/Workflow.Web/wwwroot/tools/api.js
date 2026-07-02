@@ -3,13 +3,13 @@ window.WorkflowApi = {
     token: null,
     currentUser: null,
 
-    init: function () {
+    init: async function () {
         document.getElementById("health-check").addEventListener("click", () => this.checkHealth());
         document.getElementById("auth-login").addEventListener("click", () => this.login());
         document.getElementById("auth-logout").addEventListener("click", () => this.logout());
 
         this.token = localStorage.getItem(this.tokenKey);
-        this.refreshAuthState();
+        await this.refreshAuthState();
     },
 
     get: function (path) {
@@ -87,6 +87,14 @@ window.WorkflowApi = {
         document.getElementById("auth-logout").hidden = !isAuthenticated;
         document.getElementById("auth-username").hidden = isAuthenticated;
         document.getElementById("auth-password").hidden = isAuthenticated;
+        document.body.classList.toggle("is-authenticated", isAuthenticated);
+        document.dispatchEvent(new CustomEvent("workflow-auth-changed", {
+            detail: { isAuthenticated }
+        }));
+    },
+
+    isAuthenticated: function () {
+        return Boolean(this.currentUser);
     },
 
     currentUserId: function () {
