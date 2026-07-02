@@ -102,6 +102,7 @@ body.wf-shell {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     overflow: hidden;
+    padding: 10px;
 }
 
 .wf-login-gate {
@@ -136,10 +137,8 @@ body.wf-shell.is-authenticated .wf-login-gate {
     display: flex;
     align-items: flex-end;
     gap: 4px;
-    min-height: 42px;
-    padding: 6px 10px 0;
+    min-height: 38px;
     border-bottom: 1px solid #c8d2df;
-    background: #f7f9fc;
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -151,13 +150,14 @@ body.wf-shell.is-authenticated .wf-login-gate {
     align-items: center;
     gap: 8px;
     margin-bottom: -1px;
-    padding: 8px 12px;
-    border: 1px solid transparent;
+    padding: 5px 10px;
+    border: 1px solid #b6c4d4;
     border-radius: 4px 4px 0 0;
-    background: transparent;
-    color: #27384a;
+    background: #fff;
+    color: #243b53;
     text-align: left;
     white-space: nowrap;
+    font: inherit;
 }
 
 .wf-nav-item:hover,
@@ -165,18 +165,20 @@ body.wf-shell.is-authenticated .wf-login-gate {
     border-color: #b6c4d4;
     border-bottom-color: #fff;
     background: #fff;
+    color: #0b5cab;
+    font-weight: 600;
 }
 
 .wf-main {
     min-width: 0;
     overflow: auto;
-    padding: 10px;
 }
 
 .wf-surface {
     display: none;
     min-height: 100%;
     border: 1px solid #c8d2df;
+    border-top: 0;
     background: #fff;
 }
 

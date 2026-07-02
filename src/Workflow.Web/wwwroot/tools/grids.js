@@ -117,7 +117,7 @@ window.WorkflowGrids = {
             button.className = `wf-nav-item${index === 0 ? " active" : ""}`;
             button.type = "button";
             button.dataset.workspaceTarget = surfaceId;
-            button.innerHTML = `<span class="k-icon k-i-table"></span>${config.title}`;
+            button.textContent = config.title;
             button.addEventListener("click", () => this.showSurface(button));
             nav.appendChild(button);
 
