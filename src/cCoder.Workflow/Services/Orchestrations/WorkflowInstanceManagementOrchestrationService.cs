@@ -86,6 +86,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     {
         try
         {
+            await ExecuteQueuedInstancesAsync(cancellationToken);
             await RequeueHungExecutingInstancesAsync(cancellationToken);
         }
         catch (Exception ex)
@@ -95,6 +96,14 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             if (ex.InnerException != null)
                 log.LogError(ex.InnerException, ex.InnerException.Message);
         }
+    }
+
+    private async ValueTask ExecuteQueuedInstancesAsync(CancellationToken cancellationToken)
+    {
+        FlowInstanceData[] queuedInstances = workflowInstanceManagementBroker.GetQueuedInstances();
+
+        foreach (FlowInstanceData queuedInstance in queuedInstances)
+            await ExecuteInstanceAsync(queuedInstance.Id, cancellationToken);
     }
 
     public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid id)
@@ -138,18 +147,39 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         if (dbInstance == null)
             return;
 
-        ITokenManager tokenManager = serviceProvider.GetRequiredService<ITokenManager>();
-        Token token = await tokenManager.IssueTokenAsync(dbInstance.Caller, TokenUse.WorkflowExecution);
+        try
+        {
+            ITokenManager tokenManager = serviceProvider.GetRequiredService<ITokenManager>();
+            Token token = await tokenManager.IssueTokenAsync(dbInstance.Caller, TokenUse.WorkflowExecution);
 
-        WorkflowRequest request = CreateWorkflowRequest(dbInstance, token);
+            WorkflowRequest request = CreateWorkflowRequest(dbInstance, token);
 
-        HttpResponseMessage result = await SendToWorkflowAsync(request);
+            HttpResponseMessage result = await SendToWorkflowAsync(request);
 
-        if (!result.IsSuccessStatusCode)
-            log.LogError(
-                "Flow instance {InstanceId} execution failed.\n{ErrorDetails}",
+            if (!result.IsSuccessStatusCode)
+            {
+                string errorDetails = await result.Content.ReadAsStringAsync();
+
+                log.LogError(
+                    "Flow instance {InstanceId} execution failed.\n{ErrorDetails}",
+                    dbInstance.Id,
+                    errorDetails);
+
+                await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
+                    dbInstance.Id,
+                    DateTimeOffset.UtcNow,
+                    cancellationToken);
+            }
+        }
+        catch (Exception exception)
+        {
+            log.LogError(exception, "Flow instance {InstanceId} execution failed.", dbInstance.Id);
+
+            await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
                 dbInstance.Id,
-                await result.Content.ReadAsStringAsync());
+                DateTimeOffset.UtcNow,
+                cancellationToken);
+        }
     }
 
     private async ValueTask<HttpResponseMessage> SendToWorkflowAsync(WorkflowRequest request)

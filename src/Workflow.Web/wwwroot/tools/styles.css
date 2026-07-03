@@ -282,6 +282,35 @@ body.wf-shell.is-authenticated .wf-login-gate {
     min-height: 240px;
 }
 
+.wf-json-panel {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    background: #fff;
+}
+
+.wf-json-editor {
+    display: grid;
+    gap: 5px;
+    margin: 0;
+}
+
+.wf-json-editor span {
+    color: #384b5f;
+    font-weight: 600;
+}
+
+.wf-json-editor textarea {
+    width: 100%;
+    min-height: 260px;
+    border: 1px solid #c8d2df;
+    padding: 8px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.45;
+    resize: vertical;
+}
+
 .wf-operations {
     display: grid;
     grid-template-columns: repeat(3, minmax(220px, 1fr));

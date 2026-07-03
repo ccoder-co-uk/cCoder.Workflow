@@ -109,9 +109,7 @@ window.WorkflowGrids = {
                 "Name",
                 "Description",
                 "ReportingComponentName",
-                "InstanceReportingComponentName",
-                "DefinitionJson",
-                "ConfigJson"
+                "InstanceReportingComponentName"
             ],
             selectable: true,
             details: [
@@ -142,9 +140,28 @@ window.WorkflowGrids = {
                         "ReportingComponentName",
                         "Caller",
                         "Start",
-                        "End",
-                        "ContextString"
+                        "End"
+                    ],
+                    details: [
+                        {
+                            type: "json",
+                            title: "Context JSON",
+                            description: "Execution context captured for this flow instance",
+                            fields: ["ContextString"]
+                        }
                     ]
+                },
+                {
+                    type: "json",
+                    title: "Definition JSON",
+                    description: "Flow activity and link definition",
+                    fields: ["DefinitionJson"]
+                },
+                {
+                    type: "json",
+                    title: "Config JSON",
+                    description: "Flow execution configuration",
+                    fields: ["ConfigJson"]
                 }
             ]
         },
@@ -345,7 +362,7 @@ window.WorkflowGrids = {
         const surfaces = config.details.map((detail, index) =>
             `<section id="${detailId}-${index}" class="wf-detail-surface${index === 0 ? " active" : ""}">` +
             `<div class="wf-detail-heading"><strong>${detail.title}</strong><span>${detail.description}</span></div>` +
-            `<div id="${this.childGridId(detail, parentRow[detail.parent.parentKey])}" class="wf-grid wf-child-grid"></div>` +
+            this.detailContentHtml(config, detail, parentRow) +
             `</section>`).join("");
 
         event.detailCell.html(
@@ -358,7 +375,40 @@ window.WorkflowGrids = {
             .find("[data-detail-target]")
             .on("click", clickEvent => this.showDetailSurface(clickEvent.currentTarget));
 
-        config.details.forEach(detail => this.createChildGrid(detail, parentRow[detail.parent.parentKey]));
+        event.detailCell
+            .find("[data-json-save]")
+            .on("click", clickEvent => this.saveJsonDetail(config, parentRow, clickEvent.currentTarget));
+
+        config.details
+            .filter(detail => detail.type !== "json")
+            .forEach(detail => this.createChildGrid(detail, parentRow[detail.parent.parentKey]));
+    },
+
+    detailContentHtml: function (config, detail, parentRow) {
+        if (detail.type === "json") {
+            return this.jsonDetailHtml(config, detail, parentRow);
+        }
+
+        return `<div id="${this.childGridId(detail, parentRow[detail.parent.parentKey])}" class="wf-grid wf-child-grid"></div>`;
+    },
+
+    jsonDetailHtml: function (config, detail, row) {
+        const editors = detail.fields.map(field => {
+            const value = this.formatJson(row[field]);
+
+            return `<label class="wf-json-editor">` +
+                `<span>${this.label(field)}</span>` +
+                `<textarea spellcheck="false" data-json-field="${field}">${this.encode(value)}</textarea>` +
+                `</label>`;
+        }).join("");
+
+        return `<div class="wf-json-panel" data-json-config="${config.name}">` +
+            editors +
+            `<div class="wf-button-row">` +
+            `<button class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-primary" type="button" data-json-save="${config.name}">` +
+            `<span class="k-icon k-i-save"></span>Save JSON</button>` +
+            `</div>` +
+            `</div>`;
     },
 
     showDetailSurface: function (button) {
@@ -410,11 +460,48 @@ window.WorkflowGrids = {
             messages: {
                 noRecords: this.noRecordsMessage(config)
             },
+            detailInit: config.details?.length
+                ? event => this.onDetailInit(config, event)
+                : undefined,
             edit: event => this.onEdit(config, event, parentValue),
             save: () => WorkflowApi.notify("Saving..."),
             remove: () => WorkflowApi.notify("Deleting..."),
             dataBound: () => WorkflowApi.notify("Ready")
         });
+    },
+
+    saveJsonDetail: async function (config, row, button) {
+        try {
+            const panel = button.closest(".wf-json-panel");
+            const rowData = row.toJSON ? row.toJSON() : row;
+            const payload = {};
+
+            Object.keys(config.fields).forEach(field => {
+                payload[field] = rowData[field];
+            });
+
+            panel.querySelectorAll("[data-json-field]").forEach(textarea => {
+                payload[textarea.dataset.jsonField] = textarea.value;
+            });
+
+            const result = await WorkflowApi.put(
+                `${this.apiRoot}/${config.name}(${this.formatKey(row[config.key])})`,
+                payload);
+
+            Object.keys(payload).forEach(field => {
+                if (row.set) {
+                    row.set(field, payload[field]);
+                } else {
+                    row[field] = payload[field];
+                }
+            });
+
+            WorkflowApi.notify(`${config.title} JSON updated`);
+            return result;
+        } catch (error) {
+            WorkflowApi.notify(error.message || error, true);
+            throw error;
+        }
     },
 
     modelFields: function (config) {
@@ -948,6 +1035,27 @@ window.WorkflowGrids = {
 
     label: function (field) {
         return field.replace(/([a-z])([A-Z])/g, "$1 $2");
+    },
+
+    formatJson: function (value) {
+        if (!value) {
+            return "{}";
+        }
+
+        try {
+            return JSON.stringify(JSON.parse(value), null, 2);
+        } catch {
+            return value;
+        }
+    },
+
+    encode: function (value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll("\"", "&quot;")
+            .replaceAll("'", "&#39;");
     },
 
     widthFor: function (field) {

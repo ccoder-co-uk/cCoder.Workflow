@@ -11,6 +11,7 @@ public interface IWorkflowInstanceManagementBroker
     ValueTask<int> FlushOldInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
     ValueTask<int> RequeueHungExecutingInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
     ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(Guid id, CancellationToken cancellationToken = default);
+    ValueTask<int> MarkInstanceFailedAsync(Guid id, DateTimeOffset failedAt, CancellationToken cancellationToken = default);
 }
 
 internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreContextFactory)
@@ -114,5 +115,22 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
             return null;
 
         return instance;
+    }
+
+    public async ValueTask<int> MarkInstanceFailedAsync(
+        Guid id,
+        DateTimeOffset failedAt,
+        CancellationToken cancellationToken = default)
+    {
+        using CoreDataContext core = coreContextFactory.CreateCoreContext();
+
+        return await core.FlowInstances
+            .IgnoreQueryFilters()
+            .Where(instance => instance.Id == id)
+            .ExecuteUpdateAsync(
+                setters => setters
+                    .SetProperty(instance => instance.State, "Failed")
+                    .SetProperty(instance => instance.End, failedAt),
+                cancellationToken);
     }
 }
