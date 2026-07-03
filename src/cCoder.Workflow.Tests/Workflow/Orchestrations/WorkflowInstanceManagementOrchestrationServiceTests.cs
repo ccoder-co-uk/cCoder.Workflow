@@ -1,6 +1,9 @@
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Workflow;
+using cCoder.Security.Objects.Entities;
+using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -21,7 +24,7 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 ["Services:Workflow"] = "https://workflow.test/",
-                ["Settings:sslPort"] = "443",
+                ["Settings:sslPort"] = "7157",
                 ["Workflow:InstanceMaintenance:MaxAgeDays"] = "5",
                 ["Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes"] = "45",
             })
@@ -31,13 +34,18 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             workflowInstanceManagementBrokerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
+            new WorkflowConfiguration(),
             NullLogger<WorkflowInstanceManagementOrchestrationService>.Instance);
     }
 
     [Fact]
-    public async Task RunAsync_ShouldMaintainInstancesAndRequeueHungExecutingInstancesWithoutClaimingQueuedInstances()
+    public async Task RunAsync_ShouldExecuteQueuedInstancesAndRequeueHungExecutingInstances()
     {
         // Given
+        workflowInstanceManagementBrokerMock
+            .Setup(broker => broker.GetQueuedInstances())
+            .Returns([]);
+
         workflowInstanceManagementBrokerMock
             .Setup(broker => broker.FlushOldInstancesAsync(
                 It.IsAny<DateTimeOffset>(),
@@ -72,7 +80,72 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
 
         workflowInstanceManagementBrokerMock.Verify(
             broker => broker.GetQueuedInstances(),
-            Times.Never);
+            Times.Once);
+
+        workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public void CreateWorkflowRequest_ShouldUseConfiguredWebSslPort()
+    {
+        // Given
+        FlowInstanceData flowInstanceData = CreateQueuedFlowInstanceData();
+        Token token = new()
+        {
+            Id = "workflow-token"
+        };
+
+        // When
+        WorkflowRequest actualRequest = orchestrationService.CreateWorkflowRequest(flowInstanceData, token);
+
+        // Then
+        Assert.Equal($"https://{flowInstanceData.FlowDefinition.App.Domain}:7157/Api/", actualRequest.Api);
+        Assert.Equal(flowInstanceData.FlowDefinition.Id, actualRequest.FlowId);
+        Assert.Equal(flowInstanceData.Id, actualRequest.InstanceId);
+        Assert.Equal(token.Id, actualRequest.AuthToken);
+    }
+
+    [Fact]
+    public async Task RunQueueInstanceManagementAsync_ShouldClaimQueuedInstances()
+    {
+        // Given
+        FlowInstanceData queuedInstance = CreateQueuedFlowInstanceData();
+
+        workflowInstanceManagementBrokerMock
+            .Setup(broker => broker.GetQueuedInstances())
+            .Returns([queuedInstance]);
+
+        workflowInstanceManagementBrokerMock
+            .Setup(broker => broker.ClaimQueuedInstanceAsync(
+                queuedInstance.Id,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((FlowInstanceData)null);
+
+        workflowInstanceManagementBrokerMock
+            .Setup(broker => broker.RequeueHungExecutingInstancesAsync(
+                It.IsAny<DateTimeOffset>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(0);
+
+        // When
+        await orchestrationService.RunQueueInstanceManagementAsync();
+
+        // Then
+        workflowInstanceManagementBrokerMock.Verify(
+            broker => broker.GetQueuedInstances(),
+            Times.Once);
+
+        workflowInstanceManagementBrokerMock.Verify(
+            broker => broker.ClaimQueuedInstanceAsync(
+                queuedInstance.Id,
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+
+        workflowInstanceManagementBrokerMock.Verify(
+            broker => broker.RequeueHungExecutingInstancesAsync(
+                It.IsAny<DateTimeOffset>(),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
 
         workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
     }
@@ -95,6 +168,47 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
         // Then
         workflowInstanceManagementBrokerMock.Verify(
             broker => broker.ClaimQueuedInstanceAsync(instanceId, It.IsAny<CancellationToken>()),
+            Times.Once);
+
+        workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ExecuteWaitingQueuedInstanceByIdAsync_ShouldMarkClaimedInstanceFailedWhenExecutionThrows()
+    {
+        // Given
+        FlowInstanceData queuedInstance = CreateQueuedFlowInstanceData();
+
+        workflowInstanceManagementBrokerMock
+            .Setup(broker => broker.ClaimQueuedInstanceAsync(
+                queuedInstance.Id,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(queuedInstance);
+
+        workflowInstanceManagementBrokerMock
+            .Setup(broker => broker.MarkInstanceFailedAsync(
+                queuedInstance.Id,
+                It.IsAny<DateTimeOffset>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(1);
+
+        // When
+        await orchestrationService.ExecuteWaitingQueuedInstanceByIdAsync(queuedInstance.Id);
+
+        // Then
+        workflowInstanceManagementBrokerMock.Verify(
+            broker => broker.ClaimQueuedInstanceAsync(
+                queuedInstance.Id,
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+
+        workflowInstanceManagementBrokerMock.Verify(
+            broker => broker.MarkInstanceFailedAsync(
+                queuedInstance.Id,
+                It.Is<DateTimeOffset>(failedAt =>
+                    failedAt > DateTimeOffset.UtcNow.AddMinutes(-1)
+                    && failedAt <= DateTimeOffset.UtcNow.AddMinutes(1)),
+                It.IsAny<CancellationToken>()),
             Times.Once);
 
         workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();

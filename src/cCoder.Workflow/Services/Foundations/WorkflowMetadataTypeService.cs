@@ -1,5 +1,6 @@
 using System.Dynamic;
 using cCoder.Workflow.Api.OData;
+using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Models;
@@ -22,8 +23,11 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             UriBase = "Core",
             Types =
             [
+                Entity<Calendar>(),
+                Entity<CalendarEvent>(),
                 Entity<FlowDefinition>(),
                 Entity<FlowInstanceData>(),
+                Entity<ScheduledTask>(),
                 Entity<WorkflowEvent>(),
             ],
         };

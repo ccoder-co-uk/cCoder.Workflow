@@ -9,23 +9,10 @@ internal sealed class InstanceMaintenanceManagement(IServiceScopeFactory service
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (int.TryParse(Environment.GetEnvironmentVariable("MIGRATING"), out int result) && result == 1)
-            return;
-
-        await RunInstanceMaintenanceAsync(stoppingToken);
-
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(1));
-
-        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
-            await RunInstanceMaintenanceAsync(stoppingToken);
-    }
-
-    private async Task RunInstanceMaintenanceAsync(CancellationToken stoppingToken)
-    {
         using IServiceScope scope = serviceScopeFactory.CreateScope();
         IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementOrchestrationService =
             scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
-        await workflowInstanceManagementOrchestrationService.RunInstanceMaintenanceAsync(stoppingToken);
+        await workflowInstanceManagementOrchestrationService.RunInstanceMaintenanceContinuouslyAsync(stoppingToken);
     }
 }

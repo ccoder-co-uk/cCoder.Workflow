@@ -55,43 +55,10 @@ public static partial class IServiceCollectionExtensions
     {
         WorkflowConfiguration configuration = new();
         configure?.Invoke(services, configuration);
-        PopulateBlankValuesFromEnvironment(configuration);
         services.AddSingleton(configuration);
         services.AddEventProviders(configuration.EventProviders);
         return configuration;
     }
-
-    private static void PopulateBlankValuesFromEnvironment(WorkflowConfiguration configuration)
-    {
-        PopulateBlankValuesFromEnvironment("ConnectionStrings", configuration.ConnectionStrings);
-        PopulateBlankValuesFromEnvironment("Settings", configuration.Settings);
-        PopulateBlankValuesFromEnvironment("Services", configuration.Services);
-    }
-
-    private static void PopulateBlankValuesFromEnvironment(
-        string section,
-        IDictionary<string, string> values)
-    {
-        if (values is null)
-            return;
-
-        foreach (string key in values.Keys.ToArray())
-        {
-            if (!string.IsNullOrWhiteSpace(values[key]))
-                continue;
-
-            string environmentValue = GetEnvironmentConfigurationValue(section, key);
-
-            if (!string.IsNullOrWhiteSpace(environmentValue))
-                values[key] = environmentValue;
-        }
-    }
-
-    private static string GetEnvironmentConfigurationValue(string section, string key) =>
-        Environment.GetEnvironmentVariable($"{section}__{key}")
-        ?? Environment.GetEnvironmentVariable($"{section}:{key}")
-        ?? Environment.GetEnvironmentVariable($"ENV_{section}__{key}")
-        ?? Environment.GetEnvironmentVariable($"ENV_{section}:{key}");
 
     private static void AddConfiguredApi(
         this IServiceCollection services,
