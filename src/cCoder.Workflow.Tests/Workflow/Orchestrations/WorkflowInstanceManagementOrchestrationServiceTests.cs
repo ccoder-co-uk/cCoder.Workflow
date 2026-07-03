@@ -1,6 +1,7 @@
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -31,6 +32,7 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             workflowInstanceManagementBrokerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
+            new WorkflowConfiguration(),
             NullLogger<WorkflowInstanceManagementOrchestrationService>.Instance);
     }
 

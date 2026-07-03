@@ -29,6 +29,7 @@ public sealed partial class HealthControllerTests
         actualHome.Should().Contain("Workflow Hosted Services");
         actualHome.Should().Contain("InstanceMaintenanceManagement");
         actualHome.Should().Contain("QueueInstanceManagement");
+        actualHome.Should().Contain("ScheduledTaskRunnerManagement");
         actualHome.Should().Contain("flow_instance_data_add");
     }
 }

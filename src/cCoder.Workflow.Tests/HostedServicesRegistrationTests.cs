@@ -39,8 +39,12 @@ public class HostedServicesRegistrationTests
             services,
             descriptor => descriptor.ServiceType == typeof(IQueueInstanceManagement)
                 && descriptor.ImplementationType == typeof(QueueInstanceManagement));
+        Assert.Contains(
+            services,
+            descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerManagement)
+                && descriptor.ImplementationType == typeof(ScheduledTaskRunnerManagement));
         Assert.Equal(
-            2,
+            3,
             services.Count(descriptor => descriptor.ServiceType == typeof(IHostedService)
                 && descriptor.ImplementationFactory is not null));
         Assert.Contains(

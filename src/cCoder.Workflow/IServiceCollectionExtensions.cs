@@ -13,6 +13,7 @@ using cCoder.Workflow.Api.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
+using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures.EventHandlers;
@@ -80,6 +81,9 @@ public static partial class IServiceCollectionExtensions
         services.AddSingleton<IQueueInstanceManagement, QueueInstanceManagement>();
         services.AddSingleton<IHostedService>(serviceProvider =>
             serviceProvider.GetRequiredService<IQueueInstanceManagement>());
+        services.AddSingleton<IScheduledTaskRunnerManagement, ScheduledTaskRunnerManagement>();
+        services.AddSingleton<IHostedService>(serviceProvider =>
+            serviceProvider.GetRequiredService<IScheduledTaskRunnerManagement>());
     }
 
     private static void AddEventingTypes(this IServiceCollection services)
@@ -128,9 +132,15 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
         services.AddTransient<IFlowInstanceDataEventBroker, FlowInstanceDataEventBroker>();
+        services.AddTransient<ICalendarEntityEventBroker, CalendarEntityEventBroker>();
+        services.AddTransient<ICalendarEventEventBroker, CalendarEventEventBroker>();
+        services.AddTransient<IScheduledTaskEventBroker, ScheduledTaskEventBroker>();
         services.AddTransient<IWorkflowEventEventBroker, WorkflowEventEventBroker>();
+        services.AddTransient<ICalendarBroker, CalendarBroker>();
+        services.AddTransient<ICalendarEventBroker, CalendarEventBroker>();
         services.AddTransient<IFlowDefinitionBroker, FlowDefinitionBroker>();
         services.AddTransient<IFlowInstanceDataBroker, FlowInstanceDataBroker>();
+        services.AddTransient<IScheduledTaskBroker, ScheduledTaskBroker>();
         services.AddTransient<IWorkflowInstanceManagementBroker, WorkflowInstanceManagementBroker>();
         services.AddTransient<IWorkflowEventBroker, WorkflowEventBroker>();
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
@@ -138,8 +148,11 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IUserBroker, UserBroker>();
     }
 
-    private static void AddCoordinations(this IServiceCollection services) =>
+    private static void AddCoordinations(this IServiceCollection services)
+    {
+        services.AddTransient<ICalendarCoordinationService, CalendarCoordinationService>();
         services.AddTransient<IFlowDefinitionCoordinationService, FlowDefinitionCoordinationService>();
+    }
 
     private static void AddEventHandlers(this IServiceCollection services)
     {
@@ -151,32 +164,48 @@ public static partial class IServiceCollectionExtensions
     private static void AddFoundations(this IServiceCollection services)
     {
         services.AddTransient<Services.Foundations.Events.IEventHandlerService, Services.Foundations.Events.EventHandlerService>();
+        services.AddTransient<ICalendarService, CalendarService>();
+        services.AddTransient<ICalendarEventService, CalendarEventService>();
         services.AddTransient<IFlowDefinitionService, FlowDefinitionService>();
         services.AddTransient<IFlowInstanceDataService, FlowInstanceDataService>();
+        services.AddTransient<IScheduledTaskService, ScheduledTaskService>();
         services.AddTransient<IWorkflowMetadataTypeService, WorkflowMetadataTypeService>();
+        services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
+        services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();
         services.AddTransient<IFlowDefinitionEventService, FlowDefinitionEventService>();
         services.AddTransient<IFlowInstanceDataEventService, FlowInstanceDataEventService>();
+        services.AddTransient<IScheduledTaskEventService, ScheduledTaskEventService>();
         services.AddTransient<IWorkflowEventEventService, WorkflowEventEventService>();
     }
 
     private static void AddOrchestrations(this IServiceCollection services)
     {
         services.AddTransient<IAppOrchestrationService, AppOrchestrationService>();
+        services.AddTransient<ICalendarOrchestrationService, CalendarOrchestrationService>();
+        services.AddTransient<ICalendarEventOrchestrationService, CalendarEventOrchestrationService>();
         services.AddTransient<IEventHandlingOrchestrationService, EventHandlingOrchestrationService>();
         services.AddTransient<IWorkflowMigrationAggregationService, WorkflowMigrationAggregationService>();
         services.AddTransient<IFlowDefinitionOrchestrationService, FlowDefinitionOrchestrationService>();
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();
+        services.AddTransient<IScheduledTaskOrchestrationService, ScheduledTaskOrchestrationService>();
+        services.AddTransient<ITaskRunnerOrchestrationService, TaskRunnerOrchestrationService>();
         services.AddTransient<IWorkflowInstanceManagementOrchestrationService, WorkflowInstanceManagementOrchestrationService>();
         services.AddTransient<IWorkflowEventOrchestrationService, WorkflowEventOrchestrationService>();
     }
 
     private static void AddProcessings(this IServiceCollection services)
     {
+        services.AddTransient<ICalendarEntityEventProcessingService, CalendarEntityEventProcessingService>();
+        services.AddTransient<ICalendarEventEventProcessingService, CalendarEventEventProcessingService>();
+        services.AddTransient<ICalendarEventProcessingService, CalendarEventProcessingService>();
+        services.AddTransient<ICalendarProcessingService, CalendarProcessingService>();
         services.AddTransient<IFlowDefinitionEventProcessingService, FlowDefinitionEventProcessingService>();
         services.AddTransient<IFlowDefinitionProcessingService, FlowDefinitionProcessingService>();
         services.AddTransient<IFlowInstanceDataEventProcessingService, FlowInstanceDataEventProcessingService>();
         services.AddTransient<IFlowInstanceDataProcessingService, FlowInstanceDataProcessingService>();
+        services.AddTransient<IScheduledTaskEventProcessingService, ScheduledTaskEventProcessingService>();
+        services.AddTransient<IScheduledTaskProcessingService, ScheduledTaskProcessingService>();
         services.AddTransient<IWorkflowEventEventProcessingService, WorkflowEventEventProcessingService>();
         services.AddTransient<IWorkflowEventProcessingService, WorkflowEventProcessingService>();
     }

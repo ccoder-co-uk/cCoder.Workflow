@@ -22,6 +22,7 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
     public void ListenToAllEvents()
     {
         ListenToAppEvents();
+        ListenToCalendarEvents();
         ListenToFlowDefinitionEvents();
         ListenToPackageEvents();
         ListenToWorkflowTriggerEvents();
@@ -38,6 +39,13 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         ListenToAppAddEvents();
         ListenToAppUpdateEvents();
         ListenToAppDeleteEvents();
+    }
+
+    void ListenToCalendarEvents()
+    {
+        ListenToCalendarAddEvents();
+        ListenToCalendarUpdateEvents();
+        ListenToCalendarDeleteEvents();
     }
 
     void ListenToFlowDefinitionEvents()
@@ -101,6 +109,21 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
             "app_delete",
             (service, app) => service.DeleteAsync(app.Id));
+
+    void ListenToCalendarAddEvents() =>
+        eventHubBroker.ListenToEvent<Calendar, ICalendarCoordinationService>(
+            "calendar_add",
+            (service, calendar) => service.HandleCalendarAddAsync(calendar));
+
+    void ListenToCalendarUpdateEvents() =>
+        eventHubBroker.ListenToEvent<Calendar, ICalendarCoordinationService>(
+            "calendar_update",
+            (service, calendar) => service.HandleCalendarUpdateAsync(calendar));
+
+    void ListenToCalendarDeleteEvents() =>
+        eventHubBroker.ListenToEvent<Calendar, ICalendarCoordinationService>(
+            "calendar_delete",
+            (service, calendar) => service.HandleCalendarDeleteAsync(calendar));
 
     void ListenToFlowDefinitionDeleteEvents() =>
         eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionCoordinationService>(

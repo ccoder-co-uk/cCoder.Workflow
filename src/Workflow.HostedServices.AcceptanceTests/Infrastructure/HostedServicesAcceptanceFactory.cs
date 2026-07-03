@@ -1,12 +1,14 @@
 using cCoder.Data;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Interfaces;
+using cCoder.Workflow.Exposures.HostedServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Web.AcceptanceTests.Models;
 
 namespace Web.AcceptanceTests.Infrastructure;
@@ -25,12 +27,25 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
                 new KeyValuePair<string, string>("ConnectionStrings:SSO", settings.SsoConnectionString),
                 new KeyValuePair<string, string>("Settings:DecryptionKey", settings.DecryptionKey),
                 new KeyValuePair<string, string>("Settings:enableExternalEventing", "false"),
+                new KeyValuePair<string, string>("Workflow:IsMigrating", "true"),
             ]);
         });
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<ISecurityDbContextFactory>();
+            services.RemoveAll<IInstanceMaintenanceManagement>();
+            services.RemoveAll<IQueueInstanceManagement>();
+            services.RemoveAll<IScheduledTaskRunnerManagement>();
+
+            ServiceDescriptor[] hostedWorkflowServices = services
+                .Where(descriptor =>
+                    descriptor.ServiceType == typeof(IHostedService)
+                    && descriptor.ImplementationFactory is not null)
+                .ToArray();
+
+            foreach (ServiceDescriptor descriptor in hostedWorkflowServices)
+                services.Remove(descriptor);
 
             services.AddSingleton(
                 new cCoder.Data.Config

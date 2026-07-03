@@ -5,13 +5,15 @@ using cCoder.Security.Exposures;
 using cCoder.Security.Objects.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Models;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed class WorkflowInstanceManagementOrchestrationService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IServiceProvider serviceProvider,
-    IConfiguration configuration,
+    IConfiguration appConfiguration,
+    WorkflowConfiguration workflowConfiguration,
     ILogger<WorkflowInstanceManagementOrchestrationService> log)
     : IWorkflowInstanceManagementOrchestrationService
 {
@@ -39,6 +41,19 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     public object[] GetStats()
         => workflowInstanceManagementBroker.GetFailedExecutionStats();
 
+    public async Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
+    {
+        if (workflowConfiguration.IsMigrating)
+            return;
+
+        await RunInstanceMaintenanceAsync(cancellationToken);
+
+        using PeriodicTimer timer = new(TimeSpan.FromMinutes(1));
+
+        while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken))
+            await RunInstanceMaintenanceAsync(cancellationToken);
+    }
+
     public async Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -52,6 +67,19 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             if (ex.InnerException != null)
                 log.LogError(ex.InnerException, ex.InnerException.Message);
         }
+    }
+
+    public async Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default)
+    {
+        if (workflowConfiguration.IsMigrating)
+            return;
+
+        await RunQueueInstanceManagementAsync(cancellationToken);
+
+        using PeriodicTimer timer = new(TimeSpan.FromMinutes(1));
+
+        while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken))
+            await RunQueueInstanceManagementAsync(cancellationToken);
     }
 
     public async Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default)
@@ -115,7 +143,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
 
         WorkflowRequest request = new()
         {
-            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{configuration["Settings:sslPort"] ?? "443"}/Api/",
+            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{appConfiguration["Settings:sslPort"] ?? "443"}/Api/",
             FlowId = dbInstance.FlowDefinition.Id,
             AuthToken = token.Id,
             InstanceId = dbInstance.Id
@@ -134,7 +162,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     {
         using HttpClient api = new(Handler)
         {
-            BaseAddress = new Uri(configuration["Services:Workflow"])
+            BaseAddress = new Uri(appConfiguration["Services:Workflow"])
         };
 
         return await api.PostAsync(
@@ -143,8 +171,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     }
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
-        TimeSpan.FromDays(configuration.GetValue<double?>("Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
+        TimeSpan.FromDays(appConfiguration.GetValue<double?>("Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
 
     private TimeSpan GetExecutingInstanceTimeout() =>
-        TimeSpan.FromMinutes(configuration.GetValue<double?>("Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30);
+        TimeSpan.FromMinutes(appConfiguration.GetValue<double?>("Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30);
 }

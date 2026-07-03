@@ -14,6 +14,8 @@ public sealed class HomeController(IConfiguration configuration) : ControllerBas
         double executingTimeoutMinutes =
             configuration.GetValue<double?>("Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30;
 
+        double scheduledTaskIntervalMinutes = 1;
+
         string[] lines =
         [
             "Workflow Hosted Services",
@@ -21,6 +23,7 @@ public sealed class HomeController(IConfiguration configuration) : ControllerBas
             "Hosted services:",
             $"- InstanceMaintenanceManagement: deletes workflow instances older than {instanceMaxAgeDays} day(s).",
             $"- QueueInstanceManagement: resets executing workflow instances older than {executingTimeoutMinutes} minute(s) back to Queued.",
+            $"- ScheduledTaskRunnerManagement: checks scheduled tasks every {scheduledTaskIntervalMinutes} minute(s) and raises scheduled_task_execute events for due tasks.",
             string.Empty,
             "Event listeners:",
             "- app_add, app_update, app_delete -> forwards app events to the workflow event hub.",

@@ -11,6 +11,7 @@ public class WorkflowConfiguration
     public bool LogSQL { get; set; }
     public string RootPath { get; set; } = "Api/Workflow";
     public bool IncludeLegacyCoreContext { get; set; } = true;
+    public bool IsMigrating { get; set; }
     public EventProvider[] EventProviders { get; private set; } = [];
 
     public WorkflowConfiguration WithEventProviders(params EventProvider[] eventProviders)

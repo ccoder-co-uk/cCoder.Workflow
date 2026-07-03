@@ -46,9 +46,15 @@ public class Program
             coreConnection);
 
         builder.Services.AddWorkflowHostedServices(workflowConfiguration =>
+        {
+            workflowConfiguration.IsMigrating =
+                configuration.GetValue<int?>("MIGRATING") == 1
+                || configuration.GetValue<bool?>("Workflow:IsMigrating") == true;
+
             workflowConfiguration.WithEventProviders(
                 CreateAppReceiveProvider(),
-                CreateQueuedFlowInstanceReceiveProvider()));
+                CreateQueuedFlowInstanceReceiveProvider());
+        });
 
         WebApplication app = builder.Build();
         app.UseSession();
