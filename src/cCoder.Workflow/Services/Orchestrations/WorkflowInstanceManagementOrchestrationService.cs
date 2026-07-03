@@ -141,13 +141,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         ITokenManager tokenManager = serviceProvider.GetRequiredService<ITokenManager>();
         Token token = await tokenManager.IssueTokenAsync(dbInstance.Caller, TokenUse.WorkflowExecution);
 
-        WorkflowRequest request = new()
-        {
-            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{appConfiguration["Settings:sslPort"] ?? "443"}/Api/",
-            FlowId = dbInstance.FlowDefinition.Id,
-            AuthToken = token.Id,
-            InstanceId = dbInstance.Id
-        };
+        WorkflowRequest request = CreateWorkflowRequest(dbInstance, token);
 
         HttpResponseMessage result = await SendToWorkflowAsync(request);
 
@@ -169,6 +163,15 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             "Execute",
             new StringContent(JsonSerializer.Serialize(request), System.Text.Encoding.UTF8, "application/json"));
     }
+
+    internal WorkflowRequest CreateWorkflowRequest(FlowInstanceData dbInstance, Token token) =>
+        new()
+        {
+            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{appConfiguration["Settings:sslPort"] ?? "443"}/Api/",
+            FlowId = dbInstance.FlowDefinition.Id,
+            AuthToken = token.Id,
+            InstanceId = dbInstance.Id
+        };
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
         TimeSpan.FromDays(appConfiguration.GetValue<double?>("Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);

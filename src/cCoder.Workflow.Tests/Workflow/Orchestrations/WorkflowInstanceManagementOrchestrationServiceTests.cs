@@ -1,5 +1,7 @@
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Workflow;
+using cCoder.Security.Objects.Entities;
+using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Orchestrations;
@@ -22,7 +24,7 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 ["Services:Workflow"] = "https://workflow.test/",
-                ["Settings:sslPort"] = "443",
+                ["Settings:sslPort"] = "7157",
                 ["Workflow:InstanceMaintenance:MaxAgeDays"] = "5",
                 ["Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes"] = "45",
             })
@@ -77,6 +79,26 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             Times.Never);
 
         workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public void CreateWorkflowRequest_ShouldUseConfiguredWebSslPort()
+    {
+        // Given
+        FlowInstanceData flowInstanceData = CreateQueuedFlowInstanceData();
+        Token token = new()
+        {
+            Id = "workflow-token"
+        };
+
+        // When
+        WorkflowRequest actualRequest = orchestrationService.CreateWorkflowRequest(flowInstanceData, token);
+
+        // Then
+        Assert.Equal($"https://{flowInstanceData.FlowDefinition.App.Domain}:7157/Api/", actualRequest.Api);
+        Assert.Equal(flowInstanceData.FlowDefinition.Id, actualRequest.FlowId);
+        Assert.Equal(flowInstanceData.Id, actualRequest.InstanceId);
+        Assert.Equal(token.Id, actualRequest.AuthToken);
     }
 
     [Fact]
