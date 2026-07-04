@@ -59,6 +59,12 @@ internal class ScheduledTaskProcessingService(
         return service.DeleteAsync(id);
     }
 
+    public ValueTask DeleteByAppIdAsync(int appId) =>
+        service.DeleteAllForAppAsync(
+            service.GetAll(ignoreFilters: true)
+                .Where(task => task.AppId == appId)
+                .ToArray());
+
     public async ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items)
     {
         List<Result<ScheduledTask>> results = new List<Result<ScheduledTask>>();

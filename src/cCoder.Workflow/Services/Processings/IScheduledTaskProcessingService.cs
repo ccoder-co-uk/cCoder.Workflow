@@ -18,6 +18,8 @@ public interface IScheduledTaskProcessingService
 
     ValueTask DeleteAsync(int id);
 
+    ValueTask DeleteByAppIdAsync(int appId);
+
     ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items);
 
     ValueTask DeleteAllAsync(IEnumerable<ScheduledTask> items);

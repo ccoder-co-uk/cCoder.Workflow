@@ -41,6 +41,26 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
         await service.DeleteAsync(calendar.Id);
     }
 
+    public async ValueTask DeleteByAppIdAsync(int appId)
+    {
+        Calendar[] calendars =
+            [.. service.GetAll(ignoreFilters: true)
+                .Where(calendar => calendar.AppId == appId)];
+
+        if (calendars.Length == 0)
+        {
+            return;
+        }
+
+        int[] calendarIds = [.. calendars.Select(calendar => calendar.Id)];
+        CalendarEvent[] events =
+            [.. calendarEventService.GetAll(ignoreFilters: true)
+                .Where(calendarEvent => calendarIds.Contains(calendarEvent.CalendarId))];
+
+        await calendarEventService.DeleteAllForAppAsync(events);
+        await service.DeleteAllForAppAsync(calendars);
+    }
+
     public async ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdate(IEnumerable<Calendar> items)
     {
         List<Result<Calendar>> results = new List<Result<Calendar>>();

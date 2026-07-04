@@ -14,6 +14,7 @@ public interface IScheduledTaskService
     ValueTask<ScheduledTask> AddAsync(ScheduledTask scheduledTask);
     ValueTask<ScheduledTask> UpdateAsync(ScheduledTask scheduledTask);
     ValueTask DeleteAsync(int id);
+    ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items);
 }
 
 

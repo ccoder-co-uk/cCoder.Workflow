@@ -17,6 +17,8 @@ public interface IFlowDefinitionProcessingService
 
     ValueTask DeleteAsync(Guid id);
 
+    ValueTask DeleteByAppIdAsync(int appId);
+
     ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdate(IEnumerable<FlowDefinition> items);
 
     ValueTask DeleteAllAsync(IEnumerable<FlowDefinition> items);

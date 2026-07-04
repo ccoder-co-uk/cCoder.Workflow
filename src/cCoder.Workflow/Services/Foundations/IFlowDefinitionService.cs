@@ -14,6 +14,7 @@ public interface IFlowDefinitionService
     ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition);
     ValueTask DeleteAsync(Guid id);
     ValueTask DeleteWithInstancesAsync(Guid id);
+    ValueTask DeleteWithInstancesByAppIdAsync(int appId);
 }
 
 

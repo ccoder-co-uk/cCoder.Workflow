@@ -41,13 +41,8 @@ internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService
         await processingService.DeleteAsync(id);
     }
 
-    public async ValueTask DeleteByAppIdAsync(int appId)
-    {
-        ScheduledTask[] tasks = [.. processingService.GetAll(ignoreFilters: true).Where(item => item.AppId == appId)];
-
-        foreach (ScheduledTask task in tasks)
-            await DeleteAsync(task.Id);
-    }
+    public ValueTask DeleteByAppIdAsync(int appId) =>
+        processingService.DeleteByAppIdAsync(appId);
 
     public ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items)
     {
