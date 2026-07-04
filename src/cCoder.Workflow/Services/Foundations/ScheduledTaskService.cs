@@ -118,6 +118,9 @@ internal class ScheduledTaskService(
         scheduledTaskBroker.DeleteAllScheduledTasksAsync(
             items?.Select(CreateStorageScheduledTask) ?? []);
 
+    public ValueTask DeleteAllByAppIdAsync(int appId) =>
+        scheduledTaskBroker.DeleteAllScheduledTasksByAppIdAsync(appId);
+
     private static ScheduledTask CreateStorageScheduledTask(ScheduledTask item) =>
         item == null
             ? null

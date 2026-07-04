@@ -15,6 +15,7 @@ public interface ICalendarEventService
     ValueTask<CalendarEvent> UpdateAsync(CalendarEvent calendarEvent);
     ValueTask DeleteAsync(int id);
     ValueTask DeleteAllForAppAsync(IEnumerable<CalendarEvent> items);
+    ValueTask DeleteAllByAppIdAsync(int appId);
 }
 
 

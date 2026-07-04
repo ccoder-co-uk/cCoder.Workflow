@@ -10,6 +10,7 @@ public interface ICalendarEventBroker
     ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent entity);
     ValueTask<int> DeleteCalendarEventAsync(CalendarEvent entity);
     ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> items);
+    ValueTask DeleteAllCalendarEventsByAppIdAsync(int appId);
     int? GetAppId(CalendarEvent entity);
 }
 

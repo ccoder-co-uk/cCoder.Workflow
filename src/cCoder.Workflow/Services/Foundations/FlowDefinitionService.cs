@@ -102,16 +102,8 @@ internal class FlowDefinitionService(
         await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(id);
     }
 
-    public async ValueTask DeleteWithInstancesByAppIdAsync(int appId)
-    {
-        Guid[] flowIds =
-            [.. GetAll(ignoreFilters: true)
-                .Where(flowDefinition => flowDefinition.AppId == appId)
-                .Select(flowDefinition => flowDefinition.Id)];
-
-        foreach (Guid flowId in flowIds)
-            await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(flowId);
-    }
+    public ValueTask DeleteWithInstancesByAppIdAsync(int appId) =>
+        flowDefinitionBroker.DeleteFlowDefinitionsWithInstancesByAppIdAsync(appId);
 
     private static FlowDefinition CreateStorageFlowDefinition(FlowDefinition item) =>
         item == null
