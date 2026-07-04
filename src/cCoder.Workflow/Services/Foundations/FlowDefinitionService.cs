@@ -102,6 +102,9 @@ internal class FlowDefinitionService(
         await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(id);
     }
 
+    public ValueTask DeleteWithInstancesByAppIdAsync(int appId) =>
+        flowDefinitionBroker.DeleteFlowDefinitionsWithInstancesByAppIdAsync(appId);
+
     private static FlowDefinition CreateStorageFlowDefinition(FlowDefinition item) =>
         item == null
             ? null

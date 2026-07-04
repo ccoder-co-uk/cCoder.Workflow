@@ -41,6 +41,12 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
         await service.DeleteAsync(calendar.Id);
     }
 
+    public async ValueTask DeleteByAppIdAsync(int appId)
+    {
+        await calendarEventService.DeleteAllByAppIdAsync(appId);
+        await service.DeleteAllByAppIdAsync(appId);
+    }
+
     public async ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdate(IEnumerable<Calendar> items)
     {
         List<Result<Calendar>> results = new List<Result<Calendar>>();

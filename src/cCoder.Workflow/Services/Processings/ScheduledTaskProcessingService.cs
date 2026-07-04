@@ -59,6 +59,9 @@ internal class ScheduledTaskProcessingService(
         return service.DeleteAsync(id);
     }
 
+    public ValueTask DeleteByAppIdAsync(int appId) =>
+        service.DeleteAllByAppIdAsync(appId);
+
     public async ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items)
     {
         List<Result<ScheduledTask>> results = new List<Result<ScheduledTask>>();

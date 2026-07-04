@@ -14,6 +14,7 @@ public interface IScheduledTaskBroker
     ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask entity);
     ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask entity);
     ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> items);
+    ValueTask DeleteAllScheduledTasksByAppIdAsync(int appId);
     int? GetAppId(ScheduledTask entity);
 }
 

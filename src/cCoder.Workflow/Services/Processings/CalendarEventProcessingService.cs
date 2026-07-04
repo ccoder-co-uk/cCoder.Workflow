@@ -34,6 +34,12 @@ internal class CalendarEventProcessingService(ICalendarEventService service) : I
         return service.DeleteAsync(id);
     }
 
+    public ValueTask DeleteAllForAppAsync(IEnumerable<CalendarEvent> items) =>
+        service.DeleteAllForAppAsync(items);
+
+    public ValueTask DeleteAllByAppIdAsync(int appId) =>
+        service.DeleteAllByAppIdAsync(appId);
+
     public async ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdate(IEnumerable<CalendarEvent> items)
     {
         List<Result<CalendarEvent>> results = new List<Result<CalendarEvent>>();

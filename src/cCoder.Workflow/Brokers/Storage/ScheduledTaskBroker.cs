@@ -100,6 +100,16 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
         _ = await coreDataContext.SaveChangesAsync();
     }
 
+    public async ValueTask DeleteAllScheduledTasksByAppIdAsync(int appId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        await coreDataContext.ScheduledTasks
+            .IgnoreQueryFilters()
+            .Where(task => task.AppId == appId)
+            .ExecuteDeleteAsync();
+    }
+
     public int? GetAppId(ScheduledTask entity)
     {
         return entity.AppId;

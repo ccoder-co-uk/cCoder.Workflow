@@ -44,13 +44,8 @@ internal class FlowDefinitionOrchestrationService(
         await processingService.DeleteAsync(id);
     }
 
-    public async ValueTask DeleteByAppIdAsync(int appId)
-    {
-        FlowDefinition[] flows = [.. processingService.GetAll(ignoreFilters: true).Where(item => item.AppId == appId)];
-
-        foreach (FlowDefinition flow in flows)
-            await DeleteAsync(flow.Id);
-    }
+    public ValueTask DeleteByAppIdAsync(int appId) =>
+        processingService.DeleteByAppIdAsync(appId);
 
     public ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdate(IEnumerable<FlowDefinition> items)
     {

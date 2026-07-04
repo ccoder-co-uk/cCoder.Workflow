@@ -64,6 +64,13 @@ internal class CalendarService(
         _ = await calendarBroker.DeleteCalendarAsync(CreateStorageCalendar(calendar));
     }
 
+    public ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items) =>
+        calendarBroker.DeleteAllCalendarsAsync(
+            items?.Select(CreateStorageCalendar) ?? []);
+
+    public ValueTask DeleteAllByAppIdAsync(int appId) =>
+        calendarBroker.DeleteAllCalendarsByAppIdAsync(appId);
+
     private static Calendar CreateStorageCalendar(Calendar item) =>
         item == null
             ? null

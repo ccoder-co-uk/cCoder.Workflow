@@ -49,6 +49,16 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
         _ = await coreDataContext.SaveChangesAsync();
     }
 
+    public async ValueTask DeleteAllCalendarsByAppIdAsync(int appId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        await coreDataContext.Calendars
+            .IgnoreQueryFilters()
+            .Where(calendar => calendar.AppId == appId)
+            .ExecuteDeleteAsync();
+    }
+
     public int? GetAppId(Calendar entity)
     {
         return entity.AppId;

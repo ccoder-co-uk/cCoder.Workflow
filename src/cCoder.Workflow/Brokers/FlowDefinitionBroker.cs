@@ -57,6 +57,31 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
         _ = await coreDataContext.SaveChangesAsync();
     }
 
+    public async ValueTask DeleteFlowDefinitionsWithInstancesByAppIdAsync(int appId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        IQueryable<Guid> flowIds =
+            coreDataContext.FlowDefinitions
+                .IgnoreQueryFilters()
+                .Where(flowDefinition => flowDefinition.AppId == appId)
+                .Select(flowDefinition => flowDefinition.Id);
+
+        await coreDataContext.FlowInstances
+            .IgnoreQueryFilters()
+            .Where(instance => flowIds.Contains(instance.FlowDefinitionId))
+            .ExecuteDeleteAsync();
+
+        await coreDataContext.WorflowEvents
+            .IgnoreQueryFilters()
+            .Where(workflowEvent => flowIds.Contains(workflowEvent.FlowId))
+            .ExecuteDeleteAsync();
+
+        await coreDataContext.FlowDefinitions
+            .IgnoreQueryFilters()
+            .Where(flowDefinition => flowDefinition.AppId == appId)
+            .ExecuteDeleteAsync();
+    }
+
     public async ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items)
     {
         if (items == null || !items.Any())

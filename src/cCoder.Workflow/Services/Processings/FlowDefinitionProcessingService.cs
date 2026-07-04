@@ -34,6 +34,9 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
         return service.DeleteWithInstancesAsync(id);
     }
 
+    public ValueTask DeleteByAppIdAsync(int appId) =>
+        service.DeleteWithInstancesByAppIdAsync(appId);
+
     public async ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdate(IEnumerable<FlowDefinition> items)
     {
         FlowDefinition[] itemArray = items.ToArray();

@@ -44,13 +44,8 @@ internal class CalendarOrchestrationService(ICalendarProcessingService processin
         await processingService.DeleteAsync(id);
     }
 
-    public async ValueTask DeleteByAppIdAsync(int appId)
-    {
-        Calendar[] calendars = [.. processingService.GetAll(ignoreFilters: true).Where(item => item.AppId == appId)];
-
-        foreach (Calendar calendar in calendars)
-            await DeleteAsync(calendar.Id);
-    }
+    public ValueTask DeleteByAppIdAsync(int appId) =>
+        processingService.DeleteByAppIdAsync(appId);
 
     public ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdate(IEnumerable<Calendar> items)
     {
