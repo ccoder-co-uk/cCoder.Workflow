@@ -9,5 +9,5 @@ public sealed class BaselineController : ControllerBase
 {
     [HttpGet]
     public IActionResult Get() =>
-        Ok(WorkflowBaselinePackages.All);
+        Ok(UIBaseline.Packages);
 }
