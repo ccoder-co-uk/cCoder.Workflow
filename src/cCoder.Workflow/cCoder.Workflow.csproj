@@ -3,6 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Features>experimental-data-section-string-literals</Features>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
     <NoWarn>1591</NoWarn>
