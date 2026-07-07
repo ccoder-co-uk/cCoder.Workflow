@@ -42,6 +42,126 @@ public static partial class UIBaseline
 }
 """
             },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/AppManagement/Scheduling",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/AppManagement/Scheduling",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/AppManagement/Scheduling",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/CalendarManagement",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/CalendarManagement",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/CalendarManagement",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/BusinessProcessManagement",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/BusinessProcessManagement",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/BusinessProcessManagement",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/BusinessProcessManagement/WorkflowDesigner",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/BusinessProcessManagement/WorkflowDesigner",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/BusinessProcessManagement/WorkflowDesigner",
+  "Role": "Guests"
+}
+"""
+            }
         ]
     };
 }
