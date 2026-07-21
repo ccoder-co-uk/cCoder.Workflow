@@ -40,14 +40,14 @@
     <ProjectReference Include="$(LocalSecurityProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.7.3.2151" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.7.21.1024" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing" Version="2026.7.3.1811" />
-    <PackageReference Include="cCoder.Security" Version="2026.7.3.1125" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.9" />
+    <PackageReference Include="cCoder.Security" Version="2026.7.7.1439" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cCoder.Workflow.Activities\cCoder.Workflow.Activities.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity)" />
