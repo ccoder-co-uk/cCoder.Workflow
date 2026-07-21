@@ -37,7 +37,7 @@ public partial class CalendarEventController : ODataController
             ? Ok(
                 new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Core", typeof(CalendarEvent))
+                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(CalendarEvent))
             )
             : Ok(new MetadataContainer(typeof(CalendarEvent), true, true));
     }

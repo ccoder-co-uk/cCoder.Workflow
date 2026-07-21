@@ -54,7 +54,7 @@ public partial class FlowInstanceDataController : ODataController
             ? Ok(
                 new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Core", typeof(FlowInstanceData))
+                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(FlowInstanceData))
             )
             : Ok(new MetadataContainer(typeof(FlowInstanceData), true, true));
     }
