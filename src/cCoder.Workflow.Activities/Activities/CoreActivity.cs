@@ -5,7 +5,7 @@ namespace cCoder.Workflow.Activities.Activities;
 
 public abstract class CoreActivity : ApiActivity
 {
-    [Picker("Core/App")]
+    [Picker("ContentManagement/App")]
     public int AppId { get; set; }
 
     public override Task ExecuteInternal(IWorkflowContext context)

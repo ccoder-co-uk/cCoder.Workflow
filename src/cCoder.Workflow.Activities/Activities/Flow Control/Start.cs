@@ -19,7 +19,7 @@ public sealed class Start : CoreActivity
         if (Context.Variables.ContainsKey("AppId"))
         {
             using HttpClient api = GetHttpClient();
-            App app = await api.GetAsync<App>($"Core/App({Context.Variables["AppId"]})");
+            App app = await api.GetAsync<App>($"ContentManagement/App({Context.Variables["AppId"]})");
             Context.Variables.Add(new KeyValuePair<string, object>("App", app));
             Log(WorkflowLogLevel.Info, "Grabbed app information");
         }

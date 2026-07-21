@@ -18,7 +18,7 @@ namespace Web.AcceptanceTests.Tests.Workflow.Planning;
 public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/CalendarEvent";
+    private string BaseUrl { get; } = "/Api/Workflow/CalendarEvent";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";

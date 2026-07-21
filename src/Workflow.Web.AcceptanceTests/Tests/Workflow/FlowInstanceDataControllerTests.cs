@@ -21,7 +21,7 @@ namespace Web.AcceptanceTests.Tests.Workflow;
 public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/FlowInstanceData";
+    private string BaseUrl { get; } = "/Api/Workflow/FlowInstanceData";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";

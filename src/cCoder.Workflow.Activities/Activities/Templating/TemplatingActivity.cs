@@ -29,10 +29,10 @@ public abstract class TemplatingActivity<T> : ApiActivity
     }
 
     protected async Task<App> GetApp(HttpClient api)
-        => await api.Get<App>($"Core/App({AppId})?$expand=MailServers");
+        => await api.Get<App>($"ContentManagement/App({AppId})?$expand=MailServers");
 
     protected string BuildRenderQuery() =>
-        $"Core/Template/Render()?appId={AppId}&name={Uri.EscapeDataString(TemplateName ?? string.Empty)}&culture={Uri.EscapeDataString(Culture ?? string.Empty)}";
+        $"ContentManagement/Template/Render()?appId={AppId}&name={Uri.EscapeDataString(TemplateName ?? string.Empty)}&culture={Uri.EscapeDataString(Culture ?? string.Empty)}";
 
     protected async Task<string> Render(HttpClient api)
     {

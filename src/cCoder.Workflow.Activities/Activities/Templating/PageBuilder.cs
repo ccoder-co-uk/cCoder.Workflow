@@ -16,7 +16,7 @@ public class PageBuilder : TemplatingActivity<dynamic>
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        _ = await api.PostAsJsonAsync("Core/Page", new Page()
+        _ = await api.PostAsJsonAsync("ContentManagement/Page", new Page()
         {
             AppId = AppId,
             Layout = Layout,

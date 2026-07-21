@@ -50,7 +50,7 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
             using HttpClient api = Instance.CreateApiClient(apiRoot);
             api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
 
-            User user = await api.GetAsync<User>("Core/User/Me()");
+            User user = await api.GetAsync<User>("AppSecurity/User/Me()");
             Instance.Caller = user.Id;
             Variables["UserId"] = user.Id;
             Variables["UserName"] = user.DisplayName;

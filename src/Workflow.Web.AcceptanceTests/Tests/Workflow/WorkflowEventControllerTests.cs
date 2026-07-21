@@ -21,7 +21,7 @@ namespace Web.AcceptanceTests.Tests.Workflow;
 public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/WorkflowEvent";
+    private string BaseUrl { get; } = "/Api/Workflow/WorkflowEvent";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
