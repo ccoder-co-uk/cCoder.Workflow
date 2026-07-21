@@ -19,8 +19,8 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
     public MetadataContainerSet GetCoreMetadata() =>
         new()
         {
-            Name = "Core",
-            UriBase = "Core",
+            Name = "Workflow",
+            UriBase = "Workflow",
             Types =
             [
                 Entity<Calendar>(),
@@ -155,7 +155,7 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
     private static ExtendedMetadataContainer Entity<T>() =>
         new(typeof(T), isEntity: true, hasEndpoint: true)
         {
-            Category = "Core",
+            Category = "Workflow",
         };
 }
 

@@ -22,7 +22,7 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
             ? Ok(
                 new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Core", typeof(FlowDefinition))
+                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(FlowDefinition))
             )
             : Ok(new MetadataContainer(typeof(FlowDefinition), true, true));
     }

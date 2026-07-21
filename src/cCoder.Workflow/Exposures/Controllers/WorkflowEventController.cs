@@ -33,7 +33,7 @@ public partial class WorkflowEventController : ODataController
             ? Ok(
                 new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Core", typeof(WorkflowEvent))
+                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(WorkflowEvent))
             )
             : Ok(new MetadataContainer(typeof(WorkflowEvent), true, true));
     }

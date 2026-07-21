@@ -47,7 +47,7 @@ public partial class ScheduledTaskController : ODataController
             ? Ok(
                 new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Core", typeof(ScheduledTask))
+                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(ScheduledTask))
             )
             : Ok(new MetadataContainer(typeof(ScheduledTask), true, true));
     }
