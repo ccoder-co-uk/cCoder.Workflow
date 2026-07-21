@@ -33,6 +33,7 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
     private ExternalProcessApplication hostedServicesApplication;
     private ExternalProcessApplication workflowApplication;
     private readonly string repositoryRoot = FindRepositoryRoot();
+    private readonly string buildConfiguration = ResolveBuildConfiguration();
     private string artifactsRoot;
     private string lastHealthProbeFailure;
 
@@ -228,12 +229,22 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
 
     private async Task BuildApplicationAsync(string projectPath, string outputDirectory, string intermediateDirectory)
     {
+        string projectIntermediateDirectory = Path.Combine(intermediateDirectory, "$(MSBuildProjectName)");
         string outputProperties =
             $"-p:OutputPath=\"{FormatMsBuildPath(outputDirectory, trailingSlash: false)}\" " +
-            $"-p:IntermediateOutputPath=\"{FormatMsBuildPath(intermediateDirectory, trailingSlash: true)}\"";
+            $"-p:IntermediateOutputPath=\"{FormatMsBuildPath(projectIntermediateDirectory, trailingSlash: true)}\"";
 
         await RunCommandAsync("dotnet", $"restore {projectPath} {outputProperties}");
-        await RunCommandAsync("dotnet", $"build {projectPath} --no-restore -m:1 -p:BuildInParallel=false -p:UseSharedCompilation=false {outputProperties}");
+        await RunCommandAsync(
+            "dotnet",
+            $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
+            $"-p:BuildInParallel=false -p:UseSharedCompilation=false {outputProperties}");
+    }
+
+    private static string ResolveBuildConfiguration()
+    {
+        DirectoryInfo targetFrameworkDirectory = new(AppContext.BaseDirectory);
+        return targetFrameworkDirectory.Parent?.Name ?? "Debug";
     }
 
     private async Task RunCommandAsync(string fileName, string arguments)
