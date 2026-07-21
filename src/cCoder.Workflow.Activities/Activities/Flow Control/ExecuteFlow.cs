@@ -17,9 +17,9 @@ public class ExecuteFlow : CoreActivity
         try
         {
             using HttpClient api = GetHttpClient();
-            IEnumerable<FlowDefinition> defs = await api.GetODataCollection<FlowDefinition>($"Core/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
+            IEnumerable<FlowDefinition> defs = await api.GetODataCollection<FlowDefinition>($"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
             if (defs?.Any() ?? false)
-                _ = await api.PostAsync($"Core/FlowDefinition({defs.First().Id})/Execute", new StringContent(Data.ToJson())).ConfigureAwait(false);
+                _ = await api.PostAsync($"Workflow/FlowDefinition({defs.First().Id})/Execute", new StringContent(Data.ToJson())).ConfigureAwait(false);
             else
                 Log(WorkflowLogLevel.Warning, "Flow not found!");
         }

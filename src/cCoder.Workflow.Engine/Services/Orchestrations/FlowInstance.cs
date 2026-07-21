@@ -49,7 +49,7 @@ public sealed class FlowInstance
         using HttpClient api = CreateApiClient(request.Api);
         api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", request.AuthToken);
 
-        string rawInstance = await api.GetStringAsync($"Core/FlowInstanceData({request.InstanceId})?$expand=FlowDefinition($expand=App)");
+        string rawInstance = await api.GetStringAsync($"Workflow/FlowInstanceData({request.InstanceId})?$expand=FlowDefinition($expand=App)");
         FlowInstanceData instanceData = await DeserializeInstanceAsync(rawInstance);
 
         AppId = instanceData.FlowDefinition.AppId;

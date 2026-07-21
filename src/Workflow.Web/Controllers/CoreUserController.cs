@@ -9,7 +9,7 @@ namespace Workflow.Web.Controllers;
 public sealed class CoreUserController(IAuthenticationOrchestrationService authenticationOrchestrationService)
     : ControllerBase
 {
-    [HttpGet("/Api/Core/User/Me()")]
+    [HttpGet("/Api/AppSecurity/User/Me()")]
     public IActionResult Me()
     {
         SSOUser user = authenticationOrchestrationService.Me();

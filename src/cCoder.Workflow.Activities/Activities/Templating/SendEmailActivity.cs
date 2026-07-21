@@ -19,7 +19,7 @@ public class SendEmailActivity : TemplatingActivity<dynamic>
         if (email != null)
         {
             Log(WorkflowLogLevel.Info, $"Email built, sending ...");
-            _ = await api.AddAsync($"Core/QueuedEmail", email);
+            _ = await api.AddAsync($"Mail/QueuedEmail", email);
             Log(WorkflowLogLevel.Info, $"Email Sent!");
         }
     }

@@ -19,7 +19,7 @@ public abstract class DMSActivity : CoreActivity
 
     protected async Task<File[]> GetFiles(HttpClient api) =>
         ParamsAllSet()
-            ? (await api.GetODataCollection<Folder>($"Core/Folder?$filter=AppId eq {AppId} AND Path eq '{Path.Trim().TrimEnd("/".ToCharArray())}'&$expand=Files"))
+            ? (await api.GetODataCollection<Folder>($"DocumentManagement/Folder?$filter=AppId eq {AppId} AND Path eq '{Path.Trim().TrimEnd("/".ToCharArray())}'&$expand=Files"))
                 .FirstOrDefault()?
                 .Files?
                 .ToArray() ?? []
@@ -27,7 +27,7 @@ public abstract class DMSActivity : CoreActivity
 
     protected async Task<File> GetFile(HttpClient api)
         => ParamsAllSet()
-            ? (await api.GetODataCollection<File>($"Core/File?$filter=Folder/AppId eq {AppId} AND Path eq '{Path.ToLower()}'")).FirstOrDefault()
+            ? (await api.GetODataCollection<File>($"DocumentManagement/File?$filter=Folder/AppId eq {AppId} AND Path eq '{Path.ToLower()}'")).FirstOrDefault()
             : null;
 
     protected async Task<string[]> GetFileContents(HttpClient api, IEnumerable<string> paths)

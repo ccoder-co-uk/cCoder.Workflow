@@ -22,7 +22,7 @@ namespace Web.AcceptanceTests.Tests.Workflow;
 public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/FlowDefinition";
+    private string BaseUrl { get; } = "/Api/Workflow/FlowDefinition";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";

@@ -33,7 +33,7 @@ public class JsonFolderContentActivity : DMSActivity
 
     protected async Task<IEnumerable<DmsFile>> GetFilesWithContents(HttpClient api)
     {
-        string query = $"Core/File?$filter=Folder/AppId eq {AppId} AND Folder/Path eq '{Path.Trim().TrimEnd("/".ToCharArray())}' AND endswith(Name, '.json')&$expand=Contents";
+        string query = $"DocumentManagement/File?$filter=Folder/AppId eq {AppId} AND Folder/Path eq '{Path.Trim().TrimEnd("/".ToCharArray())}' AND endswith(Name, '.json')&$expand=Contents";
 
         if (Page != null && PageSize != null)
             query += $"&$top={PageSize}&$skip={(Page - 1) * PageSize}";

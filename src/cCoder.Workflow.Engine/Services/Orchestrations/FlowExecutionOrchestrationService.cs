@@ -126,7 +126,7 @@ public sealed class FlowExecutionOrchestrationService(
             Formatting.None);
 
         HttpResponseMessage response = await api.PutAsync(
-            $"Core/FlowInstanceData({result.Id})",
+            $"Workflow/FlowInstanceData({result.Id})",
             new StringContent(payload, Encoding.UTF8, "application/json"));
 
         if (!response.IsSuccessStatusCode)

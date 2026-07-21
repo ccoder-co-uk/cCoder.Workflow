@@ -8,7 +8,7 @@ namespace Workflow.Web.Controllers;
 [ApiController]
 public sealed class CoreAppController(ICoreContextFactory coreContextFactory) : ControllerBase
 {
-    [HttpGet("/Api/Core/App({key:int})")]
+    [HttpGet("/Api/ContentManagement/App({key:int})")]
     public async Task<IActionResult> Get([FromRoute] int key)
     {
         await using CoreDataContext core = coreContextFactory.CreateCoreContext();

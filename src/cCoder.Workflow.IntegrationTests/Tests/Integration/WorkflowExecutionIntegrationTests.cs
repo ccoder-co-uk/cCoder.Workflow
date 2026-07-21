@@ -39,7 +39,7 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
         {
             string authToken = await CreateAuthTokenAsync(AdminUserId);
 
-            await PostRawAsync($"/Api/Core/FlowDefinition({flowId})/Execute", "{}", authToken);
+            await PostRawAsync($"/Api/Workflow/FlowDefinition({flowId})/Execute", "{}", authToken);
 
             await WaitUntilAsync(async () => await HasFlowInstanceStateAsync(flowId, "Complete"),
                 diagnosticsFactory: () => BuildFlowDiagnosticsAsync(flowId));
