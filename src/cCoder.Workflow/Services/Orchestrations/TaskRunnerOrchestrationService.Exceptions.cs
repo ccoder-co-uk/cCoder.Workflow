@@ -9,11 +9,17 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class TaskRunnerOrchestrationService
 {
-    private static async Task TryCatch(Func<Task> operation)
+    private static async Task TryCatch(
+        Func<Task> operation,
+        CancellationToken cancellationToken)
     {
         try
         {
             await operation();
+        }
+        catch (OperationCanceledException)
+            when (cancellationToken.IsCancellationRequested)
+        {
         }
         catch (WorkflowValidationException innerException)
         {
