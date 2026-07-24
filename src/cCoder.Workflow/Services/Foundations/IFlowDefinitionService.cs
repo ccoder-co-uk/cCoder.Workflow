@@ -16,9 +16,9 @@ public interface IFlowDefinitionService
 
     IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false);
 
-    ValueTask<FlowDefinition> AddAsync(FlowDefinition flowDefinition);
+    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition);
 
-    ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition);
+    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition);
 
     ValueTask DeleteAsync(Guid flowDefinitionId);
 

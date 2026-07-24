@@ -66,7 +66,7 @@ connectionString: coreConnection);
             });
         }
 
-        builder.Services.AddWorkflowWeb(configure: workflowConfig =>
+        builder.Services.AddWorkflowWeb(newConfigure: workflowConfig =>
         {
             if (IsHttpEventProvider(eventProviderType: eventProviderType) && !string.IsNullOrWhiteSpace(value: httpEventHubUrl))
             {

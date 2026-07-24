@@ -29,11 +29,11 @@ public sealed class FlowDefinitionControllerService(
     public IQueryable<FlowDefinition> GetAll() =>
         flowDefinitionOrchestrationService.GetAll();
 
-    public ValueTask<FlowDefinition> PostFlowDefinitionAsync(FlowDefinition entity) =>
-        flowDefinitionOrchestrationService.AddAsync(entity: entity);
+    public ValueTask<FlowDefinition> PostFlowDefinitionAsync(FlowDefinition newEntity) =>
+        flowDefinitionOrchestrationService.AddFlowDefinitionAsync(newEntity: newEntity);
 
-    public ValueTask<FlowDefinition> PutFlowDefinitionAsync(FlowDefinition entity) =>
-        flowDefinitionOrchestrationService.UpdateAsync(entity: entity);
+    public ValueTask<FlowDefinition> PutFlowDefinitionAsync(FlowDefinition updatedEntity) =>
+        flowDefinitionOrchestrationService.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity);
 
     public ValueTask DeleteAsync(Guid flowDefinitionId) =>
         flowDefinitionOrchestrationService.DeleteAsync(flowDefinitionId: flowDefinitionId);

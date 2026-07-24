@@ -13,11 +13,11 @@ public interface IFlowDefinitionBroker
 
     IQueryable<FlowDefinition> SelectAllFlowDefinitionsIgnoringQueryFilters();
 
-    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity);
+    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity);
 
-    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition entity);
+    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity);
 
-    ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition entity);
+    ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition deletedEntity);
 
     ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid flowDefinitionId);
 

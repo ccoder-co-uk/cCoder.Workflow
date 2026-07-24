@@ -27,7 +27,7 @@ internal sealed partial class CalendarCoordinationService(
             return;
         }
 
-        await calendarEventOrchestrationService.AddOrUpdate(items: calendar.Events);
+        await calendarEventOrchestrationService.AddOrUpdateCalendarEvent(items: calendar.Events);
     }
 
     public ValueTask HandleCalendarUpdateAsync(Calendar calendar) =>
@@ -40,7 +40,7 @@ internal sealed partial class CalendarCoordinationService(
             return;
         }
 
-        await calendarEventOrchestrationService.AddOrUpdate(items: calendar.Events);
+        await calendarEventOrchestrationService.AddOrUpdateCalendarEvent(items: calendar.Events);
     }
 
     public ValueTask HandleCalendarDeleteAsync(Calendar calendar) =>
@@ -53,6 +53,6 @@ internal sealed partial class CalendarCoordinationService(
             .Where(predicate: calendarEvent => calendarEvent.CalendarId == calendar.Id)
             .ToArray();
 
-        await calendarEventOrchestrationService.DeleteAllAsync(items: eventsToDelete);
+        await calendarEventOrchestrationService.DeleteAllCalendarEventAsync(deletedItems: eventsToDelete);
     }
 }

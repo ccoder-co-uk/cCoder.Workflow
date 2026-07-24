@@ -52,15 +52,15 @@ internal sealed partial class CalendarService(
         return calendarBroker.SelectAllCalendars();
     }
 
-    public ValueTask<Calendar> AddAsync(Calendar calendar) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); return await ExecuteAddAsync(calendar: calendar); }, isValueTask: true);
+    public ValueTask<Calendar> AddCalendarAsync(Calendar newCalendar) =>
+        TryCatch(operation: async () => { ValidateCalendarOnAdd(inputs: [newCalendar]); return await ExecuteAddAsync(calendar: newCalendar); }, isValueTask: true);
 
     private async ValueTask<Calendar> ExecuteAddAsync(Calendar calendar)
     {
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_create");
         Calendar newCalendar = CreateStorageCalendar(item: calendar);
 
-        Calendar result = await calendarBroker.InsertCalendarAsync(entity: newCalendar);
+        Calendar result = await calendarBroker.InsertCalendarAsync(newEntity: newCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;
@@ -68,15 +68,15 @@ internal sealed partial class CalendarService(
         return calendar;
     }
 
-    public ValueTask<Calendar> UpdateAsync(Calendar calendar) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); return await ExecuteUpdateAsync(calendar: calendar); }, isValueTask: true);
+    public ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedCalendar) =>
+        TryCatch(operation: async () => { ValidateCalendarOnUpdate(inputs: [updatedCalendar]); return await ExecuteUpdateAsync(calendar: updatedCalendar); }, isValueTask: true);
 
     private async ValueTask<Calendar> ExecuteUpdateAsync(Calendar calendar)
     {
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_update");
         Calendar updateCalendar = CreateStorageCalendar(item: calendar);
 
-        Calendar result = await calendarBroker.UpdateCalendarAsync(entity: updateCalendar);
+        Calendar result = await calendarBroker.UpdateCalendarAsync(updatedEntity: updateCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;
@@ -98,11 +98,11 @@ internal sealed partial class CalendarService(
         }
 
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_delete");
-        _ = await calendarBroker.DeleteCalendarAsync(entity: CreateStorageCalendar(item: calendar));
+        _ = await calendarBroker.DeleteCalendarAsync(deletedEntity: CreateStorageCalendar(item: calendar));
     }
 
-    public ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items) =>
-        TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
+    public ValueTask DeleteAllForAppCalendarAsync(IEnumerable<Calendar> deletedItems) =>
+        TryCatch(operation: async () => { ValidateAllForAppCalendarOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllForAppAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<Calendar> items)
     {
@@ -115,7 +115,7 @@ internal sealed partial class CalendarService(
         }
 
         return calendarBroker.DeleteAllCalendarsAsync(
-            items: storageCalendars);
+            deletedItems: storageCalendars);
     }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>

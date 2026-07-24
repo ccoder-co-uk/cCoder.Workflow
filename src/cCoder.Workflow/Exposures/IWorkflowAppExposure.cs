@@ -11,9 +11,9 @@ namespace cCoder.Workflow.Exposures;
 
 public interface IWorkflowAppExposure
 {
-    ValueTask AddAsync(App app);
+    ValueTask AddAsync(App newApp);
 
-    ValueTask UpdateAsync(App app);
+    ValueTask UpdateAsync(App updatedApp);
 
     ValueTask DeleteAsync(int appId);
 }

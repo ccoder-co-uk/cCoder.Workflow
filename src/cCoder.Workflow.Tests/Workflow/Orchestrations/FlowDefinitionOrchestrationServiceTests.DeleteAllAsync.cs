@@ -20,14 +20,14 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Given
         FlowDefinition[] entities = [CreateRandomFlowDefinition()];
 
-        flowDefinitionProcessingServiceMock.Setup(expression: x => x.DeleteAllAsync(items: entities))
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.DeleteAllFlowDefinitionAsync(deletedItems: entities))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(items: entities);
+        await orchestrationService.DeleteAllFlowDefinitionAsync(deletedItems: entities);
 
         // Then
-        flowDefinitionProcessingServiceMock.Verify(expression: x => x.DeleteAllAsync(items: entities), times: Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.DeleteAllFlowDefinitionAsync(deletedItems: entities), times: Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
     }

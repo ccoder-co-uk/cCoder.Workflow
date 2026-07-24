@@ -9,7 +9,7 @@
           "Name": "AddWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -19,7 +19,7 @@
           "Name": "DeleteWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -49,7 +49,7 @@
           "Name": "UpdateWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -909,7 +909,7 @@
           "Name": "AddFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -919,7 +919,7 @@
           "Name": "DeleteFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -969,7 +969,7 @@
           "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -986,7 +986,7 @@
           "Name": "AddFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -996,7 +996,7 @@
           "Name": "DeleteFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -1026,7 +1026,7 @@
           "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -1119,7 +1119,7 @@
           "Name": "DeleteAllCalendarsAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
@@ -1139,7 +1139,7 @@
           "Name": "DeleteCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "Calendar"
             }
           ],
@@ -1149,7 +1149,7 @@
           "Name": "InsertCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "Calendar"
             }
           ],
@@ -1179,7 +1179,7 @@
           "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "Calendar"
             }
           ],
@@ -1196,7 +1196,7 @@
           "Name": "DeleteAllCalendarEventsAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
@@ -1216,7 +1216,7 @@
           "Name": "DeleteCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -1226,7 +1226,7 @@
           "Name": "InsertCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -1256,7 +1256,7 @@
           "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -1273,7 +1273,7 @@
           "Name": "DeleteAllScheduledTasksAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
@@ -1293,7 +1293,7 @@
           "Name": "DeleteScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -1303,7 +1303,7 @@
           "Name": "InsertScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -1371,7 +1371,7 @@
           "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -1388,7 +1388,7 @@
           "Name": "AddUserAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "User"
             }
           ],
@@ -1398,7 +1398,7 @@
           "Name": "DeleteAllUsersAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CUser\u003E"
             }
           ],
@@ -1408,7 +1408,7 @@
           "Name": "DeleteUserAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "deletedEntity",
               "Type": "User"
             }
           ],
@@ -1438,7 +1438,7 @@
           "Name": "UpdateUserAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "User"
             }
           ],
@@ -1579,7 +1579,7 @@
           "Name": "Post",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "Calendar"
             }
           ],
@@ -1593,7 +1593,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "Calendar"
             }
           ],
@@ -1607,7 +1607,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "delta",
+              "Name": "updatedDelta",
               "Type": "Delta\u003CCalendar\u003E"
             }
           ],
@@ -1659,7 +1659,7 @@
           "Name": "Post",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -1673,7 +1673,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -1687,7 +1687,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "delta",
+              "Name": "updatedDelta",
               "Type": "Delta\u003CCalendarEvent\u003E"
             }
           ],
@@ -1749,7 +1749,7 @@
           "Name": "Post",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -1778,7 +1778,7 @@
               "Type": "System.Guid"
             },
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -1792,7 +1792,7 @@
               "Type": "System.Guid"
             },
             {
-              "Name": "delta",
+              "Name": "updatedDelta",
               "Type": "Delta\u003CFlowDefinition\u003E"
             }
           ],
@@ -1844,7 +1844,7 @@
           "Name": "PostFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -1882,7 +1882,7 @@
           "Name": "PutFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -1934,7 +1934,7 @@
           "Name": "Post",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -1948,7 +1948,7 @@
               "Type": "System.Guid"
             },
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -1962,7 +1962,7 @@
               "Type": "System.Guid"
             },
             {
-              "Name": "delta",
+              "Name": "updatedDelta",
               "Type": "Delta\u003CFlowInstanceData\u003E"
             }
           ],
@@ -2014,7 +2014,7 @@
           "Name": "Post",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -2042,7 +2042,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -2056,7 +2056,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "delta",
+              "Name": "updatedDelta",
               "Type": "Delta\u003CScheduledTask\u003E"
             }
           ],
@@ -2108,7 +2108,7 @@
           "Name": "Post",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -2122,7 +2122,7 @@
               "Type": "System.Guid"
             },
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -2136,7 +2136,7 @@
               "Type": "System.Guid"
             },
             {
-              "Name": "delta",
+              "Name": "updatedDelta",
               "Type": "Delta\u003CWorkflowEvent\u003E"
             }
           ],
@@ -2273,7 +2273,7 @@
           "Name": "AddAsync",
           "Inputs": [
             {
-              "Name": "app",
+              "Name": "newApp",
               "Type": "App"
             }
           ],
@@ -2293,7 +2293,7 @@
           "Name": "UpdateAsync",
           "Inputs": [
             {
-              "Name": "app",
+              "Name": "updatedApp",
               "Type": "App"
             }
           ],
@@ -2376,7 +2376,7 @@
               "Type": "IServiceCollection"
             },
             {
-              "Name": "configure",
+              "Name": "newConfigure",
               "Type": "System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E"
             }
           ],
@@ -2390,7 +2390,7 @@
               "Type": "IServiceCollection"
             },
             {
-              "Name": "configure",
+              "Name": "newConfigure",
               "Type": "System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E"
             },
             {
@@ -2775,7 +2775,7 @@
           "ReturnType": "cCoder.Workflow.Models.WorkflowPackage"
         },
         {
-          "Name": "ImportPackageAsync",
+          "Name": "ImportPackageWorkflowPackageAsync",
           "Inputs": [
             {
               "Name": "appId",
@@ -2868,10 +2868,10 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "calendarEvent",
+              "Name": "newCalendarEvent",
               "Type": "CalendarEvent"
             }
           ],
@@ -2888,10 +2888,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "DeleteAllForAppAsync",
+          "Name": "DeleteAllForAppCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
@@ -2928,10 +2928,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "calendarEvent",
+              "Name": "updatedCalendarEvent",
               "Type": "CalendarEvent"
             }
           ],
@@ -2945,10 +2945,10 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddCalendarAsync",
           "Inputs": [
             {
-              "Name": "calendar",
+              "Name": "newCalendar",
               "Type": "Calendar"
             }
           ],
@@ -2965,10 +2965,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "DeleteAllForAppAsync",
+          "Name": "DeleteAllForAppCalendarAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
@@ -3005,10 +3005,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
-              "Name": "calendar",
+              "Name": "updatedCalendar",
               "Type": "Calendar"
             }
           ],
@@ -3276,10 +3276,10 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "flowDefinition",
+              "Name": "newFlowDefinition",
               "Type": "FlowDefinition"
             }
           ],
@@ -3336,10 +3336,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "flowDefinition",
+              "Name": "updatedFlowDefinition",
               "Type": "FlowDefinition"
             }
           ],
@@ -3353,20 +3353,20 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "flowInstanceData",
+              "Name": "newFlowInstanceData",
               "Type": "FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "AddQueuedAsync",
+          "Name": "AddQueuedFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "flowInstanceData",
+              "Name": "newFlowInstanceData",
               "Type": "FlowInstanceData"
             }
           ],
@@ -3403,10 +3403,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "flowInstanceData",
+              "Name": "updatedFlowInstanceData",
               "Type": "FlowInstanceData"
             }
           ],
@@ -3420,10 +3420,10 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "scheduledTask",
+              "Name": "newScheduledTask",
               "Type": "ScheduledTask"
             }
           ],
@@ -3440,10 +3440,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "DeleteAllForAppAsync",
+          "Name": "DeleteAllForAppScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
@@ -3532,10 +3532,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "scheduledTask",
+              "Name": "updatedScheduledTask",
               "Type": "ScheduledTask"
             }
           ],
@@ -3549,10 +3549,10 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "workflowEvent",
+              "Name": "newWorkflowEvent",
               "Type": "WorkflowEvent"
             }
           ],
@@ -3599,10 +3599,10 @@
           "ReturnType": "System.Int32?"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "workflowEvent",
+              "Name": "updatedWorkflowEvent",
               "Type": "WorkflowEvent"
             }
           ],
@@ -3643,10 +3643,10 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddAppAsync",
           "Inputs": [
             {
-              "Name": "app",
+              "Name": "newApp",
               "Type": "App"
             }
           ],
@@ -3663,10 +3663,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateAppAsync",
           "Inputs": [
             {
-              "Name": "app",
+              "Name": "updatedApp",
               "Type": "App"
             }
           ],
@@ -3680,17 +3680,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateCalendarEvent",
           "Inputs": [
             {
               "Name": "items",
@@ -3700,10 +3700,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendarEvent\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
@@ -3740,10 +3740,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -3757,17 +3757,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateCalendar",
           "Inputs": [
             {
               "Name": "items",
@@ -3777,10 +3777,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendar\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllCalendarAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
@@ -3827,10 +3827,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "Calendar"
             }
           ],
@@ -3869,17 +3869,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateFlowDefinition",
           "Inputs": [
             {
               "Name": "items",
@@ -3889,10 +3889,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
             }
           ],
@@ -3939,10 +3939,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -3956,17 +3956,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateFlowInstanceData",
           "Inputs": [
             {
               "Name": "items",
@@ -3976,20 +3976,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowInstanceData\u003E\u003E\u003E"
         },
         {
-          "Name": "AddQueuedAsync",
+          "Name": "AddQueuedFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
             }
           ],
@@ -4026,10 +4026,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -4043,17 +4043,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "ScheduledTask"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
-        },
-        {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateScheduledTask",
           "Inputs": [
             {
               "Name": "items",
@@ -4063,10 +4053,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CScheduledTask\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "AddScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "newEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "DeleteAllScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
@@ -4127,10 +4127,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -4171,17 +4171,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "WorkflowEvent"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
-        },
-        {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateWorkflowEvent",
           "Inputs": [
             {
               "Name": "items",
@@ -4191,10 +4181,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CWorkflowEvent\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "AddWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "newEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "DeleteAllWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
             }
           ],
@@ -4231,10 +4231,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -4394,17 +4394,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateCalendarEvent",
           "Inputs": [
             {
               "Name": "items",
@@ -4412,16 +4412,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendarEvent\u003E\u003E\u003E"
-        },
-        {
-          "Name": "DeleteAllAsync",
-          "Inputs": [
-            {
-              "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -4434,10 +4424,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "DeleteAllForAppAsync",
+          "Name": "DeleteAllCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllForAppCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
@@ -4474,10 +4474,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "CalendarEvent"
             }
           ],
@@ -4491,17 +4491,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateCalendar",
           "Inputs": [
             {
               "Name": "items",
@@ -4511,10 +4511,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendar\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllCalendarAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
@@ -4561,10 +4561,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "Calendar"
             }
           ],
@@ -4615,17 +4615,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateFlowDefinition",
           "Inputs": [
             {
               "Name": "items",
@@ -4635,10 +4635,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
             }
           ],
@@ -4685,10 +4685,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowDefinition"
             }
           ],
@@ -4739,17 +4739,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
+          "Name": "AddFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateFlowInstanceData",
           "Inputs": [
             {
               "Name": "items",
@@ -4759,20 +4759,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowInstanceData\u003E\u003E\u003E"
         },
         {
-          "Name": "AddQueuedAsync",
+          "Name": "AddQueuedFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "newEntity",
               "Type": "FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "DeleteAllFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
             }
           ],
@@ -4809,10 +4809,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "FlowInstanceData"
             }
           ],
@@ -4873,17 +4873,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "ScheduledTask"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
-        },
-        {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateScheduledTask",
           "Inputs": [
             {
               "Name": "items",
@@ -4893,10 +4883,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CScheduledTask\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "AddScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "newEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "DeleteAllScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
@@ -4957,10 +4957,10 @@
           "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "ScheduledTask"
             }
           ],
@@ -5011,17 +5011,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "WorkflowEvent"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
-        },
-        {
-          "Name": "AddOrUpdate",
+          "Name": "AddOrUpdateWorkflowEvent",
           "Inputs": [
             {
               "Name": "items",
@@ -5031,10 +5021,20 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CWorkflowEvent\u003E\u003E\u003E"
         },
         {
-          "Name": "DeleteAllAsync",
+          "Name": "AddWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "items",
+              "Name": "newEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "DeleteAllWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
               "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
             }
           ],
@@ -5085,10 +5085,10 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "UpdateWorkflowEventAsync",
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "updatedEntity",
               "Type": "WorkflowEvent"
             }
           ],
@@ -5777,13 +5777,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
       "LineNumber": 16
-    },
-    {
-      "Code": "STX0018",
-      "Description": "Service method names must include each model type they operate on.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 24
     },
     {
       "Code": "STXC001",

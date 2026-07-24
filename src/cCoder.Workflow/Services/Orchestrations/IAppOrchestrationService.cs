@@ -11,9 +11,9 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IAppOrchestrationService
 {
-    ValueTask AddAsync(App app);
+    ValueTask AddAppAsync(App newApp);
 
-    ValueTask UpdateAsync(App app);
+    ValueTask UpdateAppAsync(App updatedApp);
 
     ValueTask DeleteAsync(int appId);
 }

@@ -89,14 +89,14 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] WorkflowEvent entity)
+    public async Task<IActionResult> Post([FromBody] WorkflowEvent newEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.AddAsync(entity: entity));
+        return Ok(value: await service.AddWorkflowEventAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -108,18 +108,18 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] WorkflowEvent entity)
+    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] WorkflowEvent updatedEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.UpdateAsync(entity: entity));
+        return Ok(value: await service.UpdateWorkflowEventAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<WorkflowEvent> delta)
+    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<WorkflowEvent> updatedDelta)
     {
         WorkflowEvent originalEntity = service.Get(workflowEventId: key);
 
@@ -128,8 +128,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateWorkflowEventAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]

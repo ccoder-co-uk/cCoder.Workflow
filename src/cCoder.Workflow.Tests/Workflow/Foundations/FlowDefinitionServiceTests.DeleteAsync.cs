@@ -37,7 +37,7 @@ public partial class FlowDefinitionServiceTests
             .Setup(
 expression: x =>
                     x.DeleteFlowDefinitionAsync(
-entity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
+deletedEntity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -51,7 +51,7 @@ entity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
         flowDefinitionBrokerMock.Verify(
 expression: x =>
                 x.DeleteFlowDefinitionAsync(
-entity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
+deletedEntity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
                 ),
 times: Times.Once
         );

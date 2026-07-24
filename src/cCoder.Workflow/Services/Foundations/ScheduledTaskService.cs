@@ -90,7 +90,7 @@ internal sealed partial class ScheduledTaskService(
         }
 
         return await scheduledTaskBroker.UpdateScheduledTaskAsync(
-            entity: scheduledTask);
+            updatedEntity: scheduledTask);
     }
 
     public bool GetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
@@ -105,8 +105,8 @@ internal sealed partial class ScheduledTaskService(
     private bool ExecuteGetFlowBelongsToApp(Guid flowId, int appId) =>
         scheduledTaskBroker.SelectFlowBelongsToApp(flowId: flowId, appId: appId);
 
-    public ValueTask<ScheduledTask> AddAsync(ScheduledTask scheduledTask) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); return await ExecuteAddAsync(scheduledTask: scheduledTask); }, isValueTask: true);
+    public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask) =>
+        TryCatch(operation: async () => { ValidateScheduledTaskOnAdd(inputs: [newScheduledTask]); return await ExecuteAddAsync(scheduledTask: newScheduledTask); }, isValueTask: true);
 
     private async ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask scheduledTask)
     {
@@ -119,7 +119,7 @@ internal sealed partial class ScheduledTaskService(
         newScheduledTask.LastUpdated = now;
         newScheduledTask.UpdatedBy = currentUserId;
 
-        ScheduledTask result = await scheduledTaskBroker.InsertScheduledTaskAsync(entity: newScheduledTask);
+        ScheduledTask result = await scheduledTaskBroker.InsertScheduledTaskAsync(newEntity: newScheduledTask);
         scheduledTask.Id = result.Id;
         scheduledTask.AppId = result.AppId;
         scheduledTask.FlowId = result.FlowId;
@@ -139,8 +139,8 @@ internal sealed partial class ScheduledTaskService(
         return scheduledTask;
     }
 
-    public ValueTask<ScheduledTask> UpdateAsync(ScheduledTask scheduledTask) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); return await ExecuteUpdateAsync(scheduledTask: scheduledTask); }, isValueTask: true);
+    public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask) =>
+        TryCatch(operation: async () => { ValidateScheduledTaskOnUpdate(inputs: [updatedScheduledTask]); return await ExecuteUpdateAsync(scheduledTask: updatedScheduledTask); }, isValueTask: true);
 
     private async ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask scheduledTask)
     {
@@ -152,7 +152,7 @@ internal sealed partial class ScheduledTaskService(
         updateScheduledTask.UpdatedBy = currentUserId;
 
         ScheduledTask result = await scheduledTaskBroker.UpdateScheduledTaskAsync(
-entity: updateScheduledTask
+updatedEntity: updateScheduledTask
         );
 
         scheduledTask.Id = result.Id;
@@ -190,12 +190,12 @@ entity: updateScheduledTask
         authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_delete");
 
         _ = await scheduledTaskBroker.DeleteScheduledTaskAsync(
-entity: CreateStorageScheduledTask(item: scheduledTask)
+deletedEntity: CreateStorageScheduledTask(item: scheduledTask)
         );
     }
 
-    public ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items) =>
-        TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
+    public ValueTask DeleteAllForAppScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems) =>
+        TryCatch(operation: async () => { ValidateAllForAppScheduledTaskOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllForAppAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<ScheduledTask> items)
     {
@@ -208,7 +208,7 @@ entity: CreateStorageScheduledTask(item: scheduledTask)
         }
 
         return scheduledTaskBroker.DeleteAllScheduledTasksAsync(
-            items: storageScheduledTasks);
+            deletedItems: storageScheduledTasks);
     }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>

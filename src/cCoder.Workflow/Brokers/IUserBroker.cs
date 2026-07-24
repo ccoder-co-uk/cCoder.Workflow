@@ -10,13 +10,13 @@ public interface IUserBroker
 {
     IQueryable<User> GetAllUsers(bool ignoreFilters);
 
-    ValueTask<User> AddUserAsync(User entity);
+    ValueTask<User> AddUserAsync(User newEntity);
 
-    ValueTask<User> UpdateUserAsync(User entity);
+    ValueTask<User> UpdateUserAsync(User updatedEntity);
 
-    ValueTask<int> DeleteUserAsync(User entity);
+    ValueTask<int> DeleteUserAsync(User deletedEntity);
 
-    ValueTask DeleteAllUsersAsync(IEnumerable<User> items);
+    ValueTask DeleteAllUsersAsync(IEnumerable<User> deletedItems);
 
     int? SelectAppId(User entity);
 }

@@ -23,7 +23,7 @@ public partial class FlowDefinitionProcessingServiceTests
             .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id))
             .Returns(value: ValueTask.CompletedTask);
 
-        await flowDefinitionProcessingService.DeleteAllAsync(items: new[] { entity });
+        await flowDefinitionProcessingService.DeleteAllFlowDefinitionAsync(deletedItems: new[] { entity });
 
         flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();

@@ -103,14 +103,14 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] ScheduledTask entity)
+    public async Task<IActionResult> Post([FromBody] ScheduledTask newEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.AddAsync(entity: entity));
+        return Ok(value: await service.AddScheduledTaskAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -122,18 +122,18 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] ScheduledTask entity)
+    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] ScheduledTask updatedEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.UpdateAsync(entity: entity));
+        return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Put([FromRoute] int key, Delta<ScheduledTask> delta)
+    public async Task<IActionResult> Put([FromRoute] int key, Delta<ScheduledTask> updatedDelta)
     {
         ScheduledTask originalEntity = service.Get(scheduledTaskId: key);
 
@@ -142,8 +142,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]

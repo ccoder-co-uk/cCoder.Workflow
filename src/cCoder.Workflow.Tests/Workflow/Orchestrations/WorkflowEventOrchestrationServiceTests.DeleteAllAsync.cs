@@ -20,14 +20,14 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Given
         WorkflowEvent[] entities = [CreateRandomWorkflowEvent()];
 
-        workflowEventProcessingServiceMock.Setup(expression: x => x.DeleteAllAsync(items: entities))
+        workflowEventProcessingServiceMock.Setup(expression: x => x.DeleteAllWorkflowEventAsync(deletedItems: entities))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(items: entities);
+        await orchestrationService.DeleteAllWorkflowEventAsync(deletedItems: entities);
 
         // Then
-        workflowEventProcessingServiceMock.Verify(expression: x => x.DeleteAllAsync(items: entities), times: Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression: x => x.DeleteAllWorkflowEventAsync(deletedItems: entities), times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();
     }

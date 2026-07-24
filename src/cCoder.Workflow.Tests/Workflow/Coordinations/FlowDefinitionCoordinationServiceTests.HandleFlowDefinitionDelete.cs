@@ -33,7 +33,7 @@ public partial class FlowDefinitionCoordinationServiceTests
             .Returns(value: flowInstances);
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(expression: service => service.DeleteAllAsync(items: It.IsAny<IEnumerable<FlowInstanceData>>()))
+            .Setup(expression: service => service.DeleteAllFlowInstanceDataAsync(deletedItems: It.IsAny<IEnumerable<FlowInstanceData>>()))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -43,8 +43,8 @@ public partial class FlowDefinitionCoordinationServiceTests
         flowInstanceDataOrchestrationServiceMock.Verify(expression: service => service.GetAll(ignoreFilters: true), times: Times.Once);
 
         flowInstanceDataOrchestrationServiceMock.Verify(
-expression: service => service.DeleteAllAsync(
-items: It.Is<IEnumerable<FlowInstanceData>>(items =>
+expression: service => service.DeleteAllFlowInstanceDataAsync(
+deletedItems: It.Is<IEnumerable<FlowInstanceData>>(items =>
                     items.Single().FlowDefinitionId == flowDefinition.Id
                 )
             ),

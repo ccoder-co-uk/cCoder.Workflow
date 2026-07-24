@@ -53,8 +53,8 @@ internal sealed partial class CalendarEventService(
         return calendarEventBroker.SelectAllCalendarEvents();
     }
 
-    public ValueTask<CalendarEvent> AddAsync(CalendarEvent calendarEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); return await ExecuteAddAsync(calendarEvent: calendarEvent); }, isValueTask: true);
+    public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newCalendarEvent) =>
+        TryCatch(operation: async () => { ValidateCalendarEventOnAdd(inputs: [newCalendarEvent]); return await ExecuteAddAsync(calendarEvent: newCalendarEvent); }, isValueTask: true);
 
     private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent calendarEvent)
     {
@@ -65,7 +65,7 @@ privilege: $"{nameof(CalendarEvent)}_create"
 
         CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
-        CalendarEvent result = await calendarEventBroker.InsertCalendarEventAsync(entity: newCalendarEvent);
+        CalendarEvent result = await calendarEventBroker.InsertCalendarEventAsync(newEntity: newCalendarEvent);
         calendarEvent.Id = result.Id;
         calendarEvent.Name = result.Name;
         calendarEvent.Description = result.Description;
@@ -75,8 +75,8 @@ privilege: $"{nameof(CalendarEvent)}_create"
         return calendarEvent;
     }
 
-    public ValueTask<CalendarEvent> UpdateAsync(CalendarEvent calendarEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); return await ExecuteUpdateAsync(calendarEvent: calendarEvent); }, isValueTask: true);
+    public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent) =>
+        TryCatch(operation: async () => { ValidateCalendarEventOnUpdate(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(calendarEvent: updatedCalendarEvent); }, isValueTask: true);
 
     private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent calendarEvent)
     {
@@ -88,7 +88,7 @@ privilege: $"{nameof(CalendarEvent)}_update"
         CalendarEvent updateCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
         CalendarEvent result = await calendarEventBroker.UpdateCalendarEventAsync(
-entity: updateCalendarEvent
+updatedEntity: updateCalendarEvent
         );
 
         calendarEvent.Id = result.Id;
@@ -119,12 +119,12 @@ privilege: $"{nameof(CalendarEvent)}_delete"
         );
 
         _ = await calendarEventBroker.DeleteCalendarEventAsync(
-entity: CreateStorageCalendarEvent(item: calendarEvent)
+deletedEntity: CreateStorageCalendarEvent(item: calendarEvent)
         );
     }
 
-    public ValueTask DeleteAllForAppAsync(IEnumerable<CalendarEvent> items) =>
-        TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
+    public ValueTask DeleteAllForAppCalendarEventAsync(IEnumerable<CalendarEvent> deletedItems) =>
+        TryCatch(operation: async () => { ValidateAllForAppCalendarEventOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllForAppAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<CalendarEvent> items)
     {
@@ -137,7 +137,7 @@ entity: CreateStorageCalendarEvent(item: calendarEvent)
         }
 
         return calendarEventBroker.DeleteAllCalendarEventsAsync(
-            items: storageCalendarEvents);
+            deletedItems: storageCalendarEvents);
     }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>

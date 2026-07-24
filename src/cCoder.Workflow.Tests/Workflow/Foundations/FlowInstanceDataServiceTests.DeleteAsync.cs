@@ -40,7 +40,7 @@ public partial class FlowInstanceDataServiceTests
             .Setup(
 expression: x =>
                     x.DeleteFlowInstanceDataAsync(
-entity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id)
+deletedEntity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -54,7 +54,7 @@ entity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id
         flowInstanceDataBrokerMock.Verify(
 expression: x =>
                 x.DeleteFlowInstanceDataAsync(
-entity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id)
+deletedEntity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id)
                 ),
 times: Times.Once
         );

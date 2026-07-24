@@ -48,22 +48,22 @@ internal sealed partial class WorkflowEventProcessingService(
         return ValueTask.FromResult(result: subscriptions);
     }
 
-    public ValueTask<WorkflowEvent> AddAsync(WorkflowEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteAddAsync(entity: entity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent entity)
     {
         SecurityCheckEvent(workflowEvent: entity);
-        return service.AddAsync(workflowEvent: entity);
+        return service.AddWorkflowEventAsync(newWorkflowEvent: entity);
     }
 
-    public ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteUpdateAsync(entity: entity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent entity)
     {
         SecurityCheckEvent(workflowEvent: entity);
-        return service.UpdateAsync(workflowEvent: entity);
+        return service.UpdateWorkflowEventAsync(updatedWorkflowEvent: entity);
     }
 
     public ValueTask DeleteAsync(Guid workflowEventId) =>
@@ -74,7 +74,7 @@ internal sealed partial class WorkflowEventProcessingService(
         return service.DeleteAsync(workflowEventId: workflowEventId);
     }
 
-    public ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items) =>
+    public ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdateWorkflowEvent(IEnumerable<WorkflowEvent> items) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private async ValueTask<IEnumerable<Result<WorkflowEvent>>> ExecuteAddOrUpdate(IEnumerable<WorkflowEvent> items)
@@ -87,8 +87,8 @@ internal sealed partial class WorkflowEventProcessingService(
             {
                 WorkflowEvent savedItem =
                     item.Id == Guid.Empty
-                        ? await AddAsync(entity: item)
-                        : await UpdateAsync(entity: item);
+                        ? await AddWorkflowEventAsync(newEntity: item)
+                        : await UpdateWorkflowEventAsync(updatedEntity: item);
 
                 results.Add(item: new Result<WorkflowEvent>
                 {
@@ -111,8 +111,8 @@ internal sealed partial class WorkflowEventProcessingService(
         return results;
     }
 
-    public ValueTask DeleteAllAsync(IEnumerable<WorkflowEvent> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllAsync(items: items); }, isValueTask: true);
+    public ValueTask DeleteAllWorkflowEventAsync(IEnumerable<WorkflowEvent> deletedItems) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteAllAsync(IEnumerable<WorkflowEvent> items)
     {

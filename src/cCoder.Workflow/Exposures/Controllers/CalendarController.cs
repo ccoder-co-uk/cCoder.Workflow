@@ -91,14 +91,14 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] Calendar entity)
+    public async Task<IActionResult> Post([FromBody] Calendar newEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.AddAsync(entity: entity));
+        return Ok(value: await service.AddCalendarAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -110,18 +110,18 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] Calendar entity)
+    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] Calendar updatedEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.UpdateAsync(entity: entity));
+        return Ok(value: await service.UpdateCalendarAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Put([FromRoute] int key, Delta<Calendar> delta)
+    public async Task<IActionResult> Put([FromRoute] int key, Delta<Calendar> updatedDelta)
     {
         Calendar originalEntity = service.Get(calendarId: key);
 
@@ -130,8 +130,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateCalendarAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]

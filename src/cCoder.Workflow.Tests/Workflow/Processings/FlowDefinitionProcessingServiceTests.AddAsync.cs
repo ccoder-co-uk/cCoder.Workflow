@@ -25,15 +25,15 @@ public partial class FlowDefinitionProcessingServiceTests
             Name = "Flow",
         };
 
-        flowDefinitionServiceMock.Setup(expression: x => x.AddAsync(flowDefinition: flow))
+        flowDefinitionServiceMock.Setup(expression: x => x.AddFlowDefinitionAsync(newFlowDefinition: flow))
             .ReturnsAsync(value: flow);
 
         // When
-        FlowDefinition result = await flowDefinitionProcessingService.AddAsync(entity: flow);
+        FlowDefinition result = await flowDefinitionProcessingService.AddFlowDefinitionAsync(newEntity: flow);
 
         // Then
         Assert.Same(expected: flow, actual: result);
-        flowDefinitionServiceMock.Verify(expression: x => x.AddAsync(flowDefinition: flow), times: Times.Once);
+        flowDefinitionServiceMock.Verify(expression: x => x.AddFlowDefinitionAsync(newFlowDefinition: flow), times: Times.Once);
     }
 
 }

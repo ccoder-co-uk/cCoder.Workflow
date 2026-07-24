@@ -52,8 +52,8 @@ internal sealed partial class FlowDefinitionService(
         return flowDefinitionBroker.SelectAllFlowDefinitions();
     }
 
-    public ValueTask<FlowDefinition> AddAsync(FlowDefinition flowDefinition) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); return await ExecuteAddAsync(flowDefinition: flowDefinition); }, isValueTask: true);
+    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateFlowDefinitionOnAdd(inputs: [newFlowDefinition]); return await ExecuteAddAsync(flowDefinition: newFlowDefinition); }, isValueTask: true);
 
     private async ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition flowDefinition)
     {
@@ -66,7 +66,7 @@ internal sealed partial class FlowDefinitionService(
         newFlowDefinition.LastUpdated = now;
         newFlowDefinition.LastUpdatedBy = currentUserId;
 
-        FlowDefinition result = await flowDefinitionBroker.AddFlowDefinitionAsync(entity: newFlowDefinition);
+        FlowDefinition result = await flowDefinitionBroker.AddFlowDefinitionAsync(newEntity: newFlowDefinition);
         flowDefinition.Id = result.Id;
         flowDefinition.Name = result.Name;
         flowDefinition.Description = result.Description;
@@ -82,8 +82,8 @@ internal sealed partial class FlowDefinitionService(
         return flowDefinition;
     }
 
-    public ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); return await ExecuteUpdateAsync(flowDefinition: flowDefinition); }, isValueTask: true);
+    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateFlowDefinitionOnUpdate(inputs: [updatedFlowDefinition]); return await ExecuteUpdateAsync(flowDefinition: updatedFlowDefinition); }, isValueTask: true);
 
     private async ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition flowDefinition)
     {
@@ -95,7 +95,7 @@ internal sealed partial class FlowDefinitionService(
         updateFlowDefinition.LastUpdatedBy = currentUserId;
 
         FlowDefinition result = await flowDefinitionBroker.UpdateFlowDefinitionAsync(
-entity: updateFlowDefinition
+updatedEntity: updateFlowDefinition
         );
 
         flowDefinition.Id = result.Id;
@@ -127,7 +127,7 @@ entity: updateFlowDefinition
         }
 
         authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete");
-        _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(entity: CreateStorageFlowDefinition(item: flowDefinition));
+        _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(deletedEntity: CreateStorageFlowDefinition(item: flowDefinition));
     }
 
     public ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId) =>

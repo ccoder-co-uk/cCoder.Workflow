@@ -16,17 +16,17 @@ public interface ICalendarEventProcessingService
 
     IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false);
 
-    ValueTask<CalendarEvent> AddAsync(CalendarEvent entity);
+    ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newEntity);
 
-    ValueTask<CalendarEvent> UpdateAsync(CalendarEvent entity);
+    ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity);
 
     ValueTask DeleteAsync(int calendarEventId);
 
-    ValueTask DeleteAllForAppAsync(IEnumerable<CalendarEvent> items);
+    ValueTask DeleteAllForAppCalendarEventAsync(IEnumerable<CalendarEvent> deletedItems);
 
     ValueTask DeleteAllByAppIdAsync(int appId);
 
-    ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdate(IEnumerable<CalendarEvent> items);
+    ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdateCalendarEvent(IEnumerable<CalendarEvent> items);
 
-    ValueTask DeleteAllAsync(IEnumerable<CalendarEvent> items);
+    ValueTask DeleteAllCalendarEventAsync(IEnumerable<CalendarEvent> deletedItems);
 }

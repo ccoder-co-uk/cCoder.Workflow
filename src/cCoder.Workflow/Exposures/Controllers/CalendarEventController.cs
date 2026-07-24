@@ -93,14 +93,14 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] CalendarEvent entity)
+    public async Task<IActionResult> Post([FromBody] CalendarEvent newEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.AddAsync(entity: entity));
+        return Ok(value: await service.AddCalendarEventAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -112,18 +112,18 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] CalendarEvent entity)
+    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] CalendarEvent updatedEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.UpdateAsync(entity: entity));
+        return Ok(value: await service.UpdateCalendarEventAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Put([FromRoute] int key, Delta<CalendarEvent> delta)
+    public async Task<IActionResult> Put([FromRoute] int key, Delta<CalendarEvent> updatedDelta)
     {
         CalendarEvent originalEntity = service.Get(calendarEventId: key);
 
@@ -132,8 +132,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateCalendarEventAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]

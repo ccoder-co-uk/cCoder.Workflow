@@ -21,7 +21,7 @@ internal sealed partial class WorkflowMigrationAggregationService(
     IJsonBroker jsonBroker
 ) : IWorkflowMigrationAggregationService
 {
-    public ValueTask ImportPackageAsync(int appId, WorkflowPackage package) =>
+    public ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage package) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [appId, package]); await ExecuteImportPackageAsync(appId: appId, package: package); }, isValueTask: true);
 
     private async ValueTask ExecuteImportPackageAsync(int appId, WorkflowPackage package)
@@ -109,7 +109,7 @@ action: calendar =>
                     ?.Id ?? 0;
             });
 
-        _ = await calendarOrchestrationService.AddOrUpdate(items: calendars.Where(predicate: calendar => calendar.Id == 0));
+        _ = await calendarOrchestrationService.AddOrUpdateCalendar(items: calendars.Where(predicate: calendar => calendar.Id == 0));
     }
 
     private async ValueTask ImportCalendarEventsAsync(int appId, WorkflowPackageItem item)
@@ -163,7 +163,7 @@ action: calendar =>
             message: "Importing {CalendarEventCount} new calendar events for app {AppId}",
             args: [calendarEventsToAdd.Count, appId]);
 
-        _ = await calendarEventOrchestrationService.AddOrUpdate(items: [.. calendarEventsToAdd]);
+        _ = await calendarEventOrchestrationService.AddOrUpdateCalendarEvent(items: [.. calendarEventsToAdd]);
     }
 
     private async ValueTask ImportFlowDefinitionsAsync(int appId, WorkflowPackageItem item)
@@ -198,7 +198,7 @@ args: cCoder.Workflow.Api.OData.ODataJsonExtensions.ToJsonForOdata(value: existi
             flowDefinition.Id = existingFlowDefinition?.Id ?? Guid.Empty;
         }
 
-        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items: flowDefinitions);
+        _ = await flowDefinitionOrchestrationService.AddOrUpdateFlowDefinition(items: flowDefinitions);
     }
 
     private cCoder.Data.Models.Packaging.Package ExportCalendars(int appId) =>

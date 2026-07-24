@@ -21,26 +21,26 @@ internal sealed class FlowInstanceDataBroker(ICoreContextFactory coreContextFact
             .FlowInstances
             .IgnoreQueryFilters();
 
-    public async ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData entity)
+    public async ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowInstanceData result = (await coreDataContext.FlowInstances.AddAsync(entity: entity)).Entity;
+        FlowInstanceData result = (await coreDataContext.FlowInstances.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData entity)
+    public async ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowInstanceData result = coreDataContext.FlowInstances.Update(entity: entity).Entity;
+        FlowInstanceData result = coreDataContext.FlowInstances.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData entity)
+    public async ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowInstances.Remove(entity: entity);
+        coreDataContext.FlowInstances.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 

@@ -43,17 +43,17 @@ public partial class FlowInstanceDataProcessingServiceTests
             .Returns(value: dbVersion);
 
         flowInstanceDataServiceMock
-            .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
+            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
-        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateAsync(entity: entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
 
         // Then
         Assert.Equal(expected: entity.Name, actual: result.Name);
 
         flowInstanceDataServiceMock.Verify(
-expression: x => x.UpdateAsync(flowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
+expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
 times: Times.Once
         );
     }
@@ -83,18 +83,18 @@ times: Times.Once
             .Returns(value: dbVersion);
 
         flowInstanceDataServiceMock
-            .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
+            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
         FlowInstanceData actualFlowInstanceData =
-            await flowInstanceDataProcessingService.UpdateAsync(entity: entity);
+            await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
 
         // Then
         Assert.Equal(expected: entity.Name, actual: actualFlowInstanceData.Name);
 
         flowInstanceDataServiceMock.Verify(
-expression: x => x.UpdateAsync(flowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
+expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
 times: Times.Once
         );
     }

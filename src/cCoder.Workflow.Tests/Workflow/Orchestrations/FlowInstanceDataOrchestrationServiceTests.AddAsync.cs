@@ -21,7 +21,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
 
-        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.AddAsync(entity: entity))
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.AddFlowInstanceDataAsync(newEntity: entity))
             .ReturnsAsync(value: entity);
 
         flowInstanceDataEventProcessingServiceMock
@@ -29,13 +29,13 @@ public partial class FlowInstanceDataOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        FlowInstanceData result = await orchestrationService.AddAsync(entity: entity);
+        FlowInstanceData result = await orchestrationService.AddFlowInstanceDataAsync(newEntity: entity);
 
         // Then
         result.Should()
             .BeSameAs(expected: entity);
 
-        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.AddAsync(entity: entity), times: Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.AddFlowInstanceDataAsync(newEntity: entity), times: Times.Once);
         flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity), times: Times.Once);
     }
 

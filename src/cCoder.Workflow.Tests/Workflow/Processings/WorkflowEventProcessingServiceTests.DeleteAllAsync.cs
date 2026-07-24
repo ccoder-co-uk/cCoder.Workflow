@@ -25,7 +25,7 @@ public partial class WorkflowEventProcessingServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await workflowEventProcessingService.DeleteAllAsync(items: new[] { workflowEvent });
+        await workflowEventProcessingService.DeleteAllWorkflowEventAsync(deletedItems: new[] { workflowEvent });
 
         // Then
         workflowEventServiceMock.Verify(expression: x => x.DeleteAsync(workflowEventId: id), times: Times.Once);

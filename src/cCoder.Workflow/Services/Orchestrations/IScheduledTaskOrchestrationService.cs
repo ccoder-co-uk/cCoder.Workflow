@@ -16,17 +16,17 @@ public interface IScheduledTaskOrchestrationService
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
-    ValueTask<ScheduledTask> AddAsync(ScheduledTask entity);
+    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity);
 
-    ValueTask<ScheduledTask> UpdateAsync(ScheduledTask entity);
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
 
     ValueTask DeleteAsync(int scheduledTaskId);
 
     ValueTask DeleteByAppIdAsync(int appId);
 
-    ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items);
+    ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdateScheduledTask(IEnumerable<ScheduledTask> items);
 
-    ValueTask DeleteAllAsync(IEnumerable<ScheduledTask> items);
+    ValueTask DeleteAllScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems);
 
     ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true);
 }

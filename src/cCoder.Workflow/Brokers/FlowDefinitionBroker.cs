@@ -21,26 +21,26 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
             .FlowDefinitions
             .IgnoreQueryFilters();
 
-    public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity)
+    public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowDefinition result = (await coreDataContext.FlowDefinitions.AddAsync(entity: entity)).Entity;
+        FlowDefinition result = (await coreDataContext.FlowDefinitions.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition entity)
+    public async ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowDefinition result = coreDataContext.FlowDefinitions.Update(entity: entity).Entity;
+        FlowDefinition result = coreDataContext.FlowDefinitions.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition entity)
+    public async ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowDefinitions.Remove(entity: entity);
+        coreDataContext.FlowDefinitions.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 

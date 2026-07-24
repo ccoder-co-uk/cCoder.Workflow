@@ -17,15 +17,15 @@ public partial class FlowInstanceDataProcessingServiceTests
         FlowInstanceData entity = CreateRandomFlowInstanceData();
 
         flowInstanceDataServiceMock
-            .Setup(expression: x => x.AddQueuedAsync(flowInstanceData: entity))
+            .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity))
             .ReturnsAsync(value: entity);
 
-        FlowInstanceData result = await flowInstanceDataProcessingService.AddQueuedAsync(entity: entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.AddQueuedFlowInstanceDataAsync(newEntity: entity);
 
         result.Should()
             .BeSameAs(expected: entity);
 
-        flowInstanceDataServiceMock.Verify(expression: x => x.AddQueuedAsync(flowInstanceData: entity), times: Times.Once);
+        flowInstanceDataServiceMock.Verify(expression: x => x.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }
 }

@@ -13,13 +13,13 @@ public interface ICalendarEventBroker
 
     IQueryable<CalendarEvent> SelectAllCalendarEventsIgnoringQueryFilters();
 
-    ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent entity);
+    ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent newEntity);
 
-    ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent entity);
+    ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity);
 
-    ValueTask<int> DeleteCalendarEventAsync(CalendarEvent entity);
+    ValueTask<int> DeleteCalendarEventAsync(CalendarEvent deletedEntity);
 
-    ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> items);
+    ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> deletedItems);
 
     ValueTask DeleteAllCalendarEventsByAppIdAsync(int appId);
 

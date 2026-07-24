@@ -11,10 +11,16 @@ internal sealed partial class CalendarEventService
     private static void ValidateInputs(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
 
+    private static void ValidateCalendarEventOnAdd(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateCalendarEventOnUpdate(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
     private static void ValidateAllOnGet(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
 
-    private static void ValidateAllForAppOnDelete(params object[] inputs) =>
+    private static void ValidateAllForAppCalendarEventOnDelete(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
 
     private static void ValidateAllByAppIdOnDelete(params object[] inputs) =>

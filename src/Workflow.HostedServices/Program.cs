@@ -52,7 +52,7 @@ decryptionKey: GetRequiredConfigurationValue(configuration, "Settings:Decryption
 services: builder.Services,
 connectionString: coreConnection);
 
-        builder.Services.AddWorkflowHostedServices(configure: workflowConfiguration =>
+        builder.Services.AddWorkflowHostedServices(newConfigure: workflowConfiguration =>
         {
             workflowConfiguration.IsMigrating =
                 configuration.GetValue<int?>(key: "MIGRATING") == 1

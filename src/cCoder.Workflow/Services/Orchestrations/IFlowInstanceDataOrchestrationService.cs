@@ -15,15 +15,15 @@ public interface IFlowInstanceDataOrchestrationService
 
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
 
-    ValueTask<FlowInstanceData> AddAsync(FlowInstanceData entity);
+    ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity);
 
-    ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity);
+    ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newEntity);
 
-    ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity);
+    ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity);
 
     ValueTask DeleteAsync(Guid flowInstanceDataId);
 
-    ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items);
+    ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdateFlowInstanceData(IEnumerable<FlowInstanceData> items);
 
-    ValueTask DeleteAllAsync(IEnumerable<FlowInstanceData> items);
+    ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> deletedItems);
 }

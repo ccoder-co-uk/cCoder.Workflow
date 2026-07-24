@@ -39,7 +39,7 @@ public partial class WorkflowEventServiceTests
             .Setup(
 expression: x =>
                     x.DeleteWorkflowEventAsync(
-entity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
+deletedEntity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -53,7 +53,7 @@ entity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
         workflowEventBrokerMock.Verify(
 expression: x =>
                 x.DeleteWorkflowEventAsync(
-entity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
+deletedEntity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
                 ),
 times: Times.Once
         );

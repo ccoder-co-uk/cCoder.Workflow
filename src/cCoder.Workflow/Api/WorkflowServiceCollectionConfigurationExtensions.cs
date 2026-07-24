@@ -18,23 +18,23 @@ public static partial class IServiceCollectionExtensions
 {
     private static WorkflowConfiguration AddConfiguredWorkflow(
         this IServiceCollection services,
-        Action<IServiceCollection, WorkflowConfiguration> configure)
+        Action<IServiceCollection, WorkflowConfiguration> newConfigure)
     {
-        WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: configure);
+        WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: newConfigure);
         services.AddWorkflow();
         return configuration;
     }
 
     private static WorkflowConfiguration AddConfiguredWorkflowWeb(
         this IServiceCollection services,
-        Action<IServiceCollection, WorkflowConfiguration> configure,
+        Action<IServiceCollection, WorkflowConfiguration> newConfigure,
         ODataConventionModelBuilder builder = null)
     {
-        WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: configure);
+        WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: newConfigure);
         services.AddWorkflowWeb(builder: builder);
 
         services.AddConfiguredApi(
-configuration: configuration,
+newConfiguration: configuration,
 documentName: "Workflow",
 configureModel: static modelBuilder => modelBuilder.ConfigureWorkflowApiModel(),
 builder: builder);
@@ -44,9 +44,9 @@ builder: builder);
 
     private static WorkflowConfiguration AddConfiguredWorkflowHostedServices(
         this IServiceCollection services,
-        Action<IServiceCollection, WorkflowConfiguration> configure)
+        Action<IServiceCollection, WorkflowConfiguration> newConfigure)
     {
-        WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: configure);
+        WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: newConfigure);
         services.AddWorkflowHostedServices();
         return configuration;
     }
@@ -67,7 +67,7 @@ builder: builder);
 
     private static void AddConfiguredApi(
         this IServiceCollection services,
-        WorkflowConfiguration configuration,
+        WorkflowConfiguration newConfiguration,
         string documentName,
         Action<ODataConventionModelBuilder> configureModel,
         ODataConventionModelBuilder builder = null,
@@ -84,15 +84,15 @@ builder: builder);
 
         if (builder is null)
         {
-            AddApiDocumentation(services: services, documentName: documentName, configuration: configuration, useFullSchemaIds: useFullSchemaIds);
+            AddApiDocumentation(services: services, documentName: documentName, newConfiguration: newConfiguration, useFullSchemaIds: useFullSchemaIds);
         }
 
         IEdmModel routeModel = BuildRouteModel(configureModel: configureModel);
         DefaultODataBatchHandler batchHandler = new();
 
-        string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
+        string rootPath = string.IsNullOrWhiteSpace(value: newConfiguration.RootPath)
             ? $"Api/{documentName}"
-            : configuration.RootPath;
+            : newConfiguration.RootPath;
 
         services.AddControllers()
             .AddOData(setupAction: options =>
@@ -110,7 +110,7 @@ builder: builder);
                 .AddRouteComponents(routePrefix: rootPath, model: routeModel, batchHandler: batchHandler);
 
             if (builder is null
-                && configuration.IncludeLegacyCoreContext
+                && newConfiguration.IncludeLegacyCoreContext
                 && !string.Equals(a: rootPath, b: "Api/Core", comparisonType: StringComparison.OrdinalIgnoreCase))
             {
                 _ = options.AddRouteComponents(routePrefix: "Api/Core", model: routeModel, batchHandler: batchHandler);
@@ -121,13 +121,13 @@ builder: builder);
     private static void AddApiDocumentation(
         IServiceCollection services,
         string documentName,
-        WorkflowConfiguration configuration,
+        WorkflowConfiguration newConfiguration,
         bool useFullSchemaIds)
     {
         services.AddSwaggerGen(setupAction: options =>
         {
             options.ResolveConflictingActions(resolver: apiDescriptions => apiDescriptions.First());
-            AddSwaggerDocuments(options: options, documentName: documentName, configuration: configuration);
+            AddSwaggerDocuments(options: options, documentName: documentName, newConfiguration: newConfiguration);
 
             options.DocInclusionPredicate(
 predicate: (swaggerDocumentName, apiDescription) =>
@@ -135,7 +135,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
                         swaggerDocumentName,
                         apiDescription.RelativePath,
                         documentName,
-                        configuration));
+                        newConfiguration));
 
             if (useFullSchemaIds)
             {
@@ -156,7 +156,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
     private static void AddSwaggerDocuments(
         Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions options,
         string documentName,
-        WorkflowConfiguration configuration)
+        WorkflowConfiguration newConfiguration)
     {
         options.SwaggerDoc(name: documentName, info: new OpenApiInfo
         {
@@ -164,7 +164,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
             Version = documentName,
         });
 
-        if (configuration.IncludeLegacyCoreContext)
+        if (newConfiguration.IncludeLegacyCoreContext)
         {
             options.SwaggerDoc(name: "Core", info: new OpenApiInfo
             {

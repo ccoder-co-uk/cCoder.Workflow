@@ -112,12 +112,12 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     void ListenToAppAddEvents() =>
         eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
 eventName: "app_add",
-handler: (service, app) => service.AddAsync(app: app));
+handler: (service, app) => service.AddAppAsync(newApp: app));
 
     void ListenToAppUpdateEvents() =>
         eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
 eventName: "app_update",
-handler: (service, app) => service.UpdateAsync(app: app));
+handler: (service, app) => service.UpdateAppAsync(updatedApp: app));
 
     void ListenToAppDeleteEvents() =>
         eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
@@ -147,7 +147,7 @@ handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(fl
     void ListenToPackageImportEvents() =>
         eventHubBroker.ListenToEvent<(int appId, Package package), IWorkflowMigrationAggregationService>(
             eventName: "package_import",
-            handler: (service, args) => service.ImportPackageAsync(
+            handler: (service, args) => service.ImportPackageWorkflowPackageAsync(
                 appId: args.appId,
                 package: ToLocalPackage(package: args.package)));
 

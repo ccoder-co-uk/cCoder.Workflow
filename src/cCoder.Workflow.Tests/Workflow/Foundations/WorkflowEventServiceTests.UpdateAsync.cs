@@ -31,12 +31,12 @@ public partial class WorkflowEventServiceTests
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_update"));
 
         workflowEventBrokerMock
-            .Setup(expression: x => x.UpdateWorkflowEventAsync(entity: It.IsAny<WorkflowEvent>()))
+            .Setup(expression: x => x.UpdateWorkflowEventAsync(updatedEntity: It.IsAny<WorkflowEvent>()))
             .Callback<WorkflowEvent>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (WorkflowEvent value) => value);
 
         // When
-        WorkflowEvent result = await workflowEventService.UpdateAsync(workflowEvent: workflowEvent);
+        WorkflowEvent result = await workflowEventService.UpdateWorkflowEventAsync(updatedWorkflowEvent: workflowEvent);
 
         // Then
         result.Should()
@@ -58,7 +58,7 @@ public partial class WorkflowEventServiceTests
             .BeEquivalentTo(expectation: workflowEvent);
 
         workflowEventBrokerMock.Verify(
-expression: x => x.UpdateWorkflowEventAsync(entity: It.IsAny<WorkflowEvent>()),
+expression: x => x.UpdateWorkflowEventAsync(updatedEntity: It.IsAny<WorkflowEvent>()),
 times: Times.Once
         );
 
@@ -91,7 +91,7 @@ times: Times.Once
             .Throws(exception: new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await workflowEventService.UpdateAsync(workflowEvent: workflowEvent);
+        Func<Task> action = async () => await workflowEventService.UpdateWorkflowEventAsync(updatedWorkflowEvent: workflowEvent);
 
         // Then
         await action.Should()

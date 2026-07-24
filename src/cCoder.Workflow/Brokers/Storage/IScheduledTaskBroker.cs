@@ -19,13 +19,13 @@ public interface IScheduledTaskBroker
 
     bool SelectFlowBelongsToApp(Guid flowId, int appId);
 
-    ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask entity);
+    ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask newEntity);
 
-    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask entity);
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
 
-    ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask entity);
+    ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask deletedEntity);
 
-    ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> items);
+    ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> deletedItems);
 
     ValueTask DeleteAllScheduledTasksByAppIdAsync(int appId);
 

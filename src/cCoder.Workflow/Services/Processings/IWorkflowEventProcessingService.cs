@@ -17,13 +17,13 @@ public interface IWorkflowEventProcessingService
 
     ValueTask<WorkflowEvent[]> GetSubscriptionsAsync(int appId, string eventContext);
 
-    ValueTask<WorkflowEvent> AddAsync(WorkflowEvent entity);
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity);
 
-    ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity);
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity);
 
     ValueTask DeleteAsync(Guid workflowEventId);
 
-    ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items);
+    ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdateWorkflowEvent(IEnumerable<WorkflowEvent> items);
 
-    ValueTask DeleteAllAsync(IEnumerable<WorkflowEvent> items);
+    ValueTask DeleteAllWorkflowEventAsync(IEnumerable<WorkflowEvent> deletedItems);
 }

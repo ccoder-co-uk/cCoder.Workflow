@@ -28,7 +28,7 @@ internal sealed partial class FlowDefinitionCoordinationService(
             .Where(predicate: instance => instance.FlowDefinitionId == flowDefinition.Id)
             .ToArray();
 
-        await flowInstanceDataOrchestrationService.DeleteAllAsync(items: instancesToDelete);
+        await flowInstanceDataOrchestrationService.DeleteAllFlowInstanceDataAsync(deletedItems: instancesToDelete);
     }
 
     public ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args) =>
@@ -50,7 +50,7 @@ privilege: "flowdefinition_execute");
             CreateFlowInstanceData(flowDefinition: flowDefinition, caller: asUserId, args: args);
 
         flowInstance = await flowInstanceDataOrchestrationService
-            .AddQueuedAsync(entity: flowInstance);
+            .AddQueuedFlowInstanceDataAsync(newEntity: flowInstance);
 
         return flowInstance.Id;
     }

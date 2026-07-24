@@ -21,13 +21,13 @@ public interface IScheduledTaskService
 
     bool GetFlowBelongsToApp(Guid flowId, int appId);
 
-    ValueTask<ScheduledTask> AddAsync(ScheduledTask scheduledTask);
+    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask);
 
-    ValueTask<ScheduledTask> UpdateAsync(ScheduledTask scheduledTask);
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask);
 
     ValueTask DeleteAsync(int scheduledTaskId);
 
-    ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items);
+    ValueTask DeleteAllForAppScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems);
 
     ValueTask DeleteAllByAppIdAsync(int appId);
 }

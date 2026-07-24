@@ -20,33 +20,33 @@ internal sealed class CalendarEventBroker(ICoreContextFactory coreContextFactory
             .Events
             .IgnoreQueryFilters();
 
-    public async ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent entity)
+    public async ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        CalendarEvent result = (await coreDataContext.Events.AddAsync(entity: entity)).Entity;
+        CalendarEvent result = (await coreDataContext.Events.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent entity)
+    public async ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        CalendarEvent result = coreDataContext.Events.Update(entity: entity).Entity;
+        CalendarEvent result = coreDataContext.Events.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteCalendarEventAsync(CalendarEvent entity)
+    public async ValueTask<int> DeleteCalendarEventAsync(CalendarEvent deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Events.Remove(entity: entity);
+        coreDataContext.Events.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> items)
+    public async ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> deletedItems)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Events.RemoveRange(entities: items);
+        coreDataContext.Events.RemoveRange(entities: deletedItems);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

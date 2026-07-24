@@ -21,7 +21,7 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Given
         WorkflowEvent entity = CreateRandomWorkflowEvent();
 
-        workflowEventProcessingServiceMock.Setup(expression: x => x.AddAsync(entity: entity))
+        workflowEventProcessingServiceMock.Setup(expression: x => x.AddWorkflowEventAsync(newEntity: entity))
             .ReturnsAsync(value: entity);
 
         workflowEventEventProcessingServiceMock
@@ -29,13 +29,13 @@ public partial class WorkflowEventOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        WorkflowEvent result = await orchestrationService.AddAsync(entity: entity);
+        WorkflowEvent result = await orchestrationService.AddWorkflowEventAsync(newEntity: entity);
 
         // Then
         result.Should()
             .BeSameAs(expected: entity);
 
-        workflowEventProcessingServiceMock.Verify(expression: x => x.AddAsync(entity: entity), times: Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression: x => x.AddWorkflowEventAsync(newEntity: entity), times: Times.Once);
         workflowEventEventProcessingServiceMock.Verify(expression: x => x.RaiseWorkflowEventAddEventAsync(entity: entity), times: Times.Once);
     }
 

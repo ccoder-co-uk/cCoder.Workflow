@@ -76,14 +76,14 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] FlowDefinition entity)
+    public async Task<IActionResult> Post([FromBody] FlowDefinition newEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.PostFlowDefinitionAsync(entity: entity));
+        return Ok(value: await service.PostFlowDefinitionAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -95,18 +95,18 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition entity)
+    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition updatedEntity)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.PutFlowDefinitionAsync(entity: entity));
+        return Ok(value: await service.PutFlowDefinitionAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> delta)
+    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> updatedDelta)
     {
         FlowDefinition originalEntity = service.Get(flowDefinitionId: key);
 
@@ -115,8 +115,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await service.PutFlowDefinitionAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.PutFlowDefinitionAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]

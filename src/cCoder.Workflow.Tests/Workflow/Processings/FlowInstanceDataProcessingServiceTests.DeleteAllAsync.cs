@@ -25,7 +25,7 @@ public partial class FlowInstanceDataProcessingServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await flowInstanceDataProcessingService.DeleteAllAsync(items: new[] { entity });
+        await flowInstanceDataProcessingService.DeleteAllFlowInstanceDataAsync(deletedItems: new[] { entity });
 
         // Then
         flowInstanceDataServiceMock.Verify(expression: x => x.DeleteAsync(flowInstanceDataId: id), times: Times.Once);

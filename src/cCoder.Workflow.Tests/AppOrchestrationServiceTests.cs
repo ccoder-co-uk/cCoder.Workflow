@@ -62,19 +62,19 @@ public class AppOrchestrationServiceTests
             Tasks = [new ScheduledTask { Name = "Task" }],
         };
 
-        calendarOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
+        calendarOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateCalendar(
 items: It.Is<IEnumerable<Calendar>>(items => items.All(calendar => calendar.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<Calendar>>>(result: []));
 
-        flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
+        flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateFlowDefinition(
 items: It.Is<IEnumerable<FlowDefinition>>(items => items.All(flow => flow.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<FlowDefinition>>>(result: []));
 
-        scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
+        scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateScheduledTask(
 items: It.Is<IEnumerable<ScheduledTask>>(items => items.All(task => task.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<ScheduledTask>>>(result: []));
 
-        await service.AddAsync(app: app);
+        await service.AddAppAsync(newApp: app);
 
         calendarOrchestrationServiceMock.VerifyAll();
         flowDefinitionOrchestrationServiceMock.VerifyAll();

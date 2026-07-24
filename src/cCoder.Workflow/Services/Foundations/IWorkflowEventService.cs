@@ -18,9 +18,9 @@ public interface IWorkflowEventService
 
     int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent);
 
-    ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent);
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent);
 
-    ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent);
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent);
 
     ValueTask DeleteAsync(Guid workflowEventId);
 }

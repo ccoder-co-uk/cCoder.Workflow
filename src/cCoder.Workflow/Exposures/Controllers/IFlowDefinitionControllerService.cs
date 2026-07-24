@@ -14,9 +14,9 @@ public interface IFlowDefinitionControllerService
 
     IQueryable<FlowDefinition> GetAll();
 
-    ValueTask<FlowDefinition> PostFlowDefinitionAsync(FlowDefinition entity);
+    ValueTask<FlowDefinition> PostFlowDefinitionAsync(FlowDefinition newEntity);
 
-    ValueTask<FlowDefinition> PutFlowDefinitionAsync(FlowDefinition entity);
+    ValueTask<FlowDefinition> PutFlowDefinitionAsync(FlowDefinition updatedEntity);
 
     ValueTask DeleteAsync(Guid flowDefinitionId);
 

@@ -19,38 +19,38 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
             : coreDataContext.Users;
     }
 
-    public async ValueTask<User> AddUserAsync(User entity)
+    public async ValueTask<User> AddUserAsync(User newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = (await coreDataContext.Users.AddAsync(entity: entity)).Entity;
+        User result = (await coreDataContext.Users.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<User> UpdateUserAsync(User entity)
+    public async ValueTask<User> UpdateUserAsync(User updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = coreDataContext.Users.Update(entity: entity).Entity;
+        User result = coreDataContext.Users.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteUserAsync(User entity)
+    public async ValueTask<int> DeleteUserAsync(User deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.Remove(entity: entity);
+        coreDataContext.Users.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllUsersAsync(IEnumerable<User> items)
+    public async ValueTask DeleteAllUsersAsync(IEnumerable<User> deletedItems)
     {
-        if (items == null || !items.Any())
+        if (deletedItems == null || !deletedItems.Any())
         {
             return;
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.RemoveRange(entities: items);
+        coreDataContext.Users.RemoveRange(entities: deletedItems);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

@@ -33,7 +33,7 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock
             .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-entity: It.Is<FlowInstanceData>(candidate =>
+newEntity: It.Is<FlowInstanceData>(candidate =>
                         !ReferenceEquals(candidate, flowInstanceData)
                     )
                 )
@@ -42,7 +42,7 @@ entity: It.Is<FlowInstanceData>(candidate =>
             .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
 
         // When
-        FlowInstanceData result = await flowInstanceDataService.AddAsync(flowInstanceData: flowInstanceData);
+        FlowInstanceData result = await flowInstanceDataService.AddFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData);
 
         // Then
         result.Should()
@@ -74,7 +74,7 @@ config: options => options.Excluding(expression: candidate => candidate.Id)
         flowInstanceDataBrokerMock.Verify(
 expression: x =>
                 x.AddFlowInstanceDataAsync(
-entity: It.Is<FlowInstanceData>(candidate =>
+newEntity: It.Is<FlowInstanceData>(candidate =>
                         !ReferenceEquals(candidate, flowInstanceData)
                     )
                 ),
@@ -110,7 +110,7 @@ times: Times.Once
             .Throws(exception: new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await flowInstanceDataService.AddAsync(flowInstanceData: flowInstanceData);
+        Func<Task> action = async () => await flowInstanceDataService.AddFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData);
 
         // Then
         await action.Should()

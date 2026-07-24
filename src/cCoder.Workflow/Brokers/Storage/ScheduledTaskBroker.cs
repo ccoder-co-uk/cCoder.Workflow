@@ -46,33 +46,33 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
         return coreDataContext.FlowDefinitions.Any(predicate: flow => flow.Id == flowId && flow.AppId == appId);
     }
 
-    public async ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask entity)
+    public async ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity: entity)).Entity;
+        ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask entity)
+    public async ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        ScheduledTask result = coreDataContext.ScheduledTasks.Update(entity: entity).Entity;
+        ScheduledTask result = coreDataContext.ScheduledTasks.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask entity)
+    public async ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.ScheduledTasks.Remove(entity: entity);
+        coreDataContext.ScheduledTasks.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> items)
+    public async ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> deletedItems)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.ScheduledTasks.RemoveRange(entities: items);
+        coreDataContext.ScheduledTasks.RemoveRange(entities: deletedItems);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

@@ -20,14 +20,14 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Given
         FlowInstanceData[] entities = [CreateRandomFlowInstanceData()];
 
-        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAllAsync(items: entities))
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAllFlowInstanceDataAsync(deletedItems: entities))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(items: entities);
+        await orchestrationService.DeleteAllFlowInstanceDataAsync(deletedItems: entities);
 
         // Then
-        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.DeleteAllAsync(items: entities), times: Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.DeleteAllFlowInstanceDataAsync(deletedItems: entities), times: Times.Once);
         flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         flowInstanceDataEventProcessingServiceMock.VerifyNoOtherCalls();
     }

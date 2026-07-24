@@ -31,12 +31,12 @@ public partial class FlowInstanceDataServiceTests
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_update"));
 
         flowInstanceDataBrokerMock
-            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()))
+            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(updatedEntity: It.IsAny<FlowInstanceData>()))
             .Callback<FlowInstanceData>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
 
         // When
-        FlowInstanceData result = await flowInstanceDataService.UpdateAsync(flowInstanceData: flowInstanceData);
+        FlowInstanceData result = await flowInstanceDataService.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: flowInstanceData);
 
         // Then
         result.Should()
@@ -58,7 +58,7 @@ public partial class FlowInstanceDataServiceTests
             .BeEquivalentTo(expectation: flowInstanceData);
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.UpdateFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.UpdateFlowInstanceDataAsync(updatedEntity: It.IsAny<FlowInstanceData>()),
 times: Times.Once
         );
 
@@ -91,7 +91,7 @@ times: Times.Once
             .Throws(exception: new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await flowInstanceDataService.UpdateAsync(flowInstanceData: flowInstanceData);
+        Func<Task> action = async () => await flowInstanceDataService.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: flowInstanceData);
 
         // Then
         await action.Should()

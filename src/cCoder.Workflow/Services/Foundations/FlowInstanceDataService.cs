@@ -52,8 +52,8 @@ internal sealed partial class FlowInstanceDataService(
         return flowInstanceDataBroker.SelectAllFlowInstanceData();
     }
 
-    public ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceData]); return await ExecuteAddAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateFlowInstanceDataOnAdd(inputs: [newFlowInstanceData]); return await ExecuteAddAsync(flowInstanceData: newFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
@@ -65,7 +65,7 @@ privilege: $"{nameof(FlowInstanceData)}_create"
         FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
-entity: newFlowInstanceData
+newEntity: newFlowInstanceData
         );
 
         flowInstanceData.Id = result.Id;
@@ -80,15 +80,15 @@ entity: newFlowInstanceData
         return flowInstanceData;
     }
 
-    public ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData) =>
-        TryCatch(operation: async () => { ValidateQueuedOnAdd(inputs: [flowInstanceData]); return await ExecuteAddQueuedAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateQueuedFlowInstanceDataOnAdd(inputs: [newFlowInstanceData]); return await ExecuteAddQueuedAsync(flowInstanceData: newFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData flowInstanceData)
     {
         FlowInstanceData queuedFlowInstanceData = CreateQueuedStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
-entity: queuedFlowInstanceData
+newEntity: queuedFlowInstanceData
         );
 
         flowInstanceData.Id = result.Id;
@@ -103,8 +103,8 @@ entity: queuedFlowInstanceData
         return flowInstanceData;
     }
 
-    public ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceData]); return await ExecuteUpdateAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateFlowInstanceDataOnUpdate(inputs: [updatedFlowInstanceData]); return await ExecuteUpdateAsync(flowInstanceData: updatedFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
@@ -116,7 +116,7 @@ privilege: $"{nameof(FlowInstanceData)}_update"
         FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
-entity: updateFlowInstanceData
+updatedEntity: updateFlowInstanceData
         );
 
         flowInstanceData.Id = result.Id;
@@ -144,7 +144,7 @@ privilege: $"{nameof(FlowInstanceData)}_delete"
         );
 
         _ = await flowInstanceDataBroker.DeleteFlowInstanceDataAsync(
-entity: CreateStorageFlowInstanceData(item: flowInstanceData)
+deletedEntity: CreateStorageFlowInstanceData(item: flowInstanceData)
         );
     }
 

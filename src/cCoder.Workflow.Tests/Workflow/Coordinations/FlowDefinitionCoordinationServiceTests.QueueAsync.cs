@@ -44,7 +44,7 @@ public partial class FlowDefinitionCoordinationServiceTests
         authorizationBrokerMock.Setup(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"));
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(expression: x => x.AddQueuedAsync(entity: It.IsAny<FlowInstanceData>()))
+            .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newEntity: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData instance) =>
             {
                 instance.Id = queuedId;
@@ -61,8 +61,8 @@ public partial class FlowDefinitionCoordinationServiceTests
 
         flowInstanceDataOrchestrationServiceMock.Verify(
 expression: x =>
-                x.AddQueuedAsync(
-entity: It.Is<FlowInstanceData>(instance =>
+                x.AddQueuedFlowInstanceDataAsync(
+newEntity: It.Is<FlowInstanceData>(instance =>
                         instance.FlowDefinitionId == id
                         && instance.Caller == asUserId
                         && instance.State == "Queued"
@@ -106,7 +106,7 @@ times: Times.Once);
         authorizationBrokerMock.Setup(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"));
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(expression: x => x.AddQueuedAsync(entity: It.IsAny<FlowInstanceData>()))
+            .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newEntity: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData instance) =>
             {
                 instance.Id = queuedId;
@@ -124,8 +124,8 @@ times: Times.Once);
 
         flowInstanceDataOrchestrationServiceMock.Verify(
 expression: x =>
-                x.AddQueuedAsync(
-entity: It.Is<FlowInstanceData>(instance =>
+                x.AddQueuedFlowInstanceDataAsync(
+newEntity: It.Is<FlowInstanceData>(instance =>
                         instance.FlowDefinitionId == id
                         && instance.Caller == asUserId
                         && instance.State == "Queued"
@@ -213,7 +213,7 @@ times: Times.Once);
         authorizationBrokerMock.Setup(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"));
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(expression: x => x.AddQueuedAsync(entity: It.IsAny<FlowInstanceData>()))
+            .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newEntity: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData instance) =>
             {
                 instance.Id = queuedId;
@@ -231,8 +231,8 @@ times: Times.Once);
 
         flowInstanceDataOrchestrationServiceMock.Verify(
 expression: x =>
-                x.AddQueuedAsync(
-entity: It.Is<FlowInstanceData>(instance =>
+                x.AddQueuedFlowInstanceDataAsync(
+newEntity: It.Is<FlowInstanceData>(instance =>
                         instance.FlowDefinitionId == id
                         && instance.Caller == asUserId
                         && instance.State == "Queued")),

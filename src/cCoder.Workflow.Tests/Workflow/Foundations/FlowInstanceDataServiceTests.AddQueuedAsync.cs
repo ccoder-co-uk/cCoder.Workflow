@@ -21,7 +21,7 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock
             .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-entity: It.Is<FlowInstanceData>(candidate =>
+newEntity: It.Is<FlowInstanceData>(candidate =>
                         !ReferenceEquals(candidate, flowInstanceData)
                         && candidate.Id == flowInstanceData.Id
                         && candidate.FlowDefinitionId == flowInstanceData.FlowDefinitionId
@@ -39,7 +39,7 @@ entity: It.Is<FlowInstanceData>(candidate =>
             .Callback<FlowInstanceData>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
 
-        FlowInstanceData result = await flowInstanceDataService.AddQueuedAsync(flowInstanceData: flowInstanceData);
+        FlowInstanceData result = await flowInstanceDataService.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData);
 
         result.Should()
             .BeSameAs(expected: flowInstanceData);
@@ -51,7 +51,7 @@ entity: It.Is<FlowInstanceData>(candidate =>
             .NotBeSameAs(unexpected: flowInstanceData);
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.AddFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.AddFlowInstanceDataAsync(newEntity: It.IsAny<FlowInstanceData>()),
 times: Times.Once);
 
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();

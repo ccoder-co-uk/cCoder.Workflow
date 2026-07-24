@@ -50,14 +50,14 @@ public static partial class IServiceCollectionExtensions
 {
     public static void AddWorkflowWeb(
         this IServiceCollection services,
-        Action<WorkflowConfiguration> configure = null,
+        Action<WorkflowConfiguration> newConfigure = null,
         ODataConventionModelBuilder builder = null) =>
-        services.AddConfiguredWorkflowWeb(configure: (_, configuration) => configure?.Invoke(obj: configuration), builder: builder);
+        services.AddConfiguredWorkflowWeb(newConfigure: (_, configuration) => newConfigure?.Invoke(obj: configuration), builder: builder);
 
     public static void AddWorkflowHostedServices(
         this IServiceCollection services,
-        Action<WorkflowConfiguration> configure = null) =>
-        services.AddConfiguredWorkflowHostedServices(configure: (_, configuration) => configure?.Invoke(obj: configuration));
+        Action<WorkflowConfiguration> newConfigure = null) =>
+        services.AddConfiguredWorkflowHostedServices(newConfigure: (_, configuration) => newConfigure?.Invoke(obj: configuration));
 
     private static void AddWorkflow(this IServiceCollection services)
     {

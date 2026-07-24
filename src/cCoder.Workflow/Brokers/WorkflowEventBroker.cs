@@ -19,26 +19,26 @@ internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory
             .WorflowEvents
             .IgnoreQueryFilters();
 
-    public async ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent entity)
+    public async ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        WorkflowEvent result = (await coreDataContext.WorflowEvents.AddAsync(entity: entity)).Entity;
+        WorkflowEvent result = (await coreDataContext.WorflowEvents.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent entity)
+    public async ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        WorkflowEvent result = coreDataContext.WorflowEvents.Update(entity: entity).Entity;
+        WorkflowEvent result = coreDataContext.WorflowEvents.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent entity)
+    public async ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.WorflowEvents.Remove(entity: entity);
+        coreDataContext.WorflowEvents.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 

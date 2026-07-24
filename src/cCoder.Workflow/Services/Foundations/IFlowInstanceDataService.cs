@@ -16,11 +16,11 @@ public interface IFlowInstanceDataService
 
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
 
-    ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData);
+    ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData);
 
-    ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData);
+    ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData);
 
-    ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData);
+    ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData);
 
     ValueTask DeleteAsync(Guid flowInstanceDataId);
 }

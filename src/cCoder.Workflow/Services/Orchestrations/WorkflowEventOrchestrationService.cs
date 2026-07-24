@@ -28,22 +28,22 @@ internal sealed partial class WorkflowEventOrchestrationService(IWorkflowEventPr
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<WorkflowEvent> AddAsync(WorkflowEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteAddAsync(entity: entity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
 
     private async ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent entity)
     {
-        WorkflowEvent result = await processingService.AddAsync(entity: entity);
+        WorkflowEvent result = await processingService.AddWorkflowEventAsync(newEntity: entity);
         await eventService.RaiseWorkflowEventAddEventAsync(entity: result);
         return result;
     }
 
-    public ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteUpdateAsync(entity: entity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
 
     private async ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent entity)
     {
-        WorkflowEvent result = await processingService.UpdateAsync(entity: entity);
+        WorkflowEvent result = await processingService.UpdateWorkflowEventAsync(updatedEntity: entity);
         await eventService.RaiseWorkflowEventUpdateEventAsync(entity: result);
         return result;
     }
@@ -58,19 +58,19 @@ internal sealed partial class WorkflowEventOrchestrationService(IWorkflowEventPr
         await processingService.DeleteAsync(workflowEventId: workflowEventId);
     }
 
-    public ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items) =>
+    public ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdateWorkflowEvent(IEnumerable<WorkflowEvent> items) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private ValueTask<IEnumerable<Result<WorkflowEvent>>> ExecuteAddOrUpdate(IEnumerable<WorkflowEvent> items)
     {
-        return processingService.AddOrUpdate(items: items);
+        return processingService.AddOrUpdateWorkflowEvent(items: items);
     }
 
-    public ValueTask DeleteAllAsync(IEnumerable<WorkflowEvent> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllAsync(items: items); }, isValueTask: true);
+    public ValueTask DeleteAllWorkflowEventAsync(IEnumerable<WorkflowEvent> deletedItems) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllAsync(IEnumerable<WorkflowEvent> items)
     {
-        return processingService.DeleteAllAsync(items: items);
+        return processingService.DeleteAllWorkflowEventAsync(deletedItems: items);
     }
 }
