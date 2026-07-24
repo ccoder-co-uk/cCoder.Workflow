@@ -13,11 +13,14 @@ using cCoder.Workflow.Services.Orchestrations;
 
 namespace cCoder.Workflow.Services.Coordinations;
 
-internal class CalendarCoordinationService(
+internal sealed partial class CalendarCoordinationService(
     ICalendarEventOrchestrationService calendarEventOrchestrationService
 ) : ICalendarCoordinationService
 {
-    public async ValueTask HandleCalendarAddAsync(Calendar calendar)
+    public ValueTask HandleCalendarAddAsync(Calendar calendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); await ExecuteHandleCalendarAddAsync(calendar: calendar); }, isValueTask: true);
+
+    private async ValueTask ExecuteHandleCalendarAddAsync(Calendar calendar)
     {
         if (calendar.Events == null || !calendar.Events.Any())
         {
@@ -27,7 +30,10 @@ internal class CalendarCoordinationService(
         await calendarEventOrchestrationService.AddOrUpdate(items: calendar.Events);
     }
 
-    public async ValueTask HandleCalendarUpdateAsync(Calendar calendar)
+    public ValueTask HandleCalendarUpdateAsync(Calendar calendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); await ExecuteHandleCalendarUpdateAsync(calendar: calendar); }, isValueTask: true);
+
+    private async ValueTask ExecuteHandleCalendarUpdateAsync(Calendar calendar)
     {
         if (calendar.Events == null || !calendar.Events.Any())
         {
@@ -37,7 +43,10 @@ internal class CalendarCoordinationService(
         await calendarEventOrchestrationService.AddOrUpdate(items: calendar.Events);
     }
 
-    public async ValueTask HandleCalendarDeleteAsync(Calendar calendar)
+    public ValueTask HandleCalendarDeleteAsync(Calendar calendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); await ExecuteHandleCalendarDeleteAsync(calendar: calendar); }, isValueTask: true);
+
+    private async ValueTask ExecuteHandleCalendarDeleteAsync(Calendar calendar)
     {
         IEnumerable<CalendarEvent> eventsToDelete = calendarEventOrchestrationService
             .GetAll(ignoreFilters: true)

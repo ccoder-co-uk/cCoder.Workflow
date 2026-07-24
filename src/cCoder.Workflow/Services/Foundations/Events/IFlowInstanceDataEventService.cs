@@ -13,6 +13,8 @@ namespace cCoder.Workflow.Services.Foundations.Events;
 public interface IFlowInstanceDataEventService
 {
     ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData entity);
+
     ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData entity);
+
     ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData entity);
 }

@@ -14,6 +14,8 @@ namespace cCoder.Workflow.Services.Foundations.Events;
 public interface ICalendarEventEventService
 {
     ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity);
+
     ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity);
+
     ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity);
 }

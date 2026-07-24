@@ -9,14 +9,17 @@ using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal sealed class EventHandlingOrchestrationService(
+internal sealed partial class EventHandlingOrchestrationService(
     IWorkflowEventProcessingService workflowEventProcessingService,
     IFlowDefinitionCoordinationService flowDefinitionCoordinationService,
     IJsonBroker jsonBroker,
     ILogger<EventHandlingOrchestrationService> log)
     : IEventHandlingOrchestrationService
 {
-    public async Task RaiseEvents(object payload, string eventName, int? appIdOverride = null)
+    public Task RaiseEvents(object payload, string eventName, int? appIdOverride = null) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [payload, eventName, appIdOverride]); await ExecuteRaiseEvents(payload: payload, eventName: eventName, appIdOverride: appIdOverride); });
+
+    private async Task ExecuteRaiseEvents(object payload, string eventName, int? appIdOverride = null)
     {
         int? appId = appIdOverride ?? GetIntProperty(payload: payload, propertyName: "AppId");
 

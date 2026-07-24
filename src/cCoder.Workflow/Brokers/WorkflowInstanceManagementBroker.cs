@@ -11,10 +11,15 @@ namespace cCoder.Workflow.Brokers;
 public interface IWorkflowInstanceManagementBroker
 {
     object[] GetFailedExecutionStats();
+
     FlowInstanceData[] GetQueuedInstances();
+
     ValueTask<int> FlushOldInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
+
     ValueTask<int> RequeueHungExecutingInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
+
     ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(Guid flowInstanceDataId, CancellationToken cancellationToken = default);
+
     ValueTask<int> MarkInstanceFailedAsync(Guid flowInstanceDataId, DateTimeOffset failedAt, CancellationToken cancellationToken = default);
 }
 

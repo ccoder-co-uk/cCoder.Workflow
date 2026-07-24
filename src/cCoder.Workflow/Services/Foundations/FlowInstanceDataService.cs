@@ -9,12 +9,15 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class FlowInstanceDataService(
+internal sealed partial class FlowInstanceDataService(
     IFlowInstanceDataBroker flowInstanceDataBroker,
     IAuthorizationBroker authorizationBroker
 ) : IFlowInstanceDataService
 {
-    public FlowInstanceData Get(Guid flowInstanceDataId)
+    public FlowInstanceData Get(Guid flowInstanceDataId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
+
+    private FlowInstanceData ExecuteGet(Guid flowInstanceDataId)
     {
         FlowInstanceData flowInstanceData = GetAll()
             .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
@@ -36,9 +39,15 @@ internal class FlowInstanceDataService(
     }
 
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<FlowInstanceData> ExecuteGetAll(bool ignoreFilters = false) =>
         flowInstanceDataBroker.GetAllFlowInstanceData(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData)
+    public ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceData]); return await ExecuteAddAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
 appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
@@ -63,7 +72,10 @@ entity: newFlowInstanceData
         return flowInstanceData;
     }
 
-    public async ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData)
+    public ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceData]); return await ExecuteAddQueuedAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData flowInstanceData)
     {
         FlowInstanceData queuedFlowInstanceData = CreateQueuedStorageFlowInstanceData(item: flowInstanceData);
 
@@ -83,7 +95,10 @@ entity: queuedFlowInstanceData
         return flowInstanceData;
     }
 
-    public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData)
+    public ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceData]); return await ExecuteUpdateAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
 appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
@@ -108,7 +123,10 @@ entity: updateFlowInstanceData
         return flowInstanceData;
     }
 
-    public async ValueTask DeleteAsync(Guid flowInstanceDataId)
+    public ValueTask DeleteAsync(Guid flowInstanceDataId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceDataId]); await ExecuteDeleteAsync(flowInstanceDataId: flowInstanceDataId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(Guid flowInstanceDataId)
     {
         FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
 

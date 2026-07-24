@@ -10,12 +10,15 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class WorkflowEventService(
+internal sealed partial class WorkflowEventService(
     IWorkflowEventBroker workflowEventBroker,
     IAuthorizationBroker authorizationBroker
 ) : IWorkflowEventService
 {
-    public WorkflowEvent Get(Guid workflowEventId)
+    public WorkflowEvent Get(Guid workflowEventId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
+
+    private WorkflowEvent ExecuteGet(Guid workflowEventId)
     {
         WorkflowEvent workflowEvent = GetAll()
             .FirstOrDefault(predicate: i => i.Id == workflowEventId);
@@ -37,12 +40,21 @@ internal class WorkflowEventService(
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<WorkflowEvent> ExecuteGetAll(bool ignoreFilters = false) =>
         workflowEventBroker.GetAllWorkflowEvents(ignoreFilters: ignoreFilters);
 
     public int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [workflowEvent]); return ExecuteGetAppIdForWorkflowEvent(workflowEvent: workflowEvent); });
+
+    private int? ExecuteGetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
         workflowEventBroker.GetAppId(entity: workflowEvent);
 
-    public async ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent)
+    public ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [workflowEvent]); return await ExecuteAddAsync(workflowEvent: workflowEvent); }, isValueTask: true);
+
+    private async ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
 appId: workflowEventBroker.GetAppId(entity: workflowEvent),
@@ -67,7 +79,10 @@ privilege: $"{nameof(WorkflowEvent)}_create"
         return workflowEvent;
     }
 
-    public async ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent)
+    public ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [workflowEvent]); return await ExecuteUpdateAsync(workflowEvent: workflowEvent); }, isValueTask: true);
+
+    private async ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
 appId: workflowEventBroker.GetAppId(entity: workflowEvent),
@@ -90,7 +105,10 @@ entity: updateWorkflowEvent
         return workflowEvent;
     }
 
-    public async ValueTask DeleteAsync(Guid workflowEventId)
+    public ValueTask DeleteAsync(Guid workflowEventId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [workflowEventId]); await ExecuteDeleteAsync(workflowEventId: workflowEventId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(Guid workflowEventId)
     {
         WorkflowEvent workflowEvent = Get(workflowEventId: workflowEventId);
 

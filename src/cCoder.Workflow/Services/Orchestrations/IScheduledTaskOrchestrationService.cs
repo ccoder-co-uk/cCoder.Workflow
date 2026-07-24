@@ -21,6 +21,7 @@ public interface IScheduledTaskOrchestrationService
     ValueTask<ScheduledTask> UpdateAsync(ScheduledTask entity);
 
     ValueTask DeleteAsync(int scheduledTaskId);
+
     ValueTask DeleteByAppIdAsync(int appId);
 
     ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items);

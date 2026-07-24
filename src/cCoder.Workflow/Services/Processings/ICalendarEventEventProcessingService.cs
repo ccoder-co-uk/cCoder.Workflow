@@ -14,6 +14,8 @@ namespace cCoder.Workflow.Services.Processings;
 public interface ICalendarEventEventProcessingService
 {
     ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity);
+
     ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity);
+
     ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity);
 }

@@ -9,12 +9,15 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class FlowDefinitionService(
+internal sealed partial class FlowDefinitionService(
     IFlowDefinitionBroker flowDefinitionBroker,
     IAuthorizationBroker authorizationBroker
 ) : IFlowDefinitionService
 {
-    public FlowDefinition Get(Guid flowDefinitionId)
+    public FlowDefinition Get(Guid flowDefinitionId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [flowDefinitionId]); return ExecuteGet(flowDefinitionId: flowDefinitionId); });
+
+    private FlowDefinition ExecuteGet(Guid flowDefinitionId)
     {
         FlowDefinition flowDefinition = GetAll()
             .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
@@ -36,9 +39,15 @@ internal class FlowDefinitionService(
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<FlowDefinition> ExecuteGetAll(bool ignoreFilters = false) =>
         flowDefinitionBroker.GetAllFlowDefinitions(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<FlowDefinition> AddAsync(FlowDefinition flowDefinition)
+    public ValueTask<FlowDefinition> AddAsync(FlowDefinition flowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); return await ExecuteAddAsync(flowDefinition: flowDefinition); }, isValueTask: true);
+
+    private async ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition flowDefinition)
     {
         authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_create");
         FlowDefinition newFlowDefinition = CreateStorageFlowDefinition(item: flowDefinition);
@@ -65,7 +74,10 @@ internal class FlowDefinitionService(
         return flowDefinition;
     }
 
-    public async ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition)
+    public ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); return await ExecuteUpdateAsync(flowDefinition: flowDefinition); }, isValueTask: true);
+
+    private async ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition flowDefinition)
     {
         authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_update");
         FlowDefinition updateFlowDefinition = CreateStorageFlowDefinition(item: flowDefinition);
@@ -93,7 +105,10 @@ entity: updateFlowDefinition
         return flowDefinition;
     }
 
-    public async ValueTask DeleteAsync(Guid flowDefinitionId)
+    public ValueTask DeleteAsync(Guid flowDefinitionId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinitionId]); await ExecuteDeleteAsync(flowDefinitionId: flowDefinitionId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(Guid flowDefinitionId)
     {
         FlowDefinition flowDefinition = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
@@ -107,7 +122,10 @@ entity: updateFlowDefinition
         _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(entity: CreateStorageFlowDefinition(item: flowDefinition));
     }
 
-    public async ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId)
+    public ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinitionId]); await ExecuteDeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteWithInstancesAsync(Guid flowDefinitionId)
     {
         FlowDefinition flowDefinition = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
@@ -122,6 +140,9 @@ entity: updateFlowDefinition
     }
 
     public ValueTask DeleteWithInstancesByAppIdAsync(int appId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteWithInstancesByAppIdAsync(appId: appId); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteWithInstancesByAppIdAsync(int appId) =>
         flowDefinitionBroker.DeleteFlowDefinitionsWithInstancesByAppIdAsync(appId: appId);
 
     private static FlowDefinition CreateStorageFlowDefinition(FlowDefinition item) =>

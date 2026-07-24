@@ -13,6 +13,8 @@ namespace cCoder.Workflow.Services.Processings;
 public interface IFlowDefinitionEventProcessingService
 {
     ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity);
+
     ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity);
+
     ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity);
 }

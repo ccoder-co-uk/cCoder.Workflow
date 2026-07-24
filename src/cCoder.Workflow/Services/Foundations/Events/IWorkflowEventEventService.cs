@@ -13,6 +13,8 @@ namespace cCoder.Workflow.Services.Foundations.Events;
 public interface IWorkflowEventEventService
 {
     ValueTask RaiseWorkflowEventAddEventAsync(WorkflowEvent entity);
+
     ValueTask RaiseWorkflowEventUpdateEventAsync(WorkflowEvent entity);
+
     ValueTask RaiseWorkflowEventDeleteEventAsync(WorkflowEvent entity);
 }

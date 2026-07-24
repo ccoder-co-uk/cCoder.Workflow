@@ -11,33 +11,48 @@ using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal class CalendarEventOrchestrationService(ICalendarEventProcessingService processingService, ICalendarEventEventProcessingService eventService) : ICalendarEventOrchestrationService
+internal sealed partial class CalendarEventOrchestrationService(ICalendarEventProcessingService processingService, ICalendarEventEventProcessingService eventService) : ICalendarEventOrchestrationService
 {
-    public CalendarEvent Get(int calendarEventId)
+    public CalendarEvent Get(int calendarEventId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [calendarEventId]); return ExecuteGet(calendarEventId: calendarEventId); });
+
+    private CalendarEvent ExecuteGet(int calendarEventId)
     {
         return processingService.Get(calendarEventId: calendarEventId);
     }
 
-    public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false)
+    public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<CalendarEvent> ExecuteGetAll(bool ignoreFilters = false)
     {
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public async ValueTask<CalendarEvent> AddAsync(CalendarEvent entity)
+    public ValueTask<CalendarEvent> AddAsync(CalendarEvent entity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteAddAsync(entity: entity); }, isValueTask: true);
+
+    private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent entity)
     {
         CalendarEvent result = await processingService.AddAsync(entity: entity);
         await eventService.RaiseCalendarEventAddEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask<CalendarEvent> UpdateAsync(CalendarEvent entity)
+    public ValueTask<CalendarEvent> UpdateAsync(CalendarEvent entity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteUpdateAsync(entity: entity); }, isValueTask: true);
+
+    private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent entity)
     {
         CalendarEvent result = await processingService.UpdateAsync(entity: entity);
         await eventService.RaiseCalendarEventUpdateEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask DeleteAsync(int calendarEventId)
+    public ValueTask DeleteAsync(int calendarEventId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEventId]); await ExecuteDeleteAsync(calendarEventId: calendarEventId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(int calendarEventId)
     {
         CalendarEvent entity = processingService.GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: item => item.Id == calendarEventId);
@@ -51,12 +66,18 @@ internal class CalendarEventOrchestrationService(ICalendarEventProcessingService
         await processingService.DeleteAsync(calendarEventId: calendarEventId);
     }
 
-    public ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdate(IEnumerable<CalendarEvent> items)
+    public ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdate(IEnumerable<CalendarEvent> items) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+
+    private ValueTask<IEnumerable<Result<CalendarEvent>>> ExecuteAddOrUpdate(IEnumerable<CalendarEvent> items)
     {
         return processingService.AddOrUpdate(items: items);
     }
 
-    public ValueTask DeleteAllAsync(IEnumerable<CalendarEvent> items)
+    public ValueTask DeleteAllAsync(IEnumerable<CalendarEvent> items) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllAsync(items: items); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteAllAsync(IEnumerable<CalendarEvent> items)
     {
         return processingService.DeleteAllAsync(items: items);
     }

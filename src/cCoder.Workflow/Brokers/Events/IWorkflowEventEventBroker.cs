@@ -11,7 +11,10 @@ namespace cCoder.Workflow.Brokers.Events;
 public interface IWorkflowEventEventBroker
 {
     string GetCurrentUserId();
+
     ValueTask RaiseWorkflowEventAddEventAsync(EventMessage<WorkflowEvent> message);
+
     ValueTask RaiseWorkflowEventUpdateEventAsync(EventMessage<WorkflowEvent> message);
+
     ValueTask RaiseWorkflowEventDeleteEventAsync(EventMessage<WorkflowEvent> message);
 }

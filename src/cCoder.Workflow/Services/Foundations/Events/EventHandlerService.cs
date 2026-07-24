@@ -21,9 +21,12 @@ using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
 namespace cCoder.Workflow.Services.Foundations.Events;
 
-internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandlerService
+internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandlerService
 {
-    public void ListenToAllEvents()
+    public void ListenToAllEvents() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); ExecuteListenToAllEvents(); });
+
+    private void ExecuteListenToAllEvents()
     {
         ListenToAppEvents();
         ListenToCalendarEvents();
@@ -33,9 +36,15 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
     }
 
     public void ListenToScheduledTaskExecuteEvents() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); ExecuteListenToScheduledTaskExecuteEvents(); });
+
+    private void ExecuteListenToScheduledTaskExecuteEvents() =>
         ListenToScheduledTaskExecuteEventsInternal();
 
     public void ListenToQueuedFlowInstanceExecuteEvents() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); ExecuteListenToQueuedFlowInstanceExecuteEvents(); });
+
+    private void ExecuteListenToQueuedFlowInstanceExecuteEvents() =>
         ListenToQueuedFlowInstanceExecuteEventsInternal();
 
     void ListenToAppEvents()

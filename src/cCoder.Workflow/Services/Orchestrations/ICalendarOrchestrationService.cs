@@ -21,6 +21,7 @@ public interface ICalendarOrchestrationService
     ValueTask<Calendar> UpdateAsync(Calendar entity);
 
     ValueTask DeleteAsync(int calendarId);
+
     ValueTask DeleteByAppIdAsync(int appId);
 
     ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdate(IEnumerable<Calendar> items);

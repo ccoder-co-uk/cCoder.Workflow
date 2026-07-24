@@ -10,12 +10,15 @@ using cCoder.Data.Models.Planning;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class CalendarService(
+internal sealed partial class CalendarService(
     ICalendarBroker calendarBroker,
     IAuthorizationBroker authorizationBroker
 ) : ICalendarService
 {
-    public Calendar Get(int calendarId)
+    public Calendar Get(int calendarId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [calendarId]); return ExecuteGet(calendarId: calendarId); });
+
+    private Calendar ExecuteGet(int calendarId)
     {
         Calendar calendar = GetAll()
             .FirstOrDefault(predicate: i => i.Id == calendarId);
@@ -37,9 +40,15 @@ internal class CalendarService(
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<Calendar> ExecuteGetAll(bool ignoreFilters = false) =>
         calendarBroker.GetAllCalendars(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<Calendar> AddAsync(Calendar calendar)
+    public ValueTask<Calendar> AddAsync(Calendar calendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); return await ExecuteAddAsync(calendar: calendar); }, isValueTask: true);
+
+    private async ValueTask<Calendar> ExecuteAddAsync(Calendar calendar)
     {
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_create");
         Calendar newCalendar = CreateStorageCalendar(item: calendar);
@@ -52,7 +61,10 @@ internal class CalendarService(
         return calendar;
     }
 
-    public async ValueTask<Calendar> UpdateAsync(Calendar calendar)
+    public ValueTask<Calendar> UpdateAsync(Calendar calendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); return await ExecuteUpdateAsync(calendar: calendar); }, isValueTask: true);
+
+    private async ValueTask<Calendar> ExecuteUpdateAsync(Calendar calendar)
     {
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_update");
         Calendar updateCalendar = CreateStorageCalendar(item: calendar);
@@ -65,7 +77,10 @@ internal class CalendarService(
         return calendar;
     }
 
-    public async ValueTask DeleteAsync(int calendarId)
+    public ValueTask DeleteAsync(int calendarId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarId]); await ExecuteDeleteAsync(calendarId: calendarId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(int calendarId)
     {
         Calendar calendar = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: item => item.Id == calendarId);
@@ -80,10 +95,16 @@ internal class CalendarService(
     }
 
     public ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<Calendar> items) =>
         calendarBroker.DeleteAllCalendarsAsync(
-items: items?.Select(selector: CreateStorageCalendar) ?? []);
+    items: items?.Select(selector: CreateStorageCalendar) ?? []);
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteAllByAppIdAsync(int appId) =>
         calendarBroker.DeleteAllCalendarsByAppIdAsync(appId: appId);
 
     private static Calendar CreateStorageCalendar(Calendar item) =>

@@ -13,7 +13,7 @@ using cCoder.Workflow.Models;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal sealed class WorkflowInstanceManagementOrchestrationService(
+internal sealed partial class WorkflowInstanceManagementOrchestrationService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IServiceProvider serviceProvider,
     IConfiguration appConfiguration,
@@ -26,7 +26,10 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
     };
 
-    public async Task RunAsync(CancellationToken cancellationToken = default)
+    public Task RunAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -44,11 +47,17 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public object[] GetStats()
-        =>
+    public object[] GetStats() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetStats(); });
+
+    private object[] ExecuteGetStats()
+            =>
         workflowInstanceManagementBroker.GetFailedExecutionStats();
 
-    public async Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
+    public Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunInstanceMaintenanceContinuouslyAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (workflowConfiguration.IsMigrating)
         {
@@ -65,7 +74,10 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public async Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default)
+    public Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunInstanceMaintenanceAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunInstanceMaintenanceAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -82,7 +94,10 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public async Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default)
+    public Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunQueueInstanceManagementContinuouslyAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (workflowConfiguration.IsMigrating)
         {
@@ -99,7 +114,10 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public async Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default)
+    public Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunQueueInstanceManagementAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunQueueInstanceManagementAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -127,7 +145,10 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid flowInstanceDataId)
+    public ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid flowInstanceDataId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceDataId]); await ExecuteExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: flowInstanceDataId); }, isValueTask: true);
+
+    private async ValueTask ExecuteExecuteWaitingQueuedInstanceByIdAsync(Guid flowInstanceDataId)
     {
         await ExecuteInstanceAsync(instanceId: flowInstanceDataId);
     }

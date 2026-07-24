@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal sealed class TaskRunnerOrchestrationService(
+internal sealed partial class TaskRunnerOrchestrationService(
     IScheduledTaskService scheduledTaskService,
     ICalendarEventService calendarEventService,
     IScheduledTaskEventProcessingService scheduledTaskEventProcessingService,
@@ -19,7 +19,10 @@ internal sealed class TaskRunnerOrchestrationService(
     ILogger<TaskRunnerOrchestrationService> log)
     : ITaskRunnerOrchestrationService
 {
-    public async Task RunContinuouslyAsync(CancellationToken cancellationToken = default)
+    public Task RunContinuouslyAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunContinuouslyAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (configuration.IsMigrating)
         {
@@ -36,7 +39,10 @@ internal sealed class TaskRunnerOrchestrationService(
         }
     }
 
-    public async Task RunAsync(CancellationToken cancellationToken = default)
+    public Task RunAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunAsync(cancellationToken: cancellationToken); });
+
+    private async Task ExecuteRunAsync(CancellationToken cancellationToken = default)
     {
         ScheduledTask[] dueTasks = scheduledTaskService.GetAll(ignoreFilters: true)
             .Where(predicate: task => task.NextExecution != null && task.NextExecution < DateTimeOffset.UtcNow && task.ScheduleInTicks != 0)

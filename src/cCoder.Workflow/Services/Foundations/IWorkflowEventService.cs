@@ -13,9 +13,14 @@ namespace cCoder.Workflow.Services.Foundations;
 public interface IWorkflowEventService
 {
     WorkflowEvent Get(Guid workflowEventId);
+
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
+
     int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent);
+
     ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent);
+
     ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent);
+
     ValueTask DeleteAsync(Guid workflowEventId);
 }

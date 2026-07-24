@@ -13,7 +13,7 @@ using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 
 namespace cCoder.Workflow.Services.Aggregations;
 
-internal class WorkflowMigrationAggregationService(
+internal sealed partial class WorkflowMigrationAggregationService(
     ICalendarOrchestrationService calendarOrchestrationService,
     ICalendarEventOrchestrationService calendarEventOrchestrationService,
     IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
@@ -21,7 +21,10 @@ internal class WorkflowMigrationAggregationService(
     IJsonBroker jsonBroker
 ) : IWorkflowMigrationAggregationService
 {
-    public async ValueTask ImportPackageAsync(int appId, WorkflowPackage package)
+    public ValueTask ImportPackageAsync(int appId, WorkflowPackage package) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [appId, package]); await ExecuteImportPackageAsync(appId: appId, package: package); }, isValueTask: true);
+
+    private async ValueTask ExecuteImportPackageAsync(int appId, WorkflowPackage package)
     {
         if (package.Items is null || package.Items.Count == 0)
         {
@@ -45,7 +48,10 @@ internal class WorkflowMigrationAggregationService(
         }
     }
 
-    public WorkflowPackage ExportPackage(int appId, string packageName)
+    public WorkflowPackage ExportPackage(int appId, string packageName) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [appId, packageName]); return ExecuteExportPackage(appId: appId, packageName: packageName); });
+
+    private WorkflowPackage ExecuteExportPackage(int appId, string packageName)
     {
         var package = packageName switch
         {

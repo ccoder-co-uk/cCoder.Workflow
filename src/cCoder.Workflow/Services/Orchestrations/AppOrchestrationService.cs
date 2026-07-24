@@ -10,13 +10,16 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal class AppOrchestrationService(
+internal sealed partial class AppOrchestrationService(
     IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
     ICalendarOrchestrationService calendarOrchestrationService,
     IScheduledTaskOrchestrationService scheduledTaskOrchestrationService)
     : IAppOrchestrationService
 {
-    public async ValueTask AddAsync(App app)
+    public ValueTask AddAsync(App app) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [app]); await ExecuteAddAsync(app: app); }, isValueTask: true);
+
+    private async ValueTask ExecuteAddAsync(App app)
     {
         StampCalendars(app: app);
         StampFlows(app: app);
@@ -26,7 +29,10 @@ internal class AppOrchestrationService(
         _ = await scheduledTaskOrchestrationService.AddOrUpdate(items: app.Tasks ?? []);
     }
 
-    public async ValueTask UpdateAsync(App app)
+    public ValueTask UpdateAsync(App app) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [app]); await ExecuteUpdateAsync(app: app); }, isValueTask: true);
+
+    private async ValueTask ExecuteUpdateAsync(App app)
     {
         StampCalendars(app: app);
         StampFlows(app: app);
@@ -36,7 +42,10 @@ internal class AppOrchestrationService(
         _ = await scheduledTaskOrchestrationService.AddOrUpdate(items: app.Tasks ?? []);
     }
 
-    public async ValueTask DeleteAsync(int appId)
+    public ValueTask DeleteAsync(int appId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteAsync(appId: appId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(int appId)
     {
         await scheduledTaskOrchestrationService.DeleteByAppIdAsync(appId: appId);
         await calendarOrchestrationService.DeleteByAppIdAsync(appId: appId);

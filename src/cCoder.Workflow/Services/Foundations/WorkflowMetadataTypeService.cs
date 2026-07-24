@@ -18,27 +18,33 @@ using cCoder.Workflow.Activities.Activities.Templating;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
+internal sealed partial class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
 {
     public MetadataContainerSet GetCoreMetadata() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetCoreMetadata(); });
+
+    private MetadataContainerSet ExecuteGetCoreMetadata() =>
         new()
         {
             Name = "Workflow",
             UriBase = "Workflow",
             Types =
-            [
-                Entity<Calendar>(),
+                [
+                    Entity<Calendar>(),
                 Entity<CalendarEvent>(),
                 Entity<FlowDefinition>(),
                 Entity<FlowInstanceData>(),
                 Entity<ScheduledTask>(),
                 Entity<WorkflowEvent>(),
-            ],
+                ],
         };
 
     public MetadataContainerSet[] GetKnownActivityTypes() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetKnownActivityTypes(); });
+
+    private MetadataContainerSet[] ExecuteGetKnownActivityTypes() =>
         [
-        Set(name:"ApiActivity",
+            Set(name:"ApiActivity",
 types:        [
             typeof(ApiPostBatch),
             typeof(ApiDelete<object>),
@@ -109,8 +115,11 @@ types:        [
     ];
 
     public MetadataContainerSet[] GetKnownSystemTypes() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetKnownSystemTypes(); });
+
+    private MetadataContainerSet[] ExecuteGetKnownSystemTypes() =>
         [
-        new MetadataContainerSet
+            new MetadataContainerSet
         {
             Name = "System",
             Types =
@@ -131,13 +140,16 @@ types:        [
     ];
 
     public MetadataContainerSet GetSharedMetadata() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetSharedMetadata(); });
+
+    private MetadataContainerSet ExecuteGetSharedMetadata() =>
         new()
         {
             Name = "Workflow",
             Types = GetKnownActivityTypes()
-                .SelectMany(selector: set => set.Types)
-                .OrderBy(keySelector: type => type.Name)
-                .ToArray(),
+                    .SelectMany(selector: set => set.Types)
+                    .OrderBy(keySelector: type => type.Name)
+                    .ToArray(),
         };
 
     private static MetadataContainerSet Set(string name, Type[] types) =>

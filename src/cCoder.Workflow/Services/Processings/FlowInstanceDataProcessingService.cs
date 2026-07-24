@@ -9,30 +9,45 @@ using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal class FlowInstanceDataProcessingService(IFlowInstanceDataService service)
+internal sealed partial class FlowInstanceDataProcessingService(IFlowInstanceDataService service)
     : IFlowInstanceDataProcessingService
 {
-    public FlowInstanceData Get(Guid flowInstanceDataId)
+    public FlowInstanceData Get(Guid flowInstanceDataId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
+
+    private FlowInstanceData ExecuteGet(Guid flowInstanceDataId)
     {
         return service.Get(flowInstanceDataId: flowInstanceDataId);
     }
 
-    public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false)
+    public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<FlowInstanceData> ExecuteGetAll(bool ignoreFilters = false)
     {
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<FlowInstanceData> AddAsync(FlowInstanceData entity)
+    public ValueTask<FlowInstanceData> AddAsync(FlowInstanceData entity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteAddAsync(entity: entity); }, isValueTask: true);
+
+    private ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData entity)
     {
         return service.AddAsync(flowInstanceData: entity);
     }
 
-    public ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity)
+    public ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteAddQueuedAsync(entity: entity); }, isValueTask: true);
+
+    private ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData entity)
     {
         return service.AddQueuedAsync(flowInstanceData: entity);
     }
 
-    public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)
+    public ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); return await ExecuteUpdateAsync(entity: entity); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData entity)
     {
         FlowInstanceData dbVersion = service.Get(flowInstanceDataId: entity.Id);
 
@@ -52,12 +67,18 @@ internal class FlowInstanceDataProcessingService(IFlowInstanceDataService servic
         return await service.UpdateAsync(flowInstanceData: dbVersion);
     }
 
-    public ValueTask DeleteAsync(Guid flowInstanceDataId)
+    public ValueTask DeleteAsync(Guid flowInstanceDataId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceDataId]); await ExecuteDeleteAsync(flowInstanceDataId: flowInstanceDataId); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteAsync(Guid flowInstanceDataId)
     {
         return service.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
     }
 
-    public async ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items)
+    public ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+
+    private async ValueTask<IEnumerable<Result<FlowInstanceData>>> ExecuteAddOrUpdate(IEnumerable<FlowInstanceData> items)
     {
         List<Result<FlowInstanceData>> results = new List<Result<FlowInstanceData>>();
 
@@ -91,7 +112,10 @@ internal class FlowInstanceDataProcessingService(IFlowInstanceDataService servic
         return results;
     }
 
-    public async ValueTask DeleteAllAsync(IEnumerable<FlowInstanceData> items)
+    public ValueTask DeleteAllAsync(IEnumerable<FlowInstanceData> items) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllAsync(items: items); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAllAsync(IEnumerable<FlowInstanceData> items)
     {
         foreach (FlowInstanceData item in items)
         {

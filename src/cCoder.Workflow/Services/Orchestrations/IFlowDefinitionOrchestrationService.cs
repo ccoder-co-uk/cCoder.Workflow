@@ -20,6 +20,7 @@ public interface IFlowDefinitionOrchestrationService
     ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity);
 
     ValueTask DeleteAsync(Guid flowDefinitionId);
+
     ValueTask DeleteByAppIdAsync(int appId);
 
     ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdate(IEnumerable<FlowDefinition> items);

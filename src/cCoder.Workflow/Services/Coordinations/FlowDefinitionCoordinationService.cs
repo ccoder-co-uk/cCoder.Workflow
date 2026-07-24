@@ -11,14 +11,17 @@ using cCoder.Workflow.Services.Orchestrations;
 
 namespace cCoder.Workflow.Services.Coordinations;
 
-internal class FlowDefinitionCoordinationService(
+internal sealed partial class FlowDefinitionCoordinationService(
     IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
     IFlowInstanceDataOrchestrationService flowInstanceDataOrchestrationService,
     IAuthorizationBroker authorizationBroker,
     IJsonBroker jsonBroker)
     : IFlowDefinitionCoordinationService
 {
-    public async ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition)
+    public ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); await ExecuteHandleFlowDefinitionDeleteAsync(flowDefinition: flowDefinition); }, isValueTask: true);
+
+    private async ValueTask ExecuteHandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition)
     {
         IEnumerable<FlowInstanceData> instancesToDelete = flowInstanceDataOrchestrationService
             .GetAll(ignoreFilters: true)
@@ -28,7 +31,10 @@ internal class FlowDefinitionCoordinationService(
         await flowInstanceDataOrchestrationService.DeleteAllAsync(items: instancesToDelete);
     }
 
-    public async ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args)
+    public ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinitionId, asUserId, args]); return await ExecuteQueueAsync(flowDefinitionId: flowDefinitionId, asUserId: asUserId, args: args); }, isValueTask: true);
+
+    private async ValueTask<Guid> ExecuteQueueAsync(Guid flowDefinitionId, string asUserId, string args)
     {
         FlowDefinition flowDefinition =
             flowDefinitionOrchestrationService
