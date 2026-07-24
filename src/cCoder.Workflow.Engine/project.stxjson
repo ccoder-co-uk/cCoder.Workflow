@@ -1,206 +1,8 @@
 {
   "Classes": [
     {
-      "Name": "cCoder.Workflow.Engine.Exposures.FlowRunner",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "RunAsync",
-          "Inputs": [
-            {
-              "Name": "request",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "payload",
-              "Type": "System.String"
-            },
-            {
-              "Name": "useDetails",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
-      "StandardElementType": "App",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "AddWorkflowEngine",
-          "Inputs": [
-            {
-              "Name": "services",
-              "Type": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
-            }
-          ],
-          "ReturnType": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "request",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [
-        {
-          "Name": "AppId",
-          "Type": "System.Int32"
-        },
-        {
-          "Name": "Caller",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Context",
-          "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowExecutionContext"
-        },
-        {
-          "Name": "Flow",
-          "Type": "cCoder.Workflow.Activities.Models.Flow"
-        },
-        {
-          "Name": "FlowDefinitionId",
-          "Type": "System.Guid"
-        },
-        {
-          "Name": "Id",
-          "Type": "System.Guid"
-        },
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Start",
-          "Type": "System.DateTimeOffset"
-        }
-      ],
-      "Methods": [
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "request",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CFlowInstanceData\u003E"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowExecutionContext",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Script",
-          "Type": "cCoder.Workflow.Activities.IScriptRunner"
-        }
-      ],
-      "Methods": [
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "apiRoot",
-              "Type": "System.String"
-            },
-            {
-              "Name": "authToken",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "Log",
-          "Inputs": [
-            {
-              "Name": "level",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
-            },
-            {
-              "Name": "message",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "payload",
-              "Type": "System.String"
-            },
-            {
-              "Name": "useDetails",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [
-        {
-          "Name": "Model",
-          "Type": "Newtonsoft.Json.Linq.JObject"
-        },
-        {
-          "Name": "Script",
-          "Type": "System.String"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "StandardElementType": "ProcessingService",
+      "Name": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
+      "StandardElementType": "Broker",
       "Properties": [],
       "Methods": [
         {
@@ -268,6 +70,424 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "CreateWorkflowExecutionContext",
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+        },
+        {
+          "Name": "ExecuteWorkflowExecutionContextAsync",
+          "Inputs": [
+            {
+              "Name": "workflowExecutionContext",
+              "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+            },
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "BuildScriptAsync",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E"
+        },
+        {
+          "Name": "RunScriptAsync",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Script",
+          "Type": "cCoder.Workflow.Activities.IScriptRunner"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "Log",
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.FlowRunner",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowEngine",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+            }
+          ],
+          "ReturnType": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.ExecutionDetails",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Model",
+          "Type": "Newtonsoft.Json.Linq.JObject"
+        },
+        {
+          "Name": "Script",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.FlowExecution",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "AppId",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Caller",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Context",
+          "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+        },
+        {
+          "Name": "Flow",
+          "Type": "cCoder.Workflow.Activities.Models.Flow"
+        },
+        {
+          "Name": "FlowDefinitionId",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Id",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Log",
+          "Type": "cCoder.Workflow.Activities.LogEvent"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Request",
+          "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+        },
+        {
+          "Name": "Result",
+          "Type": "FlowInstanceData"
+        },
+        {
+          "Name": "Script",
+          "Type": "cCoder.Workflow.Activities.IScriptRunner"
+        },
+        {
+          "Name": "Start",
+          "Type": "System.DateTimeOffset"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteWorkflowRequestAsync",
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConnectWorkflowRequestAsync",
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogWorkflowRequestAsync",
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            },
+            {
+              "Name": "level",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteFlowExecutionAsync",
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "SaveFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceData",
+              "Type": "FlowInstanceData"
+            },
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteWorkflowScriptAsync",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Engine.Support.TypeNameExtensions",
       "StandardElementType": "Dependency",
       "Properties": [],
@@ -324,459 +544,53 @@
   ],
   "Links": [
     {
+      "FromType": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
+      "ToType": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+      "ToType": "cCoder.Workflow.Engine.Models.FlowExecution"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter",
+      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService"
+    },
+    {
       "FromType": "cCoder.Workflow.Engine.Exposures.FlowRunner",
-      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService"
+      "ToType": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
-      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService"
+      "ToType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowExecutionContext",
-      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance"
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
     }
   ],
-  "AnalysisItems": [
-    {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STX0018",
-      "Description": "Service method names must include each model type they operate on.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 23
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 162
-    },
-    {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STX0013",
-      "Description": "A service must implement a local interface.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXO002",
-      "Description": "An orchestration service name must contain the Orchestration identifier.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 29
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 31
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 33
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 35
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 37
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 39
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 41
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 43
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 45
-    },
-    {
-      "Code": "STX0018",
-      "Description": "Service method names must include each model type they operate on.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 47
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 76
-    },
-    {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STX0013",
-      "Description": "A service must implement a local interface.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXO002",
-      "Description": "An orchestration service name must contain the Orchestration identifier.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 68
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowScriptExecutionOrchestrationService.ExecutionDetails",
-      "LineNumber": 70
-    },
-    {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXP002",
-      "Description": "A processing service name must contain the Processing identifier.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 131
-    }
-  ]
+  "AnalysisItems": []
 }

@@ -2,11 +2,12 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Activities.Models;
+
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
-public interface IWorkflowScriptExecutionOrchestrationService
+public interface IWorkflowRequestOrchestrationService
 {
-    Task<string> ExecuteAsync(
-        string payload,
-        bool useDetails);
+    ValueTask ExecuteWorkflowRequestAsync(
+        WorkflowRequest workflowRequest);
 }

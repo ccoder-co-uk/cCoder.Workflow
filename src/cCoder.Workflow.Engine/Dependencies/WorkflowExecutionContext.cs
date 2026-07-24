@@ -8,12 +8,15 @@ using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Models;
 using Newtonsoft.Json;
 
-namespace cCoder.Workflow.Engine.Services.Orchestrations;
+namespace cCoder.Workflow.Engine.Dependencies;
 
 public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
 {
+    private readonly FlowExecution flowExecution;
+
     public WorkflowExecutionContext()
     {
         ExecutionLog = new List<WorkflowLogEntry>();
@@ -23,39 +26,33 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
         };
     }
 
-    public WorkflowExecutionContext(Flow flow, FlowInstance instance)
+    public WorkflowExecutionContext(
+        FlowExecution flowExecution)
         : this()
     {
-        Flow = flow;
-        InstanceId = instance.Id;
-        Instance = instance;
+        this.flowExecution = flowExecution;
+        Flow = flowExecution.Flow;
+        InstanceId = flowExecution.Id;
     }
 
     [JsonIgnore]
-    public IScriptRunner Script => Instance?.Script ?? new ScriptRunner((level, message) =>
-    {
-        Log(level: level, message: message);
-        return Task.CompletedTask;
-    });
-
-    [JsonIgnore]
-    internal FlowInstance Instance { get; private set; }
+    public IScriptRunner Script => flowExecution.Script;
 
     public async Task ExecuteAsync(string apiRoot, string authToken = null)
     {
         try
         {
             Log(level: WorkflowLogLevel.Info, message: "Execution started");
-            Variables["AppId"] = Instance.AppId;
+            Variables["AppId"] = flowExecution.AppId;
             Variables["Api"] = apiRoot;
             Variables["AuthToken"] = authToken;
             Variables["InstanceId"] = InstanceId.ToString();
 
-            using HttpClient api = Instance.CreateApiClient(apiRoot: apiRoot);
+            using HttpClient api = CreateApiClient(apiRoot: apiRoot);
             api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
 
             User user = await api.GetAsync<User>(query: "AppSecurity/User/Me()");
-            Instance.Caller = user.Id;
+            flowExecution.Caller = user.Id;
             Variables["UserId"] = user.Id;
             Variables["UserName"] = user.DisplayName;
             Variables["UserEmail"] = user.Email;
@@ -96,7 +93,7 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
     {
         ExecutionLog.Add(item: new WorkflowLogEntry(level, message));
 
-        Instance?.LogAsync(level: level, message: message)
+        flowExecution.Log(level: level, message: message)
             .GetAwaiter()
             .GetResult();
     }
@@ -116,4 +113,18 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
 
         ExecutionState = "Failed";
     }
+
+    private static HttpClient CreateApiClient(
+        string apiRoot) =>
+        new(new HttpClientHandler
+        {
+            AutomaticDecompression =
+                System.Net.DecompressionMethods.GZip
+                | System.Net.DecompressionMethods.Deflate,
+            ServerCertificateCustomValidationCallback =
+                CertChainValidator.ValidateCertChain
+        })
+        {
+            BaseAddress = new Uri(apiRoot)
+        };
 }
