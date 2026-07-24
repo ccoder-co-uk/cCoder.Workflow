@@ -3,6 +3,8 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Dependencies;
+using cCoder.Data.Models.Planning;
+using System.Security;
 
 namespace cCoder.Workflow.Services.Foundations;
 
@@ -34,4 +36,34 @@ internal sealed partial class ScheduledTaskService
 
     private static void ValidateFlowBelongsToAppOnGet(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
+
+    private void ValidateScheduledTaskAccess(ScheduledTask scheduledTask)
+    {
+        bool isAppAdmin =
+            authorizationBroker.IsAdminOfApp(appId: scheduledTask.AppId);
+
+        bool userBelongsToApp =
+            scheduledTaskBroker.SelectExecuteAsUserBelongsToApp(
+                executeAs: scheduledTask.ExecuteAs,
+                appId: scheduledTask.AppId);
+
+        bool flowBelongsToApp =
+            scheduledTaskBroker.SelectFlowBelongsToApp(
+                flowId: scheduledTask.FlowId,
+                appId: scheduledTask.AppId);
+
+        if (!isAppAdmin || !userBelongsToApp || !flowBelongsToApp)
+        {
+            throw new SecurityException("Access Denied!");
+        }
+    }
+
+    private void ValidateScheduledTaskExecutionAccess(
+        ScheduledTask scheduledTask)
+    {
+        if (!authorizationBroker.IsAdminOfApp(appId: scheduledTask.AppId))
+        {
+            throw new SecurityException("Access Denied!");
+        }
+    }
 }

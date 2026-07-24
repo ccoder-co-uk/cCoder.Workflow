@@ -110,17 +110,17 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     }
 
     void ListenToAppAddEvents() =>
-        eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
+        eventHubBroker.ListenToEvent<App, IAppCoordinationService>(
 eventName: "app_add",
 handler: (service, app) => service.AddAppAsync(newApp: app));
 
     void ListenToAppUpdateEvents() =>
-        eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
+        eventHubBroker.ListenToEvent<App, IAppCoordinationService>(
 eventName: "app_update",
 handler: (service, app) => service.UpdateAppAsync(updatedApp: app));
 
     void ListenToAppDeleteEvents() =>
-        eventHubBroker.ListenToEvent<App, IAppOrchestrationService>(
+        eventHubBroker.ListenToEvent<App, IAppCoordinationService>(
 eventName: "app_delete",
 handler: (service, app) => service.DeleteAsync(appId: app.Id));
 

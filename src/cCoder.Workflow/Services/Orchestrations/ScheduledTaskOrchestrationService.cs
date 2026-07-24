@@ -88,8 +88,16 @@ internal sealed partial class ScheduledTaskOrchestrationService(IScheduledTaskPr
     public ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); await ExecuteExecuteAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
 
-    private ValueTask ExecuteExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true)
+    private async ValueTask ExecuteExecuteAsync(
+        int scheduledTaskId,
+        bool incrementNextExecution = true)
     {
-        return processingService.ExecuteAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution);
+        ScheduledTask scheduledTask =
+            await processingService.ExecuteScheduledTaskAsync(
+                scheduledTaskId: scheduledTaskId,
+                incrementNextExecution: incrementNextExecution);
+
+        await eventService.RaiseScheduledTaskExecuteEventAsync(
+            entity: scheduledTask);
     }
 }

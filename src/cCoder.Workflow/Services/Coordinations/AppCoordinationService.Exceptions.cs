@@ -5,9 +5,9 @@
 using cCoder.Workflow.Models.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-internal sealed partial class AppOrchestrationService
+internal sealed partial class AppCoordinationService
 {
     private static async ValueTask TryCatch(
         Func<ValueTask> operation,

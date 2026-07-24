@@ -72,9 +72,10 @@ internal sealed partial class ScheduledTaskService(
 
         if (scheduledTask is null)
         {
-            return null;
+            throw new SecurityException("Access Denied!");
         }
 
+        ValidateScheduledTaskExecutionAccess(scheduledTask: scheduledTask);
         scheduledTask.LastExecuted = DateTimeOffset.UtcNow;
 
         if (incrementNextExecution)
@@ -110,6 +111,7 @@ internal sealed partial class ScheduledTaskService(
 
     private async ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask scheduledTask)
     {
+        ValidateScheduledTaskAccess(scheduledTask: scheduledTask);
         authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_create");
         ScheduledTask newScheduledTask = CreateStorageScheduledTask(item: scheduledTask);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
@@ -144,6 +146,7 @@ internal sealed partial class ScheduledTaskService(
 
     private async ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask scheduledTask)
     {
+        ValidateScheduledTaskAccess(scheduledTask: scheduledTask);
         authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_update");
         ScheduledTask updateScheduledTask = CreateStorageScheduledTask(item: scheduledTask);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;

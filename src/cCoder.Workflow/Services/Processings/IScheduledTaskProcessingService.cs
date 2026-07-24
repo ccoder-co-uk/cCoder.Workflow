@@ -28,5 +28,7 @@ public interface IScheduledTaskProcessingService
 
     ValueTask DeleteAllScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems);
 
-    ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true);
+    ValueTask<ScheduledTask> ExecuteScheduledTaskAsync(
+        int scheduledTaskId,
+        bool incrementNextExecution = true);
 }

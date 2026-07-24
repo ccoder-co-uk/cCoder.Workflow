@@ -2713,6 +2713,43 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAppAsync",
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateAppAsync",
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Services.Coordinations.CalendarCoordinationService",
       "StandardElementType": "CoordinationService",
       "Properties": [],
@@ -3556,43 +3593,6 @@
           "Name": "GetSharedMetadata",
           "Inputs": [],
           "ReturnType": "cCoder.Workflow.Api.OData.MetadataContainerSet"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "AddAppAsync",
-          "Inputs": [
-            {
-              "Name": "newApp",
-              "Type": "App"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
-          "Name": "DeleteAsync",
-          "Inputs": [
-            {
-              "Name": "appId",
-              "Type": "System.Int32"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
-          "Name": "UpdateAppAsync",
-          "Inputs": [
-            {
-              "Name": "updatedApp",
-              "Type": "App"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
         }
       ]
     },
@@ -4845,7 +4845,7 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "ExecuteAsync",
+          "Name": "ExecuteScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -4856,7 +4856,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
         },
         {
           "Name": "Get",
@@ -5097,7 +5097,7 @@
     },
     {
       "FromType": "cCoder.Workflow.Exposures.WorkflowAppExposure",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService"
+      "ToType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.WorkflowPackageManager",
@@ -5118,6 +5118,18 @@
     {
       "FromType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
       "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Coordinations.CalendarCoordinationService",
@@ -5216,18 +5228,6 @@
       "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
     },
     {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService"
-    },
-    {
       "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.CalendarEventEventProcessingService"
     },
@@ -5238,6 +5238,10 @@
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
@@ -5325,15 +5329,7 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.CalendarService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionEventProcessingService",
@@ -5361,15 +5357,7 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.ScheduledTaskService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventEventProcessingService",
@@ -5652,6 +5640,20 @@
       "LineNumber": 117
     },
     {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.WorkflowAppExposure",
+      "LineNumber": 9
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.WorkflowAppExposure",
+      "LineNumber": 24
+    },
+    {
       "Code": "STXAPP001",
       "Description": "Program.cs, IServiceCollectionExtensions.cs, and WebApplicationExtensions.cs must live at the project root.",
       "Severity": "Warning",
@@ -5673,6 +5675,20 @@
       "LineNumber": 16
     },
     {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "LineNumber": 9
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "LineNumber": 79
+    },
+    {
       "Code": "STXC001",
       "Description": "The service must have two or three OrchestrationService dependencies.",
       "Severity": "Warning",
@@ -5687,18 +5703,53 @@
       "LineNumber": 14
     },
     {
-      "Code": "STX0004",
-      "Description": "A service must not depend on another service at the same layer.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "LineNumber": 5
     },
     {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.AppOrchestrationService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "LineNumber": 69
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "LineNumber": 73
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "LineNumber": 249
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "LineNumber": 14
+    },
+    {
+      "Code": "STXFORMAT008",
+      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "LineNumber": 75
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "LineNumber": 105
     },
     {
       "Code": "STXO001",
@@ -5706,6 +5757,20 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.EventHandlingOrchestrationService",
       "LineNumber": 12
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService",
+      "LineNumber": 91
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService",
+      "LineNumber": 103
     },
     {
       "Code": "STXO001",
@@ -5722,32 +5787,32 @@
       "LineNumber": 16
     },
     {
-      "Code": "STX0004",
-      "Description": "A service must not depend on another service at the same layer.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "LineNumber": 15
+      "LineNumber": 5
     },
     {
-      "Code": "STXP001",
-      "Description": "A processing service may use only one foundation service and no higher-level service.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "LineNumber": 15
+      "LineNumber": 109
     },
     {
-      "Code": "STX0004",
-      "Description": "A service must not depend on another service at the same layer.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 16
+      "LineNumber": 5
     },
     {
-      "Code": "STXP001",
-      "Description": "A processing service may use only one foundation service and no higher-level service.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 16
+      "LineNumber": 119
     }
   ]
 }

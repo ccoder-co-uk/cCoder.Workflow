@@ -2,8 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Security;
-using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -14,9 +12,8 @@ using cCoder.Workflow.Services.Foundations;
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class ScheduledTaskProcessingService(
-    IScheduledTaskService service,
-    IAuthorizationBroker authorizationBroker,
-    IScheduledTaskEventProcessingService scheduledTaskEventProcessingService) : IScheduledTaskProcessingService
+    IScheduledTaskService service)
+    : IScheduledTaskProcessingService
 {
     public ScheduledTask Get(int scheduledTaskId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [scheduledTaskId]); return ExecuteGet(scheduledTaskId: scheduledTaskId); });
@@ -34,48 +31,29 @@ internal sealed partial class ScheduledTaskProcessingService(
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); await ExecuteExecuteAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
+    public ValueTask<ScheduledTask> ExecuteScheduledTaskAsync(
+        int scheduledTaskId,
+        bool incrementNextExecution = true) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); return await ExecuteExecuteAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
 
-    private async ValueTask ExecuteExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true)
-    {
-        ScheduledTask task = service.GetForExecution(scheduledTaskId: scheduledTaskId);
-
-        if (task != null && authorizationBroker.IsAdminOfApp(appId: task.AppId))
-        {
-            ScheduledTask updatedTask = await service.MarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution);
-            await scheduledTaskEventProcessingService.RaiseScheduledTaskExecuteEventAsync(entity: updatedTask);
-            return;
-        }
-
-        throw new SecurityException("Access Denied!");
-    }
+    private ValueTask<ScheduledTask> ExecuteExecuteAsync(
+        int scheduledTaskId,
+        bool incrementNextExecution = true) =>
+        service.MarkExecutedAsync(
+            scheduledTaskId: scheduledTaskId,
+            incrementNextExecution: incrementNextExecution);
 
     public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
 
-    private ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask entity)
-    {
-        if (!SecurityCheckTask(task: entity))
-        {
-            throw new SecurityException("Access Denied!");
-        }
-
-        return service.AddScheduledTaskAsync(newScheduledTask: entity);
-    }
+    private ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask entity) =>
+        service.AddScheduledTaskAsync(newScheduledTask: entity);
 
     public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
 
-    private ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask entity)
-    {
-        if (!SecurityCheckTask(task: entity))
-        {
-            throw new SecurityException("Access Denied!");
-        }
-
-        return service.UpdateScheduledTaskAsync(updatedScheduledTask: entity);
-    }
+    private ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask entity) =>
+        service.UpdateScheduledTaskAsync(updatedScheduledTask: entity);
 
     public ValueTask DeleteAsync(int scheduledTaskId) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId]); await ExecuteDeleteAsync(scheduledTaskId: scheduledTaskId); }, isValueTask: true);
@@ -137,13 +115,5 @@ internal sealed partial class ScheduledTaskProcessingService(
         {
             await DeleteAsync(scheduledTaskId: item.Id);
         }
-    }
-
-    private bool SecurityCheckTask(ScheduledTask task)
-    {
-        bool flag = authorizationBroker.IsAdminOfApp(appId: task.AppId);
-        bool flag2 = service.GetExecuteAsUserBelongsToApp(executeAs: task.ExecuteAs, appId: task.AppId);
-        bool flag3 = service.GetFlowBelongsToApp(flowId: task.FlowId, appId: task.AppId);
-        return flag && flag2 && flag3;
     }
 }

@@ -187,7 +187,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddOrchestrations(this IServiceCollection services)
     {
-        services.AddTransient<IAppOrchestrationService, AppOrchestrationService>();
+        services.AddTransient<IAppCoordinationService, AppCoordinationService>();
         services.AddTransient<ICalendarOrchestrationService, CalendarOrchestrationService>();
         services.AddTransient<ICalendarEventOrchestrationService, CalendarEventOrchestrationService>();
         services.AddTransient<IEventHandlingOrchestrationService, EventHandlingOrchestrationService>();

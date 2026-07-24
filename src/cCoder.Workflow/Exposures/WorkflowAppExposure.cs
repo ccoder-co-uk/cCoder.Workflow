@@ -6,19 +6,19 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Services.Orchestrations;
+using cCoder.Workflow.Services.Coordinations;
 
 namespace cCoder.Workflow.Exposures;
 
-internal class WorkflowAppExposure(IAppOrchestrationService appOrchestrationService)
+internal class WorkflowAppExposure(IAppCoordinationService appCoordinationService)
     : IWorkflowAppExposure
 {
     public ValueTask AddAsync(App newApp) =>
-        appOrchestrationService.AddAppAsync(newApp: newApp);
+        appCoordinationService.AddAppAsync(newApp: newApp);
 
     public ValueTask UpdateAsync(App updatedApp) =>
-        appOrchestrationService.UpdateAppAsync(updatedApp: updatedApp);
+        appCoordinationService.UpdateAppAsync(updatedApp: updatedApp);
 
     public ValueTask DeleteAsync(int appId) =>
-        appOrchestrationService.DeleteAsync(appId: appId);
+        appCoordinationService.DeleteAsync(appId: appId);
 }

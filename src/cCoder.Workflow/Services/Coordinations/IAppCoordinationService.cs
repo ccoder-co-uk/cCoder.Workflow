@@ -7,9 +7,9 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-public interface IAppOrchestrationService
+public interface IAppCoordinationService
 {
     ValueTask AddAppAsync(App newApp);
 

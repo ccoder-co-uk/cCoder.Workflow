@@ -7,14 +7,15 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Services.Orchestrations;
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-internal sealed partial class AppOrchestrationService(
+internal sealed partial class AppCoordinationService(
     IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
     ICalendarOrchestrationService calendarOrchestrationService,
     IScheduledTaskOrchestrationService scheduledTaskOrchestrationService)
-    : IAppOrchestrationService
+    : IAppCoordinationService
 {
     public ValueTask AddAppAsync(App newApp) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [newApp]); await ExecuteAddAsync(app: newApp); }, isValueTask: true);

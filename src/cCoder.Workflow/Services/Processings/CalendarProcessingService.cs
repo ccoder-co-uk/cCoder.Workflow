@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -12,7 +11,9 @@ using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal sealed partial class CalendarProcessingService(ICalendarService service, ICalendarEventProcessingService calendarEventService, IAuthorizationBroker authorizationBroker) : ICalendarProcessingService
+internal sealed partial class CalendarProcessingService(
+    ICalendarService service)
+    : ICalendarProcessingService
 {
     public Calendar Get(int calendarId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarId]); return ExecuteGet(calendarId: calendarId); });
@@ -49,27 +50,14 @@ internal sealed partial class CalendarProcessingService(ICalendarService service
     public ValueTask DeleteAsync(int calendarId) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [calendarId]); await ExecuteDeleteAsync(calendarId: calendarId); }, isValueTask: true);
 
-    private async ValueTask ExecuteDeleteAsync(int calendarId)
-    {
-        Calendar calendar = Get(calendarId: calendarId);
-        authorizationBroker.Authorize(appId: calendar.AppId, privilege: "calendar_delete");
-
-        CalendarEvent[] events = (from ce in calendarEventService.GetAll()
-                                  where ce.CalendarId == calendar.Id
-                                  select ce).ToArray();
-
-        await calendarEventService.DeleteAllCalendarEventAsync(deletedItems: events);
-        await service.DeleteAsync(calendarId: calendar.Id);
-    }
+    private ValueTask ExecuteDeleteAsync(int calendarId) =>
+        service.DeleteAsync(calendarId: calendarId);
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
 
-    private async ValueTask ExecuteDeleteByAppIdAsync(int appId)
-    {
-        await calendarEventService.DeleteAllByAppIdAsync(appId: appId);
-        await service.DeleteAllByAppIdAsync(appId: appId);
-    }
+    private ValueTask ExecuteDeleteByAppIdAsync(int appId) =>
+        service.DeleteAllByAppIdAsync(appId: appId);
 
     public ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdateCalendar(IEnumerable<Calendar> items) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);

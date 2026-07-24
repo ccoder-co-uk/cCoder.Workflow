@@ -14,6 +14,7 @@ using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects.Entities;
+using cCoder.Workflow.Services.Coordinations;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -99,8 +100,8 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
         });
 
         using IServiceScope scope = fixture.DatabaseServices.CreateScope();
-        IAppOrchestrationService appSecurity = scope.ServiceProvider.GetRequiredService<IAppOrchestrationService>();
-        await appSecurity.AddAppAsync(app: app);
+        IAppCoordinationService appSecurity = scope.ServiceProvider.GetRequiredService<IAppCoordinationService>();
+        await appSecurity.AddAppAsync(newApp: app);
 
         FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition: new FlowDefinition
         {

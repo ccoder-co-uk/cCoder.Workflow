@@ -5,25 +5,26 @@
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Orchestrations;
 using Moq;
 using Xunit;
 
 namespace cCoder.Workflow.Tests;
 
-public class AppOrchestrationServiceTests
+public class AppCoordinationServiceTests
 {
     private readonly Mock<ICalendarOrchestrationService> calendarOrchestrationServiceMock;
     private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
     private readonly Mock<IScheduledTaskOrchestrationService> scheduledTaskOrchestrationServiceMock;
-    private readonly AppOrchestrationService service;
+    private readonly AppCoordinationService service;
 
-    public AppOrchestrationServiceTests()
+    public AppCoordinationServiceTests()
     {
         calendarOrchestrationServiceMock = new Mock<ICalendarOrchestrationService>(MockBehavior.Strict);
         flowDefinitionOrchestrationServiceMock = new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
         scheduledTaskOrchestrationServiceMock = new Mock<IScheduledTaskOrchestrationService>(MockBehavior.Strict);
-        service = new AppOrchestrationService(
+        service = new AppCoordinationService(
             flowDefinitionOrchestrationServiceMock.Object,
             calendarOrchestrationServiceMock.Object,
             scheduledTaskOrchestrationServiceMock.Object);
