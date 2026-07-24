@@ -6829,228 +6829,144 @@
       "LineNumber": 24
     },
     {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
+      "LineNumber": 1
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
+      "LineNumber": 1
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
       "LineNumber": 13
     },
     {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 13
+      "LineNumber": 41
     },
     {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
+      "Code": "STX0022",
+      "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
+      "LineNumber": 45
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
+      "LineNumber": 1
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
+      "LineNumber": 1
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
       "LineNumber": 13
     },
     {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXF002",
-      "Description": "A foundation service may only depend on brokers, exposures, or nothing.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
+      "LineNumber": 41
     },
     {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
+      "Code": "STX0022",
+      "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
+      "LineNumber": 45
     },
     {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
+      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
+      "LineNumber": 1
     },
     {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
+      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
+      "LineNumber": 1
     },
     {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STXF002",
-      "Description": "A foundation service may only depend on brokers, exposures, or nothing.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
       "LineNumber": 13
     },
     {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
+      "LineNumber": 41
     },
     {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
+      "Code": "STX0022",
+      "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
+      "LineNumber": 55
     },
     {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
+      "LineNumber": 1
     },
     {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
+      "LineNumber": 1
     },
     {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXF002",
-      "Description": "A foundation service may only depend on brokers, exposures, or nothing.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
       "LineNumber": 13
     },
     {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
+      "LineNumber": 41
     },
     {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
+      "Code": "STX0022",
+      "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXF002",
-      "Description": "A foundation service may only depend on brokers, exposures, or nothing.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 13
+      "LineNumber": 45
     },
     {
       "Code": "STX0008",
