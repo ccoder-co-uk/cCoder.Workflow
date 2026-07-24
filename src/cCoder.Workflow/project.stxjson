@@ -6290,34 +6290,6 @@
       "LineNumber": 14
     },
     {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 13
-    },
-    {
       "Code": "STX0022",
       "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
@@ -6351,62 +6323,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
       "LineNumber": 45
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 13
     },
     {
       "Code": "STX0004",

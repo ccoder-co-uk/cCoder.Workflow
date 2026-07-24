@@ -10,4 +10,13 @@ internal sealed partial class FlowDefinitionService
 {
     private static void ValidateInputs(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateAllOnGet(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateWithInstancesOnDelete(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateWithInstancesByAppIdOnDelete(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
 }

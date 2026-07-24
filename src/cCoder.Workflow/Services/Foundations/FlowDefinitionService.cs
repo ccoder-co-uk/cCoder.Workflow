@@ -39,7 +39,7 @@ internal sealed partial class FlowDefinitionService(
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<FlowDefinition> ExecuteGetAll(bool ignoreFilters = false) =>
         flowDefinitionBroker.GetAllFlowDefinitions(ignoreFilters: ignoreFilters);
@@ -123,7 +123,7 @@ entity: updateFlowDefinition
     }
 
     public ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinitionId]); await ExecuteDeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateWithInstancesOnDelete(inputs: [flowDefinitionId]); await ExecuteDeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteWithInstancesAsync(Guid flowDefinitionId)
     {
@@ -140,7 +140,7 @@ entity: updateFlowDefinition
     }
 
     public ValueTask DeleteWithInstancesByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteWithInstancesByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateWithInstancesByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteWithInstancesByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteWithInstancesByAppIdAsync(int appId) =>
         flowDefinitionBroker.DeleteFlowDefinitionsWithInstancesByAppIdAsync(appId: appId);

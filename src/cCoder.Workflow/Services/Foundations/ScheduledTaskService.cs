@@ -40,13 +40,13 @@ internal sealed partial class ScheduledTaskService(
     }
 
     public ScheduledTask GetForExecution(int scheduledTaskId) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [scheduledTaskId]); return ExecuteGetForExecution(scheduledTaskId: scheduledTaskId); });
+        TryCatch(operation: () => { ValidateForExecutionOnGet(inputs: [scheduledTaskId]); return ExecuteGetForExecution(scheduledTaskId: scheduledTaskId); });
 
     private ScheduledTask ExecuteGetForExecution(int scheduledTaskId) =>
         scheduledTaskBroker.GetScheduledTaskForExecution(scheduledTaskId: scheduledTaskId);
 
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<ScheduledTask> ExecuteGetAll(bool ignoreFilters = false) =>
         scheduledTaskBroker.GetAllScheduledTasks(ignoreFilters: ignoreFilters);
@@ -161,14 +161,14 @@ entity: CreateStorageScheduledTask(item: scheduledTask)
     }
 
     public ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<ScheduledTask> items) =>
         scheduledTaskBroker.DeleteAllScheduledTasksAsync(
     items: items?.Select(selector: CreateStorageScheduledTask) ?? []);
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllByAppIdAsync(int appId) =>
         scheduledTaskBroker.DeleteAllScheduledTasksByAppIdAsync(appId: appId);

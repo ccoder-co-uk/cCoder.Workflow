@@ -40,7 +40,7 @@ internal sealed partial class CalendarService(
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<Calendar> ExecuteGetAll(bool ignoreFilters = false) =>
         calendarBroker.GetAllCalendars(ignoreFilters: ignoreFilters);
@@ -95,14 +95,14 @@ internal sealed partial class CalendarService(
     }
 
     public ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<Calendar> items) =>
         calendarBroker.DeleteAllCalendarsAsync(
     items: items?.Select(selector: CreateStorageCalendar) ?? []);
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllByAppIdAsync(int appId) =>
         calendarBroker.DeleteAllCalendarsByAppIdAsync(appId: appId);

@@ -10,4 +10,16 @@ internal sealed partial class ScheduledTaskService
 {
     private static void ValidateInputs(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateForExecutionOnGet(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateAllOnGet(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateAllForAppOnDelete(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateAllByAppIdOnDelete(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
 }
