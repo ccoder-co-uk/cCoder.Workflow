@@ -3,14 +3,19 @@
 // ---------------------------------------------------------------
 
 using Microsoft.AspNetCore.Mvc;
+using Workflow.HostedServices.Services.Processings;
 
 namespace Workflow.HostedServices.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public sealed class HealthController : ControllerBase
+public sealed class HealthController(
+    IHealthProcessingService healthProcessingService)
+    : ControllerBase
 {
     [HttpGet]
     public IActionResult Get() =>
-        Content(content: "OK", contentType: "text/plain");
+        Content(
+            content: healthProcessingService.GetHealth(),
+            contentType: "text/plain");
 }

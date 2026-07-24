@@ -189,7 +189,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "Me",
+          "Name": "Get",
           "Inputs": [],
           "ReturnType": "IActionResult"
         }
@@ -208,6 +208,12 @@
       ]
     },
     {
+      "Name": "Workflow.Web.Extensions.WebApplicationBuilderExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "Workflow.Web.Program",
       "StandardElementType": "App",
       "Properties": [],
@@ -223,65 +229,62 @@
           "ReturnType": "System.Void"
         }
       ]
+    },
+    {
+      "Name": "Workflow.Web.Services.Processings.CoreAppProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetAppAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.CMS.App\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.Web.Services.Processings.CoreUserProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetUser",
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.Web.Services.Processings.HealthProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetHealth",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        }
+      ]
     }
   ],
-  "Links": [],
-  "AnalysisItems": [
+  "Links": [
     {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "Apps.Shared.Models.Config",
-      "LineNumber": 9
+      "FromType": "Workflow.Web.Controllers.CoreAppController",
+      "ToType": "Workflow.Web.Services.Processings.CoreAppProcessingService"
     },
     {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "Apps.Shared.Models.Config",
-      "LineNumber": 10
+      "FromType": "Workflow.Web.Controllers.CoreUserController",
+      "ToType": "Workflow.Web.Services.Processings.CoreUserProcessingService"
     },
     {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "Apps.Shared.Models.Config",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.CoreAppController",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.CoreUserController",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.CoreUserController",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.HealthController",
-      "LineNumber": 9
-    },
-    {
-      "Code": "STXAPP005",
-      "Description": "Program.cs must compose the app through IServiceCollection using SDK namespaces and one local composition namespace only.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Program",
-      "LineNumber": 22
+      "FromType": "Workflow.Web.Controllers.HealthController",
+      "ToType": "Workflow.Web.Services.Processings.HealthProcessingService"
     }
-  ]
+  ],
+  "AnalysisItems": []
 }

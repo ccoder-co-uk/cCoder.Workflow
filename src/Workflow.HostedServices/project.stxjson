@@ -25,6 +25,12 @@
       ]
     },
     {
+      "Name": "Workflow.HostedServices.Extensions.WebApplicationBuilderExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "Workflow.HostedServices.Program",
       "StandardElementType": "App",
       "Properties": [],
@@ -40,30 +46,41 @@
           "ReturnType": "System.Void"
         }
       ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Services.Processings.HealthProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetHealth",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Services.Processings.HomeProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetHome",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        }
+      ]
     }
   ],
-  "Links": [],
-  "AnalysisItems": [
+  "Links": [
     {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "Workflow.HostedServices.Controllers.HealthController",
-      "LineNumber": 9
+      "FromType": "Workflow.HostedServices.Controllers.HealthController",
+      "ToType": "Workflow.HostedServices.Services.Processings.HealthProcessingService"
     },
     {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "Workflow.HostedServices.Controllers.HomeController",
-      "LineNumber": 9
-    },
-    {
-      "Code": "STXAPP005",
-      "Description": "Program.cs must compose the app through IServiceCollection using SDK namespaces and one local composition namespace only.",
-      "Severity": "Warning",
-      "Type": "Workflow.HostedServices.Program",
-      "LineNumber": 19
+      "FromType": "Workflow.HostedServices.Controllers.HomeController",
+      "ToType": "Workflow.HostedServices.Services.Processings.HomeProcessingService"
     }
-  ]
+  ],
+  "AnalysisItems": []
 }
