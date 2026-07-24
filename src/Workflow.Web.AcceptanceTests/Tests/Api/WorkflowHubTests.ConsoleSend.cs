@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Microsoft.AspNetCore.SignalR.Client;
 using Xunit;
@@ -44,6 +48,3 @@ public sealed partial class WorkflowHubTests
         }
     }
 }
-
-
-

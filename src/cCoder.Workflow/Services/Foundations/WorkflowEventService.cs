@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Data.Brokers;
 using cCoder.Workflow.Brokers;
@@ -105,14 +109,3 @@ internal class WorkflowEventService(
                 ExecuteAsUser = item.ExecuteAsUser,
             };
 }
-
-
-
-
-
-
-
-
-
-
-

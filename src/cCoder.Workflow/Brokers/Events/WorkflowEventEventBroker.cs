@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
@@ -16,10 +20,3 @@ public class WorkflowEventEventBroker(IEventHub eventHub) : IWorkflowEventEventB
     public ValueTask RaiseWorkflowEventDeleteEventAsync(EventMessage<WorkflowEvent> message) =>
         eventHub.RaiseEventAsync("workflow_delete", message);
 }
-
-
-
-
-
-
-

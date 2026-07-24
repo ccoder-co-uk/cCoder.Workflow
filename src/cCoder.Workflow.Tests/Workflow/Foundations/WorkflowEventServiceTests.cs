@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Brokers;
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
@@ -42,15 +46,3 @@ public partial class WorkflowEventServiceTests
         return workflowEvent;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

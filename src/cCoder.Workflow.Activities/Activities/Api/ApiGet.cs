@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
 
@@ -26,8 +30,3 @@ public class ApiGet<T> : ApiActivity<T>
         Log(WorkflowLogLevel.Debug, Result.ToJson());
     }
 }
-
-
-
-
-

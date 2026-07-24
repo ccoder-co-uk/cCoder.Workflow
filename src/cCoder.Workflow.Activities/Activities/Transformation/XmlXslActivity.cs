@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
@@ -42,10 +46,3 @@ public class XmlXslActivity<TResult> : TransformationActivity<string, TResult>
         }
     }
 }
-
-
-
-
-
-
-

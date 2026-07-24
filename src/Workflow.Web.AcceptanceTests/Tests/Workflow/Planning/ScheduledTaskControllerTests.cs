@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -168,11 +172,3 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
         return (int)response.StatusCode;
     }
 }
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Api.OData;
 using cCoder.Workflow.Models;
 using cCoder.Eventing;
@@ -230,4 +234,3 @@ public static partial class IServiceCollectionExtensions
         services.AddSignalR();
     }
 }
-

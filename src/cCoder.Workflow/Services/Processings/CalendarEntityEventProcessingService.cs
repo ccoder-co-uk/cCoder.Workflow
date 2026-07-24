@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -16,12 +20,3 @@ internal class CalendarEntityEventProcessingService(ICalendarEntityEventService 
 
     public ValueTask RaiseCalendarDeleteEventAsync(Calendar entity) => eventService.RaiseCalendarDeleteEventAsync(entity);
 }
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
@@ -19,10 +23,3 @@ public class ScheduledTaskEventBroker(IEventHub eventHub) : IScheduledTaskEventB
     public ValueTask RaiseScheduledTaskExecuteEventAsync(EventMessage<ScheduledTask> message) =>
         eventHub.RaiseEventAsync("scheduled_task_execute", message);
 }
-
-
-
-
-
-
-

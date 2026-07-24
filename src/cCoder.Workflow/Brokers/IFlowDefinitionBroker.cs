@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 
 
@@ -14,10 +18,3 @@ public interface IFlowDefinitionBroker
     ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items);
     int? GetAppId(FlowDefinition entity);
 }
-
-
-
-
-
-
-

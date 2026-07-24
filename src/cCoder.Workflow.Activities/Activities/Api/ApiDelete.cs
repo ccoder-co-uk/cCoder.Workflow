@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Models;
 
 
@@ -17,8 +21,3 @@ public class ApiDelete<T> : ApiActivity<object>
         await api.DeleteAsync(Query);
     }
 }
-
-
-
-
-

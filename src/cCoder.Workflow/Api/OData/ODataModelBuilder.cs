@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Linq.Expressions;
 using cCoder.Workflow.Api.OData;
 using cCoder.Workflow.Models;
@@ -44,5 +48,3 @@ public abstract class ODataModelBuilder
         Builder.ComplexType<AuditResultByProperty>();
     }
 }
-
-

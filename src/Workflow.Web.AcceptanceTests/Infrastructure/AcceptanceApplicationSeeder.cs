@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -101,5 +105,3 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
         }
     }
 }
-
-

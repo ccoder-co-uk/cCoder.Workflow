@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Activities.Activities.DMS;
@@ -13,10 +17,3 @@ public class XmlFileActivity : DMSActivity
         Result = cCoder.Workflow.Activities.Support.Data.ParseXml<dynamic>(await GetFileContents(api));
     }
 }
-
-
-
-
-
-
-

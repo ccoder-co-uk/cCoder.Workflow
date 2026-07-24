@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Activities.Models;
 
 public class WorkflowRequest
@@ -20,5 +24,3 @@ public class WorkflowRequest
         InstanceId = instanceId;
     }
 }
-
-

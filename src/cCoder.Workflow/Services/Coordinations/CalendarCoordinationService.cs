@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Api.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
@@ -39,14 +43,3 @@ internal class CalendarCoordinationService(
         await calendarEventOrchestrationService.DeleteAllAsync(eventsToDelete);
     }
 }
-
-
-
-
-
-
-
-
-
-
-

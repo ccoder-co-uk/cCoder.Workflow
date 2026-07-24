@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Data.Models.Workflow;
@@ -136,15 +140,3 @@ internal class FlowInstanceDataService(
                 End = item.End,
             };
 }
-
-
-
-
-
-
-
-
-
-
-
-

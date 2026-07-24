@@ -1,3 +1,6 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
 
 namespace Apps.Shared.Hosting;
 
@@ -21,4 +24,3 @@ public sealed class NoOpSession : ISession
     public void Remove(string key) { }
     public void Clear() { }
 }
-

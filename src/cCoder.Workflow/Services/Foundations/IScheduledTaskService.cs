@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 
 
@@ -17,13 +21,3 @@ public interface IScheduledTaskService
     ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items);
     ValueTask DeleteAllByAppIdAsync(int appId);
 }
-
-
-
-
-
-
-
-
-
-

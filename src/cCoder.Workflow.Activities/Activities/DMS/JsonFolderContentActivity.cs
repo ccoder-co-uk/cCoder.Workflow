@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
@@ -44,10 +48,3 @@ public class JsonFolderContentActivity : DMSActivity
     private string ConvertToString(byte[] raw) =>
         Encoding.UTF8.GetString(raw);
 }
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Activities.Activities.Transformation;
 
 public class ConvertActivity<TSource, TResult> : TransformationActivity<IEnumerable<TSource>, TResult[]>
@@ -24,6 +28,3 @@ public class ConvertActivity<TSource, TResult> : TransformationActivity<IEnumera
     })";
     }
 }
-
-
-

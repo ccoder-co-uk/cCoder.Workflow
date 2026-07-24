@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.Planning;
 using Microsoft.EntityFrameworkCore;
@@ -64,10 +68,3 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
         return entity.AppId;
     }
 }
-
-
-
-
-
-
-

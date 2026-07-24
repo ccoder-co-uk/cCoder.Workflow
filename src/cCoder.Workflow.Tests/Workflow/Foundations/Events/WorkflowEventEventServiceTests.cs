@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Data;
 using Moq;
@@ -26,12 +30,3 @@ public partial class WorkflowEventEventServiceTests
         );
     }
 }
-
-
-
-
-
-
-
-
-

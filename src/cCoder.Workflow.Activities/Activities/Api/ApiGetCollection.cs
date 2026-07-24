@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
 
@@ -13,8 +17,3 @@ public class ApiGetCollection<T> : ApiActivity<IEnumerable<T>>
         Result = await api.GetODataCollection<T>(Query);
     }
 }
-
-
-
-
-

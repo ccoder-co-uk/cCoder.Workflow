@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Data.Models.Workflow;
@@ -44,12 +48,3 @@ internal class FlowDefinitionEventService(
         await flowDefinitionEventBroker.RaiseFlowDefinitionDeleteEventAsync(message);
     }
 }
-
-
-
-
-
-
-
-
-

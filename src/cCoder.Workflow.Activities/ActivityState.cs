@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Activities;
 
 public enum ActivityState
@@ -8,5 +12,3 @@ public enum ActivityState
     Failed,
     Skipped
 }
-
-

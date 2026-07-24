@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Services.Foundations.Events;
 
 public interface IEventHandlerService
@@ -6,4 +10,3 @@ public interface IEventHandlerService
     void ListenToScheduledTaskExecuteEvents();
     void ListenToQueuedFlowInstanceExecuteEvents();
 }
-

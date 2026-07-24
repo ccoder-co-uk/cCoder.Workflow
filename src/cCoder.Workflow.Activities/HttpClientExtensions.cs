@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 
 namespace cCoder.Workflow.Activities.Support;
@@ -55,5 +59,3 @@ public static class HttpClientExtensions
         return results;
     }
 }
-
-

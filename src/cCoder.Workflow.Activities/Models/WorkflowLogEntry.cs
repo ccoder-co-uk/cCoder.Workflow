@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
@@ -22,6 +26,3 @@ public class WorkflowLogEntry
         Message = message;
     }
 }
-
-
-

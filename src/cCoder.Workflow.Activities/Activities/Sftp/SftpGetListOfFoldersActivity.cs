@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Renci.SshNet.Sftp;
 
 namespace cCoder.Workflow.Activities.Activities.Sftp;

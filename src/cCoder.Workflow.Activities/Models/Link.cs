@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Activities.Models;
 
 public class Link
@@ -6,5 +10,3 @@ public class Link
     public string Destination { get; set; }
     public string Expression { get; set; }
 }
-
-

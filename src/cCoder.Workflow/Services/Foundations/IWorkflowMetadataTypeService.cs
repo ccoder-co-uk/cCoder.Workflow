@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Api.OData;
 
 
@@ -10,5 +14,3 @@ public interface IWorkflowMetadataTypeService
     MetadataContainerSet[] GetKnownSystemTypes();
     MetadataContainerSet GetSharedMetadata();
 }
-
-

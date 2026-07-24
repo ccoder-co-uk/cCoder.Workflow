@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Activities.Activities;
@@ -25,7 +29,3 @@ public class WarningActivity : LogActivity { }
 public class InfoActivity : LogActivity { }
 
 public class DebugActivity : LogActivity { }
-
-
-
-

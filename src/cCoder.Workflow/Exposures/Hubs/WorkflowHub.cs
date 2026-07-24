@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Microsoft.AspNetCore.SignalR;
 
 
@@ -103,5 +107,3 @@ public class WorkflowHub : Hub
     public virtual async Task SendTest(string message, string thread) =>
         await Clients.Group(thread).SendAsync("ConsoleReceive", "test", message, thread);
 }
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
@@ -96,13 +100,3 @@ public partial class FlowInstanceDataServiceTests
     }
 
 }
-
-
-
-
-
-
-
-
-
-

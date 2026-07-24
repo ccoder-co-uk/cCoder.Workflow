@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Activities.Activities.Sftp;
 
 public class SftpDeleteFilesActivity : SftpBaseActivity

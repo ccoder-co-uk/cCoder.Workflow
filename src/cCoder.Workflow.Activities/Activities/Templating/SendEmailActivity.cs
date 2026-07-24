@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Data.Models.Mail;
 using cCoder.Workflow.Activities.Models;
@@ -24,10 +28,3 @@ public class SendEmailActivity : TemplatingActivity<dynamic>
         }
     }
 }
-
-
-
-
-
-
-

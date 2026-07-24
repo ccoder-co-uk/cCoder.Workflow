@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Data.Models.CMS;
@@ -44,9 +48,3 @@ public partial class FlowDefinitionCoordinationServiceTests
             )
             .Build();
 }
-
-
-
-
-
-

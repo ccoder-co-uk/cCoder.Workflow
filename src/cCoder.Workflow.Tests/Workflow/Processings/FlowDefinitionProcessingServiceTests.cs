@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
@@ -40,14 +44,3 @@ public partial class FlowDefinitionProcessingServiceTests
             .With(x => x.Instances = [])
             .Build();
 }
-
-
-
-
-
-
-
-
-
-
-

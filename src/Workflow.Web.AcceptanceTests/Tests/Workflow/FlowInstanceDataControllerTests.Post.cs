@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
@@ -37,8 +41,3 @@ public sealed partial class FlowInstanceDataControllerTests
         await Teardown(seededContext);
     }
 }
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -14,12 +18,3 @@ public interface IScheduledTaskEventProcessingService
     ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask entity);
     ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask entity);
 }
-
-
-
-
-
-
-
-
-

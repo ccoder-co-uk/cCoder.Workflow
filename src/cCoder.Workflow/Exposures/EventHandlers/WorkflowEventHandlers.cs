@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Services.Foundations.Events;
 
 
@@ -12,5 +16,3 @@ internal class WorkflowEventHandlers(IEventHandlerService eventHandlerService)
 
     public void ListenToQueuedFlowInstanceExecuteEvents() => eventHandlerService.ListenToQueuedFlowInstanceExecuteEvents();
 }
-
-

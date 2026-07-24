@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -34,8 +38,3 @@ public sealed partial class CalendarControllerTests
         await Teardown(seededContext);
     }
 }
-
-
-
-
-

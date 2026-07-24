@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Headers;
 using cCoder.Workflow.Activities.Activities;
@@ -53,8 +57,3 @@ public abstract class ApiActivity<T> : ApiActivity
     [JsonIgnore]
     public T Result { get; set; }
 }
-
-
-
-
-

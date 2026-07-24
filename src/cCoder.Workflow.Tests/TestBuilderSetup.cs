@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Runtime.CompilerServices;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.DMS;
@@ -73,8 +77,3 @@ internal static class TestBuilderSetup
         BuilderSetup.DisablePropertyNamingFor((UserRole userRole) => userRole.Role);
     }
 }
-
-
-
-
-

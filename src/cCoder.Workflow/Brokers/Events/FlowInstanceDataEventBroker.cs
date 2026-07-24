@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
@@ -16,10 +20,3 @@ public class FlowInstanceDataEventBroker(IEventHub eventHub) : IFlowInstanceData
     public ValueTask RaiseFlowInstanceDataDeleteEventAsync(EventMessage<FlowInstanceData> message) =>
         eventHub.RaiseEventAsync("flow_instance_data_delete", message);
 }
-
-
-
-
-
-
-

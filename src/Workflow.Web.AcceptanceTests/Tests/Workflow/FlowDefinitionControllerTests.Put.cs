@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;
@@ -43,9 +47,3 @@ public sealed partial class FlowDefinitionControllerTests
         await Teardown(seededContext);
     }
 }
-
-
-
-
-
-

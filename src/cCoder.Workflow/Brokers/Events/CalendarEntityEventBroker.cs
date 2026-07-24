@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
@@ -16,10 +20,3 @@ public class CalendarEntityEventBroker(IEventHub eventHub) : ICalendarEntityEven
     public ValueTask RaiseCalendarDeleteEventAsync(EventMessage<Calendar> message) =>
         eventHub.RaiseEventAsync("calendar_delete", message);
 }
-
-
-
-
-
-
-

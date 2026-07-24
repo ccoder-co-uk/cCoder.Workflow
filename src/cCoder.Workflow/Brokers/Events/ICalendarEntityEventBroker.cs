@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using cCoder.Eventing.Models;
 
@@ -10,10 +14,3 @@ public interface ICalendarEntityEventBroker
     ValueTask RaiseCalendarUpdateEventAsync(EventMessage<Calendar> message);
     ValueTask RaiseCalendarDeleteEventAsync(EventMessage<Calendar> message);
 }
-
-
-
-
-
-
-

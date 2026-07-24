@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Activities.Support;
 
 public static class CertChainValidator
@@ -27,5 +31,3 @@ public static class CertChainValidator
         return true;
     }
 }
-
-

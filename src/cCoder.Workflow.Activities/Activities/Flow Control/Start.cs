@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Data.Models.CMS;
 using Newtonsoft.Json;
@@ -33,12 +37,3 @@ public sealed class Start : CoreActivity
         await base.ExecuteInternal(context);
     }
 }
-
-
-
-
-
-
-
-
-

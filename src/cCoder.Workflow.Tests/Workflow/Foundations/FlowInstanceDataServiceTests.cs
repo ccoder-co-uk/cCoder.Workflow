@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Workflow.Brokers;
@@ -46,16 +50,3 @@ public partial class FlowInstanceDataServiceTests
         return flowInstanceData;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

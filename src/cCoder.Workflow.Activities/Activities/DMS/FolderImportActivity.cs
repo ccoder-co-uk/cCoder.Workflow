@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Headers;
 using cCoder.Workflow.Activities.Support;
@@ -58,8 +62,3 @@ public class FolderImportActivity : DMSActivity
         return result;
     }
 }
-
-
-
-
-

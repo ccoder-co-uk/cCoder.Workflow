@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
 public interface IWorkflowScriptExecutionOrchestrationService

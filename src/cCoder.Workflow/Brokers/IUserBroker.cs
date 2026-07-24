@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 
 namespace cCoder.Workflow.Brokers;
@@ -11,5 +15,3 @@ public interface IUserBroker
     ValueTask DeleteAllUsersAsync(IEnumerable<User> items);
     int? GetAppId(User entity);
 }
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Data.Models.DMS;
 using File = cCoder.Data.Models.DMS.File;
@@ -82,11 +86,3 @@ public abstract class DMSActivity : CoreActivity
         return result;
     }
 }
-
-
-
-
-
-
-
-

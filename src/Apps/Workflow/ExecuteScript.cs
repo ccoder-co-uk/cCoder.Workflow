@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Engine.Exposures;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;

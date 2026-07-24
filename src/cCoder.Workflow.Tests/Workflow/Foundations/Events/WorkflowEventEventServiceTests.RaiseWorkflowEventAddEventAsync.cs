@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing.Models;
 using FluentAssertions;
@@ -37,10 +41,3 @@ public partial class WorkflowEventEventServiceTests
     }
 
 }
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
@@ -66,9 +70,3 @@ public class ApiPut<T, TResult> : ApiActivity<TResult>
         }
     }
 }
-
-
-
-
-
-

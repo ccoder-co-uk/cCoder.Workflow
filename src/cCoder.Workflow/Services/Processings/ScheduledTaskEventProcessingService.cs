@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using cCoder.Workflow.Services.Foundations.Events;
 
@@ -14,12 +18,3 @@ internal class ScheduledTaskEventProcessingService(IScheduledTaskEventService ev
 
     public ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask entity) => eventService.RaiseScheduledTaskExecuteEventAsync(entity);
 }
-
-
-
-
-
-
-
-
-

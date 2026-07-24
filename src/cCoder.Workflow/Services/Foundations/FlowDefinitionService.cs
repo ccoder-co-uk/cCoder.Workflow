@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Data.Models.Workflow;
@@ -126,15 +130,3 @@ internal class FlowDefinitionService(
                 Instances = item.Instances,
             };
 }
-
-
-
-
-
-
-
-
-
-
-
-

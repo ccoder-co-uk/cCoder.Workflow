@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -46,7 +50,3 @@ public class AuthenticateActivity : ApiActivity
             MaxDepth = 4
         });
 }
-
-
-
-

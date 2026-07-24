@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
@@ -16,10 +20,3 @@ public class FlowDefinitionEventBroker(IEventHub eventHub) : IFlowDefinitionEven
     public ValueTask RaiseFlowDefinitionDeleteEventAsync(EventMessage<FlowDefinition> message) =>
         eventHub.RaiseEventAsync("flow_definition_delete", message);
 }
-
-
-
-
-
-
-

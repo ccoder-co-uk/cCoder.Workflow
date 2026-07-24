@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
@@ -71,11 +75,3 @@ public class BatchedResponse
     public object Headers { get; set; }
     public object Body { get; set; }
 }
-
-
-
-
-
-
-
-

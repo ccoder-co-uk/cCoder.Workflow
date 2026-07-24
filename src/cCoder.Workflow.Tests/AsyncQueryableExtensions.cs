@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -80,8 +84,3 @@ internal sealed class TestAsyncEnumerator<T>(IEnumerator<T> inner) : IAsyncEnume
 
     public ValueTask<bool> MoveNextAsync() => new(inner.MoveNext());
 }
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Models;
 
 internal class ImportCalendarEventInfo
@@ -12,4 +16,3 @@ internal class ImportCalendarEventInfo
 
     public string Description { get; set; }
 }
-

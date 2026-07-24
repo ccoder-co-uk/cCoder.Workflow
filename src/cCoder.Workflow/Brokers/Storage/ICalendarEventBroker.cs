@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 
 
@@ -13,10 +17,3 @@ public interface ICalendarEventBroker
     ValueTask DeleteAllCalendarEventsByAppIdAsync(int appId);
     int? GetAppId(CalendarEvent entity);
 }
-
-
-
-
-
-
-

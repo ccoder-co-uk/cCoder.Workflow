@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using FluentAssertions;
 using Xunit;
@@ -20,6 +24,3 @@ public sealed partial class WorkflowHubTests
         actualStatusCode.Should().NotBe((int)HttpStatusCode.InternalServerError);
     }
 }
-
-
-

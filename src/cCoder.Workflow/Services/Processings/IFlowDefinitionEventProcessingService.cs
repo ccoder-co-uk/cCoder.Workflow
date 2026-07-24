@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -12,10 +16,3 @@ public interface IFlowDefinitionEventProcessingService
     ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity);
     ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity);
 }
-
-
-
-
-
-
-

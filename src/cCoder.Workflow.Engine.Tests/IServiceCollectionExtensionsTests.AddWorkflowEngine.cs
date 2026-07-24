@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Services.Processings;
 using FluentAssertions;

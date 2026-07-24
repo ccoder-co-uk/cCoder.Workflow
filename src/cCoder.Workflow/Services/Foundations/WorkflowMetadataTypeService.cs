@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Dynamic;
 using cCoder.Workflow.Api.OData;
 using cCoder.Data.Models.Planning;
@@ -158,5 +162,3 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             Category = "Workflow",
         };
 }
-
-

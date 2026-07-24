@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Api.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -170,10 +174,3 @@ namespace cCoder.Workflow.Api.OData
         public string[] Errors { get; set; }
     }
 }
-
-
-
-
-
-
-

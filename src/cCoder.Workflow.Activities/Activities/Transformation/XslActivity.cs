@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
@@ -24,7 +28,3 @@ public class XslActivity : TransformationActivity<string, string>
         Result = await reader.ReadToEndAsync();
     }
 }
-
-
-
-

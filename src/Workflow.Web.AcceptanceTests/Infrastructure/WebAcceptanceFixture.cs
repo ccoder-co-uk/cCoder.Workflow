@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -98,4 +102,3 @@ public sealed class WebAcceptanceCollection : ICollectionFixture<WebAcceptanceFi
 {
     public const string Name = "Web acceptance";
 }
-

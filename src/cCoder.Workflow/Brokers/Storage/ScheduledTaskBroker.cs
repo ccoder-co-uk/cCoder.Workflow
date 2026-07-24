@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Security;
@@ -115,10 +119,3 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
         return entity.AppId;
     }
 }
-
-
-
-
-
-
-

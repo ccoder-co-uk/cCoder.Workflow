@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Brokers;
 
 public interface IJsonBroker
@@ -6,5 +10,3 @@ public interface IJsonBroker
     T ParseJson<T>(string json);
     string Serialize(object value);
 }
-
-

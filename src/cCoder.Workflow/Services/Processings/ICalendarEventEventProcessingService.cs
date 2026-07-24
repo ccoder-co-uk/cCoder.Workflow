@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -13,12 +17,3 @@ public interface ICalendarEventEventProcessingService
     ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity);
     ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity);
 }
-
-
-
-
-
-
-
-
-

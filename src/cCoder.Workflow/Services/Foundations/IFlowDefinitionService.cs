@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,11 +20,3 @@ public interface IFlowDefinitionService
     ValueTask DeleteWithInstancesAsync(Guid id);
     ValueTask DeleteWithInstancesByAppIdAsync(int appId);
 }
-
-
-
-
-
-
-
-

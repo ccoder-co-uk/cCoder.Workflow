@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -29,11 +33,3 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     private static FlowInstanceData CreateRandomFlowInstanceData() =>
         Builder<FlowInstanceData>.CreateNew().Build();
 }
-
-
-
-
-
-
-
-

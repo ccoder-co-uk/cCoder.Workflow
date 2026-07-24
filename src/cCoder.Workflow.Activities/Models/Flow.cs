@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.ComponentModel.DataAnnotations;
 using cCoder.Workflow.Activities.Activities;
 using Newtonsoft.Json;
@@ -19,6 +23,3 @@ public class Flow
 
     public T GetActivity<T>(string withRef) where T : Activity => (T)Activities.FirstOrDefault(a => a.Ref == withRef);
 }
-
-
-

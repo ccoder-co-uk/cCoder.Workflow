@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 
 
@@ -17,10 +21,3 @@ public interface IScheduledTaskBroker
     ValueTask DeleteAllScheduledTasksByAppIdAsync(int appId);
     int? GetAppId(ScheduledTask entity);
 }
-
-
-
-
-
-
-

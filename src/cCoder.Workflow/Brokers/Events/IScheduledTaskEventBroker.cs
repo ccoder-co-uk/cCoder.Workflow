@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using cCoder.Eventing.Models;
 
@@ -11,10 +15,3 @@ public interface IScheduledTaskEventBroker
     ValueTask RaiseScheduledTaskDeleteEventAsync(EventMessage<ScheduledTask> message);
     ValueTask RaiseScheduledTaskExecuteEventAsync(EventMessage<ScheduledTask> message);
 }
-
-
-
-
-
-
-

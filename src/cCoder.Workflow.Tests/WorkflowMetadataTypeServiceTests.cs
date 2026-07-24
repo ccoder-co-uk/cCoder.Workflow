@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Services.Foundations;
 
 
@@ -10,4 +14,3 @@ public partial class WorkflowMetadataTypeServiceTests
     public WorkflowMetadataTypeServiceTests() =>
         service = new WorkflowMetadataTypeService();
 }
-

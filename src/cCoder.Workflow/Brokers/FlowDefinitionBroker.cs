@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.Workflow;
 using Microsoft.EntityFrameworkCore;
@@ -97,10 +101,3 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
         return entity.AppId;
     }
 }
-
-
-
-
-
-
-

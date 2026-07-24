@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Data.Models.CMS;
@@ -88,11 +92,3 @@ public abstract class TemplatingActivity<T> : ApiActivity
         }
     }
 }
-
-
-
-
-
-
-
-

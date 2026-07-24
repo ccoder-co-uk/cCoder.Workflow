@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Workflow.AcceptanceTests.Infrastructure;
 
 namespace Workflow.AcceptanceTests.Tests;

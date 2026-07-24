@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Activities.Sftp;
 using cCoder.Workflow.Activities.Activities.Templating;
@@ -70,4 +74,3 @@ public partial class WorkflowMetadataTypeServiceTests
             .Contain(nameof(Int32), nameof(String), nameof(DateTime), nameof(TimeSpan));
     }
 }
-

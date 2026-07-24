@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing.Models;
 
@@ -10,10 +14,3 @@ public interface IWorkflowEventEventBroker
     ValueTask RaiseWorkflowEventUpdateEventAsync(EventMessage<WorkflowEvent> message);
     ValueTask RaiseWorkflowEventDeleteEventAsync(EventMessage<WorkflowEvent> message);
 }
-
-
-
-
-
-
-

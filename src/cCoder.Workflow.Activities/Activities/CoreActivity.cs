@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Activities.Api;
 
@@ -14,6 +18,3 @@ public abstract class CoreActivity : ApiActivity
         return base.ExecuteInternal(context);
     }
 }
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Apps.Shared.Hosting;
 
 
@@ -30,4 +34,3 @@ public static class DomainApiHosting
         app.UseExceptionHandler(errorApp => errorApp.Run(errorHandler));
     }
 }
-

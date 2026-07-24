@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using cCoder.Workflow.Activities.Support;
@@ -175,8 +179,3 @@ public abstract class Activity
     protected Task ExecuteScript(string code, object args) =>
         (ScriptRunner ?? Context.Script).Run(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, args, Log);
 }
-
-
-
-
-

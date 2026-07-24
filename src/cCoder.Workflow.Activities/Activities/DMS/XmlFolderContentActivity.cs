@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.IO.Compression;
 using System.Text;
 using cCoder.Workflow.Activities.Models;
@@ -62,10 +66,3 @@ public class XmlFolderContentActivity : DMSActivity
 
     private string Now() => DateTimeOffset.UtcNow.ToString("HH:mm:ss");
 }
-
-
-
-
-
-
-
