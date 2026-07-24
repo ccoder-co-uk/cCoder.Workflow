@@ -29,7 +29,6 @@ public partial class JsonXslActivity<TResult> : TransformationActivity<string, T
 
         if (Xslt != null && Xslt.Length > 2)
         {
-            // build the transform
             XslCompiledTransform t = new();
             t.Load(stylesheet:new XmlTextReader(new StringReader(Xslt)));
 

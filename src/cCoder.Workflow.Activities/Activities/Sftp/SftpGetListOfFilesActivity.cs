@@ -12,10 +12,19 @@ public class SftpGetListOfFilesActivity : SftpBaseActivity
 
     public string[] Result { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(operation:client =>
-    {
-        IEnumerable<ISftpFile> items = client.ListDirectory(Path).Where(f => !f.IsDirectory);
+    public override Task ExecuteAsync() =>
+        SftpDo(
+            operation: client =>
+            {
+                IEnumerable<ISftpFile> items = client
+                    .ListDirectory(
+                        path: Path)
+                    .Where(
+                        predicate: file => !file.IsDirectory);
 
-        Result = items.Select(f => f.Name).ToArray();
-    });
+                Result = items
+                    .Select(
+                        selector: file => file.Name)
+                    .ToArray();
+            });
 }

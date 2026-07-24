@@ -14,6 +14,7 @@ public class XmlFileActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
+
         Result = cCoder.Workflow.Activities.Support.Data.ParseXml<dynamic>(
             data: await GetFileContents(
                 api: api));

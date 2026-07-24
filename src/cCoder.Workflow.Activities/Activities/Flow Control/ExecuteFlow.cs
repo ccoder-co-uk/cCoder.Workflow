@@ -21,12 +21,36 @@ public class ExecuteFlow : CoreActivity
         try
         {
             using HttpClient api = GetHttpClient();
-            IEnumerable<FlowDefinition> defs = await api.GetODataCollection<FlowDefinition>(query:$"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
-            if (defs?.Any() ?? false)
-                _ = await api.PostAsync(requestUri:$"Workflow/FlowDefinition({defs.First().Id})/Execute", content:new StringContent(Data.ToJson())).ConfigureAwait(continueOnCapturedContext:false);
+
+            IEnumerable<FlowDefinition> definitions =
+                await api.GetODataCollection<FlowDefinition>(
+                    query: $"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
+
+            if (definitions?.Any() ?? false)
+            {
+                FlowDefinition definition = definitions.First();
+                string dataJson = Data.ToJson();
+
+                _ = await api
+                    .PostAsync(
+                        requestUri: $"Workflow/FlowDefinition({definition.Id})/Execute",
+                        content: new StringContent(
+                            content: dataJson))
+                    .ConfigureAwait(
+                        continueOnCapturedContext: false);
+            }
             else
-                Log(level:WorkflowLogLevel.Warning, message:"Flow not found!");
+            {
+                Log(
+                    level: WorkflowLogLevel.Warning,
+                    message: "Flow not found!");
+            }
         }
-        catch { Log(level:WorkflowLogLevel.Error, message:"Access Denied!"); }
+        catch
+        {
+            Log(
+                level: WorkflowLogLevel.Error,
+                message: "Access Denied!");
+        }
     }
 }

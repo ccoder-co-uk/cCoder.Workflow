@@ -16,7 +16,6 @@ public class XslActivity : TransformationActivity<string, string>
 
     public override async Task ExecuteAsync()
     {
-        // build the transform
         XslCompiledTransform t = new();
         t.Load(stylesheet:new XmlTextReader(new StringReader(Xslt)));
 

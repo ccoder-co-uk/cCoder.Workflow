@@ -2,10 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace cCoder.Workflow.Activities.Activities.Sftp;
 
 public class SftpMoveFilesToFolderActivity : SftpBaseActivity
@@ -16,15 +12,28 @@ public class SftpMoveFilesToFolderActivity : SftpBaseActivity
 
     public List<string> Files { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(operation:client =>
-    {
-        FromFolder = FromFolder.Trim('/');
-        ToFolder = ToFolder.Trim('/');
+    public override Task ExecuteAsync() =>
+        SftpDo(
+            operation: client =>
+            {
+                FromFolder = FromFolder.Trim(
+                    trimChar: '/');
 
-        if (!client.Exists(ToFolder))
-            client.CreateDirectory(ToFolder);
+                ToFolder = ToFolder.Trim(
+                    trimChar: '/');
 
-        foreach (string item in Files)
-            client.RenameFile($"{FromFolder}/{item}", $"{ToFolder}/{item}");
-    });
+                if (!client.Exists(
+                    path: ToFolder))
+                {
+                    client.CreateDirectory(
+                        path: ToFolder);
+                }
+
+                foreach (string item in Files)
+                {
+                    client.RenameFile(
+                        oldPath: $"{FromFolder}/{item}",
+                        newPath: $"{ToFolder}/{item}");
+                }
+            });
 }

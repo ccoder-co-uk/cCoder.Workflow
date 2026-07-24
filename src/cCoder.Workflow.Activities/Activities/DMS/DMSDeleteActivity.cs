@@ -21,6 +21,7 @@ public class DMSDeleteActivity : DMSActivity
 
             using System.Net.Http.HttpClient api = GetHttpClient();
             using IEnumerator<string> n = Paths.GetEnumerator();
+
             while (n.MoveNext())
             {
                 _ = await api.DeleteAsync(requestUri:$"DMS/{n.Current}");

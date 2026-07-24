@@ -20,6 +20,7 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
         Log(level:WorkflowLogLevel.Info, message:$"Sending a batch of {Data.Length} requests to the API.");
 
         string body = new { Requests = Data }.ToJsonForOdata();
+
         HttpResponseMessage response = await api.PostAsync(
             requestUri: Query + "$batch",
             content: new StringContent(
@@ -41,6 +42,7 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
             Result = responseBatch.Responses;
 
             Log(level:WorkflowLogLevel.Info, message:$"Received {responseBatch.Responses.Length} batched responses");
+
             int successCount = responseBatch
                 .Responses
                 .Count(

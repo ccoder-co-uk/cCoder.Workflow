@@ -23,7 +23,7 @@ public abstract class SftpBaseActivity : Activity
 
     public string PrivateKeyEncryptionKey { get; set; }
 
-    protected void SftpDo(Action<SftpClient> operation)
+    protected Task SftpDo(Action<SftpClient> operation)
     {
         ConnectionInfo auth = null;
         MemoryStream keyStream = null;
@@ -68,6 +68,8 @@ public abstract class SftpBaseActivity : Activity
             keyStream?.Dispose();
             Log(level:WorkflowLogLevel.Info, message:$"Disconnected from Server @ {Host}");
         }
+
+        return Task.CompletedTask;
     }
 
     protected T SftpDo<T>(Func<SftpClient, T> operation)

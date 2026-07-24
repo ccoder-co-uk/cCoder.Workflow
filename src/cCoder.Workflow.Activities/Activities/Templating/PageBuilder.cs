@@ -20,14 +20,37 @@ public class PageBuilder : TemplatingActivity<dynamic>
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        _ = await api.PostAsJsonAsync(requestUri:"ContentManagement/Page", value:new Page()
+
+        PageInfo pageInfo = new()
+        {
+            CultureId = Culture,
+            Description = Description,
+            Keywords = Keywords,
+            Title = Title
+        };
+
+        string renderedHtml = await Render(
+            api: api);
+
+        Content content = new()
+        {
+            CultureId = Culture,
+            Name = "body",
+            Html = renderedHtml
+        };
+
+        Page page = new()
         {
             AppId = AppId,
             Layout = Layout,
             ResourceKey = ResourceKey,
             ShowOnMenus = ShowOnMenus,
-            PageInfo = new[] { new PageInfo { CultureId = Culture, Description = Description, Keywords = Keywords, Title = Title } },
-            Contents = new[] { new Content { CultureId = Culture, Name = "body", Html = await Render(api) } }
-        });
+            PageInfo = [pageInfo],
+            Contents = [content]
+        };
+
+        _ = await api.PostAsJsonAsync(
+            requestUri: "ContentManagement/Page",
+            value: page);
     }
 }

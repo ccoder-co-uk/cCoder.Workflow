@@ -20,6 +20,7 @@ public class SendEmailActivity : TemplatingActivity<dynamic>
         using System.Net.Http.HttpClient api = GetHttpClient();
         Log(level:WorkflowLogLevel.Info, message:$"Building Email ...");
         QueuedEmail email = await BuildEmailTo(emailAddress:To, subject:Subject, serverName:MailServerName, api:api);
+
         if (email != null)
         {
             Log(level:WorkflowLogLevel.Info, message:$"Email built, sending ...");

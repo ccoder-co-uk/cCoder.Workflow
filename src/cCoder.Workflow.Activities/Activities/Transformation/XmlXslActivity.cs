@@ -29,7 +29,6 @@ public class XmlXslActivity<TResult> : TransformationActivity<string, TResult>
 
         if (Xslt != null && Xslt.Length > 2)
         {
-            // build the transform
             XslCompiledTransform t = new();
             t.Load(stylesheet:new XmlTextReader(new StringReader(Xslt)));
 

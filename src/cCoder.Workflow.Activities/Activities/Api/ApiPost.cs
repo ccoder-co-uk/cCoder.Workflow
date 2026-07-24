@@ -14,9 +14,15 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
     [IgnoreWhenFlowComplete]
     public T Data { get; set; }
 
-    public bool AutoWrapForOdata { get; set; } = true;
+    public bool AutoWrapForOdata { get; set; }
 
-    public bool WaitForResults { get; set; } = true;
+    public bool WaitForResults { get; set; }
+
+    public ApiPost()
+    {
+        AutoWrapForOdata = true;
+        WaitForResults = true;
+    }
 
     public override async Task ExecuteAsync()
     {
@@ -29,12 +35,16 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
 
         if (WaitForResults)
         {
-            // wait for the results to come back
             string body = (Data is string d)
                 ? d
                 : payload.ToJsonForOdata();
 
-            HttpResponseMessage response = await api.PostAsync(requestUri:Query, content:new StringContent(body, Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await api.PostAsync(
+                requestUri: Query,
+                content: new StringContent(
+                    content: body,
+                    encoding: Encoding.UTF8,
+                    mediaType: "application/json"));
 
             if (!response.IsSuccessStatusCode)
             {
@@ -45,7 +55,9 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
             }
 
             if (typeof(TResult) == typeof(string))
+            {
                 Result = (TResult)(object)await response.Content.ReadAsStringAsync();
+            }
             else
             {
                 try
@@ -59,14 +71,26 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
                 }
             }
         }
-        else // fire and forget
+        else
         {
-            Task.Run(function:async () =>
-            {
-                using HttpClient api = GetHttpClient();
-                api.Timeout = TimeSpan.FromMinutes(10);
-                _ = await api.PostAsync(Query, new StringContent(payload.ToJsonForOdata(), Encoding.UTF8, "application/json"));
-            }).Forget();
+            Task
+                .Run(
+                    function: async () =>
+                    {
+                        using HttpClient api = GetHttpClient();
+                        api.Timeout = TimeSpan.FromMinutes(
+                            value: 10);
+
+                        string payloadJson = payload.ToJsonForOdata();
+
+                        _ = await api.PostAsync(
+                            requestUri: Query,
+                            content: new StringContent(
+                                content: payloadJson,
+                                encoding: Encoding.UTF8,
+                                mediaType: "application/json"));
+                    })
+                .Forget();
         }
     }
 }

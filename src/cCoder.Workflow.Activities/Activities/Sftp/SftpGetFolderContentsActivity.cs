@@ -12,16 +12,30 @@ public class SftpGetFolderContentsActivity : SftpBaseActivity
 
     public Dictionary<string, string> Result { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(operation:client =>
-    {
-        Result = new();
+    public override Task ExecuteAsync() =>
+        SftpDo(
+            operation: client =>
+            {
+                Result = [];
 
-        foreach (var item in client.ListDirectory(Path).Where(f => !f.IsDirectory))
-        {
-            using MemoryStream stream = new();
-            client.DownloadFile(item.FullName, stream);
+                IEnumerable<Renci.SshNet.Sftp.ISftpFile> files = client
+                    .ListDirectory(
+                        path: Path)
+                    .Where(
+                        predicate: file => !file.IsDirectory);
 
-            Result[item.Name] = Encoding.UTF8.GetString(stream.ToArray());
-        }
-    });
+                foreach (Renci.SshNet.Sftp.ISftpFile file in files)
+                {
+                    using MemoryStream stream = new();
+
+                    client.DownloadFile(
+                        path: file.FullName,
+                        output: stream);
+
+                    byte[] content = stream.ToArray();
+
+                    Result[file.Name] = Encoding.UTF8.GetString(
+                        bytes: content);
+                }
+            });
 }

@@ -16,8 +16,17 @@ public class ApiDelete<T> : ApiActivity<object>
     {
         using HttpClient api = GetHttpClient();
 
-        Log(level:WorkflowLogLevel.Info, message:$"HTTP DELETE {api.BaseAddress}{Query.Replace("[Key]", ((dynamic)Data).Id.ToString())}");
+        string dataId = ((dynamic)Data).Id.ToString();
 
-        await api.DeleteAsync(requestUri:Query);
+        string requestQuery = Query.Replace(
+            oldValue: "[Key]",
+            newValue: dataId);
+
+        Log(
+            level: WorkflowLogLevel.Info,
+            message: $"HTTP DELETE {api.BaseAddress}{requestQuery}");
+
+        await api.DeleteAsync(
+            requestUri: requestQuery);
     }
 }

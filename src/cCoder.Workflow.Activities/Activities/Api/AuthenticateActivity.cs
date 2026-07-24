@@ -11,11 +11,16 @@ namespace cCoder.Workflow.Activities.Activities.Api;
 
 public class AuthenticateActivity : ApiActivity
 {
-    record Token(
-        string Id,
-        int Reason,
-        DateTimeOffset Expires,
-        string UserName);
+    private sealed class Token
+    {
+        public string Id { get; set; }
+
+        public int Reason { get; set; }
+
+        public DateTimeOffset Expires { get; set; }
+
+        public string UserName { get; set; }
+    }
 
     [JsonIgnore]
     public string Username { get; set; }
