@@ -52,6 +52,11 @@ namespace cCoder.Workflow;
 
 public static partial class IServiceCollectionExtensions
 {
+    public static void ConfigureWorkflowApiModel(
+        this ODataConventionModelBuilder builder) =>
+        new WorkflowModelBuilder(builder: builder)
+            .Configure();
+
     public static void AddWorkflowWeb(
         this IServiceCollection services,
         Action<WorkflowConfiguration> newConfigure = null,
