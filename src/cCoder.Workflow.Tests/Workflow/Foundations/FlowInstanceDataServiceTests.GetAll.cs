@@ -28,7 +28,7 @@ public partial class FlowInstanceDataServiceTests
         }.AsQueryable();
 
         flowInstanceDataBrokerMock
-            .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllFlowInstanceData())
             .Returns(value: flowInstanceDataItems);
 
         // When
@@ -40,7 +40,7 @@ public partial class FlowInstanceDataServiceTests
 expectation: flowInstanceDataItems.Select(selector: item => (FlowInstanceData)item)
         );
 
-        flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
+        flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>()),

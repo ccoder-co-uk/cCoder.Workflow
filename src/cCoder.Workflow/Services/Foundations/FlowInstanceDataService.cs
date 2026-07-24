@@ -41,8 +41,16 @@ internal sealed partial class FlowInstanceDataService(
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    private IQueryable<FlowInstanceData> ExecuteGetAll(bool ignoreFilters = false) =>
-        flowInstanceDataBroker.GetAllFlowInstanceData(ignoreFilters: ignoreFilters);
+    private IQueryable<FlowInstanceData> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return flowInstanceDataBroker
+                .SelectAllFlowInstanceDataIgnoringQueryFilters();
+        }
+
+        return flowInstanceDataBroker.SelectAllFlowInstanceData();
+    }
 
     public ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceData]); return await ExecuteAddAsync(flowInstanceData: flowInstanceData); }, isValueTask: true);

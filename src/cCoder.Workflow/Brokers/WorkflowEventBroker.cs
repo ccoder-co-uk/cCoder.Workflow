@@ -11,14 +11,13 @@ internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory
     : IWorkflowEventBroker
 {
 
-    public IQueryable<WorkflowEvent> GetAllWorkflowEvents(bool ignoreFilters)
-    {
-        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+    public IQueryable<WorkflowEvent> SelectAllWorkflowEvents() =>
+        coreContextFactory.CreateCoreContext().WorflowEvents;
 
-        return ignoreFilters
-            ? coreDataContext.WorflowEvents.IgnoreQueryFilters()
-            : coreDataContext.WorflowEvents;
-    }
+    public IQueryable<WorkflowEvent> SelectAllWorkflowEventsIgnoringQueryFilters() =>
+        coreContextFactory.CreateCoreContext()
+            .WorflowEvents
+            .IgnoreQueryFilters();
 
     public async ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent entity)
     {
@@ -41,18 +40,6 @@ internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.WorflowEvents.Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
-    }
-
-    public async ValueTask DeleteAllWorkflowEventsAsync(IEnumerable<WorkflowEvent> items)
-    {
-        if (items == null || !items.Any())
-        {
-            return;
-        }
-
-        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.WorflowEvents.RemoveRange(entities: items);
-        _ = await coreDataContext.SaveChangesAsync();
     }
 
     public int? SelectAppId(WorkflowEvent entity)

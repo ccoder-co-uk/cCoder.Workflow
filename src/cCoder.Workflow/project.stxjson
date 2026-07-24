@@ -16,16 +16,6 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
         },
         {
-          "Name": "DeleteAllWorkflowEventsAsync",
-          "Inputs": [
-            {
-              "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
           "Name": "DeleteWorkflowEventAsync",
           "Inputs": [
             {
@@ -36,13 +26,13 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
         },
         {
-          "Name": "GetAllWorkflowEvents",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
+          "Name": "SelectAllWorkflowEvents",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "SelectAllWorkflowEventsIgnoringQueryFilters",
+          "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
         },
         {
@@ -926,16 +916,6 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "DeleteAllFlowDefinitionsAsync",
-          "Inputs": [
-            {
-              "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
           "Name": "DeleteFlowDefinitionAsync",
           "Inputs": [
             {
@@ -966,13 +946,13 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "GetAllFlowDefinitions",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
+          "Name": "SelectAllFlowDefinitions",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "SelectAllFlowDefinitionsIgnoringQueryFilters",
+          "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
         },
         {
@@ -1013,16 +993,6 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "DeleteAllFlowInstanceDataAsync",
-          "Inputs": [
-            {
-              "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
           "Name": "DeleteFlowInstanceDataAsync",
           "Inputs": [
             {
@@ -1033,13 +1003,13 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
         },
         {
-          "Name": "GetAllFlowInstanceData",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
+          "Name": "SelectAllFlowInstanceData",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "SelectAllFlowInstanceDataIgnoringQueryFilters",
+          "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
         },
         {
@@ -5494,20 +5464,6 @@
   ],
   "AnalysisItems": [
     {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 48
-    },
-    {
       "Code": "STX0001",
       "Description": "The type is not a valid Standard element type.",
       "Severity": "Warning",
@@ -5568,35 +5524,7 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 57
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 95
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 50
+      "LineNumber": 56
     },
     {
       "Code": "STXB005",

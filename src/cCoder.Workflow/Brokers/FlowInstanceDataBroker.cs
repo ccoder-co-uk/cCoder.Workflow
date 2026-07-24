@@ -13,14 +13,13 @@ internal sealed class FlowInstanceDataBroker(ICoreContextFactory coreContextFact
     : IFlowInstanceDataBroker
 {
 
-    public IQueryable<FlowInstanceData> GetAllFlowInstanceData(bool ignoreFilters)
-    {
-        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+    public IQueryable<FlowInstanceData> SelectAllFlowInstanceData() =>
+        coreContextFactory.CreateCoreContext().FlowInstances;
 
-        return ignoreFilters
-            ? coreDataContext.FlowInstances.IgnoreQueryFilters()
-            : coreDataContext.FlowInstances;
-    }
+    public IQueryable<FlowInstanceData> SelectAllFlowInstanceDataIgnoringQueryFilters() =>
+        coreContextFactory.CreateCoreContext()
+            .FlowInstances
+            .IgnoreQueryFilters();
 
     public async ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData entity)
     {
@@ -43,18 +42,6 @@ internal sealed class FlowInstanceDataBroker(ICoreContextFactory coreContextFact
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.FlowInstances.Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
-    }
-
-    public async ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> items)
-    {
-        if (items == null || !items.Any())
-        {
-            return;
-        }
-
-        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowInstances.RemoveRange(entities: items);
-        _ = await coreDataContext.SaveChangesAsync();
     }
 
     public int? SelectAppId(FlowInstanceData entity)

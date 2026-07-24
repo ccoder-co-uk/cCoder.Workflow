@@ -9,15 +9,15 @@ namespace cCoder.Workflow.Brokers;
 
 public interface IFlowInstanceDataBroker
 {
-    IQueryable<FlowInstanceData> GetAllFlowInstanceData(bool ignoreFilters);
+    IQueryable<FlowInstanceData> SelectAllFlowInstanceData();
+
+    IQueryable<FlowInstanceData> SelectAllFlowInstanceDataIgnoringQueryFilters();
 
     ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData entity);
 
     ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData entity);
 
     ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData entity);
-
-    ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> items);
 
     int? SelectAppId(FlowInstanceData entity);
 }

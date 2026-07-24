@@ -24,7 +24,7 @@ public partial class WorkflowEventServiceTests
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventBrokerMock
-            .Setup(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllWorkflowEvents())
             .Returns(value: new[] { workflowEvent }.AsQueryable());
 
         workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
@@ -48,7 +48,7 @@ entity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
         await workflowEventService.DeleteAsync(workflowEventId: workflowEvent.Id);
 
         // Then
-        workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
+        workflowEventBrokerMock.Verify(expression: x => x.SelectAllWorkflowEvents(), times: Times.Once);
 
         workflowEventBrokerMock.Verify(
 expression: x =>
@@ -80,7 +80,7 @@ times: Times.Once
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventBrokerMock
-            .Setup(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllWorkflowEvents())
             .Returns(value: new[] { workflowEvent }.AsQueryable());
 
         workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
@@ -98,7 +98,7 @@ times: Times.Once
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
-        workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
+        workflowEventBrokerMock.Verify(expression: x => x.SelectAllWorkflowEvents(), times: Times.Once);
 
         workflowEventBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),

@@ -41,8 +41,16 @@ internal sealed partial class FlowDefinitionService(
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    private IQueryable<FlowDefinition> ExecuteGetAll(bool ignoreFilters = false) =>
-        flowDefinitionBroker.GetAllFlowDefinitions(ignoreFilters: ignoreFilters);
+    private IQueryable<FlowDefinition> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return flowDefinitionBroker
+                .SelectAllFlowDefinitionsIgnoringQueryFilters();
+        }
+
+        return flowDefinitionBroker.SelectAllFlowDefinitions();
+    }
 
     public ValueTask<FlowDefinition> AddAsync(FlowDefinition flowDefinition) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); return await ExecuteAddAsync(flowDefinition: flowDefinition); }, isValueTask: true);

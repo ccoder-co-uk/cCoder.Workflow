@@ -26,7 +26,7 @@ public partial class WorkflowEventServiceTests
             workflowEvent
         }.AsQueryable();
 
-        workflowEventBrokerMock.Setup(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false))
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAllWorkflowEvents())
             .Returns(value: workflowEvents);
 
         // When
@@ -36,7 +36,7 @@ public partial class WorkflowEventServiceTests
         result.Should()
             .BeEquivalentTo(expectation: workflowEvents.Select(selector: item => (WorkflowEvent)item));
 
-        workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
+        workflowEventBrokerMock.Verify(expression: x => x.SelectAllWorkflowEvents(), times: Times.Once);
 
         workflowEventBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),

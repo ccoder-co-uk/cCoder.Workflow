@@ -20,7 +20,7 @@ public partial class FlowDefinitionServiceTests
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId);
 
         flowDefinitionBrokerMock
-            .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllFlowDefinitions())
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
         // When
@@ -30,7 +30,7 @@ public partial class FlowDefinitionServiceTests
         result.Should()
             .BeEquivalentTo(expectation: flowDefinition);
 
-        flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false), times: Times.Once);
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitions(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),

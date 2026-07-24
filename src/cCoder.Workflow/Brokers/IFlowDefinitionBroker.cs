@@ -9,7 +9,9 @@ namespace cCoder.Workflow.Brokers;
 
 public interface IFlowDefinitionBroker
 {
-    IQueryable<FlowDefinition> GetAllFlowDefinitions(bool ignoreFilters);
+    IQueryable<FlowDefinition> SelectAllFlowDefinitions();
+
+    IQueryable<FlowDefinition> SelectAllFlowDefinitionsIgnoringQueryFilters();
 
     ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity);
 
@@ -20,8 +22,6 @@ public interface IFlowDefinitionBroker
     ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid flowDefinitionId);
 
     ValueTask DeleteFlowDefinitionsWithInstancesByAppIdAsync(int appId);
-
-    ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items);
 
     int? SelectAppId(FlowDefinition entity);
 }

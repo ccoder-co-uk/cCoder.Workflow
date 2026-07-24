@@ -42,8 +42,16 @@ internal sealed partial class WorkflowEventService(
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    private IQueryable<WorkflowEvent> ExecuteGetAll(bool ignoreFilters = false) =>
-        workflowEventBroker.GetAllWorkflowEvents(ignoreFilters: ignoreFilters);
+    private IQueryable<WorkflowEvent> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return workflowEventBroker
+                .SelectAllWorkflowEventsIgnoringQueryFilters();
+        }
+
+        return workflowEventBroker.SelectAllWorkflowEvents();
+    }
 
     public int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
         TryCatch(operation: () => { ValidateAppIdForWorkflowEventOnGet(inputs: [workflowEvent]); return ExecuteGetAppIdForWorkflowEvent(workflowEvent: workflowEvent); });

@@ -20,7 +20,7 @@ public partial class FlowInstanceDataServiceTests
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
         flowInstanceDataBrokerMock
-            .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllFlowInstanceData())
             .Returns(value: new[] { flowInstanceData }.AsQueryable());
 
         // When
@@ -30,7 +30,7 @@ public partial class FlowInstanceDataServiceTests
         result.Should()
             .BeEquivalentTo(expectation: flowInstanceData);
 
-        flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
+        flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),

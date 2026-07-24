@@ -13,14 +13,13 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
     : IFlowDefinitionBroker
 {
 
-    public IQueryable<FlowDefinition> GetAllFlowDefinitions(bool ignoreFilters)
-    {
-        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+    public IQueryable<FlowDefinition> SelectAllFlowDefinitions() =>
+        coreContextFactory.CreateCoreContext().FlowDefinitions;
 
-        return ignoreFilters
-            ? coreDataContext.FlowDefinitions.IgnoreQueryFilters()
-            : coreDataContext.FlowDefinitions;
-    }
+    public IQueryable<FlowDefinition> SelectAllFlowDefinitionsIgnoringQueryFilters() =>
+        coreContextFactory.CreateCoreContext()
+            .FlowDefinitions
+            .IgnoreQueryFilters();
 
     public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity)
     {
@@ -88,18 +87,6 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
             .IgnoreQueryFilters()
             .Where(predicate: flowDefinition => flowDefinition.AppId == appId)
             .ExecuteDeleteAsync();
-    }
-
-    public async ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items)
-    {
-        if (items == null || !items.Any())
-        {
-            return;
-        }
-
-        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowDefinitions.RemoveRange(entities: items);
-        _ = await coreDataContext.SaveChangesAsync();
     }
 
     public int? SelectAppId(FlowDefinition entity)

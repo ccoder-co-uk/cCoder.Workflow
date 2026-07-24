@@ -28,7 +28,7 @@ public partial class FlowDefinitionServiceTests
         }.AsQueryable();
 
         flowDefinitionBrokerMock
-            .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllFlowDefinitions())
             .Returns(value: flowDefinitions);
 
         // When
@@ -38,7 +38,7 @@ public partial class FlowDefinitionServiceTests
         result.Should()
             .BeEquivalentTo(expectation: flowDefinitions.Select(selector: item => (FlowDefinition)item));
 
-        flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false), times: Times.Once);
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitions(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowDefinition>()),

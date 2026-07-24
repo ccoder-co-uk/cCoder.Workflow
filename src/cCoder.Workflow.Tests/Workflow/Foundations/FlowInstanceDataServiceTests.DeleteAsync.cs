@@ -25,7 +25,7 @@ public partial class FlowInstanceDataServiceTests
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
         flowInstanceDataBrokerMock
-            .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllFlowInstanceData())
             .Returns(value: new[] { flowInstanceData }.AsQueryable());
 
         flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()))
@@ -49,7 +49,7 @@ entity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id
         await flowInstanceDataService.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
 
         // Then
-        flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
+        flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
 expression: x =>
@@ -82,7 +82,7 @@ times: Times.Once
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
         flowInstanceDataBrokerMock
-            .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
+            .Setup(expression: x => x.SelectAllFlowInstanceData())
             .Returns(value: new[] { flowInstanceData }.AsQueryable());
 
         flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()))
@@ -101,7 +101,7 @@ times: Times.Once
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
-        flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
+        flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),

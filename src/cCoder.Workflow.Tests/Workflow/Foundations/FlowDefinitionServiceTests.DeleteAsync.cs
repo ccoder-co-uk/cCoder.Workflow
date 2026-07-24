@@ -25,7 +25,7 @@ public partial class FlowDefinitionServiceTests
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
         flowDefinitionBrokerMock
-            .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true))
+            .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
         flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
@@ -46,7 +46,7 @@ entity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
         await flowDefinitionService.DeleteAsync(flowDefinitionId: flowDefinitionId);
 
         // Then
-        flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true), times: Times.Once);
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
 expression: x =>
@@ -79,7 +79,7 @@ times: Times.Once
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
         flowDefinitionBrokerMock
-            .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true))
+            .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
         authorizationBrokerMock
@@ -94,7 +94,7 @@ times: Times.Once
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
-        flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true), times: Times.Once);
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
 expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
@@ -118,7 +118,7 @@ times: Times.Once
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
         flowDefinitionBrokerMock
-            .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true))
+            .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"));
@@ -129,7 +129,7 @@ times: Times.Once
 
         await flowDefinitionService.DeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId);
 
-        flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true), times: Times.Once);
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
 expression: x => x.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId),
