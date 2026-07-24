@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -11,7 +11,7 @@ using cCoder.Data.Models.Workflow;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 
-namespace cCoder.Workflow.Api.OData;
+namespace cCoder.Workflow.Dependencies.OData;
 
 internal class WorkflowModelBuilder : ODataModelBuilder
 {

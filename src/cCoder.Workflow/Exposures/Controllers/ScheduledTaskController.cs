@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -49,7 +49,7 @@ public partial class ScheduledTaskController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(ScheduledTask))
             )
@@ -107,7 +107,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.AddScheduledTaskAsync(newEntity: newEntity));
@@ -126,7 +126,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: updatedEntity));

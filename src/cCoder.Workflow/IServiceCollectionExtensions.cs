@@ -13,7 +13,7 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Data.Models.Logging;
 using cCoder.Data.Models.Mail;
 using cCoder.Data.Models.Security;
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;

@@ -9,7 +9,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace cCoder.Workflow.Api.OData;
+namespace cCoder.Workflow.Dependencies.OData;
 
 internal static class ODataCollectionExtensions
 {

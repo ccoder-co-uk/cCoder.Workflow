@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using System.Dynamic;
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;

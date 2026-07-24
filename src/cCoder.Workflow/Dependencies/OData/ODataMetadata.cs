@@ -6,7 +6,7 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace cCoder.Workflow.Api.OData;
+namespace cCoder.Workflow.Dependencies.OData;
 
 public class MetadataContainerSet
 {

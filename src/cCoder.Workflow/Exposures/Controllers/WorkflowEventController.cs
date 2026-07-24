@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -35,7 +35,7 @@ public partial class WorkflowEventController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(WorkflowEvent))
             )
@@ -93,7 +93,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.AddWorkflowEventAsync(newEntity: newEntity));
@@ -112,7 +112,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.UpdateWorkflowEventAsync(updatedEntity: updatedEntity));

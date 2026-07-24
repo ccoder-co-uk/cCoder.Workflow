@@ -3,14 +3,14 @@
 // ---------------------------------------------------------------
 
 using System.Linq.Expressions;
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using Microsoft.OData.ModelBuilder;
 
-namespace cCoder.Workflow.Api.OData;
+namespace cCoder.Workflow.Dependencies.OData;
 
 public abstract class ODataModelBuilder
 {

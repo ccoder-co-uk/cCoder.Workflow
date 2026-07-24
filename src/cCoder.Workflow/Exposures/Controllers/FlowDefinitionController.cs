@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using System.Text;
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +24,7 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
 
         return isExtendedMetaRequest
             ? Ok(
-value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
             )
@@ -80,7 +80,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.PostFlowDefinitionAsync(newEntity: newEntity));
@@ -99,7 +99,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.PutFlowDefinitionAsync(updatedEntity: updatedEntity));

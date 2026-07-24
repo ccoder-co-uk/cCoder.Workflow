@@ -2,13 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OData.Edm;
 
 
-namespace cCoder.Workflow.Api.OData
+namespace cCoder.Workflow.Dependencies.OData
 {
     public static class EdmModelExtensions
     {

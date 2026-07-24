@@ -5,7 +5,7 @@
 using Microsoft.OData.Edm;
 
 
-namespace cCoder.Workflow.Api.OData;
+namespace cCoder.Workflow.Dependencies.OData;
 
 public class ODataModel
 {
