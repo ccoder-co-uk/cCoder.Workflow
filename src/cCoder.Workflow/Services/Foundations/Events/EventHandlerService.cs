@@ -16,6 +16,7 @@ using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Orchestrations;
+using cCoder.Workflow.Services.Processings;
 using DataFile = cCoder.Data.Models.DMS.File;
 using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
@@ -192,7 +193,7 @@ handler: async (service, task) =>
     }
 
     void ListenToQueuedFlowInstanceExecuteEvent(string eventName) =>
-        eventHubBroker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManagementOrchestrationService>(
+        eventHubBroker.ListenToEvent<FlowInstanceData, IWorkflowInstanceProcessingService>(
 eventName: eventName,
 handler: async (service, instance) =>
             {

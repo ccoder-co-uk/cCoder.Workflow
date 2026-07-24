@@ -201,7 +201,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IScheduledTaskOrchestrationService, ScheduledTaskOrchestrationService>();
         services.AddTransient<ITaskRunnerOrchestrationService, TaskRunnerOrchestrationService>();
-        services.AddTransient<IWorkflowInstanceManagementOrchestrationService, WorkflowInstanceManagementOrchestrationService>();
+        services.AddTransient<IWorkflowInstanceProcessingService, WorkflowInstanceProcessingService>();
         services.AddTransient<IWorkflowEventOrchestrationService, WorkflowEventOrchestrationService>();
     }
 

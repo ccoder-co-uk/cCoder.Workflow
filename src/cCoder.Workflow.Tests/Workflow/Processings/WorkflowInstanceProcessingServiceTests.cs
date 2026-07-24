@@ -8,20 +8,20 @@ using cCoder.Security.Objects.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
-using cCoder.Workflow.Services.Orchestrations;
+using cCoder.Workflow.Services.Processings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
-namespace cCoder.Core.Services.Tests.Workflow.Orchestrations;
+namespace cCoder.Core.Services.Tests.Workflow.Processings;
 
-public sealed class WorkflowInstanceManagementOrchestrationServiceTests
+public sealed class WorkflowInstanceProcessingServiceTests
 {
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
-    private readonly WorkflowInstanceManagementOrchestrationService orchestrationService;
+    private readonly WorkflowInstanceProcessingService processingService;
 
-    public WorkflowInstanceManagementOrchestrationServiceTests()
+    public WorkflowInstanceProcessingServiceTests()
     {
         workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(MockBehavior.Strict);
         IConfiguration configuration = new ConfigurationBuilder()
@@ -34,12 +34,12 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
             })
             .Build();
 
-        orchestrationService = new WorkflowInstanceManagementOrchestrationService(
+        processingService = new WorkflowInstanceProcessingService(
             workflowInstanceManagementBrokerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
             new WorkflowConfiguration(),
-            NullLogger<WorkflowInstanceManagementOrchestrationService>.Instance);
+            NullLogger<WorkflowInstanceProcessingService>.Instance);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: 1);
 
         // When
-        await orchestrationService.RunAsync();
+        await processingService.RunAsync();
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
@@ -101,7 +101,7 @@ times: Times.Once);
         };
 
         // When
-        WorkflowRequest actualRequest = orchestrationService.CreateWorkflowRequest(dbInstance: flowInstanceData, token: token);
+        WorkflowRequest actualRequest = processingService.CreateWorkflowRequest(dbInstance: flowInstanceData, token: token);
 
         // Then
         Assert.Equal(expected: $"https://{flowInstanceData.FlowDefinition.App.Domain}:7157/Api/", actual: actualRequest.Api);
@@ -133,7 +133,7 @@ cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: 0);
 
         // When
-        await orchestrationService.RunQueueInstanceBackgroundServiceDependencyAsync();
+        await processingService.RunQueueInstanceBackgroundServiceDependencyAsync();
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
@@ -168,7 +168,7 @@ cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: 0);
 
         // When
-        await orchestrationService.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: instanceId);
+        await processingService.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: instanceId);
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
@@ -204,7 +204,7 @@ cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: 1);
 
         // When
-        await orchestrationService.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: queuedInstance.Id);
+        await processingService.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: queuedInstance.Id);
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(

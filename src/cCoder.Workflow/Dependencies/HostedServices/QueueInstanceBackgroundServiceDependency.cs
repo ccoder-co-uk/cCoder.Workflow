@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Services.Orchestrations;
+using cCoder.Workflow.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -15,9 +15,9 @@ internal sealed class QueueInstanceBackgroundServiceDependency(IServiceScopeFact
     {
         using IServiceScope scope = serviceScopeFactory.CreateScope();
 
-        IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementOrchestrationService =
-            scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
+        IWorkflowInstanceProcessingService workflowInstanceProcessingService =
+            scope.ServiceProvider.GetRequiredService<IWorkflowInstanceProcessingService>();
 
-        await workflowInstanceManagementOrchestrationService.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(cancellationToken: stoppingToken);
+        await workflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(cancellationToken: stoppingToken);
     }
 }

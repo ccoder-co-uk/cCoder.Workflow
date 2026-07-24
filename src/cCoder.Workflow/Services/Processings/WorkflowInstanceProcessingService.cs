@@ -11,15 +11,15 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Processings;
 
-internal sealed partial class WorkflowInstanceManagementOrchestrationService(
+internal sealed partial class WorkflowInstanceProcessingService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IServiceProvider serviceProvider,
     IConfiguration appConfiguration,
     WorkflowConfiguration workflowConfiguration,
-    ILogger<WorkflowInstanceManagementOrchestrationService> log)
-    : IWorkflowInstanceManagementOrchestrationService
+    ILogger<WorkflowInstanceProcessingService> log)
+    : IWorkflowInstanceProcessingService
 {
     private static readonly HttpClientHandler Handler = new()
     {

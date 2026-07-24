@@ -12,6 +12,7 @@ using cCoder.Security.Data.EF;
 using cCoder.Security.Objects;
 using cCoder.Workflow;
 using cCoder.Workflow.Services.Orchestrations;
+using cCoder.Workflow.Services.Processings;
 
 namespace Workflow.HostedServices;
 
@@ -137,10 +138,10 @@ message: new EventMessage<App>
                     return;
                 }
 
-                IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementService =
-                    serviceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
+                IWorkflowInstanceProcessingService workflowInstanceProcessingService =
+                    serviceProvider.GetRequiredService<IWorkflowInstanceProcessingService>();
 
-                await workflowInstanceManagementService.ExecuteWaitingQueuedInstanceByIdAsync(
+                await workflowInstanceProcessingService.ExecuteWaitingQueuedInstanceByIdAsync(
 flowInstanceDataId: message.Data.Id);
             },
         };

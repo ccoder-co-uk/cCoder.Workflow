@@ -4367,78 +4367,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
-          "Inputs": [
-            {
-              "Name": "flowInstanceDataId",
-              "Type": "System.Guid"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
-          "Name": "GetStats",
-          "Inputs": [],
-          "ReturnType": "System.Object[]"
-        },
-        {
-          "Name": "RunAsync",
-          "Inputs": [
-            {
-              "Name": "cancellationToken",
-              "Type": "System.Threading.CancellationToken"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "RunInstanceMaintenanceAsync",
-          "Inputs": [
-            {
-              "Name": "cancellationToken",
-              "Type": "System.Threading.CancellationToken"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "RunInstanceMaintenanceContinuouslyAsync",
-          "Inputs": [
-            {
-              "Name": "cancellationToken",
-              "Type": "System.Threading.CancellationToken"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
-          "Inputs": [
-            {
-              "Name": "cancellationToken",
-              "Type": "System.Threading.CancellationToken"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
-          "Inputs": [
-            {
-              "Name": "cancellationToken",
-              "Type": "System.Threading.CancellationToken"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService",
       "StandardElementType": "ProcessingService",
       "Properties": [],
@@ -5355,6 +5283,78 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "GetStats",
+          "Inputs": [],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunInstanceMaintenanceAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunInstanceMaintenanceContinuouslyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.WebApplicationExtensions",
       "StandardElementType": "Dependency",
       "Properties": [],
@@ -5653,14 +5653,6 @@
       "ToType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService"
     },
     {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
-      "ToType": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
-      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
-    },
-    {
       "FromType": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService"
     },
@@ -5727,6 +5719,14 @@
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
     }
   ],
   "AnalysisItems": [
@@ -5776,106 +5776,57 @@
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
-      "LineNumber": 6
+      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
+      "LineNumber": 18
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
+      "LineNumber": 226
     },
     {
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "LineNumber": 7
     },
     {
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "LineNumber": 8
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "LineNumber": 13
     },
     {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
-      "LineNumber": 43
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
-      "LineNumber": 68
-    },
-    {
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "LineNumber": 171
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "LineNumber": 225
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
-      "LineNumber": 153
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "LineNumber": 14
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
-      "LineNumber": 125
-    },
-    {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "LineNumber": 109
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
-      "LineNumber": 198
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "LineNumber": 264
     }
   ]
 }

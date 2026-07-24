@@ -2,9 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Processings;
 
-public interface IWorkflowInstanceManagementOrchestrationService
+public interface IWorkflowInstanceProcessingService
 {
     Task RunAsync(CancellationToken cancellationToken = default);
 
