@@ -23,7 +23,8 @@ public abstract class DMSActivity : CoreActivity
 
     protected async Task<File[]> GetFiles(HttpClient api) =>
         ParamsAllSet()
-            ? (await api.GetODataCollection<Folder>(query: $"DocumentManagement/Folder?$filter=AppId eq {AppId} AND Path eq '{Path.Trim().TrimEnd(trimChars: "/".ToCharArray())}'&$expand=Files"))
+            ? (await api.GetODataCollection<Folder>(query: $"DocumentManagement/Folder?$filter=AppId eq {AppId} AND Path eq '{Path.Trim()
+            .TrimEnd(trimChars: "/".ToCharArray())}'&$expand=Files"))
                 .FirstOrDefault()?
                 .Files?
                 .ToArray() ?? []
@@ -81,7 +82,8 @@ public abstract class DMSActivity : CoreActivity
             result = false;
         }
 
-        if (Path == null || Path.Trim().TrimEnd(trimChars: "/".ToCharArray()).Length == 0)
+        if (Path == null || Path.Trim()
+            .TrimEnd(trimChars: "/".ToCharArray()).Length == 0)
         {
             Log(level: WorkflowLogLevel.Warning, message: $"  Unable to fetch file @ ~DMS/{Path ?? string.Empty} as the Path appears to be incorrect.");
             result = false;

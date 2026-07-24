@@ -28,8 +28,14 @@ public sealed class WorkflowLaunchSettingsTests
             .GetProperty(propertyName: "profiles")
             .GetProperty(propertyName: "Workflow");
 
-        profile.GetProperty(propertyName: "commandName").GetString().Should().Be(expected: "Project");
-        profile.GetProperty(propertyName: "commandLineArgs").GetString().Should().Be(expected: "--port 7071");
+        profile.GetProperty(propertyName: "commandName")
+            .GetString()
+            .Should()
+            .Be(expected: "Project");
+        profile.GetProperty(propertyName: "commandLineArgs")
+            .GetString()
+            .Should()
+            .Be(expected: "--port 7071");
     }
 
     private static string FindRepositoryRoot()

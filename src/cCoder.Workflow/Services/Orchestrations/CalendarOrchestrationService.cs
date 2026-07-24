@@ -39,7 +39,8 @@ internal class CalendarOrchestrationService(ICalendarProcessingService processin
 
     public async ValueTask DeleteAsync(int calendarId)
     {
-        Calendar entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == calendarId);
+        Calendar entity = processingService.GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == calendarId);
 
         if (entity is null)
         {

@@ -33,8 +33,10 @@ public sealed partial class FlowInstanceDataControllerTests
         actualInstance = await GetFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId);
 
         // Then
-        actualInstance.Should().NotBeNull();
-        actualInstance!.State.Should().Be(expected: "Running");
+        actualInstance.Should()
+            .NotBeNull();
+        actualInstance!.State.Should()
+            .Be(expected: "Running");
 
         await Teardown(seededContext: seededContext);
     }

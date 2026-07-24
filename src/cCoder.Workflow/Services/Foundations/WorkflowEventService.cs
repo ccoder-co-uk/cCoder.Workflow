@@ -17,13 +17,15 @@ internal class WorkflowEventService(
 {
     public WorkflowEvent Get(Guid workflowEventId)
     {
-        WorkflowEvent workflowEvent = GetAll().FirstOrDefault(predicate: i => i.Id == workflowEventId);
+        WorkflowEvent workflowEvent = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == workflowEventId);
         if (workflowEvent is not null)
         {
             return workflowEvent;
         }
 
-        WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == workflowEventId);
+        WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == workflowEventId);
         if (unrestrictedWorkflowEvent is not null)
         {
             throw new SecurityException("Access Denied!");

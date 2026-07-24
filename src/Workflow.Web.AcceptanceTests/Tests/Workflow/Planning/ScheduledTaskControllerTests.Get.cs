@@ -20,7 +20,8 @@ public sealed partial class ScheduledTaskControllerTests
         int actualCount = await GetScheduledTaskCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -32,7 +33,8 @@ public sealed partial class ScheduledTaskControllerTests
         IReadOnlyList<ScheduledTask> actualScheduledTasks = await GetScheduledTasksAsync(top: 1);
 
         // Then
-        actualScheduledTasks.Should().NotBeNull();
+        actualScheduledTasks.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -62,8 +64,10 @@ public sealed partial class ScheduledTaskControllerTests
         actualScheduledTask = await GetScheduledTaskAsync(scheduledTaskId: expectedScheduledTask.Id);
 
         // Then
-        actualScheduledTask.Id.Should().Be(expected: expectedScheduledTask.Id);
-        actualScheduledTask.Name.Should().Be(expected: name);
+        actualScheduledTask.Id.Should()
+            .Be(expected: expectedScheduledTask.Id);
+        actualScheduledTask.Name.Should()
+            .Be(expected: name);
 
         await DeleteScheduledTaskAsync(scheduledTaskId: expectedScheduledTask.Id);
         await Teardown(seededContext: seededContext);

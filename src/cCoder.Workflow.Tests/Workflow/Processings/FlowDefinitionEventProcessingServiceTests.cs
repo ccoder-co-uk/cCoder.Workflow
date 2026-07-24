@@ -26,5 +26,6 @@ public partial class FlowDefinitionEventProcessingServiceTests
     }
 
     private static FlowDefinition CreateRandomFlowDefinition() =>
-        Builder<FlowDefinition>.CreateNew().Build();
+        Builder<FlowDefinition>.CreateNew()
+            .Build();
 }

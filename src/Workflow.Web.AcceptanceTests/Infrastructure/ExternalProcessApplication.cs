@@ -68,7 +68,8 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
                 return;
             }
 
-            await Task.Delay(millisecondsDelay: 500, cancellationToken: cancellationTokenSource.Token).ContinueWith(continuationAction: _ => { }, scheduler: TaskScheduler.Default);
+            await Task.Delay(millisecondsDelay: 500, cancellationToken: cancellationTokenSource.Token)
+                .ContinueWith(continuationAction: _ => { }, scheduler: TaskScheduler.Default);
         }
 
         string diagnostics = readinessDiagnostics?.Invoke();

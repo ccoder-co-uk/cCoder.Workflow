@@ -135,7 +135,8 @@ arg2: $"Compilation failed:{Environment.NewLine}{exception.Message}{Environment.
         {
             try
             {
-                return reference.GetExportedTypes().Any(predicate: type => imports.Contains(type.Namespace));
+                return reference.GetExportedTypes()
+                    .Any(predicate: type => imports.Contains(type.Namespace));
             }
             catch
             {

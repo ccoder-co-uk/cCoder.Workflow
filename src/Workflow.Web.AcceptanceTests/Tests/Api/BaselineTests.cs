@@ -20,7 +20,8 @@ public sealed partial class BaselineTests(WebAcceptanceFixture fixture)
         using HttpResponseMessage response = await Client.GetAsync(requestUri: "/Api/Workflow/Baseline");
         string content = await response.Content.ReadAsStringAsync();
 
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonDocument.Parse(json: content).RootElement.Clone();
     }
 }

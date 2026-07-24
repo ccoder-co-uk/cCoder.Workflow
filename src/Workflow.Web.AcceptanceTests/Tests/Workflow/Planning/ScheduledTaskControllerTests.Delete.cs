@@ -38,8 +38,10 @@ public sealed partial class ScheduledTaskControllerTests
         actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(scheduledTaskId: createdScheduledTask.Id);
 
         // Then
-        actualStatusCode.Should().Be(expected: 200);
-        actualReadStatusCode.Should().Be(expected: 404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
 
         await Teardown(seededContext: seededContext);
     }

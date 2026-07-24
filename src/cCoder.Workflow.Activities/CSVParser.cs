@@ -30,8 +30,11 @@ public static class CSVParser<T>
 
     private static string[] GetFieldNames(StringReader csvReader, CSVParseConfig options) =>
         options.FieldNamesInHeader
-            ? csvReader.ReadLine().Split(separator: options.Separator)
-            : options.FieldNames ?? Enumerable.Range(start: 0, count: 50).Select(selector: i => $"Value{i}").ToArray();
+            ? csvReader.ReadLine()
+            .Split(separator: options.Separator)
+            : options.FieldNames ?? Enumerable.Range(start: 0, count: 50)
+            .Select(selector: i => $"Value{i}")
+            .ToArray();
 
     private static T ParseLine(string csvLine, CSVParseConfig options) =>
         typeof(object) == typeof(T)

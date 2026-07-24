@@ -78,7 +78,8 @@ privilege: "flowdefinition_execute");
             ExecutionLog = Array.Empty<WorkflowLogEntry>()
         };
 
-        Start start = context.Flow.Activities.OfType<Start>().FirstOrDefault();
+        Start start = context.Flow.Activities.OfType<Start>()
+            .FirstOrDefault();
 
         if (start == null)
         {

@@ -47,7 +47,9 @@ public class MetadataContainer
         ServerTypeName = type.GetCSharpTypeName();
         Properties = type.IsValueType || type == typeof(string)
             ? []
-            : type.GetProperties().Select(selector: PropertyInfoFor).ToArray();
+            : type.GetProperties()
+            .Select(selector: PropertyInfoFor)
+            .ToArray();
     }
 
     public MetadataContainer(Type type, bool isEntity, bool hasEndpoint)

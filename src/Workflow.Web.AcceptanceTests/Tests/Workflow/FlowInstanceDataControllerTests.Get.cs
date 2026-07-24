@@ -21,7 +21,8 @@ public sealed partial class FlowInstanceDataControllerTests
         int actualCount = await GetFlowInstanceDataCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -33,7 +34,8 @@ public sealed partial class FlowInstanceDataControllerTests
         IReadOnlyList<FlowInstanceData> actualInstances = await GetFlowInstanceDataAsync(top: 1);
 
         // Then
-        actualInstances.Should().NotBeNull();
+        actualInstances.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -46,8 +48,10 @@ public sealed partial class FlowInstanceDataControllerTests
         FlowInstanceData actualInstance = await GetFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId);
 
         // Then
-        actualInstance.Should().NotBeNull();
-        actualInstance.Id.Should().Be(expected: seededContext.InstanceId);
+        actualInstance.Should()
+            .NotBeNull();
+        actualInstance.Id.Should()
+            .Be(expected: seededContext.InstanceId);
 
         await Teardown(seededContext: seededContext);
     }
@@ -63,7 +67,8 @@ public sealed partial class FlowInstanceDataControllerTests
 
         int actualStatusCode = await GetFlowInstanceDataStatusCodeAsync(flowInstanceDataId: seededContext.InstanceId);
 
-        actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
+        actualStatusCode.Should()
+            .Be(expected: (int)HttpStatusCode.NotFound);
 
         await Teardown(seededContext: seededContext);
     }

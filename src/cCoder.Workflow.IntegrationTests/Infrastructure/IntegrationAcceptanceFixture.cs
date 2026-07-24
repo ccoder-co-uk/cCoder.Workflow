@@ -79,7 +79,8 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
         HostedServicesBaseAddress = new Uri($"http://localhost:{hostedServicesHttpPort}/");
         WorkflowBaseAddress = new Uri($"http://localhost:{workflowHttpPort}/api/");
 
-        artifactsRoot = Path.Combine(path1: repositoryRoot, path2: "artifacts", path3: "workflow-integration", path4: Guid.NewGuid().ToString(format: "N"));
+        artifactsRoot = Path.Combine(path1: repositoryRoot, path2: "artifacts", path3: "workflow-integration", path4: Guid.NewGuid()
+            .ToString(format: "N"));
         string workflowOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "Workflow");
         string hostedServicesOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "HostedServices");
         string webOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "Web");
@@ -190,8 +191,10 @@ environmentVariables: webEnvironment,
     private async Task SeedBaselineUsersAsync()
     {
         using IServiceScope scope = databaseServices.CreateScope();
-        using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>().CreateCoreContext();
-        using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>().CreateDbContext(ignoreAuthInfo: true);
+        using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
+            .CreateCoreContext();
+        using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
+            .CreateDbContext(ignoreAuthInfo: true);
 
         await AcceptanceUserSeeder.EnsureCoreUserAsync(core: core, id: "Guest", displayName: "Guest", email: string.Empty);
         await AcceptanceUserSeeder.EnsureCoreUserAsync(core: core, id: "admin", displayName: "Acceptance Admin", email: "admin@localhost");
@@ -355,7 +358,8 @@ arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
     private void AddHttpsCertificateEnvironment(Dictionary<string, string> environment)
     {
         string certificatePath = Path.Combine(path1: artifactsRoot, path2: "localhost-https.pfx");
-        string certificatePassword = Guid.NewGuid().ToString(format: "N");
+        string certificatePassword = Guid.NewGuid()
+            .ToString(format: "N");
 
         using RSA rsa = RSA.Create(keySizeInBits: 2048);
         CertificateRequest request = new(

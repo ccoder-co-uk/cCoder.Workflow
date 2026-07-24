@@ -44,7 +44,8 @@ public partial class CalendarController : ODataController
     {
         try
         {
-            IQueryable<Calendar> result = Service.GetAll().Where(predicate: calendar => calendar.Id == key);
+            IQueryable<Calendar> result = Service.GetAll()
+                .Where(predicate: calendar => calendar.Id == key);
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)

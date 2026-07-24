@@ -27,7 +27,8 @@ public sealed partial class WorkflowHubTests(WebAcceptanceFixture fixture)
             })
             .Build();
 
-        await connection.StartAsync().WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
+        await connection.StartAsync()
+            .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
         return connection;
     }
 

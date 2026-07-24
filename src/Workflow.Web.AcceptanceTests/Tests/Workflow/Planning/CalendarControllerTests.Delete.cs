@@ -29,8 +29,10 @@ public sealed partial class CalendarControllerTests
         actualReadStatusCode = await GetCalendarStatusCodeAsync(calendarId: createdCalendar.Id);
 
         // Then
-        actualStatusCode.Should().Be(expected: 200);
-        actualReadStatusCode.Should().Be(expected: 404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
 
         await Teardown(seededContext: seededContext);
     }

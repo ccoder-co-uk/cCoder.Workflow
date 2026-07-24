@@ -31,10 +31,14 @@ public partial class FlowInstanceDataEventServiceTests
         await service.RaiseFlowInstanceDataUpdateEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
         flowInstanceDataEventBrokerMock.Verify(
 expression: x =>
                 x.RaiseFlowInstanceDataUpdateEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>()),

@@ -31,5 +31,6 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     }
 
     private static FlowInstanceData CreateRandomFlowInstanceData() =>
-        Builder<FlowInstanceData>.CreateNew().Build();
+        Builder<FlowInstanceData>.CreateNew()
+            .Build();
 }

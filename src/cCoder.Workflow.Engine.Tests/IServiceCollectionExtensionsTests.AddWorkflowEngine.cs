@@ -24,8 +24,14 @@ public sealed partial class IServiceCollectionExtensionsTests
         using ServiceProvider serviceProvider = services.BuildServiceProvider(
 options: new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
 
-        serviceProvider.GetRequiredService<IFlowRunner>().Should().NotBeNull();
-        serviceProvider.GetRequiredService<IWorkflowScriptExecutionService>().Should().NotBeNull();
-        serviceProvider.GetRequiredService<IScriptProcessingService>().Should().NotBeNull();
+        serviceProvider.GetRequiredService<IFlowRunner>()
+            .Should()
+            .NotBeNull();
+        serviceProvider.GetRequiredService<IWorkflowScriptExecutionService>()
+            .Should()
+            .NotBeNull();
+        serviceProvider.GetRequiredService<IScriptProcessingService>()
+            .Should()
+            .NotBeNull();
     }
 }

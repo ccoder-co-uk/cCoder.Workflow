@@ -21,7 +21,8 @@ public sealed partial class WorkflowEventControllerTests
         int actualCount = await GetWorkflowEventCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -33,7 +34,8 @@ public sealed partial class WorkflowEventControllerTests
         IReadOnlyList<WorkflowEvent> actualWorkflowEvents = await GetWorkflowEventsAsync(top: 1);
 
         // Then
-        actualWorkflowEvents.Should().NotBeNull();
+        actualWorkflowEvents.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -46,8 +48,10 @@ public sealed partial class WorkflowEventControllerTests
         WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: seededContext.EventId);
 
         // Then
-        actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent.Id.Should().Be(expected: seededContext.EventId);
+        actualWorkflowEvent.Should()
+            .NotBeNull();
+        actualWorkflowEvent.Id.Should()
+            .Be(expected: seededContext.EventId);
 
         await Teardown(seededContext: seededContext);
     }
@@ -63,7 +67,8 @@ public sealed partial class WorkflowEventControllerTests
 
         int actualStatusCode = await GetWorkflowEventStatusCodeAsync(workflowEventId: seededContext.EventId);
 
-        actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
+        actualStatusCode.Should()
+            .Be(expected: (int)HttpStatusCode.NotFound);
 
         await Teardown(seededContext: seededContext);
     }

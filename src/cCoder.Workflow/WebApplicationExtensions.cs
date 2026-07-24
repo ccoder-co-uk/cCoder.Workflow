@@ -60,7 +60,8 @@ public static partial class WebApplicationExtensions
     {
         using IServiceScope scope = app.Services.CreateScope();
         IServiceProvider services = scope.ServiceProvider;
-        ILogger logger = services.GetRequiredService<ILoggerFactory>().CreateLogger(categoryName: "WorkflowStartup");
+        ILogger logger = services.GetRequiredService<ILoggerFactory>()
+            .CreateLogger(categoryName: "WorkflowStartup");
 
         foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
         {
@@ -115,8 +116,10 @@ message: "Workflow event handler registration was skipped because the event hub 
 scope: MetadataScope,
 typeSetPayloads: new[]
                 {
-                    app.Services.GetRequiredService<IWorkflowMetadataTypeService>().GetCoreMetadata(),
-                    app.Services.GetRequiredService<IWorkflowMetadataTypeService>().GetSharedMetadata(),
+                    app.Services.GetRequiredService<IWorkflowMetadataTypeService>()
+                .GetCoreMetadata(),
+                    app.Services.GetRequiredService<IWorkflowMetadataTypeService>()
+                .GetSharedMetadata(),
                 }.Select(selector: static metadata => JsonSerializer.Serialize(metadata))
             );
         }

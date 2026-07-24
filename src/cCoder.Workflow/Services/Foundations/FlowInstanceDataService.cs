@@ -16,13 +16,15 @@ internal class FlowInstanceDataService(
 {
     public FlowInstanceData Get(Guid flowInstanceDataId)
     {
-        FlowInstanceData flowInstanceData = GetAll().FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
+        FlowInstanceData flowInstanceData = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
         if (flowInstanceData is not null)
         {
             return flowInstanceData;
         }
 
-        FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
+        FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
         if (unrestrictedFlowInstanceData is not null)
         {
             throw new SecurityException("Access Denied!");

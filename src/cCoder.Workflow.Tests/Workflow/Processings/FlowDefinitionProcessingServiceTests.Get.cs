@@ -21,13 +21,15 @@ public partial class FlowDefinitionProcessingServiceTests
         // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
         var id = entity.Id;
-        flowDefinitionServiceMock.Setup(expression: x => x.Get(flowDefinitionId: id)).Returns(value: entity);
+        flowDefinitionServiceMock.Setup(expression: x => x.Get(flowDefinitionId: id))
+            .Returns(value: entity);
 
         // When
         FlowDefinition result = flowDefinitionProcessingService.Get(flowDefinitionId: id);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
         flowDefinitionServiceMock.Verify(expression: x => x.Get(flowDefinitionId: id), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
     }

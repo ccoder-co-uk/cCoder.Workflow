@@ -26,7 +26,8 @@ public partial class WorkflowEventServiceTests
         WorkflowEvent result = workflowEventService.Get(workflowEventId: workflowEvent.Id);
 
         // Then
-        result.Should().BeEquivalentTo(expectation: workflowEvent);
+        result.Should()
+            .BeEquivalentTo(expectation: workflowEvent);
         workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
         workflowEventBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()),

@@ -27,7 +27,8 @@ public partial class FlowDefinitionControllerServiceTests
 
         Guid result = await service.QueueAsync(flowDefinitionId: flowId, asUserId: null, args: "{}");
 
-        result.Should().Be(expected: queuedId);
+        result.Should()
+            .Be(expected: queuedId);
         authorizationBrokerMock.Verify(expression: broker => broker.GetCurrentUser(), times: Times.Once);
         flowDefinitionCoordinationServiceMock.Verify(
 expression: foundService => foundService.QueueAsync(flowDefinitionId: flowId, asUserId: currentUser.Id, args: "{}"),
@@ -48,7 +49,8 @@ times: Times.Once);
 
         Guid result = await service.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}");
 
-        result.Should().Be(expected: queuedId);
+        result.Should()
+            .Be(expected: queuedId);
         flowDefinitionCoordinationServiceMock.Verify(
 expression: foundService => foundService.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}"),
 times: Times.Once);

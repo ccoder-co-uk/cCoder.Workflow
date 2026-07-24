@@ -21,7 +21,8 @@ public sealed partial class FlowDefinitionControllerTests
         int actualCount = await GetFlowDefinitionCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -33,7 +34,8 @@ public sealed partial class FlowDefinitionControllerTests
         IReadOnlyList<FlowDefinition> actualFlowDefinitions = await GetFlowDefinitionsAsync(top: 1);
 
         // Then
-        actualFlowDefinitions.Should().NotBeNull();
+        actualFlowDefinitions.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -46,8 +48,10 @@ public sealed partial class FlowDefinitionControllerTests
         FlowDefinition actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
-        actualFlowDefinition.Should().NotBeNull();
-        actualFlowDefinition.Id.Should().Be(expected: seededContext.FlowId);
+        actualFlowDefinition.Should()
+            .NotBeNull();
+        actualFlowDefinition.Id.Should()
+            .Be(expected: seededContext.FlowId);
 
         await Teardown(seededContext: seededContext);
     }
@@ -64,7 +68,8 @@ public sealed partial class FlowDefinitionControllerTests
 
         int actualStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
-        actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
+        actualStatusCode.Should()
+            .Be(expected: (int)HttpStatusCode.NotFound);
 
         await Teardown(seededContext: seededContext);
     }
@@ -78,7 +83,8 @@ public sealed partial class FlowDefinitionControllerTests
         string actualContent = await GetKnownActivityTypesAsync();
 
         // Then
-        actualContent.Should().Contain(expected: "Start");
+        actualContent.Should()
+            .Contain(expected: "Start");
     }
 
     [Fact]
@@ -90,6 +96,7 @@ public sealed partial class FlowDefinitionControllerTests
         string actualContent = await GetKnownSystemTypesAsync();
 
         // Then
-        actualContent.Should().Contain(expected: "System");
+        actualContent.Should()
+            .Contain(expected: "System");
     }
 }

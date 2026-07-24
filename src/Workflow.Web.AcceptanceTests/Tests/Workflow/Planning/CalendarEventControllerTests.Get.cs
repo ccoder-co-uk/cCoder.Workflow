@@ -20,7 +20,8 @@ public sealed partial class CalendarEventControllerTests
         int actualCount = await GetCalendarEventCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -32,7 +33,8 @@ public sealed partial class CalendarEventControllerTests
         IReadOnlyList<CalendarEvent> actualCalendarEvents = await GetCalendarEventsAsync(top: 1);
 
         // Then
-        actualCalendarEvents.Should().NotBeNull();
+        actualCalendarEvents.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -55,8 +57,10 @@ public sealed partial class CalendarEventControllerTests
         actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
 
         // Then
-        actualCalendarEvent.Id.Should().Be(expected: expectedCalendarEvent.Id);
-        actualCalendarEvent.Name.Should().Be(expected: name);
+        actualCalendarEvent.Id.Should()
+            .Be(expected: expectedCalendarEvent.Id);
+        actualCalendarEvent.Name.Should()
+            .Be(expected: name);
 
         await DeleteCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
         await Teardown(seededContext: seededContext);

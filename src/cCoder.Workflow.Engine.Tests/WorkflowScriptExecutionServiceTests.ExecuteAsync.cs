@@ -24,7 +24,8 @@ public sealed partial class WorkflowScriptExecutionServiceTests
         string actualResult = await workflowScriptExecutionService.ExecuteAsync(payload: payload, useDetails: true);
 
         // Then
-        actualResult.Should().Be(expected: expectedResult);
+        actualResult.Should()
+            .Be(expected: expectedResult);
         orchestrationServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
     }
 }

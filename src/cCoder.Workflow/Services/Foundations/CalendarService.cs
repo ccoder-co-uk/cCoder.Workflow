@@ -17,13 +17,15 @@ internal class CalendarService(
 {
     public Calendar Get(int calendarId)
     {
-        Calendar calendar = GetAll().FirstOrDefault(predicate: i => i.Id == calendarId);
+        Calendar calendar = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == calendarId);
         if (calendar is not null)
         {
             return calendar;
         }
 
-        Calendar unrestrictedCalendar = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == calendarId);
+        Calendar unrestrictedCalendar = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == calendarId);
         if (unrestrictedCalendar is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -63,7 +65,8 @@ internal class CalendarService(
 
     public async ValueTask DeleteAsync(int calendarId)
     {
-        Calendar calendar = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == calendarId);
+        Calendar calendar = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == calendarId);
 
         if (calendar is null)
         {

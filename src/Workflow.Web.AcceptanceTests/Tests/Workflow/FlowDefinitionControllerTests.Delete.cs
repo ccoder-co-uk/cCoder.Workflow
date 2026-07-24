@@ -22,8 +22,10 @@ public sealed partial class FlowDefinitionControllerTests
         actualReadStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
-        actualStatusCode.Should().Be(expected: 200);
-        actualReadStatusCode.Should().Be(expected: 404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
 
         await Teardown(seededContext: seededContext);
     }

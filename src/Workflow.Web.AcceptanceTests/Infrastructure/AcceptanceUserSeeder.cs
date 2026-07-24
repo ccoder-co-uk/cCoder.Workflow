@@ -12,7 +12,9 @@ internal static class AcceptanceUserSeeder
 {
     public static async Task EnsureCoreUserAsync(DbContext core, string id, string displayName, string email)
     {
-        if (await core.Set<User>().IgnoreQueryFilters().AnyAsync(predicate: user => user.Id == id))
+        if (await core.Set<User>()
+            .IgnoreQueryFilters()
+            .AnyAsync(predicate: user => user.Id == id))
         {
             return;
         }
@@ -31,7 +33,9 @@ internal static class AcceptanceUserSeeder
 
     public static async Task EnsureSsoUserAsync(DbContext sso, string id, string displayName, string email)
     {
-        if (await sso.Set<SSOUser>().IgnoreQueryFilters().AnyAsync(predicate: user => user.Id == id))
+        if (await sso.Set<SSOUser>()
+            .IgnoreQueryFilters()
+            .AnyAsync(predicate: user => user.Id == id))
         {
             return;
         }

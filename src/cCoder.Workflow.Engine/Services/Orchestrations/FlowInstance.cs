@@ -151,7 +151,8 @@ public sealed class FlowInstance
                     .Select(selector: link => link.Source)
                     .ToArray();
 
-                activity.Previous = Flow.Activities.Where(predicate: candidate => links.Contains(value: candidate.Ref)).ToArray();
+                activity.Previous = Flow.Activities.Where(predicate: candidate => links.Contains(value: candidate.Ref))
+                    .ToArray();
             }
             catch (Exception exception)
             {
@@ -165,7 +166,8 @@ message: $"Problem in previous activity selection for activity {activity.Ref}:{E
         {
             try
             {
-                activity.Next = Flow.Activities.Where(predicate: candidate => candidate.Previous?.Contains(value: activity) ?? false).ToArray();
+                activity.Next = Flow.Activities.Where(predicate: candidate => candidate.Previous?.Contains(value: activity) ?? false)
+                    .ToArray();
             }
             catch (Exception exception)
             {

@@ -20,10 +20,12 @@ public class CSVFolderContentActivity : DMSActivity
     public int? PageSize { get; set; }
 
     [JsonIgnore]
-    public dynamic[] ParsedData => RawData?.SelectMany(selector: i => cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(data: i, config: Config)).ToArray() ?? System.Array.Empty<dynamic>();
+    public dynamic[] ParsedData => RawData?.SelectMany(selector: i => cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(data: i, config: Config))
+            .ToArray() ?? System.Array.Empty<dynamic>();
 
     [JsonIgnore]
-    public dynamic[] FlattenedData => ParsedData?.Select(selector: i => cCoder.Workflow.Activities.Support.Data.Flatten(source: i)).ToArray() ?? System.Array.Empty<dynamic>();
+    public dynamic[] FlattenedData => ParsedData?.Select(selector: i => cCoder.Workflow.Activities.Support.Data.Flatten(source: i))
+            .ToArray() ?? System.Array.Empty<dynamic>();
 
     [IgnoreWhenFlowComplete]
     public DmsFile[] Files { get; set; }
@@ -33,12 +35,15 @@ public class CSVFolderContentActivity : DMSActivity
         using HttpClient api = GetHttpClient();
 
         Files = (await GetFilesWithContents(api: api)).ToArray();
-        RawData = Files.Select(selector: f => ConvertToString(raw: f.Contents.OrderByDescending(c => c.Version).FirstOrDefault()?.RawData)).ToArray();
+        RawData = Files.Select(selector: f => ConvertToString(raw: f.Contents.OrderByDescending(c => c.Version)
+            .FirstOrDefault()?.RawData))
+            .ToArray();
     }
 
     protected async Task<IEnumerable<DmsFile>> GetFilesWithContents(HttpClient api)
     {
-        string query = $"DocumentManagement/File?$filter=Folder/AppId eq {AppId} AND Folder/Path eq '{Path.Trim().TrimEnd(trimChars: "/".ToCharArray())}' AND endswith(Name, '.csv')&$expand=Contents";
+        string query = $"DocumentManagement/File?$filter=Folder/AppId eq {AppId} AND Folder/Path eq '{Path.Trim()
+            .TrimEnd(trimChars: "/".ToCharArray())}' AND endswith(Name, '.csv')&$expand=Contents";
 
         if (Page != null && PageSize != null)
         {

@@ -15,6 +15,7 @@ public sealed partial class BaselineTests
     {
         JsonElement baseline = await GetBaselineAsync();
 
-        baseline.ValueKind.Should().Be(expected: JsonValueKind.Array);
+        baseline.ValueKind.Should()
+            .Be(expected: JsonValueKind.Array);
     }
 }

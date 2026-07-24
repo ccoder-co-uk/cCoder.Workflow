@@ -18,7 +18,8 @@ public partial class FlowDefinitionServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(value: new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new User { Id = "test-user" });
         Guid flowDefinitionId = Guid.NewGuid();
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
@@ -26,7 +27,8 @@ public partial class FlowDefinitionServiceTests
             .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true))
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
-        flowDefinitionBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>())).Returns(value: (int?)7);
+        flowDefinitionBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()))
+            .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"));
 
@@ -82,7 +84,9 @@ times: Times.Once
         Func<Task> action = async () => await flowDefinitionService.DeleteAsync(flowDefinitionId: flowDefinitionId);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<SecurityException>()
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
         flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true), times: Times.Once);
         flowDefinitionBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),

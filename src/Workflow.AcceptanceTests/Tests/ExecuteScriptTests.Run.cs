@@ -28,8 +28,11 @@ public sealed partial class ExecuteScriptTests
         TestHttpResponseData response = (TestHttpResponseData)await function.Run(request: request, useDetails: true);
 
         // Then
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
-        response.ReadBody().Should().Be(expected: expected);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK);
+        response.ReadBody()
+            .Should()
+            .Be(expected: expected);
         scriptExecutionServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
     }
 }

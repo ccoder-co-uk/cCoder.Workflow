@@ -44,7 +44,8 @@ public partial class FlowDefinitionCoordinationServiceTests
         Builder<FlowDefinition>
             .CreateNew()
             .With(func: flow =>
-                flow.Instances = [Builder<FlowInstanceData>.CreateNew().Build()]
+                flow.Instances = [Builder<FlowInstanceData>.CreateNew()
+            .Build()]
             )
             .Build();
 }

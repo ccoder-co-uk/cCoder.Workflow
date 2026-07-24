@@ -31,7 +31,8 @@ public sealed partial class WorkflowHubTests
             });
 
             // When
-            await connection.InvokeAsync(methodName: "Join", arg1: Thread).WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
+            await connection.InvokeAsync(methodName: "Join", arg1: Thread)
+                .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
             await connection
                 .InvokeAsync(methodName: "ConsoleSend", arg1: "info", arg2: expectedMessage, arg3: Thread)
                 .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
@@ -39,14 +40,20 @@ public sealed partial class WorkflowHubTests
                 .Task.WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
 
             // Then
-            actual.level.Should().Be(expected: "info");
-            actual.message.Should().Be(expected: expectedMessage);
-            actual.receivedThread.Should().Be(expected: Thread);
+            actual.level.Should()
+                .Be(expected: "info");
+            actual.message.Should()
+                .Be(expected: expectedMessage);
+            actual.receivedThread.Should()
+                .Be(expected: Thread);
         }
         finally
         {
-            await connection.StopAsync().WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 5));
-            await connection.DisposeAsync().AsTask().WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 5));
+            await connection.StopAsync()
+                .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 5));
+            await connection.DisposeAsync()
+                .AsTask()
+                .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 5));
         }
     }
 }

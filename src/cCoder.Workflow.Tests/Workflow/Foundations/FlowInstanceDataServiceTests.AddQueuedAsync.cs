@@ -41,9 +41,12 @@ entity: It.Is<FlowInstanceData>(candidate =>
 
         FlowInstanceData result = await flowInstanceDataService.AddQueuedAsync(flowInstanceData: flowInstanceData);
 
-        result.Should().BeSameAs(expected: flowInstanceData);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(unexpected: flowInstanceData);
+        result.Should()
+            .BeSameAs(expected: flowInstanceData);
+        submitted.Should()
+            .NotBeNull();
+        submitted.Should()
+            .NotBeSameAs(unexpected: flowInstanceData);
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.AddFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()),
 times: Times.Once);

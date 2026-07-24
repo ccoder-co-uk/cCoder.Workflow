@@ -92,7 +92,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            IQueryable<FlowInstanceData> result = Service.GetAll().Where(predicate: flowInstanceData => flowInstanceData.Id == key);
+            IQueryable<FlowInstanceData> result = Service.GetAll()
+                .Where(predicate: flowInstanceData => flowInstanceData.Id == key);
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)

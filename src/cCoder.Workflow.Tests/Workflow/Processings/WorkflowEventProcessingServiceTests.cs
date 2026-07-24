@@ -34,6 +34,7 @@ public partial class WorkflowEventProcessingServiceTests
             .CreateNew()
             .With(func: x => x.Id = Guid.NewGuid())
             .With(func: x => x.FlowId = Guid.NewGuid())
-            .With(func: x => x.ExecuteAs = Guid.NewGuid().ToString())
+            .With(func: x => x.ExecuteAs = Guid.NewGuid()
+            .ToString())
             .Build();
 }

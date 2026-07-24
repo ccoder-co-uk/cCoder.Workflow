@@ -81,7 +81,8 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
             .AsNoTracking()
             .Where(predicate: userRole => userRole.UserId == userId)
             .Join(
-inner: coreDataContext.Roles.IgnoreQueryFilters().AsNoTracking(),
+inner: coreDataContext.Roles.IgnoreQueryFilters()
+            .AsNoTracking(),
 outerKeySelector: userRole => userRole.RoleId,
 innerKeySelector: role => role.Id,
 resultSelector: (_, role) => role.AppId)

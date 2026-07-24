@@ -18,7 +18,8 @@ public sealed partial class HealthControllerTests
         string actualHealth = await GetHealthAsync();
 
         // Then
-        actualHealth.Should().Be(expected: "OK");
+        actualHealth.Should()
+            .Be(expected: "OK");
     }
 
     [Fact]
@@ -30,10 +31,15 @@ public sealed partial class HealthControllerTests
         string actualHome = await GetHomeAsync();
 
         // Then
-        actualHome.Should().Contain(expected: "Workflow Hosted Services");
-        actualHome.Should().Contain(expected: "InstanceMaintenanceManagement");
-        actualHome.Should().Contain(expected: "QueueInstanceManagement");
-        actualHome.Should().Contain(expected: "ScheduledTaskRunnerManagement");
-        actualHome.Should().Contain(expected: "flow_instance_data_add");
+        actualHome.Should()
+            .Contain(expected: "Workflow Hosted Services");
+        actualHome.Should()
+            .Contain(expected: "InstanceMaintenanceManagement");
+        actualHome.Should()
+            .Contain(expected: "QueueInstanceManagement");
+        actualHome.Should()
+            .Contain(expected: "ScheduledTaskRunnerManagement");
+        actualHome.Should()
+            .Contain(expected: "flow_instance_data_add");
     }
 }

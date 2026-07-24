@@ -92,7 +92,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<FlowDefinition>(json: content, options: JsonOptions)!;
     }
 
@@ -100,7 +101,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({flowDefinitionId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -112,7 +114,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
         };
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -120,7 +123,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({flowDefinitionId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -128,7 +132,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowDefinitionId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
 
         return JsonSerializer.Deserialize<FlowDefinition>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected flow definition payload.");
@@ -141,23 +146,32 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        FlowInstanceData[] appInstances = core.Set<FlowInstanceData>().IgnoreQueryFilters()
+        FlowInstanceData[] appInstances = core.Set<FlowInstanceData>()
+            .IgnoreQueryFilters()
             .Where(predicate: instance => instance.FlowDefinition.AppId == seededContext.AppId)
             .ToArray();
         await core.DeleteAllAsync(flowInstances: appInstances);
 
-        FlowDefinition[] flows = core.Set<FlowDefinition>().IgnoreQueryFilters()
+        FlowDefinition[] flows = core.Set<FlowDefinition>()
+            .IgnoreQueryFilters()
             .Where(predicate: flow => flow.AppId == seededContext.AppId)
             .ToArray();
         await core.DeleteAllAsync(flowDefinitions: flows);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate: userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
+            .ToArray();
         await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.RoleId);
+        Role role = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.RoleId);
         await core.DeleteAsync(role: role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.AppId);
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.AppId);
         await core.DeleteAsync(app: app);
 
     }
@@ -166,7 +180,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return int.Parse(s: content);
     }
 
@@ -174,7 +189,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<FlowDefinition>>(json: content, options: JsonOptions)!.Value;
     }
 
@@ -182,7 +198,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/KnownActivityTypes()");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return content;
     }
 
@@ -190,7 +207,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/KnownSystemTypes()");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return content;
     }
 
@@ -203,7 +221,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
 
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
     private async Task<int> GetFlowDefinitionStatusCodeAsync(Guid flowDefinitionId)

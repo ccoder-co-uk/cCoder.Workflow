@@ -20,13 +20,15 @@ public partial class FlowDefinitionProcessingServiceTests
     {
         // Given
         IQueryable<FlowDefinition> entities = new[] { CreateRandomFlowDefinition() }.AsQueryable();
-        flowDefinitionServiceMock.Setup(expression: x => x.GetAll()).Returns(value: entities);
+        flowDefinitionServiceMock.Setup(expression: x => x.GetAll())
+            .Returns(value: entities);
 
         // When
         IQueryable<FlowDefinition> result = flowDefinitionProcessingService.GetAll();
 
         // Then
-        result.Should().BeSameAs(expected: entities);
+        result.Should()
+            .BeSameAs(expected: entities);
         flowDefinitionServiceMock.Verify(expression: x => x.GetAll(), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
     }

@@ -68,7 +68,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            IQueryable<WorkflowEvent> result = Service.GetAll().Where(predicate: workflowEvent => workflowEvent.Id == key);
+            IQueryable<WorkflowEvent> result = Service.GetAll()
+                .Where(predicate: workflowEvent => workflowEvent.Id == key);
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)

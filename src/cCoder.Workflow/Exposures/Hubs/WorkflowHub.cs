@@ -47,7 +47,8 @@ arg1: "info",
 arg2: "Connected to instance " + thread,
 arg3: thread
         );
-        await Clients.Group(groupName: thread).SendAsync(method: "ConsoleReceive", arg1: "info", arg2: "User Joined", arg3: thread);
+        await Clients.Group(groupName: thread)
+            .SendAsync(method: "ConsoleReceive", arg1: "info", arg2: "User Joined", arg3: thread);
 
         if (!History.ContainsKey(key: thread))
         {
@@ -79,7 +80,8 @@ method: "info",
 arg1: "Stopped listening to messages for " + thread,
 arg2: thread
         );
-        await Clients.Group(groupName: thread).SendAsync(method: "ConsoleReceive", arg1: "info", arg2: "User Left", arg3: thread);
+        await Clients.Group(groupName: thread)
+            .SendAsync(method: "ConsoleReceive", arg1: "info", arg2: "User Left", arg3: thread);
         UserCounts[thread]--;
 
         if (UserCounts[thread] == 0)
@@ -113,9 +115,11 @@ arg2: thread
         }
 
         History[thread].Add(item: new HistoryItem { Message = message, Level = level });
-        await Clients.Group(groupName: thread).SendAsync(method: "ConsoleReceive", arg1: level, arg2: message, arg3: thread);
+        await Clients.Group(groupName: thread)
+            .SendAsync(method: "ConsoleReceive", arg1: level, arg2: message, arg3: thread);
     }
 
     public virtual async Task SendTest(string message, string thread) =>
-        await Clients.Group(groupName: thread).SendAsync(method: "ConsoleReceive", arg1: "test", arg2: message, arg3: thread);
+        await Clients.Group(groupName: thread)
+            .SendAsync(method: "ConsoleReceive", arg1: "test", arg2: message, arg3: thread);
 }

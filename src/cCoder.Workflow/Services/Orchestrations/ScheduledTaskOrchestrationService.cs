@@ -36,7 +36,8 @@ internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService
 
     public async ValueTask DeleteAsync(int scheduledTaskId)
     {
-        ScheduledTask entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == scheduledTaskId);
+        ScheduledTask entity = processingService.GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == scheduledTaskId);
 
         if (entity is null)
         {

@@ -31,5 +31,6 @@ public partial class WorkflowEventOrchestrationServiceTests
     }
 
     private static WorkflowEvent CreateRandomWorkflowEvent() =>
-        Builder<WorkflowEvent>.CreateNew().Build();
+        Builder<WorkflowEvent>.CreateNew()
+            .Build();
 }

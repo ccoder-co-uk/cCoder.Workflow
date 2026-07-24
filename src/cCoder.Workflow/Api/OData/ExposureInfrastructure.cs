@@ -163,7 +163,8 @@ namespace cCoder.Workflow.Api.OData
                 {
                     Key = item.Key,
                     Value = item.Value?.RawValue,
-                    Errors = item.Value?.Errors?.Select(selector: error => $"{error.ErrorMessage} - {error.Exception?.Message}").ToArray(),
+                    Errors = item.Value?.Errors?.Select(selector: error => $"{error.ErrorMessage} - {error.Exception?.Message}")
+                .ToArray(),
                 })
                 .ToArray()
                 .ToJsonForOdata();

@@ -28,7 +28,8 @@ public partial class WorkflowEventProcessingServiceTests
 
         WorkflowEvent result = await workflowEventProcessingService.AddAsync(entity: workflowEvent);
 
-        result.Should().BeSameAs(expected: workflowEvent);
+        result.Should()
+            .BeSameAs(expected: workflowEvent);
         workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.Verify(expression: x => x.AddAsync(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
@@ -50,7 +51,9 @@ public partial class WorkflowEventProcessingServiceTests
 
         Func<Task> act = async () => await workflowEventProcessingService.AddAsync(entity: workflowEvent);
 
-        await act.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await act.Should()
+            .ThrowAsync<SecurityException>()
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
         workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.Verify(expression: x => x.AddAsync(workflowEvent: It.IsAny<WorkflowEvent>()), times: Times.Never);
         workflowEventServiceMock.VerifyNoOtherCalls();

@@ -17,13 +17,15 @@ internal class ScheduledTaskService(
 {
     public ScheduledTask Get(int scheduledTaskId)
     {
-        ScheduledTask scheduledTask = GetAll().FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
+        ScheduledTask scheduledTask = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
         if (scheduledTask is not null)
         {
             return scheduledTask;
         }
 
-        ScheduledTask unrestrictedScheduledTask = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
+        ScheduledTask unrestrictedScheduledTask = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
         if (unrestrictedScheduledTask is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -111,7 +113,8 @@ entity: updateScheduledTask
 
     public async ValueTask DeleteAsync(int scheduledTaskId)
     {
-        ScheduledTask scheduledTask = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == scheduledTaskId);
+        ScheduledTask scheduledTask = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == scheduledTaskId);
 
         if (scheduledTask is null)
         {

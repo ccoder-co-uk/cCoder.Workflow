@@ -28,7 +28,8 @@ public partial class FlowInstanceDataOrchestrationServiceTests
 
         FlowInstanceData result = await orchestrationService.AddQueuedAsync(entity: entity);
 
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
         flowInstanceDataProcessingServiceMock.Verify(expression: x => x.AddQueuedAsync(entity: entity), times: Times.Once);
         flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity), times: Times.Once);
     }

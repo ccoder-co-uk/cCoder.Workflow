@@ -21,13 +21,15 @@ public partial class FlowInstanceDataProcessingServiceTests
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
         var id = entity.Id;
-        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: id)).Returns(value: entity);
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: id))
+            .Returns(value: entity);
 
         // When
         FlowInstanceData result = flowInstanceDataProcessingService.Get(flowInstanceDataId: id);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
         flowInstanceDataServiceMock.Verify(expression: x => x.Get(flowInstanceDataId: id), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }

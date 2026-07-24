@@ -49,10 +49,14 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
                 diagnosticsFactory: () => BuildFlowDiagnosticsAsync(flowId: flowId));
 
             FlowInstanceData instance = await GetLatestInstanceAsync(flowId: flowId);
-            instance.Caller.Should().Be(expected: AdminUserId);
-            instance.State.Should().Be(expected: "Complete");
-            instance.ContextString.Should().Contain(expected: "Execution complete.");
-            instance.ContextString.Should().NotContain(unexpected: "Execution failed.");
+            instance.Caller.Should()
+                .Be(expected: AdminUserId);
+            instance.State.Should()
+                .Be(expected: "Complete");
+            instance.ContextString.Should()
+                .Contain(expected: "Execution complete.");
+            instance.ContextString.Should()
+                .NotContain(unexpected: "Execution failed.");
         }
         finally
         {
@@ -63,7 +67,8 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
     private async Task<(int appId, Guid flowId, Guid roleId)> CreateAppWithExecutableFlowAsync()
     {
         await using CoreDataContext core = CreateCoreContext();
-        string unique = Guid.NewGuid().ToString(format: "N");
+        string unique = Guid.NewGuid()
+            .ToString(format: "N");
         Guid roleId = Guid.NewGuid();
 
         App app = await core.AddAppAsync(app: new App
@@ -121,7 +126,8 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
 
         using HttpResponseMessage response = await fixture.WebClient.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(
+        response.StatusCode.Should()
+            .Be(
 expected: HttpStatusCode.OK,
 because: "{0}",
 becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFlowDiagnosticsAsync(flowId: Guid.Empty));
@@ -133,7 +139,8 @@ becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFl
             .GetRequiredService<ISecurityDbContextFactory>()
             .CreateDbContext(ignoreAuthInfo: true);
 
-        string tokenId = Guid.NewGuid().ToString(format: "N");
+        string tokenId = Guid.NewGuid()
+            .ToString(format: "N");
 
         sso.Add(entity: new SsoToken
         {
@@ -150,14 +157,16 @@ becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFl
     private async Task<bool> HasFlowInstanceStateAsync(Guid flowId, string state)
     {
         await using CoreDataContext core = CreateCoreContext();
-        return await core.Set<FlowInstanceData>().IgnoreQueryFilters()
+        return await core.Set<FlowInstanceData>()
+            .IgnoreQueryFilters()
             .AnyAsync(predicate: instance => instance.FlowDefinitionId == flowId && instance.State == state);
     }
 
     private async Task<FlowInstanceData> GetLatestInstanceAsync(Guid flowId)
     {
         await using CoreDataContext core = CreateCoreContext();
-        return await core.Set<FlowInstanceData>().IgnoreQueryFilters()
+        return await core.Set<FlowInstanceData>()
+            .IgnoreQueryFilters()
             .Where(predicate: instance => flowId == Guid.Empty || instance.FlowDefinitionId == flowId)
             .OrderByDescending(keySelector: instance => instance.Start)
             .FirstAsync();
@@ -167,32 +176,38 @@ becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFl
     {
         await using CoreDataContext core = CreateCoreContext();
 
-        FlowInstanceData[] instances = await core.Set<FlowInstanceData>().IgnoreQueryFilters()
+        FlowInstanceData[] instances = await core.Set<FlowInstanceData>()
+            .IgnoreQueryFilters()
             .Where(predicate: instance => instance.FlowDefinition.AppId == appId)
             .ToArrayAsync();
         await core.DeleteAllAsync(flowInstances: instances);
 
-        FlowDefinition[] flows = await core.Set<FlowDefinition>().IgnoreQueryFilters()
+        FlowDefinition[] flows = await core.Set<FlowDefinition>()
+            .IgnoreQueryFilters()
             .Where(predicate: flow => flow.AppId == appId)
             .ToArrayAsync();
         await core.DeleteAllAsync(flowDefinitions: flows);
 
-        Guid[] roleIds = await core.Set<Role>().IgnoreQueryFilters()
+        Guid[] roleIds = await core.Set<Role>()
+            .IgnoreQueryFilters()
             .Where(predicate: role => role.AppId == appId || role.Id == roleId)
             .Select(selector: role => role.Id)
             .ToArrayAsync();
 
-        UserRole[] userRoles = await core.Set<UserRole>().IgnoreQueryFilters()
+        UserRole[] userRoles = await core.Set<UserRole>()
+            .IgnoreQueryFilters()
             .Where(predicate: userRole => roleIds.Contains(value: userRole.RoleId))
             .ToArrayAsync();
         await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role[] roles = await core.Set<Role>().IgnoreQueryFilters()
+        Role[] roles = await core.Set<Role>()
+            .IgnoreQueryFilters()
             .Where(predicate: role => roleIds.Contains(value: role.Id))
             .ToArrayAsync();
         await core.DeleteAllAsync(roles: roles);
 
-        App app = await core.Set<App>().IgnoreQueryFilters()
+        App app = await core.Set<App>()
+            .IgnoreQueryFilters()
             .FirstOrDefaultAsync(predicate: found => found.Id == appId);
 
         if (app is not null)
@@ -205,7 +220,8 @@ becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFl
     {
         await using CoreDataContext core = CreateCoreContext();
 
-        FlowInstanceData[] instances = await core.Set<FlowInstanceData>().IgnoreQueryFilters()
+        FlowInstanceData[] instances = await core.Set<FlowInstanceData>()
+            .IgnoreQueryFilters()
             .Where(predicate: instance => instance.FlowDefinitionId == flowId)
             .OrderByDescending(keySelector: instance => instance.Start)
             .ToArrayAsync();
@@ -255,7 +271,8 @@ value: [
     }
 
     private CoreDataContext CreateCoreContext() =>
-        fixture.DatabaseServices.GetRequiredService<ICoreContextFactory>().CreateCoreContext();
+        fixture.DatabaseServices.GetRequiredService<ICoreContextFactory>()
+            .CreateCoreContext();
 
     private static string TakeLastLines(string content, int maxLines)
     {

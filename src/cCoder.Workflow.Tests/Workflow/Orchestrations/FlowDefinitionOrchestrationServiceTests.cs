@@ -31,5 +31,6 @@ public partial class FlowDefinitionOrchestrationServiceTests
     }
 
     private static FlowDefinition CreateRandomFlowDefinition() =>
-        Builder<FlowDefinition>.CreateNew().Build();
+        Builder<FlowDefinition>.CreateNew()
+            .Build();
 }

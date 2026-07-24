@@ -33,7 +33,8 @@ public sealed partial class CalendarEventControllerTests
         actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
 
         // Then
-        actualCalendarEvent.Name.Should().Be(expected: name);
+        actualCalendarEvent.Name.Should()
+            .Be(expected: name);
 
         await DeleteCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
         await Teardown(seededContext: seededContext);

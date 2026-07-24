@@ -80,7 +80,8 @@ internal class WorkflowMigrationAggregationService(
             ? [jsonBroker.ParseJson<Calendar>(json: item.Data)]
             : jsonBroker.ParseJson<Calendar[]>(json: item.Data);
 
-        string[] names = calendars.Select(selector: calendar => calendar.Name.ToLower()).ToArray();
+        string[] names = calendars.Select(selector: calendar => calendar.Name.ToLower())
+            .ToArray();
 
         var existingCalendars = calendarOrchestrationService
             .GetAll()
@@ -113,7 +114,8 @@ action: calendar =>
             .Where(predicate: calendar => calendar.AppId == appId)
             .ToArray();
 
-        string[] calendarEventNames = importSet.Select(selector: calendarEvent => calendarEvent.Name).ToArray();
+        string[] calendarEventNames = importSet.Select(selector: calendarEvent => calendarEvent.Name)
+            .ToArray();
 
         CalendarEvent[] existingCalendarEvents = calendarEventOrchestrationService
             .GetAll(ignoreFilters: true)
@@ -162,7 +164,8 @@ action: calendar =>
             ? [jsonBroker.ParseJson<FlowDefinition>(json: item.Data)]
             : jsonBroker.ParseJson<FlowDefinition[]>(json: item.Data);
 
-        string[] names = flowDefinitions.Select(selector: flowDefinition => flowDefinition.Name.ToLower()).ToArray();
+        string[] names = flowDefinitions.Select(selector: flowDefinition => flowDefinition.Name.ToLower())
+            .ToArray();
 
         var existingFlowDefinitions = flowDefinitionOrchestrationService
             .GetAll()

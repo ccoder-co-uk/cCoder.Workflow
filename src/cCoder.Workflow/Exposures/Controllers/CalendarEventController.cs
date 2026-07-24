@@ -72,7 +72,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            IQueryable<CalendarEvent> result = Service.GetAll().Where(predicate: calendarEvent => calendarEvent.Id == key);
+            IQueryable<CalendarEvent> result = Service.GetAll()
+                .Where(predicate: calendarEvent => calendarEvent.Id == key);
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)

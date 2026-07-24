@@ -101,7 +101,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<WorkflowEvent>(json: content, options: JsonOptions)!;
     }
 
@@ -109,7 +110,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({workflowEventId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -121,7 +123,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
         };
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -129,7 +132,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -137,7 +141,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
 
         return JsonSerializer.Deserialize<WorkflowEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected workflow event payload.");
@@ -150,19 +155,31 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        WorkflowEvent[] workflowEvents = core.Set<WorkflowEvent>().IgnoreQueryFilters().Where(predicate: workflowEvent => workflowEvent.FlowId == seededContext.FlowId).ToArray();
+        WorkflowEvent[] workflowEvents = core.Set<WorkflowEvent>()
+            .IgnoreQueryFilters()
+            .Where(predicate: workflowEvent => workflowEvent.FlowId == seededContext.FlowId)
+            .ToArray();
         await core.DeleteAllAsync(workflowEvents: workflowEvents);
 
-        FlowDefinition flow = core.Set<FlowDefinition>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.FlowId);
+        FlowDefinition flow = core.Set<FlowDefinition>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.FlowId);
         await core.DeleteAsync(flowDefinition: flow);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate: userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
+            .ToArray();
         await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.RoleId);
+        Role role = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.RoleId);
         await core.DeleteAsync(role: role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.AppId);
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.AppId);
         await core.DeleteAsync(app: app);
 
     }
@@ -171,7 +188,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return int.Parse(s: content);
     }
 
@@ -179,7 +197,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<WorkflowEvent>>(json: content, options: JsonOptions)!.Value;
     }
     private async Task<int> GetWorkflowEventStatusCodeAsync(Guid workflowEventId)

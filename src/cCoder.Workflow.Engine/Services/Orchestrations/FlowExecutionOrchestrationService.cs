@@ -64,7 +64,8 @@ instanceId: request.InstanceId);
         {
             if (connection is not null)
             {
-                await connection.InvokeAsync(methodName: "ConsoleSend", arg1: level.ToString().ToLowerInvariant(), arg2: message, arg3: instanceId.ToString());
+                await connection.InvokeAsync(methodName: "ConsoleSend", arg1: level.ToString()
+                    .ToLowerInvariant(), arg2: message, arg3: instanceId.ToString());
             }
         }
         catch (Exception exception)

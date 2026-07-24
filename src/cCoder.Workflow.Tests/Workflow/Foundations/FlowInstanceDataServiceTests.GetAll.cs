@@ -34,7 +34,8 @@ public partial class FlowInstanceDataServiceTests
         IQueryable<FlowInstanceData> result = flowInstanceDataService.GetAll();
 
         // Then
-        result.Should().BeEquivalentTo(
+        result.Should()
+            .BeEquivalentTo(
 expectation: flowInstanceDataItems.Select(selector: item => (FlowInstanceData)item)
         );
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);

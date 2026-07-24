@@ -79,8 +79,10 @@ internal static class ODataTypeExtensions
                 ?? type.GetProperty(name: "Id")
                 ?? type.GetProperty(name: type.Name + "Id")
                 ?? type.GetProperty(name: type.Name + "ID")
-                ?? type.GetProperties().FirstOrDefault(predicate: property =>
-                    property.GetCustomAttributes(attributeType: typeof(KeyAttribute), inherit: false).Any());
+                ?? type.GetProperties()
+                .FirstOrDefault(predicate: property =>
+                    property.GetCustomAttributes(attributeType: typeof(KeyAttribute), inherit: false)
+                .Any());
 
             if (idProperty != null)
             {

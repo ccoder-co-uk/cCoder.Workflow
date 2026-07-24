@@ -27,7 +27,8 @@ public partial class FlowDefinitionServiceTests
         FlowDefinition result = flowDefinitionService.Get(flowDefinitionId: flowDefinitionId);
 
         // Then
-        result.Should().BeEquivalentTo(expectation: flowDefinition);
+        result.Should()
+            .BeEquivalentTo(expectation: flowDefinition);
         flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false), times: Times.Once);
         flowDefinitionBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),

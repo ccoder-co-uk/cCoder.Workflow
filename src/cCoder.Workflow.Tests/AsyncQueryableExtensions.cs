@@ -26,7 +26,8 @@ internal sealed class TestAsyncEnumerable<T>
         : base(expression) { }
 
     public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) =>
-        new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
+        new TestAsyncEnumerator<T>(this.AsEnumerable()
+            .GetEnumerator());
 
     IQueryProvider IQueryable.Provider =>
         new TestAsyncQueryProvider<T>(((IQueryable)this).Expression);
@@ -40,10 +41,12 @@ internal sealed class TestAsyncQueryProvider<TEntity>(Expression expression) : I
     public IQueryable<TElement> CreateQuery<TElement>(Expression queryExpression) =>
         new TestAsyncEnumerable<TElement>(queryExpression);
 
-    public object Execute(Expression queryExpression) => CreateProvider().Execute(expression: queryExpression)!;
+    public object Execute(Expression queryExpression) => CreateProvider()
+            .Execute(expression: queryExpression)!;
 
     public TResult Execute<TResult>(Expression queryExpression) =>
-        CreateProvider().Execute<TResult>(expression: queryExpression);
+        CreateProvider()
+            .Execute<TResult>(expression: queryExpression);
 
     public TResult ExecuteAsync<TResult>(
         Expression queryExpression,

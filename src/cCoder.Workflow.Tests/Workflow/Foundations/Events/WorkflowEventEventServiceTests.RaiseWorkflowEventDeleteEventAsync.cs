@@ -31,10 +31,14 @@ public partial class WorkflowEventEventServiceTests
         await service.RaiseWorkflowEventDeleteEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
         workflowEventEventBrokerMock.Verify(
 expression: x => x.RaiseWorkflowEventDeleteEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()),
 times: Times.Once

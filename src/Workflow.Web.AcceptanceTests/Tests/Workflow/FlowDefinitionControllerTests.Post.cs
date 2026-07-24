@@ -41,8 +41,10 @@ public sealed partial class FlowDefinitionControllerTests
         actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: expectedFlowDefinition.Id);
 
         // Then
-        actualFlowDefinition.Should().NotBeNull();
-        actualFlowDefinition!.Name.Should().Be(expected: name);
+        actualFlowDefinition.Should()
+            .NotBeNull();
+        actualFlowDefinition!.Name.Should()
+            .Be(expected: name);
 
         await DeleteFlowDefinitionAsync(flowDefinitionId: expectedFlowDefinition.Id);
         await Teardown(seededContext: seededContext);

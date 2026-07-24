@@ -189,7 +189,8 @@ handler: async (service, instance) =>
             Description = package.Description,
             Category = package.Category,
             SourceApi = package.SourceApi,
-            Items = package.Items?.Select(selector: ToLocalPackageItem).ToArray(),
+            Items = package.Items?.Select(selector: ToLocalPackageItem)
+            .ToArray(),
         };
 
     static WorkflowPackageItem ToLocalPackageItem(DataPackageItem packageItem) =>

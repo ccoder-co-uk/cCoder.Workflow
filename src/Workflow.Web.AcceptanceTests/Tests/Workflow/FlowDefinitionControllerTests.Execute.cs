@@ -20,7 +20,8 @@ public sealed partial class FlowDefinitionControllerTests
         int actualStatusCode = await ExecuteFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId, payload: "{}");
 
         // Then
-        actualStatusCode.Should().Be(expected: 200);
+        actualStatusCode.Should()
+            .Be(expected: 200);
 
         await Teardown(seededContext: seededContext);
     }

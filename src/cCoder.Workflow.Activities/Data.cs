@@ -28,12 +28,14 @@ public static class Data
     {
         if (source is JArray array)
         {
-            return array.SelectMany(selector: item => Flatten(source: item, path: path)).ToArray();
+            return array.SelectMany(selector: item => Flatten(source: item, path: path))
+                .ToArray();
         }
 
         List<ExpandoObject> results = [];
         IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(o: source);
-        KeyValuePair<string, JToken>[] values = obj.Where(predicate: kv => Primitives.Contains(value: kv.Value.Type)).ToArray();
+        KeyValuePair<string, JToken>[] values = obj.Where(predicate: kv => Primitives.Contains(value: kv.Value.Type))
+            .ToArray();
 
         results.AddRange(
 collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
@@ -67,7 +69,8 @@ collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
     public static T ParseXml<T>(string data)
     {
         StringBuilder builder = new();
-        JsonSerializer.Create().Serialize(jsonWriter: new CleanJsonWriter(new StringWriter(builder)), value: ParseXml(data: data));
+        JsonSerializer.Create()
+            .Serialize(jsonWriter: new CleanJsonWriter(new StringWriter(builder)), value: ParseXml(data: data));
         return JsonConvert.DeserializeObject<T>(value: builder.ToString());
     }
 
@@ -94,7 +97,8 @@ internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer
 
         if (result.Contains(value: ':'))
         {
-            result = result.Split(separator: ':').Last();
+            result = result.Split(separator: ':')
+                .Last();
         }
 
         base.WritePropertyName(name: result);

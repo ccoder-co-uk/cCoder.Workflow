@@ -22,8 +22,10 @@ public sealed partial class WorkflowEventControllerTests
         actualReadStatusCode = await GetWorkflowEventStatusCodeAsync(workflowEventId: seededContext.EventId);
 
         // Then
-        actualStatusCode.Should().Be(expected: 200);
-        actualReadStatusCode.Should().Be(expected: 404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
 
         await Teardown(seededContext: seededContext);
     }

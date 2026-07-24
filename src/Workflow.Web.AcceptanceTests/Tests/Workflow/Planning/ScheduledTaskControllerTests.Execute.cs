@@ -40,9 +40,12 @@ public sealed partial class ScheduledTaskControllerTests
         // Then
         actualScheduledTask = await GetScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
 
-        actualStatusCode.Should().Be(expected: 200);
-        actualScheduledTask.LastExecuted.Should().NotBeNull();
-        actualScheduledTask.NextExecution.Should().BeAfter(expected: createdScheduledTask.NextExecution!.Value);
+        actualStatusCode.Should()
+            .Be(expected: 200);
+        actualScheduledTask.LastExecuted.Should()
+            .NotBeNull();
+        actualScheduledTask.NextExecution.Should()
+            .BeAfter(expected: createdScheduledTask.NextExecution!.Value);
 
         await DeleteScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
         await Teardown(seededContext: seededContext);

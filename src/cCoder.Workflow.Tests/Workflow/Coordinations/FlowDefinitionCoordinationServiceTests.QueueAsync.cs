@@ -16,7 +16,8 @@ public partial class FlowDefinitionCoordinationServiceTests
     public async Task ShouldCreateAndPersistFlowInstanceWhenQueueAsyncByUserId()
     {
         Guid id = Guid.NewGuid();
-        string asUserId = Guid.NewGuid().ToString(format: "N");
+        string asUserId = Guid.NewGuid()
+            .ToString(format: "N");
         Guid queuedId = Guid.NewGuid();
         FlowDefinition flowDefinition = new()
         {
@@ -47,7 +48,8 @@ public partial class FlowDefinitionCoordinationServiceTests
 
         Guid result = await coordinationService.QueueAsync(flowDefinitionId: id, asUserId: asUserId, args: "{}");
 
-        result.Should().Be(expected: queuedId);
+        result.Should()
+            .Be(expected: queuedId);
         flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"), times: Times.Once);
         flowInstanceDataOrchestrationServiceMock.Verify(
@@ -68,7 +70,8 @@ times: Times.Once);
     public async Task ShouldAuthorizeAndQueueAsyncByUserIdWithoutResolvingUser()
     {
         Guid id = Guid.NewGuid();
-        string asUserId = Guid.NewGuid().ToString(format: "N");
+        string asUserId = Guid.NewGuid()
+            .ToString(format: "N");
         Guid queuedId = Guid.NewGuid();
         FlowDefinition flowDefinition = new()
         {
@@ -99,7 +102,8 @@ times: Times.Once);
 
         Guid result = await coordinationService.QueueAsync(flowDefinitionId: id, asUserId: asUserId, args: "{}");
 
-        result.Should().Be(expected: queuedId);
+        result.Should()
+            .Be(expected: queuedId);
         flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.GetUser(userId: It.IsAny<string>()), times: Times.Never);
@@ -121,7 +125,8 @@ times: Times.Once);
     public async Task ShouldThrowSecurityExceptionWhenQueueAsyncByUserIdIsUnauthorized()
     {
         Guid id = Guid.NewGuid();
-        string asUserId = Guid.NewGuid().ToString(format: "N");
+        string asUserId = Guid.NewGuid()
+            .ToString(format: "N");
         FlowDefinition flowDefinition = new()
         {
             Id = id,
@@ -146,7 +151,8 @@ times: Times.Once);
 
         Func<Task> action = async () => _ = await coordinationService.QueueAsync(flowDefinitionId: id, asUserId: asUserId, args: "{}");
 
-        await action.Should().ThrowAsync<System.Security.SecurityException>()
+        await action.Should()
+            .ThrowAsync<System.Security.SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
         flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"), times: Times.Once);
@@ -159,7 +165,8 @@ times: Times.Once);
     public async Task ShouldUseUnrestrictedLookupForQueueAsyncByUserId()
     {
         Guid id = Guid.NewGuid();
-        string asUserId = Guid.NewGuid().ToString(format: "N");
+        string asUserId = Guid.NewGuid()
+            .ToString(format: "N");
         Guid queuedId = Guid.NewGuid();
         FlowDefinition flowDefinition = new()
         {
@@ -190,7 +197,8 @@ times: Times.Once);
 
         Guid result = await coordinationService.QueueAsync(flowDefinitionId: id, asUserId: asUserId, args: "{}");
 
-        result.Should().Be(expected: queuedId);
+        result.Should()
+            .Be(expected: queuedId);
         flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.Get(flowDefinitionId: It.IsAny<Guid>()), times: Times.Never);
         flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.Authorize(userId: asUserId, appId: flowDefinition.AppId, privilege: "flowdefinition_execute"), times: Times.Once);

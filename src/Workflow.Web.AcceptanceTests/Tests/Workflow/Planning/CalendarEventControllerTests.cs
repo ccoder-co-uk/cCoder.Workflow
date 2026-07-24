@@ -72,7 +72,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<CalendarEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar event payload.");
     }
@@ -81,7 +82,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({calendarEventId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -93,7 +95,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
         };
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -101,7 +104,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({calendarEventId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -109,7 +113,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({calendarEventId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<CalendarEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar event payload.");
     }
@@ -121,19 +126,31 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>().IgnoreQueryFilters().Where(predicate: calendarEvent => calendarEvent.CalendarId == seededContext.CalendarId).ToArray();
+        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>()
+            .IgnoreQueryFilters()
+            .Where(predicate: calendarEvent => calendarEvent.CalendarId == seededContext.CalendarId)
+            .ToArray();
         await core.DeleteAllAsync(calendarEvents: calendarEvents);
 
-        Calendar calendar = core.Set<Calendar>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.CalendarId);
+        Calendar calendar = core.Set<Calendar>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.CalendarId);
         await core.DeleteAsync(calendar: calendar);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate: userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
+            .ToArray();
         await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.RoleId);
+        Role role = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.RoleId);
         await core.DeleteAsync(role: role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.AppId);
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.AppId);
         await core.DeleteAsync(app: app);
     }
 
@@ -141,7 +158,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return int.Parse(s: content);
     }
 
@@ -149,7 +167,8 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<CalendarEvent>>(json: content, options: JsonOptions)?.Value
             ?? throw new InvalidOperationException("Expected calendar event OData payload.");
     }

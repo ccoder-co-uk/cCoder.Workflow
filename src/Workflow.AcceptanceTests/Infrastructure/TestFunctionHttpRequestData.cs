@@ -14,8 +14,10 @@ namespace Workflow.AcceptanceTests.Infrastructure;
 
 internal sealed class TestFunctionContext : FunctionContext
 {
-    public override string InvocationId { get; } = Guid.NewGuid().ToString();
-    public override string FunctionId { get; } = Guid.NewGuid().ToString();
+    public override string InvocationId { get; } = Guid.NewGuid()
+            .ToString();
+    public override string FunctionId { get; } = Guid.NewGuid()
+            .ToString();
     public override TraceContext TraceContext { get; } = null;
     public override BindingContext BindingContext { get; } = null;
     public override RetryContext RetryContext { get; } = null;

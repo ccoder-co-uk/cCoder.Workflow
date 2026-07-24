@@ -415,32 +415,25 @@
       "LineNumber": 42
     },
     {
-      "Code": "STXFORMAT009",
-      "Description": "Every method chained from an invocation result must begin on a new line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 67
-    },
-    {
       "Code": "STXFORMAT008",
       "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 127
+      "LineNumber": 128
     },
     {
       "Code": "STX0022",
       "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 159
+      "LineNumber": 160
     },
     {
       "Code": "STXFORMAT002",
       "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 159
+      "LineNumber": 160
     },
     {
       "Code": "STX0006",
@@ -609,20 +602,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
       "LineNumber": 85
-    },
-    {
-      "Code": "STXFORMAT009",
-      "Description": "Every method chained from an invocation result must begin on a new line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 154
-    },
-    {
-      "Code": "STXFORMAT009",
-      "Description": "Every method chained from an invocation result must begin on a new line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 168
     },
     {
       "Code": "STX0006",
@@ -860,14 +839,7 @@
       "Description": "Method call arguments must declare their parameter names.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 138
-    },
-    {
-      "Code": "STXFORMAT009",
-      "Description": "Every method chained from an invocation result must begin on a new line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 138
+      "LineNumber": 139
     }
   ]
 }

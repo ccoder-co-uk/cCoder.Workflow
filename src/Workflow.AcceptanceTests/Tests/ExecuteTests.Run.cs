@@ -29,8 +29,11 @@ public sealed partial class ExecuteTests
         TestHttpResponseData response = (TestHttpResponseData)await function.Run(request: request);
 
         // Then
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
-        response.ReadBody().Should().Be(expected: "OK");
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK);
+        response.ReadBody()
+            .Should()
+            .Be(expected: "OK");
         flowRunnerMock.Verify(expression: runner =>
             runner.RunAsync(request: It.Is<WorkflowRequest>(actual =>
                 actual.InstanceId == requestPayload.InstanceId

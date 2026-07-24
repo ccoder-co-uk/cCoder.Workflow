@@ -92,7 +92,8 @@ builder: builder);
             ? $"Api/{documentName}"
             : configuration.RootPath;
 
-        services.AddControllers().AddOData(setupAction: options =>
+        services.AddControllers()
+            .AddOData(setupAction: options =>
         {
             options.RouteOptions.EnableQualifiedOperationCall = false;
             options.EnableAttributeRouting = true;

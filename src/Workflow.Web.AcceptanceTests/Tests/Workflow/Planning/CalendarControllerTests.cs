@@ -67,7 +67,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<Calendar>(json: content, options: JsonOptions)!;
     }
 
@@ -75,7 +76,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({calendarId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -87,7 +89,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
         };
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -95,7 +98,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({calendarId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -103,7 +107,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({calendarId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
 
         return JsonSerializer.Deserialize<Calendar>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar payload.");
@@ -116,19 +121,32 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>().IgnoreQueryFilters().Where(predicate: calendarEvent => calendarEvent.Calendar.AppId == seededContext.AppId).ToArray();
+        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>()
+            .IgnoreQueryFilters()
+            .Where(predicate: calendarEvent => calendarEvent.Calendar.AppId == seededContext.AppId)
+            .ToArray();
         await core.DeleteAllAsync(calendarEvents: calendarEvents);
 
-        Calendar[] calendars = core.Set<Calendar>().IgnoreQueryFilters().Where(predicate: calendar => calendar.AppId == seededContext.AppId).ToArray();
+        Calendar[] calendars = core.Set<Calendar>()
+            .IgnoreQueryFilters()
+            .Where(predicate: calendar => calendar.AppId == seededContext.AppId)
+            .ToArray();
         await core.DeleteAllAsync(calendars: calendars);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate: userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
+            .ToArray();
         await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.RoleId);
+        Role role = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.RoleId);
         await core.DeleteAsync(role: role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.AppId);
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.AppId);
         await core.DeleteAsync(app: app);
 
     }
@@ -137,7 +155,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return int.Parse(s: content);
     }
 
@@ -145,7 +164,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<Calendar>>(json: content, options: JsonOptions)!.Value;
     }
     private async Task<int> GetCalendarStatusCodeAsync(int calendarId)

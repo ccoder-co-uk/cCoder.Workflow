@@ -66,9 +66,12 @@ args: args);
     }
 
     private static int? GetIntProperty(object payload, string propertyName) =>
-        payload.GetType().GetProperty(name: propertyName)?.GetValue(obj: payload) as int?
-        ?? (payload.GetType().GetProperty(name: propertyName)?.GetValue(obj: payload) is int value ? value : null);
+        payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload) as int?
+        ?? (payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload) is int value ? value : null);
 
     private static string GetStringProperty(object payload, string propertyName) =>
-        payload.GetType().GetProperty(name: propertyName)?.GetValue(obj: payload)?.ToString();
+        payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload)?.ToString();
 }

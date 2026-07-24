@@ -39,7 +39,8 @@ internal class FlowDefinitionOrchestrationService(
 
     public async ValueTask DeleteAsync(Guid flowDefinitionId)
     {
-        FlowDefinition entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
+        FlowDefinition entity = processingService.GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (entity is null)
         {

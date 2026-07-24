@@ -16,13 +16,15 @@ internal class FlowDefinitionService(
 {
     public FlowDefinition Get(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll().FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
+        FlowDefinition flowDefinition = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
         if (flowDefinition is not null)
         {
             return flowDefinition;
         }
 
-        FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
+        FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
         if (unrestrictedFlowDefinition is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -90,7 +92,8 @@ entity: updateFlowDefinition
 
     public async ValueTask DeleteAsync(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
+        FlowDefinition flowDefinition = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (flowDefinition is null)
         {
@@ -103,7 +106,8 @@ entity: updateFlowDefinition
 
     public async ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
+        FlowDefinition flowDefinition = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (flowDefinition is null)
         {

@@ -36,7 +36,8 @@ public partial class FlowInstanceDataProcessingServiceTests
         };
         DataUser user = TestUsers.WithPrivilege(privilege: "flowinstancedata_update", appId: 1);
         currentUser = user;
-        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id)).Returns(value: dbVersion);
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id))
+            .Returns(value: dbVersion);
 
         flowInstanceDataServiceMock
             .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
@@ -72,7 +73,8 @@ times: Times.Once
             App = null!,
             Instances = [],
         };
-        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id)).Returns(value: dbVersion);
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id))
+            .Returns(value: dbVersion);
         flowInstanceDataServiceMock
             .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);

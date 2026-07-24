@@ -19,7 +19,9 @@ public class ConvertActivity<TSource, TResult> : TransformationActivity<IEnumera
 
     private string BuildFunctionCode()
     {
-        string assigns = string.Join(separator: ",\n\t\t\t", value: Expressions?.ToArray() ?? System.Array.Empty<string>()).Replace(oldValue: "{source}", newValue: "item").Replace(oldValue: "\n", newValue: "\n\t\t");
+        string assigns = string.Join(separator: ",\n\t\t\t", value: Expressions?.ToArray() ?? System.Array.Empty<string>())
+            .Replace(oldValue: "{source}", newValue: "item")
+            .Replace(oldValue: "\n", newValue: "\n\t\t");
         return @"   Source.Select((" + typeof(TSource).Name == "object" ? "dynamic" : typeof(TSource).Name + @" item) => {
         return new " + typeof(TResult).Name + @"() 
         { 

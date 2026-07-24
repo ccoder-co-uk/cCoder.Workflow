@@ -33,8 +33,10 @@ public sealed partial class WorkflowEventControllerTests
         actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: expectedWorkflowEvent.Id);
 
         // Then
-        actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent!.Id.Should().Be(expected: expectedWorkflowEvent.Id);
+        actualWorkflowEvent.Should()
+            .NotBeNull();
+        actualWorkflowEvent!.Id.Should()
+            .Be(expected: expectedWorkflowEvent.Id);
 
         await DeleteWorkflowEventAsync(workflowEventId: expectedWorkflowEvent.Id);
         await Teardown(seededContext: seededContext);

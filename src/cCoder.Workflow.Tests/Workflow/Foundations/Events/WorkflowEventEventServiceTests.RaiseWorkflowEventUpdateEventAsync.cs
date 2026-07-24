@@ -31,10 +31,14 @@ public partial class WorkflowEventEventServiceTests
         await service.RaiseWorkflowEventUpdateEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
         workflowEventEventBrokerMock.Verify(
 expression: x => x.RaiseWorkflowEventUpdateEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()),
 times: Times.Once

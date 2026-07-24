@@ -26,5 +26,6 @@ public partial class FlowInstanceDataEventProcessingServiceTests
     }
 
     private static FlowInstanceData CreateRandomFlowInstanceData() =>
-        Builder<FlowInstanceData>.CreateNew().Build();
+        Builder<FlowInstanceData>.CreateNew()
+            .Build();
 }

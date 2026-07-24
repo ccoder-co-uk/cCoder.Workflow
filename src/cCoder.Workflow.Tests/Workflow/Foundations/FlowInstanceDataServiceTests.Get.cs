@@ -27,7 +27,8 @@ public partial class FlowInstanceDataServiceTests
         FlowInstanceData result = flowInstanceDataService.Get(flowInstanceDataId: flowInstanceDataId);
 
         // Then
-        result.Should().BeEquivalentTo(expectation: flowInstanceData);
+        result.Should()
+            .BeEquivalentTo(expectation: flowInstanceData);
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),

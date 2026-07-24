@@ -21,8 +21,10 @@ public partial class FlowDefinitionOrchestrationServiceTests
         Guid id = Guid.NewGuid();
         FlowDefinition entity = CreateRandomFlowDefinition();
         entity.Id = id;
-        flowDefinitionProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: new[] { entity }.AsQueryable());
-        flowDefinitionProcessingServiceMock.Setup(expression: x => x.DeleteAsync(flowDefinitionId: id)).Returns(value: ValueTask.CompletedTask);
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: new[] { entity }.AsQueryable());
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.DeleteAsync(flowDefinitionId: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         flowDefinitionEventProcessingServiceMock
             .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity))

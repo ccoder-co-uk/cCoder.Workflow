@@ -60,7 +60,8 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
             Variables["UserName"] = user.DisplayName;
             Variables["UserEmail"] = user.Email;
 
-            Start start = Flow.Activities.OfType<Start>().First();
+            Start start = Flow.Activities.OfType<Start>()
+                .First();
 
             if (authToken is not null)
             {
@@ -93,7 +94,9 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
     public void Log(WorkflowLogLevel level, string message)
     {
         ExecutionLog.Add(item: new WorkflowLogEntry(level, message));
-        Instance?.LogAsync(level: level, message: message).GetAwaiter().GetResult();
+        Instance?.LogAsync(level: level, message: message)
+            .GetAwaiter()
+            .GetResult();
     }
 
     private void EvaluateFinalState()

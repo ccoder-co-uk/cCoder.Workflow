@@ -18,7 +18,8 @@ public partial class FlowInstanceDataServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(value: new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new User { Id = "test-user" });
         Guid flowInstanceDataId = Guid.NewGuid();
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
@@ -26,9 +27,11 @@ public partial class FlowInstanceDataServiceTests
             .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
             .Returns(value: new[] { flowInstanceData }.AsQueryable());
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>())).Returns(value: (int?)7);
+        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()))
+            .Returns(value: (int?)7);
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>())).Returns(value: (int?)7);
+        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()))
+            .Returns(value: (int?)7);
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"));
 
         flowInstanceDataBrokerMock
@@ -75,7 +78,8 @@ times: Times.Once
             .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
             .Returns(value: new[] { flowInstanceData }.AsQueryable());
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>())).Returns(value: (int?)7);
+        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()))
+            .Returns(value: (int?)7);
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"))
             .Throws(exception: new SecurityException("Access Denied!"));
@@ -85,7 +89,9 @@ times: Times.Once
             await flowInstanceDataService.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<SecurityException>()
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),

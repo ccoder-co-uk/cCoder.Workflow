@@ -20,7 +20,8 @@ public partial class WorkflowEventProcessingServiceTests
         // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
         Guid id = workflowEvent.Id;
-        workflowEventServiceMock.Setup(expression: x => x.DeleteAsync(workflowEventId: id)).Returns(value: ValueTask.CompletedTask);
+        workflowEventServiceMock.Setup(expression: x => x.DeleteAsync(workflowEventId: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
         await workflowEventProcessingService.DeleteAllAsync(items: new[] { workflowEvent });
