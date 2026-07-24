@@ -2464,6 +2464,16 @@
             }
           ],
           "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ConfigureWorkflowApiModel",
+          "Inputs": [
+            {
+              "Name": "builder",
+              "Type": "ODataConventionModelBuilder"
+            }
+          ],
+          "ReturnType": "System.Void"
         }
       ]
     },
@@ -5422,18 +5432,7 @@
       "Name": "cCoder.Workflow.WorkflowServiceCollectionConfigurationExtensions",
       "StandardElementType": "Dependency",
       "Properties": [],
-      "Methods": [
-        {
-          "Name": "ConfigureWorkflowApiModel",
-          "Inputs": [
-            {
-              "Name": "builder",
-              "Type": "ODataConventionModelBuilder"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
+      "Methods": []
     }
   ],
   "Links": [
