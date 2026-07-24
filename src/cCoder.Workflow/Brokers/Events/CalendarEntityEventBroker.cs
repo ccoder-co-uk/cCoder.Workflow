@@ -3,27 +3,30 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Planning;
+using cCoder.Eventing.Models;
 using cCoder.Data;
 using cCoder.Eventing;
-using cCoder.Eventing.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
 internal sealed class CalendarEntityEventBroker(
-    IEventHub eventHub,
-    ICoreAuthInfo authInfo)
+    IServiceProvider serviceProvider)
         : ICalendarEntityEventBroker
 {
     public string GetCurrentUserId() =>
-        authInfo.SSOUserId;
+        serviceProvider.GetRequiredService<ICoreAuthInfo>().SSOUserId;
 
     public ValueTask RaiseCalendarAddEventAsync(EventMessage<Calendar> message) =>
-        eventHub.RaiseEventAsync(name: "calendar_add", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "calendar_add", message: message);
 
     public ValueTask RaiseCalendarUpdateEventAsync(EventMessage<Calendar> message) =>
-        eventHub.RaiseEventAsync(name: "calendar_update", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "calendar_update", message: message);
 
     public ValueTask RaiseCalendarDeleteEventAsync(EventMessage<Calendar> message) =>
-        eventHub.RaiseEventAsync(name: "calendar_delete", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "calendar_delete", message: message);
 }

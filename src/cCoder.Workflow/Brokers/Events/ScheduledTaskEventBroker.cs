@@ -3,30 +3,34 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Planning;
+using cCoder.Eventing.Models;
 using cCoder.Data;
 using cCoder.Eventing;
-using cCoder.Eventing.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
 internal sealed class ScheduledTaskEventBroker(
-    IEventHub eventHub,
-    ICoreAuthInfo authInfo)
+    IServiceProvider serviceProvider)
         : IScheduledTaskEventBroker
 {
     public string GetCurrentUserId() =>
-        authInfo.SSOUserId;
+        serviceProvider.GetRequiredService<ICoreAuthInfo>().SSOUserId;
 
     public ValueTask RaiseScheduledTaskAddEventAsync(EventMessage<ScheduledTask> message) =>
-        eventHub.RaiseEventAsync(name: "scheduled_task_add", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "scheduled_task_add", message: message);
 
     public ValueTask RaiseScheduledTaskUpdateEventAsync(EventMessage<ScheduledTask> message) =>
-        eventHub.RaiseEventAsync(name: "scheduled_task_update", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "scheduled_task_update", message: message);
 
     public ValueTask RaiseScheduledTaskDeleteEventAsync(EventMessage<ScheduledTask> message) =>
-        eventHub.RaiseEventAsync(name: "scheduled_task_delete", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "scheduled_task_delete", message: message);
 
     public ValueTask RaiseScheduledTaskExecuteEventAsync(EventMessage<ScheduledTask> message) =>
-        eventHub.RaiseEventAsync(name: "scheduled_task_execute", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "scheduled_task_execute", message: message);
 }

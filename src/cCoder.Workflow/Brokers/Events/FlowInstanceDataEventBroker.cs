@@ -3,27 +3,30 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
+using cCoder.Eventing.Models;
 using cCoder.Data;
 using cCoder.Eventing;
-using cCoder.Eventing.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
 internal sealed class FlowInstanceDataEventBroker(
-    IEventHub eventHub,
-    ICoreAuthInfo authInfo)
+    IServiceProvider serviceProvider)
         : IFlowInstanceDataEventBroker
 {
     public string GetCurrentUserId() =>
-        authInfo.SSOUserId;
+        serviceProvider.GetRequiredService<ICoreAuthInfo>().SSOUserId;
 
     public ValueTask RaiseFlowInstanceDataAddEventAsync(EventMessage<FlowInstanceData> message) =>
-        eventHub.RaiseEventAsync(name: "flow_instance_data_add", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "flow_instance_data_add", message: message);
 
     public ValueTask RaiseFlowInstanceDataUpdateEventAsync(EventMessage<FlowInstanceData> message) =>
-        eventHub.RaiseEventAsync(name: "flow_instance_data_update", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "flow_instance_data_update", message: message);
 
     public ValueTask RaiseFlowInstanceDataDeleteEventAsync(EventMessage<FlowInstanceData> message) =>
-        eventHub.RaiseEventAsync(name: "flow_instance_data_delete", message: message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "flow_instance_data_delete", message: message);
 }

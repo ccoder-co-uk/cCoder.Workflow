@@ -5583,48 +5583,6 @@
       "LineNumber": 72
     },
     {
-      "Code": "STXB001",
-      "Description": "A broker may have at most one external or exposure dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Events.CalendarEntityEventBroker",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXB001",
-      "Description": "A broker may have at most one external or exposure dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXB001",
-      "Description": "A broker may have at most one external or exposure dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXB001",
-      "Description": "A broker may have at most one external or exposure dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Events.FlowInstanceDataEventBroker",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXB001",
-      "Description": "A broker may have at most one external or exposure dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Events.ScheduledTaskEventBroker",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXB001",
-      "Description": "A broker may have at most one external or exposure dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Events.WorkflowEventEventBroker",
-      "LineNumber": 13
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
