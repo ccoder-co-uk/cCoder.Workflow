@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
 
@@ -17,10 +13,13 @@ public class CsvFileActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-
-        Result = cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(
-            data: await GetFileContents(
-                api: api),
-            config: CSVParseConfig);
+        Result = cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(await GetFileContents(api), CSVParseConfig);
     }
 }
+
+
+
+
+
+
+

@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Net.Http.Json;
 using cCoder.Data.Models.CMS;
 
@@ -20,37 +16,22 @@ public class PageBuilder : TemplatingActivity<dynamic>
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-
-        PageInfo pageInfo = new()
-        {
-            CultureId = Culture,
-            Description = Description,
-            Keywords = Keywords,
-            Title = Title
-        };
-
-        string renderedHtml = await Render(
-            api: api);
-
-        Content content = new()
-        {
-            CultureId = Culture,
-            Name = "body",
-            Html = renderedHtml
-        };
-
-        Page page = new()
+        _ = await api.PostAsJsonAsync("ContentManagement/Page", new Page()
         {
             AppId = AppId,
             Layout = Layout,
             ResourceKey = ResourceKey,
             ShowOnMenus = ShowOnMenus,
-            PageInfo = [pageInfo],
-            Contents = [content]
-        };
-
-        _ = await api.PostAsJsonAsync(
-            requestUri: "ContentManagement/Page",
-            value: page);
+            PageInfo = new[] { new PageInfo { CultureId = Culture, Description = Description, Keywords = Keywords, Title = Title } },
+            Contents = new[] { new Content { CultureId = Culture, Name = "body", Html = await Render(api) } }
+        });
     }
 }
+
+
+
+
+
+
+
+

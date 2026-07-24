@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -11,16 +7,11 @@ namespace cCoder.Workflow.Activities.Activities.Api;
 
 public class AuthenticateActivity : ApiActivity
 {
-    private sealed class Token
-    {
-        public string Id { get; set; }
-
-        public int Reason { get; set; }
-
-        public DateTimeOffset Expires { get; set; }
-
-        public string UserName { get; set; }
-    }
+    record Token(
+        string Id,
+        int Reason,
+        DateTimeOffset Expires,
+        string UserName);
 
     [JsonIgnore]
     public string Username { get; set; }
@@ -33,19 +24,17 @@ public class AuthenticateActivity : ApiActivity
         using HttpClient api = GetHttpClient();
 
         var auth = new { User = Username, Pass = Password };
-        HttpResponseMessage response = await api.PostAsync(requestUri: "Account/Login", content: new StringContent(Json(source: auth), Encoding.UTF8, "application/json"));
+        HttpResponseMessage response = await api.PostAsync("Account/Login", new StringContent(Json(auth), Encoding.UTF8, "application/json"));
         _ = response.EnsureSuccessStatusCode();
-        Token token = await ReadAsAsync<Token>(content: response.Content);
+        Token token = await ReadAsAsync<Token>(response.Content);
         AuthToken = token.Id;
     }
 
     public static async Task<T> ReadAsAsync<T>(HttpContent content)
-        =>
-        JsonConvert.DeserializeObject<T>(value: await content.ReadAsStringAsync());
+        => JsonConvert.DeserializeObject<T>(await content.ReadAsStringAsync());
 
     static string Json(object source)
-        =>
-        JsonConvert.SerializeObject(value: source, settings: new JsonSerializerSettings
+        => JsonConvert.SerializeObject(source, new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             TypeNameHandling = TypeNameHandling.None,
@@ -57,3 +46,7 @@ public class AuthenticateActivity : ApiActivity
             MaxDepth = 4
         });
 }
+
+
+
+

@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Text;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
@@ -14,50 +10,38 @@ public class ApiPut<T, TResult> : ApiActivity<TResult>
     [IgnoreWhenFlowComplete]
     public T Data { get; set; }
 
-    public bool AutoWrapForOdata { get; set; }
+    public bool AutoWrapForOdata { get; set; } = true;
 
-    public bool WaitForResults { get; set; }
-
-    public ApiPut()
-    {
-        AutoWrapForOdata = true;
-        WaitForResults = true;
-    }
+    public bool WaitForResults { get; set; } = true;
 
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level: WorkflowLogLevel.Info, message: $"HTTP PUT {BaseUrl}{Query}");
+        Log(WorkflowLogLevel.Info, $"HTTP PUT {BaseUrl}{Query}");
 
-        object payload = AutoWrapForOdata && typeof(T).GetInterface(name: "IEnumerable") != null
+        object payload = AutoWrapForOdata && typeof(T).GetInterface("IEnumerable") != null
             ? new { value = Data }
             : Data;
 
         if (WaitForResults)
         {
+            // wait for the results to come back
             string body = (Data is string d)
                 ? d
                 : payload.ToJsonForOdata();
 
-            HttpResponseMessage response = await api.PutAsync(
-                requestUri: Query,
-                content: new StringContent(
-                    content: body,
-                    encoding: Encoding.UTF8,
-                    mediaType: "application/json"));
+            HttpResponseMessage response = await api.PutAsync(Query, new StringContent(body, Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode)
             {
-                Log(level: WorkflowLogLevel.Error, message: $"HTTP PUT {BaseUrl}{Query} failed with status code {(int)response.StatusCode}\n");
+                Log(WorkflowLogLevel.Error, $"HTTP PUT {BaseUrl}{Query} failed with status code {(int)response.StatusCode}\n");
                 string content = await response.Content.ReadAsStringAsync();
-                Log(level: WorkflowLogLevel.Error, message: content);
+                Log(WorkflowLogLevel.Error, content);
                 return;
             }
 
             if (typeof(TResult) == typeof(string))
-            {
                 Result = (TResult)(object)await response.Content.ReadAsStringAsync();
-            }
             else
             {
                 try
@@ -66,32 +50,25 @@ public class ApiPut<T, TResult> : ApiActivity<TResult>
                 }
                 catch (Exception ex)
                 {
-                    Log(level: WorkflowLogLevel.Error, message: $"Exception {ex.Message}");
-                    Log(level: WorkflowLogLevel.Error, message: await response.Content.ReadAsStringAsync());
+                    Log(WorkflowLogLevel.Error, $"Exception {ex.Message}");
+                    Log(WorkflowLogLevel.Error, await response.Content.ReadAsStringAsync());
                 }
             }
         }
-        else
+        else // fire and forget
         {
-            Task
-                .Run(
-                    function: async () =>
-                    {
-                        using HttpClient api = GetHttpClient();
-
-                        api.Timeout = TimeSpan.FromMinutes(
-                            value: 10);
-
-                        string payloadJson = payload.ToJsonForOdata();
-
-                        _ = await api.PutAsync(
-                            requestUri: Query,
-                            content: new StringContent(
-                                content: payloadJson,
-                                encoding: Encoding.UTF8,
-                                mediaType: "application/json"));
-                    })
-                .Forget();
+            Task.Run(async () =>
+            {
+                using HttpClient api = GetHttpClient();
+                api.Timeout = TimeSpan.FromMinutes(10);
+                _ = await api.PutAsync(Query, new StringContent(payload.ToJsonForOdata(), Encoding.UTF8, "application/json"));
+            }).Forget();
         }
     }
 }
+
+
+
+
+
+

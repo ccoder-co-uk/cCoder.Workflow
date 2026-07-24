@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Activities.Activities.DMS;
@@ -14,9 +10,13 @@ public class XmlFileActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-
-        Result = cCoder.Workflow.Activities.Support.Data.ParseXml<dynamic>(
-            data: await GetFileContents(
-                api: api));
+        Result = cCoder.Workflow.Activities.Support.Data.ParseXml<dynamic>(await GetFileContents(api));
     }
 }
+
+
+
+
+
+
+

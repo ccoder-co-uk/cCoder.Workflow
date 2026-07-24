@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Activities.Activities.DMS;
@@ -13,15 +9,15 @@ public class MoveActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        System.Net.Http.HttpResponseMessage result = await api.PutAsync(requestUri: $"DMS/{OldPath}?moveTo={Path}", content: null);
+        System.Net.Http.HttpResponseMessage result = await api.PutAsync($"DMS/{OldPath}?moveTo={Path}", null);
 
         try { _ = result.EnsureSuccessStatusCode(); }
         catch (Exception ex)
         {
-            Log(level: WorkflowLogLevel.Error, message: $"{ex.Message}\n{result.Content.ReadAsStringAsync()}");
-            Log(level: WorkflowLogLevel.Error, message: "Paths in question are ...");
-            Log(level: WorkflowLogLevel.Error, message: $"From: {OldPath}");
-            Log(level: WorkflowLogLevel.Error, message: $"To  : {Path}");
+            Log(WorkflowLogLevel.Error, $"{ex.Message}\n{result.Content.ReadAsStringAsync()}");
+            Log(WorkflowLogLevel.Error, "Paths in question are ...");
+            Log(WorkflowLogLevel.Error, $"From: {OldPath}");
+            Log(WorkflowLogLevel.Error, $"To  : {Path}");
         }
     }
 }
@@ -37,25 +33,28 @@ public class MoveAllActivity : DMSActivity
 
         foreach (string path in OldPaths)
         {
-            Log(level: WorkflowLogLevel.Info, message: $"Moving file: {path} to {Path}...");
-            Task<HttpResponseMessage> request = api.PutAsync(requestUri: $"DMS/{path}?moveTo={Path}", content: null);
+            Log(WorkflowLogLevel.Info, $"Moving file: {path} to {Path}...");
+            Task<HttpResponseMessage> request = api.PutAsync($"DMS/{path}?moveTo={Path}", null);
             request.Wait();
             HttpResponseMessage result = request.Result;
 
             try
             {
                 _ = result.EnsureSuccessStatusCode();
-                Log(level: WorkflowLogLevel.Info, message: $"Moved file: {path} to {Path}");
+                Log(WorkflowLogLevel.Info, $"Moved file: {path} to {Path}");
             }
             catch (Exception ex)
             {
-                Log(level: WorkflowLogLevel.Warning, message: $"{ex.Message}\n{result.Content.ReadAsStringAsync()}");
-                Log(level: WorkflowLogLevel.Error, message: "Paths in question are ...");
-                Log(level: WorkflowLogLevel.Error, message: $"From: {path}");
-                Log(level: WorkflowLogLevel.Error, message: $"To  : {Path}");
+                Log(WorkflowLogLevel.Warning, $"{ex.Message}\n{result.Content.ReadAsStringAsync()}");
+                Log(WorkflowLogLevel.Error, "Paths in question are ...");
+                Log(WorkflowLogLevel.Error, $"From: {path}");
+                Log(WorkflowLogLevel.Error, $"To  : {Path}");
             }
         }
 
         return Task.CompletedTask;
     }
 }
+
+
+

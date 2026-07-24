@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Support;
 using cCoder.Data.Models.CMS;
 using Newtonsoft.Json;
@@ -18,22 +14,14 @@ public sealed class Start : CoreActivity
     public override async Task ExecuteAsync()
     {
         if (Data != null)
-        {
-            string dataJson = JsonConvert.SerializeObject(
-                value: Data,
-                settings: ObjectExtensions.GetODataJsonSettings());
+            Log(WorkflowLogLevel.Debug, JsonConvert.SerializeObject(Data, ObjectExtensions.GetODataJsonSettings()));
 
-            Log(
-                level: WorkflowLogLevel.Debug,
-                message: dataJson);
-        }
-
-        if (Context.Variables.ContainsKey(key: "AppId"))
+        if (Context.Variables.ContainsKey("AppId"))
         {
             using HttpClient api = GetHttpClient();
-            App app = await api.GetAsync<App>(query: $"ContentManagement/App({Context.Variables["AppId"]})");
-            Context.Variables.Add(item: new KeyValuePair<string, object>("App", app));
-            Log(level: WorkflowLogLevel.Info, message: "Grabbed app information");
+            App app = await api.GetAsync<App>($"ContentManagement/App({Context.Variables["AppId"]})");
+            Context.Variables.Add(new KeyValuePair<string, object>("App", app));
+            Log(WorkflowLogLevel.Info, "Grabbed app information");
         }
 
         await base.ExecuteAsync();
@@ -42,6 +30,15 @@ public sealed class Start : CoreActivity
     public override async Task ExecuteInternal(IWorkflowContext context)
     {
         Context = context;
-        await base.ExecuteInternal(context: context);
+        await base.ExecuteInternal(context);
     }
 }
+
+
+
+
+
+
+
+
+

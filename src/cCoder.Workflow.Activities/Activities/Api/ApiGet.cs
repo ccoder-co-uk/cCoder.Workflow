@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
 
@@ -13,22 +9,25 @@ public class ApiGet<T> : ApiActivity<T>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level: WorkflowLogLevel.Info, message: $"HTTP GET {api.BaseAddress}{Query}");
+        Log(WorkflowLogLevel.Info, $"HTTP GET {api.BaseAddress}{Query}");
 
         if (typeof(T) == typeof(string))
         {
-            string responseString = await api.GetStringAsync(requestUri: Query);
+            string responseString = await api.GetStringAsync(Query);
 
             GetType()
-                .GetProperty(name: "Result")
-                .SetValue(obj: this, value: responseString);
+                .GetProperty("Result")
+                .SetValue(this, responseString);
 
         }
         else
-        {
-            Result = await api.GetAsync<T>(query: Query);
-        }
+            Result = await api.GetAsync<T>(Query);
 
-        Log(level: WorkflowLogLevel.Debug, message: Result.ToJson());
+        Log(WorkflowLogLevel.Debug, Result.ToJson());
     }
 }
+
+
+
+
+

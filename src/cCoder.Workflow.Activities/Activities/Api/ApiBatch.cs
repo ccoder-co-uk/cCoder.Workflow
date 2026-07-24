@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Text;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
@@ -16,23 +12,17 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level: WorkflowLogLevel.Info, message: $"HTTP POST {BaseUrl}{Query}$batch");
-        Log(level: WorkflowLogLevel.Info, message: $"Sending a batch of {Data.Length} requests to the API.");
+        Log(WorkflowLogLevel.Info, $"HTTP POST {BaseUrl}{Query}$batch");
+        Log(WorkflowLogLevel.Info, $"Sending a batch of {Data.Length} requests to the API.");
 
         string body = new { Requests = Data }.ToJsonForOdata();
-
-        HttpResponseMessage response = await api.PostAsync(
-            requestUri: Query + "$batch",
-            content: new StringContent(
-                content: body,
-                encoding: Encoding.UTF8,
-                mediaType: "application/json"));
+        HttpResponseMessage response = await api.PostAsync(Query + "$batch", new StringContent(body, Encoding.UTF8, "application/json"));
 
         if (!response.IsSuccessStatusCode)
         {
-            Log(level: WorkflowLogLevel.Error, message: $"HTTP POST {BaseUrl}{Query}$batch failed with status code {(int)response.StatusCode}\n");
+            Log(WorkflowLogLevel.Error, $"HTTP POST {BaseUrl}{Query}$batch failed with status code {(int)response.StatusCode}\n");
             string content = await response.Content.ReadAsStringAsync();
-            Log(level: WorkflowLogLevel.Error, message: content);
+            Log(WorkflowLogLevel.Error, content);
             return;
         }
 
@@ -41,41 +31,23 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
             ResponseBatch responseBatch = await response.Content.ReadAsAsync<ResponseBatch>();
             Result = responseBatch.Responses;
 
-            Log(level: WorkflowLogLevel.Info, message: $"Received {responseBatch.Responses.Length} batched responses");
+            Log(WorkflowLogLevel.Info, $"Received {responseBatch.Responses.Length} batched responses");
+            Log(WorkflowLogLevel.Info, $"Received {responseBatch.Responses.Where(r => r.Status.StartsWith("2")).Count()} successes");
 
-            int successCount = responseBatch
-                .Responses
-                .Count(
-                    predicate: response => response.Status.StartsWith(
-                        value: "2"));
-
-            Log(
-                level: WorkflowLogLevel.Info,
-                message: $"Received {successCount} successes");
-
-            BatchedResponse[] failures = responseBatch
-                .Responses
-                .Where(
-                    predicate: response => !response.Status.StartsWith(
-                        value: "2"))
-                .ToArray();
+            BatchedResponse[] failures = responseBatch.Responses.Where(r => !r.Status.StartsWith("2")).ToArray();
 
             if (failures.Any())
             {
-                Log(level: WorkflowLogLevel.Warning, message: $"Received {failures.Length} failures");
+                Log(WorkflowLogLevel.Warning, $"Received {failures.Length} failures");
 
                 foreach (BatchedResponse failure in failures)
-                {
-                    Log(
-                        level: WorkflowLogLevel.Error,
-                        message: failure.Body.ToJsonForOdata());
-                }
+                    Log(WorkflowLogLevel.Error, failure.Body.ToJsonForOdata());
             }
         }
         catch (Exception ex)
         {
-            Log(level: WorkflowLogLevel.Error, message: $"Exception {ex.Message}");
-            Log(level: WorkflowLogLevel.Error, message: await response.Content.ReadAsStringAsync());
+            Log(WorkflowLogLevel.Error, $"Exception {ex.Message}");
+            Log(WorkflowLogLevel.Error, await response.Content.ReadAsStringAsync());
         }
     }
 }
@@ -99,3 +71,11 @@ public class BatchedResponse
     public object Headers { get; set; }
     public object Body { get; set; }
 }
+
+
+
+
+
+
+
+

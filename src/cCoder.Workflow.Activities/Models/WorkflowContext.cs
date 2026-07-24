@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 namespace cCoder.Workflow.Activities.Models;
 
 /// <summary>
@@ -20,3 +16,5 @@ public class WorkflowContext
 
     public ICollection<WorkflowLogEntry> ExecutionLog { get; set; }
 }
+
+

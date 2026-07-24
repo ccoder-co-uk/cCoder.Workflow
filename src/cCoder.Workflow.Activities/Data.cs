@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Dynamic;
 using System.Text;
 using System.Xml.Linq;
@@ -27,42 +23,31 @@ public static class Data
     public static ExpandoObject[] Flatten(object source, string path = "")
     {
         if (source is JArray array)
-        {
-            return array.SelectMany(selector: item => Flatten(source: item, path: path))
-                .ToArray();
-        }
+            return array.SelectMany(item => Flatten(item, path)).ToArray();
 
         List<ExpandoObject> results = [];
-        IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(o: source);
-
-        KeyValuePair<string, JToken>[] values = obj.Where(predicate: kv => Primitives.Contains(value: kv.Value.Type))
-            .ToArray();
+        IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(source);
+        KeyValuePair<string, JToken>[] values = obj.Where(kv => Primitives.Contains(kv.Value.Type)).ToArray();
 
         results.AddRange(
-collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
-               .SelectMany(selector: kv => Flatten(kv.Value, $"{path}_{kv.Key}".Trim('_'))));
+            obj.Where(kv => !Primitives.Contains(kv.Value.Type))
+               .SelectMany(kv => Flatten(kv.Value, $"{path}_{kv.Key}".Trim('_'))));
 
         if (!results.Any())
         {
             IDictionary<string, object> current = new ExpandoObject();
-
             foreach (KeyValuePair<string, JToken> value in values)
-            {
-                current[$"{path}_{value.Key}".Trim(trimChar: '_')] = value.Value;
-            }
+                current[$"{path}_{value.Key}".Trim('_')] = value.Value;
 
-            results.Add(item: (ExpandoObject)current);
+            results.Add((ExpandoObject)current);
         }
         else
         {
             foreach (ExpandoObject result in results)
             {
                 IDictionary<string, object> current = result;
-
                 foreach (KeyValuePair<string, JToken> value in values)
-                {
-                    current[$"{path}_{value.Key}".Trim(trimChar: '_')] = value.Value;
-                }
+                    current[$"{path}_{value.Key}".Trim('_')] = value.Value;
             }
         }
 
@@ -72,25 +57,18 @@ collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
     public static T ParseXml<T>(string data)
     {
         StringBuilder builder = new();
-
-        JsonSerializer.Create()
-            .Serialize(jsonWriter: new CleanJsonWriter(new StringWriter(builder)), value: ParseXml(data: data));
-
-        return JsonConvert.DeserializeObject<T>(value: builder.ToString());
+        JsonSerializer.Create().Serialize(new CleanJsonWriter(new StringWriter(builder)), ParseXml(data));
+        return JsonConvert.DeserializeObject<T>(builder.ToString());
     }
 
-    public static XDocument ParseXml(string data) =>
-        XDocument.Parse(text: data);
+    public static XDocument ParseXml(string data) => XDocument.Parse(data);
 
-    public static T ParseJson<T>(string data) =>
-        JsonConvert.DeserializeObject<T>(value: data, settings: ObjectExtensions.GetJSONSettings());
+    public static T ParseJson<T>(string data) => JsonConvert.DeserializeObject<T>(data, ObjectExtensions.GetJSONSettings());
 
-    public static object ParseJson(string data) =>
-        JsonConvert.DeserializeObject(value: data, settings: ObjectExtensions.GetJSONSettings());
+    public static object ParseJson(string data) => JsonConvert.DeserializeObject(data, ObjectExtensions.GetJSONSettings());
 
     public static IEnumerable<T> ParseCSV<T>(string data, CSVParseConfig config)
-        where T : new() =>
-        CSVParser<T>.Parse(csvData: data, options: config);
+        where T : new() => CSVParser<T>.Parse(data, config);
 }
 
 internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer)
@@ -99,17 +77,12 @@ internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer
     {
         string result = name;
 
-        if (name.StartsWith(value: '@') || name.StartsWith(value: '#'))
-        {
+        if (name.StartsWith('@') || name.StartsWith('#'))
             result = name[1..];
-        }
 
-        if (result.Contains(value: ':'))
-        {
-            result = result.Split(separator: ':')
-                .Last();
-        }
+        if (result.Contains(':'))
+            result = result.Split(':').Last();
 
-        base.WritePropertyName(name: result);
+        base.WritePropertyName(result);
     }
 }

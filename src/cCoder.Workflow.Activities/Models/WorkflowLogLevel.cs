@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 namespace cCoder.Workflow.Activities.Models;
 
 public enum WorkflowLogLevel
@@ -12,3 +8,5 @@ public enum WorkflowLogLevel
     Fatal,
     Debug
 }
+
+

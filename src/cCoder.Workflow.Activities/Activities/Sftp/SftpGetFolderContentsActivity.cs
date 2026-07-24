@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Text;
 
 namespace cCoder.Workflow.Activities.Activities.Sftp;
@@ -12,30 +8,16 @@ public class SftpGetFolderContentsActivity : SftpBaseActivity
 
     public Dictionary<string, string> Result { get; set; }
 
-    public override Task ExecuteAsync() =>
-        SftpDo(
-            operation: client =>
-            {
-                Result = [];
+    public override async Task ExecuteAsync() => SftpDo(client =>
+    {
+        Result = new();
 
-                IEnumerable<Renci.SshNet.Sftp.ISftpFile> files = client
-                    .ListDirectory(
-                        path: Path)
-                    .Where(
-                        predicate: file => !file.IsDirectory);
+        foreach (var item in client.ListDirectory(Path).Where(f => !f.IsDirectory))
+        {
+            using MemoryStream stream = new();
+            client.DownloadFile(item.FullName, stream);
 
-                foreach (Renci.SshNet.Sftp.ISftpFile file in files)
-                {
-                    using MemoryStream stream = new();
-
-                    client.DownloadFile(
-                        path: file.FullName,
-                        output: stream);
-
-                    byte[] content = stream.ToArray();
-
-                    Result[file.Name] = Encoding.UTF8.GetString(
-                        bytes: content);
-                }
-            });
+            Result[item.Name] = Encoding.UTF8.GetString(stream.ToArray());
+        }
+    });
 }

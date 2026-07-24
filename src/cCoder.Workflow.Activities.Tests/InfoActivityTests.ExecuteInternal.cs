@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using FluentAssertions;
@@ -19,11 +15,10 @@ public sealed partial class InfoActivityTests
         TestWorkflowContext context = new();
 
         // When
-        await activity.ExecuteInternal(context: context);
+        await activity.ExecuteInternal(context);
 
         // Then
-        context.ExecutionLog.Should()
-            .Contain(predicate: entry =>
+        context.ExecutionLog.Should().Contain(entry =>
             entry.Level == WorkflowLogLevel.Info.ToString()
             && entry.Message == "info:: hello");
     }

@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 
@@ -22,10 +18,7 @@ public sealed partial class InfoActivityTests
         public IScriptRunner Script => null;
 
         public void Log(WorkflowLogLevel level, string message) =>
-            ExecutionLog.Add(
-                item: new WorkflowLogEntry(
-                    level: level,
-                    message: message));
+            ExecutionLog.Add(new WorkflowLogEntry(level, message));
     }
 
     private static InfoActivity CreateInfoActivity() =>

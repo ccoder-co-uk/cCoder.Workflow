@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Text;
 using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
@@ -23,21 +19,18 @@ public abstract class SftpBaseActivity : Activity
 
     public string PrivateKeyEncryptionKey { get; set; }
 
-    protected Task SftpDo(Action<SftpClient> operation)
+    protected void SftpDo(Action<SftpClient> operation)
     {
         ConnectionInfo auth = null;
         MemoryStream keyStream = null;
         PrivateKeyFile keyFile = null;
 
-        if (string.IsNullOrEmpty(value: PrivateKey))
-        {
-            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(s: Password)));
-        }
+        if(string.IsNullOrEmpty(PrivateKey))
+            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(Password)));
         else
         {
-            keyStream = new(Encoding.UTF8.GetBytes(s: PrivateKey));
-
-            keyFile = string.IsNullOrEmpty(value: PrivateKeyEncryptionKey)
+            keyStream = new(Encoding.UTF8.GetBytes(PrivateKey));
+            keyFile = string.IsNullOrEmpty(PrivateKeyEncryptionKey)
                 ? new(keyStream)
                 : new(keyStream, PrivateKeyEncryptionKey);
 
@@ -49,34 +42,28 @@ public abstract class SftpBaseActivity : Activity
         try
         {
             client.Connect();
-            Log(level: WorkflowLogLevel.Info, message: $"Connected to Server @ {Host} as User {Username}");
-            operation(obj: client);
+            Log(WorkflowLogLevel.Info, $"Connected to Server @ {Host} as User {Username}");
+            operation(client);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-            Log(level: WorkflowLogLevel.Error, message: $"Error: {ex.Message}\n{ex.StackTrace}");
+            Log(WorkflowLogLevel.Error, $"Error: {ex.Message}\n{ex.StackTrace}");
 
             if (ex.InnerException is not null)
-            {
-                Log(level: WorkflowLogLevel.Error, message: $"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
-            }
+                Log(WorkflowLogLevel.Error, $"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
 
             State = ActivityState.Failed;
         }
         finally
         {
             if (client.IsConnected)
-            {
                 client.Disconnect();
-            }
 
             client.Dispose();
             keyFile?.Dispose();
             keyStream?.Dispose();
-            Log(level: WorkflowLogLevel.Info, message: $"Disconnected from Server @ {Host}");
+            Log(WorkflowLogLevel.Info, $"Disconnected from Server @ {Host}");
         }
-
-        return Task.CompletedTask;
     }
 
     protected T SftpDo<T>(Func<SftpClient, T> operation)
@@ -85,15 +72,12 @@ public abstract class SftpBaseActivity : Activity
         MemoryStream keyStream = null;
         PrivateKeyFile keyFile = null;
 
-        if (string.IsNullOrEmpty(value: PrivateKey))
-        {
-            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(s: Password)));
-        }
+        if (string.IsNullOrEmpty(PrivateKey))
+            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(Password)));
         else
         {
-            keyStream = new(Encoding.UTF8.GetBytes(s: PrivateKey));
-
-            keyFile = string.IsNullOrEmpty(value: PrivateKeyEncryptionKey)
+            keyStream = new(Encoding.UTF8.GetBytes(PrivateKey));
+            keyFile = string.IsNullOrEmpty(PrivateKeyEncryptionKey)
                 ? new(keyStream)
                 : new(keyStream, PrivateKeyEncryptionKey);
 
@@ -105,31 +89,27 @@ public abstract class SftpBaseActivity : Activity
         try
         {
             client.Connect();
-            Log(level: WorkflowLogLevel.Info, message: $"Connected to Server @ {Host} as User {Username}");
-            return operation(arg: client);
+            Log(WorkflowLogLevel.Info, $"Connected to Server @ {Host} as User {Username}");
+            return operation(client);
         }
         catch (Exception ex)
         {
-            Log(level: WorkflowLogLevel.Error, message: $"Error: {ex.Message}\n{ex.StackTrace}");
+            Log(WorkflowLogLevel.Error, $"Error: {ex.Message}\n{ex.StackTrace}");
 
             if (ex.InnerException is not null)
-            {
-                Log(level: WorkflowLogLevel.Error, message: $"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
-            }
+                Log(WorkflowLogLevel.Error, $"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
 
             State = ActivityState.Failed;
         }
         finally
         {
             if (client.IsConnected)
-            {
                 client.Disconnect();
-            }
 
             client.Dispose();
             keyFile?.Dispose();
             keyStream?.Dispose();
-            Log(level: WorkflowLogLevel.Info, message: $"Disconnected from Server @ {Host}");
+            Log(WorkflowLogLevel.Info, $"Disconnected from Server @ {Host}");
         }
 
         return default;

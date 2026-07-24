@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Models;
 
 
@@ -16,17 +12,13 @@ public class ApiDelete<T> : ApiActivity<object>
     {
         using HttpClient api = GetHttpClient();
 
-        string dataId = ((dynamic)Data).Id.ToString();
+        Log(WorkflowLogLevel.Info, $"HTTP DELETE {api.BaseAddress}{Query.Replace("[Key]", ((dynamic)Data).Id.ToString())}");
 
-        string requestQuery = Query.Replace(
-            oldValue: "[Key]",
-            newValue: dataId);
-
-        Log(
-            level: WorkflowLogLevel.Info,
-            message: $"HTTP DELETE {api.BaseAddress}{requestQuery}");
-
-        await api.DeleteAsync(
-            requestUri: requestQuery);
+        await api.DeleteAsync(Query);
     }
 }
+
+
+
+
+

@@ -1,15 +1,8 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 namespace cCoder.Workflow.Activities.Support;
 
 public class Path
 {
-    private static readonly Path empty = new(
-        path: string.Empty);
-
-    public static Path Empty => empty;
+    public static Path Empty { get; } = new(string.Empty);
 
     public string Name => Segments.LastOrDefault();
 
@@ -17,27 +10,16 @@ public class Path
 
     public string Lowered => FullPath.ToLowerInvariant();
 
-    public string[] Segments => FullPath.Split(separator: '/');
+    public string[] Segments => FullPath.Split('/');
 
     public Path ParentPath =>
         Segments.Length > 1
-            ? new(
-                path: string
-                    .Join(
-                        separator: "/",
-                        value: Segments)[..(FullPath.Length - (1 + Segments
-                            .Last()
-                            .Length))])
+            ? new(string.Join("/", Segments)[..(FullPath.Length - (1 + Segments.Last().Length))])
             : Empty;
 
     public string Extension =>
-        Segments.LastOrDefault()?.Contains(value: '.') ?? false
-            ? Segments
-                .Last()
-                .Split(
-                    separator: '.')
-                .Last()
-                .ToLowerInvariant()
+        Segments.LastOrDefault()?.Contains('.') ?? false
+            ? Segments.Last().Split('.').Last().ToLowerInvariant()
             : string.Empty;
 
     public int Length => FullPath.Length;
@@ -48,12 +30,8 @@ public class Path
 
     public Path(string path)
     {
-        FullPath = (path ?? string.Empty)
-            .Trim()
-            .TrimEnd(
-                trimChar: '/');
+        FullPath = (path ?? string.Empty).Trim().TrimEnd('/');
     }
 
-    public override string ToString() =>
-        FullPath;
+    public override string ToString() => FullPath;
 }

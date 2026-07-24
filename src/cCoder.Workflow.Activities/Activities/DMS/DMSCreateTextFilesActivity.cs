@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Activities.Activities.DMS;
@@ -23,31 +19,28 @@ public class DMSCreateTextFilesActivity : DMSActivity
                 using HttpClient api = GetHttpClient();
                 using IEnumerator<string> n = Names.GetEnumerator();
                 using IEnumerator<string> c = Contents.GetEnumerator();
-
                 while (n.MoveNext() && c.MoveNext())
                 {
                     if (n.Current != null && c.Current != null)
                     {
-                        string path = Path.TrimEnd(
-                            trimChar: '/');
-
-                        _ = await api.PutAsync(
-                            requestUri: $"DMS/{path}/{n.Current}",
-                            content: new StringContent(
-                                content: c.Current));
+                        _ = await api.PutAsync($"DMS/{Path.TrimEnd('/')}/{n.Current}", new StringContent(c.Current));
                     }
                 }
 
-                Log(level: WorkflowLogLevel.Info, message: $"File upload complete, {Names.Count()} files posted to DMS folder {Path}");
+                Log(WorkflowLogLevel.Info, $"File upload complete, {Names.Count()} files posted to DMS folder {Path}");
             }
             else
             {
-                Log(level: WorkflowLogLevel.Warning, message: $"No files requested for creation.");
+                Log(WorkflowLogLevel.Warning, $"No files requested for creation.");
             }
         }
         catch (Exception ex)
         {
-            Log(level: WorkflowLogLevel.Error, message: $"Failed to create DMS file because of exception:\n{ex.Message}");
+            Log(WorkflowLogLevel.Error, $"Failed to create DMS file because of exception:\n{ex.Message}");
         }
     }
 }
+
+
+
+

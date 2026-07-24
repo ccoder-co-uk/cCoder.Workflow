@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Support;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities.Models;
@@ -21,36 +17,21 @@ public class ExecuteFlow : CoreActivity
         try
         {
             using HttpClient api = GetHttpClient();
-
-            IEnumerable<FlowDefinition> definitions =
-                await api.GetODataCollection<FlowDefinition>(
-                    query: $"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
-
-            if (definitions?.Any() ?? false)
-            {
-                FlowDefinition definition = definitions.First();
-                string dataJson = Data.ToJson();
-
-                _ = await api
-                    .PostAsync(
-                        requestUri: $"Workflow/FlowDefinition({definition.Id})/Execute",
-                        content: new StringContent(
-                            content: dataJson))
-                    .ConfigureAwait(
-                        continueOnCapturedContext: false);
-            }
+            IEnumerable<FlowDefinition> defs = await api.GetODataCollection<FlowDefinition>($"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
+            if (defs?.Any() ?? false)
+                _ = await api.PostAsync($"Workflow/FlowDefinition({defs.First().Id})/Execute", new StringContent(Data.ToJson())).ConfigureAwait(false);
             else
-            {
-                Log(
-                    level: WorkflowLogLevel.Warning,
-                    message: "Flow not found!");
-            }
+                Log(WorkflowLogLevel.Warning, "Flow not found!");
         }
-        catch
-        {
-            Log(
-                level: WorkflowLogLevel.Error,
-                message: "Access Denied!");
-        }
+        catch { Log(WorkflowLogLevel.Error, "Access Denied!"); }
     }
 }
+
+
+
+
+
+
+
+
+

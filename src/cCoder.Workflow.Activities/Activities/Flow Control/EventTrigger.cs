@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Activities;
 
 namespace cCoder.Workflow.Activities;
@@ -15,3 +11,5 @@ public sealed class EventTrigger<T> : Activity
     public string AuthToken { get; set; }
     public T Data { get; set; }
 }
+
+

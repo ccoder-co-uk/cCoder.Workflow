@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -34,11 +30,9 @@ public static class ObjectExtensions
             MaxDepth = 4,
         };
 
-    public static string ToJson(this object value) =>
-        JsonConvert.SerializeObject(value: value, formatting: Formatting.None, settings: GetJSONSettings());
+    public static string ToJson(this object value) => JsonConvert.SerializeObject(value, Formatting.None, GetJSONSettings());
 
-    public static string ToJsonForOdata(this object value) =>
-        JsonConvert.SerializeObject(value: value, formatting: Formatting.None, settings: GetODataJsonSettings());
+    public static string ToJsonForOdata(this object value) => JsonConvert.SerializeObject(value, Formatting.None, GetODataJsonSettings());
 }
 
 public static class EnumerableExtensions
@@ -46,13 +40,9 @@ public static class EnumerableExtensions
     public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
         if (source == null)
-        {
             return;
-        }
 
         foreach (T item in source)
-        {
-            action(obj: item);
-        }
+            action(item);
     }
 }

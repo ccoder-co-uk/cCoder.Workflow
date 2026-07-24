@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using cCoder.Workflow.Activities.Support;
@@ -77,21 +73,17 @@ public abstract class Activity
     [JsonIgnore]
     public IScriptRunner ScriptRunner { get; set; }
 
-    public virtual Task ExecuteAsync() =>
-        Task.FromResult(result: true);
+    public virtual Task ExecuteAsync() => Task.FromResult(true);
 
     public void Skip()
     {
         State = ActivityState.Skipped;
-
-        Next.Where(predicate: n => n.Previous.Length == 1)
-            .ForEach(action: n => n.Skip());
+        Next.Where(n => n.Previous.Length == 1).ForEach(n => n.Skip());
     }
 
     public void Log(WorkflowLogLevel level, string message)
     {
-        Context?.Log(level: level, message: $"{Ref}:: {message}");
-
+        Context?.Log(level, $"{Ref}:: {message}");
         if (level is WorkflowLogLevel.Error or WorkflowLogLevel.Fatal)
         {
             State = ActivityState.Failed;
@@ -104,15 +96,13 @@ public abstract class Activity
     {
         Context = context;
 
-        if (Previous == null || Previous.All(predicate: a => a.State == ActivityState.Complete))
+        if (Previous == null || Previous.All(a => a.State == ActivityState.Complete))
         {
-            Log(level: WorkflowLogLevel.Info, message: "Activity Execution started");
-            await ExecuteLinksAsync(context: context);
+            Log(WorkflowLogLevel.Info, "Activity Execution started");
+            await ExecuteLinksAsync(context);
 
             if (State == ActivityState.NotRun)
-            {
-                await SafeExecuteAndUpdateState(context: context);
-            }
+                await SafeExecuteAndUpdateState(context);
         }
     }
 
@@ -126,48 +116,44 @@ public abstract class Activity
             if (State == ActivityState.Running)
             {
                 State = ActivityState.Complete;
-                Log(level: WorkflowLogLevel.Info, message: "Activity Execution Completed");
-                await ContinueFlow(context: context);
+                Log(WorkflowLogLevel.Info, "Activity Execution Completed");
+                await ContinueFlow(context);
                 return;
             }
 
             if (State == ActivityState.Skipped)
             {
-                Log(level: WorkflowLogLevel.Info, message: "Activity Execution Skipped");
-                await ContinueFlow(context: context);
+                Log(WorkflowLogLevel.Info, "Activity Execution Skipped");
+                await ContinueFlow(context);
                 return;
             }
 
-            Log(level: WorkflowLogLevel.Error, message: "Activity Execution Failed");
+            Log(WorkflowLogLevel.Error, "Activity Execution Failed");
         }
         catch (Exception ex)
         {
-            Log(level: WorkflowLogLevel.Error, message: "Activity Execution Failed:\n" + ex.Message);
-            Log(level: WorkflowLogLevel.Debug, message: ex.StackTrace);
+            Log(WorkflowLogLevel.Error, "Activity Execution Failed:\n" + ex.Message);
+            Log(WorkflowLogLevel.Debug, ex.StackTrace);
             State = ActivityState.Failed;
         }
     }
 
     private async Task ExecuteLinksAsync(IWorkflowContext context)
     {
-        if (!string.IsNullOrEmpty(value: AssignCode))
+        if (!string.IsNullOrEmpty(AssignCode))
         {
             try
             {
-                if (CompiledLinkCache is not null && CompiledLinkCache.ContainsKey(key: this))
-                {
-                    CompiledLinkCache[this](arg1: this, arg2: context.Variables, arg3: context.Flow);
-                }
+                if (CompiledLinkCache is not null && CompiledLinkCache.ContainsKey(this))
+                    CompiledLinkCache[this](this, context.Variables, context.Flow);
                 else
-                {
-                    (await BuildScript<Action<Activity, IDictionary<string, object>, Flow>>(code: AssignCode))?.Invoke(arg1: this, arg2: context.Variables, arg3: context.Flow);
-                }
+                    (await BuildScript<Action<Activity, IDictionary<string, object>, Flow>>(AssignCode))?.Invoke(this, context.Variables, context.Flow);
             }
             catch (Exception ex)
             {
                 State = ActivityState.Failed;
-                Log(level: WorkflowLogLevel.Fatal, message: $"Link Execution Failed\n{ex.Message}\n{ex.StackTrace}");
-                Log(level: WorkflowLogLevel.Fatal, message: $"Link Code in question: \n{AssignCode}");
+                Log(WorkflowLogLevel.Fatal, $"Link Execution Failed\n{ex.Message}\n{ex.StackTrace}");
+                Log(WorkflowLogLevel.Fatal, $"Link Code in question: \n{AssignCode}");
                 return;
             }
         }
@@ -176,20 +162,21 @@ public abstract class Activity
     private async Task ContinueFlow(IWorkflowContext context)
     {
         if (Next != null)
-        {
             foreach (Activity t in Next)
-            {
-                await t.ExecuteInternal(context: context);
-            }
-        }
+                await t.ExecuteInternal(context);
     }
 
     protected Task<TFunc> BuildScript<TFunc>(string code) =>
-        (ScriptRunner ?? Context.Script).BuildScript<TFunc>(code: code, imports: (string[])Context?.Variables["Imports"] ?? ScriptImports, log: Log);
+        (ScriptRunner ?? Context.Script).BuildScript<TFunc>(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, Log);
 
     protected Task<T> ExecuteScript<T>(string code, object args) =>
-        (ScriptRunner ?? Context.Script).Run<T>(code: code, imports: (string[])Context?.Variables["Imports"] ?? ScriptImports, args: args, log: Log);
+        (ScriptRunner ?? Context.Script).Run<T>(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, args, Log);
 
     protected Task ExecuteScript(string code, object args) =>
-        (ScriptRunner ?? Context.Script).Run(code: code, imports: (string[])Context?.Variables["Imports"] ?? ScriptImports, args: args, log: Log);
+        (ScriptRunner ?? Context.Script).Run(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, args, Log);
 }
+
+
+
+
+

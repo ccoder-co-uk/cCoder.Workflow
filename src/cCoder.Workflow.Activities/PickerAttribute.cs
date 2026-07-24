@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 namespace cCoder.Workflow.Activities.Support;
 
 [AttributeUsage(AttributeTargets.Property)]

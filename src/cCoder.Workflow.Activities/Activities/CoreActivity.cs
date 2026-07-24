@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Activities.Api;
 
@@ -15,6 +11,9 @@ public abstract class CoreActivity : ApiActivity
     public override Task ExecuteInternal(IWorkflowContext context)
     {
         AppId = (int)context.Variables["AppId"];
-        return base.ExecuteInternal(context: context);
+        return base.ExecuteInternal(context);
     }
 }
+
+
+

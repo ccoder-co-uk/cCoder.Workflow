@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using cCoder.Workflow.Activities.Activities;
 
 namespace cCoder.Workflow.Activities;
@@ -15,7 +11,9 @@ public class FormSubmissionActivity<T> : Activity
     {
         if (Data != null)
         {
-            await base.ExecuteInternal(context: context);
+            await base.ExecuteInternal(context);
         }
     }
 }
+
+

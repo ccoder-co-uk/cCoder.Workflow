@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Net;
 using System.Net.Http.Headers;
 using cCoder.Workflow.Activities.Activities;
@@ -22,7 +18,7 @@ public abstract class ApiActivity : Activity
     {
         BaseUrl ??= context.Variables["Api"] as string;
         AuthToken ??= context.Variables["AuthToken"] as string;
-        return base.ExecuteInternal(context: context);
+        return base.ExecuteInternal(context);
     }
 
     protected HttpClient GetHttpClient()
@@ -31,14 +27,12 @@ public abstract class ApiActivity : Activity
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
-        }).WithBaseUri(baseUriString: BaseUrl);
+        }).WithBaseUri(BaseUrl);
 
-        httpClient.Timeout = TimeSpan.FromSeconds(value: 200.0);
+        httpClient.Timeout = TimeSpan.FromSeconds(200.0);
 
         if (AuthToken != null)
-        {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthType, AuthToken);
-        }
 
         return httpClient;
     }
@@ -51,16 +45,16 @@ public abstract class ApiActivity : Activity
 public abstract class ApiActivity<T> : ApiActivity
 {
     [JsonIgnore]
-    public int BatchSize { get; set; }
+    public int BatchSize { get; set; } = 500;
 
     public string Query { get; set; }
 
     [IgnoreWhenFlowComplete]
     [JsonIgnore]
     public T Result { get; set; }
-
-    protected ApiActivity()
-    {
-        BatchSize = 500;
-    }
 }
+
+
+
+
+

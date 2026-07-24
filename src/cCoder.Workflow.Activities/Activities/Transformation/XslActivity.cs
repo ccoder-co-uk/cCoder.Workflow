@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------
-// Copyright (c) Paul.Ward@ccoder.co.uk
-// ---------------------------------------------------------------
-
 using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
@@ -16,14 +12,19 @@ public class XslActivity : TransformationActivity<string, string>
 
     public override async Task ExecuteAsync()
     {
+        // build the transform
         XslCompiledTransform t = new();
-        t.Load(stylesheet: new XmlTextReader(new StringReader(Xslt)));
+        t.Load(new XmlTextReader(new StringReader(Xslt)));
 
-        using XmlTextReader input = new(new MemoryStream(Encoding.UTF8.GetBytes(s: Source)));
+        using XmlTextReader input = new(new MemoryStream(Encoding.UTF8.GetBytes(Source)));
         using XmlTextWriter output = new(new MemoryStream(), Encoding.UTF8);
-        t.Transform(input: input, results: output);
-        _ = output.BaseStream.Seek(offset: 0, origin: SeekOrigin.Begin);
+        t.Transform(input, output);
+        _ = output.BaseStream.Seek(0, SeekOrigin.Begin);
         using StreamReader reader = new(output.BaseStream);
         Result = await reader.ReadToEndAsync();
     }
 }
+
+
+
+
