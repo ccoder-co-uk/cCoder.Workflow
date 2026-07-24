@@ -10,6 +10,7 @@ namespace cCoder.Workflow.Brokers.Events;
 
 public interface IScheduledTaskEventBroker
 {
+    string GetCurrentUserId();
     ValueTask RaiseScheduledTaskAddEventAsync(EventMessage<ScheduledTask> message);
     ValueTask RaiseScheduledTaskUpdateEventAsync(EventMessage<ScheduledTask> message);
     ValueTask RaiseScheduledTaskDeleteEventAsync(EventMessage<ScheduledTask> message);

@@ -2,49 +2,53 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data;
-using cCoder.Workflow.Brokers.Events;
 using cCoder.Data.Models.Planning;
 using cCoder.Eventing.Models;
-
+using cCoder.Workflow.Brokers.Events;
 
 namespace cCoder.Workflow.Services.Foundations.Events;
 
-internal class CalendarEventEventService(
-    ICalendarEventEventBroker calendarEventEventBroker,
-    ICoreAuthInfo authInfo
-) : ICalendarEventEventService
+internal sealed partial class CalendarEventEventService(
+    ICalendarEventEventBroker calendarEventEventBroker)
+        : ICalendarEventEventService
 {
-    public async ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity)
-    {
-        EventMessage<CalendarEvent> message = new()
+    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity) =>
+        TryCatch(operation: async () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+            ValidateInputs(inputs: [entity]);
+
+            EventMessage<CalendarEvent> message = CreateMessage(entity: entity);
+
+            await calendarEventEventBroker.RaiseCalendarEventAddEventAsync(message: message);
+        }, isValueTask: true);
+
+    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [entity]);
+
+            EventMessage<CalendarEvent> message = CreateMessage(entity: entity);
+
+            await calendarEventEventBroker.RaiseCalendarEventUpdateEventAsync(message: message);
+        }, isValueTask: true);
+
+    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [entity]);
+
+            EventMessage<CalendarEvent> message = CreateMessage(entity: entity);
+
+            await calendarEventEventBroker.RaiseCalendarEventDeleteEventAsync(message: message);
+        }, isValueTask: true);
+
+    private EventMessage<CalendarEvent> CreateMessage(CalendarEvent entity) =>
+        new()
+        {
+            AuthInfo = new EventAuthInfo
+            {
+                SSOUserId = calendarEventEventBroker.GetCurrentUserId()
+            },
             Data = entity,
         };
-
-        await calendarEventEventBroker.RaiseCalendarEventAddEventAsync(message: message);
-    }
-
-    public async ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity)
-    {
-        EventMessage<CalendarEvent> message = new()
-        {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
-
-        await calendarEventEventBroker.RaiseCalendarEventUpdateEventAsync(message: message);
-    }
-
-    public async ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity)
-    {
-        EventMessage<CalendarEvent> message = new()
-        {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
-
-        await calendarEventEventBroker.RaiseCalendarEventDeleteEventAsync(message: message);
-    }
 }

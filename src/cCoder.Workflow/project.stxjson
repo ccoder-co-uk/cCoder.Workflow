@@ -633,6 +633,11 @@
       "Properties": [],
       "Methods": [
         {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
           "Name": "RaiseCalendarAddEventAsync",
           "Inputs": [
             {
@@ -669,6 +674,11 @@
       "StandardElementType": "Broker",
       "Properties": [],
       "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
         {
           "Name": "RaiseCalendarEventAddEventAsync",
           "Inputs": [
@@ -728,6 +738,11 @@
       "Properties": [],
       "Methods": [
         {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
           "Name": "RaiseFlowDefinitionAddEventAsync",
           "Inputs": [
             {
@@ -765,6 +780,11 @@
       "Properties": [],
       "Methods": [
         {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
           "Name": "RaiseFlowInstanceDataAddEventAsync",
           "Inputs": [
             {
@@ -801,6 +821,11 @@
       "StandardElementType": "Broker",
       "Properties": [],
       "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
         {
           "Name": "RaiseScheduledTaskAddEventAsync",
           "Inputs": [
@@ -848,6 +873,11 @@
       "StandardElementType": "Broker",
       "Properties": [],
       "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
         {
           "Name": "RaiseWorkflowEventAddEventAsync",
           "Inputs": [
@@ -2555,6 +2585,24 @@
           "Type": "System.String"
         }
       ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
       "Methods": []
     },
     {
@@ -5570,46 +5618,46 @@
       "LineNumber": 72
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
+      "Code": "STXB001",
+      "Description": "A broker may have at most one external or exposure dependency.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Events.CalendarEntityEventBroker",
-      "LineNumber": 12
+      "LineNumber": 13
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
+      "Code": "STXB001",
+      "Description": "A broker may have at most one external or exposure dependency.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker",
-      "LineNumber": 12
+      "LineNumber": 13
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
+      "Code": "STXB001",
+      "Description": "A broker may have at most one external or exposure dependency.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker",
-      "LineNumber": 12
+      "LineNumber": 13
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
+      "Code": "STXB001",
+      "Description": "A broker may have at most one external or exposure dependency.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Events.FlowInstanceDataEventBroker",
-      "LineNumber": 12
+      "LineNumber": 13
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
+      "Code": "STXB001",
+      "Description": "A broker may have at most one external or exposure dependency.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Events.ScheduledTaskEventBroker",
-      "LineNumber": 12
+      "LineNumber": 13
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
+      "Code": "STXB001",
+      "Description": "A broker may have at most one external or exposure dependency.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Events.WorkflowEventEventBroker",
-      "LineNumber": 12
+      "LineNumber": 13
     },
     {
       "Code": "STX0006",
@@ -6676,116 +6724,67 @@
       "LineNumber": 70
     },
     {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
+      "LineNumber": 1
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
+      "LineNumber": 1
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
       "LineNumber": 13
     },
     {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
+      "LineNumber": 41
     },
     {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
+      "LineNumber": 1
     },
     {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
+      "LineNumber": 1
     },
     {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXF002",
-      "Description": "A foundation service may only depend on brokers, exposures, or nothing.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0008",
-      "Description": "A service must declare its validations in a Validations partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
       "LineNumber": 13
     },
     {
-      "Code": "STX0009",
-      "Description": "A service must declare TryCatch handling in an Exceptions partial.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
+      "LineNumber": 41
     },
     {
-      "Code": "STX0010",
-      "Description": "Every public service method must enter through a local TryCatch operation.",
+      "Code": "STX0022",
+      "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STX0011",
-      "Description": "Every service input must be validated inside TryCatch before business work.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX001",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve validation exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX002",
-      "Description": "Every TryCatch overload must classify, wrap, and preserve dependency exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXEX003",
-      "Description": "Every TryCatch overload must wrap and preserve unclassified exceptions.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXF002",
-      "Description": "A foundation service may only depend on brokers, exposures, or nothing.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 13
+      "LineNumber": 45
     },
     {
       "Code": "STX0008",

@@ -3,14 +3,21 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
+using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
-public class WorkflowEventEventBroker(IEventHub eventHub) : IWorkflowEventEventBroker
+internal sealed class WorkflowEventEventBroker(
+    IEventHub eventHub,
+    ICoreAuthInfo authInfo)
+        : IWorkflowEventEventBroker
 {
+    public string GetCurrentUserId() =>
+        authInfo.SSOUserId;
+
     public ValueTask RaiseWorkflowEventAddEventAsync(EventMessage<WorkflowEvent> message) =>
         eventHub.RaiseEventAsync(name: "workflow_add", message: message);
 

@@ -10,6 +10,7 @@ namespace cCoder.Workflow.Brokers.Events;
 
 public interface IFlowInstanceDataEventBroker
 {
+    string GetCurrentUserId();
     ValueTask RaiseFlowInstanceDataAddEventAsync(EventMessage<FlowInstanceData> message);
     ValueTask RaiseFlowInstanceDataUpdateEventAsync(EventMessage<FlowInstanceData> message);
     ValueTask RaiseFlowInstanceDataDeleteEventAsync(EventMessage<FlowInstanceData> message);

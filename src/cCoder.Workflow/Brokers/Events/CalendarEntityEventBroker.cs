@@ -3,14 +3,21 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Planning;
+using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
-public class CalendarEntityEventBroker(IEventHub eventHub) : ICalendarEntityEventBroker
+internal sealed class CalendarEntityEventBroker(
+    IEventHub eventHub,
+    ICoreAuthInfo authInfo)
+        : ICalendarEntityEventBroker
 {
+    public string GetCurrentUserId() =>
+        authInfo.SSOUserId;
+
     public ValueTask RaiseCalendarAddEventAsync(EventMessage<Calendar> message) =>
         eventHub.RaiseEventAsync(name: "calendar_add", message: message);
 

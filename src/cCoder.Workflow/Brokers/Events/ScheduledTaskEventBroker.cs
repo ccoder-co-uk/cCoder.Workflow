@@ -3,14 +3,21 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Planning;
+using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
-public class ScheduledTaskEventBroker(IEventHub eventHub) : IScheduledTaskEventBroker
+internal sealed class ScheduledTaskEventBroker(
+    IEventHub eventHub,
+    ICoreAuthInfo authInfo)
+        : IScheduledTaskEventBroker
 {
+    public string GetCurrentUserId() =>
+        authInfo.SSOUserId;
+
     public ValueTask RaiseScheduledTaskAddEventAsync(EventMessage<ScheduledTask> message) =>
         eventHub.RaiseEventAsync(name: "scheduled_task_add", message: message);
 

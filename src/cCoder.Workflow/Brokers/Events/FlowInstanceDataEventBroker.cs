@@ -3,14 +3,21 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
+using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
-public class FlowInstanceDataEventBroker(IEventHub eventHub) : IFlowInstanceDataEventBroker
+internal sealed class FlowInstanceDataEventBroker(
+    IEventHub eventHub,
+    ICoreAuthInfo authInfo)
+        : IFlowInstanceDataEventBroker
 {
+    public string GetCurrentUserId() =>
+        authInfo.SSOUserId;
+
     public ValueTask RaiseFlowInstanceDataAddEventAsync(EventMessage<FlowInstanceData> message) =>
         eventHub.RaiseEventAsync(name: "flow_instance_data_add", message: message);
 

@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data;
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Data.Models.Planning;
 using cCoder.Eventing.Models;
@@ -10,41 +9,49 @@ using cCoder.Eventing.Models;
 
 namespace cCoder.Workflow.Services.Foundations.Events;
 
-internal class CalendarEntityEventService(
-    ICalendarEntityEventBroker calendarEventBroker,
-    ICoreAuthInfo authInfo
-) : ICalendarEntityEventService
+internal sealed partial class CalendarEntityEventService(
+    ICalendarEntityEventBroker calendarEventBroker)
+        : ICalendarEntityEventService
 {
-    public async ValueTask RaiseCalendarAddEventAsync(Calendar entity)
-    {
-        EventMessage<Calendar> message = new()
+    public ValueTask RaiseCalendarAddEventAsync(Calendar entity) =>
+        TryCatch(operation: async () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
+            ValidateInputs(inputs: [entity]);
 
-        await calendarEventBroker.RaiseCalendarAddEventAsync(message: message);
-    }
+            EventMessage<Calendar> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = calendarEventBroker.GetCurrentUserId() },
+                Data = entity,
+            };
 
-    public async ValueTask RaiseCalendarUpdateEventAsync(Calendar entity)
-    {
-        EventMessage<Calendar> message = new()
+            await calendarEventBroker.RaiseCalendarAddEventAsync(message: message);
+        }, isValueTask: true);
+
+    public ValueTask RaiseCalendarUpdateEventAsync(Calendar entity) =>
+        TryCatch(operation: async () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
+            ValidateInputs(inputs: [entity]);
 
-        await calendarEventBroker.RaiseCalendarUpdateEventAsync(message: message);
-    }
+            EventMessage<Calendar> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = calendarEventBroker.GetCurrentUserId() },
+                Data = entity,
+            };
 
-    public async ValueTask RaiseCalendarDeleteEventAsync(Calendar entity)
-    {
-        EventMessage<Calendar> message = new()
+            await calendarEventBroker.RaiseCalendarUpdateEventAsync(message: message);
+        }, isValueTask: true);
+
+    public ValueTask RaiseCalendarDeleteEventAsync(Calendar entity) =>
+        TryCatch(operation: async () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
+            ValidateInputs(inputs: [entity]);
 
-        await calendarEventBroker.RaiseCalendarDeleteEventAsync(message: message);
-    }
+            EventMessage<Calendar> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = calendarEventBroker.GetCurrentUserId() },
+                Data = entity,
+            };
+
+            await calendarEventBroker.RaiseCalendarDeleteEventAsync(message: message);
+        }, isValueTask: true);
 }
