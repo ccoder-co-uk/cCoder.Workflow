@@ -6,32 +6,29 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Coordinations;
-using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
-using JsonDependency = cCoder.Workflow.Dependencies.JsonDependency;
 using cCoder.Workflow.Services.Orchestrations;
-using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
-using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace cCoder.Core.Services.Tests.Workflow.Orchestrations;
+namespace cCoder.Core.Services.Tests.Workflow.Coordinations;
 
-public partial class EventHandlingOrchestrationServiceTests
+public partial class WorkflowEventCoordinationServiceTests
 {
-    private readonly Mock<IWorkflowEventProcessingService> workflowEventProcessingServiceMock;
-    private readonly Mock<IFlowDefinitionCoordinationService> flowDefinitionCoordinationServiceMock;
-    private readonly EventHandlingOrchestrationService orchestrationService;
+    private readonly Mock<IWorkflowEventOrchestrationService> workflowEventOrchestrationServiceMock;
+    private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
+    private readonly WorkflowEventCoordinationService coordinationService;
 
-    public EventHandlingOrchestrationServiceTests()
+    public WorkflowEventCoordinationServiceTests()
     {
-        workflowEventProcessingServiceMock = new Mock<IWorkflowEventProcessingService>(MockBehavior.Strict);
-        flowDefinitionCoordinationServiceMock = new Mock<IFlowDefinitionCoordinationService>(MockBehavior.Strict);
-        orchestrationService = new EventHandlingOrchestrationService(
-            workflowEventProcessingServiceMock.Object,
-            flowDefinitionCoordinationServiceMock.Object,
-            new JsonBroker(
-                jsonDependency: new JsonDependency()),
-            Mock.Of<ILogger<EventHandlingOrchestrationService>>());
+        workflowEventOrchestrationServiceMock =
+            new Mock<IWorkflowEventOrchestrationService>(MockBehavior.Strict);
+
+        flowDefinitionOrchestrationServiceMock =
+            new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
+
+        coordinationService = new WorkflowEventCoordinationService(
+            workflowEventOrchestrationServiceMock.Object,
+            flowDefinitionOrchestrationServiceMock.Object);
     }
 
     private static Page CreateRandomPage() =>

@@ -5,9 +5,9 @@
 using cCoder.Workflow.Models.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-internal sealed partial class EventHandlingOrchestrationService
+internal sealed partial class WorkflowEventCoordinationService
 {
     private static async Task TryCatch(Func<Task> operation)
     {

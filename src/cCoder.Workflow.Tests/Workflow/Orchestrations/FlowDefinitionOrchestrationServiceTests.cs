@@ -18,16 +18,19 @@ public partial class FlowDefinitionOrchestrationServiceTests
 {
     private readonly Mock<IFlowDefinitionProcessingService> flowDefinitionProcessingServiceMock;
     private readonly Mock<IFlowDefinitionEventProcessingService> flowDefinitionEventProcessingServiceMock;
+    private readonly Mock<IFlowInstanceDataProcessingService> flowInstanceDataProcessingServiceMock;
     private readonly FlowDefinitionOrchestrationService orchestrationService;
 
     public FlowDefinitionOrchestrationServiceTests()
     {
         flowDefinitionProcessingServiceMock = new Mock<IFlowDefinitionProcessingService>(MockBehavior.Strict);
         flowDefinitionEventProcessingServiceMock = new Mock<IFlowDefinitionEventProcessingService>(MockBehavior.Strict);
+        flowInstanceDataProcessingServiceMock = new Mock<IFlowInstanceDataProcessingService>(MockBehavior.Strict);
+
         orchestrationService = new FlowDefinitionOrchestrationService(
             flowDefinitionProcessingServiceMock.Object,
-            flowDefinitionEventProcessingServiceMock.Object
-        );
+            flowDefinitionEventProcessingServiceMock.Object,
+            flowInstanceDataProcessingServiceMock.Object);
     }
 
     private static FlowDefinition CreateRandomFlowDefinition() =>

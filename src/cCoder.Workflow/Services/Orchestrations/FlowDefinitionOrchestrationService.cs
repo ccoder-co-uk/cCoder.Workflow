@@ -10,9 +10,51 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class FlowDefinitionOrchestrationService(
     IFlowDefinitionProcessingService processingService,
-    IFlowDefinitionEventProcessingService eventService)
+    IFlowDefinitionEventProcessingService eventService,
+    IFlowInstanceDataProcessingService flowInstanceDataProcessingService)
         : IFlowDefinitionOrchestrationService
 {
+    public ValueTask<Guid> QueueFlowDefinitionAsync(
+        Guid flowDefinitionId,
+        string asUserId,
+        string args) =>
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [flowDefinitionId, asUserId, args]);
+
+                return await ExecuteQueueFlowDefinitionAsync(
+                    flowDefinitionId: flowDefinitionId,
+                    asUserId: asUserId,
+                    args: args);
+            },
+            isValueTask: true);
+
+    private async ValueTask<Guid> ExecuteQueueFlowDefinitionAsync(
+        Guid flowDefinitionId,
+        string asUserId,
+        string args)
+    {
+        FlowDefinition flowDefinition = processingService
+            .GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == flowDefinitionId);
+
+        _ = processingService.AuthorizeFlowDefinitionExecution(
+            userId: asUserId,
+            appId: flowDefinition?.AppId);
+
+        FlowInstanceData flowInstance =
+            processingService.CreateFlowDefinitionQueuedFlowInstanceData(
+                flowDefinition: flowDefinition,
+                caller: asUserId,
+                args: args);
+
+        flowInstance = await flowInstanceDataProcessingService
+            .AddQueuedFlowInstanceDataAsync(newEntity: flowInstance);
+
+        return flowInstance.Id;
+    }
+
     public bool AuthorizeFlowDefinitionExecution(string userId, int? appId) =>
         TryCatch(operation: () =>
         {

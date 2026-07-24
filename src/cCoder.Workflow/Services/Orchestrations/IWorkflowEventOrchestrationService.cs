@@ -11,6 +11,21 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IWorkflowEventOrchestrationService
 {
+    (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null);
+
+    string SerializeWorkflowEventPayload(object payload);
+
+    ValueTask<WorkflowEvent[]> GetWorkflowEventSubscriptionsAsync(
+        int appId,
+        string eventContext);
+
+    ValueTask LogWorkflowEventQueueFailureAsync(
+        WorkflowEvent workflowEvent,
+        Exception exception);
+
     WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);

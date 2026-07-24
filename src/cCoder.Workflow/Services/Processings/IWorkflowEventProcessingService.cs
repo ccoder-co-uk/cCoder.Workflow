@@ -11,6 +11,17 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface IWorkflowEventProcessingService
 {
+    (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null);
+
+    string SerializeWorkflowEventPayload(object payload);
+
+    ValueTask LogWorkflowEventQueueFailureAsync(
+        WorkflowEvent workflowEvent,
+        Exception exception);
+
     WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);

@@ -12,6 +12,55 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class WorkflowEventOrchestrationService(IWorkflowEventProcessingService processingService, IWorkflowEventEventProcessingService eventService) : IWorkflowEventOrchestrationService
 {
+    public (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [payload, eventName, appIdOverride]);
+
+            return processingService.PrepareWorkflowEventDispatch(
+                payload: payload,
+                eventName: eventName,
+                appIdOverride: appIdOverride);
+        });
+
+    public string SerializeWorkflowEventPayload(object payload) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [payload]);
+            return processingService.SerializeWorkflowEventPayload(payload: payload);
+        });
+
+    public ValueTask<WorkflowEvent[]> GetWorkflowEventSubscriptionsAsync(
+        int appId,
+        string eventContext) =>
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [appId, eventContext]);
+
+                return await processingService.GetSubscriptionsAsync(
+                    appId: appId,
+                    eventContext: eventContext);
+            },
+            isValueTask: true);
+
+    public ValueTask LogWorkflowEventQueueFailureAsync(
+        WorkflowEvent workflowEvent,
+        Exception exception) =>
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [workflowEvent, exception]);
+
+                await processingService.LogWorkflowEventQueueFailureAsync(
+                    workflowEvent: workflowEvent,
+                    exception: exception);
+            },
+            isValueTask: true);
+
     public WorkflowEvent Get(Guid workflowEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
 

@@ -168,12 +168,12 @@ handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(fl
     }
 
     void ListenToWorkflowTriggerEvent<T>(string eventName) =>
-        eventHubBroker.ListenToEvent<T, IEventHandlingOrchestrationService>(
+        eventHubBroker.ListenToEvent<T, IWorkflowEventCoordinationService>(
 eventName: eventName,
 handler: (service, payload) => new ValueTask(service.RaiseEvents(payload: payload, eventName: eventName)));
 
     void ListenToWorkflowPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<(int appId, Package package), IEventHandlingOrchestrationService>(
+        eventHubBroker.ListenToEvent<(int appId, Package package), IWorkflowEventCoordinationService>(
 eventName: "package_import",
 handler: (service, args) => new ValueTask(service.RaiseEvents(payload: args.package, eventName: "package_import", appIdOverride: args.appId)));
 

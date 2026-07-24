@@ -195,7 +195,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAppCoordinationService, AppCoordinationService>();
         services.AddTransient<ICalendarOrchestrationService, CalendarOrchestrationService>();
         services.AddTransient<ICalendarEventOrchestrationService, CalendarEventOrchestrationService>();
-        services.AddTransient<IEventHandlingOrchestrationService, EventHandlingOrchestrationService>();
+        services.AddTransient<IWorkflowEventCoordinationService, WorkflowEventCoordinationService>();
         services.AddTransient<IWorkflowMigrationAggregationService, WorkflowMigrationAggregationService>();
         services.AddTransient<IFlowDefinitionOrchestrationService, FlowDefinitionOrchestrationService>();
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();

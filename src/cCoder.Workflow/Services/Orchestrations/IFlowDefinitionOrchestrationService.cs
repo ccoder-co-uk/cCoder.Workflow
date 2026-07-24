@@ -11,6 +11,11 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IFlowDefinitionOrchestrationService
 {
+    ValueTask<Guid> QueueFlowDefinitionAsync(
+        Guid flowDefinitionId,
+        string asUserId,
+        string args);
+
     bool AuthorizeFlowDefinitionExecution(string userId, int? appId);
 
     FlowInstanceData CreateFlowDefinitionQueuedFlowInstanceData(

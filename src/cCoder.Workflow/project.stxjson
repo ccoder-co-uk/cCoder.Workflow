@@ -2918,6 +2918,31 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseEvents",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appIdOverride",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Services.Foundations.CalendarEventService",
       "StandardElementType": "FoundationService",
       "Properties": [],
@@ -3857,31 +3882,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Services.Orchestrations.EventHandlingOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "RaiseEvents",
-          "Inputs": [
-            {
-              "Name": "payload",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "eventName",
-              "Type": "System.String"
-            },
-            {
-              "Name": "appIdOverride",
-              "Type": "System.Int32?"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
       "StandardElementType": "OrchestrationService",
       "Properties": [],
@@ -3987,6 +3987,24 @@
             }
           ],
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "QueueFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "asUserId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
         },
         {
           "Name": "UpdateFlowDefinitionAsync",
@@ -4279,6 +4297,62 @@
             }
           ],
           "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "GetWorkflowEventSubscriptionsAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "eventContext",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
+        },
+        {
+          "Name": "LogWorkflowEventQueueFailureAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEvent",
+              "Type": "WorkflowEvent"
+            },
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "PrepareWorkflowEventDispatch",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appIdOverride",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "(System.Int32? AppId, System.String EventContext)"
+        },
+        {
+          "Name": "SerializeWorkflowEventPayload",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
         },
         {
           "Name": "UpdateWorkflowEventAsync",
@@ -5227,6 +5301,48 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
         },
         {
+          "Name": "LogWorkflowEventQueueFailureAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEvent",
+              "Type": "WorkflowEvent"
+            },
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "PrepareWorkflowEventDispatch",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appIdOverride",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "(System.Int32? AppId, System.String EventContext)"
+        },
+        {
+          "Name": "SerializeWorkflowEventPayload",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
           "Name": "UpdateWorkflowEventAsync",
           "Inputs": [
             {
@@ -5385,6 +5501,14 @@
       "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
     },
     {
+      "FromType": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService"
+    },
+    {
       "FromType": "cCoder.Workflow.Services.Foundations.CalendarEventService",
       "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
     },
@@ -5481,24 +5605,16 @@
       "ToType": "cCoder.Workflow.Services.Processings.CalendarProcessingService"
     },
     {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.EventHandlingOrchestrationService",
-      "ToType": "cCoder.Workflow.Brokers.JsonBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.EventHandlingOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.EventHandlingOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService"
-    },
-    {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService",
@@ -5606,6 +5722,10 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
     }
   ],
@@ -5656,36 +5776,85 @@
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
+      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "LineNumber": 6
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "LineNumber": 7
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "LineNumber": 8
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "LineNumber": 13
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
       "LineNumber": 43
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
-      "LineNumber": 53
+      "Type": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "LineNumber": 68
     },
     {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.EventHandlingOrchestrationService",
-      "LineNumber": 13
+      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
+      "LineNumber": 171
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
+      "LineNumber": 225
     },
     {
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
-      "LineNumber": 23
+      "LineNumber": 11
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
-      "LineNumber": 111
+      "LineNumber": 153
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
+      "LineNumber": 14
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
+      "LineNumber": 125
     },
     {
       "Code": "STXO001",
@@ -5698,15 +5867,15 @@
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
-      "LineNumber": 42
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "LineNumber": 13
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
-      "LineNumber": 216
+      "Type": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "LineNumber": 198
     }
   ]
 }

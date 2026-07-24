@@ -2,9 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-public interface IEventHandlingOrchestrationService
+public interface IWorkflowEventCoordinationService
 {
     Task RaiseEvents(object payload, string eventName, int? appIdOverride = null);
 }

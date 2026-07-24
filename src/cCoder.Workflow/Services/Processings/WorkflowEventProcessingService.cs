@@ -12,9 +12,75 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class WorkflowEventProcessingService(
     IWorkflowEventService service,
-    IAuthorizationBroker authorizationBroker)
+    IAuthorizationBroker authorizationBroker,
+    IJsonBroker jsonBroker,
+    ILogger<WorkflowEventProcessingService> logger)
         : IWorkflowEventProcessingService
 {
+    public (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [payload, eventName, appIdOverride]);
+
+            return ExecutePrepareWorkflowEventDispatch(
+                payload: payload,
+                eventName: eventName,
+                appIdOverride: appIdOverride);
+        });
+
+    private (int? AppId, string EventContext) ExecutePrepareWorkflowEventDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride)
+    {
+        int? appId = appIdOverride ?? GetIntProperty(payload: payload, propertyName: "AppId");
+        string context = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
+        string eventContext = $"{eventName}{context}";
+
+        logger.LogDebug(
+            message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+            args: [appId, eventContext]);
+
+        return (appId, eventContext);
+    }
+
+    public string SerializeWorkflowEventPayload(object payload) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [payload]);
+            return jsonBroker.Serialize(value: payload);
+        });
+
+    public ValueTask LogWorkflowEventQueueFailureAsync(
+        WorkflowEvent workflowEvent,
+        Exception exception) =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: [workflowEvent, exception]);
+
+                logger.LogWarning(
+                    exception: exception,
+                    message: "Failed to queue a new workflow instance for subscription {SubscriptionId}, flow {FlowId}.",
+                    args: [workflowEvent.Id, workflowEvent.FlowId]);
+
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
+    private static int? GetIntProperty(object payload, string propertyName) =>
+        payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload) as int?
+        ?? (payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload) is int value ? value : null);
+
+    private static string GetStringProperty(object payload, string propertyName) =>
+        payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload)?.ToString();
+
     public WorkflowEvent Get(Guid workflowEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
 
@@ -44,6 +110,8 @@ internal sealed partial class WorkflowEventProcessingService(
                 .ThenInclude(navigationPropertyPath: user => user.Roles)
                     .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
             .ToArray();
+
+        logger.LogDebug(message: "Found {Count} subscribers, calling ...", args: subscriptions.Length);
 
         return ValueTask.FromResult(result: subscriptions);
     }

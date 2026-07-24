@@ -4,9 +4,9 @@
 
 using cCoder.Workflow.Dependencies;
 
-namespace cCoder.Workflow.Services.Orchestrations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-internal sealed partial class EventHandlingOrchestrationService
+internal sealed partial class WorkflowEventCoordinationService
 {
     private static void ValidateInputs(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
