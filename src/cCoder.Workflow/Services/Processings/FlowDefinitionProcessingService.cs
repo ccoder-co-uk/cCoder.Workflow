@@ -2,8 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies;
+using cCoder.Workflow.Activities;
+using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -12,8 +15,103 @@ using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal sealed partial class FlowDefinitionProcessingService(IFlowDefinitionService service, IJsonBroker jsonBroker, ILogger<FlowDefinitionProcessingService> log) : IFlowDefinitionProcessingService
+internal sealed partial class FlowDefinitionProcessingService(
+    IFlowDefinitionService service,
+    IAuthorizationBroker authorizationBroker,
+    IJsonBroker jsonBroker,
+    ILogger<FlowDefinitionProcessingService> log)
+    : IFlowDefinitionProcessingService
 {
+    public bool AuthorizeFlowDefinitionExecution(string userId, int? appId) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [userId, appId]);
+            return ExecuteAuthorizeFlowDefinitionExecution(userId: userId, appId: appId);
+        });
+
+    private bool ExecuteAuthorizeFlowDefinitionExecution(string userId, int? appId)
+    {
+        authorizationBroker.Authorize(
+            userId: userId,
+            appId: appId,
+            privilege: "flowdefinition_execute");
+
+        return true;
+    }
+
+    public FlowInstanceData CreateFlowDefinitionQueuedFlowInstanceData(
+        FlowDefinition flowDefinition,
+        string caller,
+        string args) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [flowDefinition, caller, args]);
+
+            return ExecuteCreateFlowDefinitionQueuedFlowInstanceData(
+                flowDefinition: flowDefinition,
+                caller: caller,
+                args: args);
+        });
+
+    private FlowInstanceData ExecuteCreateFlowDefinitionQueuedFlowInstanceData(
+        FlowDefinition flowDefinition,
+        string caller,
+        string args)
+    {
+        if (flowDefinition == null)
+        {
+            throw new SecurityException("Access Denied!");
+        }
+
+        if (string.IsNullOrWhiteSpace(value: caller))
+        {
+            throw new SecurityException("Access Denied!");
+        }
+
+        Guid instanceId = Guid.NewGuid();
+        Flow flow = ParseFlow(definitionJson: flowDefinition.DefinitionJson);
+
+        if (flow == null)
+        {
+            throw new InvalidOperationException("Flow definition does not contain a valid workflow definition.");
+        }
+
+        WorkflowContext context = new()
+        {
+            ExecutionState = "Queued",
+            InstanceId = instanceId,
+            Flow = flow,
+            Variables = new Dictionary<string, object> { { "Data", args } },
+            ExecutionLog = Array.Empty<WorkflowLogEntry>()
+        };
+
+        Start start = context.Flow.Activities.OfType<Start>()
+            .FirstOrDefault();
+
+        if (start == null)
+        {
+            throw new InvalidOperationException("Flow definition does not contain a Start activity.");
+        }
+
+        start.Data = jsonBroker.ParseJson(json: args);
+
+        return new FlowInstanceData
+        {
+            Id = instanceId,
+            State = "Queued",
+            FlowDefinitionId = flowDefinition.Id,
+            Start = DateTimeOffset.UtcNow,
+            Caller = caller,
+            ContextString = jsonBroker.Serialize(value: context),
+            FlowDefinition = flowDefinition
+        };
+    }
+
+    private Flow ParseFlow(string definitionJson) =>
+        string.IsNullOrWhiteSpace(value: definitionJson)
+            ? null
+            : jsonBroker.ParseJson<Flow>(json: definitionJson);
+
     public FlowDefinition Get(Guid flowDefinitionId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowDefinitionId]); return ExecuteGet(flowDefinitionId: flowDefinitionId); });
 

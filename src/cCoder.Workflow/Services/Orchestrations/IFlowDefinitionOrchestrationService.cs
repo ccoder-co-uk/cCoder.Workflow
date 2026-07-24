@@ -11,6 +11,13 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IFlowDefinitionOrchestrationService
 {
+    bool AuthorizeFlowDefinitionExecution(string userId, int? appId);
+
+    FlowInstanceData CreateFlowDefinitionQueuedFlowInstanceData(
+        FlowDefinition flowDefinition,
+        string caller,
+        string args);
+
     FlowDefinition Get(Guid flowDefinitionId);
 
     IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false);

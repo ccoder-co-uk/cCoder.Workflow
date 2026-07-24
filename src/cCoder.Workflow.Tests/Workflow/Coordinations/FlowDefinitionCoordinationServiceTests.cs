@@ -10,9 +10,6 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Orchestrations;
 using FizzWare.NBuilder;
 using Moq;
-using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
-using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
-using JsonDependency = cCoder.Workflow.Dependencies.JsonDependency;
 
 
 namespace cCoder.Core.Services.Tests.Workflow.Coordinations;
@@ -21,7 +18,6 @@ public partial class FlowDefinitionCoordinationServiceTests
 {
     private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
     private readonly Mock<IFlowInstanceDataOrchestrationService> flowInstanceDataOrchestrationServiceMock;
-    private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
     private readonly FlowDefinitionCoordinationService coordinationService;
 
     public FlowDefinitionCoordinationServiceTests()
@@ -30,16 +26,9 @@ public partial class FlowDefinitionCoordinationServiceTests
             new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
         flowInstanceDataOrchestrationServiceMock =
             new Mock<IFlowInstanceDataOrchestrationService>(MockBehavior.Strict);
-        authorizationBrokerMock =
-            new Mock<IAuthorizationBroker>(MockBehavior.Strict);
-
         coordinationService = new FlowDefinitionCoordinationService(
             flowDefinitionOrchestrationServiceMock.Object,
-            flowInstanceDataOrchestrationServiceMock.Object,
-            authorizationBrokerMock.Object,
-            new JsonBroker(
-                jsonDependency: new JsonDependency())
-        );
+            flowInstanceDataOrchestrationServiceMock.Object);
     }
 
     private static FlowDefinition CreateRandomFlowDefinition() =>

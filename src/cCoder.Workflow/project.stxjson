@@ -3907,6 +3907,38 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
+          "Name": "AuthorizeFlowDefinitionExecution",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "CreateFlowDefinitionQueuedFlowInstanceData",
+          "Inputs": [
+            {
+              "Name": "flowDefinition",
+              "Type": "FlowDefinition"
+            },
+            {
+              "Name": "caller",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "FlowInstanceData"
+        },
+        {
           "Name": "DeleteAllFlowDefinitionAsync",
           "Inputs": [
             {
@@ -4653,6 +4685,38 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
+          "Name": "AuthorizeFlowDefinitionExecution",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "CreateFlowDefinitionQueuedFlowInstanceData",
+          "Inputs": [
+            {
+              "Name": "flowDefinition",
+              "Type": "FlowDefinition"
+            },
+            {
+              "Name": "caller",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "FlowInstanceData"
+        },
+        {
           "Name": "DeleteAllFlowDefinitionAsync",
           "Inputs": [
             {
@@ -5314,14 +5378,6 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
-      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
-      "ToType": "cCoder.Workflow.Brokers.JsonBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
       "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
     },
     {
@@ -5510,6 +5566,10 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
       "ToType": "cCoder.Workflow.Brokers.JsonBroker"
     },
     {
@@ -5593,11 +5653,18 @@
       "LineNumber": 16
     },
     {
-      "Code": "STXC001",
-      "Description": "The service must have two or three OrchestrationService dependencies.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
-      "LineNumber": 15
+      "LineNumber": 43
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
+      "LineNumber": 53
     },
     {
       "Code": "STXO001",
@@ -5610,15 +5677,15 @@
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "LineNumber": 7
+      "Type": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
+      "LineNumber": 23
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "LineNumber": 140
+      "Type": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
+      "LineNumber": 111
     },
     {
       "Code": "STXO001",
@@ -5631,15 +5698,15 @@
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 14
+      "Type": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "LineNumber": 42
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 196
+      "Type": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "LineNumber": 216
     }
   ]
 }

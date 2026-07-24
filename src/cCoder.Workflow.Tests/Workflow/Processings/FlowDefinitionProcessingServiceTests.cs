@@ -20,6 +20,7 @@ namespace cCoder.Core.Services.Tests.Workflow.Processings;
 public partial class FlowDefinitionProcessingServiceTests
 {
     private readonly Mock<IFlowDefinitionService> flowDefinitionServiceMock = new();
+    private readonly Mock<IAuthorizationBroker> authorizationBrokerMock = new();
     private readonly Mock<IJsonBroker> jsonBrokerMock = new();
     private readonly Mock<ILogger<FlowDefinitionProcessingService>> loggerMock = new();
     private readonly FlowDefinitionProcessingService flowDefinitionProcessingService;
@@ -28,6 +29,7 @@ public partial class FlowDefinitionProcessingServiceTests
     {
         flowDefinitionProcessingService = new FlowDefinitionProcessingService(
             flowDefinitionServiceMock.Object,
+            authorizationBrokerMock.Object,
             jsonBrokerMock.Object,
             loggerMock.Object
         );

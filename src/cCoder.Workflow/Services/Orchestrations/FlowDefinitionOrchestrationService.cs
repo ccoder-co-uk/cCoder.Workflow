@@ -13,6 +13,27 @@ internal sealed partial class FlowDefinitionOrchestrationService(
     IFlowDefinitionEventProcessingService eventService)
         : IFlowDefinitionOrchestrationService
 {
+    public bool AuthorizeFlowDefinitionExecution(string userId, int? appId) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [userId, appId]);
+            return processingService.AuthorizeFlowDefinitionExecution(userId: userId, appId: appId);
+        });
+
+    public FlowInstanceData CreateFlowDefinitionQueuedFlowInstanceData(
+        FlowDefinition flowDefinition,
+        string caller,
+        string args) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [flowDefinition, caller, args]);
+
+            return processingService.CreateFlowDefinitionQueuedFlowInstanceData(
+                flowDefinition: flowDefinition,
+                caller: caller,
+                args: args);
+        });
+
     public FlowDefinition Get(Guid flowDefinitionId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowDefinitionId]); return ExecuteGet(flowDefinitionId: flowDefinitionId); });
 
