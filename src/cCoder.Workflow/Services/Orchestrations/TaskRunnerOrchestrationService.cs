@@ -75,15 +75,15 @@ internal sealed class TaskRunnerOrchestrationService(
             cancellationToken.ThrowIfCancellationRequested();
 
             log.LogDebug(
-                "Running task {Name} ({Id}), due to be run since @ {DueTime}",
-                task.Name,
-                task.Id,
-                task.NextExecution?.ToString(format: "HH:mm:ss"));
+                message: "Running task {Name} ({Id}), due to be run since @ {DueTime}",
+                args: [task.Name, task.Id, task.NextExecution?.ToString(format: "HH:mm:ss")]);
 
             await RunTaskAsync(events: events, task: task, cancellationToken: cancellationToken);
             dueTasksExecuted++;
 
-            log.LogDebug("Running task {Name} ({Id}) complete", task.Name, task.Id);
+            log.LogDebug(
+                message: "Running task {Name} ({Id}) complete",
+                args: [task.Name, task.Id]);
         }
 
         log.LogInformation(message: "{Count} Scheduled executions run.", args: dueTasksExecuted);
@@ -109,10 +109,8 @@ internal sealed class TaskRunnerOrchestrationService(
             if (matchedEvents.Any(predicate: calendarEvent => calendarEvent.Start.Date == DateTimeOffset.Now.Date))
             {
                 log.LogDebug(
-                    "Task {Id} - {Name} in app {AppId} skipped due to excluded date",
-                    task.Id,
-                    task.Name,
-                    task.AppId);
+                    message: "Task {Id} - {Name} in app {AppId} skipped due to excluded date",
+                    args: [task.Id, task.Name, task.AppId]);
 
                 return;
             }

@@ -27,7 +27,8 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     private string BaseUrl { get; } = "/Api/Workflow/ScheduledTask";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededScheduledTaskContext(int AppId, Guid RoleId, Guid FlowId);
     private sealed record ODataEnvelope<T>(List<T> Value);

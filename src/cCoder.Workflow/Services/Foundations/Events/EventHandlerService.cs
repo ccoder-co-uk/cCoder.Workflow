@@ -57,7 +57,8 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandl
         ListenToFlowDefinitionDeleteEvents();
     }
 
-    void ListenToPackageEvents() => ListenToPackageImportEvents();
+    void ListenToPackageEvents() =>
+        ListenToPackageImportEvents();
 
     void ListenToWorkflowTriggerEvents()
     {
@@ -136,8 +137,10 @@ handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(fl
 
     void ListenToPackageImportEvents() =>
         eventHubBroker.ListenToEvent<(int appId, Package package), IWorkflowMigrationAggregationService>(
-eventName: "package_import",
-handler: (service, args) => service.ImportPackageAsync(appId: args.appId, package: ToLocalPackage(args.package)));
+            eventName: "package_import",
+            handler: (service, args) => service.ImportPackageAsync(
+                appId: args.appId,
+                package: ToLocalPackage(package: args.package)));
 
     void ListenToWorkflowTriggerEvents<T>(string eventStem)
     {

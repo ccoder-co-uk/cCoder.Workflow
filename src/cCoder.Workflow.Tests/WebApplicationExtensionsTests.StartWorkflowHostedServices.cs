@@ -76,7 +76,8 @@ implementationInstance: new MockWorkflowMetadataTypeService());
 
         public int ListenToQueuedFlowInstanceExecuteEventsCallCount { get; private set; }
 
-        public void ListenToAllEvents() => ListenToAllEventsCallCount++;
+        public void ListenToAllEvents() =>
+            ListenToAllEventsCallCount++;
 
         public void ListenToScheduledTaskExecuteEvents() =>
             ListenToScheduledTaskExecuteEventsCallCount++;
@@ -89,26 +90,35 @@ implementationInstance: new MockWorkflowMetadataTypeService());
     {
         private readonly HashSet<string> keys = [];
 
-        public bool Contains(string key) => keys.Contains(item: key);
+        public bool Contains(string key) =>
+            keys.Contains(item: key);
 
-        public string[] Get(string key) => [];
+        public string[] Get(string key) =>
+            [];
 
-        public string[] GetAll() => [];
+        public string[] GetAll() =>
+            [];
 
-        public void Clear(string key) => keys.Remove(item: key);
+        public void Clear(string key) =>
+            keys.Remove(item: key);
 
-        public void Set(string key, IEnumerable<string> values) => keys.Add(item: key);
+        public void Set(string key, IEnumerable<string> values) =>
+            keys.Add(item: key);
     }
 
     private sealed class MockWorkflowMetadataTypeService
         : cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService
     {
-        public cCoder.Workflow.Api.OData.MetadataContainerSet GetCoreMetadata() => new();
+        public cCoder.Workflow.Api.OData.MetadataContainerSet GetCoreMetadata() =>
+            new();
 
-        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownActivityTypes() => [];
+        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownActivityTypes() =>
+            [];
 
-        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownSystemTypes() => [];
+        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownSystemTypes() =>
+            [];
 
-        public cCoder.Workflow.Api.OData.MetadataContainerSet GetSharedMetadata() => new();
+        public cCoder.Workflow.Api.OData.MetadataContainerSet GetSharedMetadata() =>
+            new();
     }
 }

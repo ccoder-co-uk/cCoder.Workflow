@@ -72,5 +72,6 @@ public class XmlFolderContentActivity : DMSActivity
         return results;
     }
 
-    private string Now() => DateTimeOffset.UtcNow.ToString(format: "HH:mm:ss");
+    private string Now() =>
+        DateTimeOffset.UtcNow.ToString(format: "HH:mm:ss");
 }

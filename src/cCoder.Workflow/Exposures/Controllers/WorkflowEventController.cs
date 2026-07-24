@@ -52,7 +52,8 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<WorkflowEvent> queryOptions) => Ok(value: Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<WorkflowEvent> queryOptions) =>
+        Ok(value: Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]

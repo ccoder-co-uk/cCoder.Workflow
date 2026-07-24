@@ -77,7 +77,8 @@ public abstract class Activity
     [JsonIgnore]
     public IScriptRunner ScriptRunner { get; set; }
 
-    public virtual Task ExecuteAsync() => Task.FromResult(result: true);
+    public virtual Task ExecuteAsync() =>
+        Task.FromResult(result: true);
 
     public void Skip()
     {

@@ -159,7 +159,8 @@ content: new StringContent(payload, Encoding.UTF8, "application/json"));
         response.EnsureSuccessStatusCode();
     }
 
-    private static HttpClient CreateApiClient(string apiRoot) => new(new HttpClientHandler
+    private static HttpClient CreateApiClient(string apiRoot) =>
+        new(new HttpClientHandler
     {
         AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
         ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain

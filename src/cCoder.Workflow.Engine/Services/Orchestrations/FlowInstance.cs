@@ -73,7 +73,8 @@ public sealed class FlowInstance
         return Complete();
     }
 
-    internal HttpClient CreateApiClient(string apiRoot) => new(new HttpClientHandler
+    internal HttpClient CreateApiClient(string apiRoot) =>
+        new(new HttpClientHandler
     {
         AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
         ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
@@ -82,7 +83,8 @@ public sealed class FlowInstance
         BaseAddress = new Uri(apiRoot)
     };
 
-    internal Task LogAsync(WorkflowLogLevel level, string message) => log(level: level, message: message);
+    internal Task LogAsync(WorkflowLogLevel level, string message) =>
+        log(level: level, message: message);
 
     private async Task<FlowInstanceData> DeserializeInstanceAsync(string rawInstance)
     {

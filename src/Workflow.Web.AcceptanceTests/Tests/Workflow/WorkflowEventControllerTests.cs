@@ -28,7 +28,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     private string BaseUrl { get; } = "/Api/Workflow/WorkflowEvent";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededWorkflowEventContext(int AppId, Guid RoleId, Guid FlowId, Guid EventId);
     private sealed record ODataEnvelope<T>(List<T> Value);

@@ -52,13 +52,6 @@
       "LineNumber": 9
     },
     {
-      "Code": "STXFORMAT002",
-      "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
-      "Severity": "Warning",
-      "Type": "Workflow.HostedServices.Controllers.HealthController",
-      "LineNumber": 14
-    },
-    {
       "Code": "STXAPI001",
       "Description": "An API controller must have exactly one business dependency.",
       "Severity": "Warning",

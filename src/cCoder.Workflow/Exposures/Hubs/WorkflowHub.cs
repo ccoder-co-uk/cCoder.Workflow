@@ -125,7 +125,7 @@ arg2: thread
             .SendAsync(method: "ConsoleReceive", arg1: level, arg2: message, arg3: thread);
     }
 
-    public virtual async Task SendTest(string message, string thread) =>
-        await Clients.Group(groupName: thread)
+    public virtual Task SendTest(string message, string thread) =>
+        Clients.Group(groupName: thread)
             .SendAsync(method: "ConsoleReceive", arg1: "test", arg2: message, arg3: thread);
 }

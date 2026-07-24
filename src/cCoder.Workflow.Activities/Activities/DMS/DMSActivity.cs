@@ -31,7 +31,8 @@ public abstract class DMSActivity : CoreActivity
         : [];
 
     protected async Task<File> GetFile(HttpClient api)
-        => ParamsAllSet()
+        =>
+        ParamsAllSet()
             ? (await api.GetODataCollection<File>(query: $"DocumentManagement/File?$filter=Folder/AppId eq {AppId} AND Path eq '{Path.ToLower()}'")).FirstOrDefault()
             : null;
 

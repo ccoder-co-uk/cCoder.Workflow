@@ -42,8 +42,10 @@ internal class ScheduledTaskService(
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false) =>
         scheduledTaskBroker.GetAllScheduledTasks(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
-        await scheduledTaskBroker.MarkScheduledTaskExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution);
+    public ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
+        scheduledTaskBroker.MarkScheduledTaskExecutedAsync(
+            scheduledTaskId: scheduledTaskId,
+            incrementNextExecution: incrementNextExecution);
 
     public bool ExecuteAsUserBelongsToApp(string executeAs, int appId) =>
         scheduledTaskBroker.ExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId);

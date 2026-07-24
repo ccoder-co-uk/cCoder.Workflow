@@ -28,7 +28,10 @@ public sealed class ScriptRunner : IScriptProcessingService
 
             string[] assembliesToLoad = Directory.GetFiles(path: binDirectory, searchPattern: "*.dll")
                 .Where(predicate: path => loadedAssemblies.All(predicate: assembly =>
-                    !string.Equals(assembly.Location, path, StringComparison.OrdinalIgnoreCase)))
+                    !string.Equals(
+                        a: assembly.Location,
+                        b: path,
+                        comparisonType: StringComparison.OrdinalIgnoreCase)))
                 .Where(predicate: path => !path.Contains(value: "api-ms-win", comparisonType: StringComparison.OrdinalIgnoreCase))
                 .ToArray();
 
@@ -138,7 +141,7 @@ arg2: $"Compilation failed:{Environment.NewLine}{exception.Message}{Environment.
             try
             {
                 return reference.GetExportedTypes()
-                    .Any(predicate: type => imports.Contains(type.Namespace));
+                    .Any(predicate: type => imports.Contains(value: type.Namespace));
             }
             catch
             {

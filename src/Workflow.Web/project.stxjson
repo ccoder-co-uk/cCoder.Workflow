@@ -277,13 +277,6 @@
       "LineNumber": 9
     },
     {
-      "Code": "STXFORMAT002",
-      "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.HealthController",
-      "LineNumber": 14
-    },
-    {
       "Code": "STXAPP005",
       "Description": "Program.cs must compose the app through IServiceCollection using SDK namespaces and one local composition namespace only.",
       "Severity": "Warning",

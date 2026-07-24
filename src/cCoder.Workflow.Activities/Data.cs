@@ -79,14 +79,18 @@ collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
         return JsonConvert.DeserializeObject<T>(value: builder.ToString());
     }
 
-    public static XDocument ParseXml(string data) => XDocument.Parse(text: data);
+    public static XDocument ParseXml(string data) =>
+        XDocument.Parse(text: data);
 
-    public static T ParseJson<T>(string data) => JsonConvert.DeserializeObject<T>(value: data, settings: ObjectExtensions.GetJSONSettings());
+    public static T ParseJson<T>(string data) =>
+        JsonConvert.DeserializeObject<T>(value: data, settings: ObjectExtensions.GetJSONSettings());
 
-    public static object ParseJson(string data) => JsonConvert.DeserializeObject(value: data, settings: ObjectExtensions.GetJSONSettings());
+    public static object ParseJson(string data) =>
+        JsonConvert.DeserializeObject(value: data, settings: ObjectExtensions.GetJSONSettings());
 
     public static IEnumerable<T> ParseCSV<T>(string data, CSVParseConfig config)
-        where T : new() => CSVParser<T>.Parse(csvData: data, options: config);
+        where T : new() =>
+        CSVParser<T>.Parse(csvData: data, options: config);
 }
 
 internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer)

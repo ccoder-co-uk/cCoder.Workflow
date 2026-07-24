@@ -25,7 +25,8 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     private string BaseUrl { get; } = "/Api/Workflow/Calendar";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededCalendarContext(int AppId, Guid RoleId);
     private sealed record ODataEnvelope<T>(List<T> Value);

@@ -14,9 +14,12 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal class CalendarEventEventProcessingService(ICalendarEventEventService eventService) : ICalendarEventEventProcessingService
 {
-    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity) => eventService.RaiseCalendarEventAddEventAsync(entity: entity);
+    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity) =>
+        eventService.RaiseCalendarEventAddEventAsync(entity: entity);
 
-    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity) => eventService.RaiseCalendarEventUpdateEventAsync(entity: entity);
+    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity) =>
+        eventService.RaiseCalendarEventUpdateEventAsync(entity: entity);
 
-    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity) => eventService.RaiseCalendarEventDeleteEventAsync(entity: entity);
+    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity) =>
+        eventService.RaiseCalendarEventDeleteEventAsync(entity: entity);
 }

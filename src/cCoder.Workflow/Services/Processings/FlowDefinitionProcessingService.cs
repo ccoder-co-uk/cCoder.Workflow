@@ -44,7 +44,11 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
     public async ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdate(IEnumerable<FlowDefinition> items)
     {
         FlowDefinition[] itemArray = items.ToArray();
-        log.LogDebug(message: "AddOrUpdate:\n" + jsonBroker.Serialize(value: itemArray.Select(i => new { i.Id, i.Name })));
+        log.LogDebug(
+            message: "AddOrUpdate:\n"
+                + jsonBroker.Serialize(
+                    value: itemArray.Select(
+                        selector: item => new { item.Id, item.Name })));
         List<Result<FlowDefinition>> results = new List<Result<FlowDefinition>>();
 
         foreach (FlowDefinition item in itemArray)

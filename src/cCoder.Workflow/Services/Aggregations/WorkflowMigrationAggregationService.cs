@@ -97,7 +97,9 @@ action: calendar =>
 
                 calendar.Id =
                     existingCalendars.FirstOrDefault(predicate: existing =>
-                        existing.Name.Equals(calendar.Name, StringComparison.OrdinalIgnoreCase))
+                        existing.Name.Equals(
+                            value: calendar.Name,
+                            comparisonType: StringComparison.OrdinalIgnoreCase))
                     ?.Id ?? 0;
             });
 
@@ -152,9 +154,8 @@ action: calendar =>
         }
 
         logger.LogDebug(
-            "Importing {CalendarEventCount} new calendar events for app {AppId}",
-            calendarEventsToAdd.Count,
-            appId);
+            message: "Importing {CalendarEventCount} new calendar events for app {AppId}",
+            args: [calendarEventsToAdd.Count, appId]);
 
         _ = await calendarEventOrchestrationService.AddOrUpdate(items: [.. calendarEventsToAdd]);
     }

@@ -33,7 +33,8 @@ public abstract class TemplatingActivity<T> : ApiActivity
     }
 
     protected async Task<App> GetApp(HttpClient api)
-        => await api.Get<App>(query: $"ContentManagement/App({AppId})?$expand=MailServers");
+        =>
+        await api.Get<App>(query: $"ContentManagement/App({AppId})?$expand=MailServers");
 
     protected string BuildRenderQuery() =>
         $"ContentManagement/Template/Render()?appId={AppId}&name={Uri.EscapeDataString(stringToEscape: TemplateName ?? string.Empty)}&culture={Uri.EscapeDataString(stringToEscape: Culture ?? string.Empty)}";

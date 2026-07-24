@@ -13,9 +13,12 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal class FlowDefinitionEventProcessingService(IFlowDefinitionEventService eventService) : IFlowDefinitionEventProcessingService
 {
-    public ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity) => eventService.RaiseFlowDefinitionAddEventAsync(entity: entity);
+    public ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity) =>
+        eventService.RaiseFlowDefinitionAddEventAsync(entity: entity);
 
-    public ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity) => eventService.RaiseFlowDefinitionUpdateEventAsync(entity: entity);
+    public ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity) =>
+        eventService.RaiseFlowDefinitionUpdateEventAsync(entity: entity);
 
-    public ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity) => eventService.RaiseFlowDefinitionDeleteEventAsync(entity: entity);
+    public ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity) =>
+        eventService.RaiseFlowDefinitionDeleteEventAsync(entity: entity);
 }

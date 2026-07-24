@@ -67,7 +67,7 @@ namespace cCoder.Workflow.Api.OData
         private static IEnumerable<OperationContainer> GetBaseCrudOperationsForJoinEntity(
             MetadataContainer type
         ) =>
-        [
+            [
             new()
         {
             Name = "Add",
@@ -108,7 +108,7 @@ namespace cCoder.Workflow.Api.OData
         private static IEnumerable<OperationContainer> GetBaseCrudOperationsForEntity(
             MetadataContainer type
         ) =>
-        [
+            [
             new()
         {
             Name = "Add",

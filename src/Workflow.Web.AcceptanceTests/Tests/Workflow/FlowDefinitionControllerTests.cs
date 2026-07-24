@@ -29,7 +29,8 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     private string BaseUrl { get; } = "/Api/Workflow/FlowDefinition";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededFlowDefinitionContext(int AppId, Guid RoleId, Guid FlowId);
     private sealed record ODataEnvelope<T>(List<T> Value);

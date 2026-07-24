@@ -28,7 +28,9 @@ internal sealed class EventHandlingOrchestrationService(
         string context = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
         string eventContext = $"{eventName}{context}";
 
-        log.LogDebug("Workflow trigger event: AppId {AppId}, Context {EventContext}", appId, eventContext);
+        log.LogDebug(
+            message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+            args: [appId, eventContext]);
 
         WorkflowEvent[] subscriptions = await workflowEventProcessingService.GetSubscriptionsAsync(
 appId: appId.Value,
@@ -58,10 +60,9 @@ args: args);
         catch (Exception ex)
         {
             log.LogWarning(
-                ex,
-                "Failed to queue a new workflow instance for subscription {SubscriptionId}, flow {FlowId}.",
-                subscription.Id,
-                subscription.FlowId);
+                exception: ex,
+                message: "Failed to queue a new workflow instance for subscription {SubscriptionId}, flow {FlowId}.",
+                args: [subscription.Id, subscription.FlowId]);
         }
     }
 

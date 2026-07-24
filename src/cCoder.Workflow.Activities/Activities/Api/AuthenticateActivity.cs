@@ -40,10 +40,12 @@ public class AuthenticateActivity : ApiActivity
     }
 
     public static async Task<T> ReadAsAsync<T>(HttpContent content)
-        => JsonConvert.DeserializeObject<T>(value: await content.ReadAsStringAsync());
+        =>
+        JsonConvert.DeserializeObject<T>(value: await content.ReadAsStringAsync());
 
     static string Json(object source)
-        => JsonConvert.SerializeObject(value: source, settings: new JsonSerializerSettings
+        =>
+        JsonConvert.SerializeObject(value: source, settings: new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             TypeNameHandling = TypeNameHandling.None,

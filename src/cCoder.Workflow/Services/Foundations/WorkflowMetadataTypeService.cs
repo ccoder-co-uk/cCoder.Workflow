@@ -37,7 +37,7 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
         };
 
     public MetadataContainerSet[] GetKnownActivityTypes() =>
-    [
+        [
         Set(name:"ApiActivity",
 types:        [
             typeof(ApiPostBatch),
@@ -109,7 +109,7 @@ types:        [
     ];
 
     public MetadataContainerSet[] GetKnownSystemTypes() =>
-    [
+        [
         new MetadataContainerSet
         {
             Name = "System",

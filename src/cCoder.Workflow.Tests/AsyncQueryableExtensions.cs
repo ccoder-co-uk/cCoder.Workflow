@@ -41,7 +41,8 @@ internal sealed class TestAsyncQueryProvider<TEntity>(Expression expression) : I
     public IQueryable<TElement> CreateQuery<TElement>(Expression queryExpression) =>
         new TestAsyncEnumerable<TElement>(queryExpression);
 
-    public object Execute(Expression queryExpression) => CreateProvider()
+    public object Execute(Expression queryExpression) =>
+        CreateProvider()
             .Execute(expression: queryExpression)!;
 
     public TResult Execute<TResult>(Expression queryExpression) =>
@@ -85,5 +86,6 @@ internal sealed class TestAsyncEnumerator<T>(IEnumerator<T> inner) : IAsyncEnume
         return ValueTask.CompletedTask;
     }
 
-    public ValueTask<bool> MoveNextAsync() => new(inner.MoveNext());
+    public ValueTask<bool> MoveNextAsync() =>
+        new(inner.MoveNext());
 }

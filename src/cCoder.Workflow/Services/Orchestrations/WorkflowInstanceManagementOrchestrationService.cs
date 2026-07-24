@@ -45,7 +45,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     }
 
     public object[] GetStats()
-        => workflowInstanceManagementBroker.GetFailedExecutionStats();
+        =>
+        workflowInstanceManagementBroker.GetFailedExecutionStats();
 
     public async Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
     {
@@ -139,9 +140,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         if (dropCount > 0)
         {
             log.LogInformation(
-                "Dropped {Count} Workflow instances older than {MaxAge}.",
-                dropCount,
-                GetInstanceMaintenanceMaxAge());
+                message: "Dropped {Count} Workflow instances older than {MaxAge}.",
+                args: [dropCount, GetInstanceMaintenanceMaxAge()]);
         }
     }
 
@@ -153,9 +153,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         if (requeueCount > 0)
         {
             log.LogWarning(
-                "Requeued {Count} Workflow instances that were still executing after {Timeout}.",
-                requeueCount,
-                GetExecutingInstanceTimeout());
+                message: "Requeued {Count} Workflow instances that were still executing after {Timeout}.",
+                args: [requeueCount, GetExecutingInstanceTimeout()]);
         }
     }
 
@@ -183,9 +182,8 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
                 string errorDetails = await result.Content.ReadAsStringAsync();
 
                 log.LogError(
-                    "Flow instance {InstanceId} execution failed.\n{ErrorDetails}",
-                    dbInstance.Id,
-                    errorDetails);
+                    message: "Flow instance {InstanceId} execution failed.\n{ErrorDetails}",
+                    args: [dbInstance.Id, errorDetails]);
 
                 await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
 flowInstanceDataId: dbInstance.Id,

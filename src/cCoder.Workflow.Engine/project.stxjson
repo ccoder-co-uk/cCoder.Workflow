@@ -415,13 +415,6 @@
       "LineNumber": 162
     },
     {
-      "Code": "STXFORMAT002",
-      "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 162
-    },
-    {
       "Code": "STX0006",
       "Description": "Business implementation classes should be internal by default.",
       "Severity": "Warning",
@@ -574,20 +567,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
       "LineNumber": 76
-    },
-    {
-      "Code": "STXFORMAT002",
-      "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 76
-    },
-    {
-      "Code": "STXFORMAT002",
-      "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowInstance",
-      "LineNumber": 85
     },
     {
       "Code": "STX0006",
@@ -793,25 +772,11 @@
       "LineNumber": 13
     },
     {
-      "Code": "STXFORMAT005",
-      "Description": "Method call arguments must declare their parameter names.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 31
-    },
-    {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 128
-    },
-    {
-      "Code": "STXFORMAT005",
-      "Description": "Method call arguments must declare their parameter names.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 141
+      "LineNumber": 131
     }
   ]
 }
