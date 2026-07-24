@@ -257,7 +257,8 @@ implementationInstance: new Config
             ["Settings__enableExternalEventing"] = "true",
             ["Services__Workflow"] = WorkflowBaseAddress.ToString(),
             ["Eventing__ProviderType"] = "Http",
-            ["Eventing__Http__MaxConcurrency"] = "1"
+            ["Eventing__Http__MaxConcurrency"] = "1",
+            ["Workflow__QueueInstanceBackgroundServiceDependency__PollingIntervalSeconds"] = "1"
         };
 
     private async Task BuildApplicationAsync(string projectPath, string outputDirectory, string intermediateDirectory)

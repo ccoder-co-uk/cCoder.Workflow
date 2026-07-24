@@ -106,7 +106,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
         await RunQueueInstanceBackgroundServiceDependencyAsync(cancellationToken: cancellationToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes: 1));
+        using PeriodicTimer timer = new(GetQueuePollingInterval());
 
         while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: cancellationToken))
         {
@@ -261,4 +261,9 @@ content: new StringContent(JsonSerializer.Serialize(value: request), System.Text
 
     private TimeSpan GetExecutingInstanceTimeout() =>
         TimeSpan.FromMinutes(value: appConfiguration.GetValue<double?>(key: "Workflow:QueueInstanceBackgroundServiceDependency:ExecutingTimeoutMinutes") ?? 30);
+
+    private TimeSpan GetQueuePollingInterval() =>
+        TimeSpan.FromSeconds(
+            value: appConfiguration.GetValue<double?>(
+                key: "Workflow:QueueInstanceBackgroundServiceDependency:PollingIntervalSeconds") ?? 60);
 }

@@ -10,12 +10,12 @@ public static partial class UIBaseline
 {
     private static Package CreatePageRolesPackage() =>
         new()
-    {
-        Name = "Workflow Page Roles",
-        Category = "Workflow",
-        Description = "Workflow Page Roles.",
-        SourceApi = "https://ccoder.co.uk/Api/",
-        Items =
+        {
+            Name = "Workflow Page Roles",
+            Category = "Workflow",
+            Description = "Workflow Page Roles.",
+            SourceApi = "https://ccoder.co.uk/Api/",
+            Items =
         [
             new PackageItem
             {
@@ -168,5 +168,5 @@ public static partial class UIBaseline
 """
             }
         ]
-    };
+        };
 }

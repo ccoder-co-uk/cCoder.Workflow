@@ -10,12 +10,12 @@ public static partial class UIBaseline
 {
     private static Package CreateCalendarsPackage() =>
         new()
-    {
-        Name = "Workflow Calendars",
-        Category = "Workflow",
-        Description = "Workflow Calendars.",
-        SourceApi = "https://ccoder.co.uk/Api/",
-        Items =
+        {
+            Name = "Workflow Calendars",
+            Category = "Workflow",
+            Description = "Workflow Calendars.",
+            SourceApi = "https://ccoder.co.uk/Api/",
+            Items =
         [
             new PackageItem
             {
@@ -28,5 +28,5 @@ public static partial class UIBaseline
 """
             },
         ]
-    };
+        };
 }
