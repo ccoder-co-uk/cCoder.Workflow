@@ -33,7 +33,7 @@ public partial class ScheduledTaskController : ODataController
     }
 
     [HttpPost]
-    public async Task<IActionResult> ExecuteAsync(
+    public async Task<IActionResult> PostAsync(
         [FromRoute] int key,
         bool incrementNextExecution = true
     )
@@ -133,7 +133,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] int key, Delta<ScheduledTask> delta)
+    public async Task<IActionResult> Put([FromRoute] int key, Delta<ScheduledTask> delta)
     {
         ScheduledTask originalEntity = service.Get(scheduledTaskId: key);
 

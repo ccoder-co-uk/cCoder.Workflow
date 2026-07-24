@@ -83,7 +83,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.AddAsync(entity: entity));
+        return Ok(value: await service.PostFlowDefinitionAsync(entity: entity));
     }
 
     [HttpPut]
@@ -102,11 +102,11 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.UpdateAsync(entity: entity));
+        return Ok(value: await service.PutFlowDefinitionAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<FlowDefinition> delta)
+    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> delta)
     {
         FlowDefinition originalEntity = service.Get(flowDefinitionId: key);
 
@@ -116,7 +116,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         }
 
         delta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateAsync(entity: originalEntity));
+        return Ok(value: await service.PutFlowDefinitionAsync(entity: originalEntity));
     }
 
     [HttpDelete]
@@ -127,18 +127,18 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     }
 
     [HttpPost]
-    public async Task<IActionResult> ExecuteAsync([FromRoute] Guid key)
+    public async Task<IActionResult> PostAsync([FromRoute] Guid key)
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
         string asUserId = User?.Identity?.Name;
-        return Ok(value: await service.QueueAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
+        return Ok(value: await service.PostFlowDefinitionQueueAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
     }
 
     [HttpPost]
-    public async Task<IActionResult> ExecuteScript()
+    public async Task<IActionResult> PostScript()
     {
         string script = await new StreamReader(Request.Body).ReadToEndAsync();
-        return Ok(value: await service.ExecuteScriptAsync(script: script));
+        return Ok(value: await service.PostScriptAsync(script: script));
     }
 
     [HttpGet]
@@ -150,14 +150,14 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
-    public IActionResult KnownActivityTypes()
+    public IActionResult GetKnownActivityTypes()
     {
         return Ok(value: service.GetKnownActivityTypes());
     }
 
     [AllowAnonymous]
     [HttpGet]
-    public IActionResult KnownSystemTypes()
+    public IActionResult GetKnownSystemTypes()
     {
         return Ok(value: service.GetKnownSystemTypes());
     }

@@ -1620,20 +1620,6 @@
           "ReturnType": "IActionResult"
         },
         {
-          "Name": "Patch",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "delta",
-              "Type": "Delta\u003CCalendar\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
           "Name": "Post",
           "Inputs": [
             {
@@ -1653,6 +1639,20 @@
             {
               "Name": "entity",
               "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "delta",
+              "Type": "Delta\u003CCalendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1700,20 +1700,6 @@
           "ReturnType": "IActionResult"
         },
         {
-          "Name": "Patch",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "delta",
-              "Type": "Delta\u003CCalendarEvent\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
           "Name": "Post",
           "Inputs": [
             {
@@ -1736,6 +1722,20 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "delta",
+              "Type": "Delta\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         }
       ]
     },
@@ -1752,21 +1752,6 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Guid"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
-          "Name": "ExecuteScript",
-          "Inputs": [],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         },
         {
@@ -1790,33 +1775,19 @@
           "ReturnType": "IActionResult"
         },
         {
+          "Name": "GetKnownActivityTypes",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetKnownSystemTypes",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
           "Name": "GetMetadata",
           "Inputs": [],
           "ReturnType": "IActionResult"
-        },
-        {
-          "Name": "KnownActivityTypes",
-          "Inputs": [],
-          "ReturnType": "IActionResult"
-        },
-        {
-          "Name": "KnownSystemTypes",
-          "Inputs": [],
-          "ReturnType": "IActionResult"
-        },
-        {
-          "Name": "Patch",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "delta",
-              "Type": "Delta\u003CFlowDefinition\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         },
         {
           "Name": "Post",
@@ -1826,6 +1797,21 @@
               "Type": "FlowDefinition"
             }
           ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "PostAsync",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "PostScript",
+          "Inputs": [],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         },
         {
@@ -1841,6 +1827,20 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "delta",
+              "Type": "Delta\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         }
       ]
     },
@@ -1850,16 +1850,6 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "FlowDefinition"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
-        },
-        {
           "Name": "DeleteAsync",
           "Inputs": [
             {
@@ -1868,16 +1858,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
-          "Name": "ExecuteScriptAsync",
-          "Inputs": [
-            {
-              "Name": "script",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
         },
         {
           "Name": "Get",
@@ -1905,7 +1885,17 @@
           "ReturnType": "cCoder.Workflow.Api.OData.MetadataContainerSet[]"
         },
         {
-          "Name": "QueueAsync",
+          "Name": "PostFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "PostFlowDefinitionQueueAsync",
           "Inputs": [
             {
               "Name": "flowDefinitionId",
@@ -1923,7 +1913,17 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
         },
         {
-          "Name": "UpdateAsync",
+          "Name": "PostScriptAsync",
+          "Inputs": [
+            {
+              "Name": "script",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
+        },
+        {
+          "Name": "PutFlowDefinitionAsync",
           "Inputs": [
             {
               "Name": "entity",
@@ -1975,20 +1975,6 @@
           "ReturnType": "IActionResult"
         },
         {
-          "Name": "Patch",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "delta",
-              "Type": "Delta\u003CFlowInstanceData\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
           "Name": "Post",
           "Inputs": [
             {
@@ -2011,6 +1997,20 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "delta",
+              "Type": "Delta\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         }
       ]
     },
@@ -2025,20 +2025,6 @@
             {
               "Name": "key",
               "Type": "System.Int32"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
-          "Name": "ExecuteAsync",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "incrementNextExecution",
-              "Type": "System.Boolean"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -2069,22 +2055,36 @@
           "ReturnType": "IActionResult"
         },
         {
-          "Name": "Patch",
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "PostAsync",
           "Inputs": [
             {
               "Name": "key",
               "Type": "System.Int32"
             },
             {
-              "Name": "delta",
-              "Type": "Delta\u003CScheduledTask\u003E"
+              "Name": "incrementNextExecution",
+              "Type": "System.Boolean"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
         },
         {
-          "Name": "Post",
+          "Name": "Put",
           "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
             {
               "Name": "entity",
               "Type": "ScheduledTask"
@@ -2100,8 +2100,8 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "entity",
-              "Type": "ScheduledTask"
+              "Name": "delta",
+              "Type": "Delta\u003CScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -2149,20 +2149,6 @@
           "ReturnType": "IActionResult"
         },
         {
-          "Name": "Patch",
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "delta",
-              "Type": "Delta\u003CWorkflowEvent\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
-        },
-        {
           "Name": "Post",
           "Inputs": [
             {
@@ -2182,6 +2168,20 @@
             {
               "Name": "entity",
               "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "delta",
+              "Type": "Delta\u003CWorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -5788,55 +5788,6 @@
       "LineNumber": 10
     },
     {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 123
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 125
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 108
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 129
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 137
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 144
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 158
-    },
-    {
       "Code": "STXAPI001",
       "Description": "An API controller must have exactly one business dependency.",
       "Severity": "Warning",
@@ -5856,62 +5807,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
       "LineNumber": 18
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 32
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 35
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 41
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 47
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 125
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 35
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 135
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 121
     },
     {
       "Code": "STXE005",

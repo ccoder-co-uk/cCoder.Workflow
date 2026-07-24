@@ -14,15 +14,15 @@ public interface IFlowDefinitionControllerService
 
     IQueryable<FlowDefinition> GetAll();
 
-    ValueTask<FlowDefinition> AddAsync(FlowDefinition entity);
+    ValueTask<FlowDefinition> PostFlowDefinitionAsync(FlowDefinition entity);
 
-    ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity);
+    ValueTask<FlowDefinition> PutFlowDefinitionAsync(FlowDefinition entity);
 
     ValueTask DeleteAsync(Guid flowDefinitionId);
 
-    ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args);
+    ValueTask<Guid> PostFlowDefinitionQueueAsync(Guid flowDefinitionId, string asUserId, string args);
 
-    Task<string> ExecuteScriptAsync(string script);
+    Task<string> PostScriptAsync(string script);
 
     MetadataContainerSet[] GetKnownActivityTypes();
 

@@ -26,7 +26,7 @@ public partial class FlowDefinitionControllerServiceTests
             .Setup(expression: service => service.QueueAsync(flowDefinitionId: flowId, asUserId: currentUser.Id, args: "{}"))
             .ReturnsAsync(value: queuedId);
 
-        Guid result = await service.QueueAsync(flowDefinitionId: flowId, asUserId: null, args: "{}");
+        Guid result = await service.PostFlowDefinitionQueueAsync(flowDefinitionId: flowId, asUserId: null, args: "{}");
 
         result.Should()
             .Be(expected: queuedId);
@@ -51,7 +51,7 @@ times: Times.Once);
             .Setup(expression: service => service.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}"))
             .ReturnsAsync(value: queuedId);
 
-        Guid result = await service.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}");
+        Guid result = await service.PostFlowDefinitionQueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}");
 
         result.Should()
             .Be(expected: queuedId);

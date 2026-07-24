@@ -29,22 +29,22 @@ public sealed class FlowDefinitionControllerService(
     public IQueryable<FlowDefinition> GetAll() =>
         flowDefinitionOrchestrationService.GetAll();
 
-    public ValueTask<FlowDefinition> AddAsync(FlowDefinition entity) =>
+    public ValueTask<FlowDefinition> PostFlowDefinitionAsync(FlowDefinition entity) =>
         flowDefinitionOrchestrationService.AddAsync(entity: entity);
 
-    public ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity) =>
+    public ValueTask<FlowDefinition> PutFlowDefinitionAsync(FlowDefinition entity) =>
         flowDefinitionOrchestrationService.UpdateAsync(entity: entity);
 
     public ValueTask DeleteAsync(Guid flowDefinitionId) =>
         flowDefinitionOrchestrationService.DeleteAsync(flowDefinitionId: flowDefinitionId);
 
-    public ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args)
+    public ValueTask<Guid> PostFlowDefinitionQueueAsync(Guid flowDefinitionId, string asUserId, string args)
     {
         string callerId = ResolveCallerId(asUserId: asUserId);
         return flowDefinitionCoordinationService.QueueAsync(flowDefinitionId: flowDefinitionId, asUserId: callerId, args: args);
     }
 
-    public async Task<string> ExecuteScriptAsync(string script)
+    public async Task<string> PostScriptAsync(string script)
     {
         using HttpClient api = new(
             new HttpClientHandler
