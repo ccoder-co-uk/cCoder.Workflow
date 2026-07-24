@@ -25,7 +25,7 @@ public partial class FlowInstanceDataServiceTests
 
         FlowInstanceData submitted = null;
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()))
+        flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_update"));
@@ -63,7 +63,7 @@ times: Times.Once
         );
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 
@@ -83,7 +83,7 @@ times: Times.Once
         // Given
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()))
+        flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -99,7 +99,7 @@ times: Times.Once
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 

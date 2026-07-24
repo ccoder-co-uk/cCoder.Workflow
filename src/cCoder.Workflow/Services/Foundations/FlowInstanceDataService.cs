@@ -50,7 +50,7 @@ internal sealed partial class FlowInstanceDataService(
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
-appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
+appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_create"
         );
 
@@ -101,7 +101,7 @@ entity: queuedFlowInstanceData
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
-appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
+appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_update"
         );
 
@@ -131,7 +131,7 @@ entity: updateFlowInstanceData
         FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
 
         authorizationBroker.Authorize(
-appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
+appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_delete"
         );
 

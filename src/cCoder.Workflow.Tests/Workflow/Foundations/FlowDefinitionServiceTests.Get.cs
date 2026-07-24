@@ -33,7 +33,7 @@ public partial class FlowDefinitionServiceTests
         flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

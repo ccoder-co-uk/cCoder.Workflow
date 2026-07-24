@@ -17,7 +17,7 @@ internal sealed partial class CalendarEventEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<CalendarEvent> message = CreateMessage(entity: entity);
+            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: entity);
 
             await calendarEventEventBroker.RaiseCalendarEventAddEventAsync(message: message);
         }, isValueTask: true);
@@ -27,7 +27,7 @@ internal sealed partial class CalendarEventEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<CalendarEvent> message = CreateMessage(entity: entity);
+            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: entity);
 
             await calendarEventEventBroker.RaiseCalendarEventUpdateEventAsync(message: message);
         }, isValueTask: true);
@@ -37,12 +37,12 @@ internal sealed partial class CalendarEventEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<CalendarEvent> message = CreateMessage(entity: entity);
+            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: entity);
 
             await calendarEventEventBroker.RaiseCalendarEventDeleteEventAsync(message: message);
         }, isValueTask: true);
 
-    private EventMessage<CalendarEvent> CreateMessage(CalendarEvent entity) =>
+    private EventMessage<CalendarEvent> CreateCalendarEventMessage(CalendarEvent entity) =>
         new()
         {
             AuthInfo = new EventAuthInfo

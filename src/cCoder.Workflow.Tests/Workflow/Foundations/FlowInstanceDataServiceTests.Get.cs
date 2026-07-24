@@ -33,7 +33,7 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 

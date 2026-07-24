@@ -23,5 +23,5 @@ public interface IFlowDefinitionBroker
 
     ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items);
 
-    int? GetAppId(FlowDefinition entity);
+    int? SelectAppId(FlowDefinition entity);
 }

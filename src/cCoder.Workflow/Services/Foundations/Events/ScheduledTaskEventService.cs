@@ -17,7 +17,7 @@ internal sealed partial class ScheduledTaskEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<ScheduledTask> message = CreateMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskAddEventAsync(message: message);
         }, isValueTask: true);
@@ -27,7 +27,7 @@ internal sealed partial class ScheduledTaskEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<ScheduledTask> message = CreateMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskUpdateEventAsync(message: message);
         }, isValueTask: true);
@@ -37,7 +37,7 @@ internal sealed partial class ScheduledTaskEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<ScheduledTask> message = CreateMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskDeleteEventAsync(message: message);
         }, isValueTask: true);
@@ -47,12 +47,12 @@ internal sealed partial class ScheduledTaskEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<ScheduledTask> message = CreateMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskExecuteEventAsync(message: message);
         }, isValueTask: true);
 
-    private EventMessage<ScheduledTask> CreateMessage(ScheduledTask entity) =>
+    private EventMessage<ScheduledTask> CreateScheduledTaskMessage(ScheduledTask entity) =>
         new()
         {
             AuthInfo = new EventAuthInfo

@@ -46,7 +46,7 @@
           "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
         },
         {
-          "Name": "GetAppId",
+          "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
@@ -976,7 +976,7 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "GetAppId",
+          "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
@@ -1043,7 +1043,7 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
         },
         {
-          "Name": "GetAppId",
+          "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
@@ -1146,16 +1146,6 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddCalendarAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "Calendar"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
-        },
-        {
           "Name": "DeleteAllCalendarsAsync",
           "Inputs": [
             {
@@ -1186,7 +1176,17 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
         },
         {
-          "Name": "GetAllCalendars",
+          "Name": "InsertCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        },
+        {
+          "Name": "SelectAllCalendars",
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -1196,7 +1196,7 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
         },
         {
-          "Name": "GetAppId",
+          "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
@@ -1222,16 +1222,6 @@
       "StandardElementType": "Broker",
       "Properties": [],
       "Methods": [
-        {
-          "Name": "AddCalendarEventAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "CalendarEvent"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
-        },
         {
           "Name": "DeleteAllCalendarEventsAsync",
           "Inputs": [
@@ -1263,7 +1253,17 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
         },
         {
-          "Name": "GetAllCalendarEvents",
+          "Name": "InsertCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "SelectAllCalendarEvents",
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -1273,7 +1273,7 @@
           "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
         },
         {
-          "Name": "GetAppId",
+          "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
@@ -1299,16 +1299,6 @@
       "StandardElementType": "Broker",
       "Properties": [],
       "Methods": [
-        {
-          "Name": "AddScheduledTaskAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "ScheduledTask"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
-        },
         {
           "Name": "DeleteAllScheduledTasksAsync",
           "Inputs": [
@@ -1340,7 +1330,37 @@
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
         },
         {
-          "Name": "ExecuteAsUserBelongsToApp",
+          "Name": "InsertScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "SelectAllScheduledTasks",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "SelectExecuteAsUserBelongsToApp",
           "Inputs": [
             {
               "Name": "executeAs",
@@ -1354,7 +1374,7 @@
           "ReturnType": "System.Boolean"
         },
         {
-          "Name": "FlowBelongsToApp",
+          "Name": "SelectFlowBelongsToApp",
           "Inputs": [
             {
               "Name": "flowId",
@@ -1368,27 +1388,7 @@
           "ReturnType": "System.Boolean"
         },
         {
-          "Name": "GetAllScheduledTasks",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
-        },
-        {
-          "Name": "GetAppId",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "ScheduledTask"
-            }
-          ],
-          "ReturnType": "System.Int32?"
-        },
-        {
-          "Name": "GetScheduledTaskForExecution",
+          "Name": "SelectScheduledTaskForExecution",
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -1398,7 +1398,17 @@
           "ReturnType": "ScheduledTask"
         },
         {
-          "Name": "MarkScheduledTaskExecutedAsync",
+          "Name": "UpdateScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "UpdateScheduledTaskExecutionAsync",
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -1407,16 +1417,6 @@
             {
               "Name": "incrementNextExecution",
               "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
-        },
-        {
-          "Name": "UpdateScheduledTaskAsync",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
@@ -1469,7 +1469,7 @@
           "ReturnType": "System.Linq.IQueryable\u003CUser\u003E"
         },
         {
-          "Name": "GetAppId",
+          "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
@@ -3509,34 +3509,6 @@
           "ReturnType": "System.Threading.Tasks.ValueTask"
         },
         {
-          "Name": "ExecuteAsUserBelongsToApp",
-          "Inputs": [
-            {
-              "Name": "executeAs",
-              "Type": "System.String"
-            },
-            {
-              "Name": "appId",
-              "Type": "System.Int32"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "FlowBelongsToApp",
-          "Inputs": [
-            {
-              "Name": "flowId",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "appId",
-              "Type": "System.Int32"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
           "Name": "Get",
           "Inputs": [
             {
@@ -3555,6 +3527,34 @@
             }
           ],
           "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "GetExecuteAsUserBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "executeAs",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "GetFlowBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "flowId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Boolean"
         },
         {
           "Name": "GetForExecution",
@@ -5730,25 +5730,11 @@
       "LineNumber": 102
     },
     {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 15
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
       "LineNumber": 19
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 24
     },
     {
       "Code": "STXB002",
@@ -5758,20 +5744,6 @@
       "LineNumber": 49
     },
     {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 69
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 15
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
@@ -5779,32 +5751,11 @@
       "LineNumber": 19
     },
     {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 24
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
       "LineNumber": 49
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 69
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 16
     },
     {
       "Code": "STXB002",
@@ -5812,20 +5763,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
       "LineNumber": 20
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 25
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 35
     },
     {
       "Code": "STXB002",
@@ -5856,39 +5793,11 @@
       "LineNumber": 56
     },
     {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 74
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 81
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
       "LineNumber": 106
-    },
-    {
-      "Code": "STXB007",
-      "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 126
     },
     {
       "Code": "STXB002",
@@ -6288,41 +6197,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
       "LineNumber": 14
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
-      "LineNumber": 45
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
-      "LineNumber": 45
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
-      "LineNumber": 45
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
-      "LineNumber": 55
-    },
-    {
-      "Code": "STX0022",
-      "Description": "Creation method names must include the concrete type they create.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
-      "LineNumber": 45
     },
     {
       "Code": "STX0004",

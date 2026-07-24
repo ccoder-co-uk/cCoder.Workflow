@@ -55,7 +55,7 @@ internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(WorkflowEvent entity)
+    public int? SelectAppId(WorkflowEvent entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 

@@ -142,8 +142,8 @@ internal sealed partial class ScheduledTaskProcessingService(
     private bool SecurityCheckTask(ScheduledTask task)
     {
         bool flag = authorizationBroker.IsAdminOfApp(appId: task.AppId);
-        bool flag2 = service.ExecuteAsUserBelongsToApp(executeAs: task.ExecuteAs, appId: task.AppId);
-        bool flag3 = service.FlowBelongsToApp(flowId: task.FlowId, appId: task.AppId);
+        bool flag2 = service.GetExecuteAsUserBelongsToApp(executeAs: task.ExecuteAs, appId: task.AppId);
+        bool flag3 = service.GetFlowBelongsToApp(flowId: task.FlowId, appId: task.AppId);
         return flag && flag2 && flag3;
     }
 }

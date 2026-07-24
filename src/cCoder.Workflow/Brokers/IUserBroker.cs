@@ -18,5 +18,5 @@ public interface IUserBroker
 
     ValueTask DeleteAllUsersAsync(IEnumerable<User> items);
 
-    int? GetAppId(User entity);
+    int? SelectAppId(User entity);
 }

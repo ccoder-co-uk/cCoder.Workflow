@@ -57,7 +57,7 @@ internal sealed class FlowInstanceDataBroker(ICoreContextFactory coreContextFact
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(FlowInstanceData entity)
+    public int? SelectAppId(FlowInstanceData entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 

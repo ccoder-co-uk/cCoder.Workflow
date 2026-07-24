@@ -25,7 +25,7 @@ public partial class FlowDefinitionServiceTests
 
         FlowDefinition submitted = null;
 
-        flowDefinitionBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()))
+        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"));
@@ -129,7 +129,7 @@ times: Times.Once
         );
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 
@@ -160,7 +160,7 @@ times: Times.Once
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

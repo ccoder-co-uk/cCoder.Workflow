@@ -17,7 +17,7 @@ internal sealed partial class WorkflowEventEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<WorkflowEvent> message = CreateMessage(entity: entity);
+            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: entity);
 
             await workflowEventEventBroker.RaiseWorkflowEventAddEventAsync(message: message);
         }, isValueTask: true);
@@ -27,7 +27,7 @@ internal sealed partial class WorkflowEventEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<WorkflowEvent> message = CreateMessage(entity: entity);
+            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: entity);
 
             await workflowEventEventBroker.RaiseWorkflowEventUpdateEventAsync(message: message);
         }, isValueTask: true);
@@ -37,12 +37,12 @@ internal sealed partial class WorkflowEventEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<WorkflowEvent> message = CreateMessage(entity: entity);
+            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: entity);
 
             await workflowEventEventBroker.RaiseWorkflowEventDeleteEventAsync(message: message);
         }, isValueTask: true);
 
-    private EventMessage<WorkflowEvent> CreateMessage(WorkflowEvent entity) =>
+    private EventMessage<WorkflowEvent> CreateWorkflowEventMessage(WorkflowEvent entity) =>
         new()
         {
             AuthInfo = new EventAuthInfo

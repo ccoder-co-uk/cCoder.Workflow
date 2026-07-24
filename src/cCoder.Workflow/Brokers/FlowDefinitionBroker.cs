@@ -102,7 +102,7 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(FlowDefinition entity)
+    public int? SelectAppId(FlowDefinition entity)
     {
         return entity.AppId;
     }

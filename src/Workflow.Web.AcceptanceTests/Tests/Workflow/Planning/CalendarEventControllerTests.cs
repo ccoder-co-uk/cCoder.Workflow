@@ -60,7 +60,7 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
 
         await core.AddUserRoleAsync(userRole: new UserRole { RoleId = role.Id, UserId = "Guest" });
 
-        Calendar calendar = await core.AddCalendarAsync(calendar: new Calendar
+        Calendar calendar = await core.InsertCalendarAsync(calendar: new Calendar
         {
             AppId = app.Id,
             Name = Unique(prefix: "Calendar"),

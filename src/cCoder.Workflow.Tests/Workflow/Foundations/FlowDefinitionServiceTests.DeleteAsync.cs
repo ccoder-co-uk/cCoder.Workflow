@@ -28,7 +28,7 @@ public partial class FlowDefinitionServiceTests
             .Setup(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true))
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
-        flowDefinitionBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()))
+        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"));
@@ -57,7 +57,7 @@ times: Times.Once
         );
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 
@@ -97,7 +97,7 @@ times: Times.Once
         flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: true), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

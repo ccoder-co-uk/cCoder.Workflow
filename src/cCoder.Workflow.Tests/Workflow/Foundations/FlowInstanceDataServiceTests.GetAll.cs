@@ -43,7 +43,7 @@ expectation: flowInstanceDataItems.Select(selector: item => (FlowInstanceData)it
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>()),
+expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 

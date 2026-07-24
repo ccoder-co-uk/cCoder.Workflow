@@ -27,10 +27,10 @@ public partial class WorkflowEventServiceTests
             .Setup(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false))
             .Returns(value: new[] { workflowEvent }.AsQueryable());
 
-        workflowEventBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()))
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
 
-        workflowEventBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()))
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_delete"));
@@ -59,7 +59,7 @@ times: Times.Once
         );
 
         workflowEventBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()),
+expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
 
@@ -83,7 +83,7 @@ times: Times.Once
             .Setup(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false))
             .Returns(value: new[] { workflowEvent }.AsQueryable());
 
-        workflowEventBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()))
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -101,7 +101,7 @@ times: Times.Once
         workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
 
         workflowEventBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()),
+expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
 

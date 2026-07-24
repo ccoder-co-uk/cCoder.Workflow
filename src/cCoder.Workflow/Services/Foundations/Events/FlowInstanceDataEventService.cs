@@ -17,7 +17,7 @@ internal sealed partial class FlowInstanceDataEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<FlowInstanceData> message = CreateMessage(entity: entity);
+            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: entity);
 
             await flowInstanceDataEventBroker.RaiseFlowInstanceDataAddEventAsync(message: message);
         }, isValueTask: true);
@@ -27,7 +27,7 @@ internal sealed partial class FlowInstanceDataEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<FlowInstanceData> message = CreateMessage(entity: entity);
+            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: entity);
 
             await flowInstanceDataEventBroker.RaiseFlowInstanceDataUpdateEventAsync(message: message);
         }, isValueTask: true);
@@ -37,12 +37,12 @@ internal sealed partial class FlowInstanceDataEventService(
         {
             ValidateInputs(inputs: [entity]);
 
-            EventMessage<FlowInstanceData> message = CreateMessage(entity: entity);
+            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: entity);
 
             await flowInstanceDataEventBroker.RaiseFlowInstanceDataDeleteEventAsync(message: message);
         }, isValueTask: true);
 
-    private EventMessage<FlowInstanceData> CreateMessage(FlowInstanceData entity) =>
+    private EventMessage<FlowInstanceData> CreateFlowInstanceDataMessage(FlowInstanceData entity) =>
         new()
         {
             AuthInfo = new EventAuthInfo

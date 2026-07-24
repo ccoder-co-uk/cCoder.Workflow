@@ -13,7 +13,7 @@ namespace cCoder.Workflow.Brokers.Storage;
 internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : IScheduledTaskBroker
 {
 
-    public IQueryable<ScheduledTask> GetAllScheduledTasks(bool ignoreFilters)
+    public IQueryable<ScheduledTask> SelectAllScheduledTasks(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
@@ -22,7 +22,7 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             : coreDataContext.ScheduledTasks;
     }
 
-    public ScheduledTask GetScheduledTaskForExecution(int scheduledTaskId)
+    public ScheduledTask SelectScheduledTaskForExecution(int scheduledTaskId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
@@ -32,7 +32,7 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             .FirstOrDefault(predicate: task => task.Id == scheduledTaskId);
     }
 
-    public async ValueTask<ScheduledTask> MarkScheduledTaskExecutedAsync(int scheduledTaskId, bool incrementNextExecution)
+    public async ValueTask<ScheduledTask> UpdateScheduledTaskExecutionAsync(int scheduledTaskId, bool incrementNextExecution)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
@@ -63,7 +63,7 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
         return task;
     }
 
-    public bool ExecuteAsUserBelongsToApp(string executeAs, int appId)
+    public bool SelectExecuteAsUserBelongsToApp(string executeAs, int appId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
@@ -71,14 +71,14 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             .Any(predicate: user => user.Id == executeAs && user.Roles.Any(predicate: role => role.Role.AppId == appId));
     }
 
-    public bool FlowBelongsToApp(Guid flowId, int appId)
+    public bool SelectFlowBelongsToApp(Guid flowId, int appId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.FlowDefinitions.Any(predicate: flow => flow.Id == flowId && flow.AppId == appId);
     }
 
-    public async ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask entity)
+    public async ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity: entity)).Entity;
@@ -123,7 +123,7 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             .ExecuteDeleteAsync();
     }
 
-    public int? GetAppId(ScheduledTask entity)
+    public int? SelectAppId(ScheduledTask entity)
     {
         return entity.AppId;
     }

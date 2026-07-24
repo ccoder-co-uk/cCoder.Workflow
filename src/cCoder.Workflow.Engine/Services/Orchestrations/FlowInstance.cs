@@ -75,13 +75,13 @@ public sealed class FlowInstance
 
     internal HttpClient CreateApiClient(string apiRoot) =>
         new(new HttpClientHandler
-    {
-        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-        ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
-    })
-    {
-        BaseAddress = new Uri(apiRoot)
-    };
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
+        })
+        {
+            BaseAddress = new Uri(apiRoot)
+        };
 
     internal Task LogAsync(WorkflowLogLevel level, string message) =>
         log(level: level, message: message);

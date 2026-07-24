@@ -161,11 +161,11 @@ content: new StringContent(payload, Encoding.UTF8, "application/json"));
 
     private static HttpClient CreateApiClient(string apiRoot) =>
         new(new HttpClientHandler
-    {
-        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-        ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
-    })
-    {
-        BaseAddress = new Uri(apiRoot)
-    };
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
+        })
+        {
+            BaseAddress = new Uri(apiRoot)
+        };
 }

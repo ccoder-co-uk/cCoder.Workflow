@@ -22,4 +22,10 @@ internal sealed partial class ScheduledTaskService
 
     private static void ValidateAllByAppIdOnDelete(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateExecuteAsUserBelongsToAppOnGet(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
+    private static void ValidateFlowBelongsToAppOnGet(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
 }

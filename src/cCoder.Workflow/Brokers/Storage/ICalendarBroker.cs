@@ -9,9 +9,9 @@ namespace cCoder.Workflow.Brokers.Storage;
 
 public interface ICalendarBroker
 {
-    IQueryable<Calendar> GetAllCalendars(bool ignoreFilters);
+    IQueryable<Calendar> SelectAllCalendars(bool ignoreFilters);
 
-    ValueTask<Calendar> AddCalendarAsync(Calendar entity);
+    ValueTask<Calendar> InsertCalendarAsync(Calendar entity);
 
     ValueTask<Calendar> UpdateCalendarAsync(Calendar entity);
 
@@ -21,5 +21,5 @@ public interface ICalendarBroker
 
     ValueTask DeleteAllCalendarsByAppIdAsync(int appId);
 
-    int? GetAppId(Calendar entity);
+    int? SelectAppId(Calendar entity);
 }

@@ -39,7 +39,7 @@ public partial class WorkflowEventServiceTests
         workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
 
         workflowEventBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
+expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
 

@@ -54,7 +54,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(User entity)
+    public int? SelectAppId(User entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 

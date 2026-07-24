@@ -43,7 +43,7 @@ internal sealed partial class CalendarService(
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<Calendar> ExecuteGetAll(bool ignoreFilters = false) =>
-        calendarBroker.GetAllCalendars(ignoreFilters: ignoreFilters);
+        calendarBroker.SelectAllCalendars(ignoreFilters: ignoreFilters);
 
     public ValueTask<Calendar> AddAsync(Calendar calendar) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); return await ExecuteAddAsync(calendar: calendar); }, isValueTask: true);
@@ -53,7 +53,7 @@ internal sealed partial class CalendarService(
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_create");
         Calendar newCalendar = CreateStorageCalendar(item: calendar);
 
-        Calendar result = await calendarBroker.AddCalendarAsync(entity: newCalendar);
+        Calendar result = await calendarBroker.InsertCalendarAsync(entity: newCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;

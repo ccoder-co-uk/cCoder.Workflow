@@ -43,33 +43,33 @@ internal sealed partial class ScheduledTaskService(
         TryCatch(operation: () => { ValidateForExecutionOnGet(inputs: [scheduledTaskId]); return ExecuteGetForExecution(scheduledTaskId: scheduledTaskId); });
 
     private ScheduledTask ExecuteGetForExecution(int scheduledTaskId) =>
-        scheduledTaskBroker.GetScheduledTaskForExecution(scheduledTaskId: scheduledTaskId);
+        scheduledTaskBroker.SelectScheduledTaskForExecution(scheduledTaskId: scheduledTaskId);
 
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<ScheduledTask> ExecuteGetAll(bool ignoreFilters = false) =>
-        scheduledTaskBroker.GetAllScheduledTasks(ignoreFilters: ignoreFilters);
+        scheduledTaskBroker.SelectAllScheduledTasks(ignoreFilters: ignoreFilters);
 
     public ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); return await ExecuteMarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
 
     private ValueTask<ScheduledTask> ExecuteMarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
-        scheduledTaskBroker.MarkScheduledTaskExecutedAsync(
+        scheduledTaskBroker.UpdateScheduledTaskExecutionAsync(
                 scheduledTaskId: scheduledTaskId,
                 incrementNextExecution: incrementNextExecution);
 
-    public bool ExecuteAsUserBelongsToApp(string executeAs, int appId) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [executeAs, appId]); return ExecuteExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId); });
+    public bool GetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
+        TryCatch(operation: () => { ValidateExecuteAsUserBelongsToAppOnGet(inputs: [executeAs, appId]); return ExecuteGetExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId); });
 
-    private bool ExecuteExecuteAsUserBelongsToApp(string executeAs, int appId) =>
-        scheduledTaskBroker.ExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId);
+    private bool ExecuteGetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
+        scheduledTaskBroker.SelectExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId);
 
-    public bool FlowBelongsToApp(Guid flowId, int appId) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [flowId, appId]); return ExecuteFlowBelongsToApp(flowId: flowId, appId: appId); });
+    public bool GetFlowBelongsToApp(Guid flowId, int appId) =>
+        TryCatch(operation: () => { ValidateFlowBelongsToAppOnGet(inputs: [flowId, appId]); return ExecuteGetFlowBelongsToApp(flowId: flowId, appId: appId); });
 
-    private bool ExecuteFlowBelongsToApp(Guid flowId, int appId) =>
-        scheduledTaskBroker.FlowBelongsToApp(flowId: flowId, appId: appId);
+    private bool ExecuteGetFlowBelongsToApp(Guid flowId, int appId) =>
+        scheduledTaskBroker.SelectFlowBelongsToApp(flowId: flowId, appId: appId);
 
     public ValueTask<ScheduledTask> AddAsync(ScheduledTask scheduledTask) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); return await ExecuteAddAsync(scheduledTask: scheduledTask); }, isValueTask: true);
@@ -85,7 +85,7 @@ internal sealed partial class ScheduledTaskService(
         newScheduledTask.LastUpdated = now;
         newScheduledTask.UpdatedBy = currentUserId;
 
-        ScheduledTask result = await scheduledTaskBroker.AddScheduledTaskAsync(entity: newScheduledTask);
+        ScheduledTask result = await scheduledTaskBroker.InsertScheduledTaskAsync(entity: newScheduledTask);
         scheduledTask.Id = result.Id;
         scheduledTask.AppId = result.AppId;
         scheduledTask.FlowId = result.FlowId;

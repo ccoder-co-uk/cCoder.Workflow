@@ -41,7 +41,7 @@ public partial class FlowDefinitionServiceTests
         flowDefinitionBrokerMock.Verify(expression: x => x.GetAllFlowDefinitions(ignoreFilters: false), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowDefinition>()),
+expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

@@ -18,5 +18,5 @@ public interface IWorkflowEventBroker
 
     ValueTask DeleteAllWorkflowEventsAsync(IEnumerable<WorkflowEvent> items);
 
-    int? GetAppId(WorkflowEvent entity);
+    int? SelectAppId(WorkflowEvent entity);
 }

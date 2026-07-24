@@ -160,14 +160,14 @@ internal static class CoreDataContextTypedTestExtensions
         return entity;
     }
 
-    public static async Task<ScheduledTask> AddScheduledTaskAsync(this CoreDataContext core, ScheduledTask scheduledTask)
+    public static async Task<ScheduledTask> InsertScheduledTaskAsync(this CoreDataContext core, ScheduledTask scheduledTask)
     {
         ScheduledTask entity = (await core.ScheduledTasks.AddAsync(entity: scheduledTask)).Entity;
         _ = await core.SaveChangesAsync();
         return entity;
     }
 
-    public static async Task<Calendar> AddCalendarAsync(this CoreDataContext core, Calendar calendar)
+    public static async Task<Calendar> InsertCalendarAsync(this CoreDataContext core, Calendar calendar)
     {
         Calendar entity = (await core.Calendars.AddAsync(entity: calendar)).Entity;
         _ = await core.SaveChangesAsync();
@@ -175,9 +175,9 @@ internal static class CoreDataContextTypedTestExtensions
     }
 
     public static Task<Calendar> AddPlanningCalendarAsync(this CoreDataContext core, Calendar calendar) =>
-        core.AddCalendarAsync(calendar: calendar);
+        core.InsertCalendarAsync(calendar: calendar);
 
-    public static async Task<CalendarEvent> AddCalendarEventAsync(this CoreDataContext core, CalendarEvent calendarEvent)
+    public static async Task<CalendarEvent> InsertCalendarEventAsync(this CoreDataContext core, CalendarEvent calendarEvent)
     {
         CalendarEvent entity = (await core.Events.AddAsync(entity: calendarEvent)).Entity;
         _ = await core.SaveChangesAsync();

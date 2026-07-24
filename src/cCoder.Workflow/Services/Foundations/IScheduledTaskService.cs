@@ -17,9 +17,9 @@ public interface IScheduledTaskService
 
     ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution);
 
-    bool ExecuteAsUserBelongsToApp(string executeAs, int appId);
+    bool GetExecuteAsUserBelongsToApp(string executeAs, int appId);
 
-    bool FlowBelongsToApp(Guid flowId, int appId);
+    bool GetFlowBelongsToApp(Guid flowId, int appId);
 
     ValueTask<ScheduledTask> AddAsync(ScheduledTask scheduledTask);
 

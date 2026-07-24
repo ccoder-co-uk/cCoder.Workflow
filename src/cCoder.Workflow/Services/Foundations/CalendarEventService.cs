@@ -43,7 +43,7 @@ internal sealed partial class CalendarEventService(
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<CalendarEvent> ExecuteGetAll(bool ignoreFilters = false) =>
-        calendarEventBroker.GetAllCalendarEvents(ignoreFilters: ignoreFilters);
+        calendarEventBroker.SelectAllCalendarEvents(ignoreFilters: ignoreFilters);
 
     public ValueTask<CalendarEvent> AddAsync(CalendarEvent calendarEvent) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); return await ExecuteAddAsync(calendarEvent: calendarEvent); }, isValueTask: true);
@@ -51,13 +51,13 @@ internal sealed partial class CalendarEventService(
     private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent calendarEvent)
     {
         authorizationBroker.Authorize(
-appId: calendarEventBroker.GetAppId(entity: calendarEvent),
+appId: calendarEventBroker.SelectAppId(entity: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_create"
         );
 
         CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
-        CalendarEvent result = await calendarEventBroker.AddCalendarEventAsync(entity: newCalendarEvent);
+        CalendarEvent result = await calendarEventBroker.InsertCalendarEventAsync(entity: newCalendarEvent);
         calendarEvent.Id = result.Id;
         calendarEvent.Name = result.Name;
         calendarEvent.Description = result.Description;
@@ -73,7 +73,7 @@ privilege: $"{nameof(CalendarEvent)}_create"
     private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent calendarEvent)
     {
         authorizationBroker.Authorize(
-appId: calendarEventBroker.GetAppId(entity: calendarEvent),
+appId: calendarEventBroker.SelectAppId(entity: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_update"
         );
 
@@ -106,7 +106,7 @@ entity: updateCalendarEvent
         }
 
         authorizationBroker.Authorize(
-appId: calendarEventBroker.GetAppId(entity: calendarEvent),
+appId: calendarEventBroker.SelectAppId(entity: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_delete"
         );
 
