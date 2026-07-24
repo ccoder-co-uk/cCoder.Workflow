@@ -5,6 +5,7 @@
 using System.Net;
 using cCoder.Workflow.Activities.Models;
 using FluentAssertions;
+using Microsoft.Azure.Functions.Worker.Http;
 using Moq;
 using Workflow.AcceptanceTests.Infrastructure;
 using Xunit;
@@ -26,6 +27,17 @@ public sealed partial class ExecuteTests
 
         TestHttpRequestData request = CreateRequest(request: requestPayload);
 
+        TestHttpResponseData expectedResponse =
+            (TestHttpResponseData)request.CreateResponse();
+
+        expectedResponse.StatusCode = HttpStatusCode.OK;
+        await expectedResponse.WriteStringAsync(value: "OK");
+
+        processingServiceMock
+            .Setup(expression: service =>
+                service.ProcessExecuteAsync(request: request))
+            .ReturnsAsync(value: expectedResponse);
+
         // When
         TestHttpResponseData response = (TestHttpResponseData)await function.Run(request: request);
 
@@ -37,11 +49,8 @@ public sealed partial class ExecuteTests
             .Should()
             .Be(expected: "OK");
 
-        flowRunnerMock.Verify(expression: runner =>
-            runner.RunAsync(request: It.Is<WorkflowRequest>(actual =>
-                actual.InstanceId == requestPayload.InstanceId
-                && actual.Api == requestPayload.Api
-                && actual.AuthToken == requestPayload.AuthToken)),
-times: Times.Once);
+        processingServiceMock.Verify(expression: service =>
+            service.ProcessExecuteAsync(request: request),
+            times: Times.Once);
     }
 }

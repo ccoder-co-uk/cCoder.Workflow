@@ -4,6 +4,7 @@
 
 using System.Net;
 using FluentAssertions;
+using Microsoft.Azure.Functions.Worker.Http;
 using Moq;
 using Workflow.AcceptanceTests.Infrastructure;
 using Xunit;
@@ -18,12 +19,20 @@ public sealed partial class ExecuteScriptTests
         // Given
         const string payload = "return true";
         const string expected = "true";
-
-        scriptExecutionServiceMock
-            .Setup(expression: service => service.ExecuteAsync(payload: payload, useDetails: true))
-            .ReturnsAsync(value: expected);
-
         TestHttpRequestData request = CreateRequest(payload: payload);
+
+        TestHttpResponseData expectedResponse =
+            (TestHttpResponseData)request.CreateResponse();
+
+        expectedResponse.StatusCode = HttpStatusCode.OK;
+        await expectedResponse.WriteStringAsync(value: expected);
+
+        processingServiceMock
+            .Setup(expression: service =>
+                service.ProcessExecuteScriptAsync(
+                    request: request,
+                    useDetails: true))
+            .ReturnsAsync(value: expectedResponse);
 
         // When
         TestHttpResponseData response = (TestHttpResponseData)await function.Run(request: request, useDetails: true);
@@ -36,6 +45,10 @@ public sealed partial class ExecuteScriptTests
             .Should()
             .Be(expected: expected);
 
-        scriptExecutionServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
+        processingServiceMock.Verify(expression: service =>
+            service.ProcessExecuteScriptAsync(
+                request: request,
+                useDetails: true),
+            times: Times.Once);
     }
 }

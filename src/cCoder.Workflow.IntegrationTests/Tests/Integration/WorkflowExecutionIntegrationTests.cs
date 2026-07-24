@@ -25,7 +25,7 @@ using SsoToken = cCoder.Security.Objects.Entities.Token;
 namespace Web.AcceptanceTests.Tests.Integration;
 
 [Collection(IntegrationAcceptanceCollection.Name)]
-public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixture fixture)
+public sealed partial class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixture fixture)
 {
     private const string AdminUserId = "admin";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
@@ -38,12 +38,14 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
     [Fact]
     public async Task ManualFlowExecution_ShouldQueueThroughHostedServicesAndCompleteInWorkflowApp()
     {
+        // Given
         (int appId, Guid flowId, Guid roleId) = await CreateAppWithExecutableFlowAsync();
 
         try
         {
             string authToken = await CreateAuthTokenAsync(userId: AdminUserId);
 
+            // When
             await PostRawAsync(relativeUrl: $"/Api/Workflow/FlowDefinition({flowId})/Execute", body: "{}", authToken: authToken);
 
             await WaitUntilAsync(predicate: async () => await HasFlowInstanceStateAsync(flowId: flowId, state: "Complete"),
@@ -51,6 +53,7 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
 
             FlowInstanceData instance = await GetLatestInstanceAsync(flowId: flowId);
 
+            // Then
             instance.Caller.Should()
                 .Be(expected: AdminUserId);
 
@@ -245,7 +248,7 @@ becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFl
             : string.Join(
 separator: Environment.NewLine,
 values: instances.Select(selector: instance =>
-                    $"Instance {instance.Id} | State={instance.State} | Start={instance.Start:u} | End={(instance.End.HasValue ? instance.End.Value.ToString("u") : "<null>")} | Context={instance.ContextString ?? "<null>"}"));
+                    $"Instance {instance.Id} | State={instance.State} | Start={instance.Start:u} | End={(instance.End.HasValue ? instance.End.Value.ToString(format: "u") : "<null>")} | Context={instance.ContextString ?? "<null>"}"));
 
         return string.Join(
 separator: Environment.NewLine + Environment.NewLine,

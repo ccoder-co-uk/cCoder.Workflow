@@ -3,20 +3,22 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Activities.Models;
-using cCoder.Workflow.Engine.Exposures;
 using Moq;
 using Newtonsoft.Json;
 using Workflow.AcceptanceTests.Infrastructure;
+using Workflow.Exposures;
+using Workflow.Services.Processings.WorkflowFunctions;
 
 namespace Workflow.AcceptanceTests.Tests;
 
 public sealed partial class ExecuteTests
 {
-    private readonly Mock<IFlowRunner> flowRunnerMock = new();
+    private readonly Mock<IWorkflowFunctionsProcessingService> processingServiceMock = new();
     private readonly Execute function;
 
     public ExecuteTests() =>
-        function = new Execute(flowRunnerMock.Object);
+        function = new Execute(
+            workflowFunctionsProcessingService: processingServiceMock.Object);
 
     private static TestHttpRequestData CreateRequest(WorkflowRequest request) =>
         new(JsonConvert.SerializeObject(value: request));

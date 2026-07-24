@@ -14,6 +14,7 @@ using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects;
+using cCoder.Workflow;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -231,15 +232,18 @@ implementationInstance: new Config
 });
 
         services.AddScoped<ISecurityDbContextFactory>(
-            provider => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
-            {
-                GetAuthInfo = ignoreAuthInfo => ignoreAuthInfo
-                    ? new SSOAuthInfo { SSOUserId = "admin" }
-                    : provider.GetService<ISSOAuthInfo>()
-            });
+            implementationFactory: provider =>
+                new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
+                {
+                    GetAuthInfo = ignoreAuthInfo => ignoreAuthInfo
+                        ? new SSOAuthInfo { SSOUserId = "admin" }
+                        : provider.GetService<ISSOAuthInfo>()
+                });
 
         services.AddCoreData(connectionString: settings.CoreConnectionString);
         services.AddAppSecurityWeb();
+        services.AddWorkflowWeb();
+
         return services.BuildServiceProvider(validateScopes: false);
     }
 
