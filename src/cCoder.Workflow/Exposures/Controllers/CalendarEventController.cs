@@ -123,6 +123,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
+    [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] int key, Delta<CalendarEvent> updatedDelta)
     {
         CalendarEvent originalEntity = service.Get(calendarEventId: key);

@@ -107,6 +107,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
+    [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> updatedDelta)
     {
         FlowDefinition originalEntity = service.GetFlowDefinition(flowDefinitionId: key);
@@ -128,6 +129,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     }
 
     [HttpPost]
+    [ActionName("Execute")]
     public async Task<IActionResult> PostAsync([FromRoute] Guid key)
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
@@ -136,6 +138,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     }
 
     [HttpPost]
+    [ActionName("ExecuteScript")]
     public async Task<IActionResult> PostScript()
     {
         string script = await new StreamReader(Request.Body).ReadToEndAsync();
@@ -143,6 +146,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     }
 
     [HttpGet]
+    [ActionName("KnownActivityTypes")]
     [EnableQuery(
         AllowedArithmeticOperators = AllowedArithmeticOperators.All,
         AllowedFunctions = AllowedFunctions.All,
@@ -158,6 +162,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
 
     [AllowAnonymous]
     [HttpGet]
+    [ActionName("KnownSystemTypes")]
     public IActionResult GetKnownSystemTypes()
     {
         return Ok(value: service.GetKnownSystemTypes());
