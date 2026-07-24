@@ -181,10 +181,22 @@ internal sealed partial class WorkflowInstanceManagementOrchestrationService(
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
-        FlowInstanceData dbInstance = await workflowInstanceManagementBroker
-            .ClaimQueuedInstanceAsync(flowInstanceDataId: instanceId, cancellationToken: cancellationToken);
+        int claimedCount = await workflowInstanceManagementBroker
+            .UpdateQueuedInstanceClaimAsync(
+                flowInstanceDataId: instanceId,
+                cancellationToken: cancellationToken);
 
-        if (dbInstance == null)
+        if (claimedCount == 0)
+        {
+            return;
+        }
+
+        FlowInstanceData dbInstance = await workflowInstanceManagementBroker
+            .SelectClaimedInstanceAsync(
+                flowInstanceDataId: instanceId,
+                cancellationToken: cancellationToken);
+
+        if (dbInstance is null)
         {
             return;
         }

@@ -18,7 +18,13 @@ public interface IWorkflowInstanceManagementBroker
 
     ValueTask<int> RequeueHungExecutingInstancesAsync(DateTimeOffset cutoff, CancellationToken cancellationToken = default);
 
-    ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(Guid flowInstanceDataId, CancellationToken cancellationToken = default);
+    ValueTask<int> UpdateQueuedInstanceClaimAsync(
+        Guid flowInstanceDataId,
+        CancellationToken cancellationToken = default);
+
+    ValueTask<FlowInstanceData> SelectClaimedInstanceAsync(
+        Guid flowInstanceDataId,
+        CancellationToken cancellationToken = default);
 
     ValueTask<int> MarkInstanceFailedAsync(Guid flowInstanceDataId, DateTimeOffset failedAt, CancellationToken cancellationToken = default);
 }
@@ -92,7 +98,7 @@ setPropertyCalls: setters => setters
 cancellationToken: cancellationToken);
     }
 
-    public async ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(
+    public async ValueTask<int> UpdateQueuedInstanceClaimAsync(
         Guid flowInstanceDataId,
         CancellationToken cancellationToken = default)
     {
@@ -100,7 +106,7 @@ cancellationToken: cancellationToken);
 
         DateTimeOffset claimedAt = DateTimeOffset.UtcNow;
 
-        int claimedCount = await core.FlowInstances
+        return await core.FlowInstances
             .IgnoreQueryFilters()
             .Where(predicate: instance => instance.Id == flowInstanceDataId)
             .Where(predicate: instance => instance.State == "Queued")
@@ -110,24 +116,19 @@ setPropertyCalls: setters => setters
                     .SetProperty(propertyExpression: instance => instance.Start, valueExpression: claimedAt)
                     .SetProperty(propertyExpression: instance => instance.End, valueExpression: (DateTimeOffset?)null),
 cancellationToken: cancellationToken);
+    }
 
-        if (claimedCount == 0)
-        {
-            return null;
-        }
+    public async ValueTask<FlowInstanceData> SelectClaimedInstanceAsync(
+        Guid flowInstanceDataId,
+        CancellationToken cancellationToken = default)
+    {
+        using CoreDataContext core = coreContextFactory.CreateCoreContext();
 
-        FlowInstanceData instance = await core.FlowInstances
+        return await core.FlowInstances
             .IgnoreQueryFilters()
             .Include(navigationPropertyPath: item => item.FlowDefinition)
                 .ThenInclude(navigationPropertyPath: definition => definition.App)
             .FirstOrDefaultAsync(predicate: item => item.Id == flowInstanceDataId, cancellationToken: cancellationToken);
-
-        if (instance == null)
-        {
-            return null;
-        }
-
-        return instance;
     }
 
     public async ValueTask<int> MarkInstanceFailedAsync(

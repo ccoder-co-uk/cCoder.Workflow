@@ -1346,20 +1346,6 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "ClaimQueuedInstanceAsync",
-          "Inputs": [
-            {
-              "Name": "flowInstanceDataId",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "cancellationToken",
-              "Type": "System.Threading.CancellationToken"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
-        },
-        {
           "Name": "FlushOldInstancesAsync",
           "Inputs": [
             {
@@ -1414,6 +1400,126 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "SelectClaimedInstanceAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "UpdateQueuedInstanceClaimAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.AuthorizationDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "GetCurrentUser",
+          "Inputs": [],
+          "ReturnType": "User"
+        },
+        {
+          "Name": "GetUser",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "User"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "userName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "UserBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
         }
       ]
     },
@@ -5052,6 +5158,10 @@
   ],
   "Links": [
     {
+      "FromType": "cCoder.Workflow.Brokers.AuthorizationBroker",
+      "ToType": "cCoder.Workflow.Dependencies.AuthorizationDependency"
+    },
+    {
       "FromType": "cCoder.Workflow.Brokers.JsonBroker",
       "ToType": "cCoder.Workflow.Dependencies.JsonDependency"
     },
@@ -5402,60 +5512,32 @@
       "LineNumber": 16
     },
     {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "LineNumber": 48
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "LineNumber": 56
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "LineNumber": 64
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "LineNumber": 72
-    },
-    {
       "Code": "STXFORMAT013",
       "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker",
+      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
       "LineNumber": 1
     },
     {
       "Code": "STXFORMAT001",
       "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker",
+      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
+      "LineNumber": 46
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
       "LineNumber": 21
     },
     {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
-      "LineNumber": 114
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
-      "LineNumber": 125
+      "LineNumber": 150
     },
     {
       "Code": "STXAPI001",
@@ -5626,20 +5708,6 @@
       "LineNumber": 15
     },
     {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "LineNumber": 127
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "LineNumber": 225
-    },
-    {
       "Code": "STXFORMAT008",
       "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
       "Severity": "Warning",
@@ -5666,6 +5734,20 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
       "LineNumber": 16
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
+      "LineNumber": 184
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
+      "LineNumber": 264
     }
   ]
 }

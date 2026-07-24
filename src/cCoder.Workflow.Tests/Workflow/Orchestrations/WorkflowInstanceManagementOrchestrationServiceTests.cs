@@ -121,10 +121,10 @@ times: Times.Once);
             .Returns(value: [queuedInstance]);
 
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.ClaimQueuedInstanceAsync(
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
 flowInstanceDataId: queuedInstance.Id,
 cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (FlowInstanceData)null);
+            .ReturnsAsync(value: 0);
 
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.RequeueHungExecutingInstancesAsync(
@@ -141,7 +141,7 @@ expression: broker => broker.GetQueuedInstances(),
 times: Times.Once);
 
         workflowInstanceManagementBrokerMock.Verify(
-expression: broker => broker.ClaimQueuedInstanceAsync(
+expression: broker => broker.UpdateQueuedInstanceClaimAsync(
 flowInstanceDataId: queuedInstance.Id,
 cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
@@ -162,17 +162,17 @@ times: Times.Once);
         Guid instanceId = Guid.NewGuid();
 
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.ClaimQueuedInstanceAsync(
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
 flowInstanceDataId: instanceId,
 cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (FlowInstanceData)null);
+            .ReturnsAsync(value: 0);
 
         // When
         await orchestrationService.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: instanceId);
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
-expression: broker => broker.ClaimQueuedInstanceAsync(flowInstanceDataId: instanceId, cancellationToken: It.IsAny<CancellationToken>()),
+expression: broker => broker.UpdateQueuedInstanceClaimAsync(flowInstanceDataId: instanceId, cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
 
         workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
@@ -185,7 +185,13 @@ times: Times.Once);
         FlowInstanceData queuedInstance = CreateQueuedFlowInstanceData();
 
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.ClaimQueuedInstanceAsync(
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+flowInstanceDataId: queuedInstance.Id,
+cancellationToken: It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: 1);
+
+        workflowInstanceManagementBrokerMock
+            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
 flowInstanceDataId: queuedInstance.Id,
 cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: queuedInstance);
@@ -202,7 +208,13 @@ cancellationToken: It.IsAny<CancellationToken>()))
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
-expression: broker => broker.ClaimQueuedInstanceAsync(
+expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+flowInstanceDataId: queuedInstance.Id,
+cancellationToken: It.IsAny<CancellationToken>()),
+times: Times.Once);
+
+        workflowInstanceManagementBrokerMock.Verify(
+expression: broker => broker.SelectClaimedInstanceAsync(
 flowInstanceDataId: queuedInstance.Id,
 cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);

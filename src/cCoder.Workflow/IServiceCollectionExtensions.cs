@@ -37,6 +37,8 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
+using AuthorizationDependency = cCoder.Workflow.Dependencies.AuthorizationDependency;
+using IAuthorizationDependency = cCoder.Workflow.Dependencies.IAuthorizationDependency;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
 using IJsonDependency = cCoder.Workflow.Dependencies.IJsonDependency;
@@ -152,6 +154,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IScheduledTaskBroker, ScheduledTaskBroker>();
         services.AddTransient<IWorkflowInstanceManagementBroker, WorkflowInstanceManagementBroker>();
         services.AddTransient<IWorkflowEventBroker, WorkflowEventBroker>();
+        services.AddTransient<IAuthorizationDependency, AuthorizationDependency>();
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
         services.AddTransient<IJsonDependency, JsonDependency>();
         services.AddTransient<IJsonBroker, JsonBroker>();
