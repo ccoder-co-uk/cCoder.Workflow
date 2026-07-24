@@ -51,9 +51,6 @@ builder: builder);
         return configuration;
     }
 
-    public static void ConfigureWorkflowApiModel(this ODataConventionModelBuilder builder) =>
-        new WorkflowModelBuilder(builder).Configure();
-
     private static WorkflowConfiguration CreateConfiguration(
         IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> configure)
