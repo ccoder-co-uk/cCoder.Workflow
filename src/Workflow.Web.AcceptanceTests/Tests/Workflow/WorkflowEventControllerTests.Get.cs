@@ -60,14 +60,20 @@ public sealed partial class WorkflowEventControllerTests
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
+        // Given
         SeededWorkflowEventContext seededContext = await SeedDatabase(
             includeEvent: true,
-            "workflowevent_create",
-            "workflowevent_update",
-            "workflowevent_delete");
+            privileges:
+            [
+                "workflowevent_create",
+                "workflowevent_update",
+                "workflowevent_delete"
+            ]);
 
+        // When
         int actualStatusCode = await GetWorkflowEventStatusCodeAsync(workflowEventId: seededContext.EventId);
 
+        // Then
         actualStatusCode.Should()
             .Be(expected: (int)HttpStatusCode.NotFound);
 

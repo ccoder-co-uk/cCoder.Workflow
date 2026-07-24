@@ -223,6 +223,7 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
 
         return JsonSerializer.Deserialize<ODataEnvelope<WorkflowEvent>>(json: content, options: JsonOptions)!.Value;
     }
+
     private async Task<int> GetWorkflowEventStatusCodeAsync(Guid workflowEventId)
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({workflowEventId})");

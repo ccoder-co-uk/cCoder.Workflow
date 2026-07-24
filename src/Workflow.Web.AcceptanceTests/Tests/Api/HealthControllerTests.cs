@@ -12,6 +12,6 @@ public sealed partial class HealthControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
 
-    private async Task<string> GetHealthAsync() =>
-        await Client.GetStringAsync(requestUri: "Health");
+    private Task<string> GetHealthAsync() =>
+        Client.GetStringAsync(requestUri: "Health");
 }

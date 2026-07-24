@@ -96,7 +96,11 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
                 process.Kill(entireProcessTree: true);
 
                 Task waitForExitTask = process.WaitForExitAsync();
-                Task completedTask = await Task.WhenAny(task1: waitForExitTask, task2: Task.Delay(delay: TimeSpan.FromSeconds(15)));
+
+                Task completedTask = await Task.WhenAny(
+                    task1: waitForExitTask,
+                    task2: Task.Delay(
+                        delay: TimeSpan.FromSeconds(seconds: 15)));
 
                 if (completedTask == waitForExitTask)
                 {

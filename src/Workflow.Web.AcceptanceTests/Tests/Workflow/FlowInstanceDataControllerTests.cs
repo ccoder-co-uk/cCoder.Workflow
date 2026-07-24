@@ -223,6 +223,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
 
         return JsonSerializer.Deserialize<ODataEnvelope<FlowInstanceData>>(json: content, options: JsonOptions)!.Value;
     }
+
     private async Task<int> GetFlowInstanceDataStatusCodeAsync(Guid flowInstanceDataId)
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");

@@ -195,6 +195,7 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
         return JsonSerializer.Deserialize<ODataEnvelope<CalendarEvent>>(json: content, options: JsonOptions)?.Value
             ?? throw new InvalidOperationException("Expected calendar event OData payload.");
     }
+
     private async Task<int> GetCalendarEventStatusCodeAsync(int calendarEventId)
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({calendarEventId})");

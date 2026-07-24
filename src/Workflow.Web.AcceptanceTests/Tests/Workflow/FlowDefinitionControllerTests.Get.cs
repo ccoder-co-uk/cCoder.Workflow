@@ -60,15 +60,21 @@ public sealed partial class FlowDefinitionControllerTests
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
+        // Given
         SeededFlowDefinitionContext seededContext = await SeedDatabase(
             includeFlow: true,
-            "flowdefinition_create",
-            "flowdefinition_update",
-            "flowdefinition_execute",
-            "flowdefinition_delete");
+            privileges:
+            [
+                "flowdefinition_create",
+                "flowdefinition_update",
+                "flowdefinition_execute",
+                "flowdefinition_delete"
+            ]);
 
+        // When
         int actualStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
+        // Then
         actualStatusCode.Should()
             .Be(expected: (int)HttpStatusCode.NotFound);
 

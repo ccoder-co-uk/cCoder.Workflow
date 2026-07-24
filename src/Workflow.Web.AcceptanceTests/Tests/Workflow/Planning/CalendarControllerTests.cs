@@ -190,6 +190,7 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
 
         return JsonSerializer.Deserialize<ODataEnvelope<Calendar>>(json: content, options: JsonOptions)!.Value;
     }
+
     private async Task<int> GetCalendarStatusCodeAsync(int calendarId)
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({calendarId})");

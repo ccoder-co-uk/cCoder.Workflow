@@ -253,6 +253,7 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
 
         return (int)response.StatusCode;
     }
+
     private async Task<int> GetFlowDefinitionStatusCodeAsync(Guid flowDefinitionId)
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowDefinitionId})");

@@ -29,15 +29,25 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
         {
             config.AddInMemoryCollection(
 initialData: [
-                new KeyValuePair<string, string>("ConnectionStrings:Core", settings.CoreConnectionString),
-                new KeyValuePair<string, string>("ConnectionStrings:SSO", settings.SsoConnectionString),
-                new KeyValuePair<string, string>("Settings:DecryptionKey", settings.DecryptionKey),
-                new KeyValuePair<string, string>("Settings:enableExternalEventing", "false"),
-                new KeyValuePair<string, string>("Workflow:IsMigrating", "true"),
+                new KeyValuePair<string, string>(
+                    key: "ConnectionStrings:Core",
+                    value: settings.CoreConnectionString),
+                new KeyValuePair<string, string>(
+                    key: "ConnectionStrings:SSO",
+                    value: settings.SsoConnectionString),
+                new KeyValuePair<string, string>(
+                    key: "Settings:DecryptionKey",
+                    value: settings.DecryptionKey),
+                new KeyValuePair<string, string>(
+                    key: "Settings:enableExternalEventing",
+                    value: "false"),
+                new KeyValuePair<string, string>(
+                    key: "Workflow:IsMigrating",
+                    value: "true"),
             ]);
         });
 
-        builder.ConfigureTestServices(services =>
+        builder.ConfigureTestServices(servicesConfiguration: services =>
         {
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<ISecurityDbContextFactory>();
@@ -73,8 +83,9 @@ implementationInstance: new cCoder.Data.Config
 });
 
             services.AddSingleton<ISecurityDbContextFactory>(
-                _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
-            );
+                implementationFactory: _ =>
+                    new MSSQLSecurityDbContextFactory(
+                        connectionString: settings.SsoConnectionString));
 
             services.AddCoreData(connectionString: settings.CoreConnectionString);
         });

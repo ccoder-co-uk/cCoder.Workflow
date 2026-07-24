@@ -218,6 +218,7 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
             .IgnoreQueryFilters()
             .Any(predicate: instance => instance.FlowDefinitionId == flowId));
     }
+
     private async Task<int> GetScheduledTaskStatusCodeAsync(int scheduledTaskId)
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");

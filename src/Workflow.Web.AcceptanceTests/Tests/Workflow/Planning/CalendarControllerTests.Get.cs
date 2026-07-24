@@ -77,7 +77,14 @@ public sealed partial class CalendarControllerTests
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
-        SeededCalendarContext seededContext = await SeedDatabase("calendar_create", "calendar_update", "calendar_delete");
+        // Given
+        SeededCalendarContext seededContext = await SeedDatabase(
+            privileges:
+            [
+                "calendar_create",
+                "calendar_update",
+                "calendar_delete"
+            ]);
 
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
 
@@ -92,8 +99,11 @@ public sealed partial class CalendarControllerTests
             Description = "Hidden calendar",
         });
 
-        int actualStatusCode = await GetCalendarStatusCodeAsync(calendarId: hiddenCalendar.Id);
+        // When
+        int actualStatusCode = await GetCalendarStatusCodeAsync(
+            calendarId: hiddenCalendar.Id);
 
+        // Then
         actualStatusCode.Should()
             .Be(expected: (int)HttpStatusCode.NotFound);
 
