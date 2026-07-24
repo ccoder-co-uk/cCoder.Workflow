@@ -12,9 +12,86 @@ using cCoder.Workflow.Services.Foundations;
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class ScheduledTaskProcessingService(
-    IScheduledTaskService service)
+    IScheduledTaskService service,
+    WorkflowConfiguration configuration,
+    ILogger<ScheduledTaskProcessingService> logger)
     : IScheduledTaskProcessingService
 {
+    public bool IsScheduledTaskMigrationActive() =>
+        TryCatch(operation: () => { ValidateInputs(inputs: []); return configuration.IsMigrating; });
+
+    public ValueTask LogNoScheduledTasksDueAsync() =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: []);
+                logger.LogDebug(message: "No scheduled tasks are due to run.");
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
+    public ValueTask LogScheduledTasksRunningAsync(int scheduledTaskCount) =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: [scheduledTaskCount]);
+                logger.LogInformation(message: "{Count} are scheduled to run, executing ...", args: scheduledTaskCount);
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
+    public ValueTask LogScheduledTaskRunningAsync(ScheduledTask scheduledTask) =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: [scheduledTask]);
+
+                logger.LogDebug(
+                    message: "Running task {Name} ({Id}), due to be run since @ {DueTime}",
+                    args: [scheduledTask.Name, scheduledTask.Id, scheduledTask.NextExecution?.ToString(format: "HH:mm:ss")]);
+
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
+    public ValueTask LogScheduledTaskCompleteAsync(ScheduledTask scheduledTask) =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: [scheduledTask]);
+
+                logger.LogDebug(
+                    message: "Running task {Name} ({Id}) complete",
+                    args: [scheduledTask.Name, scheduledTask.Id]);
+
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
+    public ValueTask LogScheduledTaskSkippedAsync(ScheduledTask scheduledTask) =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: [scheduledTask]);
+
+                logger.LogDebug(
+                    message: "Task {Id} - {Name} in app {AppId} skipped due to excluded date",
+                    args: [scheduledTask.Id, scheduledTask.Name, scheduledTask.AppId]);
+
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
+    public ValueTask LogScheduledTasksExecutedAsync(int scheduledTaskCount) =>
+        TryCatch(
+            operation: () =>
+            {
+                ValidateInputs(inputs: [scheduledTaskCount]);
+                logger.LogInformation(message: "{Count} Scheduled executions run.", args: scheduledTaskCount);
+                return ValueTask.CompletedTask;
+            },
+            isValueTask: true);
+
     public ScheduledTask Get(int scheduledTaskId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [scheduledTaskId]); return ExecuteGet(scheduledTaskId: scheduledTaskId); });
 

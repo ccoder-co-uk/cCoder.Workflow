@@ -4975,6 +4975,66 @@
           "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
         },
         {
+          "Name": "IsScheduledTaskMigrationActive",
+          "Inputs": [],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "LogNoScheduledTasksDueAsync",
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTaskCompleteAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTaskRunningAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTaskSkippedAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTasksExecutedAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskCount",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTasksRunningAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskCount",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
           "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
@@ -5402,19 +5462,15 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Foundations.CalendarEventService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Foundations.ScheduledTaskService"
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
@@ -5474,6 +5530,10 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.ScheduledTaskService"
     },
     {
@@ -5498,55 +5558,6 @@
       "LineNumber": 10
     },
     {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 5
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 143
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 5
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 145
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 6
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 164
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 9
-    },
-    {
       "Code": "STXAPI001",
       "Description": "An API controller must have exactly one business dependency.",
       "Severity": "Warning",
@@ -5568,67 +5579,11 @@
       "LineNumber": 18
     },
     {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 83
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 5
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 145
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 5
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 155
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 5
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 141
-    },
-    {
       "Code": "STXM001",
       "Description": "Models must not declare methods.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Models.Result\u003CT\u003E",
       "LineNumber": 45
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 8
     },
     {
       "Code": "STXA001",
@@ -5638,32 +5593,11 @@
       "LineNumber": 16
     },
     {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 276
-    },
-    {
       "Code": "STXC001",
       "Description": "The service must have two or three OrchestrationService dependencies.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
       "LineNumber": 15
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowMetadataTypeService",
-      "LineNumber": 6
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowMetadataTypeService",
-      "LineNumber": 176
     },
     {
       "Code": "STXO001",
@@ -5673,11 +5607,18 @@
       "LineNumber": 13
     },
     {
-      "Code": "STXO001",
-      "Description": "An orchestration must have two or three foundation or processing dependencies and must not mix them.",
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "LineNumber": 14
+      "LineNumber": 7
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
+      "LineNumber": 140
     },
     {
       "Code": "STXO001",
@@ -5685,6 +5626,20 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
       "LineNumber": 16
+    },
+    {
+      "Code": "STXFORMAT013",
+      "Description": "C# source files must use one consistent line-ending style throughout the project.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "LineNumber": 14
+    },
+    {
+      "Code": "STXFORMAT001",
+      "Description": "Source files must not contain newline characters after the final code token.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "LineNumber": 196
     }
   ]
 }

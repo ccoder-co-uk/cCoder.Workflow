@@ -4,7 +4,6 @@
 
 using cCoder.Data.Models.Planning;
 using cCoder.Workflow.Models;
-using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Processings;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore;
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class TaskRunnerOrchestrationService(
-    IScheduledTaskService scheduledTaskService,
-    ICalendarEventService calendarEventService,
-    IScheduledTaskEventProcessingService scheduledTaskEventProcessingService,
-    WorkflowConfiguration configuration,
-    ILogger<TaskRunnerOrchestrationService> log)
+    IScheduledTaskProcessingService scheduledTaskProcessingService,
+    ICalendarEventProcessingService calendarEventProcessingService,
+    IScheduledTaskEventProcessingService scheduledTaskEventProcessingService)
     : ITaskRunnerOrchestrationService
 {
     public Task RunContinuouslyAsync(CancellationToken cancellationToken = default) =>
@@ -24,7 +21,7 @@ internal sealed partial class TaskRunnerOrchestrationService(
 
     private async Task ExecuteRunContinuouslyAsync(CancellationToken cancellationToken = default)
     {
-        if (configuration.IsMigrating)
+        if (scheduledTaskProcessingService.IsScheduledTaskMigrationActive())
         {
             return;
         }
@@ -44,7 +41,7 @@ internal sealed partial class TaskRunnerOrchestrationService(
 
     private async Task ExecuteRunAsync(CancellationToken cancellationToken = default)
     {
-        ScheduledTask[] dueTasks = scheduledTaskService.GetAll(ignoreFilters: true)
+        ScheduledTask[] dueTasks = scheduledTaskProcessingService.GetAll(ignoreFilters: true)
             .Where(predicate: task => task.NextExecution != null && task.NextExecution < DateTimeOffset.UtcNow && task.ScheduleInTicks != 0)
             .Include(navigationPropertyPath: task => task.Flow)
                 .ThenInclude(navigationPropertyPath: flow => flow.App)
@@ -55,7 +52,7 @@ internal sealed partial class TaskRunnerOrchestrationService(
 
         if (dueTasks.Length == 0)
         {
-            log.LogDebug(message: "No scheduled tasks are due to run.");
+            await scheduledTaskProcessingService.LogNoScheduledTasksDueAsync();
             return;
         }
 
@@ -65,14 +62,14 @@ internal sealed partial class TaskRunnerOrchestrationService(
             .Distinct()
             .ToArray();
 
-        CalendarEvent[] events = calendarEventService.GetAll(ignoreFilters: true)
+        CalendarEvent[] events = calendarEventProcessingService.GetAll(ignoreFilters: true)
             .Where(predicate: calendarEvent =>
                 calendarIds.Contains(value: calendarEvent.CalendarId) &&
                 calendarEvent.Start >= DateTimeOffset.Now.Date &&
                 calendarEvent.Start <= DateTimeOffset.Now.AddDays(days: 14).Date)
             .ToArray();
 
-        log.LogInformation(message: "{Count} are scheduled to run, executing ...", args: dueTasks.Length);
+        await scheduledTaskProcessingService.LogScheduledTasksRunningAsync(scheduledTaskCount: dueTasks.Length);
 
         int dueTasksExecuted = 0;
 
@@ -80,19 +77,15 @@ internal sealed partial class TaskRunnerOrchestrationService(
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            log.LogDebug(
-                message: "Running task {Name} ({Id}), due to be run since @ {DueTime}",
-                args: [task.Name, task.Id, task.NextExecution?.ToString(format: "HH:mm:ss")]);
+            await scheduledTaskProcessingService.LogScheduledTaskRunningAsync(scheduledTask: task);
 
             await RunTaskAsync(events: events, task: task, cancellationToken: cancellationToken);
             dueTasksExecuted++;
 
-            log.LogDebug(
-                message: "Running task {Name} ({Id}) complete",
-                args: [task.Name, task.Id]);
+            await scheduledTaskProcessingService.LogScheduledTaskCompleteAsync(scheduledTask: task);
         }
 
-        log.LogInformation(message: "{Count} Scheduled executions run.", args: dueTasksExecuted);
+        await scheduledTaskProcessingService.LogScheduledTasksExecutedAsync(scheduledTaskCount: dueTasksExecuted);
     }
 
     private async Task RunTaskAsync(
@@ -114,9 +107,7 @@ internal sealed partial class TaskRunnerOrchestrationService(
 
             if (matchedEvents.Any(predicate: calendarEvent => calendarEvent.Start.Date == DateTimeOffset.Now.Date))
             {
-                log.LogDebug(
-                    message: "Task {Id} - {Name} in app {AppId} skipped due to excluded date",
-                    args: [task.Id, task.Name, task.AppId]);
+                await scheduledTaskProcessingService.LogScheduledTaskSkippedAsync(scheduledTask: task);
 
                 return;
             }
@@ -129,8 +120,8 @@ internal sealed partial class TaskRunnerOrchestrationService(
         ScheduledTask task,
         CancellationToken cancellationToken)
     {
-        ScheduledTask updatedTask = await scheduledTaskService.MarkExecutedAsync(
-scheduledTaskId: task.Id,
+        ScheduledTask updatedTask = await scheduledTaskProcessingService.ExecuteScheduledTaskAsync(
+            scheduledTaskId: task.Id,
             incrementNextExecution: true);
 
         if (updatedTask == null)

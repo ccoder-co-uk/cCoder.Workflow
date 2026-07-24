@@ -12,6 +12,20 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface IScheduledTaskProcessingService
 {
+    bool IsScheduledTaskMigrationActive();
+
+    ValueTask LogNoScheduledTasksDueAsync();
+
+    ValueTask LogScheduledTasksRunningAsync(int scheduledTaskCount);
+
+    ValueTask LogScheduledTaskRunningAsync(ScheduledTask scheduledTask);
+
+    ValueTask LogScheduledTaskCompleteAsync(ScheduledTask scheduledTask);
+
+    ValueTask LogScheduledTaskSkippedAsync(ScheduledTask scheduledTask);
+
+    ValueTask LogScheduledTasksExecutedAsync(int scheduledTaskCount);
+
     ScheduledTask Get(int scheduledTaskId);
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);

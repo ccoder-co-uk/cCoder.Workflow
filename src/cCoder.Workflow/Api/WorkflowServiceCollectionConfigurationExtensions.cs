@@ -21,7 +21,7 @@ internal static class WorkflowServiceCollectionConfigurationExtensions
         Action<IServiceCollection, WorkflowConfiguration> newConfigure)
     {
         WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: newConfigure);
-        services.AddWorkflow();
+        IServiceCollectionExtensions.AddWorkflow(services: services);
         return configuration;
     }
 
@@ -31,7 +31,7 @@ internal static class WorkflowServiceCollectionConfigurationExtensions
         ODataConventionModelBuilder builder = null)
     {
         WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: newConfigure);
-        services.AddWorkflowWeb(builder: builder);
+        IServiceCollectionExtensions.AddWorkflowWeb(services: services, builder: builder);
 
         services.AddConfiguredApi(
 newConfiguration: configuration,
@@ -47,7 +47,7 @@ builder: builder);
         Action<IServiceCollection, WorkflowConfiguration> newConfigure)
     {
         WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: newConfigure);
-        services.AddWorkflowHostedServices();
+        IServiceCollectionExtensions.AddWorkflowHostedServices(services: services);
         return configuration;
     }
 

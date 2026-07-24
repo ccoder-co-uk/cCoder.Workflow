@@ -61,7 +61,7 @@ public static partial class IServiceCollectionExtensions
         Action<WorkflowConfiguration> newConfigure = null) =>
         services.AddConfiguredWorkflowHostedServices(newConfigure: (_, configuration) => newConfigure?.Invoke(obj: configuration));
 
-    internal static void AddWorkflow(this IServiceCollection services)
+    internal static void AddWorkflow(IServiceCollection services)
     {
         services.AddEventingTypes();
         services.AddBrokers();
@@ -72,15 +72,15 @@ public static partial class IServiceCollectionExtensions
         services.AddEventHandlers();
     }
 
-    internal static void AddWorkflowWeb(this IServiceCollection services, ODataConventionModelBuilder builder = null)
+    internal static void AddWorkflowWeb(IServiceCollection services, ODataConventionModelBuilder builder = null)
     {
-        services.AddWorkflow();
+        AddWorkflow(services: services);
         services.AddTransient<IFlowDefinitionControllerService, FlowDefinitionControllerService>();
     }
 
-    internal static void AddWorkflowHostedServices(this IServiceCollection services)
+    internal static void AddWorkflowHostedServices(IServiceCollection services)
     {
-        services.AddWorkflow();
+        AddWorkflow(services: services);
         services.AddSingleton<IInstanceMaintenanceBackgroundServiceDependency, InstanceMaintenanceBackgroundServiceDependency>();
 
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>

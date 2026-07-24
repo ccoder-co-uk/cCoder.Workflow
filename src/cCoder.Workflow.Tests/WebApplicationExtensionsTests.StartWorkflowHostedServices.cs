@@ -109,16 +109,16 @@ implementationInstance: new MockWorkflowMetadataTypeService());
     private sealed class MockWorkflowMetadataTypeService
         : cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService
     {
-        public cCoder.Workflow.Api.OData.MetadataContainerSet GetCoreMetadata() =>
+        public cCoder.Workflow.Dependencies.OData.MetadataContainerSet GetCoreMetadata() =>
             new();
 
-        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownActivityTypes() =>
+        public cCoder.Workflow.Dependencies.OData.MetadataContainerSet[] GetKnownActivityTypes() =>
             [];
 
-        public cCoder.Workflow.Api.OData.MetadataContainerSet[] GetKnownSystemTypes() =>
+        public cCoder.Workflow.Dependencies.OData.MetadataContainerSet[] GetKnownSystemTypes() =>
             [];
 
-        public cCoder.Workflow.Api.OData.MetadataContainerSet GetSharedMetadata() =>
+        public cCoder.Workflow.Dependencies.OData.MetadataContainerSet GetSharedMetadata() =>
             new();
     }
 }
