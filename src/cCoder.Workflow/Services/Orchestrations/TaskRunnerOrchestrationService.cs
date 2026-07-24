@@ -7,7 +7,6 @@ using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class TaskRunnerOrchestrationService(
@@ -17,7 +16,13 @@ internal sealed partial class TaskRunnerOrchestrationService(
     : ITaskRunnerOrchestrationService
 {
     public Task RunContinuouslyAsync(CancellationToken cancellationToken = default) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunContinuouslyAsync(cancellationToken: cancellationToken); });
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [cancellationToken]);
+                await ExecuteRunContinuouslyAsync(cancellationToken: cancellationToken);
+            },
+            cancellationToken: cancellationToken);
 
     private async Task ExecuteRunContinuouslyAsync(CancellationToken cancellationToken = default)
     {
@@ -37,7 +42,13 @@ internal sealed partial class TaskRunnerOrchestrationService(
     }
 
     public Task RunAsync(CancellationToken cancellationToken = default) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunAsync(cancellationToken: cancellationToken); });
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [cancellationToken]);
+                await ExecuteRunAsync(cancellationToken: cancellationToken);
+            },
+            cancellationToken: cancellationToken);
 
     private async Task ExecuteRunAsync(CancellationToken cancellationToken = default)
     {
