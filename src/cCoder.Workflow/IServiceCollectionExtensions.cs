@@ -18,10 +18,12 @@ using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Workflow.Brokers.Storage;
+using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures.EventHandlers;
 using cCoder.Workflow.Dependencies.HostedServices;
+using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Foundations;
@@ -75,7 +77,7 @@ public static partial class IServiceCollectionExtensions
     internal static void AddWorkflowWeb(IServiceCollection services, ODataConventionModelBuilder builder = null)
     {
         AddWorkflow(services: services);
-        services.AddTransient<IFlowDefinitionControllerService, FlowDefinitionControllerService>();
+        services.AddTransient<IFlowDefinitionAggregationService, FlowDefinitionAggregationService>();
     }
 
     internal static void AddWorkflowHostedServices(IServiceCollection services)
@@ -140,6 +142,8 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddBrokers(this IServiceCollection services)
     {
+        services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
+        services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
         services.AddTransient<IFlowInstanceDataEventBroker, FlowInstanceDataEventBroker>();
@@ -204,10 +208,61 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<ITaskRunnerOrchestrationService, TaskRunnerOrchestrationService>();
         services.AddTransient<IWorkflowInstanceProcessingService, WorkflowInstanceProcessingService>();
         services.AddTransient<IWorkflowEventOrchestrationService, WorkflowEventOrchestrationService>();
+
+        services.AddKeyedTransient<IFlowDefinitionOrchestrationService>(
+            serviceKey: FlowDefinitionOperation.Crud,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IFlowDefinitionOrchestrationService>());
+
+        services.AddKeyedTransient<IFlowDefinitionCoordinationService>(
+            serviceKey: FlowDefinitionOperation.Queue,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IFlowDefinitionCoordinationService>());
+
+        services.AddKeyedTransient<IWorkflowMetadataTypeService>(
+            serviceKey: FlowDefinitionOperation.Metadata,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IWorkflowMetadataTypeService>());
+
+        services.AddKeyedTransient<IAuthorizationBroker>(
+            serviceKey: FlowDefinitionOperation.Authorization,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IAuthorizationBroker>());
+
+        services.AddKeyedTransient<Config>(
+            serviceKey: FlowDefinitionOperation.Configuration,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<Config>());
+
+        services.AddKeyedTransient<ICalendarOrchestrationService>(
+            serviceKey: WorkflowMigrationOperation.Calendar,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<ICalendarOrchestrationService>());
+
+        services.AddKeyedTransient<ICalendarEventOrchestrationService>(
+            serviceKey: WorkflowMigrationOperation.CalendarEvent,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<ICalendarEventOrchestrationService>());
+
+        services.AddKeyedTransient<IFlowDefinitionOrchestrationService>(
+            serviceKey: WorkflowMigrationOperation.FlowDefinition,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IFlowDefinitionOrchestrationService>());
+
+        services.AddKeyedTransient<IJsonBroker>(
+            serviceKey: WorkflowMigrationOperation.Json,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IJsonBroker>());
+
+        services.AddKeyedTransient<ILogger<WorkflowMigrationAggregationService>>(
+            serviceKey: WorkflowMigrationOperation.Logging,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<ILogger<WorkflowMigrationAggregationService>>());
     }
 
     private static void AddProcessings(this IServiceCollection services)
     {
+        services.AddTransient<IBaselineProcessingService, BaselineProcessingService>();
         services.AddTransient<ICalendarEntityEventProcessingService, CalendarEntityEventProcessingService>();
         services.AddTransient<ICalendarEventEventProcessingService, CalendarEventEventProcessingService>();
         services.AddTransient<ICalendarEventProcessingService, CalendarEventProcessingService>();

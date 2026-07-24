@@ -267,9 +267,9 @@ implementationInstance: new Config
         await RunCommandAsync(fileName: "dotnet", arguments: $"restore {projectPath} {outputProperties}");
 
         await RunCommandAsync(
-fileName: "dotnet",
-arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
-            $"-p:BuildInParallel=false -p:UseSharedCompilation=false {outputProperties}");
+            fileName: "dotnet",
+            arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
+                $"-p:BuildInParallel=false -p:UseSharedCompilation=false {outputProperties}");
     }
 
     private static string ResolveBuildConfiguration()

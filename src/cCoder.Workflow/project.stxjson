@@ -604,6 +604,40 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetOperationService",
+          "Inputs": [
+            {
+              "Name": "operation",
+              "Type": "cCoder.Workflow.Dependencies.ServiceProviders.FlowDefinitionOperation"
+            }
+          ],
+          "ReturnType": "T"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.ServiceProviders.WorkflowMigrationServiceProviderBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetOperationService",
+          "Inputs": [
+            {
+              "Name": "operation",
+              "Type": "cCoder.Workflow.Dependencies.ServiceProviders.WorkflowMigrationOperation"
+            }
+          ],
+          "ReturnType": "T"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
       "StandardElementType": "Broker",
       "Properties": [],
@@ -2014,96 +2048,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "DeleteAsync",
-          "Inputs": [
-            {
-              "Name": "flowDefinitionId",
-              "Type": "System.Guid"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
-          "Name": "Get",
-          "Inputs": [
-            {
-              "Name": "flowDefinitionId",
-              "Type": "System.Guid"
-            }
-          ],
-          "ReturnType": "FlowDefinition"
-        },
-        {
-          "Name": "GetAll",
-          "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
-        },
-        {
-          "Name": "GetKnownActivityTypes",
-          "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
-        },
-        {
-          "Name": "GetKnownSystemTypes",
-          "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
-        },
-        {
-          "Name": "PostFlowDefinitionAsync",
-          "Inputs": [
-            {
-              "Name": "newEntity",
-              "Type": "FlowDefinition"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
-        },
-        {
-          "Name": "PostFlowDefinitionQueueAsync",
-          "Inputs": [
-            {
-              "Name": "flowDefinitionId",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "asUserId",
-              "Type": "System.String"
-            },
-            {
-              "Name": "args",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
-        },
-        {
-          "Name": "PostScriptAsync",
-          "Inputs": [
-            {
-              "Name": "script",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
-        },
-        {
-          "Name": "PutFlowDefinitionAsync",
-          "Inputs": [
-            {
-              "Name": "updatedEntity",
-              "Type": "FlowDefinition"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -2809,6 +2753,96 @@
         }
       ],
       "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
+      "StandardElementType": "AggregationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "DeleteFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "ExecuteScriptAsync",
+          "Inputs": [
+            {
+              "Name": "script",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E"
+        },
+        {
+          "Name": "GetAllFlowDefinitions",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "GetFlowDefinition",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowDefinition"
+        },
+        {
+          "Name": "GetKnownActivityTypes",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+        },
+        {
+          "Name": "GetKnownSystemTypes",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+        },
+        {
+          "Name": "QueueFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "asUserId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
+        },
+        {
+          "Name": "UpdateFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        }
+      ]
     },
     {
       "Name": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
@@ -4342,6 +4376,18 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Services.Processings.BaselineProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetBaselinePackages",
+          "Inputs": [],
+          "ReturnType": "Package[]"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService",
       "StandardElementType": "ProcessingService",
       "Properties": [],
@@ -5400,6 +5446,10 @@
       "ToType": "cCoder.Workflow.Dependencies.JsonDependency"
     },
     {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.BaselineController",
+      "ToType": "cCoder.Workflow.Services.Processings.BaselineProcessingService"
+    },
+    {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
     },
@@ -5409,23 +5459,7 @@
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "ToType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "ToType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "ToType": "cCoder.Workflow.Services.Foundations.WorkflowMetadataTypeService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+      "ToType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
@@ -5452,20 +5486,12 @@
       "ToType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService"
     },
     {
-      "FromType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "ToType": "cCoder.Workflow.Brokers.JsonBroker"
+      "FromType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
+      "ToType": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker"
     },
     {
       "FromType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+      "ToType": "cCoder.Workflow.Brokers.ServiceProviders.WorkflowMigrationServiceProviderBroker"
     },
     {
       "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
@@ -5720,41 +5746,5 @@
       "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
     }
   ],
-  "AnalysisItems": [
-    {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.BaselineController",
-      "LineNumber": 10
-    },
-    {
-      "Code": "STXAPI001",
-      "Description": "An API controller must have exactly one business dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXAPI003",
-      "Description": "An API controller class name must end with Controller.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXE004",
-      "Description": "An exposure must not communicate directly with a broker.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXA001",
-      "Description": "An aggregation service may have any number of dependencies, but they must share the same service variation.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 16
-    }
-  ]
+  "AnalysisItems": []
 }

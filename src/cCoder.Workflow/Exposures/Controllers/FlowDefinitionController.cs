@@ -6,6 +6,7 @@ using System.Text;
 using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Services.Aggregations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
@@ -15,7 +16,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class FlowDefinitionController(IFlowDefinitionControllerService service) : ODataController
+public partial class FlowDefinitionController(IFlowDefinitionAggregationService service) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()
@@ -42,7 +43,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<FlowDefinition> queryOptions) =>
-        Ok(value: service.GetAll());
+        Ok(value: service.GetAllFlowDefinitions());
 
     [HttpGet]
     [AllowAnonymous]
@@ -58,7 +59,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     {
         try
         {
-            FlowDefinition result = service.Get(flowDefinitionId: key);
+            FlowDefinition result = service.GetFlowDefinition(flowDefinitionId: key);
             return result is null ? NotFound() : Ok(value: result);
         }
         catch (System.Security.SecurityException)
@@ -83,7 +84,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.PostFlowDefinitionAsync(newEntity: newEntity));
+        return Ok(value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -102,13 +103,13 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await service.PutFlowDefinitionAsync(updatedEntity: updatedEntity));
+        return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> updatedDelta)
     {
-        FlowDefinition originalEntity = service.Get(flowDefinitionId: key);
+        FlowDefinition originalEntity = service.GetFlowDefinition(flowDefinitionId: key);
 
         if (originalEntity == null)
         {
@@ -116,13 +117,13 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
         }
 
         updatedDelta.Patch(original: originalEntity);
-        return Ok(value: await service.PutFlowDefinitionAsync(updatedEntity: originalEntity));
+        return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await service.DeleteAsync(flowDefinitionId: key);
+        await service.DeleteFlowDefinitionAsync(flowDefinitionId: key);
         return Ok();
     }
 
@@ -131,14 +132,14 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
         string asUserId = User?.Identity?.Name;
-        return Ok(value: await service.PostFlowDefinitionQueueAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
+        return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
     }
 
     [HttpPost]
     public async Task<IActionResult> PostScript()
     {
         string script = await new StreamReader(Request.Body).ReadToEndAsync();
-        return Ok(value: await service.PostScriptAsync(script: script));
+        return Ok(value: await service.ExecuteScriptAsync(script: script));
     }
 
     [HttpGet]

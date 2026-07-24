@@ -5,24 +5,29 @@
 using cCoder.Data;
 using cCoder.Data.Models.Security;
 using cCoder.Workflow.Brokers;
-using cCoder.Workflow.Exposures.Controllers;
+using cCoder.Workflow.Brokers.ServiceProviders;
+using cCoder.Workflow.Dependencies.ServiceProviders;
+using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Orchestrations;
 using Moq;
 
-namespace cCoder.Workflow.Tests.Workflow.Controllers;
+namespace cCoder.Workflow.Tests.Workflow.Aggregations;
 
-public partial class FlowDefinitionControllerServiceTests
+public partial class FlowDefinitionAggregationServiceTests
 {
+    private readonly Mock<IFlowDefinitionServiceProviderBroker> serviceProviderBrokerMock;
     private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
     private readonly Mock<IFlowDefinitionCoordinationService> flowDefinitionCoordinationServiceMock;
     private readonly Mock<IWorkflowMetadataTypeService> workflowMetadataTypeServiceMock;
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
-    private readonly FlowDefinitionControllerService service;
+    private readonly FlowDefinitionAggregationService service;
 
-    public FlowDefinitionControllerServiceTests()
+    public FlowDefinitionAggregationServiceTests()
     {
+        serviceProviderBrokerMock =
+            new Mock<IFlowDefinitionServiceProviderBroker>(MockBehavior.Strict);
         flowDefinitionOrchestrationServiceMock =
             new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
         flowDefinitionCoordinationServiceMock =
@@ -32,11 +37,12 @@ public partial class FlowDefinitionControllerServiceTests
         authorizationBrokerMock =
             new Mock<IAuthorizationBroker>(MockBehavior.Strict);
 
-        service = new FlowDefinitionControllerService(
-            flowDefinitionOrchestrationServiceMock.Object,
-            flowDefinitionCoordinationServiceMock.Object,
-            workflowMetadataTypeServiceMock.Object,
-            authorizationBrokerMock.Object,
-            new Config { Services = new Dictionary<string, string>() });
+        service = new FlowDefinitionAggregationService(
+            serviceProviderBrokerMock.Object);
+
+        serviceProviderBrokerMock
+            .Setup(expression: broker => broker.GetOperationService<IFlowDefinitionCoordinationService>(
+                FlowDefinitionOperation.Queue))
+            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
     }
 }

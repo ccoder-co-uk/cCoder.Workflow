@@ -7,6 +7,8 @@ using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
+using cCoder.Workflow.Brokers.ServiceProviders;
+using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Orchestrations;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 
@@ -14,11 +16,7 @@ using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 namespace cCoder.Workflow.Services.Aggregations;
 
 internal sealed partial class WorkflowMigrationAggregationService(
-    ICalendarOrchestrationService calendarOrchestrationService,
-    ICalendarEventOrchestrationService calendarEventOrchestrationService,
-    IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
-    ILogger<WorkflowMigrationAggregationService> logger,
-    IJsonBroker jsonBroker
+    IWorkflowMigrationServiceProviderBroker serviceProviderBroker
 ) : IWorkflowMigrationAggregationService
 {
     public ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage package) =>
@@ -83,13 +81,15 @@ internal sealed partial class WorkflowMigrationAggregationService(
     private async ValueTask ImportCalendarsAsync(int appId, WorkflowPackageItem item)
     {
         Calendar[] calendars = item.Data.StartsWith(value: "{")
-            ? [jsonBroker.ParseJson<Calendar>(json: item.Data)]
-            : jsonBroker.ParseJson<Calendar[]>(json: item.Data);
+            ? [GetJsonBroker()
+                .ParseJson<Calendar>(json: item.Data)]
+            : GetJsonBroker()
+                .ParseJson<Calendar[]>(json: item.Data);
 
         string[] names = calendars.Select(selector: calendar => calendar.Name.ToLower())
             .ToArray();
 
-        var existingCalendars = calendarOrchestrationService
+        var existingCalendars = GetCalendarOrchestrationService()
             .GetAll()
             .Where(predicate: calendar => calendar.AppId == appId && names.Contains(value: calendar.Name.ToLower()))
             .Select(selector: calendar => new { calendar.Id, calendar.Name })
@@ -109,16 +109,19 @@ action: calendar =>
                     ?.Id ?? 0;
             });
 
-        _ = await calendarOrchestrationService.AddOrUpdateCalendar(items: calendars.Where(predicate: calendar => calendar.Id == 0));
+        _ = await GetCalendarOrchestrationService()
+            .AddOrUpdateCalendar(items: calendars.Where(predicate: calendar => calendar.Id == 0));
     }
 
     private async ValueTask ImportCalendarEventsAsync(int appId, WorkflowPackageItem item)
     {
         ImportCalendarEventInfo[] importSet = item.Data.StartsWith(value: "{")
-            ? [jsonBroker.ParseJson<ImportCalendarEventInfo>(json: item.Data)]
-            : jsonBroker.ParseJson<ImportCalendarEventInfo[]>(json: item.Data);
+            ? [GetJsonBroker()
+                .ParseJson<ImportCalendarEventInfo>(json: item.Data)]
+            : GetJsonBroker()
+                .ParseJson<ImportCalendarEventInfo[]>(json: item.Data);
 
-        Calendar[] calendars = calendarOrchestrationService
+        Calendar[] calendars = GetCalendarOrchestrationService()
             .GetAll(ignoreFilters: true)
             .Where(predicate: calendar => calendar.AppId == appId)
             .ToArray();
@@ -126,7 +129,7 @@ action: calendar =>
         string[] calendarEventNames = importSet.Select(selector: calendarEvent => calendarEvent.Name)
             .ToArray();
 
-        CalendarEvent[] existingCalendarEvents = calendarEventOrchestrationService
+        CalendarEvent[] existingCalendarEvents = GetCalendarEventOrchestrationService()
             .GetAll(ignoreFilters: true)
             .Where(predicate: calendarEvent =>
                 calendarEvent.Calendar.AppId == appId && calendarEventNames.Contains(value: calendarEvent.Name))
@@ -159,23 +162,27 @@ action: calendar =>
             calendarEventsToAdd.Add(item: calendarEvent);
         }
 
-        logger.LogDebug(
+        GetLogger()
+            .LogDebug(
             message: "Importing {CalendarEventCount} new calendar events for app {AppId}",
             args: [calendarEventsToAdd.Count, appId]);
 
-        _ = await calendarEventOrchestrationService.AddOrUpdateCalendarEvent(items: [.. calendarEventsToAdd]);
+        _ = await GetCalendarEventOrchestrationService()
+            .AddOrUpdateCalendarEvent(items: [.. calendarEventsToAdd]);
     }
 
     private async ValueTask ImportFlowDefinitionsAsync(int appId, WorkflowPackageItem item)
     {
         FlowDefinition[] flowDefinitions = item.Data.StartsWith(value: "{")
-            ? [jsonBroker.ParseJson<FlowDefinition>(json: item.Data)]
-            : jsonBroker.ParseJson<FlowDefinition[]>(json: item.Data);
+            ? [GetJsonBroker()
+                .ParseJson<FlowDefinition>(json: item.Data)]
+            : GetJsonBroker()
+                .ParseJson<FlowDefinition[]>(json: item.Data);
 
         string[] names = flowDefinitions.Select(selector: flowDefinition => flowDefinition.Name.ToLower())
             .ToArray();
 
-        var existingFlowDefinitions = flowDefinitionOrchestrationService
+        var existingFlowDefinitions = GetFlowDefinitionOrchestrationService()
             .GetAll()
             .Where(predicate: flowDefinition =>
                 flowDefinition.AppId == appId && names.Contains(value: flowDefinition.Name.ToLower()))
@@ -186,7 +193,8 @@ action: calendar =>
             })
             .ToArray();
 
-        logger.LogDebug(
+        GetLogger()
+            .LogDebug(
 message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
 args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(value: existingFlowDefinitions));
 
@@ -198,7 +206,8 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
             flowDefinition.Id = existingFlowDefinition?.Id ?? Guid.Empty;
         }
 
-        _ = await flowDefinitionOrchestrationService.AddOrUpdateFlowDefinition(items: flowDefinitions);
+        _ = await GetFlowDefinitionOrchestrationService()
+            .AddOrUpdateFlowDefinition(items: flowDefinitions);
     }
 
     private cCoder.Data.Models.Packaging.Package ExportCalendars(int appId) =>
@@ -209,7 +218,7 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
                 new Data.Models.Packaging.PackageItem
                 {
                     Type = "Core/Calendar",
-                    Data = calendarOrchestrationService
+                    Data = GetCalendarOrchestrationService()
                         .GetAll(ignoreFilters:false)
                         .Where(predicate:calendar => calendar.AppId == appId)
                         .Select(selector:calendar => new { calendar.Name, calendar.Description })
@@ -227,7 +236,7 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
                 new Data.Models.Packaging.PackageItem
                 {
                     Type = "Core/CalendarEvent",
-                    Data = calendarEventOrchestrationService
+                    Data = GetCalendarEventOrchestrationService()
                         .GetAll(ignoreFilters:false)
                         .ToArray()
                         .Where(predicate:calendarEvent => calendarEvent.Calendar != null && calendarEvent.Calendar.AppId == appId)
@@ -253,8 +262,9 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
                 new Data.Models.Packaging.PackageItem
                 {
                     Type = "Core/FlowDefinition",
-                    Data = jsonBroker.Serialize(
-value:                        flowDefinitionOrchestrationService
+                    Data = GetJsonBroker()
+                        .Serialize(
+                            value: GetFlowDefinitionOrchestrationService()
                             .GetAll(ignoreFilters:false)
                             .Where(predicate:flowDefinition => flowDefinition.AppId == appId)
                             .Select(selector:flowDefinition => new
@@ -273,4 +283,24 @@ value:                        flowDefinitionOrchestrationService
                 },
             ],
         };
+
+    private ICalendarOrchestrationService GetCalendarOrchestrationService() =>
+        serviceProviderBroker.GetOperationService<ICalendarOrchestrationService>(
+            operation: WorkflowMigrationOperation.Calendar);
+
+    private ICalendarEventOrchestrationService GetCalendarEventOrchestrationService() =>
+        serviceProviderBroker.GetOperationService<ICalendarEventOrchestrationService>(
+            operation: WorkflowMigrationOperation.CalendarEvent);
+
+    private IFlowDefinitionOrchestrationService GetFlowDefinitionOrchestrationService() =>
+        serviceProviderBroker.GetOperationService<IFlowDefinitionOrchestrationService>(
+            operation: WorkflowMigrationOperation.FlowDefinition);
+
+    private IJsonBroker GetJsonBroker() =>
+        serviceProviderBroker.GetOperationService<IJsonBroker>(
+            operation: WorkflowMigrationOperation.Json);
+
+    private ILogger<WorkflowMigrationAggregationService> GetLogger() =>
+        serviceProviderBroker.GetOperationService<ILogger<WorkflowMigrationAggregationService>>(
+            operation: WorkflowMigrationOperation.Logging);
 }
