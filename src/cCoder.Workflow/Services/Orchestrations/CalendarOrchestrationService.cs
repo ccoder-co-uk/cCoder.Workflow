@@ -74,6 +74,7 @@ internal sealed partial class CalendarOrchestrationService(
 
         await calendarEventProcessingService.DeleteAllCalendarEventAsync(
             deletedItems: calendarEvents);
+
         await eventService.RaiseCalendarDeleteEventAsync(entity: entity);
         await processingService.DeleteAsync(calendarId: calendarId);
     }
