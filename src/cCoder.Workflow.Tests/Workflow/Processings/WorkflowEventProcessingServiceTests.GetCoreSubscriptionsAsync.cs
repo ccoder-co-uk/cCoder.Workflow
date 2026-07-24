@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -27,16 +31,21 @@ public partial class WorkflowEventProcessingServiceTests
         wrongAppEvent.Flow = new FlowDefinition { AppId = 2 };
 
         IQueryable<WorkflowEvent> entities = new[] { matchingEvent, wrongContextEvent, wrongAppEvent }.AsQueryable();
-        workflowEventServiceMock.Setup(x => x.GetAll(true)).Returns(entities);
+
+        workflowEventServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: entities);
 
         // When
         WorkflowEvent[] result = await workflowEventProcessingService.GetSubscriptionsAsync(
-            1,
-            "page_update/home");
+appId: 1,
+eventContext: "page_update/home");
 
         // Then
-        result.Should().ContainSingle().Which.Should().BeSameAs(matchingEvent);
-        workflowEventServiceMock.Verify(x => x.GetAll(true), Times.Once);
+        result.Should()
+            .ContainSingle().Which.Should()
+            .BeSameAs(expected: matchingEvent);
+
+        workflowEventServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 }

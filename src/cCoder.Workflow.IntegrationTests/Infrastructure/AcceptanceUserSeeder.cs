@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using cCoder.Security.Objects.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +12,14 @@ internal static class AcceptanceUserSeeder
 {
     public static async Task EnsureCoreUserAsync(DbContext core, string id, string displayName, string email)
     {
-        if (await core.Set<User>().IgnoreQueryFilters().AnyAsync(user => user.Id == id))
+        if (await core.Set<User>()
+            .IgnoreQueryFilters()
+            .AnyAsync(predicate: user => user.Id == id))
+        {
             return;
+        }
 
-        core.Add(new User
+        core.Add(entity: new User
         {
             Id = id,
             DefaultCultureId = string.Empty,
@@ -25,10 +33,14 @@ internal static class AcceptanceUserSeeder
 
     public static async Task EnsureSsoUserAsync(DbContext sso, string id, string displayName, string email)
     {
-        if (await sso.Set<SSOUser>().IgnoreQueryFilters().AnyAsync(user => user.Id == id))
+        if (await sso.Set<SSOUser>()
+            .IgnoreQueryFilters()
+            .AnyAsync(predicate: user => user.Id == id))
+        {
             return;
+        }
 
-        sso.Add(new SSOUser
+        sso.Add(entity: new SSOUser
         {
             Id = id,
             DisplayName = displayName,

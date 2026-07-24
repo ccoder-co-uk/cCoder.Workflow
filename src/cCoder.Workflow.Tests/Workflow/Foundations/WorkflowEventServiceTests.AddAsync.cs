@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
@@ -14,121 +18,135 @@ public partial class WorkflowEventServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForAddAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new User { Id = "test-user" });
+
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         WorkflowEvent submitted = null;
 
-        workflowEventBrokerMock.Setup(x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns((int?)7);
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "WorkflowEvent_create"));
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
+            .Returns(value: (int?)7);
+
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"));
 
         workflowEventBrokerMock
-            .Setup(x =>
+            .Setup(expression: x =>
                 x.AddWorkflowEventAsync(
-                    It.Is<WorkflowEvent>(candidate => !ReferenceEquals(candidate, workflowEvent))
+newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
                 )
             )
-            .Callback<WorkflowEvent>(candidate => submitted = candidate)
-            .ReturnsAsync((WorkflowEvent value) => value);
+            .Callback<WorkflowEvent>(action: candidate => submitted = candidate)
+            .ReturnsAsync(valueFunction: (WorkflowEvent value) => value);
 
         // When
-        WorkflowEvent result = await workflowEventService.AddAsync(workflowEvent);
+        WorkflowEvent result = await workflowEventService.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent);
 
         // Then
-        result.Should().BeSameAs(workflowEvent);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(workflowEvent);
-        result.Should().NotBeSameAs(submitted);
+        result.Should()
+            .BeSameAs(expected: workflowEvent);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: workflowEvent);
+
+        result.Should()
+            .NotBeSameAs(unexpected: submitted);
 
         submitted
             .Should()
             .BeEquivalentTo(
-                workflowEvent,
-                options =>
+expectation: workflowEvent,
+config: options =>
                     options
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdated")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "UpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "Created")
                         )
-                        .Excluding(candidate => candidate.Id)
+                        .Excluding(expression: candidate => candidate.Id)
             );
 
         result
             .Should()
             .BeEquivalentTo(
-                workflowEvent,
-                options =>
+expectation: workflowEvent,
+config: options =>
                     options
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdated")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "UpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "Created")
                         )
-                        .Excluding(candidate => candidate.Id)
+                        .Excluding(expression: candidate => candidate.Id)
             );
 
         workflowEventBrokerMock.Verify(
-            x =>
+expression: x =>
                 x.AddWorkflowEventAsync(
-                    It.Is<WorkflowEvent>(candidate => !ReferenceEquals(candidate, workflowEvent))
+newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
                 ),
-            Times.Once
+times: Times.Once
         );
+
         workflowEventBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
+times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "WorkflowEvent_create"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"),
+times: Times.Once
         );
     }
 
@@ -138,36 +156,32 @@ public partial class WorkflowEventServiceTests
         // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
-        workflowEventBrokerMock.Setup(x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns((int?)7);
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "WorkflowEvent_create"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await workflowEventService.AddAsync(workflowEvent);
+        Func<Task> action = async () => await workflowEventService.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
+        await action.Should()
+            .ThrowAsync<SecurityException>()
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         workflowEventBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
+times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "WorkflowEvent_create"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"),
+times: Times.Once
         );
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

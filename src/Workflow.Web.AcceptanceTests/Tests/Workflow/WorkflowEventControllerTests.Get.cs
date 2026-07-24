@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
@@ -17,7 +21,8 @@ public sealed partial class WorkflowEventControllerTests
         int actualCount = await GetWorkflowEventCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -26,10 +31,11 @@ public sealed partial class WorkflowEventControllerTests
         // Given
 
         // When
-        IReadOnlyList<WorkflowEvent> actualWorkflowEvents = await GetWorkflowEventsAsync(1);
+        IReadOnlyList<WorkflowEvent> actualWorkflowEvents = await GetWorkflowEventsAsync(top: 1);
 
         // Then
-        actualWorkflowEvents.Should().NotBeNull();
+        actualWorkflowEvents.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -39,33 +45,38 @@ public sealed partial class WorkflowEventControllerTests
         SeededWorkflowEventContext seededContext = await SeedDatabase(includeEvent: true);
 
         // When
-        WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(seededContext.EventId);
+        WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: seededContext.EventId);
 
         // Then
-        actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent.Id.Should().Be(seededContext.EventId);
+        actualWorkflowEvent.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualWorkflowEvent.Id.Should()
+            .Be(expected: seededContext.EventId);
+
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
+        // Given
         SeededWorkflowEventContext seededContext = await SeedDatabase(
             includeEvent: true,
-            "workflowevent_create",
-            "workflowevent_update",
-            "workflowevent_delete");
+            privileges:
+            [
+                "workflowevent_create",
+                "workflowevent_update",
+                "workflowevent_delete"
+            ]);
 
-        int actualStatusCode = await GetWorkflowEventStatusCodeAsync(seededContext.EventId);
+        // When
+        int actualStatusCode = await GetWorkflowEventStatusCodeAsync(workflowEventId: seededContext.EventId);
 
-        actualStatusCode.Should().Be((int)HttpStatusCode.NotFound);
+        // Then
+        actualStatusCode.Should()
+            .Be(expected: (int)HttpStatusCode.NotFound);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
@@ -15,22 +19,20 @@ public sealed partial class WorkflowEventControllerTests
         WorkflowEvent actualWorkflowEvent;
 
         // When
-        await PatchWorkflowEventAsync(seededContext.EventId, new
+        await PatchWorkflowEventAsync(workflowEventId: seededContext.EventId, payload: new
         {
             type = "Patched",
         });
 
-        actualWorkflowEvent = await GetWorkflowEventAsync(seededContext.EventId);
+        actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: seededContext.EventId);
 
         // Then
-        actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent!.Type.Should().Be("Patched");
+        actualWorkflowEvent.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualWorkflowEvent!.Type.Should()
+            .Be(expected: "Patched");
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

@@ -1,31 +1,49 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text.Json;
 using FluentAssertions;
 using Xunit;
 
 namespace Workflow.AcceptanceTests.Tests;
 
-public sealed class WorkflowLaunchSettingsTests
+public sealed partial class WorkflowLaunchSettingsTests
 {
     [Fact]
     public void WorkflowProfile_ShouldUseFunctionsHostArguments()
     {
+        // Given
         string repositoryRoot = FindRepositoryRoot();
-        string launchSettingsPath = Path.Combine(
-            repositoryRoot,
-            "src",
-            "Apps",
-            "Workflow",
-            "Properties",
-            "launchSettings.json");
 
-        using JsonDocument document = JsonDocument.Parse(File.ReadAllText(launchSettingsPath));
+        string launchSettingsPath = Path.Combine(
+            paths:
+            [
+                repositoryRoot,
+                "src",
+                "Apps",
+                "Workflow",
+                "Properties",
+                "launchSettings.json"
+            ]);
+
+        // When
+        using JsonDocument document = JsonDocument.Parse(json: File.ReadAllText(path: launchSettingsPath));
 
         JsonElement profile = document.RootElement
-            .GetProperty("profiles")
-            .GetProperty("Workflow");
+            .GetProperty(propertyName: "profiles")
+            .GetProperty(propertyName: "Workflow");
 
-        profile.GetProperty("commandName").GetString().Should().Be("Project");
-        profile.GetProperty("commandLineArgs").GetString().Should().Be("--port 7071");
+        // Then
+        profile.GetProperty(propertyName: "commandName")
+            .GetString()
+            .Should()
+            .Be(expected: "Project");
+
+        profile.GetProperty(propertyName: "commandLineArgs")
+            .GetString()
+            .Should()
+            .Be(expected: "--port 7071");
     }
 
     private static string FindRepositoryRoot()
@@ -34,8 +52,10 @@ public sealed class WorkflowLaunchSettingsTests
 
         while (directory is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "src", "cCoder.Workflow.sln")))
+            if (File.Exists(path: Path.Combine(path1: directory.FullName, path2: "src", path3: "cCoder.Workflow.sln")))
+            {
                 return directory.FullName;
+            }
 
             directory = directory.Parent;
         }

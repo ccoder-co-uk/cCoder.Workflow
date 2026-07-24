@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,22 +20,19 @@ public partial class FlowInstanceDataProcessingServiceTests
     {
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
-        flowInstanceDataServiceMock.Setup(x => x.AddAsync(entity)).ReturnsAsync(entity);
+
+        flowInstanceDataServiceMock.Setup(expression: x => x.AddFlowInstanceDataAsync(newFlowInstanceData: entity))
+            .ReturnsAsync(value: entity);
 
         // When
-        FlowInstanceData result = await flowInstanceDataProcessingService.AddAsync(entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.AddFlowInstanceDataAsync(newEntity: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        flowInstanceDataServiceMock.Verify(x => x.AddAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        flowInstanceDataServiceMock.Verify(expression: x => x.AddFlowInstanceDataAsync(newFlowInstanceData: entity), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

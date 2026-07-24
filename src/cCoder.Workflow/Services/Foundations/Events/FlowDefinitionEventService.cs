@@ -1,55 +1,54 @@
-using cCoder.Data;
-using cCoder.Workflow.Brokers.Events;
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing.Models;
-
+using cCoder.Workflow.Brokers.Events;
 
 namespace cCoder.Workflow.Services.Foundations.Events;
 
-internal class FlowDefinitionEventService(
-    IFlowDefinitionEventBroker flowDefinitionEventBroker,
-    ICoreAuthInfo authInfo
-) : IFlowDefinitionEventService
+internal sealed partial class FlowDefinitionEventService(
+    IFlowDefinitionEventBroker flowDefinitionEventBroker)
+        : IFlowDefinitionEventService
 {
-    public async ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity)
-    {
-        EventMessage<FlowDefinition> message = new()
+    public ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity) =>
+        TryCatch(operation: async () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+            ValidateInputs(inputs: [entity]);
+
+            EventMessage<FlowDefinition> message = CreateFlowDefinitionMessage(entity: entity);
+
+            await flowDefinitionEventBroker.RaiseFlowDefinitionAddEventAsync(message: message);
+        }, isValueTask: true);
+
+    public ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [entity]);
+
+            EventMessage<FlowDefinition> message = CreateFlowDefinitionMessage(entity: entity);
+
+            await flowDefinitionEventBroker.RaiseFlowDefinitionUpdateEventAsync(message: message);
+        }, isValueTask: true);
+
+    public ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [entity]);
+
+            EventMessage<FlowDefinition> message = CreateFlowDefinitionMessage(entity: entity);
+
+            await flowDefinitionEventBroker.RaiseFlowDefinitionDeleteEventAsync(message: message);
+        }, isValueTask: true);
+
+    private EventMessage<FlowDefinition> CreateFlowDefinitionMessage(FlowDefinition entity) =>
+        new()
+        {
+            AuthInfo = new EventAuthInfo
+            {
+                SSOUserId = flowDefinitionEventBroker.GetCurrentUserId()
+            },
             Data = entity,
         };
-
-        await flowDefinitionEventBroker.RaiseFlowDefinitionAddEventAsync(message);
-    }
-
-    public async ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity)
-    {
-        EventMessage<FlowDefinition> message = new()
-        {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
-
-        await flowDefinitionEventBroker.RaiseFlowDefinitionUpdateEventAsync(message);
-    }
-
-    public async ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity)
-    {
-        EventMessage<FlowDefinition> message = new()
-        {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = entity,
-        };
-
-        await flowDefinitionEventBroker.RaiseFlowDefinitionDeleteEventAsync(message);
-    }
 }
-
-
-
-
-
-
-
-
-

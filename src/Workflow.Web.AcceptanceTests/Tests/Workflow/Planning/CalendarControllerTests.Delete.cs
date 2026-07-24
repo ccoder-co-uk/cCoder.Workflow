@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -12,27 +16,27 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
-        Calendar createdCalendar = await CreateCalendarAsync(new
+
+        Calendar createdCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
-            name = Unique("Calendar"),
+            name = Unique(prefix: "Calendar"),
             description = "Acceptance calendar",
         });
+
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteCalendarAsync(createdCalendar.Id);
-        actualReadStatusCode = await GetCalendarStatusCodeAsync(createdCalendar.Id);
+        int actualStatusCode = await DeleteCalendarAsync(calendarId: createdCalendar.Id);
+        actualReadStatusCode = await GetCalendarStatusCodeAsync(calendarId: createdCalendar.Id);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualReadStatusCode.Should().Be(404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
 
-        await Teardown(seededContext);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

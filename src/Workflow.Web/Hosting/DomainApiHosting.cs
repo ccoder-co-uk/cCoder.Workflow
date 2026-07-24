@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Apps.Shared.Hosting;
 
 
@@ -13,11 +17,11 @@ public static class DomainApiHosting
 
     public static void UseDomainDefaultCors(this WebApplication app)
     {
-        app.UseCors(builder =>
+        app.UseCors(configurePolicy: builder =>
         {
             builder.AllowAnyHeader();
             builder.AllowAnyMethod();
-            builder.SetIsOriginAllowed(_ => true);
+            builder.SetIsOriginAllowed(isOriginAllowed: _ => true);
             builder.AllowCredentials();
         });
     }
@@ -27,7 +31,6 @@ public static class DomainApiHosting
         RequestDelegate errorHandler
     )
     {
-        app.UseExceptionHandler(errorApp => errorApp.Run(errorHandler));
+        app.UseExceptionHandler(configure: errorApp => errorApp.Run(handler: errorHandler));
     }
 }
-

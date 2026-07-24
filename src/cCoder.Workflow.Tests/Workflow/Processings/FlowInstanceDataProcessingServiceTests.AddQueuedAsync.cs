@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
@@ -10,16 +14,21 @@ public partial class FlowInstanceDataProcessingServiceTests
     [Fact]
     public async Task ShouldDelegateToFoundationServiceWhenAddQueuedAsync()
     {
+        // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
 
         flowInstanceDataServiceMock
-            .Setup(x => x.AddQueuedAsync(entity))
-            .ReturnsAsync(entity);
+            .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity))
+            .ReturnsAsync(value: entity);
 
-        FlowInstanceData result = await flowInstanceDataProcessingService.AddQueuedAsync(entity);
+        // When
+        FlowInstanceData result = await flowInstanceDataProcessingService.AddQueuedFlowInstanceDataAsync(newEntity: entity);
 
-        result.Should().BeSameAs(entity);
-        flowInstanceDataServiceMock.Verify(x => x.AddQueuedAsync(entity), Times.Once);
+        // Then
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        flowInstanceDataServiceMock.Verify(expression: x => x.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }
 }

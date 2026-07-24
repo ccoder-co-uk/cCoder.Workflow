@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
@@ -12,27 +16,25 @@ public sealed partial class FlowDefinitionControllerTests
     {
         // Given
         SeededFlowDefinitionContext seededContext = await SeedDatabase(includeFlow: true);
-        string updatedName = Unique("PatchedFlow");
+        string updatedName = Unique(prefix: "PatchedFlow");
         FlowDefinition actualFlowDefinition;
 
         // When
-        await PatchFlowDefinitionAsync(seededContext.FlowId, new
+        await PatchFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId, payload: new
         {
             name = updatedName,
             description = "Patched flow",
         });
 
-        actualFlowDefinition = await GetFlowDefinitionAsync(seededContext.FlowId);
+        actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
-        actualFlowDefinition.Should().NotBeNull();
-        actualFlowDefinition!.Name.Should().Be(updatedName);
+        actualFlowDefinition.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualFlowDefinition!.Name.Should()
+            .Be(expected: updatedName);
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -7,17 +11,32 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IWorkflowEventOrchestrationService
 {
-    WorkflowEvent Get(Guid id);
+    (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null);
+
+    string SerializeWorkflowEventPayload(object payload);
+
+    ValueTask<WorkflowEvent[]> GetWorkflowEventSubscriptionsAsync(
+        int appId,
+        string eventContext);
+
+    ValueTask LogWorkflowEventQueueFailureAsync(
+        WorkflowEvent workflowEvent,
+        Exception exception);
+
+    WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
 
-    ValueTask<WorkflowEvent> AddAsync(WorkflowEvent entity);
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity);
 
-    ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity);
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid workflowEventId);
 
-    ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items);
+    ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdateWorkflowEvent(IEnumerable<WorkflowEvent> items);
 
-    ValueTask DeleteAllAsync(IEnumerable<WorkflowEvent> items);
+    ValueTask DeleteAllWorkflowEventAsync(IEnumerable<WorkflowEvent> deletedItems);
 }

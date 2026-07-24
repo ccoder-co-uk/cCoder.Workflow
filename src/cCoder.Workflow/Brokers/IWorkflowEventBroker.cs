@@ -1,13 +1,22 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Data.Brokers;
 
 public interface IWorkflowEventBroker
 {
-    IQueryable<WorkflowEvent> GetAllWorkflowEvents(bool ignoreFilters);
-    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent entity);
-    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent entity);
-    ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent entity);
-    ValueTask DeleteAllWorkflowEventsAsync(IEnumerable<WorkflowEvent> items);
-    int? GetAppId(WorkflowEvent entity);
+    IQueryable<WorkflowEvent> SelectAllWorkflowEvents();
+
+    IQueryable<WorkflowEvent> SelectAllWorkflowEventsIgnoringQueryFilters();
+
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity);
+
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity);
+
+    ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent deletedEntity);
+
+    int? SelectAppId(WorkflowEvent entity);
 }

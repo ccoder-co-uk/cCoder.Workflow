@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,26 +20,23 @@ public partial class WorkflowEventOrchestrationServiceTests
     {
         // Given
         WorkflowEvent entity = CreateRandomWorkflowEvent();
-        workflowEventProcessingServiceMock.Setup(x => x.UpdateAsync(entity)).ReturnsAsync(entity);
+
+        workflowEventProcessingServiceMock.Setup(expression: x => x.UpdateWorkflowEventAsync(updatedEntity: entity))
+            .ReturnsAsync(value: entity);
 
         workflowEventEventProcessingServiceMock
-            .Setup(x => x.RaiseWorkflowEventUpdateEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseWorkflowEventUpdateEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        WorkflowEvent result = await orchestrationService.UpdateAsync(entity);
+        WorkflowEvent result = await orchestrationService.UpdateWorkflowEventAsync(updatedEntity: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        workflowEventProcessingServiceMock.Verify(x => x.UpdateAsync(entity), Times.Once);
-        workflowEventEventProcessingServiceMock.Verify(x => x.RaiseWorkflowEventUpdateEventAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        workflowEventProcessingServiceMock.Verify(expression: x => x.UpdateWorkflowEventAsync(updatedEntity: entity), times: Times.Once);
+        workflowEventEventProcessingServiceMock.Verify(expression: x => x.RaiseWorkflowEventUpdateEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

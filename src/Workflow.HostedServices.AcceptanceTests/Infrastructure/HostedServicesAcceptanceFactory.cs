@@ -1,7 +1,12 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Security.Data.EF;
+using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Workflow.Exposures.HostedServices;
+using cCoder.Workflow.Dependencies.HostedServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -18,54 +23,71 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Acceptance");
-        builder.ConfigureAppConfiguration((_, config) =>
+        builder.UseEnvironment(environment: "Acceptance");
+
+        builder.ConfigureAppConfiguration(configureDelegate: (_, config) =>
         {
             config.AddInMemoryCollection(
-            [
-                new KeyValuePair<string, string>("ConnectionStrings:Core", settings.CoreConnectionString),
-                new KeyValuePair<string, string>("ConnectionStrings:SSO", settings.SsoConnectionString),
-                new KeyValuePair<string, string>("Settings:DecryptionKey", settings.DecryptionKey),
-                new KeyValuePair<string, string>("Settings:enableExternalEventing", "false"),
-                new KeyValuePair<string, string>("Workflow:IsMigrating", "true"),
+initialData: [
+                new KeyValuePair<string, string>(
+                    key: "ConnectionStrings:Core",
+                    value: settings.CoreConnectionString),
+                new KeyValuePair<string, string>(
+                    key: "ConnectionStrings:SSO",
+                    value: settings.SsoConnectionString),
+                new KeyValuePair<string, string>(
+                    key: "Settings:DecryptionKey",
+                    value: settings.DecryptionKey),
+                new KeyValuePair<string, string>(
+                    key: "Settings:enableExternalEventing",
+                    value: "false"),
+                new KeyValuePair<string, string>(
+                    key: "Workflow:IsMigrating",
+                    value: "true"),
             ]);
         });
-        builder.ConfigureTestServices(services =>
+
+        builder.ConfigureTestServices(servicesConfiguration: services =>
         {
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<ISecurityDbContextFactory>();
-            services.RemoveAll<IInstanceMaintenanceManagement>();
-            services.RemoveAll<IQueueInstanceManagement>();
-            services.RemoveAll<IScheduledTaskRunnerManagement>();
+            services.RemoveAll<IInstanceMaintenanceBackgroundServiceDependency>();
+            services.RemoveAll<IQueueInstanceBackgroundServiceDependency>();
+            services.RemoveAll<IScheduledTaskRunnerBackgroundServiceDependency>();
 
             ServiceDescriptor[] hostedWorkflowServices = services
-                .Where(descriptor =>
+                .Where(predicate: descriptor =>
                     descriptor.ServiceType == typeof(IHostedService)
                     && descriptor.ImplementationFactory is not null)
                 .ToArray();
 
             foreach (ServiceDescriptor descriptor in hostedWorkflowServices)
-                services.Remove(descriptor);
+            {
+                services.Remove(item: descriptor);
+            }
 
             services.AddSingleton(
-                new cCoder.Data.Config
-                {
-                    ConnectionStrings = new Dictionary<string, string>
-                    {
-                        ["Core"] = settings.CoreConnectionString,
-                        ["SSO"] = settings.SsoConnectionString,
-                    },
-                    Settings = new Dictionary<string, string>
-                    {
-                        ["DecryptionKey"] = settings.DecryptionKey,
-                        ["enableExternalEventing"] = "false",
-                    },
-                    Services = new Dictionary<string, string>(),
-                });
+implementationInstance: new cCoder.Data.Config
+{
+    ConnectionStrings = new Dictionary<string, string>
+    {
+        ["Core"] = settings.CoreConnectionString,
+        ["SSO"] = settings.SsoConnectionString,
+    },
+    Settings = new Dictionary<string, string>
+    {
+        ["DecryptionKey"] = settings.DecryptionKey,
+        ["enableExternalEventing"] = "false",
+    },
+    Services = new Dictionary<string, string>(),
+});
+
             services.AddSingleton<ISecurityDbContextFactory>(
-                _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
-            );
-            services.AddCoreData(settings.CoreConnectionString);
+                implementationFactory: _ =>
+                    new MSSQLSecurityDbContextFactory(
+                        connectionString: settings.SsoConnectionString));
+
+            services.AddCoreData(connectionString: settings.CoreConnectionString);
         });
     }
 }

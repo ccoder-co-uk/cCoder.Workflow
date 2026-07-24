@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
@@ -15,7 +19,7 @@ public sealed partial class FlowInstanceDataControllerTests
         FlowInstanceData actualInstance;
 
         // When
-        await UpdateFlowInstanceDataAsync(seededContext.InstanceId, new
+        await UpdateFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId, payload: new
         {
             id = seededContext.InstanceId,
             flowDefinitionId = seededContext.FlowId,
@@ -26,17 +30,15 @@ public sealed partial class FlowInstanceDataControllerTests
             start = DateTimeOffset.UtcNow,
         });
 
-        actualInstance = await GetFlowInstanceDataAsync(seededContext.InstanceId);
+        actualInstance = await GetFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId);
 
         // Then
-        actualInstance.Should().NotBeNull();
-        actualInstance!.State.Should().Be("Running");
+        actualInstance.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualInstance!.State.Should()
+            .Be(expected: "Running");
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

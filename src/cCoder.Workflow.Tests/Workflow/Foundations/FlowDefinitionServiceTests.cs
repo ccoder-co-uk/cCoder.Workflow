@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Workflow.Brokers;
@@ -18,44 +22,31 @@ public partial class FlowDefinitionServiceTests
 
     public FlowDefinitionServiceTests()
     {
-        flowDefinitionBrokerMock = new Mock<IFlowDefinitionBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        flowDefinitionBrokerMock = new Mock<IFlowDefinitionBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         flowDefinitionService = new FlowDefinitionService(
             flowDefinitionBrokerMock.Object,
             authorizationBrokerMock.Object
         );
     }
 
-    private static FlowDefinition CreateRandomFlowDefinition(Guid id = default, int appId = 7)
+    private static FlowDefinition CreateRandomFlowDefinition(Guid flowDefinitionId = default, int appId = 7)
     {
         FlowDefinition flowDefinition = Builder<FlowDefinition>
             .CreateNew()
-            .With(x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
-            .With(x => x.AppId = appId)
-            .With(x => x.DefinitionJson = "{}")
-            .With(x => x.ConfigJson = "{}")
-            .With(x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
-            .With(x => x.InstanceReportingComponentName = $"instance-report-{Guid.NewGuid():N}")
-            .With(x => x.Name = $"FlowDefinition-{Guid.NewGuid():N}")
-            .With(x => x.CreatedBy = "tester")
-            .With(x => x.LastUpdatedBy = "tester")
-            .With(x => x.CreatedOn = DateTimeOffset.UtcNow.AddMinutes(-5))
-            .With(x => x.LastUpdated = DateTimeOffset.UtcNow)
+            .With(func: x => x.Id = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
+            .With(func: x => x.AppId = appId)
+            .With(func: x => x.DefinitionJson = "{}")
+            .With(func: x => x.ConfigJson = "{}")
+            .With(func: x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
+            .With(func: x => x.InstanceReportingComponentName = $"instance-report-{Guid.NewGuid():N}")
+            .With(func: x => x.Name = $"FlowDefinition-{Guid.NewGuid():N}")
+            .With(func: x => x.CreatedBy = "tester")
+            .With(func: x => x.LastUpdatedBy = "tester")
+            .With(func: x => x.CreatedOn = DateTimeOffset.UtcNow.AddMinutes(minutes: -5))
+            .With(func: x => x.LastUpdated = DateTimeOffset.UtcNow)
             .Build();
 
         return flowDefinition;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,16 +1,21 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Packaging;
 
 namespace cCoder.Workflow.Exposures.Setup;
 
 public static partial class UIBaseline
 {
-    static Package CalendarEvents => new()
-    {
-        Name = "Workflow Calendar Events",
-        Category = "Workflow",
-        Description = "Workflow Calendar Events.",
-        SourceApi = "https://ccoder.co.uk/Api/",
-        Items =
+    private static Package CreateCalendarEventsPackage() =>
+        new()
+        {
+            Name = "Workflow Calendar Events",
+            Category = "Workflow",
+            Description = "Workflow Calendar Events.",
+            SourceApi = "https://ccoder.co.uk/Api/",
+            Items =
         [
             new PackageItem
             {
@@ -117,5 +122,5 @@ public static partial class UIBaseline
 """
             },
         ]
-    };
+        };
 }

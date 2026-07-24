@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,22 +21,19 @@ public partial class WorkflowEventProcessingServiceTests
         // Given
         WorkflowEvent entity = CreateRandomWorkflowEvent();
         var id = entity.Id;
-        workflowEventServiceMock.Setup(x => x.Get(id)).Returns(entity);
+
+        workflowEventServiceMock.Setup(expression: x => x.Get(workflowEventId: id))
+            .Returns(value: entity);
 
         // When
-        WorkflowEvent result = workflowEventProcessingService.Get(id);
+        WorkflowEvent result = workflowEventProcessingService.Get(workflowEventId: id);
 
         // Then
-        result.Should().BeSameAs(entity);
-        workflowEventServiceMock.Verify(x => x.Get(id), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        workflowEventServiceMock.Verify(expression: x => x.Get(workflowEventId: id), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

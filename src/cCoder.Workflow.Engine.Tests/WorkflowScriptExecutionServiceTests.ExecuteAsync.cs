@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -12,15 +16,18 @@ public sealed partial class WorkflowScriptExecutionServiceTests
         // Given
         const string payload = "return true";
         const string expectedResult = "true";
+
         orchestrationServiceMock
-            .Setup(service => service.ExecuteAsync(payload, true))
-            .ReturnsAsync(expectedResult);
+            .Setup(expression: service => service.ExecuteAsync(payload: payload, useDetails: true))
+            .ReturnsAsync(value: expectedResult);
 
         // When
-        string actualResult = await workflowScriptExecutionService.ExecuteAsync(payload, useDetails: true);
+        string actualResult = await workflowScriptExecutionService.ExecuteAsync(payload: payload, useDetails: true);
 
         // Then
-        actualResult.Should().Be(expectedResult);
-        orchestrationServiceMock.Verify(service => service.ExecuteAsync(payload, true), Times.Once);
+        actualResult.Should()
+            .Be(expected: expectedResult);
+
+        orchestrationServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
     }
 }

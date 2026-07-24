@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -12,36 +16,36 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
-        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(new
+
+        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
             flowId = seededContext.FlowId,
-            name = Unique("ScheduledTask"),
+            name = Unique(prefix: "ScheduledTask"),
             description = "Acceptance scheduled task",
             executionArgs = "{}",
-            scheduleInTicks = TimeSpan.FromHours(1).Ticks,
+            scheduleInTicks = TimeSpan.FromHours(hours: 1).Ticks,
             executeAs = "Guest",
             createdBy = "Guest",
             updatedBy = "Guest",
             created = DateTimeOffset.UtcNow,
             lastUpdated = DateTimeOffset.UtcNow,
-            nextExecution = DateTimeOffset.UtcNow.AddHours(1),
+            nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
+
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteScheduledTaskAsync(createdScheduledTask.Id);
-        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(createdScheduledTask.Id);
+        int actualStatusCode = await DeleteScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
+        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(scheduledTaskId: createdScheduledTask.Id);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualReadStatusCode.Should().Be(404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
 
-        await Teardown(seededContext);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

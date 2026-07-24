@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
@@ -16,7 +20,7 @@ public sealed partial class WorkflowEventControllerTests
         WorkflowEvent actualWorkflowEvent;
 
         // When
-        expectedWorkflowEvent = await CreateWorkflowEventAsync(new
+        expectedWorkflowEvent = await CreateWorkflowEventAsync(payload: new
         {
             flowId = seededContext.FlowId,
             type = "Acceptance",
@@ -26,18 +30,16 @@ public sealed partial class WorkflowEventControllerTests
             executeAs = "Guest",
         });
 
-        actualWorkflowEvent = await GetWorkflowEventAsync(expectedWorkflowEvent.Id);
+        actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: expectedWorkflowEvent.Id);
 
         // Then
-        actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent!.Id.Should().Be(expectedWorkflowEvent.Id);
+        actualWorkflowEvent.Should()
+            .NotBeNull();
 
-        await DeleteWorkflowEventAsync(expectedWorkflowEvent.Id);
-        await Teardown(seededContext);
+        actualWorkflowEvent!.Id.Should()
+            .Be(expected: expectedWorkflowEvent.Id);
+
+        await DeleteWorkflowEventAsync(workflowEventId: expectedWorkflowEvent.Id);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

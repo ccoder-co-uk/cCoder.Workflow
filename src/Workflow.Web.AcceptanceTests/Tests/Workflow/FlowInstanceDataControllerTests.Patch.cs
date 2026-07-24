@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
@@ -15,22 +19,20 @@ public sealed partial class FlowInstanceDataControllerTests
         FlowInstanceData actualInstance;
 
         // When
-        await PatchFlowInstanceDataAsync(seededContext.InstanceId, new
+        await PatchFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId, payload: new
         {
             state = "Completed",
         });
 
-        actualInstance = await GetFlowInstanceDataAsync(seededContext.InstanceId);
+        actualInstance = await GetFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId);
 
         // Then
-        actualInstance.Should().NotBeNull();
-        actualInstance!.State.Should().Be("Completed");
+        actualInstance.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualInstance!.State.Should()
+            .Be(expected: "Completed");
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -18,15 +22,16 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
     {
         AcceptanceSettings settings = new()
         {
-            CoreConnectionString = AddDatabaseSuffix("CCODER_ACCEPTANCE_CORE_CONNECTION_STRING"),
-            SsoConnectionString = AddDatabaseSuffix("CCODER_ACCEPTANCE_SSO_CONNECTION_STRING"),
+            CoreConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_CORE_CONNECTION_STRING"),
+            SsoConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_SSO_CONNECTION_STRING"),
             DecryptionKey = "000000000000000000000000000000000000000000000000",
         };
 
         Factory = new HostedServicesAcceptanceFactory(settings);
         databaseManager = new AcceptanceDatabaseManager(Factory.Services);
         await databaseManager.ResetDatabasesAsync();
-        Client = Factory.CreateClient(new WebApplicationFactoryClientOptions
+
+        Client = Factory.CreateClient(options: new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
             BaseAddress = new Uri("https://localhost"),
@@ -38,35 +43,44 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
         Client?.Dispose();
 
         if (databaseManager is not null)
+        {
             await databaseManager.DropDatabasesAsync();
+        }
 
         if (Factory is not null)
+        {
             await Factory.DisposeAsync();
+        }
     }
 
     private static string AddDatabaseSuffix(string variableName)
     {
         string connectionString =
-            Environment.GetEnvironmentVariable(variableName)
-            ?? Environment.GetEnvironmentVariable(variableName, EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable(variableName, EnvironmentVariableTarget.Machine)
-            ?? ReadConfiguredConnectionString(variableName);
+            Environment.GetEnvironmentVariable(variable: variableName)
+            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.User)
+            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.Machine)
+            ?? ReadConfiguredConnectionString(variableName: variableName);
 
-        if (string.IsNullOrWhiteSpace(connectionString))
+        if (string.IsNullOrWhiteSpace(value: connectionString))
+        {
             return string.Empty;
+        }
 
         SqlConnectionStringBuilder builder = new(connectionString)
         {
             Encrypt = true,
             TrustServerCertificate = true,
         };
+
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(databaseName))
+        if (string.IsNullOrWhiteSpace(value: databaseName))
+        {
             return connectionString;
+        }
 
         string suffix = typeof(HostedServicesAcceptanceFixture).Assembly.GetName().Name!
-            .Replace(".AcceptanceTests", string.Empty, StringComparison.Ordinal)
+            .Replace(oldValue: ".AcceptanceTests", newValue: string.Empty, comparisonType: StringComparison.Ordinal)
             .ToLowerInvariant();
 
         builder.InitialCatalog = $"{databaseName}-{suffix}-hostedservices";
@@ -75,16 +89,16 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
 
     private static string ReadConfiguredConnectionString(string variableName)
     {
-        string connectionName = variableName.Contains("CORE", StringComparison.OrdinalIgnoreCase)
+        string connectionName = variableName.Contains(value: "CORE", comparisonType: StringComparison.OrdinalIgnoreCase)
             ? "Core"
             : "SSO";
 
         IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.testing.json", optional: true)
+            .SetBasePath(basePath: AppContext.BaseDirectory)
+            .AddJsonFile(path: "appsettings.testing.json", optional: true)
             .Build();
 
-        return configuration.GetConnectionString(connectionName) ?? string.Empty;
+        return configuration.GetConnectionString(name: connectionName) ?? string.Empty;
     }
 }
 

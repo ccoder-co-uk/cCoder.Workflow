@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Xunit;
 
@@ -14,7 +18,8 @@ public sealed partial class HealthControllerTests
         string actualHealth = await GetHealthAsync();
 
         // Then
-        actualHealth.Should().Be("OK");
+        actualHealth.Should()
+            .Be(expected: "OK");
     }
 
     [Fact]
@@ -26,10 +31,19 @@ public sealed partial class HealthControllerTests
         string actualHome = await GetHomeAsync();
 
         // Then
-        actualHome.Should().Contain("Workflow Hosted Services");
-        actualHome.Should().Contain("InstanceMaintenanceManagement");
-        actualHome.Should().Contain("QueueInstanceManagement");
-        actualHome.Should().Contain("ScheduledTaskRunnerManagement");
-        actualHome.Should().Contain("flow_instance_data_add");
+        actualHome.Should()
+            .Contain(expected: "Workflow Hosted Services");
+
+        actualHome.Should()
+            .Contain(expected: "InstanceMaintenanceBackgroundServiceDependency");
+
+        actualHome.Should()
+            .Contain(expected: "QueueInstanceBackgroundServiceDependency");
+
+        actualHome.Should()
+            .Contain(expected: "ScheduledTaskRunnerBackgroundServiceDependency");
+
+        actualHome.Should()
+            .Contain(expected: "flow_instance_data_add");
     }
 }

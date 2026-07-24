@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -10,13 +14,5 @@ public interface IFlowDefinitionCoordinationService
 {
     ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition);
 
-    ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args);
+    ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args);
 }
-
-
-
-
-
-
-
-

@@ -1,0 +1,86 @@
+{
+  "Classes": [
+    {
+      "Name": "Workflow.HostedServices.Controllers.HealthController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Get",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Controllers.HomeController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Get",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Extensions.WebApplicationBuilderExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "Workflow.HostedServices.Program",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Main",
+          "Inputs": [
+            {
+              "Name": "args",
+              "Type": "System.String[]"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Services.Processings.HealthProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetHealth",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Services.Processings.HomeProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetHome",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        }
+      ]
+    }
+  ],
+  "Links": [
+    {
+      "FromType": "Workflow.HostedServices.Controllers.HealthController",
+      "ToType": "Workflow.HostedServices.Services.Processings.HealthProcessingService"
+    },
+    {
+      "FromType": "Workflow.HostedServices.Controllers.HomeController",
+      "ToType": "Workflow.HostedServices.Services.Processings.HomeProcessingService"
+    }
+  ],
+  "AnalysisItems": []
+}

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
@@ -13,30 +17,28 @@ public partial class FlowDefinitionServiceTests
     {
         // Given
         Guid flowDefinitionId = Guid.NewGuid();
-        FlowDefinition flowDefinition = CreateRandomFlowDefinition(id: flowDefinitionId);
+        FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId);
 
         flowDefinitionBrokerMock
-            .Setup(x => x.GetAllFlowDefinitions(false))
-            .Returns(new[] { flowDefinition }.AsQueryable());
+            .Setup(expression: x => x.SelectAllFlowDefinitions())
+            .Returns(value: new[] { flowDefinition }.AsQueryable());
 
         // When
-        FlowDefinition result = flowDefinitionService.Get(flowDefinitionId);
+        FlowDefinition result = flowDefinitionService.Get(flowDefinitionId: flowDefinitionId);
 
         // Then
-        result.Should().BeEquivalentTo(flowDefinition);
-        flowDefinitionBrokerMock.Verify(x => x.GetAllFlowDefinitions(false), Times.Once);
+        result.Should()
+            .BeEquivalentTo(expectation: flowDefinition);
+
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitions(), times: Times.Once);
+
         flowDefinitionBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<FlowDefinition>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-

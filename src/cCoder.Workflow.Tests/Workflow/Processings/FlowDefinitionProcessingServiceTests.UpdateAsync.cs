@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -20,21 +24,16 @@ public partial class FlowDefinitionProcessingServiceTests
             AppId = 1,
             Name = "Flow",
         };
-        flowDefinitionServiceMock.Setup(x => x.UpdateAsync(flow)).ReturnsAsync(flow);
+
+        flowDefinitionServiceMock.Setup(expression: x => x.UpdateFlowDefinitionAsync(updatedFlowDefinition: flow))
+            .ReturnsAsync(value: flow);
 
         // When
-        FlowDefinition result = await flowDefinitionProcessingService.UpdateAsync(flow);
+        FlowDefinition result = await flowDefinitionProcessingService.UpdateFlowDefinitionAsync(updatedEntity: flow);
 
         // Then
-        Assert.Same(flow, result);
-        flowDefinitionServiceMock.Verify(x => x.UpdateAsync(flow), Times.Once);
+        Assert.Same(expected: flow, actual: result);
+        flowDefinitionServiceMock.Verify(expression: x => x.UpdateFlowDefinitionAsync(updatedFlowDefinition: flow), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

@@ -1,0 +1,596 @@
+{
+  "Classes": [
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "BuildScript",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E"
+        },
+        {
+          "Name": "Run",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E"
+        },
+        {
+          "Name": "Run",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "CreateWorkflowExecutionContext",
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+        },
+        {
+          "Name": "ExecuteWorkflowExecutionContextAsync",
+          "Inputs": [
+            {
+              "Name": "workflowExecutionContext",
+              "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+            },
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "BuildScriptAsync",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E"
+        },
+        {
+          "Name": "RunScriptAsync",
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Script",
+          "Type": "cCoder.Workflow.Activities.IScriptRunner"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "Log",
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.FlowRunner",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowEngine",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+            }
+          ],
+          "ReturnType": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.ExecutionDetails",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Model",
+          "Type": "Newtonsoft.Json.Linq.JObject"
+        },
+        {
+          "Name": "Script",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.FlowExecution",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "AppId",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Caller",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Context",
+          "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+        },
+        {
+          "Name": "Flow",
+          "Type": "cCoder.Workflow.Activities.Models.Flow"
+        },
+        {
+          "Name": "FlowDefinitionId",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Id",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Log",
+          "Type": "cCoder.Workflow.Activities.LogEvent"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Request",
+          "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+        },
+        {
+          "Name": "Result",
+          "Type": "FlowInstanceData"
+        },
+        {
+          "Name": "Script",
+          "Type": "cCoder.Workflow.Activities.IScriptRunner"
+        },
+        {
+          "Name": "Start",
+          "Type": "System.DateTimeOffset"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteWorkflowRequestAsync",
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConnectWorkflowRequestAsync",
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogWorkflowRequestAsync",
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            },
+            {
+              "Name": "level",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteFlowExecutionAsync",
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "SaveFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceData",
+              "Type": "FlowInstanceData"
+            },
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteWorkflowScriptAsync",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Support.TypeNameExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCSharpTypeName",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Support.WorkflowJson",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetJsonSettings",
+          "Inputs": [],
+          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
+        },
+        {
+          "Name": "GetODataJsonSettings",
+          "Inputs": [],
+          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
+        },
+        {
+          "Name": "ToJson",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "ToJsonForOdata",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    }
+  ],
+  "Links": [
+    {
+      "FromType": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
+      "ToType": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+      "ToType": "cCoder.Workflow.Engine.Models.FlowExecution"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter",
+      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Exposures.FlowRunner",
+      "ToType": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
+      "ToType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
+    }
+  ],
+  "AnalysisItems": []
+}

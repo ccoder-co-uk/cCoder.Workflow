@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -7,8 +11,9 @@ namespace cCoder.Workflow.Exposures;
 
 public interface IWorkflowAppExposure
 {
-    ValueTask AddAsync(App app);
-    ValueTask UpdateAsync(App app);
+    ValueTask AddAsync(App newApp);
+
+    ValueTask UpdateAsync(App updatedApp);
+
     ValueTask DeleteAsync(int appId);
 }
-

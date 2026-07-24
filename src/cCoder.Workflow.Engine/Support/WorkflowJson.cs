@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -31,8 +35,8 @@ public static class WorkflowJson
         };
 
     public static string ToJson(this object value) =>
-        JsonConvert.SerializeObject(value, Formatting.None, GetJsonSettings());
+        JsonConvert.SerializeObject(value: value, formatting: Formatting.None, settings: GetJsonSettings());
 
     public static string ToJsonForOdata(this object value) =>
-        JsonConvert.SerializeObject(value, Formatting.None, GetODataJsonSettings());
+        JsonConvert.SerializeObject(value: value, formatting: Formatting.None, settings: GetODataJsonSettings());
 }

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Data.Brokers;
 using cCoder.Workflow.Brokers;
@@ -6,45 +10,73 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class WorkflowEventService(
+internal sealed partial class WorkflowEventService(
     IWorkflowEventBroker workflowEventBroker,
     IAuthorizationBroker authorizationBroker
 ) : IWorkflowEventService
 {
-    public WorkflowEvent Get(Guid id)
-    {
-        WorkflowEvent workflowEvent = GetAll().FirstOrDefault(i => i.Id == id);
-        if (workflowEvent is not null)
-            return workflowEvent;
+    public WorkflowEvent Get(Guid workflowEventId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
 
-        WorkflowEvent unrestrictedWorkflowEvent = GetAll(true).FirstOrDefault(i => i.Id == id);
+    private WorkflowEvent ExecuteGet(Guid workflowEventId)
+    {
+        WorkflowEvent workflowEvent = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == workflowEventId);
+
+        if (workflowEvent is not null)
+        {
+            return workflowEvent;
+        }
+
+        WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == workflowEventId);
+
         if (unrestrictedWorkflowEvent is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false) =>
-        workflowEventBroker.GetAllWorkflowEvents(ignoreFilters);
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+
+    private IQueryable<WorkflowEvent> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return workflowEventBroker
+                .SelectAllWorkflowEventsIgnoringQueryFilters();
+        }
+
+        return workflowEventBroker.SelectAllWorkflowEvents();
+    }
 
     public int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
-        workflowEventBroker.GetAppId(workflowEvent);
+        TryCatch(operation: () => { ValidateAppIdForWorkflowEventOnGet(inputs: [workflowEvent]); return ExecuteGetAppIdForWorkflowEvent(workflowEvent: workflowEvent); });
 
-    public async ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent)
+    private int? ExecuteGetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
+        workflowEventBroker.SelectAppId(entity: workflowEvent);
+
+    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent) =>
+        TryCatch(operation: async () => { ValidateWorkflowEventOnAdd(inputs: [newWorkflowEvent]); return await ExecuteAddAsync(workflowEvent: newWorkflowEvent); }, isValueTask: true);
+
+    private async ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(workflowEvent),
-            $"{nameof(WorkflowEvent)}_create"
+appId: workflowEventBroker.SelectAppId(entity: workflowEvent),
+privilege: $"{nameof(WorkflowEvent)}_create"
         );
 
-        WorkflowEvent newWorkflowEvent = CreateStorageWorkflowEvent(workflowEvent);
+        WorkflowEvent newWorkflowEvent = CreateStorageWorkflowEvent(item: workflowEvent);
 
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         newWorkflowEvent.CreatedOn = now;
         newWorkflowEvent.CreatedBy = currentUserId;
 
-        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent);
+        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newEntity: newWorkflowEvent);
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
         workflowEvent.EventContext = result.EventContext;
@@ -55,18 +87,22 @@ internal class WorkflowEventService(
         return workflowEvent;
     }
 
-    public async ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent)
+    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent) =>
+        TryCatch(operation: async () => { ValidateWorkflowEventOnUpdate(inputs: [updatedWorkflowEvent]); return await ExecuteUpdateAsync(workflowEvent: updatedWorkflowEvent); }, isValueTask: true);
+
+    private async ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(workflowEvent),
-            $"{nameof(WorkflowEvent)}_update"
+appId: workflowEventBroker.SelectAppId(entity: workflowEvent),
+privilege: $"{nameof(WorkflowEvent)}_update"
         );
 
-        WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(workflowEvent);
+        WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(item: workflowEvent);
 
         WorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
-            updateWorkflowEvent
+updatedEntity: updateWorkflowEvent
         );
+
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
         workflowEvent.EventContext = result.EventContext;
@@ -77,15 +113,20 @@ internal class WorkflowEventService(
         return workflowEvent;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public ValueTask DeleteAsync(Guid workflowEventId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [workflowEventId]); await ExecuteDeleteAsync(workflowEventId: workflowEventId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(Guid workflowEventId)
     {
-        WorkflowEvent workflowEvent = Get(id);
+        WorkflowEvent workflowEvent = Get(workflowEventId: workflowEventId);
+
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(workflowEvent),
-            $"{nameof(WorkflowEvent)}_delete"
+appId: workflowEventBroker.SelectAppId(entity: workflowEvent),
+privilege: $"{nameof(WorkflowEvent)}_delete"
         );
+
         _ = await workflowEventBroker.DeleteWorkflowEventAsync(
-            CreateStorageWorkflowEvent(workflowEvent)
+deletedEntity: CreateStorageWorkflowEvent(item: workflowEvent)
         );
     }
 
@@ -105,14 +146,3 @@ internal class WorkflowEventService(
                 ExecuteAsUser = item.ExecuteAsUser,
             };
 }
-
-
-
-
-
-
-
-
-
-
-

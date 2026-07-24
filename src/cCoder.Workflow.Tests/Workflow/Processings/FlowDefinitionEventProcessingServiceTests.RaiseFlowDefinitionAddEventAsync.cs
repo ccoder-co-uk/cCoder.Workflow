@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,23 +19,17 @@ public partial class FlowDefinitionEventProcessingServiceTests
     {
         // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
+
         flowDefinitionEventServiceMock
-            .Setup(x => x.RaiseFlowDefinitionAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseFlowDefinitionAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowDefinitionAddEventAsync(entity);
+        await service.RaiseFlowDefinitionAddEventAsync(entity: entity);
 
         // Then
-        flowDefinitionEventServiceMock.Verify(x => x.RaiseFlowDefinitionAddEventAsync(entity), Times.Once);
+        flowDefinitionEventServiceMock.Verify(expression: x => x.RaiseFlowDefinitionAddEventAsync(entity: entity), times: Times.Once);
         flowDefinitionEventServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

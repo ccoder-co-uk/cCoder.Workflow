@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -12,10 +16,8 @@ internal class WorkflowPackageManager(
 ) : IWorkflowPackageManager
 {
     public ValueTask ImportPackageAsync(int appId, WorkflowPackage package) =>
-        workflowMigrationAggregationService.ImportPackageAsync(appId, package);
+        workflowMigrationAggregationService.ImportPackageWorkflowPackageAsync(appId: appId, package: package);
 
     public WorkflowPackage ExportPackage(int appId, string packageName) =>
-        workflowMigrationAggregationService.ExportPackage(appId, packageName);
+        workflowMigrationAggregationService.ExportPackage(appId: appId, packageName: packageName);
 }
-
-

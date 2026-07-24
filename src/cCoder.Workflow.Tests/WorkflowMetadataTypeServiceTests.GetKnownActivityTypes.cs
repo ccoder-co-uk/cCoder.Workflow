@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Activities.Sftp;
 using cCoder.Workflow.Activities.Activities.Templating;
@@ -13,11 +17,16 @@ public partial class WorkflowMetadataTypeServiceTests
     [Fact]
     public void ShouldReturnKnownActivityGroupsOnGetKnownActivityTypes()
     {
+        // Given
+
+        // When
         var result = service.GetKnownActivityTypes();
 
-        result.Select(set => set.Name)
+        // Then
+        result.Select(selector: set => set.Name)
             .Should()
-            .Equal(
+            .Equal(elements:
+            [
                 "ApiActivity",
                 "DMSActivity",
                 "LogActivity",
@@ -25,18 +34,24 @@ public partial class WorkflowMetadataTypeServiceTests
                 "TemplatingActivity",
                 "TransformationActivity",
                 "Workflow"
-            );
+            ]);
     }
 
     [Fact]
     public void ShouldReturnSharedWorkflowMetadataOnGetSharedMetadata()
     {
+        // Given
+
+        // When
         var result = service.GetSharedMetadata();
 
-        result.Name.Should().Be("Workflow");
-        result.Types.Select(type => type.Name)
+        // Then
+        result.Name.Should()
+            .Be(expected: "Workflow");
+
+        result.Types.Select(selector: type => type.Name)
             .Should()
-            .Contain([
+            .Contain(expected: [
                 nameof(Start),
                 nameof(PageBuilder),
                 nameof(SendEmailActivity),
@@ -47,9 +62,9 @@ public partial class WorkflowMetadataTypeServiceTests
                 nameof(WorkflowLogEntry),
             ]);
 
-        result.Types.Select(type => type.Name)
+        result.Types.Select(selector: type => type.Name)
             .Should()
-            .NotContain([
+            .NotContain(unexpected: [
                 "SftpFetchActivity",
                 "SftpMoveActivity",
                 "SftpCreateBinaryFilesActivity",
@@ -61,13 +76,26 @@ public partial class WorkflowMetadataTypeServiceTests
     [Fact]
     public void ShouldReturnKnownSystemTypesOnGetKnownSystemTypes()
     {
+        // Given
+
+        // When
         var result = service.GetKnownSystemTypes();
 
-        result.Should().ContainSingle();
-        result[0].Name.Should().Be("System");
-        result[0].Types.Select(type => type.Name)
+        // Then
+        result.Should()
+            .ContainSingle();
+
+        result[0].Name.Should()
+            .Be(expected: "System");
+
+        result[0].Types.Select(selector: type => type.Name)
             .Should()
-            .Contain(nameof(Int32), nameof(String), nameof(DateTime), nameof(TimeSpan));
+            .Contain(expected:
+            [
+                nameof(Int32),
+                nameof(String),
+                nameof(DateTime),
+                nameof(TimeSpan)
+            ]);
     }
 }
-

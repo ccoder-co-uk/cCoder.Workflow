@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -12,17 +16,19 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
-        Calendar createdCalendar = await CreateCalendarAsync(new
+
+        Calendar createdCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
-            name = Unique("Calendar"),
+            name = Unique(prefix: "Calendar"),
             description = "Acceptance calendar",
         });
-        string updatedName = Unique("UpdatedCalendar");
+
+        string updatedName = Unique(prefix: "UpdatedCalendar");
         Calendar actualCalendar;
 
         // When
-        await UpdateCalendarAsync(createdCalendar.Id, new
+        await UpdateCalendarAsync(calendarId: createdCalendar.Id, payload: new
         {
             id = createdCalendar.Id,
             appId = seededContext.AppId,
@@ -30,18 +36,16 @@ public sealed partial class CalendarControllerTests
             description = "Updated calendar",
         });
 
-        actualCalendar = await GetCalendarAsync(createdCalendar.Id);
+        actualCalendar = await GetCalendarAsync(calendarId: createdCalendar.Id);
 
         // Then
-        actualCalendar.Should().NotBeNull();
-        actualCalendar.Name.Should().Be(updatedName);
+        actualCalendar.Should()
+            .NotBeNull();
 
-        await DeleteCalendarAsync(createdCalendar.Id);
-        await Teardown(seededContext);
+        actualCalendar.Name.Should()
+            .Be(expected: updatedName);
+
+        await DeleteCalendarAsync(calendarId: createdCalendar.Id);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

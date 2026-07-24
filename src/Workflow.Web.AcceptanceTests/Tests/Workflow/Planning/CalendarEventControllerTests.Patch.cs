@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -12,35 +16,33 @@ public sealed partial class CalendarEventControllerTests
     {
         // Given
         SeededCalendarEventContext seededContext = await SeedDatabase();
-        CalendarEvent createdCalendarEvent = await CreateCalendarEventAsync(new
+
+        CalendarEvent createdCalendarEvent = await CreateCalendarEventAsync(payload: new
         {
             calendarId = seededContext.CalendarId,
-            name = Unique("CalendarEvent"),
+            name = Unique(prefix: "CalendarEvent"),
             description = "Acceptance calendar event",
             start = DateTimeOffset.UtcNow,
-            durationInTicks = TimeSpan.FromHours(1).Ticks,
+            durationInTicks = TimeSpan.FromHours(hours: 1).Ticks,
         });
-        string updatedName = Unique("PatchedCalendarEvent");
+
+        string updatedName = Unique(prefix: "PatchedCalendarEvent");
         CalendarEvent actualCalendarEvent;
 
         // When
-        await PatchCalendarEventAsync(createdCalendarEvent.Id, new
+        await PatchCalendarEventAsync(calendarEventId: createdCalendarEvent.Id, payload: new
         {
             name = updatedName,
             description = "Patched calendar event",
         });
 
-        actualCalendarEvent = await GetCalendarEventAsync(createdCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
 
         // Then
-        actualCalendarEvent.Name.Should().Be(updatedName);
+        actualCalendarEvent.Name.Should()
+            .Be(expected: updatedName);
 
-        await DeleteCalendarEventAsync(createdCalendarEvent.Id);
-        await Teardown(seededContext);
+        await DeleteCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

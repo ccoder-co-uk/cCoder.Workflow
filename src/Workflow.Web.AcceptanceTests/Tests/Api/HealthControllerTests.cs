@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Web.AcceptanceTests.Infrastructure;
 using Xunit;
 
@@ -8,6 +12,6 @@ public sealed partial class HealthControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
 
-    private async Task<string> GetHealthAsync() =>
-        await Client.GetStringAsync("Health");
+    private Task<string> GetHealthAsync() =>
+        Client.GetStringAsync(requestUri: "Health");
 }

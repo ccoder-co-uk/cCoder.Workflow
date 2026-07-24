@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Moq;
 using Xunit;
 
@@ -11,19 +15,16 @@ public partial class WorkflowEventProcessingServiceTests
     {
         // Given
         Guid id = Guid.NewGuid();
-        workflowEventServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+
+        workflowEventServiceMock.Setup(expression: x => x.DeleteAsync(workflowEventId: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await workflowEventProcessingService.DeleteAsync(id);
+        await workflowEventProcessingService.DeleteAsync(workflowEventId: id);
 
         // Then
-        workflowEventServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
+        workflowEventServiceMock.Verify(expression: x => x.DeleteAsync(workflowEventId: id), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-

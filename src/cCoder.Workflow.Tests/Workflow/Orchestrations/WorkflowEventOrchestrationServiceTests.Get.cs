@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,23 +21,20 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         WorkflowEvent entity = CreateRandomWorkflowEvent();
-        workflowEventProcessingServiceMock.Setup(x => x.Get(id)).Returns(entity);
+
+        workflowEventProcessingServiceMock.Setup(expression: x => x.Get(workflowEventId: id))
+            .Returns(value: entity);
 
         // When
-        WorkflowEvent result = orchestrationService.Get(id);
+        WorkflowEvent result = orchestrationService.Get(workflowEventId: id);
 
         // Then
-        result.Should().BeSameAs(entity);
-        workflowEventProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        workflowEventProcessingServiceMock.Verify(expression: x => x.Get(workflowEventId: id), times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

@@ -1,6 +1,11 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using cCoder.Workflow.Activities.Models;
 using FluentAssertions;
+using Microsoft.Azure.Functions.Worker.Http;
 using Moq;
 using Workflow.AcceptanceTests.Infrastructure;
 using Xunit;
@@ -19,19 +24,33 @@ public sealed partial class ExecuteTests
             Api = "https://localhost/",
             AuthToken = "token",
         };
-        TestHttpRequestData request = CreateRequest(requestPayload);
+
+        TestHttpRequestData request = CreateRequest(request: requestPayload);
+
+        TestHttpResponseData expectedResponse =
+            (TestHttpResponseData)request.CreateResponse();
+
+        expectedResponse.StatusCode = HttpStatusCode.OK;
+        await expectedResponse.WriteStringAsync(value: "OK");
+
+        processingServiceMock
+            .Setup(expression: service =>
+                service.ProcessExecuteAsync(request: request))
+            .ReturnsAsync(value: expectedResponse);
 
         // When
-        TestHttpResponseData response = (TestHttpResponseData)await function.Run(request);
+        TestHttpResponseData response = (TestHttpResponseData)await function.Run(request: request);
 
         // Then
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        response.ReadBody().Should().Be("OK");
-        flowRunnerMock.Verify(runner =>
-            runner.RunAsync(It.Is<WorkflowRequest>(actual =>
-                actual.InstanceId == requestPayload.InstanceId
-                && actual.Api == requestPayload.Api
-                && actual.AuthToken == requestPayload.AuthToken)),
-            Times.Once);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK);
+
+        response.ReadBody()
+            .Should()
+            .Be(expected: "OK");
+
+        processingServiceMock.Verify(expression: service =>
+            service.ProcessExecuteAsync(request: request),
+            times: Times.Once);
     }
 }

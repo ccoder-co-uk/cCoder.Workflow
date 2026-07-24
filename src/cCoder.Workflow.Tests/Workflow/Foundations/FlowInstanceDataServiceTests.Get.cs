@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
@@ -13,30 +17,28 @@ public partial class FlowInstanceDataServiceTests
     {
         // Given
         Guid flowInstanceDataId = Guid.NewGuid();
-        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(id: flowInstanceDataId);
+        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
         flowInstanceDataBrokerMock
-            .Setup(x => x.GetAllFlowInstanceData(false))
-            .Returns(new[] { flowInstanceData }.AsQueryable());
+            .Setup(expression: x => x.SelectAllFlowInstanceData())
+            .Returns(value: new[] { flowInstanceData }.AsQueryable());
 
         // When
-        FlowInstanceData result = flowInstanceDataService.Get(flowInstanceDataId);
+        FlowInstanceData result = flowInstanceDataService.Get(flowInstanceDataId: flowInstanceDataId);
 
         // Then
-        result.Should().BeEquivalentTo(flowInstanceData);
-        flowInstanceDataBrokerMock.Verify(x => x.GetAllFlowInstanceData(false), Times.Once);
+        result.Should()
+            .BeEquivalentTo(expectation: flowInstanceData);
+
+        flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
+
         flowInstanceDataBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<FlowInstanceData>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
+times: Times.AtMostOnce()
         );
+
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-

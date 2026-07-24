@@ -1,22 +1,38 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Eventing.Models;
 
 namespace cCoder.Workflow.Models;
 
 public class WorkflowConfiguration
 {
-    public IDictionary<string, string> ConnectionStrings { get; set; } = new Dictionary<string, string>();
-    public IDictionary<string, string> Settings { get; set; } = new Dictionary<string, string>();
-    public IDictionary<string, string> Services { get; set; } = new Dictionary<string, string>();
-    public bool DebugInfo { get; set; }
-    public bool LogSQL { get; set; }
-    public string RootPath { get; set; } = "Api/Workflow";
-    public bool IncludeLegacyCoreContext { get; set; } = true;
-    public bool IsMigrating { get; set; }
-    public EventProvider[] EventProviders { get; private set; } = [];
-
-    public WorkflowConfiguration WithEventProviders(params EventProvider[] eventProviders)
+    public WorkflowConfiguration()
     {
-        EventProviders = eventProviders ?? [];
-        return this;
+        ConnectionStrings = new Dictionary<string, string>();
+        Settings = new Dictionary<string, string>();
+        Services = new Dictionary<string, string>();
+        RootPath = "Api/Workflow";
+        IncludeLegacyCoreContext = true;
+        EventProviders = [];
     }
+
+    public IDictionary<string, string> ConnectionStrings { get; set; }
+
+    public IDictionary<string, string> Settings { get; set; }
+
+    public IDictionary<string, string> Services { get; set; }
+
+    public bool DebugInfo { get; set; }
+
+    public bool LogSQL { get; set; }
+
+    public string RootPath { get; set; }
+
+    public bool IncludeLegacyCoreContext { get; set; }
+
+    public bool IsMigrating { get; set; }
+
+    public EventProvider[] EventProviders { get; set; }
 }

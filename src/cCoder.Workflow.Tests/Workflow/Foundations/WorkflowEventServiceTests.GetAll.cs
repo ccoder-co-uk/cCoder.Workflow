@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,32 +20,31 @@ public partial class WorkflowEventServiceTests
     {
         // Given
         cCoder.Data.Models.Workflow.WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
+
         IQueryable<cCoder.Data.Models.Workflow.WorkflowEvent> workflowEvents = new[]
         {
             workflowEvent
         }.AsQueryable();
 
-        workflowEventBrokerMock.Setup(x => x.GetAllWorkflowEvents(false)).Returns(workflowEvents);
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAllWorkflowEvents())
+            .Returns(value: workflowEvents);
 
         // When
         IQueryable<WorkflowEvent> result = workflowEventService.GetAll();
 
         // Then
-        result.Should().BeEquivalentTo(workflowEvents.Select(item => (WorkflowEvent)item));
-        workflowEventBrokerMock.Verify(x => x.GetAllWorkflowEvents(false), Times.Once);
+        result.Should()
+            .BeEquivalentTo(expectation: workflowEvents.Select(selector: item => (WorkflowEvent)item));
+
+        workflowEventBrokerMock.Verify(expression: x => x.SelectAllWorkflowEvents(), times: Times.Once);
+
         workflowEventBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
+times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Storage;
@@ -6,43 +10,110 @@ using cCoder.Data.Models.Planning;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class ScheduledTaskService(
+internal sealed partial class ScheduledTaskService(
     IScheduledTaskBroker scheduledTaskBroker,
     IAuthorizationBroker authorizationBroker
 ) : IScheduledTaskService
 {
-    public ScheduledTask Get(int id)
-    {
-        ScheduledTask scheduledTask = GetAll().FirstOrDefault(i => i.Id == id);
-        if (scheduledTask is not null)
-            return scheduledTask;
+    public ScheduledTask Get(int scheduledTaskId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [scheduledTaskId]); return ExecuteGet(scheduledTaskId: scheduledTaskId); });
 
-        ScheduledTask unrestrictedScheduledTask = GetAll(true).FirstOrDefault(i => i.Id == id);
+    private ScheduledTask ExecuteGet(int scheduledTaskId)
+    {
+        ScheduledTask scheduledTask = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
+
+        if (scheduledTask is not null)
+        {
+            return scheduledTask;
+        }
+
+        ScheduledTask unrestrictedScheduledTask = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
+
         if (unrestrictedScheduledTask is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
 
-    public ScheduledTask GetForExecution(int id) =>
-        scheduledTaskBroker.GetScheduledTaskForExecution(id);
+    public ScheduledTask GetForExecution(int scheduledTaskId) =>
+        TryCatch(operation: () => { ValidateForExecutionOnGet(inputs: [scheduledTaskId]); return ExecuteGetForExecution(scheduledTaskId: scheduledTaskId); });
+
+    private ScheduledTask ExecuteGetForExecution(int scheduledTaskId) =>
+        scheduledTaskBroker.SelectScheduledTaskForExecution(scheduledTaskId: scheduledTaskId);
 
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false) =>
-        scheduledTaskBroker.GetAllScheduledTasks(ignoreFilters);
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    public async ValueTask<ScheduledTask> MarkExecutedAsync(int id, bool incrementNextExecution) =>
-        await scheduledTaskBroker.MarkScheduledTaskExecutedAsync(id, incrementNextExecution);
-
-    public bool ExecuteAsUserBelongsToApp(string executeAs, int appId) =>
-        scheduledTaskBroker.ExecuteAsUserBelongsToApp(executeAs, appId);
-
-    public bool FlowBelongsToApp(Guid flowId, int appId) =>
-        scheduledTaskBroker.FlowBelongsToApp(flowId, appId);
-
-    public async ValueTask<ScheduledTask> AddAsync(ScheduledTask scheduledTask)
+    private IQueryable<ScheduledTask> ExecuteGetAll(bool ignoreFilters = false)
     {
-        authorizationBroker.Authorize(scheduledTask.AppId, $"{nameof(ScheduledTask)}_create");
-        ScheduledTask newScheduledTask = CreateStorageScheduledTask(scheduledTask);
+        if (ignoreFilters)
+        {
+            return scheduledTaskBroker
+                .SelectAllScheduledTasksIgnoringQueryFilters();
+        }
+
+        return scheduledTaskBroker.SelectAllScheduledTasks();
+    }
+
+    public ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); return await ExecuteMarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
+
+    private async ValueTask<ScheduledTask> ExecuteMarkExecutedAsync(
+        int scheduledTaskId,
+        bool incrementNextExecution)
+    {
+        ScheduledTask scheduledTask =
+            scheduledTaskBroker.SelectScheduledTaskForExecution(
+                scheduledTaskId: scheduledTaskId);
+
+        if (scheduledTask is null)
+        {
+            throw new SecurityException("Access Denied!");
+        }
+
+        ValidateScheduledTaskExecutionAccess(scheduledTask: scheduledTask);
+        scheduledTask.LastExecuted = DateTimeOffset.UtcNow;
+
+        if (incrementNextExecution)
+        {
+            while (scheduledTask.NextExecution < DateTimeOffset.UtcNow &&
+                scheduledTask.NextExecution is not null)
+            {
+                scheduledTask.NextExecution = scheduledTask.ScheduleInTicks > 0
+                    ? scheduledTask.NextExecution +
+                        TimeSpan.FromTicks(value: scheduledTask.ScheduleInTicks)
+                    : null;
+            }
+        }
+
+        return await scheduledTaskBroker.UpdateScheduledTaskAsync(
+            updatedEntity: scheduledTask);
+    }
+
+    public bool GetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
+        TryCatch(operation: () => { ValidateExecuteAsUserBelongsToAppOnGet(inputs: [executeAs, appId]); return ExecuteGetExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId); });
+
+    private bool ExecuteGetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
+        scheduledTaskBroker.SelectExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId);
+
+    public bool GetFlowBelongsToApp(Guid flowId, int appId) =>
+        TryCatch(operation: () => { ValidateFlowBelongsToAppOnGet(inputs: [flowId, appId]); return ExecuteGetFlowBelongsToApp(flowId: flowId, appId: appId); });
+
+    private bool ExecuteGetFlowBelongsToApp(Guid flowId, int appId) =>
+        scheduledTaskBroker.SelectFlowBelongsToApp(flowId: flowId, appId: appId);
+
+    public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask) =>
+        TryCatch(operation: async () => { ValidateScheduledTaskOnAdd(inputs: [newScheduledTask]); return await ExecuteAddAsync(scheduledTask: newScheduledTask); }, isValueTask: true);
+
+    private async ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask scheduledTask)
+    {
+        ValidateScheduledTaskAccess(scheduledTask: scheduledTask);
+        authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_create");
+        ScheduledTask newScheduledTask = CreateStorageScheduledTask(item: scheduledTask);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         newScheduledTask.Created = now;
@@ -50,7 +121,7 @@ internal class ScheduledTaskService(
         newScheduledTask.LastUpdated = now;
         newScheduledTask.UpdatedBy = currentUserId;
 
-        ScheduledTask result = await scheduledTaskBroker.AddScheduledTaskAsync(newScheduledTask);
+        ScheduledTask result = await scheduledTaskBroker.InsertScheduledTaskAsync(newEntity: newScheduledTask);
         scheduledTask.Id = result.Id;
         scheduledTask.AppId = result.AppId;
         scheduledTask.FlowId = result.FlowId;
@@ -70,18 +141,23 @@ internal class ScheduledTaskService(
         return scheduledTask;
     }
 
-    public async ValueTask<ScheduledTask> UpdateAsync(ScheduledTask scheduledTask)
+    public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask) =>
+        TryCatch(operation: async () => { ValidateScheduledTaskOnUpdate(inputs: [updatedScheduledTask]); return await ExecuteUpdateAsync(scheduledTask: updatedScheduledTask); }, isValueTask: true);
+
+    private async ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask scheduledTask)
     {
-        authorizationBroker.Authorize(scheduledTask.AppId, $"{nameof(ScheduledTask)}_update");
-        ScheduledTask updateScheduledTask = CreateStorageScheduledTask(scheduledTask);
+        ValidateScheduledTaskAccess(scheduledTask: scheduledTask);
+        authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_update");
+        ScheduledTask updateScheduledTask = CreateStorageScheduledTask(item: scheduledTask);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         updateScheduledTask.LastUpdated = now;
         updateScheduledTask.UpdatedBy = currentUserId;
 
         ScheduledTask result = await scheduledTaskBroker.UpdateScheduledTaskAsync(
-            updateScheduledTask
+updatedEntity: updateScheduledTask
         );
+
         scheduledTask.Id = result.Id;
         scheduledTask.AppId = result.AppId;
         scheduledTask.FlowId = result.FlowId;
@@ -101,25 +177,48 @@ internal class ScheduledTaskService(
         return scheduledTask;
     }
 
-    public async ValueTask DeleteAsync(int id)
+    public ValueTask DeleteAsync(int scheduledTaskId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId]); await ExecuteDeleteAsync(scheduledTaskId: scheduledTaskId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(int scheduledTaskId)
     {
-        ScheduledTask scheduledTask = GetAll(ignoreFilters: true).FirstOrDefault(item => item.Id == id);
+        ScheduledTask scheduledTask = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == scheduledTaskId);
 
         if (scheduledTask is null)
+        {
             return;
+        }
 
-        authorizationBroker.Authorize(scheduledTask.AppId, $"{nameof(ScheduledTask)}_delete");
+        authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_delete");
+
         _ = await scheduledTaskBroker.DeleteScheduledTaskAsync(
-            CreateStorageScheduledTask(scheduledTask)
+deletedEntity: CreateStorageScheduledTask(item: scheduledTask)
         );
     }
 
-    public ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items) =>
-        scheduledTaskBroker.DeleteAllScheduledTasksAsync(
-            items?.Select(CreateStorageScheduledTask) ?? []);
+    public ValueTask DeleteAllForAppScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems) =>
+        TryCatch(operation: async () => { ValidateAllForAppScheduledTaskOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllForAppAsync(items: deletedItems); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<ScheduledTask> items)
+    {
+        IEnumerable<ScheduledTask> storageScheduledTasks =
+            items?.Select(selector: CreateStorageScheduledTask) ?? [];
+
+        if (!storageScheduledTasks.Any())
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        return scheduledTaskBroker.DeleteAllScheduledTasksAsync(
+            deletedItems: storageScheduledTasks);
+    }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
-        scheduledTaskBroker.DeleteAllScheduledTasksByAppIdAsync(appId);
+        TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteAllByAppIdAsync(int appId) =>
+        scheduledTaskBroker.DeleteAllScheduledTasksByAppIdAsync(appId: appId);
 
     private static ScheduledTask CreateStorageScheduledTask(ScheduledTask item) =>
         item == null

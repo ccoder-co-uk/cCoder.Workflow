@@ -1,14 +1,20 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Workflow.AcceptanceTests.Infrastructure;
+using Workflow.Exposures;
+using Workflow.Services.Processings.WorkflowFunctions;
+using Moq;
 
 namespace Workflow.AcceptanceTests.Tests;
 
 public sealed partial class HealthTests
 {
-    private readonly Health function = new();
+    private readonly Mock<IWorkflowFunctionsProcessingService> processingServiceMock = new();
+    private readonly Health function;
 
-    private static TestHttpRequestData CreateRequest() =>
-        new();
-
-    private static string ReadBody(TestHttpResponseData response) =>
-        response.ReadBody();
+    public HealthTests() =>
+        function = new Health(
+            workflowFunctionsProcessingService: processingServiceMock.Object);
 }

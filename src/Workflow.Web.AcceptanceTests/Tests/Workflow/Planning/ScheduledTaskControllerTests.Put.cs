@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -12,26 +16,28 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
-        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(new
+
+        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
             flowId = seededContext.FlowId,
-            name = Unique("ScheduledTask"),
+            name = Unique(prefix: "ScheduledTask"),
             description = "Acceptance scheduled task",
             executionArgs = "{}",
-            scheduleInTicks = TimeSpan.FromHours(1).Ticks,
+            scheduleInTicks = TimeSpan.FromHours(hours: 1).Ticks,
             executeAs = "Guest",
             createdBy = "Guest",
             updatedBy = "Guest",
             created = DateTimeOffset.UtcNow,
             lastUpdated = DateTimeOffset.UtcNow,
-            nextExecution = DateTimeOffset.UtcNow.AddHours(1),
+            nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
-        string updatedName = Unique("UpdatedScheduledTask");
+
+        string updatedName = Unique(prefix: "UpdatedScheduledTask");
         ScheduledTask actualScheduledTask;
 
         // When
-        await UpdateScheduledTaskAsync(createdScheduledTask.Id, new
+        await UpdateScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id, payload: new
         {
             id = createdScheduledTask.Id,
             appId = seededContext.AppId,
@@ -39,26 +45,22 @@ public sealed partial class ScheduledTaskControllerTests
             name = updatedName,
             description = "Updated scheduled task",
             executionArgs = "{\"updated\":true}",
-            scheduleInTicks = TimeSpan.FromHours(2).Ticks,
+            scheduleInTicks = TimeSpan.FromHours(hours: 2).Ticks,
             executeAs = "Guest",
             createdBy = "Guest",
             updatedBy = "Guest",
             created = DateTimeOffset.UtcNow,
             lastUpdated = DateTimeOffset.UtcNow,
-            nextExecution = DateTimeOffset.UtcNow.AddHours(2),
+            nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 2),
         });
 
-        actualScheduledTask = await GetScheduledTaskAsync(createdScheduledTask.Id);
+        actualScheduledTask = await GetScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
 
         // Then
-        actualScheduledTask.Name.Should().Be(updatedName);
+        actualScheduledTask.Name.Should()
+            .Be(expected: updatedName);
 
-        await DeleteScheduledTaskAsync(createdScheduledTask.Id);
-        await Teardown(seededContext);
+        await DeleteScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

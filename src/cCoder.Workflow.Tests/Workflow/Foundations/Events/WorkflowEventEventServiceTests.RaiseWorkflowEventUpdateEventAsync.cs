@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing.Models;
 using FluentAssertions;
@@ -17,32 +21,38 @@ public partial class WorkflowEventEventServiceTests
         EventMessage<WorkflowEvent> actualMessage = null;
 
         workflowEventEventBrokerMock
-            .Setup(x =>
-                x.RaiseWorkflowEventUpdateEventAsync(It.IsAny<EventMessage<WorkflowEvent>>())
+            .Setup(expression: x =>
+                x.RaiseWorkflowEventUpdateEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>())
             )
-            .Callback<EventMessage<WorkflowEvent>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Callback<EventMessage<WorkflowEvent>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseWorkflowEventUpdateEventAsync(entity);
+        await service.RaiseWorkflowEventUpdateEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         workflowEventEventBrokerMock.Verify(
-            x => x.RaiseWorkflowEventUpdateEventAsync(It.IsAny<EventMessage<WorkflowEvent>>()),
-            Times.Once
+expression: x => x.RaiseWorkflowEventUpdateEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()),
+times: Times.Once
         );
+
+        workflowEventEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         workflowEventEventBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

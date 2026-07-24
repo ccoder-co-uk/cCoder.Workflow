@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Xunit;
@@ -16,7 +20,8 @@ public sealed partial class CalendarEventControllerTests
         int actualCount = await GetCalendarEventCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -25,10 +30,11 @@ public sealed partial class CalendarEventControllerTests
         // Given
 
         // When
-        IReadOnlyList<CalendarEvent> actualCalendarEvents = await GetCalendarEventsAsync(1);
+        IReadOnlyList<CalendarEvent> actualCalendarEvents = await GetCalendarEventsAsync(top: 1);
 
         // Then
-        actualCalendarEvents.Should().NotBeNull();
+        actualCalendarEvents.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -36,30 +42,30 @@ public sealed partial class CalendarEventControllerTests
     {
         // Given
         SeededCalendarEventContext seededContext = await SeedDatabase();
-        string name = Unique("CalendarEvent");
-        CalendarEvent expectedCalendarEvent = await CreateCalendarEventAsync(new
+        string name = Unique(prefix: "CalendarEvent");
+
+        CalendarEvent expectedCalendarEvent = await CreateCalendarEventAsync(payload: new
         {
             calendarId = seededContext.CalendarId,
             name,
             description = "Acceptance calendar event",
             start = DateTimeOffset.UtcNow,
-            durationInTicks = TimeSpan.FromHours(1).Ticks,
+            durationInTicks = TimeSpan.FromHours(hours: 1).Ticks,
         });
+
         CalendarEvent actualCalendarEvent;
 
         // When
-        actualCalendarEvent = await GetCalendarEventAsync(expectedCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
 
         // Then
-        actualCalendarEvent.Id.Should().Be(expectedCalendarEvent.Id);
-        actualCalendarEvent.Name.Should().Be(name);
+        actualCalendarEvent.Id.Should()
+            .Be(expected: expectedCalendarEvent.Id);
 
-        await DeleteCalendarEventAsync(expectedCalendarEvent.Id);
-        await Teardown(seededContext);
+        actualCalendarEvent.Name.Should()
+            .Be(expected: name);
+
+        await DeleteCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

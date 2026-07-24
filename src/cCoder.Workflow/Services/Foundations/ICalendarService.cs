@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -9,21 +13,17 @@ namespace cCoder.Workflow.Services.Foundations;
 
 public interface ICalendarService
 {
-    Calendar Get(int id);
+    Calendar Get(int calendarId);
+
     IQueryable<Calendar> GetAll(bool ignoreFilters = false);
-    ValueTask<Calendar> AddAsync(Calendar calendar);
-    ValueTask<Calendar> UpdateAsync(Calendar calendar);
-    ValueTask DeleteAsync(int id);
-    ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items);
+
+    ValueTask<Calendar> AddCalendarAsync(Calendar newCalendar);
+
+    ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedCalendar);
+
+    ValueTask DeleteAsync(int calendarId);
+
+    ValueTask DeleteAllForAppCalendarAsync(IEnumerable<Calendar> deletedItems);
+
     ValueTask DeleteAllByAppIdAsync(int appId);
 }
-
-
-
-
-
-
-
-
-
-

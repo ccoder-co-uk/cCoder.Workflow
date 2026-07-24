@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing.Models;
 using FluentAssertions;
@@ -17,32 +21,38 @@ public partial class FlowDefinitionEventServiceTests
         EventMessage<FlowDefinition> actualMessage = null;
 
         flowDefinitionEventBrokerMock
-            .Setup(x =>
-                x.RaiseFlowDefinitionAddEventAsync(It.IsAny<EventMessage<FlowDefinition>>())
+            .Setup(expression: x =>
+                x.RaiseFlowDefinitionAddEventAsync(message: It.IsAny<EventMessage<FlowDefinition>>())
             )
-            .Callback<EventMessage<FlowDefinition>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Callback<EventMessage<FlowDefinition>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowDefinitionAddEventAsync(entity);
+        await service.RaiseFlowDefinitionAddEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         flowDefinitionEventBrokerMock.Verify(
-            x => x.RaiseFlowDefinitionAddEventAsync(It.IsAny<EventMessage<FlowDefinition>>()),
-            Times.Once
+expression: x => x.RaiseFlowDefinitionAddEventAsync(message: It.IsAny<EventMessage<FlowDefinition>>()),
+times: Times.Once
         );
+
+        flowDefinitionEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         flowDefinitionEventBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

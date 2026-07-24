@@ -1,7 +1,12 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
-using cCoder.Workflow.Api.OData;
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Services.Aggregations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
@@ -11,7 +16,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class FlowDefinitionController(IFlowDefinitionControllerService service) : ODataController
+public partial class FlowDefinitionController(IFlowDefinitionAggregationService service) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()
@@ -20,11 +25,11 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(FlowDefinition))
+                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
             )
-            : Ok(new MetadataContainer(typeof(FlowDefinition), true, true));
+            : Ok(value: new MetadataContainer(typeof(FlowDefinition), true, true));
     }
 
     [HttpGet]
@@ -38,7 +43,7 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<FlowDefinition> queryOptions) =>
-        Ok(service.GetAll());
+        Ok(value: service.GetAllFlowDefinitions());
 
     [HttpGet]
     [AllowAnonymous]
@@ -54,8 +59,8 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
     {
         try
         {
-            FlowDefinition result = service.Get(key);
-            return result is null ? NotFound() : Ok(result);
+            FlowDefinition result = service.GetFlowDefinition(flowDefinitionId: key);
+            return result is null ? NotFound() : Ok(value: result);
         }
         catch (System.Security.SecurityException)
         {
@@ -72,12 +77,14 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] FlowDefinition entity)
+    public async Task<IActionResult> Post([FromBody] FlowDefinition newEntity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
+        }
 
-        return Ok(await service.AddAsync(entity));
+        return Ok(value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -89,48 +96,57 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition entity)
+    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition updatedEntity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
+        }
 
-        return Ok(await service.UpdateAsync(entity));
+        return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<FlowDefinition> delta)
+    [ActionName("Patch")]
+    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> updatedDelta)
     {
-        FlowDefinition originalEntity = service.Get(key);
-        if (originalEntity == null)
-            return NotFound();
+        FlowDefinition originalEntity = service.GetFlowDefinition(flowDefinitionId: key);
 
-        delta.Patch(originalEntity);
-        return Ok(await service.UpdateAsync(originalEntity));
+        if (originalEntity == null)
+        {
+            return NotFound();
+        }
+
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await service.DeleteAsync(key);
+        await service.DeleteFlowDefinitionAsync(flowDefinitionId: key);
         return Ok();
     }
 
     [HttpPost]
-    public async Task<IActionResult> ExecuteAsync([FromRoute] Guid key)
+    [ActionName("Execute")]
+    public async Task<IActionResult> PostAsync([FromRoute] Guid key)
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
         string asUserId = User?.Identity?.Name;
-        return Ok(await service.QueueAsync(key, asUserId, await reader.ReadToEndAsync()));
+        return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
     }
 
     [HttpPost]
-    public async Task<IActionResult> ExecuteScript()
+    [ActionName("ExecuteScript")]
+    public async Task<IActionResult> PostScript()
     {
         string script = await new StreamReader(Request.Body).ReadToEndAsync();
-        return Ok(await service.ExecuteScriptAsync(script));
+        return Ok(value: await service.ExecuteScriptAsync(script: script));
     }
 
     [HttpGet]
+    [ActionName("KnownActivityTypes")]
     [EnableQuery(
         AllowedArithmeticOperators = AllowedArithmeticOperators.All,
         AllowedFunctions = AllowedFunctions.All,
@@ -139,15 +155,16 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
-    public IActionResult KnownActivityTypes()
+    public IActionResult GetKnownActivityTypes()
     {
-        return Ok(service.GetKnownActivityTypes());
+        return Ok(value: service.GetKnownActivityTypes());
     }
 
     [AllowAnonymous]
     [HttpGet]
-    public IActionResult KnownSystemTypes()
+    [ActionName("KnownSystemTypes")]
+    public IActionResult GetKnownSystemTypes()
     {
-        return Ok(service.GetKnownSystemTypes());
+        return Ok(value: service.GetKnownSystemTypes());
     }
 }

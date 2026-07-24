@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -19,22 +23,19 @@ public partial class FlowInstanceDataProcessingServiceTests
         {
             CreateRandomFlowInstanceData(),
         }.AsQueryable();
-        flowInstanceDataServiceMock.Setup(x => x.GetAll()).Returns(entities);
+
+        flowInstanceDataServiceMock.Setup(expression: x => x.GetAll())
+            .Returns(value: entities);
 
         // When
         IQueryable<FlowInstanceData> result = flowInstanceDataProcessingService.GetAll();
 
         // Then
-        result.Should().BeSameAs(entities);
-        flowInstanceDataServiceMock.Verify(x => x.GetAll(), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entities);
+
+        flowInstanceDataServiceMock.Verify(expression: x => x.GetAll(), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,27 +20,24 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         FlowInstanceData entity = CreateRandomFlowInstanceData();
-        flowInstanceDataProcessingServiceMock.Setup(x => x.Get(id)).Returns(entity);
-        flowInstanceDataProcessingServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: id))
+            .Returns(value: entity);
+
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAsync(flowInstanceDataId: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         flowInstanceDataEventProcessingServiceMock
-            .Setup(x => x.RaiseFlowInstanceDataDeleteEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id);
+        await orchestrationService.DeleteAsync(flowInstanceDataId: id);
 
         // Then
-        flowInstanceDataProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
-        flowInstanceDataProcessingServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
-        flowInstanceDataEventProcessingServiceMock.Verify(x => x.RaiseFlowInstanceDataDeleteEventAsync(entity), Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.Get(flowInstanceDataId: id), times: Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.DeleteAsync(flowInstanceDataId: id), times: Times.Once);
+        flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
+using cCoder.Workflow.Models.Exceptions;
 using Moq;
 using Xunit;
 
@@ -9,40 +14,52 @@ public partial class FlowDefinitionProcessingServiceTests
     [Fact]
     public async Task ShouldDelegateToServiceForDeleteAsync()
     {
+        // Given
         Guid flowId = Guid.NewGuid();
+
         flowDefinitionServiceMock
-            .Setup(x => x.DeleteWithInstancesAsync(flowId))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
+            .Returns(value: ValueTask.CompletedTask);
 
-        await flowDefinitionProcessingService.DeleteAsync(flowId);
+        // When
+        await flowDefinitionProcessingService.DeleteAsync(flowDefinitionId: flowId);
 
+        // Then
         flowDefinitionServiceMock.Verify(
-            x => x.DeleteWithInstancesAsync(flowId),
-            Times.Once
+expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId),
+times: Times.Once
         );
+
         flowDefinitionServiceMock.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public async Task ShouldBubbleExceptionFromServiceForDeleteAsync()
+    public async Task ShouldWrapDependencyExceptionFromServiceForDeleteAsync()
     {
+        // Given
         Guid flowId = Guid.NewGuid();
+        InvalidOperationException dependencyException = new("boom");
+
         flowDefinitionServiceMock
-            .Setup(x => x.DeleteWithInstancesAsync(flowId))
-            .Returns(ValueTask.FromException(new InvalidOperationException("boom")));
+            .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
+            .Returns(value: ValueTask.FromException(exception: dependencyException));
 
-        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await flowDefinitionProcessingService.DeleteAsync(flowId)
-        );
+        // When
+        WorkflowDependencyException actualException =
+            await Assert.ThrowsAsync<WorkflowDependencyException>(
+                testCode: async () =>
+                    await flowDefinitionProcessingService.DeleteAsync(
+                        flowDefinitionId: flowId));
 
-        flowDefinitionServiceMock.Verify(x => x.DeleteWithInstancesAsync(flowId), Times.Once);
+        // Then
+        Assert.Same(
+            expected: dependencyException,
+            actual: actualException.InnerException);
+
+        flowDefinitionServiceMock.Verify(
+            expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId),
+            times: Times.Once);
+
         flowDefinitionServiceMock.VerifyNoOtherCalls();
     }
 }
-
-
-
-
-
-
-

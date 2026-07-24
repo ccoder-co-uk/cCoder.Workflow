@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,23 +20,20 @@ public partial class WorkflowEventOrchestrationServiceTests
     {
         // Given
         IQueryable<WorkflowEvent> entities = new[] { CreateRandomWorkflowEvent() }.AsQueryable();
-        workflowEventProcessingServiceMock.Setup(x => x.GetAll(true)).Returns(entities);
+
+        workflowEventProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: entities);
 
         // When
-        IQueryable<WorkflowEvent> result = orchestrationService.GetAll(true);
+        IQueryable<WorkflowEvent> result = orchestrationService.GetAll(ignoreFilters: true);
 
         // Then
-        result.Should().BeSameAs(entities);
-        workflowEventProcessingServiceMock.Verify(x => x.GetAll(true), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entities);
+
+        workflowEventProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

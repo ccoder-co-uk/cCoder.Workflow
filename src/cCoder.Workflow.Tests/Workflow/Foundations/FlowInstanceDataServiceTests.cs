@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Workflow.Brokers;
@@ -17,8 +21,8 @@ public partial class FlowInstanceDataServiceTests
 
     public FlowInstanceDataServiceTests()
     {
-        flowInstanceDataBrokerMock = new Mock<IFlowInstanceDataBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        flowInstanceDataBrokerMock = new Mock<IFlowInstanceDataBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         flowInstanceDataService = new FlowInstanceDataService(
             flowInstanceDataBrokerMock.Object,
             authorizationBrokerMock.Object
@@ -26,36 +30,23 @@ public partial class FlowInstanceDataServiceTests
     }
 
     private static FlowInstanceData CreateRandomFlowInstanceData(
-        Guid id = default,
+        Guid flowInstanceDataId = default,
         Guid flowDefinitionId = default
     )
     {
         FlowInstanceData flowInstanceData = Builder<FlowInstanceData>
             .CreateNew()
-            .With(x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
-            .With(x => x.FlowDefinitionId = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
-            .With(x => x.Name = $"FlowInstance-{Guid.NewGuid():N}")
-            .With(x => x.State = "Queued")
-            .With(x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
-            .With(x => x.Caller = "tester")
-            .With(x => x.ContextString = "{}")
-            .With(x => x.Start = DateTimeOffset.UtcNow)
-            .With(x => x.End = default(DateTimeOffset))
+            .With(func: x => x.Id = flowInstanceDataId == Guid.Empty ? Guid.NewGuid() : flowInstanceDataId)
+            .With(func: x => x.FlowDefinitionId = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
+            .With(func: x => x.Name = $"FlowInstance-{Guid.NewGuid():N}")
+            .With(func: x => x.State = "Queued")
+            .With(func: x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
+            .With(func: x => x.Caller = "tester")
+            .With(func: x => x.ContextString = "{}")
+            .With(func: x => x.Start = DateTimeOffset.UtcNow)
+            .With(func: x => x.End = default(DateTimeOffset))
             .Build();
 
         return flowInstanceData;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

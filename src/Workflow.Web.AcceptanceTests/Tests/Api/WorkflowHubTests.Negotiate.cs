@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using FluentAssertions;
 using Xunit;
@@ -5,7 +9,7 @@ using Xunit;
 
 namespace Web.AcceptanceTests.Tests.Api;
 
-public sealed partial class WorkflowHubTests
+public sealed partial class WorkflowHubDependencyTests
 {
     [Fact]
     public async Task ShouldReturnNonErrorResponseForNegotiate()
@@ -16,10 +20,10 @@ public sealed partial class WorkflowHubTests
         int actualStatusCode = await NegotiateAsync();
 
         // Then
-        actualStatusCode.Should().NotBe((int)HttpStatusCode.NotFound);
-        actualStatusCode.Should().NotBe((int)HttpStatusCode.InternalServerError);
+        actualStatusCode.Should()
+            .NotBe(unexpected: (int)HttpStatusCode.NotFound);
+
+        actualStatusCode.Should()
+            .NotBe(unexpected: (int)HttpStatusCode.InternalServerError);
     }
 }
-
-
-

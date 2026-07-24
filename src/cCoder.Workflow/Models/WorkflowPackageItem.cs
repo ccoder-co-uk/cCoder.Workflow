@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Models;
 
 public class WorkflowPackageItem
@@ -12,4 +16,3 @@ public class WorkflowPackageItem
 
     public virtual WorkflowPackage Package { get; set; }
 }
-

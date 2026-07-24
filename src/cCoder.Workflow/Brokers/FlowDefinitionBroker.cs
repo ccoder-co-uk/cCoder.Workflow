@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.Workflow;
 using Microsoft.EntityFrameworkCore;
@@ -5,102 +9,86 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers;
 
-public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory) 
+internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
     : IFlowDefinitionBroker
 {
 
-    public IQueryable<FlowDefinition> GetAllFlowDefinitions(bool ignoreFilters)
-    {
-        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        return ignoreFilters
-            ? coreDataContext.FlowDefinitions.IgnoreQueryFilters()
-            : coreDataContext.FlowDefinitions;
-    }
+    public IQueryable<FlowDefinition> SelectAllFlowDefinitions() =>
+        coreContextFactory.CreateCoreContext().FlowDefinitions;
 
-    public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity)
+    public IQueryable<FlowDefinition> SelectAllFlowDefinitionsIgnoringQueryFilters() =>
+        coreContextFactory.CreateCoreContext()
+            .FlowDefinitions
+            .IgnoreQueryFilters();
+
+    public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowDefinition result = (await coreDataContext.FlowDefinitions.AddAsync(entity)).Entity;
+        FlowDefinition result = (await coreDataContext.FlowDefinitions.AddAsync(entity: newEntity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition entity)
+    public async ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowDefinition result = coreDataContext.FlowDefinitions.Update(entity).Entity;
+        FlowDefinition result = coreDataContext.FlowDefinitions.Update(entity: updatedEntity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition entity)
+    public async ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition deletedEntity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowDefinitions.Remove(entity);
+        coreDataContext.FlowDefinitions.Remove(entity: deletedEntity);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid id)
+    public async ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid flowDefinitionId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        FlowDefinition flowDefinition = coreDataContext.FlowDefinitions
+        await coreDataContext.FlowInstances
             .IgnoreQueryFilters()
-            .Include(foundFlowDefinition => foundFlowDefinition.Instances)
-            .FirstOrDefault(foundFlowDefinition => foundFlowDefinition.Id == id);
+            .Where(predicate: flowInstance =>
+                flowInstance.FlowDefinitionId == flowDefinitionId)
+            .ExecuteDeleteAsync();
 
-        if (flowDefinition is null)
-            return;
-
-        coreDataContext.FlowInstances.RemoveRange(flowDefinition.Instances);
-        coreDataContext.FlowDefinitions.Remove(flowDefinition);
-        _ = await coreDataContext.SaveChangesAsync();
+        await coreDataContext.FlowDefinitions
+            .IgnoreQueryFilters()
+            .Where(predicate: flowDefinition =>
+                flowDefinition.Id == flowDefinitionId)
+            .ExecuteDeleteAsync();
     }
 
     public async ValueTask DeleteFlowDefinitionsWithInstancesByAppIdAsync(int appId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         IQueryable<Guid> flowIds =
             coreDataContext.FlowDefinitions
                 .IgnoreQueryFilters()
-                .Where(flowDefinition => flowDefinition.AppId == appId)
-                .Select(flowDefinition => flowDefinition.Id);
+                .Where(predicate: flowDefinition => flowDefinition.AppId == appId)
+                .Select(selector: flowDefinition => flowDefinition.Id);
 
         await coreDataContext.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => flowIds.Contains(instance.FlowDefinitionId))
+            .Where(predicate: instance => flowIds.Contains(item: instance.FlowDefinitionId))
             .ExecuteDeleteAsync();
 
         await coreDataContext.WorflowEvents
             .IgnoreQueryFilters()
-            .Where(workflowEvent => flowIds.Contains(workflowEvent.FlowId))
+            .Where(predicate: workflowEvent => flowIds.Contains(item: workflowEvent.FlowId))
             .ExecuteDeleteAsync();
 
         await coreDataContext.FlowDefinitions
             .IgnoreQueryFilters()
-            .Where(flowDefinition => flowDefinition.AppId == appId)
+            .Where(predicate: flowDefinition => flowDefinition.AppId == appId)
             .ExecuteDeleteAsync();
     }
 
-    public async ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items)
-    {
-        if (items == null || !items.Any())
-            return;
-
-        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowDefinitions.RemoveRange(items);
-        _ = await coreDataContext.SaveChangesAsync();
-    }
-
-    public int? GetAppId(FlowDefinition entity)
+    public int? SelectAppId(FlowDefinition entity)
     {
         return entity.AppId;
     }
 }
-
-
-
-
-
-
-

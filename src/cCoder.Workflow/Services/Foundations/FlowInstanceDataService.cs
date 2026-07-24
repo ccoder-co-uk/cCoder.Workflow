@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Data.Models.Workflow;
@@ -5,38 +9,65 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class FlowInstanceDataService(
+internal sealed partial class FlowInstanceDataService(
     IFlowInstanceDataBroker flowInstanceDataBroker,
     IAuthorizationBroker authorizationBroker
 ) : IFlowInstanceDataService
 {
-    public FlowInstanceData Get(Guid id)
-    {
-        FlowInstanceData flowInstanceData = GetAll().FirstOrDefault(i => i.Id == id);
-        if (flowInstanceData is not null)
-            return flowInstanceData;
+    public FlowInstanceData Get(Guid flowInstanceDataId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
 
-        FlowInstanceData unrestrictedFlowInstanceData = GetAll(true).FirstOrDefault(i => i.Id == id);
+    private FlowInstanceData ExecuteGet(Guid flowInstanceDataId)
+    {
+        FlowInstanceData flowInstanceData = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
+
+        if (flowInstanceData is not null)
+        {
+            return flowInstanceData;
+        }
+
+        FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
+
         if (unrestrictedFlowInstanceData is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
 
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
-        flowInstanceDataBroker.GetAllFlowInstanceData(ignoreFilters);
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    public async ValueTask<FlowInstanceData> AddAsync(FlowInstanceData flowInstanceData)
+    private IQueryable<FlowInstanceData> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return flowInstanceDataBroker
+                .SelectAllFlowInstanceDataIgnoringQueryFilters();
+        }
+
+        return flowInstanceDataBroker.SelectAllFlowInstanceData();
+    }
+
+    public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateFlowInstanceDataOnAdd(inputs: [newFlowInstanceData]); return await ExecuteAddAsync(flowInstanceData: newFlowInstanceData); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
-            flowInstanceDataBroker.GetAppId(flowInstanceData),
-            $"{nameof(FlowInstanceData)}_create"
+appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
+privilege: $"{nameof(FlowInstanceData)}_create"
         );
-        FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(flowInstanceData);
+
+        FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
-            newFlowInstanceData
+newEntity: newFlowInstanceData
         );
+
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
         flowInstanceData.Name = result.Name;
@@ -49,13 +80,17 @@ internal class FlowInstanceDataService(
         return flowInstanceData;
     }
 
-    public async ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData flowInstanceData)
+    public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateQueuedFlowInstanceDataOnAdd(inputs: [newFlowInstanceData]); return await ExecuteAddQueuedAsync(flowInstanceData: newFlowInstanceData); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData flowInstanceData)
     {
-        FlowInstanceData queuedFlowInstanceData = CreateQueuedStorageFlowInstanceData(flowInstanceData);
+        FlowInstanceData queuedFlowInstanceData = CreateQueuedStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
-            queuedFlowInstanceData
+newEntity: queuedFlowInstanceData
         );
+
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
         flowInstanceData.Name = result.Name;
@@ -68,17 +103,22 @@ internal class FlowInstanceDataService(
         return flowInstanceData;
     }
 
-    public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData flowInstanceData)
+    public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateFlowInstanceDataOnUpdate(inputs: [updatedFlowInstanceData]); return await ExecuteUpdateAsync(flowInstanceData: updatedFlowInstanceData); }, isValueTask: true);
+
+    private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
-            flowInstanceDataBroker.GetAppId(flowInstanceData),
-            $"{nameof(FlowInstanceData)}_update"
+appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
+privilege: $"{nameof(FlowInstanceData)}_update"
         );
-        FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(flowInstanceData);
+
+        FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
-            updateFlowInstanceData
+updatedEntity: updateFlowInstanceData
         );
+
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
         flowInstanceData.Name = result.Name;
@@ -91,15 +131,20 @@ internal class FlowInstanceDataService(
         return flowInstanceData;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public ValueTask DeleteAsync(Guid flowInstanceDataId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowInstanceDataId]); await ExecuteDeleteAsync(flowInstanceDataId: flowInstanceDataId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(Guid flowInstanceDataId)
     {
-        FlowInstanceData flowInstanceData = Get(id);
+        FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
+
         authorizationBroker.Authorize(
-            flowInstanceDataBroker.GetAppId(flowInstanceData),
-            $"{nameof(FlowInstanceData)}_delete"
+appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
+privilege: $"{nameof(FlowInstanceData)}_delete"
         );
+
         _ = await flowInstanceDataBroker.DeleteFlowInstanceDataAsync(
-            CreateStorageFlowInstanceData(flowInstanceData)
+deletedEntity: CreateStorageFlowInstanceData(item: flowInstanceData)
         );
     }
 
@@ -136,15 +181,3 @@ internal class FlowInstanceDataService(
                 End = item.End,
             };
 }
-
-
-
-
-
-
-
-
-
-
-
-

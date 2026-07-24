@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,26 +20,23 @@ public partial class FlowDefinitionOrchestrationServiceTests
     {
         // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
-        flowDefinitionProcessingServiceMock.Setup(x => x.UpdateAsync(entity)).ReturnsAsync(entity);
+
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.UpdateFlowDefinitionAsync(updatedEntity: entity))
+            .ReturnsAsync(value: entity);
 
         flowDefinitionEventProcessingServiceMock
-            .Setup(x => x.RaiseFlowDefinitionUpdateEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseFlowDefinitionUpdateEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        FlowDefinition result = await orchestrationService.UpdateAsync(entity);
+        FlowDefinition result = await orchestrationService.UpdateFlowDefinitionAsync(updatedEntity: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        flowDefinitionProcessingServiceMock.Verify(x => x.UpdateAsync(entity), Times.Once);
-        flowDefinitionEventProcessingServiceMock.Verify(x => x.RaiseFlowDefinitionUpdateEventAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.UpdateFlowDefinitionAsync(updatedEntity: entity), times: Times.Once);
+        flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionUpdateEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

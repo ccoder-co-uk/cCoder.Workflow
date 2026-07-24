@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -8,20 +12,21 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IScheduledTaskOrchestrationService
 {
-    ScheduledTask Get(int id);
+    ScheduledTask Get(int scheduledTaskId);
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
-    ValueTask<ScheduledTask> AddAsync(ScheduledTask entity);
+    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity);
 
-    ValueTask<ScheduledTask> UpdateAsync(ScheduledTask entity);
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
 
-    ValueTask DeleteAsync(int id);
+    ValueTask DeleteAsync(int scheduledTaskId);
+
     ValueTask DeleteByAppIdAsync(int appId);
 
-    ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items);
+    ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdateScheduledTask(IEnumerable<ScheduledTask> items);
 
-    ValueTask DeleteAllAsync(IEnumerable<ScheduledTask> items);
+    ValueTask DeleteAllScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems);
 
-    ValueTask ExecuteAsync(int id, bool incrementNextExecution = true);
+    ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true);
 }

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Data.Models.Workflow;
@@ -5,31 +9,56 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal class FlowDefinitionService(
+internal sealed partial class FlowDefinitionService(
     IFlowDefinitionBroker flowDefinitionBroker,
     IAuthorizationBroker authorizationBroker
 ) : IFlowDefinitionService
 {
-    public FlowDefinition Get(Guid id)
-    {
-        FlowDefinition flowDefinition = GetAll().FirstOrDefault(i => i.Id == id);
-        if (flowDefinition is not null)
-            return flowDefinition;
+    public FlowDefinition Get(Guid flowDefinitionId) =>
+        TryCatch(operation: () => { ValidateInputs(inputs: [flowDefinitionId]); return ExecuteGet(flowDefinitionId: flowDefinitionId); });
 
-        FlowDefinition unrestrictedFlowDefinition = GetAll(true).FirstOrDefault(i => i.Id == id);
+    private FlowDefinition ExecuteGet(Guid flowDefinitionId)
+    {
+        FlowDefinition flowDefinition = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
+
+        if (flowDefinition is not null)
+        {
+            return flowDefinition;
+        }
+
+        FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
+
         if (unrestrictedFlowDefinition is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false) =>
-        flowDefinitionBroker.GetAllFlowDefinitions(ignoreFilters);
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    public async ValueTask<FlowDefinition> AddAsync(FlowDefinition flowDefinition)
+    private IQueryable<FlowDefinition> ExecuteGetAll(bool ignoreFilters = false)
     {
-        authorizationBroker.Authorize(flowDefinition.AppId, $"{nameof(FlowDefinition)}_create");
-        FlowDefinition newFlowDefinition = CreateStorageFlowDefinition(flowDefinition);
+        if (ignoreFilters)
+        {
+            return flowDefinitionBroker
+                .SelectAllFlowDefinitionsIgnoringQueryFilters();
+        }
+
+        return flowDefinitionBroker.SelectAllFlowDefinitions();
+    }
+
+    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateFlowDefinitionOnAdd(inputs: [newFlowDefinition]); return await ExecuteAddAsync(flowDefinition: newFlowDefinition); }, isValueTask: true);
+
+    private async ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition flowDefinition)
+    {
+        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_create");
+        FlowDefinition newFlowDefinition = CreateStorageFlowDefinition(item: flowDefinition);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         newFlowDefinition.CreatedOn = now;
@@ -37,7 +66,7 @@ internal class FlowDefinitionService(
         newFlowDefinition.LastUpdated = now;
         newFlowDefinition.LastUpdatedBy = currentUserId;
 
-        FlowDefinition result = await flowDefinitionBroker.AddFlowDefinitionAsync(newFlowDefinition);
+        FlowDefinition result = await flowDefinitionBroker.AddFlowDefinitionAsync(newEntity: newFlowDefinition);
         flowDefinition.Id = result.Id;
         flowDefinition.Name = result.Name;
         flowDefinition.Description = result.Description;
@@ -53,18 +82,22 @@ internal class FlowDefinitionService(
         return flowDefinition;
     }
 
-    public async ValueTask<FlowDefinition> UpdateAsync(FlowDefinition flowDefinition)
+    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateFlowDefinitionOnUpdate(inputs: [updatedFlowDefinition]); return await ExecuteUpdateAsync(flowDefinition: updatedFlowDefinition); }, isValueTask: true);
+
+    private async ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition flowDefinition)
     {
-        authorizationBroker.Authorize(flowDefinition.AppId, $"{nameof(FlowDefinition)}_update");
-        FlowDefinition updateFlowDefinition = CreateStorageFlowDefinition(flowDefinition);
+        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_update");
+        FlowDefinition updateFlowDefinition = CreateStorageFlowDefinition(item: flowDefinition);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         updateFlowDefinition.LastUpdated = now;
         updateFlowDefinition.LastUpdatedBy = currentUserId;
 
         FlowDefinition result = await flowDefinitionBroker.UpdateFlowDefinitionAsync(
-            updateFlowDefinition
+updatedEntity: updateFlowDefinition
         );
+
         flowDefinition.Id = result.Id;
         flowDefinition.Name = result.Name;
         flowDefinition.Description = result.Description;
@@ -80,30 +113,45 @@ internal class FlowDefinitionService(
         return flowDefinition;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public ValueTask DeleteAsync(Guid flowDefinitionId) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinitionId]); await ExecuteDeleteAsync(flowDefinitionId: flowDefinitionId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteAsync(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(item => item.Id == id);
+        FlowDefinition flowDefinition = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (flowDefinition is null)
+        {
             return;
+        }
 
-        authorizationBroker.Authorize(flowDefinition.AppId, $"{nameof(FlowDefinition)}_delete");
-        _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(CreateStorageFlowDefinition(flowDefinition));
+        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete");
+        _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(deletedEntity: CreateStorageFlowDefinition(item: flowDefinition));
     }
 
-    public async ValueTask DeleteWithInstancesAsync(Guid id)
+    public ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId) =>
+        TryCatch(operation: async () => { ValidateWithInstancesOnDelete(inputs: [flowDefinitionId]); await ExecuteDeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId); }, isValueTask: true);
+
+    private async ValueTask ExecuteDeleteWithInstancesAsync(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(item => item.Id == id);
+        FlowDefinition flowDefinition = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (flowDefinition is null)
+        {
             return;
+        }
 
-        authorizationBroker.Authorize(flowDefinition.AppId, $"{nameof(FlowDefinition)}_delete");
-        await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(id);
+        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete");
+        await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId);
     }
 
     public ValueTask DeleteWithInstancesByAppIdAsync(int appId) =>
-        flowDefinitionBroker.DeleteFlowDefinitionsWithInstancesByAppIdAsync(appId);
+        TryCatch(operation: async () => { ValidateWithInstancesByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteWithInstancesByAppIdAsync(appId: appId); }, isValueTask: true);
+
+    private ValueTask ExecuteDeleteWithInstancesByAppIdAsync(int appId) =>
+        flowDefinitionBroker.DeleteFlowDefinitionsWithInstancesByAppIdAsync(appId: appId);
 
     private static FlowDefinition CreateStorageFlowDefinition(FlowDefinition item) =>
         item == null
@@ -126,15 +174,3 @@ internal class FlowDefinitionService(
                 Instances = item.Instances,
             };
 }
-
-
-
-
-
-
-
-
-
-
-
-

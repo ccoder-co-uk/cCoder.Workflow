@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -8,18 +12,15 @@ namespace cCoder.Workflow.Services.Foundations;
 
 public interface IWorkflowEventService
 {
-    WorkflowEvent Get(Guid id);
+    WorkflowEvent Get(Guid workflowEventId);
+
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
+
     int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent);
-    ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent);
-    ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent);
-    ValueTask DeleteAsync(Guid id);
+
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent);
+
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent);
+
+    ValueTask DeleteAsync(Guid workflowEventId);
 }
-
-
-
-
-
-
-
-

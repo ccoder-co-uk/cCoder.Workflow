@@ -1,25 +1,32 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
-using cCoder.Eventing;
 using cCoder.Eventing.Models;
+using cCoder.Data;
+using cCoder.Eventing;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
-public class FlowDefinitionEventBroker(IEventHub eventHub) : IFlowDefinitionEventBroker
+internal sealed class FlowDefinitionEventBroker(
+    IServiceProvider serviceProvider)
+        : IFlowDefinitionEventBroker
 {
+    public string GetCurrentUserId() =>
+        serviceProvider.GetRequiredService<ICoreAuthInfo>().SSOUserId;
+
     public ValueTask RaiseFlowDefinitionAddEventAsync(EventMessage<FlowDefinition> message) =>
-        eventHub.RaiseEventAsync("flow_definition_add", message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "flow_definition_add", message: message);
 
     public ValueTask RaiseFlowDefinitionUpdateEventAsync(EventMessage<FlowDefinition> message) =>
-        eventHub.RaiseEventAsync("flow_definition_update", message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "flow_definition_update", message: message);
 
     public ValueTask RaiseFlowDefinitionDeleteEventAsync(EventMessage<FlowDefinition> message) =>
-        eventHub.RaiseEventAsync("flow_definition_delete", message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "flow_definition_delete", message: message);
 }
-
-
-
-
-
-
-

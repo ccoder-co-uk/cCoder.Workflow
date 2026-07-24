@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -18,8 +22,8 @@ public partial class WorkflowEventOrchestrationServiceTests
 
     public WorkflowEventOrchestrationServiceTests()
     {
-        workflowEventProcessingServiceMock = new Mock<IWorkflowEventProcessingService>(MockBehavior.Strict);
-        workflowEventEventProcessingServiceMock = new Mock<IWorkflowEventEventProcessingService>(MockBehavior.Strict);
+        workflowEventProcessingServiceMock = new Mock<IWorkflowEventProcessingService>(behavior: MockBehavior.Strict);
+        workflowEventEventProcessingServiceMock = new Mock<IWorkflowEventEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new WorkflowEventOrchestrationService(
             workflowEventProcessingServiceMock.Object,
             workflowEventEventProcessingServiceMock.Object
@@ -27,13 +31,6 @@ public partial class WorkflowEventOrchestrationServiceTests
     }
 
     private static WorkflowEvent CreateRandomWorkflowEvent() =>
-        Builder<WorkflowEvent>.CreateNew().Build();
+        Builder<WorkflowEvent>.CreateNew()
+            .Build();
 }
-
-
-
-
-
-
-
-

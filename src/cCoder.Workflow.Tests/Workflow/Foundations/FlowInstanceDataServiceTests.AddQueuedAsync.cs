@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
@@ -10,15 +14,16 @@ public partial class FlowInstanceDataServiceTests
     [Fact]
     public async Task ShouldDelegateToBrokerWithoutAuthorizationWhenAddQueuedAsync()
     {
+        // Given
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
 
         FlowInstanceData submitted = null;
 
         flowInstanceDataBrokerMock
-            .Setup(x =>
+            .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-                    It.Is<FlowInstanceData>(candidate =>
-                        !ReferenceEquals(candidate, flowInstanceData)
+newEntity: It.Is<FlowInstanceData>(match: candidate =>
+                        !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                         && candidate.Id == flowInstanceData.Id
                         && candidate.FlowDefinitionId == flowInstanceData.FlowDefinitionId
                         && candidate.Name == flowInstanceData.Name
@@ -32,17 +37,26 @@ public partial class FlowInstanceDataServiceTests
                     )
                 )
             )
-            .Callback<FlowInstanceData>(candidate => submitted = candidate)
-            .ReturnsAsync((FlowInstanceData value) => value);
+            .Callback<FlowInstanceData>(action: candidate => submitted = candidate)
+            .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
 
-        FlowInstanceData result = await flowInstanceDataService.AddQueuedAsync(flowInstanceData);
+        // When
+        FlowInstanceData result = await flowInstanceDataService.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData);
 
-        result.Should().BeSameAs(flowInstanceData);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(flowInstanceData);
+        // Then
+        result.Should()
+            .BeSameAs(expected: flowInstanceData);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: flowInstanceData);
+
         flowInstanceDataBrokerMock.Verify(
-            x => x.AddFlowInstanceDataAsync(It.IsAny<FlowInstanceData>()),
-            Times.Once);
+expression: x => x.AddFlowInstanceDataAsync(newEntity: It.IsAny<FlowInstanceData>()),
+times: Times.Once);
+
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
@@ -14,113 +18,126 @@ public partial class FlowDefinitionServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForUpdateAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new User { Id = "test-user" });
+
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(appId: 7);
 
         FlowDefinition submitted = null;
 
-        flowDefinitionBrokerMock.Setup(x => x.GetAppId(It.IsAny<FlowDefinition>())).Returns((int?)7);
+        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
+            .Returns(value: (int?)7);
 
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "FlowDefinition_update"));
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"));
 
         flowDefinitionBrokerMock
-            .Setup(x => x.UpdateFlowDefinitionAsync(It.IsAny<FlowDefinition>()))
-            .Callback<FlowDefinition>(candidate => submitted = candidate)
-            .ReturnsAsync((FlowDefinition value) => value);
+            .Setup(expression: x => x.UpdateFlowDefinitionAsync(updatedEntity: It.IsAny<FlowDefinition>()))
+            .Callback<FlowDefinition>(action: candidate => submitted = candidate)
+            .ReturnsAsync(valueFunction: (FlowDefinition value) => value);
 
         // When
-        FlowDefinition result = await flowDefinitionService.UpdateAsync(flowDefinition);
+        FlowDefinition result = await flowDefinitionService.UpdateFlowDefinitionAsync(updatedFlowDefinition: flowDefinition);
 
         // Then
-        result.Should().BeSameAs(flowDefinition);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(flowDefinition);
-        result.Should().NotBeSameAs(submitted);
+        result.Should()
+            .BeSameAs(expected: flowDefinition);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: flowDefinition);
+
+        result.Should()
+            .NotBeSameAs(unexpected: submitted);
 
         submitted
             .Should()
             .BeEquivalentTo(
-                flowDefinition,
-                options =>
+expectation: flowDefinition,
+config: options =>
                     options
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdated")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "UpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "Created")
                         )
             );
 
         result
             .Should()
             .BeEquivalentTo(
-                flowDefinition,
-                options =>
+expectation: flowDefinition,
+config: options =>
                     options
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "CreatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdated")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "LastUpdatedOn")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "UpdatedBy")
                         )
                         .Excluding(
-                            (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
+predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
+                                info.Path.EndsWith(value: "Created")
                         )
             );
 
         flowDefinitionBrokerMock.Verify(
-            x => x.UpdateFlowDefinitionAsync(It.IsAny<FlowDefinition>()),
-            Times.Once
+expression: x => x.UpdateFlowDefinitionAsync(updatedEntity: It.IsAny<FlowDefinition>()),
+times: Times.Once
         );
+
         flowDefinitionBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<FlowDefinition>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "FlowDefinition_update"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"),
+times: Times.Once
         );
     }
 
@@ -131,34 +148,28 @@ public partial class FlowDefinitionServiceTests
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(appId: 7);
 
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "FlowDefinition_update"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await flowDefinitionService.UpdateAsync(flowDefinition);
+        Func<Task> action = async () => await flowDefinitionService.UpdateFlowDefinitionAsync(updatedFlowDefinition: flowDefinition);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
+        await action.Should()
+            .ThrowAsync<SecurityException>()
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         flowDefinitionBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<FlowDefinition>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "FlowDefinition_update"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"),
+times: Times.Once
         );
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

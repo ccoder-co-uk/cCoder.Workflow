@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
@@ -17,7 +21,8 @@ public sealed partial class FlowDefinitionControllerTests
         int actualCount = await GetFlowDefinitionCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -26,10 +31,11 @@ public sealed partial class FlowDefinitionControllerTests
         // Given
 
         // When
-        IReadOnlyList<FlowDefinition> actualFlowDefinitions = await GetFlowDefinitionsAsync(1);
+        IReadOnlyList<FlowDefinition> actualFlowDefinitions = await GetFlowDefinitionsAsync(top: 1);
 
         // Then
-        actualFlowDefinitions.Should().NotBeNull();
+        actualFlowDefinitions.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -39,30 +45,40 @@ public sealed partial class FlowDefinitionControllerTests
         SeededFlowDefinitionContext seededContext = await SeedDatabase(includeFlow: true);
 
         // When
-        FlowDefinition actualFlowDefinition = await GetFlowDefinitionAsync(seededContext.FlowId);
+        FlowDefinition actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
-        actualFlowDefinition.Should().NotBeNull();
-        actualFlowDefinition.Id.Should().Be(seededContext.FlowId);
+        actualFlowDefinition.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualFlowDefinition.Id.Should()
+            .Be(expected: seededContext.FlowId);
+
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
+        // Given
         SeededFlowDefinitionContext seededContext = await SeedDatabase(
             includeFlow: true,
-            "flowdefinition_create",
-            "flowdefinition_update",
-            "flowdefinition_execute",
-            "flowdefinition_delete");
+            privileges:
+            [
+                "flowdefinition_create",
+                "flowdefinition_update",
+                "flowdefinition_execute",
+                "flowdefinition_delete"
+            ]);
 
-        int actualStatusCode = await GetFlowDefinitionStatusCodeAsync(seededContext.FlowId);
+        // When
+        int actualStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
-        actualStatusCode.Should().Be((int)HttpStatusCode.NotFound);
+        // Then
+        actualStatusCode.Should()
+            .Be(expected: (int)HttpStatusCode.NotFound);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
@@ -74,7 +90,8 @@ public sealed partial class FlowDefinitionControllerTests
         string actualContent = await GetKnownActivityTypesAsync();
 
         // Then
-        actualContent.Should().Contain("Start");
+        actualContent.Should()
+            .Contain(expected: "Start");
     }
 
     [Fact]
@@ -86,11 +103,7 @@ public sealed partial class FlowDefinitionControllerTests
         string actualContent = await GetKnownSystemTypesAsync();
 
         // Then
-        actualContent.Should().Contain("System");
+        actualContent.Should()
+            .Contain(expected: "System");
     }
 }
-
-
-
-
-

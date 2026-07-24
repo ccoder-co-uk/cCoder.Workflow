@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,20 +21,11 @@ public partial class FlowDefinitionEventProcessingServiceTests
 
     public FlowDefinitionEventProcessingServiceTests()
     {
-        flowDefinitionEventServiceMock = new Mock<IFlowDefinitionEventService>(MockBehavior.Strict);
+        flowDefinitionEventServiceMock = new Mock<IFlowDefinitionEventService>(behavior: MockBehavior.Strict);
         service = new FlowDefinitionEventProcessingService(flowDefinitionEventServiceMock.Object);
     }
 
     private static FlowDefinition CreateRandomFlowDefinition() =>
-        Builder<FlowDefinition>.CreateNew().Build();
+        Builder<FlowDefinition>.CreateNew()
+            .Build();
 }
-
-
-
-
-
-
-
-
-
-

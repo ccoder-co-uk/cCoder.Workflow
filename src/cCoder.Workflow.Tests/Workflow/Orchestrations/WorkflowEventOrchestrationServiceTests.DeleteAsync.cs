@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,27 +20,24 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         WorkflowEvent entity = CreateRandomWorkflowEvent();
-        workflowEventProcessingServiceMock.Setup(x => x.Get(id)).Returns(entity);
-        workflowEventProcessingServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+
+        workflowEventProcessingServiceMock.Setup(expression: x => x.Get(workflowEventId: id))
+            .Returns(value: entity);
+
+        workflowEventProcessingServiceMock.Setup(expression: x => x.DeleteAsync(workflowEventId: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         workflowEventEventProcessingServiceMock
-            .Setup(x => x.RaiseWorkflowEventDeleteEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseWorkflowEventDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id);
+        await orchestrationService.DeleteAsync(workflowEventId: id);
 
         // Then
-        workflowEventProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
-        workflowEventProcessingServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
-        workflowEventEventProcessingServiceMock.Verify(x => x.RaiseWorkflowEventDeleteEventAsync(entity), Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression: x => x.Get(workflowEventId: id), times: Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression: x => x.DeleteAsync(workflowEventId: id), times: Times.Once);
+        workflowEventEventProcessingServiceMock.Verify(expression: x => x.RaiseWorkflowEventDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

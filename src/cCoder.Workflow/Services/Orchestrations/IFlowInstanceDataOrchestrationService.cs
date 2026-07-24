@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -7,18 +11,19 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IFlowInstanceDataOrchestrationService
 {
-    FlowInstanceData Get(Guid id);
+    FlowInstanceData Get(Guid flowInstanceDataId);
 
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
 
-    ValueTask<FlowInstanceData> AddAsync(FlowInstanceData entity);
-    ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity);
+    ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity);
 
-    ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity);
+    ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newEntity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity);
 
-    ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items);
+    ValueTask DeleteAsync(Guid flowInstanceDataId);
 
-    ValueTask DeleteAllAsync(IEnumerable<FlowInstanceData> items);
+    ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdateFlowInstanceData(IEnumerable<FlowInstanceData> items);
+
+    ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> deletedItems);
 }

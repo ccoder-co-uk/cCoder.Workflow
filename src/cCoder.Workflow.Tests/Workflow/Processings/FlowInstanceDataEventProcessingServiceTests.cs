@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,20 +21,11 @@ public partial class FlowInstanceDataEventProcessingServiceTests
 
     public FlowInstanceDataEventProcessingServiceTests()
     {
-        flowInstanceDataEventServiceMock = new Mock<IFlowInstanceDataEventService>(MockBehavior.Strict);
+        flowInstanceDataEventServiceMock = new Mock<IFlowInstanceDataEventService>(behavior: MockBehavior.Strict);
         service = new FlowInstanceDataEventProcessingService(flowInstanceDataEventServiceMock.Object);
     }
 
     private static FlowInstanceData CreateRandomFlowInstanceData() =>
-        Builder<FlowInstanceData>.CreateNew().Build();
+        Builder<FlowInstanceData>.CreateNew()
+            .Build();
 }
-
-
-
-
-
-
-
-
-
-

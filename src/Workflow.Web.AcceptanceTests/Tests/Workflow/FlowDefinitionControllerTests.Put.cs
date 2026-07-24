@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;
@@ -15,11 +19,11 @@ public sealed partial class FlowDefinitionControllerTests
     {
         // Given
         SeededFlowDefinitionContext seededContext = await SeedDatabase(includeFlow: true);
-        string updatedName = Unique("UpdatedFlow");
+        string updatedName = Unique(prefix: "UpdatedFlow");
         FlowDefinition actualFlowDefinition;
 
         // When
-        await UpdateFlowDefinitionAsync(seededContext.FlowId, new
+        await UpdateFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId, payload: new
         {
             id = seededContext.FlowId,
             appId = seededContext.AppId,
@@ -34,18 +38,15 @@ public sealed partial class FlowDefinitionControllerTests
             configJson = "{}",
         });
 
-        actualFlowDefinition = await GetFlowDefinitionAsync(seededContext.FlowId);
+        actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
-        actualFlowDefinition.Should().NotBeNull();
-        actualFlowDefinition!.Name.Should().Be(updatedName);
+        actualFlowDefinition.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualFlowDefinition!.Name.Should()
+            .Be(expected: updatedName);
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-
-

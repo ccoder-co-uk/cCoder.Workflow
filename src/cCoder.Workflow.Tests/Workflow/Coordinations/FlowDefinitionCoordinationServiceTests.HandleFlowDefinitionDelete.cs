@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -19,41 +23,35 @@ public partial class FlowDefinitionCoordinationServiceTests
 
         FlowInstanceData flowInstanceData = Builder<FlowInstanceData>
             .CreateNew()
-            .With(item => item.FlowDefinitionId = flowDefinition.Id)
+            .With(func: item => item.FlowDefinitionId = flowDefinition.Id)
             .Build();
 
         IQueryable<FlowInstanceData> flowInstances = new[] { flowInstanceData }.AsQueryable();
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(service => service.GetAll(true))
-            .Returns(flowInstances);
+            .Setup(expression: service => service.GetAll(ignoreFilters: true))
+            .Returns(value: flowInstances);
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(service => service.DeleteAllAsync(It.IsAny<IEnumerable<FlowInstanceData>>()))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: service => service.DeleteAllFlowInstanceDataAsync(deletedItems: It.IsAny<IEnumerable<FlowInstanceData>>()))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await coordinationService.HandleFlowDefinitionDeleteAsync(flowDefinition);
+        await coordinationService.HandleFlowDefinitionDeleteAsync(flowDefinition: flowDefinition);
 
         // Then
-        flowInstanceDataOrchestrationServiceMock.Verify(service => service.GetAll(true), Times.Once);
+        flowInstanceDataOrchestrationServiceMock.Verify(expression: service => service.GetAll(ignoreFilters: true), times: Times.Once);
 
         flowInstanceDataOrchestrationServiceMock.Verify(
-            service => service.DeleteAllAsync(
-                It.Is<IEnumerable<FlowInstanceData>>(items =>
+expression: service => service.DeleteAllFlowInstanceDataAsync(
+deletedItems: It.Is<IEnumerable<FlowInstanceData>>(match: items =>
                     items.Single().FlowDefinitionId == flowDefinition.Id
                 )
             ),
-            Times.Once
+times: Times.Once
         );
 
         flowInstanceDataOrchestrationServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-

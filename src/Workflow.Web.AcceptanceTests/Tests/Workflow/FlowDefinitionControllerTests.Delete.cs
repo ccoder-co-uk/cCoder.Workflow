@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Xunit;
 
@@ -14,18 +18,16 @@ public sealed partial class FlowDefinitionControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteFlowDefinitionAsync(seededContext.FlowId);
-        actualReadStatusCode = await GetFlowDefinitionStatusCodeAsync(seededContext.FlowId);
+        int actualStatusCode = await DeleteFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
+        actualReadStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualReadStatusCode.Should().Be(404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
 
-        await Teardown(seededContext);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

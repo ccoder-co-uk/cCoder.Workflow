@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using cCoder.Data;
 using FluentAssertions;
@@ -20,7 +24,8 @@ public sealed partial class CalendarControllerTests
         int actualCount = await GetCalendarCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -29,10 +34,11 @@ public sealed partial class CalendarControllerTests
         // Given
 
         // When
-        IReadOnlyList<PlanningCalendar> actualCalendars = await GetCalendarsAsync(1);
+        IReadOnlyList<PlanningCalendar> actualCalendars = await GetCalendarsAsync(top: 1);
 
         // Then
-        actualCalendars.Should().NotBeNull();
+        actualCalendars.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -40,53 +46,67 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
-        string name = Unique("Calendar");
-        PlanningCalendar expectedCalendar = await CreateCalendarAsync(new
+        string name = Unique(prefix: "Calendar");
+
+        PlanningCalendar expectedCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
             name,
             description = "Acceptance calendar",
         });
+
         PlanningCalendar actualCalendar;
 
         // When
-        actualCalendar = await GetCalendarAsync(expectedCalendar.Id);
+        actualCalendar = await GetCalendarAsync(calendarId: expectedCalendar.Id);
 
         // Then
-        actualCalendar.Should().NotBeNull();
-        actualCalendar.Id.Should().Be(expectedCalendar.Id);
-        actualCalendar.Name.Should().Be(name);
+        actualCalendar.Should()
+            .NotBeNull();
 
-        await DeleteCalendarAsync(expectedCalendar.Id);
-        await Teardown(seededContext);
+        actualCalendar.Id.Should()
+            .Be(expected: expectedCalendar.Id);
+
+        actualCalendar.Name.Should()
+            .Be(expected: name);
+
+        await DeleteCalendarAsync(calendarId: expectedCalendar.Id);
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
-        SeededCalendarContext seededContext = await SeedDatabase("calendar_create", "calendar_update", "calendar_delete");
+        // Given
+        SeededCalendarContext seededContext = await SeedDatabase(
+            privileges:
+            [
+                "calendar_create",
+                "calendar_update",
+                "calendar_delete"
+            ]);
 
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        PlanningCalendar hiddenCalendar = await core.AddPlanningCalendarAsync(new PlanningCalendar
+        PlanningCalendar hiddenCalendar = await core.AddPlanningCalendarAsync(calendar: new PlanningCalendar
         {
             AppId = seededContext.AppId,
-            Name = Unique("HiddenCalendar"),
+            Name = Unique(prefix: "HiddenCalendar"),
             Description = "Hidden calendar",
         });
 
-        int actualStatusCode = await GetCalendarStatusCodeAsync(hiddenCalendar.Id);
+        // When
+        int actualStatusCode = await GetCalendarStatusCodeAsync(
+            calendarId: hiddenCalendar.Id);
 
-        actualStatusCode.Should().Be((int)HttpStatusCode.NotFound);
+        // Then
+        actualStatusCode.Should()
+            .Be(expected: (int)HttpStatusCode.NotFound);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

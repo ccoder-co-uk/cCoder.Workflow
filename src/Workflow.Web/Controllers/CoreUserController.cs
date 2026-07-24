@@ -1,26 +1,23 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
-using cCoder.Security.Objects.Entities;
-using cCoder.Security.Services.Orchestrations.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Workflow.Web.Services.Processings;
 
 namespace Workflow.Web.Controllers;
 
 [ApiController]
-public sealed class CoreUserController(IAuthenticationOrchestrationService authenticationOrchestrationService)
+public sealed class CoreUserController(
+    ICoreUserProcessingService coreUserProcessingService)
     : ControllerBase
 {
     [HttpGet("/Api/AppSecurity/User/Me()")]
-    public IActionResult Me()
+    public IActionResult Get()
     {
-        SSOUser user = authenticationOrchestrationService.Me();
+        User user = coreUserProcessingService.GetUser();
 
-        return Ok(new User
-        {
-            Id = user.Id,
-            DisplayName = user.DisplayName,
-            Email = user.Email,
-            DefaultCultureId = string.Empty,
-            IsActive = true
-        });
+        return Ok(value: user);
     }
 }

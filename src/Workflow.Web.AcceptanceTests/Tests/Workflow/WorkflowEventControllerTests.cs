@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -24,7 +28,8 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     private string BaseUrl { get; } = "/Api/Workflow/WorkflowEvent";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededWorkflowEventContext(int AppId, Guid RoleId, Guid FlowId, Guid EventId);
     private sealed record ODataEnvelope<T>(List<T> Value);
@@ -32,37 +37,38 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
     private async Task<SeededWorkflowEventContext> SeedDatabase(bool includeEvent = false, params string[] privileges)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(new App
+        App app = await core.AddAppAsync(app: new App
         {
-            Name = Unique("AcceptanceApp"),
-            Domain = $"{Unique("workflow-event")}.local",
+            Name = Unique(prefix: "AcceptanceApp"),
+            Domain = $"{Unique(prefix: "workflow-event")}.local",
             DefaultTheme = "Default",
             DefaultCultureId = string.Empty,
-            TenantId = Unique("tenant"),
+            TenantId = Unique(prefix: "tenant"),
             ConfigJson = "{}",
         });
 
-        Role role = await core.AddRoleAsync(new Role
+        Role role = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("AcceptanceRole"),
+            Name = Unique(prefix: "AcceptanceRole"),
             Description = "Acceptance role",
             Privs = privileges.Length == 0
                 ? "app_admin,flowdefinition_read,workflowevent_create,workflowevent_update,workflowevent_delete,workflowevent_read"
-                : string.Join(',', privileges),
+                : string.Join(separator: ',', value: privileges),
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = role.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = role.Id, UserId = "Guest" });
 
-        FlowDefinition flow = await core.AddFlowDefinitionAsync(new FlowDefinition
+        FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition: new FlowDefinition
         {
             AppId = app.Id,
-            Name = Unique("Flow"),
+            Name = Unique(prefix: "Flow"),
             Description = "Acceptance flow",
             DefinitionJson = new Flow
             {
@@ -77,7 +83,7 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
 
         if (includeEvent)
         {
-            WorkflowEvent workflowEvent = await core.AddWorkflowEventAsync(new WorkflowEvent
+            WorkflowEvent workflowEvent = await core.AddWorkflowEventAsync(workflowEvent: new WorkflowEvent
             {
                 FlowId = flow.Id,
                 Type = "Acceptance",
@@ -95,100 +101,132 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
 
     private async Task<WorkflowEvent> CreateWorkflowEventAsync(object payload)
     {
-        using HttpResponseMessage response = await Client.PostAsJsonAsync(BaseUrl, payload);
+        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<WorkflowEvent>(content, JsonOptions)!;
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<WorkflowEvent>(json: content, options: JsonOptions)!;
     }
 
-    private async Task<int> UpdateWorkflowEventAsync(Guid id, object payload)
+    private async Task<int> UpdateWorkflowEventAsync(Guid workflowEventId, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync($"{BaseUrl}({id})", payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({workflowEventId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchWorkflowEventAsync(Guid id, object payload)
+    private async Task<int> PatchWorkflowEventAsync(Guid workflowEventId, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
+        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({workflowEventId})")
         {
-            Content = JsonContent.Create(payload),
+            Content = JsonContent.Create(inputValue: payload),
         };
-        using HttpResponseMessage response = await Client.SendAsync(request);
+
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
-    private async Task<int> DeleteWorkflowEventAsync(Guid id)
+    private async Task<int> DeleteWorkflowEventAsync(Guid workflowEventId)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync($"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
-    private async Task<WorkflowEvent> GetWorkflowEventAsync(Guid id)
+    private async Task<WorkflowEvent> GetWorkflowEventAsync(Guid workflowEventId)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
 
-        return JsonSerializer.Deserialize<WorkflowEvent>(content, JsonOptions)
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<WorkflowEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected workflow event payload.");
     }
 
     private async Task Teardown(SeededWorkflowEventContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        WorkflowEvent[] workflowEvents = core.Set<WorkflowEvent>().IgnoreQueryFilters().Where(workflowEvent => workflowEvent.FlowId == seededContext.FlowId).ToArray();
-        await core.DeleteAllAsync(workflowEvents);
+        WorkflowEvent[] workflowEvents = core.Set<WorkflowEvent>()
+            .IgnoreQueryFilters()
+            .Where(predicate: workflowEvent => workflowEvent.FlowId == seededContext.FlowId)
+            .ToArray();
 
-        FlowDefinition flow = core.Set<FlowDefinition>().IgnoreQueryFilters().Single(found => found.Id == seededContext.FlowId);
-        await core.DeleteAsync(flow);
+        await core.DeleteAllAsync(workflowEvents: workflowEvents);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(userRole => userRole.RoleId == seededContext.RoleId).ToArray();
-        await core.DeleteAllAsync(userRoles);
+        FlowDefinition flow = core.Set<FlowDefinition>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.FlowId);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(found => found.Id == seededContext.RoleId);
-        await core.DeleteAsync(role);
+        await core.DeleteAsync(flowDefinition: flow);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(found => found.Id == seededContext.AppId);
-        await core.DeleteAsync(app);
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
+            .ToArray();
+
+        await core.DeleteAllAsync(userRoles: userRoles);
+
+        Role role = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.RoleId);
+
+        await core.DeleteAsync(role: role);
+
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .Single(predicate: found => found.Id == seededContext.AppId);
+
+        await core.DeleteAsync(app: app);
 
     }
 
     private async Task<int> GetWorkflowEventCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return int.Parse(content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return int.Parse(s: content);
     }
 
     private async Task<IReadOnlyList<WorkflowEvent>> GetWorkflowEventsAsync(int top)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}?$top={top}");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<ODataEnvelope<WorkflowEvent>>(content, JsonOptions)!.Value;
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<ODataEnvelope<WorkflowEvent>>(json: content, options: JsonOptions)!.Value;
     }
-    private async Task<int> GetWorkflowEventStatusCodeAsync(Guid id)
+
+    private async Task<int> GetWorkflowEventStatusCodeAsync(Guid workflowEventId)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         return (int)response.StatusCode;
     }
 }
-
-
-
-
-
-
-
-

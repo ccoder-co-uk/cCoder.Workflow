@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
@@ -14,48 +18,56 @@ public partial class FlowDefinitionServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new User { Id = "test-user" });
+
         Guid flowDefinitionId = Guid.NewGuid();
-        FlowDefinition flowDefinition = CreateRandomFlowDefinition(id: flowDefinitionId, appId: 7);
+        FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
         flowDefinitionBrokerMock
-            .Setup(x => x.GetAllFlowDefinitions(true))
-            .Returns(new[] { flowDefinition }.AsQueryable());
+            .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
+            .Returns(value: new[] { flowDefinition }.AsQueryable());
 
-        flowDefinitionBrokerMock.Setup(x => x.GetAppId(It.IsAny<FlowDefinition>())).Returns((int?)7);
+        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
+            .Returns(value: (int?)7);
 
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "FlowDefinition_delete"));
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"));
 
         flowDefinitionBrokerMock
             .Setup(
-                x =>
+expression: x =>
                     x.DeleteFlowDefinitionAsync(
-                        It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
+deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
                     )
             )
-            .ReturnsAsync(1);
+            .ReturnsAsync(value: 1);
 
         // When
-        await flowDefinitionService.DeleteAsync(flowDefinitionId);
+        await flowDefinitionService.DeleteAsync(flowDefinitionId: flowDefinitionId);
 
         // Then
-        flowDefinitionBrokerMock.Verify(x => x.GetAllFlowDefinitions(true), Times.Once);
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
+
         flowDefinitionBrokerMock.Verify(
-            x =>
+expression: x =>
                 x.DeleteFlowDefinitionAsync(
-                    It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
+deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
                 ),
-            Times.Once
+times: Times.Once
         );
+
         flowDefinitionBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<FlowDefinition>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "FlowDefinition_delete"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"),
+times: Times.Once
         );
+
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -64,62 +76,76 @@ public partial class FlowDefinitionServiceTests
     {
         // Given
         Guid flowDefinitionId = Guid.NewGuid();
-        FlowDefinition flowDefinition = CreateRandomFlowDefinition(id: flowDefinitionId, appId: 7);
+        FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
         flowDefinitionBrokerMock
-            .Setup(x => x.GetAllFlowDefinitions(true))
-            .Returns(new[] { flowDefinition }.AsQueryable());
+            .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
+            .Returns(value: new[] { flowDefinition }.AsQueryable());
 
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "FlowDefinition_delete"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await flowDefinitionService.DeleteAsync(flowDefinitionId);
+        Func<Task> action = async () => await flowDefinitionService.DeleteAsync(flowDefinitionId: flowDefinitionId);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
-        flowDefinitionBrokerMock.Verify(x => x.GetAllFlowDefinitions(true), Times.Once);
+        await action.Should()
+            .ThrowAsync<SecurityException>()
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
+
         flowDefinitionBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<FlowDefinition>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "FlowDefinition_delete"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"),
+times: Times.Once
         );
+
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
     [Fact]
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteWithInstancesAsync()
     {
+        // Given
         Guid flowDefinitionId = Guid.NewGuid();
-        FlowDefinition flowDefinition = CreateRandomFlowDefinition(id: flowDefinitionId, appId: 7);
+        FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
         flowDefinitionBrokerMock
-            .Setup(x => x.GetAllFlowDefinitions(true))
-            .Returns(new[] { flowDefinition }.AsQueryable());
+            .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
+            .Returns(value: new[] { flowDefinition }.AsQueryable());
 
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "FlowDefinition_delete"));
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"));
 
         flowDefinitionBrokerMock
-            .Setup(x => x.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId))
+            .Returns(value: ValueTask.CompletedTask);
 
-        await flowDefinitionService.DeleteWithInstancesAsync(flowDefinitionId);
+        // When
+        await flowDefinitionService.DeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId);
 
-        flowDefinitionBrokerMock.Verify(x => x.GetAllFlowDefinitions(true), Times.Once);
+        // Then
+        flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
+
         flowDefinitionBrokerMock.Verify(
-            x => x.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId),
-            Times.Once
+expression: x => x.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId),
+times: Times.Once
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "FlowDefinition_delete"),
-            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"),
+times: Times.Once
         );
+
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,22 +19,17 @@ public partial class WorkflowEventOrchestrationServiceTests
     {
         // Given
         WorkflowEvent[] entities = [CreateRandomWorkflowEvent()];
-        workflowEventProcessingServiceMock.Setup(x => x.DeleteAllAsync(entities)).Returns(ValueTask.CompletedTask);
+
+        workflowEventProcessingServiceMock.Setup(expression: x => x.DeleteAllWorkflowEventAsync(deletedItems: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(entities);
+        await orchestrationService.DeleteAllWorkflowEventAsync(deletedItems: entities);
 
         // Then
-        workflowEventProcessingServiceMock.Verify(x => x.DeleteAllAsync(entities), Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression: x => x.DeleteAllWorkflowEventAsync(deletedItems: entities), times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

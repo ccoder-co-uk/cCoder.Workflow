@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Collections.Specialized;
 using System.Net;
 using System.Security.Claims;
@@ -10,8 +14,10 @@ namespace Workflow.AcceptanceTests.Infrastructure;
 
 internal sealed class TestFunctionContext : FunctionContext
 {
-    public override string InvocationId { get; } = Guid.NewGuid().ToString();
-    public override string FunctionId { get; } = Guid.NewGuid().ToString();
+    public override string InvocationId { get; } = Guid.NewGuid()
+            .ToString();
+    public override string FunctionId { get; } = Guid.NewGuid()
+            .ToString();
     public override TraceContext TraceContext { get; } = null;
     public override BindingContext BindingContext { get; } = null;
     public override RetryContext RetryContext { get; } = null;
@@ -27,7 +33,7 @@ internal sealed class TestHttpRequestData : HttpRequestData
     public TestHttpRequestData(string body = "")
         : base(new TestFunctionContext())
     {
-        Body = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(body));
+        Body = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(s: body));
     }
 
     public override Stream Body { get; }

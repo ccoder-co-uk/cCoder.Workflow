@@ -1,26 +1,29 @@
-using cCoder.Data;
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.CMS;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Workflow.Web.Services.Processings;
 
 namespace Workflow.Web.Controllers;
 
 [ApiController]
-public sealed class CoreAppController(ICoreContextFactory coreContextFactory) : ControllerBase
+public sealed class CoreAppController(
+    ICoreAppProcessingService coreAppProcessingService)
+    : ControllerBase
 {
     [HttpGet("/Api/ContentManagement/App({key:int})")]
     public async Task<IActionResult> Get([FromRoute] int key)
     {
-        await using CoreDataContext core = coreContextFactory.CreateCoreContext();
-
-        App app = await core.Set<App>()
-            .IgnoreQueryFilters()
-            .FirstOrDefaultAsync(found => found.Id == key);
+        App app = await coreAppProcessingService.GetAppAsync(appId: key);
 
         if (app is null)
+        {
             return NotFound();
+        }
 
-        return Ok(new
+        return Ok(value: new
         {
             app.Id,
             app.DefaultCultureId,

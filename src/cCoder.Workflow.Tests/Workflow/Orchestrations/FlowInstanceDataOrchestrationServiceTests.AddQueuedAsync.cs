@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -13,19 +17,25 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     [Fact]
     public async Task ShouldCallProcessingThenRaiseAddEventAsyncWhenAddQueuedAsync()
     {
+        // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
+
         flowInstanceDataProcessingServiceMock
-            .Setup(x => x.AddQueuedAsync(entity))
-            .ReturnsAsync(entity);
+            .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newEntity: entity))
+            .ReturnsAsync(value: entity);
 
         flowInstanceDataEventProcessingServiceMock
-            .Setup(x => x.RaiseFlowInstanceDataAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
-        FlowInstanceData result = await orchestrationService.AddQueuedAsync(entity);
+        // When
+        FlowInstanceData result = await orchestrationService.AddQueuedFlowInstanceDataAsync(newEntity: entity);
 
-        result.Should().BeSameAs(entity);
-        flowInstanceDataProcessingServiceMock.Verify(x => x.AddQueuedAsync(entity), Times.Once);
-        flowInstanceDataEventProcessingServiceMock.Verify(x => x.RaiseFlowInstanceDataAddEventAsync(entity), Times.Once);
+        // Then
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.AddQueuedFlowInstanceDataAsync(newEntity: entity), times: Times.Once);
+        flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity), times: Times.Once);
     }
 }

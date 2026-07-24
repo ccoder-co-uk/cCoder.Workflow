@@ -1,5 +1,10 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using FluentAssertions;
+using Microsoft.Azure.Functions.Worker.Http;
 using Moq;
 using Workflow.AcceptanceTests.Infrastructure;
 using Xunit;
@@ -14,18 +19,36 @@ public sealed partial class ExecuteScriptTests
         // Given
         const string payload = "return true";
         const string expected = "true";
-        scriptExecutionServiceMock
-            .Setup(service => service.ExecuteAsync(payload, true))
-            .ReturnsAsync(expected);
+        TestHttpRequestData request = CreateRequest(payload: payload);
 
-        TestHttpRequestData request = CreateRequest(payload);
+        TestHttpResponseData expectedResponse =
+            (TestHttpResponseData)request.CreateResponse();
+
+        expectedResponse.StatusCode = HttpStatusCode.OK;
+        await expectedResponse.WriteStringAsync(value: expected);
+
+        processingServiceMock
+            .Setup(expression: service =>
+                service.ProcessExecuteScriptAsync(
+                    request: request,
+                    useDetails: true))
+            .ReturnsAsync(value: expectedResponse);
 
         // When
-        TestHttpResponseData response = (TestHttpResponseData)await function.Run(request, useDetails: true);
+        TestHttpResponseData response = (TestHttpResponseData)await function.Run(request: request, useDetails: true);
 
         // Then
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        response.ReadBody().Should().Be(expected);
-        scriptExecutionServiceMock.Verify(service => service.ExecuteAsync(payload, true), Times.Once);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK);
+
+        response.ReadBody()
+            .Should()
+            .Be(expected: expected);
+
+        processingServiceMock.Verify(expression: service =>
+            service.ProcessExecuteScriptAsync(
+                request: request,
+                useDetails: true),
+            times: Times.Once);
     }
 }

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.Workflow.Models;
 
 public class WorkflowPackage
@@ -21,4 +25,3 @@ public class WorkflowPackage
         Name = name;
     }
 }
-

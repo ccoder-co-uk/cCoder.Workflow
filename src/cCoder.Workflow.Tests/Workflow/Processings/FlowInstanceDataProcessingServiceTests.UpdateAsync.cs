@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -20,6 +24,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         FlowInstanceData dbVersion = CreateRandomFlowInstanceData();
         dbVersion.Id = entity.Id;
         dbVersion.FlowDefinitionId = entity.FlowDefinitionId;
+
         dbVersion.FlowDefinition = new FlowDefinition
         {
             Id = entity.FlowDefinitionId,
@@ -30,22 +35,26 @@ public partial class FlowInstanceDataProcessingServiceTests
             App = null!,
             Instances = [],
         };
-        DataUser user = TestUsers.WithPrivilege("flowinstancedata_update", 1);
+
+        DataUser user = TestUsers.WithPrivilege(privilege: "flowinstancedata_update", appId: 1);
         currentUser = user;
-        flowInstanceDataServiceMock.Setup(x => x.Get(entity.Id)).Returns(dbVersion);
+
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id))
+            .Returns(value: dbVersion);
 
         flowInstanceDataServiceMock
-            .Setup(x => x.UpdateAsync(It.IsAny<FlowInstanceData>()))
-            .ReturnsAsync((FlowInstanceData updated) => updated);
+            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.IsAny<FlowInstanceData>()))
+            .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
-        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateAsync(entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
 
         // Then
-        Assert.Equal(entity.Name, result.Name);
+        Assert.Equal(expected: entity.Name, actual: result.Name);
+
         flowInstanceDataServiceMock.Verify(
-            x => x.UpdateAsync(It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
-            Times.Once
+expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(match: item => item.Id == entity.Id)),
+times: Times.Once
         );
     }
 
@@ -58,6 +67,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         FlowInstanceData dbVersion = CreateRandomFlowInstanceData();
         dbVersion.Id = entity.Id;
         dbVersion.FlowDefinitionId = entity.FlowDefinitionId;
+
         dbVersion.FlowDefinition = new FlowDefinition
         {
             Id = entity.FlowDefinitionId,
@@ -68,29 +78,25 @@ public partial class FlowInstanceDataProcessingServiceTests
             App = null!,
             Instances = [],
         };
-        flowInstanceDataServiceMock.Setup(x => x.Get(entity.Id)).Returns(dbVersion);
+
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id))
+            .Returns(value: dbVersion);
+
         flowInstanceDataServiceMock
-            .Setup(x => x.UpdateAsync(It.IsAny<FlowInstanceData>()))
-            .ReturnsAsync((FlowInstanceData updated) => updated);
+            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.IsAny<FlowInstanceData>()))
+            .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
         FlowInstanceData actualFlowInstanceData =
-            await flowInstanceDataProcessingService.UpdateAsync(entity);
+            await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
 
         // Then
-        Assert.Equal(entity.Name, actualFlowInstanceData.Name);
+        Assert.Equal(expected: entity.Name, actual: actualFlowInstanceData.Name);
+
         flowInstanceDataServiceMock.Verify(
-            x => x.UpdateAsync(It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
-            Times.Once
+expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(match: item => item.Id == entity.Id)),
+times: Times.Once
         );
     }
 
 }
-
-
-
-
-
-
-
-

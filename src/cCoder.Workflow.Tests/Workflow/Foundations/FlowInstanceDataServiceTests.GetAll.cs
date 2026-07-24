@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,36 +21,34 @@ public partial class FlowInstanceDataServiceTests
         // Given
         cCoder.Data.Models.Workflow.FlowInstanceData flowInstanceData =
             CreateRandomFlowInstanceData();
+
         IQueryable<cCoder.Data.Models.Workflow.FlowInstanceData> flowInstanceDataItems = new[]
         {
             flowInstanceData,
         }.AsQueryable();
 
         flowInstanceDataBrokerMock
-            .Setup(x => x.GetAllFlowInstanceData(false))
-            .Returns(flowInstanceDataItems);
+            .Setup(expression: x => x.SelectAllFlowInstanceData())
+            .Returns(value: flowInstanceDataItems);
 
         // When
         IQueryable<FlowInstanceData> result = flowInstanceDataService.GetAll();
 
         // Then
-        result.Should().BeEquivalentTo(
-            flowInstanceDataItems.Select(item => (FlowInstanceData)item)
+        result.Should()
+            .BeEquivalentTo(
+expectation: flowInstanceDataItems.Select(selector: item => (FlowInstanceData)item)
         );
-        flowInstanceDataBrokerMock.Verify(x => x.GetAllFlowInstanceData(false), Times.Once);
+
+        flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
+
         flowInstanceDataBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>()),
+times: Times.AtMostOnce()
         );
+
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

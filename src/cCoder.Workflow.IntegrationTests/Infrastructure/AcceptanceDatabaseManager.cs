@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Security.Data.EF.Interfaces;
 using Microsoft.Data.SqlClient;
@@ -12,16 +16,18 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     public Task ResetDatabasesAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
-            .CreateDbContext(true);
+            .CreateDbContext(ignoreAuthInfo: true);
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
 
-        EnsureSafeAcceptanceDatabase(sso.Database.GetConnectionString(), "dev-Members");
-        EnsureSafeAcceptanceDatabase(core.Database.GetConnectionString(), "dev-Core");
+        EnsureSafeAcceptanceDatabase(connectionString: sso.Database.GetConnectionString(), protectedDatabaseName: "dev-Members");
+        EnsureSafeAcceptanceDatabase(connectionString: core.Database.GetConnectionString(), protectedDatabaseName: "dev-Core");
 
-        ForceDropDatabase(sso.Database.GetConnectionString());
-        ForceDropDatabase(core.Database.GetConnectionString());
+        ForceDropDatabase(connectionString: sso.Database.GetConnectionString());
+        ForceDropDatabase(connectionString: core.Database.GetConnectionString());
 
         sso.Migrate();
         core.Migrate();
@@ -32,13 +38,15 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     public Task MigrateDatabasesAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
-            .CreateDbContext(true);
+            .CreateDbContext(ignoreAuthInfo: true);
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
 
-        EnsureSafeAcceptanceDatabase(sso.Database.GetConnectionString(), "dev-Members");
-        EnsureSafeAcceptanceDatabase(core.Database.GetConnectionString(), "dev-Core");
+        EnsureSafeAcceptanceDatabase(connectionString: sso.Database.GetConnectionString(), protectedDatabaseName: "dev-Members");
+        EnsureSafeAcceptanceDatabase(connectionString: core.Database.GetConnectionString(), protectedDatabaseName: "dev-Core");
 
         sso.Migrate();
         core.Migrate();
@@ -49,52 +57,66 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     public Task DropDatabasesAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
-            .CreateDbContext(true);
+            .CreateDbContext(ignoreAuthInfo: true);
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
 
-        EnsureSafeAcceptanceDatabase(sso.Database.GetConnectionString(), "dev-Members");
-        EnsureSafeAcceptanceDatabase(core.Database.GetConnectionString(), "dev-Core");
+        EnsureSafeAcceptanceDatabase(connectionString: sso.Database.GetConnectionString(), protectedDatabaseName: "dev-Members");
+        EnsureSafeAcceptanceDatabase(connectionString: core.Database.GetConnectionString(), protectedDatabaseName: "dev-Core");
 
-        ForceDropDatabase(sso.Database.GetConnectionString());
-        ForceDropDatabase(core.Database.GetConnectionString());
+        ForceDropDatabase(connectionString: sso.Database.GetConnectionString());
+        ForceDropDatabase(connectionString: core.Database.GetConnectionString());
 
         return Task.CompletedTask;
     }
 
     private static void EnsureSafeAcceptanceDatabase(string connectionString, string protectedDatabaseName)
     {
-        if (string.IsNullOrWhiteSpace(connectionString))
+        if (string.IsNullOrWhiteSpace(value: connectionString))
+        {
             throw new InvalidOperationException("Acceptance database connection string is empty.");
+        }
 
-        SqlConnectionStringBuilder builder = CreateAcceptanceConnectionStringBuilder(connectionString);
+        SqlConnectionStringBuilder builder = CreateAcceptanceConnectionStringBuilder(connectionString: connectionString);
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(databaseName))
+        if (string.IsNullOrWhiteSpace(value: databaseName))
+        {
             throw new InvalidOperationException("Acceptance database name is empty.");
+        }
 
-        if (databaseName.Equals(protectedDatabaseName, StringComparison.OrdinalIgnoreCase))
+        if (databaseName.Equals(value: protectedDatabaseName, comparisonType: StringComparison.OrdinalIgnoreCase))
+        {
             throw new InvalidOperationException(
                 $"Refusing to run acceptance database operations against protected database '{protectedDatabaseName}'."
             );
+        }
 
-        if (!databaseName.Contains("accept", StringComparison.OrdinalIgnoreCase))
+        if (!databaseName.Contains(value: "accept", comparisonType: StringComparison.OrdinalIgnoreCase))
+        {
             throw new InvalidOperationException(
                 $"Refusing to run acceptance database operations against non-acceptance database '{databaseName}'."
             );
+        }
     }
 
     private static void ForceDropDatabase(string connectionString)
     {
-        if (string.IsNullOrWhiteSpace(connectionString))
+        if (string.IsNullOrWhiteSpace(value: connectionString))
+        {
             return;
+        }
 
-        SqlConnectionStringBuilder builder = CreateAcceptanceConnectionStringBuilder(connectionString);
+        SqlConnectionStringBuilder builder = CreateAcceptanceConnectionStringBuilder(connectionString: connectionString);
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(databaseName))
+        if (string.IsNullOrWhiteSpace(value: databaseName))
+        {
             return;
+        }
 
         builder.InitialCatalog = "master";
 
@@ -102,6 +124,7 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
         connection.Open();
 
         using SqlCommand command = connection.CreateCommand();
+
         command.CommandText = @"
 IF DB_ID(@databaseName) IS NOT NULL
 BEGIN
@@ -110,7 +133,8 @@ BEGIN
         + N'DROP DATABASE [' + REPLACE(@databaseName, ']', ']]') + N']';
     EXEC(@sql);
 END";
-        _ = command.Parameters.AddWithValue("@databaseName", databaseName);
+
+        _ = command.Parameters.AddWithValue(parameterName: "@databaseName", value: databaseName);
         command.ExecuteNonQuery();
     }
 
@@ -126,8 +150,3 @@ END";
         return builder;
     }
 }
-
-
-
-
-

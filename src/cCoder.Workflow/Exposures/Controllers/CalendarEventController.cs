@@ -1,4 +1,8 @@
-using cCoder.Workflow.Api.OData;
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
+using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -18,14 +22,14 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class CalendarEventController : ODataController
 {
-    protected ICalendarEventOrchestrationService Service { get; }
+    private readonly ICalendarEventOrchestrationService service;
 
     public CalendarEventController(
         ICalendarEventOrchestrationService service,
         ILogger<CalendarEventController> log
     )
     {
-        Service = service;
+        this.service = service;
     }
 
     [HttpGet]
@@ -35,11 +39,11 @@ public partial class CalendarEventController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(CalendarEvent))
+                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(CalendarEvent))
             )
-            : Ok(new MetadataContainer(typeof(CalendarEvent), true, true));
+            : Ok(value: new MetadataContainer(typeof(CalendarEvent), true, true));
     }
 
     [HttpGet]
@@ -52,7 +56,8 @@ public partial class CalendarEventController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<CalendarEvent> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<CalendarEvent> queryOptions) =>
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -68,8 +73,10 @@ public partial class CalendarEventController : ODataController
     {
         try
         {
-            IQueryable<CalendarEvent> result = Service.GetAll().Where(calendarEvent => calendarEvent.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<CalendarEvent> result = service.GetAll()
+                .Where(predicate: calendarEvent => calendarEvent.Id == key);
+
+            return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
         {
@@ -86,12 +93,14 @@ public partial class CalendarEventController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] CalendarEvent entity)
+    public async Task<IActionResult> Post([FromBody] CalendarEvent newEntity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
+        }
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value: await service.AddCalendarEventAsync(newEntity: newEntity));
     }
 
     [HttpPut]
@@ -103,47 +112,35 @@ public partial class CalendarEventController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] CalendarEvent entity)
+    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] CalendarEvent updatedEntity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
+        }
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value: await service.UpdateCalendarEventAsync(updatedEntity: updatedEntity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] int key, Delta<CalendarEvent> delta)
+    [ActionName("Patch")]
+    public async Task<IActionResult> Put([FromRoute] int key, Delta<CalendarEvent> updatedDelta)
     {
-        CalendarEvent originalEntity = Service.Get(key);
-        if (originalEntity == null)
-            return NotFound();
+        CalendarEvent originalEntity = service.Get(calendarEventId: key);
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        if (originalEntity == null)
+        {
+            return NotFound();
+        }
+
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateCalendarEventAsync(updatedEntity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await Service.DeleteAsync(key);
+        await service.DeleteAsync(calendarEventId: key);
         return Ok();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

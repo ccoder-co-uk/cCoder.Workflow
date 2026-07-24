@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Xunit;
 
@@ -14,6 +18,7 @@ public sealed partial class HealthControllerTests
         string actualHealth = await GetHealthAsync();
 
         // Then
-        actualHealth.Should().Be("OK");
+        actualHealth.Should()
+            .Be(expected: "OK");
     }
 }

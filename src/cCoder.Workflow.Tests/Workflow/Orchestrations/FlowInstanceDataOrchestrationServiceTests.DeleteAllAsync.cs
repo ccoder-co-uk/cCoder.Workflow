@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,22 +19,17 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     {
         // Given
         FlowInstanceData[] entities = [CreateRandomFlowInstanceData()];
-        flowInstanceDataProcessingServiceMock.Setup(x => x.DeleteAllAsync(entities)).Returns(ValueTask.CompletedTask);
+
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAllFlowInstanceDataAsync(deletedItems: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(entities);
+        await orchestrationService.DeleteAllFlowInstanceDataAsync(deletedItems: entities);
 
         // Then
-        flowInstanceDataProcessingServiceMock.Verify(x => x.DeleteAllAsync(entities), Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.DeleteAllFlowInstanceDataAsync(deletedItems: entities), times: Times.Once);
         flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         flowInstanceDataEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

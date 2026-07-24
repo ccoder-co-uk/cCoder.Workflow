@@ -1,25 +1,32 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
-using cCoder.Eventing;
 using cCoder.Eventing.Models;
+using cCoder.Data;
+using cCoder.Eventing;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace cCoder.Workflow.Brokers.Events;
 
-public class WorkflowEventEventBroker(IEventHub eventHub) : IWorkflowEventEventBroker
+internal sealed class WorkflowEventEventBroker(
+    IServiceProvider serviceProvider)
+        : IWorkflowEventEventBroker
 {
+    public string GetCurrentUserId() =>
+        serviceProvider.GetRequiredService<ICoreAuthInfo>().SSOUserId;
+
     public ValueTask RaiseWorkflowEventAddEventAsync(EventMessage<WorkflowEvent> message) =>
-        eventHub.RaiseEventAsync("workflow_add", message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "workflow_add", message: message);
 
     public ValueTask RaiseWorkflowEventUpdateEventAsync(EventMessage<WorkflowEvent> message) =>
-        eventHub.RaiseEventAsync("workflow_update", message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "workflow_update", message: message);
 
     public ValueTask RaiseWorkflowEventDeleteEventAsync(EventMessage<WorkflowEvent> message) =>
-        eventHub.RaiseEventAsync("workflow_delete", message);
+        serviceProvider.GetRequiredService<IEventHub>()
+            .RaiseEventAsync(name: "workflow_delete", message: message);
 }
-
-
-
-
-
-
-

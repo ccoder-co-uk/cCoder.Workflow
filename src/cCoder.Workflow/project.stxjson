@@ -1,0 +1,5750 @@
+{
+  "Classes": [
+    {
+      "Name": "cCoder.Data.Brokers.WorkflowEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "DeleteWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "SelectAllWorkflowEvents",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "SelectAllWorkflowEventsIgnoringQueryFilters",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.AuthorizationBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "GetCurrentUser",
+          "Inputs": [],
+          "ReturnType": "User"
+        },
+        {
+          "Name": "GetUser",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "User"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "userName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "UserBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.CalendarEntityEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "RaiseCalendarAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "RaiseCalendarEventAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarEventDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarEventUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.EventHubBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ListenToEvent",
+          "Inputs": [
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "handler",
+              "Type": "System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "RaiseFlowDefinitionAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowDefinitionDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowDefinitionUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.FlowInstanceDataEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.ScheduledTaskEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "RaiseScheduledTaskAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskExecuteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.WorkflowEventEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "RaiseWorkflowEventAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseWorkflowEventDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseWorkflowEventUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "DeleteFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "deletedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "DeleteFlowDefinitionWithInstancesAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteFlowDefinitionsWithInstancesByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "SelectAllFlowDefinitions",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "SelectAllFlowDefinitionsIgnoringQueryFilters",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "DeleteFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "deletedEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "SelectAllFlowInstanceData",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "SelectAllFlowInstanceDataIgnoringQueryFilters",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.JsonBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T"
+        },
+        {
+          "Name": "Serialize",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetOperationService",
+          "Inputs": [
+            {
+              "Name": "operation",
+              "Type": "cCoder.Workflow.Dependencies.ServiceProviders.FlowDefinitionOperation"
+            }
+          ],
+          "ReturnType": "T"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.ServiceProviders.WorkflowMigrationServiceProviderBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetOperationService",
+          "Inputs": [
+            {
+              "Name": "operation",
+              "Type": "cCoder.Workflow.Dependencies.ServiceProviders.WorkflowMigrationOperation"
+            }
+          ],
+          "ReturnType": "T"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "DeleteAllCalendarsAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllCalendarsByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "deletedEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "InsertCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        },
+        {
+          "Name": "SelectAllCalendars",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+        },
+        {
+          "Name": "SelectAllCalendarsIgnoringQueryFilters",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "DeleteAllCalendarEventsAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllCalendarEventsByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "InsertCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "SelectAllCalendarEvents",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "SelectAllCalendarEventsIgnoringQueryFilters",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "DeleteAllScheduledTasksAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllScheduledTasksByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "deletedEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "InsertScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "SelectAllScheduledTasks",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "SelectAllScheduledTasksIgnoringQueryFilters",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "SelectAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "SelectExecuteAsUserBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "executeAs",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "SelectFlowBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "flowId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "SelectScheduledTaskForExecution",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "ScheduledTask"
+        },
+        {
+          "Name": "UpdateScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "FlushOldInstancesAsync",
+          "Inputs": [
+            {
+              "Name": "cutoff",
+              "Type": "System.DateTimeOffset"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "GetFailedExecutionStats",
+          "Inputs": [],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetQueuedInstances",
+          "Inputs": [],
+          "ReturnType": "FlowInstanceData[]"
+        },
+        {
+          "Name": "MarkInstanceFailedAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "failedAt",
+              "Type": "System.DateTimeOffset"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "RequeueHungExecutingInstancesAsync",
+          "Inputs": [
+            {
+              "Name": "cutoff",
+              "Type": "System.DateTimeOffset"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "SelectClaimedInstanceAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "UpdateQueuedInstanceClaimAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.AuthorizationDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "GetCurrentUser",
+          "Inputs": [],
+          "ReturnType": "User"
+        },
+        {
+          "Name": "GetUser",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "User"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "userName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "UserBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.HostedServices.InstanceMaintenanceBackgroundServiceDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.HostedServices.QueueInstanceBackgroundServiceDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.HostedServices.ScheduledTaskRunnerBackgroundServiceDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.Hubs.WorkflowHubDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConsoleSend",
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "System.String"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "Join",
+          "Inputs": [
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "Leave",
+          "Inputs": [
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "OnConnectedAsync",
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "OnDisconnectedAsync",
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "SendTest",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.JsonDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T"
+        },
+        {
+          "Name": "Serialize",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.JsonDependency.WorkflowCompatibilitySerializationBinder",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "BindToName",
+          "Inputs": [
+            {
+              "Name": "serializedType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "assemblyName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "typeName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "BindToType",
+          "Inputs": [
+            {
+              "Name": "assemblyName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "typeName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Type"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.BadRequestResult",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.CompositePropertyInfo",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Attributes",
+          "Type": "System.Reflection.PropertyAttributes"
+        },
+        {
+          "Name": "CanRead",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "CanWrite",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "DeclaringType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "PropertyType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "ReflectedType",
+          "Type": "System.Type"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "GetAccessors",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetGetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetIndexParameters",
+          "Inputs": [],
+          "ReturnType": "System.Reflection.ParameterInfo[]"
+        },
+        {
+          "Name": "GetSetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "IsDefined",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "SetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.EdmModelExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetExtendedMetadataForType",
+          "Inputs": [
+            {
+              "Name": "model",
+              "Type": "IEdmModel"
+            },
+            {
+              "Name": "context",
+              "Type": "System.String"
+            },
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.ExtendedMetadataContainer"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ExtendedMetadataContainer",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Operations",
+          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.OData.OperationContainer\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.MetadataContainer",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Category",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "HasEndpoint",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsEntity",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsJoinEntity",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsSystemManaged",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsValueType",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Properties",
+          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.OData.PropertyContainer\u003E"
+        },
+        {
+          "Name": "ServerType",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerTypeName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Types",
+          "Type": "cCoder.Workflow.Dependencies.OData.ExtendedMetadataContainer[]"
+        },
+        {
+          "Name": "UriBase",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ModelStateError",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Errors",
+          "Type": "System.String[]"
+        },
+        {
+          "Name": "Key",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Value",
+          "Type": "System.Object"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ODataCollectionExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ODataJsonExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ODataModel",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Context",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "EDMModel",
+          "Type": "IEdmModel"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ODataModelBuilder",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Build",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.ODataModel"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.ODataTypeExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.OperationContainer",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Definition",
+          "Type": "System.String"
+        },
+        {
+          "Name": "HttpVerb",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Parameters",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "Queryable",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "ReturnType",
+          "Type": "cCoder.Workflow.Dependencies.OData.MetadataContainer"
+        },
+        {
+          "Name": "Url",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.PropertyContainer",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "IsGeneric",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsReadOnly",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsRequired",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsSystemManaged",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsValueType",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerType",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerTypeName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ShortDisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Template",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Build",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.ODataModel"
+        },
+        {
+          "Name": "Configure",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.Results.Result",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Id",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Message",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Success",
+          "Type": "System.Boolean"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.Results.Result\u003CT\u003E",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Id",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Item",
+          "Type": "T"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "ToNew",
+          "Inputs": [
+            {
+              "Name": "item",
+              "Type": "TNew"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Dependencies.Results.Result\u003CTNew\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.BaselineController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Get",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.CalendarController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "ODataQueryOptions\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "updatedEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Delta\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "ODataQueryOptions\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "updatedEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Delta\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "ODataQueryOptions\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetKnownActivityTypes",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetKnownSystemTypes",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "PostAsync",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "PostScript",
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Delta\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "ODataQueryOptions\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Delta\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "ODataQueryOptions\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "PostAsync",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "incrementNextExecution",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "updatedEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Delta\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "ODataQueryOptions\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Delta\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ListenToAllEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToQueuedFlowInstanceExecuteEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToScheduledTaskExecuteEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Setup.UIBaseline",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.WorkflowAppExposure",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAsync",
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateAsync",
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.WorkflowPackageManager",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExportPackage",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "packageName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Models.WorkflowPackage"
+        },
+        {
+          "Name": "ImportPackageAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "package",
+              "Type": "cCoder.Workflow.Models.WorkflowPackage"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.HttpEventHubUrlResolver",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Normalize",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "Resolve",
+          "Inputs": [
+            {
+              "Name": "configuration",
+              "Type": "Microsoft.Extensions.Configuration.IConfiguration"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.IServiceCollectionExtensions",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowHostedServices",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "newConfigure",
+              "Type": "System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "AddWorkflowWeb",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "newConfigure",
+              "Type": "System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E"
+            },
+            {
+              "Name": "builder",
+              "Type": "ODataConventionModelBuilder"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Models.AuditResultByProperty",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "April",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "August",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "December",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "February",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "January",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "July",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "June",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "March",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "May",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "November",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "October",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Property",
+          "Type": "System.String"
+        },
+        {
+          "Name": "September",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Total",
+          "Type": "System.Int32"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.AuditResultsByUser",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "April",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "August",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "December",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "February",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "January",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "July",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "June",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "March",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "May",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "November",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "October",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "September",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Total",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "UserName",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.ImportCalendarEventInfo",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "CalendarName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DurationInTicks",
+          "Type": "System.Int64"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Start",
+          "Type": "System.DateTime"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.ODataCollection\u003CTCollectionType\u003E",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "ODataContext",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Value",
+          "Type": "System.Collections.Generic.IEnumerable\u003CTCollectionType\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.WorkflowConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "ConnectionStrings",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "DebugInfo",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "EventProviders",
+          "Type": "EventProvider[]"
+        },
+        {
+          "Name": "IncludeLegacyCoreContext",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsMigrating",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "LogSQL",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "RootPath",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Services",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "Settings",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.WorkflowPackage",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Category",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Id",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Items",
+          "Type": "System.Collections.Generic.ICollection\u003CcCoder.Workflow.Models.WorkflowPackageItem\u003E"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "SourceApi",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.WorkflowPackageItem",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Data",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Id",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Package",
+          "Type": "cCoder.Workflow.Models.WorkflowPackage"
+        },
+        {
+          "Name": "PackageId",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
+      "StandardElementType": "AggregationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "DeleteFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "ExecuteScriptAsync",
+          "Inputs": [
+            {
+              "Name": "script",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E"
+        },
+        {
+          "Name": "GetAllFlowDefinitions",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "GetFlowDefinition",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowDefinition"
+        },
+        {
+          "Name": "GetKnownActivityTypes",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+        },
+        {
+          "Name": "GetKnownSystemTypes",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+        },
+        {
+          "Name": "QueueFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "asUserId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
+        },
+        {
+          "Name": "UpdateFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
+      "StandardElementType": "AggregationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExportPackage",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "packageName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Models.WorkflowPackage"
+        },
+        {
+          "Name": "ImportPackageWorkflowPackageAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "package",
+              "Type": "cCoder.Workflow.Models.WorkflowPackage"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAppAsync",
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateAppAsync",
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "HandleFlowDefinitionDeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinition",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "QueueAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "asUserId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseEvents",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appIdOverride",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.CalendarEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "newCalendarEvent",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "DeleteAllByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllForAppCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "calendarEventId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "calendarEventId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "CalendarEvent"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "UpdateCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedCalendarEvent",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.CalendarService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "newCalendar",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        },
+        {
+          "Name": "DeleteAllByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllForAppCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "calendarId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "calendarId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "Calendar"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+        },
+        {
+          "Name": "UpdateCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "updatedCalendar",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseCalendarAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseCalendarEventAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarEventDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarEventUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ListenToAllEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToQueuedFlowInstanceExecuteEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToScheduledTaskExecuteEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseFlowDefinitionAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowDefinitionDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowDefinitionUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseFlowInstanceDataAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseScheduledTaskAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskExecuteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseWorkflowEventAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseWorkflowEventDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseWorkflowEventUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "newFlowDefinition",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteWithInstancesAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteWithInstancesByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowDefinition"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "UpdateFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "updatedFlowDefinition",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newFlowInstanceData",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "AddQueuedFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newFlowInstanceData",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowInstanceData"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "UpdateFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "updatedFlowInstanceData",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "newScheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "DeleteAllByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllForAppScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "ScheduledTask"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "GetExecuteAsUserBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "executeAs",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "GetFlowBelongsToApp",
+          "Inputs": [
+            {
+              "Name": "flowId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "GetForExecution",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "ScheduledTask"
+        },
+        {
+          "Name": "MarkExecutedAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "incrementNextExecution",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "UpdateScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "updatedScheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "newWorkflowEvent",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEventId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "workflowEventId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "WorkflowEvent"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "GetAppIdForWorkflowEvent",
+          "Inputs": [
+            {
+              "Name": "workflowEvent",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedWorkflowEvent",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Foundations.WorkflowMetadataTypeService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCoreMetadata",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet"
+        },
+        {
+          "Name": "GetKnownActivityTypes",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+        },
+        {
+          "Name": "GetKnownSystemTypes",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+        },
+        {
+          "Name": "GetSharedMetadata",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "AddOrUpdateCalendarEvent",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
+        },
+        {
+          "Name": "DeleteAllCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "calendarEventId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "calendarEventId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "CalendarEvent"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "UpdateCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        },
+        {
+          "Name": "AddOrUpdateCalendar",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendar\u003E\u003E\u003E"
+        },
+        {
+          "Name": "DeleteAllCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "calendarId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "calendarId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "Calendar"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+        },
+        {
+          "Name": "UpdateCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "AddOrUpdateFlowDefinition",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
+        },
+        {
+          "Name": "DeleteAllFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowDefinition"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "UpdateFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "AddOrUpdateFlowInstanceData",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AddQueuedFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "DeleteAllFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowInstanceData"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "UpdateFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "QueueFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "asUserId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddOrUpdateScheduledTask",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AddScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "DeleteAllScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "ExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "incrementNextExecution",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "ScheduledTask"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "UpdateScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunContinuouslyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddOrUpdateWorkflowEvent",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AddWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "DeleteAllWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEventId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "workflowEventId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "WorkflowEvent"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "GetWorkflowEventSubscriptionsAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "eventContext",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
+        },
+        {
+          "Name": "LogWorkflowEventQueueFailureAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEvent",
+              "Type": "WorkflowEvent"
+            },
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "PrepareWorkflowEventDispatch",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appIdOverride",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "(System.Int32? AppId, System.String EventContext)"
+        },
+        {
+          "Name": "SerializeWorkflowEventPayload",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "UpdateWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.BaselineProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetBaselinePackages",
+          "Inputs": [],
+          "ReturnType": "Package[]"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseCalendarAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.CalendarEventEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseCalendarEventAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarEventDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseCalendarEventUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "AddOrUpdateCalendarEvent",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
+        },
+        {
+          "Name": "DeleteAllByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAllForAppCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "calendarEventId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "calendarEventId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "CalendarEvent"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "UpdateCalendarEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "CalendarEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        },
+        {
+          "Name": "AddOrUpdateCalendar",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendar\u003E\u003E\u003E"
+        },
+        {
+          "Name": "DeleteAllCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "calendarId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "calendarId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "Calendar"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+        },
+        {
+          "Name": "UpdateCalendarAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "Calendar"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.FlowDefinitionEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseFlowDefinitionAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowDefinitionDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowDefinitionUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "AddOrUpdateFlowDefinition",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AuthorizeFlowDefinitionExecution",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "DeleteAllFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowDefinition"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "ParseFlowDefinition",
+          "Inputs": [
+            {
+              "Name": "definitionJson",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "ParseFlowDefinitionData",
+          "Inputs": [
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "SerializeFlowDefinitionContext",
+          "Inputs": [
+            {
+              "Name": "context",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "UpdateFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowDefinition"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.FlowInstanceDataEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseFlowInstanceDataAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseFlowInstanceDataUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "AddOrUpdateFlowInstanceData",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AddQueuedFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "DeleteAllFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "FlowInstanceData"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+        },
+        {
+          "Name": "UpdateFlowInstanceDataAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "FlowInstanceData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseScheduledTaskAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskExecuteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseScheduledTaskUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddOrUpdateScheduledTask",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AddScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "DeleteAllScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteByAppIdAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "ExecuteScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "incrementNextExecution",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "ScheduledTask"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "IsScheduledTaskMigrationActive",
+          "Inputs": [],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "LogNoScheduledTasksDueAsync",
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTaskCompleteAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTaskRunningAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTaskSkippedAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTask",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTasksExecutedAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskCount",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "LogScheduledTasksRunningAsync",
+          "Inputs": [
+            {
+              "Name": "scheduledTaskCount",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateScheduledTaskAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "ScheduledTask"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.WorkflowEventEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseWorkflowEventAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseWorkflowEventDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseWorkflowEventUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddOrUpdateWorkflowEvent",
+          "Inputs": [
+            {
+              "Name": "items",
+              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+        },
+        {
+          "Name": "AddWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "newEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "DeleteAllWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "deletedItems",
+              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEventId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "workflowEventId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "WorkflowEvent"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+        },
+        {
+          "Name": "GetSubscriptionsAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "eventContext",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
+        },
+        {
+          "Name": "LogWorkflowEventQueueFailureAsync",
+          "Inputs": [
+            {
+              "Name": "workflowEvent",
+              "Type": "WorkflowEvent"
+            },
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "PrepareWorkflowEventDispatch",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "appIdOverride",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "(System.Int32? AppId, System.String EventContext)"
+        },
+        {
+          "Name": "SerializeWorkflowEventPayload",
+          "Inputs": [
+            {
+              "Name": "payload",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "UpdateWorkflowEventAsync",
+          "Inputs": [
+            {
+              "Name": "updatedEntity",
+              "Type": "WorkflowEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
+          "Inputs": [
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "GetStats",
+          "Inputs": [],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunInstanceMaintenanceAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunInstanceMaintenanceContinuouslyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.WebApplicationExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "StartWorkflowHostedServices",
+          "Inputs": [
+            {
+              "Name": "app",
+              "Type": "WebApplication"
+            }
+          ],
+          "ReturnType": "WebApplication"
+        },
+        {
+          "Name": "StartWorkflowWeb",
+          "Inputs": [
+            {
+              "Name": "app",
+              "Type": "WebApplication"
+            },
+            {
+              "Name": "log",
+              "Type": "ILogger"
+            }
+          ],
+          "ReturnType": "WebApplication"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.WorkflowServiceCollectionConfigurationExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConfigureWorkflowApiModel",
+          "Inputs": [
+            {
+              "Name": "builder",
+              "Type": "ODataConventionModelBuilder"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    }
+  ],
+  "Links": [
+    {
+      "FromType": "cCoder.Workflow.Brokers.AuthorizationBroker",
+      "ToType": "cCoder.Workflow.Dependencies.AuthorizationDependency"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.JsonBroker",
+      "ToType": "cCoder.Workflow.Dependencies.JsonDependency"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.BaselineController",
+      "ToType": "cCoder.Workflow.Services.Processings.BaselineProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "ToType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.WorkflowAppExposure",
+      "ToType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.WorkflowPackageManager",
+      "ToType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
+      "ToType": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
+      "ToType": "cCoder.Workflow.Brokers.ServiceProviders.WorkflowMigrationServiceProviderBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.CalendarEventService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.CalendarEventService",
+      "ToType": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.CalendarService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.CalendarService",
+      "ToType": "cCoder.Workflow.Brokers.Storage.CalendarBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService",
+      "ToType": "cCoder.Workflow.Brokers.Events.CalendarEntityEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
+      "ToType": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
+      "ToType": "cCoder.Workflow.Brokers.Events.EventHubBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
+      "ToType": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService",
+      "ToType": "cCoder.Workflow.Brokers.Events.FlowInstanceDataEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService",
+      "ToType": "cCoder.Workflow.Brokers.Events.ScheduledTaskEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService",
+      "ToType": "cCoder.Workflow.Brokers.Events.WorkflowEventEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
+      "ToType": "cCoder.Workflow.Brokers.FlowDefinitionBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
+      "ToType": "cCoder.Workflow.Brokers.FlowInstanceDataBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
+      "ToType": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
+      "ToType": "cCoder.Data.Brokers.WorkflowEventBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.WorkflowEventEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.CalendarEntityEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.CalendarEventEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.CalendarEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.CalendarEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.CalendarService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.FlowDefinitionService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowInstanceDataEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.ScheduledTaskService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.Events.WorkflowEventEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
+    }
+  ],
+  "AnalysisItems": []
+}

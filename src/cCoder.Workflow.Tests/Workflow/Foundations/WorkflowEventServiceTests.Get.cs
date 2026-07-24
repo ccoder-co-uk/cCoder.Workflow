@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;
@@ -15,27 +19,25 @@ public partial class WorkflowEventServiceTests
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventBrokerMock
-            .Setup(x => x.GetAllWorkflowEvents(false))
-            .Returns(new[] { workflowEvent }.AsQueryable());
+            .Setup(expression: x => x.SelectAllWorkflowEvents())
+            .Returns(value: new[] { workflowEvent }.AsQueryable());
 
         // When
-        WorkflowEvent result = workflowEventService.Get(workflowEvent.Id);
+        WorkflowEvent result = workflowEventService.Get(workflowEventId: workflowEvent.Id);
 
         // Then
-        result.Should().BeEquivalentTo(workflowEvent);
-        workflowEventBrokerMock.Verify(x => x.GetAllWorkflowEvents(false), Times.Once);
+        result.Should()
+            .BeEquivalentTo(expectation: workflowEvent);
+
+        workflowEventBrokerMock.Verify(expression: x => x.SelectAllWorkflowEvents(), times: Times.Once);
+
         workflowEventBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
-            Times.AtMostOnce()
+expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
+times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-

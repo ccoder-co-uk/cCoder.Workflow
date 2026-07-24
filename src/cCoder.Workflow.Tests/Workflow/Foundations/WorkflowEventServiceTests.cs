@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Brokers;
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
@@ -18,39 +22,27 @@ public partial class WorkflowEventServiceTests
 
     public WorkflowEventServiceTests()
     {
-        workflowEventBrokerMock = new Mock<IWorkflowEventBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        workflowEventBrokerMock = new Mock<IWorkflowEventBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         workflowEventService = new WorkflowEventService(
             workflowEventBrokerMock.Object,
             authorizationBrokerMock.Object
         );
     }
 
-    private static WorkflowEvent CreateRandomWorkflowEvent(Guid id = default, Guid flowId = default)
+    private static WorkflowEvent CreateRandomWorkflowEvent(Guid workflowEventId = default, Guid flowId = default)
     {
         WorkflowEvent workflowEvent = Builder<WorkflowEvent>
             .CreateNew()
-            .With(x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
-            .With(x => x.FlowId = flowId == Guid.Empty ? Guid.NewGuid() : flowId)
-            .With(x => x.Type = $"Type-{Guid.NewGuid():N}")
-            .With(x => x.EventContext = $"Context-{Guid.NewGuid():N}")
-            .With(x => x.CreatedBy = $"creator-{Guid.NewGuid():N}")
-            .With(x => x.CreatedOn = DateTimeOffset.UtcNow)
-            .With(x => x.ExecuteAs = $"user-{Guid.NewGuid():N}")
+            .With(func: x => x.Id = workflowEventId == Guid.Empty ? Guid.NewGuid() : workflowEventId)
+            .With(func: x => x.FlowId = flowId == Guid.Empty ? Guid.NewGuid() : flowId)
+            .With(func: x => x.Type = $"Type-{Guid.NewGuid():N}")
+            .With(func: x => x.EventContext = $"Context-{Guid.NewGuid():N}")
+            .With(func: x => x.CreatedBy = $"creator-{Guid.NewGuid():N}")
+            .With(func: x => x.CreatedOn = DateTimeOffset.UtcNow)
+            .With(func: x => x.ExecuteAs = $"user-{Guid.NewGuid():N}")
             .Build();
 
         return workflowEvent;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
