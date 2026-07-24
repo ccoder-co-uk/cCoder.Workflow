@@ -16,6 +16,7 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
     public IQueryable<FlowDefinition> GetAllFlowDefinitions(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.FlowDefinitions.IgnoreQueryFilters()
             : coreDataContext.FlowDefinitions;
@@ -66,6 +67,7 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask DeleteFlowDefinitionsWithInstancesByAppIdAsync(int appId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         IQueryable<Guid> flowIds =
             coreDataContext.FlowDefinitions
                 .IgnoreQueryFilters()

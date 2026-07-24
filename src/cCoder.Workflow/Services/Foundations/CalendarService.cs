@@ -19,6 +19,7 @@ internal class CalendarService(
     {
         Calendar calendar = GetAll()
             .FirstOrDefault(predicate: i => i.Id == calendarId);
+
         if (calendar is not null)
         {
             return calendar;
@@ -26,6 +27,7 @@ internal class CalendarService(
 
         Calendar unrestrictedCalendar = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: i => i.Id == calendarId);
+
         if (unrestrictedCalendar is not null)
         {
             throw new SecurityException("Access Denied!");

@@ -20,6 +20,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
     {
         // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
+
         flowDefinitionProcessingServiceMock.Setup(expression: x => x.UpdateAsync(entity: entity))
             .ReturnsAsync(value: entity);
 
@@ -33,6 +34,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entity);
+
         flowDefinitionProcessingServiceMock.Verify(expression: x => x.UpdateAsync(entity: entity), times: Times.Once);
         flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionUpdateEventAsync(entity: entity), times: Times.Once);
     }

@@ -21,6 +21,7 @@ public partial class FlowDefinitionControllerServiceTests
         authorizationBrokerMock
             .Setup(expression: broker => broker.GetCurrentUser())
             .Returns(value: currentUser);
+
         flowDefinitionCoordinationServiceMock
             .Setup(expression: service => service.QueueAsync(flowDefinitionId: flowId, asUserId: currentUser.Id, args: "{}"))
             .ReturnsAsync(value: queuedId);
@@ -29,10 +30,13 @@ public partial class FlowDefinitionControllerServiceTests
 
         result.Should()
             .Be(expected: queuedId);
+
         authorizationBrokerMock.Verify(expression: broker => broker.GetCurrentUser(), times: Times.Once);
+
         flowDefinitionCoordinationServiceMock.Verify(
 expression: foundService => foundService.QueueAsync(flowDefinitionId: flowId, asUserId: currentUser.Id, args: "{}"),
 times: Times.Once);
+
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
@@ -51,9 +55,11 @@ times: Times.Once);
 
         result.Should()
             .Be(expected: queuedId);
+
         flowDefinitionCoordinationServiceMock.Verify(
 expression: foundService => foundService.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}"),
 times: Times.Once);
+
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

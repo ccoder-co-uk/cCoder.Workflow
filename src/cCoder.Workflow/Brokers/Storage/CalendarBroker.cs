@@ -15,6 +15,7 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
     public IQueryable<Calendar> GetAllCalendars(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.Calendars.IgnoreQueryFilters()
             : coreDataContext.Calendars;

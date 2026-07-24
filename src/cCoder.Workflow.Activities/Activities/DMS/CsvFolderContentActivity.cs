@@ -35,6 +35,7 @@ public class CSVFolderContentActivity : DMSActivity
         using HttpClient api = GetHttpClient();
 
         Files = (await GetFilesWithContents(api: api)).ToArray();
+
         RawData = Files.Select(selector: f => ConvertToString(raw: f.Contents.OrderByDescending(c => c.Version)
             .FirstOrDefault()?.RawData))
             .ToArray();

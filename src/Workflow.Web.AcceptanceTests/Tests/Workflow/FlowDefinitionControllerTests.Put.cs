@@ -43,6 +43,7 @@ public sealed partial class FlowDefinitionControllerTests
         // Then
         actualFlowDefinition.Should()
             .NotBeNull();
+
         actualFlowDefinition!.Name.Should()
             .Be(expected: updatedName);
 

@@ -73,6 +73,7 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
         }
 
         string diagnostics = readinessDiagnostics?.Invoke();
+
         string readinessDetails = string.IsNullOrWhiteSpace(value: diagnostics)
             ? string.Empty
             : $"{Environment.NewLine}Readiness diagnostics:{Environment.NewLine}{diagnostics}";

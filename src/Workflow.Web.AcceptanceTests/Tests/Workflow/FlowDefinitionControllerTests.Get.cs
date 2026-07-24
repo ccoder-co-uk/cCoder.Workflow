@@ -50,6 +50,7 @@ public sealed partial class FlowDefinitionControllerTests
         // Then
         actualFlowDefinition.Should()
             .NotBeNull();
+
         actualFlowDefinition.Id.Should()
             .Be(expected: seededContext.FlowId);
 

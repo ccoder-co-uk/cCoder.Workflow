@@ -21,6 +21,7 @@ namespace cCoder.Workflow.Api.OData
         {
             ExtendedMetadataContainer result = new(type, true, hasEndpoint) { Category = context };
             IEdmEntitySet set = model.EntityContainer.FindEntitySet(setName: type.Name);
+
             if (set is null)
             {
                 result.HasEndpoint = false;

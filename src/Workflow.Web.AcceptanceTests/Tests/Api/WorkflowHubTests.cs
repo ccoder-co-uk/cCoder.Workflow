@@ -29,6 +29,7 @@ public sealed partial class WorkflowHubTests(WebAcceptanceFixture fixture)
 
         await connection.StartAsync()
             .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
+
         return connection;
     }
 
@@ -38,6 +39,7 @@ public sealed partial class WorkflowHubTests(WebAcceptanceFixture fixture)
             HttpMethod.Post,
             $"{HubRoute}/negotiate?negotiateVersion=1"
         );
+
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         return (int)response.StatusCode;
     }

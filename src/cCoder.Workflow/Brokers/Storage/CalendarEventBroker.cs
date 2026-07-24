@@ -15,6 +15,7 @@ public class CalendarEventBroker(ICoreContextFactory coreContextFactory) : ICale
     public IQueryable<CalendarEvent> GetAllCalendarEvents(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.Events.IgnoreQueryFilters()
             : coreDataContext.Events;
@@ -68,6 +69,7 @@ public class CalendarEventBroker(ICoreContextFactory coreContextFactory) : ICale
     public int? GetAppId(CalendarEvent entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return coreDataContext.Calendars
 
             .Where(predicate: calendar => calendar.Id == entity.CalendarId)

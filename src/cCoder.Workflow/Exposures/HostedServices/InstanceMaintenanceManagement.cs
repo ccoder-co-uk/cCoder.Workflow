@@ -14,6 +14,7 @@ internal sealed class InstanceMaintenanceManagement(IServiceScopeFactory service
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using IServiceScope scope = serviceScopeFactory.CreateScope();
+
         IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementOrchestrationService =
             scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 

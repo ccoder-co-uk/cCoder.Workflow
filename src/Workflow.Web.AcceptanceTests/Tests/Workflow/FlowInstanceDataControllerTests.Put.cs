@@ -35,6 +35,7 @@ public sealed partial class FlowInstanceDataControllerTests
         // Then
         actualInstance.Should()
             .NotBeNull();
+
         actualInstance!.State.Should()
             .Be(expected: "Running");
 

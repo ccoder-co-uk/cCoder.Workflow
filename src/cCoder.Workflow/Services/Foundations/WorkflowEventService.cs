@@ -19,6 +19,7 @@ internal class WorkflowEventService(
     {
         WorkflowEvent workflowEvent = GetAll()
             .FirstOrDefault(predicate: i => i.Id == workflowEventId);
+
         if (workflowEvent is not null)
         {
             return workflowEvent;
@@ -26,6 +27,7 @@ internal class WorkflowEventService(
 
         WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: i => i.Id == workflowEventId);
+
         if (unrestrictedWorkflowEvent is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -77,6 +79,7 @@ privilege: $"{nameof(WorkflowEvent)}_update"
         WorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
 entity: updateWorkflowEvent
         );
+
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
         workflowEvent.EventContext = result.EventContext;
@@ -90,10 +93,12 @@ entity: updateWorkflowEvent
     public async ValueTask DeleteAsync(Guid workflowEventId)
     {
         WorkflowEvent workflowEvent = Get(workflowEventId: workflowEventId);
+
         authorizationBroker.Authorize(
 appId: workflowEventBroker.GetAppId(entity: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_delete"
         );
+
         _ = await workflowEventBroker.DeleteWorkflowEventAsync(
 entity: CreateStorageWorkflowEvent(item: workflowEvent)
         );

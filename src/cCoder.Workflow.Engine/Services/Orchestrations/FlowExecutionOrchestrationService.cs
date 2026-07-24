@@ -43,6 +43,7 @@ public sealed class FlowExecutionOrchestrationService(
 level: WorkflowLogLevel.Fatal,
 message: $"Failed to process request, abandoning execution{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}",
 instanceId: request.InstanceId);
+
             throw;
         }
         finally
@@ -125,6 +126,7 @@ instanceId: request.InstanceId);
     {
         using HttpClient api = CreateApiClient(apiRoot: apiRoot);
         api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
         string payload = JsonConvert.SerializeObject(
 value: new
 {

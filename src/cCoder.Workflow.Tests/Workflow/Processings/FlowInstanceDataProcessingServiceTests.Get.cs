@@ -21,6 +21,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
         var id = entity.Id;
+
         flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: id))
             .Returns(value: entity);
 
@@ -30,6 +31,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entity);
+
         flowInstanceDataServiceMock.Verify(expression: x => x.Get(flowInstanceDataId: id), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }

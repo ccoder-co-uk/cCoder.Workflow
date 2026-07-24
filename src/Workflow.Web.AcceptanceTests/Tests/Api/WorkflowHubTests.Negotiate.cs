@@ -22,6 +22,7 @@ public sealed partial class WorkflowHubTests
         // Then
         actualStatusCode.Should()
             .NotBe(unexpected: (int)HttpStatusCode.NotFound);
+
         actualStatusCode.Should()
             .NotBe(unexpected: (int)HttpStatusCode.InternalServerError);
     }

@@ -16,6 +16,7 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
+
         ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
@@ -31,6 +32,7 @@ public sealed partial class ScheduledTaskControllerTests
             lastUpdated = DateTimeOffset.UtcNow,
             nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
+
         string updatedName = Unique(prefix: "UpdatedScheduledTask");
         ScheduledTask actualScheduledTask;
 

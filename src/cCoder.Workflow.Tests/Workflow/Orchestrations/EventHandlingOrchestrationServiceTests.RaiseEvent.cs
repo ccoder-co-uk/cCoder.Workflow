@@ -39,6 +39,7 @@ flowDefinitionId: subscription.FlowId,
 asUserId: subscription.ExecuteAs,
 args: It.Is<string>(args => args.Contains("\"Path\":\"home\""))),
 times: Times.Once);
+
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
     }

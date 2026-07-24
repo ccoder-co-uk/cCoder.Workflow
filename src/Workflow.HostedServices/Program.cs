@@ -31,15 +31,18 @@ configuration: configuration,
 key: "ConnectionStrings:SSO");
 
         builder.Services.AddEventing();
+
         builder.Services.AddHttpEventingHostedServices(configure: options =>
         {
             options.MaxConcurrency = ResolveMaxConcurrency(configuration: configuration);
         });
+
         builder.Services.AddControllers();
 
         builder.Services.AddSecurityApi(configAction: (services, securityConfig) =>
         {
             securityConfig.AddMSSQLModelProvider(services: services, connectionString: ssoConnection);
+
             securityConfig.UseAESHMMACPasswordEncryption(
 services: services,
 decryptionKey: GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));

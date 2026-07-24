@@ -27,9 +27,11 @@ options: new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = t
         serviceProvider.GetRequiredService<IFlowRunner>()
             .Should()
             .NotBeNull();
+
         serviceProvider.GetRequiredService<IWorkflowScriptExecutionService>()
             .Should()
             .NotBeNull();
+
         serviceProvider.GetRequiredService<IScriptProcessingService>()
             .Should()
             .NotBeNull();

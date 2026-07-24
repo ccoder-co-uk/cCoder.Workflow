@@ -35,8 +35,10 @@ public abstract class ODataModelBuilder
     {
         string name = typeof(T).Name;
         EntitySetConfiguration<T> result = Builder.EntitySet<T>(name: name);
+
         Builder.EntityType<T>()
             .HasKey(keyDefinitionExpression: key);
+
         return result;
     }
 

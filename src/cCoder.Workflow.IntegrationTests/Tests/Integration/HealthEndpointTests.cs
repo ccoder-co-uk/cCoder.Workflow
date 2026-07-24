@@ -22,8 +22,10 @@ public sealed class HealthEndpointTests(IntegrationAcceptanceFixture fixture)
 
         web.Should()
             .Be(expected: "OK");
+
         hostedServices.Should()
             .Be(expected: "OK");
+
         workflow.Should()
             .Be(expected: "OK");
     }

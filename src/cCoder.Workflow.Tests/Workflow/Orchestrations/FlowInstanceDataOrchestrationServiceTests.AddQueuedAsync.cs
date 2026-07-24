@@ -18,6 +18,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     public async Task ShouldCallProcessingThenRaiseAddEventAsyncWhenAddQueuedAsync()
     {
         FlowInstanceData entity = CreateRandomFlowInstanceData();
+
         flowInstanceDataProcessingServiceMock
             .Setup(expression: x => x.AddQueuedAsync(entity: entity))
             .ReturnsAsync(value: entity);
@@ -30,6 +31,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
 
         result.Should()
             .BeSameAs(expected: entity);
+
         flowInstanceDataProcessingServiceMock.Verify(expression: x => x.AddQueuedAsync(entity: entity), times: Times.Once);
         flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity), times: Times.Once);
     }

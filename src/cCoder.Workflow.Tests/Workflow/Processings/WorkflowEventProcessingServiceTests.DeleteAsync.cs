@@ -15,6 +15,7 @@ public partial class WorkflowEventProcessingServiceTests
     {
         // Given
         Guid id = Guid.NewGuid();
+
         workflowEventServiceMock.Setup(expression: x => x.DeleteAsync(workflowEventId: id))
             .Returns(value: ValueTask.CompletedTask);
 

@@ -26,6 +26,7 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
     public async Task SeedAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using DbContext core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();

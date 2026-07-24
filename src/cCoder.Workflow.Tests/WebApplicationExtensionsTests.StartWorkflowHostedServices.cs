@@ -30,8 +30,10 @@ public sealed class WebApplicationExtensionsTests
         // Then
         handlers.ListenToAllEventsCallCount.Should()
             .Be(expected: 1);
+
         handlers.ListenToScheduledTaskExecuteEventsCallCount.Should()
             .Be(expected: 1);
+
         handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should()
             .Be(expected: 1);
     }
@@ -46,8 +48,10 @@ public sealed class WebApplicationExtensionsTests
         builder.Services.AddSignalR();
         builder.Services.AddSingleton<IWorkflowEventHandlers>(implementationInstance: handlers);
         builder.Services.AddSingleton<cCoder.Data.Exposures.IMetadataTypeCache, TestMetadataTypeCache>();
+
         builder.Services.AddSingleton<cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService>(
 implementationInstance: new MockWorkflowMetadataTypeService());
+
         await using WebApplication app = builder.Build();
 
         // When
@@ -56,8 +60,10 @@ implementationInstance: new MockWorkflowMetadataTypeService());
         // Then
         handlers.ListenToAllEventsCallCount.Should()
             .Be(expected: 0);
+
         handlers.ListenToScheduledTaskExecuteEventsCallCount.Should()
             .Be(expected: 0);
+
         handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should()
             .Be(expected: 0);
     }

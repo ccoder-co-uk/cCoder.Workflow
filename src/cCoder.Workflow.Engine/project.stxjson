@@ -408,32 +408,18 @@
       "LineNumber": 23
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 42
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 128
-    },
-    {
       "Code": "STX0022",
       "Description": "Creation method names must include the concrete type they create.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 160
+      "LineNumber": 162
     },
     {
       "Code": "STXFORMAT002",
       "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
-      "LineNumber": 160
+      "LineNumber": 162
     },
     {
       "Code": "STX0006",
@@ -814,32 +800,18 @@
       "LineNumber": 31
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 82
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 88
-    },
-    {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 126
+      "LineNumber": 128
     },
     {
       "Code": "STXFORMAT005",
       "Description": "Method call arguments must declare their parameter names.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Engine.Services.Processings.ScriptRunner",
-      "LineNumber": 139
+      "LineNumber": 141
     }
   ]
 }

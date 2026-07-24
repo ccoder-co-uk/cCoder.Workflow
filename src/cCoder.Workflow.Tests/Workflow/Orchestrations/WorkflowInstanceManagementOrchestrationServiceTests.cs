@@ -94,6 +94,7 @@ times: Times.Once);
     {
         // Given
         FlowInstanceData flowInstanceData = CreateQueuedFlowInstanceData();
+
         Token token = new()
         {
             Id = "workflow-token"

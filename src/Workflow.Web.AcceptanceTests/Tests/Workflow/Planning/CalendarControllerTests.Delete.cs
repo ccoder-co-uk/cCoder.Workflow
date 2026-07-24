@@ -16,12 +16,14 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
+
         Calendar createdCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
             name = Unique(prefix: "Calendar"),
             description = "Acceptance calendar",
         });
+
         int actualReadStatusCode;
 
         // When
@@ -31,6 +33,7 @@ public sealed partial class CalendarControllerTests
         // Then
         actualStatusCode.Should()
             .Be(expected: 200);
+
         actualReadStatusCode.Should()
             .Be(expected: 404);
 

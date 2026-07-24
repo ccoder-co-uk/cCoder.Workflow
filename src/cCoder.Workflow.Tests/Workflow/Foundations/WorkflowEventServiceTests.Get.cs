@@ -28,11 +28,14 @@ public partial class WorkflowEventServiceTests
         // Then
         result.Should()
             .BeEquivalentTo(expectation: workflowEvent);
+
         workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
+
         workflowEventBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

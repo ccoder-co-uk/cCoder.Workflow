@@ -44,6 +44,7 @@ key: "ConnectionStrings:SSO");
         builder.Services.AddSecurityApi(configAction: (services, securityConfig) =>
         {
             securityConfig.AddMSSQLModelProvider(services: services, connectionString: ssoConnection);
+
             securityConfig.UseAESHMMACPasswordEncryption(
 services: services,
 decryptionKey: GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));
@@ -152,6 +153,7 @@ eventProviders: CreateExternalSendProvider<FlowInstanceData>(["flow_instance_dat
 
         context.Response.StatusCode =
             exception?.GetType() == typeof(SecurityException) ? 401 : 500;
+
         context.Response.ContentType = "application/json";
 
         if (exception is null)
@@ -160,6 +162,7 @@ eventProviders: CreateExternalSendProvider<FlowInstanceData>(["flow_instance_dat
         }
 
         log.LogError("{Message}\n{StackTrace}", exception.Message, exception.StackTrace);
+
         await context.Response.WriteAsync(
 text: "{ \"error\": \"" + exception.Message.Replace(oldValue: "\"", newValue: "\'") + "\" }");
     }

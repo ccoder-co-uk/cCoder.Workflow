@@ -20,6 +20,7 @@ public partial class WorkflowEventOrchestrationServiceTests
     {
         // Given
         IQueryable<WorkflowEvent> entities = new[] { CreateRandomWorkflowEvent() }.AsQueryable();
+
         workflowEventProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
             .Returns(value: entities);
 
@@ -29,6 +30,7 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entities);
+
         workflowEventProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();

@@ -47,12 +47,14 @@ public sealed partial class CalendarControllerTests
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
         string name = Unique(prefix: "Calendar");
+
         PlanningCalendar expectedCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
             name,
             description = "Acceptance calendar",
         });
+
         PlanningCalendar actualCalendar;
 
         // When
@@ -61,8 +63,10 @@ public sealed partial class CalendarControllerTests
         // Then
         actualCalendar.Should()
             .NotBeNull();
+
         actualCalendar.Id.Should()
             .Be(expected: expectedCalendar.Id);
+
         actualCalendar.Name.Should()
             .Be(expected: name);
 
@@ -76,6 +80,7 @@ public sealed partial class CalendarControllerTests
         SeededCalendarContext seededContext = await SeedDatabase("calendar_create", "calendar_update", "calendar_delete");
 
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();

@@ -20,8 +20,10 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         FlowInstanceData entity = CreateRandomFlowInstanceData();
+
         flowInstanceDataProcessingServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: id))
             .Returns(value: entity);
+
         flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAsync(flowInstanceDataId: id))
             .Returns(value: ValueTask.CompletedTask);
 

@@ -43,6 +43,7 @@ public sealed partial class CalendarEventControllerTests
         // Given
         SeededCalendarEventContext seededContext = await SeedDatabase();
         string name = Unique(prefix: "CalendarEvent");
+
         CalendarEvent expectedCalendarEvent = await CreateCalendarEventAsync(payload: new
         {
             calendarId = seededContext.CalendarId,
@@ -51,6 +52,7 @@ public sealed partial class CalendarEventControllerTests
             start = DateTimeOffset.UtcNow,
             durationInTicks = TimeSpan.FromHours(hours: 1).Ticks,
         });
+
         CalendarEvent actualCalendarEvent;
 
         // When
@@ -59,6 +61,7 @@ public sealed partial class CalendarEventControllerTests
         // Then
         actualCalendarEvent.Id.Should()
             .Be(expected: expectedCalendarEvent.Id);
+
         actualCalendarEvent.Name.Should()
             .Be(expected: name);
 

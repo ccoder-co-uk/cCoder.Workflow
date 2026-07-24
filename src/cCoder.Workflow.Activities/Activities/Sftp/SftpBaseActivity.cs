@@ -36,6 +36,7 @@ public abstract class SftpBaseActivity : Activity
         else
         {
             keyStream = new(Encoding.UTF8.GetBytes(s: PrivateKey));
+
             keyFile = string.IsNullOrEmpty(value: PrivateKeyEncryptionKey)
                 ? new(keyStream)
                 : new(keyStream, PrivateKeyEncryptionKey);
@@ -91,6 +92,7 @@ public abstract class SftpBaseActivity : Activity
         else
         {
             keyStream = new(Encoding.UTF8.GetBytes(s: PrivateKey));
+
             keyFile = string.IsNullOrEmpty(value: PrivateKeyEncryptionKey)
                 ? new(keyStream)
                 : new(keyStream, PrivateKeyEncryptionKey);

@@ -14,6 +14,7 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     public IQueryable<WorkflowEvent> GetAllWorkflowEvents(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.WorflowEvents.IgnoreQueryFilters()
             : coreDataContext.WorflowEvents;
@@ -57,6 +58,7 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     public int? GetAppId(WorkflowEvent entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return coreDataContext.FlowDefinitions
 
             .Where(predicate: flowDefinition => flowDefinition.Id == entity.FlowId)

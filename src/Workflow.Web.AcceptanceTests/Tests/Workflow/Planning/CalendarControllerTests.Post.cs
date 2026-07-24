@@ -33,6 +33,7 @@ public sealed partial class CalendarControllerTests
         // Then
         actualCalendar.Should()
             .NotBeNull();
+
         actualCalendar.Name.Should()
             .Be(expected: name);
 

@@ -38,9 +38,11 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
     {
         Calendar calendar = Get(calendarId: calendarId);
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: "calendar_delete");
+
         CalendarEvent[] events = (from ce in calendarEventService.GetAll()
                                   where ce.CalendarId == calendar.Id
                                   select ce).ToArray();
+
         await calendarEventService.DeleteAllAsync(items: events);
         await service.DeleteAsync(calendarId: calendar.Id);
     }

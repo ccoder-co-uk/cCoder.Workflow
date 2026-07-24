@@ -24,6 +24,7 @@ public partial class FlowDefinitionProcessingServiceTests
             AppId = 1,
             Name = "Flow",
         };
+
         flowDefinitionServiceMock.Setup(expression: x => x.UpdateAsync(flowDefinition: flow))
             .ReturnsAsync(value: flow);
 

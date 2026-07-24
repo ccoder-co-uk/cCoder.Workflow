@@ -109,6 +109,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<FlowDefinition> delta)
     {
         FlowDefinition originalEntity = service.Get(flowDefinitionId: key);
+
         if (originalEntity == null)
         {
             return NotFound();

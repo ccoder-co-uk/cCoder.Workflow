@@ -18,6 +18,7 @@ public sealed partial class ExecuteScriptTests
         // Given
         const string payload = "return true";
         const string expected = "true";
+
         scriptExecutionServiceMock
             .Setup(expression: service => service.ExecuteAsync(payload: payload, useDetails: true))
             .ReturnsAsync(value: expected);
@@ -30,9 +31,11 @@ public sealed partial class ExecuteScriptTests
         // Then
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK);
+
         response.ReadBody()
             .Should()
             .Be(expected: expected);
+
         scriptExecutionServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
     }
 }

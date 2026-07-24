@@ -18,6 +18,7 @@ internal class FlowDefinitionService(
     {
         FlowDefinition flowDefinition = GetAll()
             .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
+
         if (flowDefinition is not null)
         {
             return flowDefinition;
@@ -25,6 +26,7 @@ internal class FlowDefinitionService(
 
         FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
+
         if (unrestrictedFlowDefinition is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -75,6 +77,7 @@ internal class FlowDefinitionService(
         FlowDefinition result = await flowDefinitionBroker.UpdateFlowDefinitionAsync(
 entity: updateFlowDefinition
         );
+
         flowDefinition.Id = result.Id;
         flowDefinition.Name = result.Name;
         flowDefinition.Description = result.Description;

@@ -48,29 +48,38 @@ internal static class TestBuilderSetup
         BuilderSetup.DisablePropertyNamingFor(func: (User user) => user.DefaultCulture);
         BuilderSetup.DisablePropertyNamingFor(func: (User user) => user.Roles);
         BuilderSetup.DisablePropertyNamingFor(func: (QueuedEmail queuedEmail) => queuedEmail.FailedSends);
+
         BuilderSetup.DisablePropertyNamingFor(
 func: (FlowDefinition flowDefinition) => flowDefinition.App
         );
+
         BuilderSetup.DisablePropertyNamingFor(
 func: (FlowDefinition flowDefinition) => flowDefinition.Instances
         );
+
         BuilderSetup.DisablePropertyNamingFor(func: (WorkflowEvent workflowEvent) => workflowEvent.Flow);
+
         BuilderSetup.DisablePropertyNamingFor(
 func: (WorkflowEvent workflowEvent) => workflowEvent.ExecuteAsUser
         );
+
         BuilderSetup.DisablePropertyNamingFor(func: (FileContent fileContent) => fileContent.File);
         BuilderSetup.DisablePropertyNamingFor(func: (Submission submission) => submission.App);
         BuilderSetup.DisablePropertyNamingFor(func: (ScheduledTask scheduledTask) => scheduledTask.Flow);
+
         BuilderSetup.DisablePropertyNamingFor(
 func: (ScheduledTask scheduledTask) => scheduledTask.ExecuteAsUser
         );
+
         BuilderSetup.DisablePropertyNamingFor(func: (MailServer mailServer) => mailServer.App);
         BuilderSetup.DisablePropertyNamingFor(func: (Layout layout) => layout.App);
         BuilderSetup.DisablePropertyNamingFor(func: (Script script) => script.App);
         BuilderSetup.DisablePropertyNamingFor(func: (Content content) => content.Page);
+
         BuilderSetup.DisablePropertyNamingFor(
 func: (CalendarEvent calendarEvent) => calendarEvent.Calendar
         );
+
         BuilderSetup.DisablePropertyNamingFor(func: (PageRole pageRole) => pageRole.Page);
         BuilderSetup.DisablePropertyNamingFor(func: (PageRole pageRole) => pageRole.Role);
         BuilderSetup.DisablePropertyNamingFor(func: (UserRole userRole) => userRole.User);

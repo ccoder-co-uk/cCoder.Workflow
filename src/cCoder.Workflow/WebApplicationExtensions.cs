@@ -60,6 +60,7 @@ public static partial class WebApplicationExtensions
     {
         using IServiceScope scope = app.Services.CreateScope();
         IServiceProvider services = scope.ServiceProvider;
+
         ILogger logger = services.GetRequiredService<ILoggerFactory>()
             .CreateLogger(categoryName: "WorkflowStartup");
 

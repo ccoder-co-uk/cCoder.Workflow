@@ -24,6 +24,7 @@ public sealed partial class FlowInstanceDataControllerTests
         // Then
         actualStatusCode.Should()
             .Be(expected: 200);
+
         actualReadStatusCode.Should()
             .Be(expected: 404);
 

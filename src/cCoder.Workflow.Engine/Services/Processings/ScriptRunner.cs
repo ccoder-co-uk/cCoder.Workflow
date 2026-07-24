@@ -79,6 +79,7 @@ public sealed class ScriptRunner : IScriptProcessingService
         try
         {
             IEnumerable<Assembly> requiredReferences = ResolveReferences(imports: imports);
+
             ScriptOptions options = ScriptOptions.Default
                 .AddReferences(references: requiredReferences)
                 .WithImports(imports: imports);
@@ -88,6 +89,7 @@ public sealed class ScriptRunner : IScriptProcessingService
                 string details =
                     $"{Environment.NewLine}Imports{Environment.NewLine}  {string.Join(separator: $"{Environment.NewLine}  ", value: imports)}"
                     + $"{Environment.NewLine}{Environment.NewLine}References Needed{Environment.NewLine}  {string.Join(separator: $"{Environment.NewLine}  ", values: requiredReferences.Select(selector: reference => reference.FullName))}";
+
                 log(arg1: WorkflowLogLevel.Debug, arg2: details);
             }
 

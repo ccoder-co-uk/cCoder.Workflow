@@ -22,6 +22,7 @@ public sealed partial class BaselineTests(WebAcceptanceFixture fixture)
 
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return JsonDocument.Parse(json: content).RootElement.Clone();
     }
 }

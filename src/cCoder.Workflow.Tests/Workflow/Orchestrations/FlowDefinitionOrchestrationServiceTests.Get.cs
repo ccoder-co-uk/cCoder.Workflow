@@ -21,6 +21,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         FlowDefinition entity = CreateRandomFlowDefinition();
+
         flowDefinitionProcessingServiceMock.Setup(expression: x => x.Get(flowDefinitionId: id))
             .Returns(value: entity);
 
@@ -30,6 +31,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entity);
+
         flowDefinitionProcessingServiceMock.Verify(expression: x => x.Get(flowDefinitionId: id), times: Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();

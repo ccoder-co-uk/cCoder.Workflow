@@ -94,6 +94,7 @@ array: calendars,
 action: calendar =>
             {
                 calendar.AppId = appId;
+
                 calendar.Id =
                     existingCalendars.FirstOrDefault(predicate: existing =>
                         existing.Name.Equals(calendar.Name, StringComparison.OrdinalIgnoreCase))

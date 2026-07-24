@@ -39,18 +39,22 @@ filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
 collection: services,
 filter: descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceManagement)
                 && descriptor.ImplementationType == typeof(InstanceMaintenanceManagement));
+
         Assert.Contains(
 collection: services,
 filter: descriptor => descriptor.ServiceType == typeof(IQueueInstanceManagement)
                 && descriptor.ImplementationType == typeof(QueueInstanceManagement));
+
         Assert.Contains(
 collection: services,
 filter: descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerManagement)
                 && descriptor.ImplementationType == typeof(ScheduledTaskRunnerManagement));
+
         Assert.Equal(
 expected: 3,
 actual: services.Count(predicate: descriptor => descriptor.ServiceType == typeof(IHostedService)
                 && descriptor.ImplementationFactory is not null));
+
         Assert.Contains(
 collection: services,
 filter: descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceManagementOrchestrationService)

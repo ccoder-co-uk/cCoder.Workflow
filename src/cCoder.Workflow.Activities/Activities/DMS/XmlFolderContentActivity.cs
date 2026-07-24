@@ -41,6 +41,7 @@ public class XmlFolderContentActivity : DMSActivity
             Path = $"{Path.Trim()
             .TrimEnd(trimChars: "/".ToCharArray())}/{d.file}"
         });
+
         RawData = data.Select(selector: d => d.xml)
             .ToArray();
     }

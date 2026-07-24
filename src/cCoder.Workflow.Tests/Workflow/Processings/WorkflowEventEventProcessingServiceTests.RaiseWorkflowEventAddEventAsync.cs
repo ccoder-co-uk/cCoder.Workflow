@@ -19,6 +19,7 @@ public partial class WorkflowEventEventProcessingServiceTests
     {
         // Given
         WorkflowEvent entity = CreateRandomWorkflowEvent();
+
         workflowEventEventServiceMock
             .Setup(expression: x => x.RaiseWorkflowEventAddEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);

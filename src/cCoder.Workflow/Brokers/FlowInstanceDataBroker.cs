@@ -16,6 +16,7 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     public IQueryable<FlowInstanceData> GetAllFlowInstanceData(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.FlowInstances.IgnoreQueryFilters()
             : coreDataContext.FlowInstances;
@@ -59,6 +60,7 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     public int? GetAppId(FlowInstanceData entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return coreDataContext.FlowDefinitions
 
             .Where(predicate: flowDefinition => flowDefinition.Id == entity.FlowDefinitionId)

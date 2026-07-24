@@ -24,6 +24,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         FlowInstanceData dbVersion = CreateRandomFlowInstanceData();
         dbVersion.Id = entity.Id;
         dbVersion.FlowDefinitionId = entity.FlowDefinitionId;
+
         dbVersion.FlowDefinition = new FlowDefinition
         {
             Id = entity.FlowDefinitionId,
@@ -34,8 +35,10 @@ public partial class FlowInstanceDataProcessingServiceTests
             App = null!,
             Instances = [],
         };
+
         DataUser user = TestUsers.WithPrivilege(privilege: "flowinstancedata_update", appId: 1);
         currentUser = user;
+
         flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id))
             .Returns(value: dbVersion);
 
@@ -48,6 +51,7 @@ public partial class FlowInstanceDataProcessingServiceTests
 
         // Then
         Assert.Equal(expected: entity.Name, actual: result.Name);
+
         flowInstanceDataServiceMock.Verify(
 expression: x => x.UpdateAsync(flowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
 times: Times.Once
@@ -63,6 +67,7 @@ times: Times.Once
         FlowInstanceData dbVersion = CreateRandomFlowInstanceData();
         dbVersion.Id = entity.Id;
         dbVersion.FlowDefinitionId = entity.FlowDefinitionId;
+
         dbVersion.FlowDefinition = new FlowDefinition
         {
             Id = entity.FlowDefinitionId,
@@ -73,8 +78,10 @@ times: Times.Once
             App = null!,
             Instances = [],
         };
+
         flowInstanceDataServiceMock.Setup(expression: x => x.Get(flowInstanceDataId: entity.Id))
             .Returns(value: dbVersion);
+
         flowInstanceDataServiceMock
             .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
@@ -85,6 +92,7 @@ times: Times.Once
 
         // Then
         Assert.Equal(expected: entity.Name, actual: actualFlowInstanceData.Name);
+
         flowInstanceDataServiceMock.Verify(
 expression: x => x.UpdateAsync(flowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
 times: Times.Once

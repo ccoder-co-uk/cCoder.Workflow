@@ -19,6 +19,7 @@ public partial class FlowInstanceDataEventProcessingServiceTests
     {
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
+
         flowInstanceDataEventServiceMock
             .Setup(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);

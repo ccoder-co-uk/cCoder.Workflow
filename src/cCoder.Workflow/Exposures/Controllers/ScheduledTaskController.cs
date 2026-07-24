@@ -84,6 +84,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         {
             IQueryable<ScheduledTask> result = Service.GetAll()
                 .Where(predicate: scheduledTask => scheduledTask.Id == key);
+
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
@@ -134,6 +135,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<ScheduledTask> delta)
     {
         ScheduledTask originalEntity = Service.Get(scheduledTaskId: key);
+
         if (originalEntity == null)
         {
             return NotFound();

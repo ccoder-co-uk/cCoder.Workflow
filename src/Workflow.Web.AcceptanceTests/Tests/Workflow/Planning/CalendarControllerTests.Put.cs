@@ -16,12 +16,14 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
+
         Calendar createdCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
             name = Unique(prefix: "Calendar"),
             description = "Acceptance calendar",
         });
+
         string updatedName = Unique(prefix: "UpdatedCalendar");
         Calendar actualCalendar;
 
@@ -39,6 +41,7 @@ public sealed partial class CalendarControllerTests
         // Then
         actualCalendar.Should()
             .NotBeNull();
+
         actualCalendar.Name.Should()
             .Be(expected: updatedName);
 

@@ -32,6 +32,7 @@ public static partial class IServiceCollectionExtensions
     {
         WorkflowConfiguration configuration = CreateConfiguration(services: services, configure: configure);
         services.AddWorkflowWeb(builder: builder);
+
         services.AddConfiguredApi(
 configuration: configuration,
 documentName: "Workflow",
@@ -88,6 +89,7 @@ builder: builder);
 
         IEdmModel routeModel = BuildRouteModel(configureModel: configureModel);
         DefaultODataBatchHandler batchHandler = new();
+
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
@@ -98,6 +100,7 @@ builder: builder);
             options.RouteOptions.EnableQualifiedOperationCall = false;
             options.EnableAttributeRouting = true;
             options.RouteOptions.EnableKeyAsSegment = false;
+
             options.Expand()
                 .Count()
                 .Filter()
@@ -125,6 +128,7 @@ builder: builder);
         {
             options.ResolveConflictingActions(resolver: apiDescriptions => apiDescriptions.First());
             AddSwaggerDocuments(options: options, documentName: documentName, configuration: configuration);
+
             options.DocInclusionPredicate(
 predicate: (swaggerDocumentName, apiDescription) =>
                     ShouldIncludeInDocument(
@@ -167,6 +171,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
                 Title = "Core API definition",
                 Version = "Core",
             });
+
             options.SwaggerDoc(name: "v1", info: new OpenApiInfo
             {
                 Title = "Core API definition",
@@ -192,6 +197,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
         }
 
         string path = NormalizePath(relativePath: relativePath);
+
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
@@ -204,6 +210,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
     private static bool MatchesContextRoute(string path, string rootPath)
     {
         string normalizedPath = NormalizePath(relativePath: rootPath);
+
         return path.Equals(value: normalizedPath, comparisonType: StringComparison.OrdinalIgnoreCase)
             || path.StartsWith(value: $"{normalizedPath}/", comparisonType: StringComparison.OrdinalIgnoreCase);
     }
@@ -224,23 +231,29 @@ predicate: (swaggerDocumentName, apiDescription) =>
         services.AddResponseCompression();
         services.AddHttpClient();
         services.AddHttpContextAccessor();
+
         services.AddScoped(
 serviceType: typeof(HttpContext),
 implementationFactory: ctx => ctx.GetService<IHttpContextAccessor>()?.HttpContext ?? new DefaultHttpContext());
+
         services.AddScoped(serviceType: typeof(HttpRequest), implementationFactory: ctx => ctx.GetRequiredService<HttpContext>().Request);
         services.AddSession();
+
         services.AddHsts(configureOptions: options =>
         {
             options.Preload = true;
             options.IncludeSubDomains = true;
             options.MaxAge = TimeSpan.FromMinutes(minutes: 60);
         });
+
         services.AddMvc(setupAction: options => options.EnableEndpointRouting = false);
         services.AddRazorPages();
+
         services.Configure<KestrelServerOptions>(configureOptions: options =>
         {
             options.Limits.MaxRequestBodySize = int.MaxValue;
         });
+
         services.AddEndpointsApiExplorer();
         services.AddSignalR();
     }

@@ -21,6 +21,7 @@ public sealed partial class HomePageTests
         // Then
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.Redirect);
+
         response.Headers.Location?.OriginalString.Should()
             .Be(expected: "/tools/index.html");
     }
@@ -36,22 +37,31 @@ public sealed partial class HomePageTests
         // Then
         actualHome.Should()
             .Contain(expected: "<title>Workflow</title>");
+
         actualHome.Should()
             .Contain(expected: "/tools/company-logo.png");
+
         actualHome.Should()
             .Contain(expected: "wf-logo");
+
         actualHome.Should()
             .Contain(expected: "Sign in required");
+
         actualHome.Should()
             .Contain(expected: "wf-login-gate");
+
         actualHome.Should()
             .Contain(expected: "wf-workbench");
+
         actualHome.Should()
             .Contain(expected: "Workflow workspace tabs");
+
         actualHome.Should()
             .Contain(expected: "/tools/api.js");
+
         actualHome.Should()
             .Contain(expected: "/tools/grids.js");
+
         actualHome.Should()
             .Contain(expected: "Flow definition and execution management");
     }
@@ -67,8 +77,10 @@ public sealed partial class HomePageTests
         // Then
         actualScript.Should()
             .Contain(expected: "workflow-auth-changed");
+
         actualScript.Should()
             .Contain(expected: "isAuthenticated: function");
+
         actualScript.Should()
             .Contain(expected: "document.body.classList.toggle(\"is-authenticated\"");
     }
@@ -84,6 +96,7 @@ public sealed partial class HomePageTests
         // Then
         actualScript.Should()
             .Contain(expected: "WorkflowApi.isAuthenticated()");
+
         actualScript.Should()
             .Contain(expected: "workflow-auth-changed");
     }
@@ -99,12 +112,16 @@ public sealed partial class HomePageTests
         // Then
         actualStyles.Should()
             .Contain(expected: "body.wf-shell:not(.is-authenticated) .wf-workbench");
+
         actualStyles.Should()
             .Contain(expected: "body.wf-shell.is-authenticated .wf-login-gate");
+
         actualStyles.Should()
             .Contain(expected: ".wf-logo");
+
         actualStyles.Should()
             .Contain(expected: "grid-template-rows: auto minmax(0, 1fr)");
+
         actualStyles.Should()
             .Contain(expected: ".wf-nav-item.active");
     }

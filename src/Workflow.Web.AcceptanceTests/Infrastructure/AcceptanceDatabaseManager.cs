@@ -16,8 +16,10 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     public Task ResetDatabasesAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
             .CreateDbContext(ignoreAuthInfo: true);
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
 
@@ -36,8 +38,10 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     public Task MigrateDatabasesAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
             .CreateDbContext(ignoreAuthInfo: true);
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
 
@@ -53,8 +57,10 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     public Task DropDatabasesAsync()
     {
         using IServiceScope scope = services.CreateScope();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
             .CreateDbContext(ignoreAuthInfo: true);
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
 
@@ -118,6 +124,7 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
         connection.Open();
 
         using SqlCommand command = connection.CreateCommand();
+
         command.CommandText = @"
 IF DB_ID(@databaseName) IS NOT NULL
 BEGIN
@@ -126,6 +133,7 @@ BEGIN
         + N'DROP DATABASE [' + REPLACE(@databaseName, ']', ']]') + N']';
     EXEC(@sql);
 END";
+
         _ = command.Parameters.AddWithValue(parameterName: "@databaseName", value: databaseName);
         command.ExecuteNonQuery();
     }

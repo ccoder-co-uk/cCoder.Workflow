@@ -16,6 +16,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
     public IQueryable<ScheduledTask> GetAllScheduledTasks(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.ScheduledTasks.IgnoreQueryFilters()
             : coreDataContext.ScheduledTasks;

@@ -19,6 +19,7 @@ public partial class FlowDefinitionEventProcessingServiceTests
     {
         // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
+
         flowDefinitionEventServiceMock
             .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);

@@ -19,6 +19,7 @@ internal class ScheduledTaskService(
     {
         ScheduledTask scheduledTask = GetAll()
             .FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
+
         if (scheduledTask is not null)
         {
             return scheduledTask;
@@ -26,6 +27,7 @@ internal class ScheduledTaskService(
 
         ScheduledTask unrestrictedScheduledTask = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: i => i.Id == scheduledTaskId);
+
         if (unrestrictedScheduledTask is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -92,6 +94,7 @@ internal class ScheduledTaskService(
         ScheduledTask result = await scheduledTaskBroker.UpdateScheduledTaskAsync(
 entity: updateScheduledTask
         );
+
         scheduledTask.Id = result.Id;
         scheduledTask.AppId = result.AppId;
         scheduledTask.FlowId = result.FlowId;
@@ -122,6 +125,7 @@ entity: updateScheduledTask
         }
 
         authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_delete");
+
         _ = await scheduledTaskBroker.DeleteScheduledTaskAsync(
 entity: CreateStorageScheduledTask(item: scheduledTask)
         );

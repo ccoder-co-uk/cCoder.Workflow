@@ -70,6 +70,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         {
             IQueryable<WorkflowEvent> result = Service.GetAll()
                 .Where(predicate: workflowEvent => workflowEvent.Id == key);
+
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
@@ -120,6 +121,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<WorkflowEvent> delta)
     {
         WorkflowEvent originalEntity = Service.Get(workflowEventId: key);
+
         if (originalEntity == null)
         {
             return NotFound();

@@ -20,6 +20,7 @@ public partial class FlowDefinitionServiceTests
         // Given
         authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
             .Returns(value: new User { Id = "test-user" });
+
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(appId: 7);
 
         FlowDefinition submitted = null;
@@ -44,10 +45,13 @@ entity: It.Is<FlowDefinition>(candidate => !ReferenceEquals(candidate, flowDefin
         // Then
         result.Should()
             .BeSameAs(expected: flowDefinition);
+
         submitted.Should()
             .NotBeNull();
+
         submitted.Should()
             .NotBeSameAs(unexpected: flowDefinition);
+
         result.Should()
             .NotBeSameAs(unexpected: submitted);
 
@@ -132,11 +136,14 @@ entity: It.Is<FlowDefinition>(candidate => !ReferenceEquals(candidate, flowDefin
                 ),
 times: Times.Once
         );
+
         flowDefinitionBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
 expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_create"),
 times: Times.Once
@@ -160,11 +167,14 @@ times: Times.Once
         await action.Should()
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         flowDefinitionBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
+
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
 expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_create"),
 times: Times.Once

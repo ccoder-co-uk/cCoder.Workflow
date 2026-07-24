@@ -13,6 +13,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     public IQueryable<User> GetAllUsers(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.Users.IgnoreQueryFilters()
             : coreDataContext.Users;
@@ -56,6 +57,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     public int? GetAppId(User entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return coreDataContext.UserRoles
             .Where(predicate: userRole => userRole.UserId == entity.Id)
             .Join(

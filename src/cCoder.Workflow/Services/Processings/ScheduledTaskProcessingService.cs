@@ -31,12 +31,14 @@ internal class ScheduledTaskProcessingService(
     public async ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true)
     {
         ScheduledTask task = service.GetForExecution(scheduledTaskId: scheduledTaskId);
+
         if (task != null && authorizationBroker.IsAdminOfApp(appId: task.AppId))
         {
             ScheduledTask updatedTask = await service.MarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution);
             await scheduledTaskEventProcessingService.RaiseScheduledTaskExecuteEventAsync(entity: updatedTask);
             return;
         }
+
         throw new SecurityException("Access Denied!");
     }
 
@@ -46,6 +48,7 @@ internal class ScheduledTaskProcessingService(
         {
             throw new SecurityException("Access Denied!");
         }
+
         return service.AddAsync(scheduledTask: entity);
     }
 
@@ -55,6 +58,7 @@ internal class ScheduledTaskProcessingService(
         {
             throw new SecurityException("Access Denied!");
         }
+
         return service.UpdateAsync(scheduledTask: entity);
     }
 

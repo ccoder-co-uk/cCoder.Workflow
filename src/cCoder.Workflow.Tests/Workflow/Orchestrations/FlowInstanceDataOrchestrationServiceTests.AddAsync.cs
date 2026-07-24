@@ -20,6 +20,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     {
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
+
         flowInstanceDataProcessingServiceMock.Setup(expression: x => x.AddAsync(entity: entity))
             .ReturnsAsync(value: entity);
 
@@ -33,6 +34,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entity);
+
         flowInstanceDataProcessingServiceMock.Verify(expression: x => x.AddAsync(entity: entity), times: Times.Once);
         flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity), times: Times.Once);
     }

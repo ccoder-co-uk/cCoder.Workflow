@@ -20,6 +20,7 @@ public partial class WorkflowEventOrchestrationServiceTests
     {
         // Given
         WorkflowEvent entity = CreateRandomWorkflowEvent();
+
         workflowEventProcessingServiceMock.Setup(expression: x => x.AddAsync(entity: entity))
             .ReturnsAsync(value: entity);
 
@@ -33,6 +34,7 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entity);
+
         workflowEventProcessingServiceMock.Verify(expression: x => x.AddAsync(entity: entity), times: Times.Once);
         workflowEventEventProcessingServiceMock.Verify(expression: x => x.RaiseWorkflowEventAddEventAsync(entity: entity), times: Times.Once);
     }

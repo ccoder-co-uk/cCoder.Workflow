@@ -18,6 +18,7 @@ internal class FlowInstanceDataService(
     {
         FlowInstanceData flowInstanceData = GetAll()
             .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
+
         if (flowInstanceData is not null)
         {
             return flowInstanceData;
@@ -25,6 +26,7 @@ internal class FlowInstanceDataService(
 
         FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
+
         if (unrestrictedFlowInstanceData is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -42,11 +44,13 @@ internal class FlowInstanceDataService(
 appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_create"
         );
+
         FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
 entity: newFlowInstanceData
         );
+
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
         flowInstanceData.Name = result.Name;
@@ -66,6 +70,7 @@ entity: newFlowInstanceData
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
 entity: queuedFlowInstanceData
         );
+
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
         flowInstanceData.Name = result.Name;
@@ -84,11 +89,13 @@ entity: queuedFlowInstanceData
 appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_update"
         );
+
         FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
 entity: updateFlowInstanceData
         );
+
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;
         flowInstanceData.Name = result.Name;
@@ -104,10 +111,12 @@ entity: updateFlowInstanceData
     public async ValueTask DeleteAsync(Guid flowInstanceDataId)
     {
         FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
+
         authorizationBroker.Authorize(
 appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_delete"
         );
+
         _ = await flowInstanceDataBroker.DeleteFlowInstanceDataAsync(
 entity: CreateStorageFlowInstanceData(item: flowInstanceData)
         );

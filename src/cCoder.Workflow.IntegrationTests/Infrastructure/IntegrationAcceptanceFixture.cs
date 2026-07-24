@@ -81,6 +81,7 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
 
         artifactsRoot = Path.Combine(path1: repositoryRoot, path2: "artifacts", path3: "workflow-integration", path4: Guid.NewGuid()
             .ToString(format: "N"));
+
         string workflowOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "Workflow");
         string hostedServicesOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "HostedServices");
         string webOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "Web");
@@ -99,6 +100,7 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
         await BuildApplicationAsync(projectPath: "src\\Workflow.Web\\Workflow.Web.csproj", outputDirectory: webOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "Web"));
 
         workflowApplication = new ExternalProcessApplication("Workflow");
+
         await workflowApplication.StartAsync(
 fileName: ResolveFuncExecutablePath(),
 arguments: $"start --port {workflowHttpPort} --csharp --no-build",
@@ -116,6 +118,7 @@ environmentVariables: new Dictionary<string, string>
         hostedServicesEnvironment["Settings__sslPort"] = WebBaseAddress.Port.ToString();
 
         hostedServicesApplication = new ExternalProcessApplication("HostedServices");
+
         await hostedServicesApplication.StartAsync(
 fileName: "dotnet",
 arguments: $"\"{Path.Combine(path1: hostedServicesOutputDirectory, path2: "Workflow.HostedServices.dll")}\"",
@@ -132,6 +135,7 @@ environmentVariables: hostedServicesEnvironment,
         webEnvironment["Services__HostedServices"] = HostedServicesBaseAddress.ToString();
 
         webApplication = new ExternalProcessApplication("Web");
+
         await webApplication.StartAsync(
 fileName: "dotnet",
 arguments: $"\"{Path.Combine(path1: webOutputDirectory, path2: "Workflow.Web.dll")}\"",
@@ -191,8 +195,10 @@ environmentVariables: webEnvironment,
     private async Task SeedBaselineUsersAsync()
     {
         using IServiceScope scope = databaseServices.CreateScope();
+
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>()
             .CreateCoreContext();
+
         using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>()
             .CreateDbContext(ignoreAuthInfo: true);
 
@@ -207,6 +213,7 @@ environmentVariables: webEnvironment,
         ServiceCollection services = new();
         services.AddLogging();
         services.AddEventing();
+
         services.AddSingleton(
 implementationInstance: new Config
 {
@@ -222,6 +229,7 @@ implementationInstance: new Config
     },
     Services = new Dictionary<string, string>()
 });
+
         services.AddScoped<ISecurityDbContextFactory>(
             provider => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
             {
@@ -229,6 +237,7 @@ implementationInstance: new Config
                     ? new SSOAuthInfo { SSOUserId = "admin" }
                     : provider.GetService<ISSOAuthInfo>()
             });
+
         services.AddCoreData(connectionString: settings.CoreConnectionString);
         services.AddAppSecurityWeb();
         return services.BuildServiceProvider(validateScopes: false);
@@ -250,11 +259,13 @@ implementationInstance: new Config
     private async Task BuildApplicationAsync(string projectPath, string outputDirectory, string intermediateDirectory)
     {
         string projectIntermediateDirectory = Path.Combine(path1: intermediateDirectory, path2: "$(MSBuildProjectName)");
+
         string outputProperties =
             $"-p:OutputPath=\"{FormatMsBuildPath(path: outputDirectory, trailingSlash: false)}\" " +
             $"-p:IntermediateOutputPath=\"{FormatMsBuildPath(path: projectIntermediateDirectory, trailingSlash: true)}\"";
 
         await RunCommandAsync(fileName: "dotnet", arguments: $"restore {projectPath} {outputProperties}");
+
         await RunCommandAsync(
 fileName: "dotnet",
 arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
@@ -327,6 +338,7 @@ arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
         {
             using HttpResponseMessage response = await client.GetAsync(requestUri: "Health");
             string content = await response.Content.ReadAsStringAsync();
+
             if (response.IsSuccessStatusCode && string.Equals(a: content, b: "OK", comparisonType: StringComparison.Ordinal))
             {
                 lastHealthProbeFailure = null;
@@ -335,6 +347,7 @@ arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
 
             lastHealthProbeFailure =
                 $"GET {healthUri} returned {(int)response.StatusCode} {response.StatusCode} with body '{content}'.";
+
             return false;
         }
         catch (Exception exception)
@@ -358,10 +371,12 @@ arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
     private void AddHttpsCertificateEnvironment(Dictionary<string, string> environment)
     {
         string certificatePath = Path.Combine(path1: artifactsRoot, path2: "localhost-https.pfx");
+
         string certificatePassword = Guid.NewGuid()
             .ToString(format: "N");
 
         using RSA rsa = RSA.Create(keySizeInBits: 2048);
+
         CertificateRequest request = new(
             "CN=localhost",
             rsa,
@@ -375,10 +390,12 @@ arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
 
         request.CertificateExtensions.Add(item: subjectAlternativeNameBuilder.Build());
         request.CertificateExtensions.Add(item: new X509BasicConstraintsExtension(false, false, 0, false));
+
         request.CertificateExtensions.Add(
 item: new X509KeyUsageExtension(
                 X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment,
                 critical: true));
+
         request.CertificateExtensions.Add(
 item: new X509EnhancedKeyUsageExtension([new Oid("1.3.6.1.5.5.7.3.1")], critical: false));
 

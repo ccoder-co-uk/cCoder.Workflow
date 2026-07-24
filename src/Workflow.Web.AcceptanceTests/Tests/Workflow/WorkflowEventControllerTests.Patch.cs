@@ -29,6 +29,7 @@ public sealed partial class WorkflowEventControllerTests
         // Then
         actualWorkflowEvent.Should()
             .NotBeNull();
+
         actualWorkflowEvent!.Type.Should()
             .Be(expected: "Patched");
 

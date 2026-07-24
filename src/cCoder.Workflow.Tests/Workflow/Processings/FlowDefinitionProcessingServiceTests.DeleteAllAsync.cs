@@ -18,6 +18,7 @@ public partial class FlowDefinitionProcessingServiceTests
     public async Task ShouldUseDeleteAsyncPerItemIdWhenDeleteAllAsync()
     {
         FlowDefinition entity = CreateRandomFlowDefinition();
+
         flowDefinitionServiceMock
             .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id))
             .Returns(value: ValueTask.CompletedTask);

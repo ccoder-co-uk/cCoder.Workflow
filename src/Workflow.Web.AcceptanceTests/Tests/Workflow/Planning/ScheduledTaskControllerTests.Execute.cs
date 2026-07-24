@@ -16,6 +16,7 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
+
         ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
@@ -31,6 +32,7 @@ public sealed partial class ScheduledTaskControllerTests
             lastUpdated = DateTimeOffset.UtcNow,
             nextExecution = DateTimeOffset.UtcNow.AddHours(hours: -2),
         });
+
         int actualStatusCode;
         ScheduledTask actualScheduledTask;
 
@@ -42,8 +44,10 @@ public sealed partial class ScheduledTaskControllerTests
 
         actualStatusCode.Should()
             .Be(expected: 200);
+
         actualScheduledTask.LastExecuted.Should()
             .NotBeNull();
+
         actualScheduledTask.NextExecution.Should()
             .BeAfter(expected: createdScheduledTask.NextExecution!.Value);
 

@@ -14,6 +14,7 @@ public sealed class WorkflowLaunchSettingsTests
     public void WorkflowProfile_ShouldUseFunctionsHostArguments()
     {
         string repositoryRoot = FindRepositoryRoot();
+
         string launchSettingsPath = Path.Combine(
             repositoryRoot,
             "src",
@@ -32,6 +33,7 @@ public sealed class WorkflowLaunchSettingsTests
             .GetString()
             .Should()
             .Be(expected: "Project");
+
         profile.GetProperty(propertyName: "commandLineArgs")
             .GetString()
             .Should()

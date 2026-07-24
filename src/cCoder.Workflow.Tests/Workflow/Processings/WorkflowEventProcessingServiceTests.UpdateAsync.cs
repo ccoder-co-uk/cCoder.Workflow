@@ -20,8 +20,10 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock
             .Setup(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent))
             .Returns(value: 1);
+
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"));
+
         workflowEventServiceMock
             .Setup(expression: x => x.UpdateAsync(workflowEvent: workflowEvent))
             .ReturnsAsync(value: workflowEvent);
@@ -30,6 +32,7 @@ public partial class WorkflowEventProcessingServiceTests
 
         result.Should()
             .BeSameAs(expected: workflowEvent);
+
         workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.Verify(expression: x => x.UpdateAsync(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
@@ -45,6 +48,7 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock
             .Setup(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent))
             .Returns(value: 1);
+
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"))
             .Throws(exception: new SecurityException("Access Denied!"));
@@ -54,6 +58,7 @@ public partial class WorkflowEventProcessingServiceTests
         await act.Should()
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.Verify(expression: x => x.UpdateAsync(workflowEvent: It.IsAny<WorkflowEvent>()), times: Times.Never);
         workflowEventServiceMock.VerifyNoOtherCalls();

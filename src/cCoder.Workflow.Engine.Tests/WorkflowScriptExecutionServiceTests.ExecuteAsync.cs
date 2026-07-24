@@ -16,6 +16,7 @@ public sealed partial class WorkflowScriptExecutionServiceTests
         // Given
         const string payload = "return true";
         const string expectedResult = "true";
+
         orchestrationServiceMock
             .Setup(expression: service => service.ExecuteAsync(payload: payload, useDetails: true))
             .ReturnsAsync(value: expectedResult);
@@ -26,6 +27,7 @@ public sealed partial class WorkflowScriptExecutionServiceTests
         // Then
         actualResult.Should()
             .Be(expected: expectedResult);
+
         orchestrationServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
     }
 }

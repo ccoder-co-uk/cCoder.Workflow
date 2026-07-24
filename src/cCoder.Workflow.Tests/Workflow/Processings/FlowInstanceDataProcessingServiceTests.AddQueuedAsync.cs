@@ -24,6 +24,7 @@ public partial class FlowInstanceDataProcessingServiceTests
 
         result.Should()
             .BeSameAs(expected: entity);
+
         flowInstanceDataServiceMock.Verify(expression: x => x.AddQueuedAsync(flowInstanceData: entity), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }

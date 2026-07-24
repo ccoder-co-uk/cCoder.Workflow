@@ -80,12 +80,17 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddWorkflow();
         services.AddSingleton<IInstanceMaintenanceManagement, InstanceMaintenanceManagement>();
+
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
             serviceProvider.GetRequiredService<IInstanceMaintenanceManagement>());
+
         services.AddSingleton<IQueueInstanceManagement, QueueInstanceManagement>();
+
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
             serviceProvider.GetRequiredService<IQueueInstanceManagement>());
+
         services.AddSingleton<IScheduledTaskRunnerManagement, ScheduledTaskRunnerManagement>();
+
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
             serviceProvider.GetRequiredService<IScheduledTaskRunnerManagement>());
     }

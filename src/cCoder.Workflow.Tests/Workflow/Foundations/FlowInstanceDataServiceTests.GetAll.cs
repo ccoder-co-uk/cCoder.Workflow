@@ -21,6 +21,7 @@ public partial class FlowInstanceDataServiceTests
         // Given
         cCoder.Data.Models.Workflow.FlowInstanceData flowInstanceData =
             CreateRandomFlowInstanceData();
+
         IQueryable<cCoder.Data.Models.Workflow.FlowInstanceData> flowInstanceDataItems = new[]
         {
             flowInstanceData,
@@ -38,11 +39,14 @@ public partial class FlowInstanceDataServiceTests
             .BeEquivalentTo(
 expectation: flowInstanceDataItems.Select(selector: item => (FlowInstanceData)item)
         );
+
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
+
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
+
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

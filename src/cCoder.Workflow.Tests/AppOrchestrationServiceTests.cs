@@ -34,8 +34,10 @@ public class AppOrchestrationServiceTests
     {
         scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
             .Returns(value: ValueTask.CompletedTask);
+
         calendarOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
             .Returns(value: ValueTask.CompletedTask);
+
         flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
             .Returns(value: ValueTask.CompletedTask);
 
@@ -63,9 +65,11 @@ public class AppOrchestrationServiceTests
         calendarOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
 items: It.Is<IEnumerable<Calendar>>(items => items.All(calendar => calendar.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<Calendar>>>(result: []));
+
         flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
 items: It.Is<IEnumerable<FlowDefinition>>(items => items.All(flow => flow.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<FlowDefinition>>>(result: []));
+
         scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
 items: It.Is<IEnumerable<ScheduledTask>>(items => items.All(task => task.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<ScheduledTask>>>(result: []));

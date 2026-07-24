@@ -36,6 +36,7 @@ public sealed partial class FlowInstanceDataControllerTests
         // Then
         actualInstance.Should()
             .NotBeNull();
+
         actualInstance!.Id.Should()
             .Be(expected: expectedInstance.Id);
 

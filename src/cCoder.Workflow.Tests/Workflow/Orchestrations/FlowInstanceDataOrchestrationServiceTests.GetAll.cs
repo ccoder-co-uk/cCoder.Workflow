@@ -20,6 +20,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     {
         // Given
         IQueryable<FlowInstanceData> entities = new[] { CreateRandomFlowInstanceData() }.AsQueryable();
+
         flowInstanceDataProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
             .Returns(value: entities);
 
@@ -29,6 +30,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: entities);
+
         flowInstanceDataProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
         flowInstanceDataEventProcessingServiceMock.VerifyNoOtherCalls();

@@ -24,6 +24,7 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment(environment: "Acceptance");
+
         builder.ConfigureAppConfiguration(configureDelegate: (_, config) =>
         {
             config.AddInMemoryCollection(
@@ -34,6 +35,7 @@ initialData: [
                 new KeyValuePair<string, string>("Settings:enableExternalEventing", "false"),
             ]);
         });
+
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<ICoreContextFactory>();
@@ -54,9 +56,11 @@ implementationInstance: new cCoder.Data.Config
     },
     Services = new Dictionary<string, string>(),
 });
+
             services.AddSingleton<ISecurityDbContextFactory>(
                 _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
             );
+
             services.AddCoreData(connectionString: settings.CoreConnectionString);
         });
     }

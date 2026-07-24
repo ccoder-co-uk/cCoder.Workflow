@@ -5476,28 +5476,14 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 17
+      "LineNumber": 18
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 47
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 60
+      "LineNumber": 48
     },
     {
       "Code": "STX0001",
@@ -5518,7 +5504,7 @@
       "Description": "Model properties must not declare default values.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Api.OData.ModelStateError",
-      "LineNumber": 175
+      "LineNumber": 176
     },
     {
       "Code": "STXM002",
@@ -5637,35 +5623,21 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 19
+      "LineNumber": 20
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 56
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 69
+      "LineNumber": 57
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 93
+      "LineNumber": 95
     },
     {
       "Code": "STX0006",
@@ -5679,28 +5651,14 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 19
+      "LineNumber": 20
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 49
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 62
+      "LineNumber": 50
     },
     {
       "Code": "STX0006",
@@ -5721,42 +5679,28 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 56
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 56
+      "LineNumber": 57
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 74
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 76
+      "LineNumber": 75
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 83
+      "LineNumber": 85
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 100
+      "LineNumber": 102
     },
     {
       "Code": "STXB005",
@@ -5770,42 +5714,28 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
-      "LineNumber": 56
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
-      "LineNumber": 56
+      "LineNumber": 57
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
-      "LineNumber": 74
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
-      "LineNumber": 76
+      "LineNumber": 75
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
-      "LineNumber": 83
+      "LineNumber": 85
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
-      "LineNumber": 100
+      "LineNumber": 102
     },
     {
       "Code": "STX0006",
@@ -5826,35 +5756,28 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 18
+      "LineNumber": 19
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 23
+      "LineNumber": 24
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 48
+      "LineNumber": 49
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 68
+      "LineNumber": 69
     },
     {
       "Code": "STX0006",
@@ -5875,42 +5798,28 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 18
+      "LineNumber": 19
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 23
+      "LineNumber": 24
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 48
+      "LineNumber": 49
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 68
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 71
+      "LineNumber": 69
     },
     {
       "Code": "STX0006",
@@ -5931,119 +5840,98 @@
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 19
+      "LineNumber": 20
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 24
+      "LineNumber": 25
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 34
+      "LineNumber": 35
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 44
+      "LineNumber": 45
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 51
+      "LineNumber": 52
     },
     {
       "Code": "STXB003",
       "Description": "A broker must not contain loops.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 53
+      "LineNumber": 54
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 55
+      "LineNumber": 56
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 65
+      "LineNumber": 66
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 73
+      "LineNumber": 74
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 80
+      "LineNumber": 81
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 105
+      "LineNumber": 106
     },
     {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 125
+      "LineNumber": 126
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.UserBroker",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.UserBroker",
-      "LineNumber": 16
+      "LineNumber": 17
     },
     {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.UserBroker",
-      "LineNumber": 46
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.UserBroker",
-      "LineNumber": 59
+      "LineNumber": 47
     },
     {
       "Code": "STXB002",
@@ -6074,32 +5962,18 @@
       "LineNumber": 24
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 47
-    },
-    {
       "Code": "STXFORMAT002",
       "Description": "Expression-bodied method implementations must start on the line after the =\u003E token.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 81
+      "LineNumber": 82
     },
     {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 121
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 125
+      "LineNumber": 122
     },
     {
       "Code": "STX0002",
@@ -6116,25 +5990,11 @@
       "LineNumber": 59
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 75
-    },
-    {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 123
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 127
+      "LineNumber": 124
     },
     {
       "Code": "STXAPI004",
@@ -6144,39 +6004,32 @@
       "LineNumber": 108
     },
     {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
+      "Code": "STXAPI004",
+      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 112
+      "LineNumber": 129
     },
     {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 128
+      "LineNumber": 137
     },
     {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 136
+      "LineNumber": 144
     },
     {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 143
-    },
-    {
-      "Code": "STXAPI004",
-      "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 157
+      "LineNumber": 158
     },
     {
       "Code": "STXAPI001",
@@ -6228,13 +6081,6 @@
       "LineNumber": 47
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
-      "LineNumber": 60
-    },
-    {
       "Code": "STX0002",
       "Description": "Properties may only be declared on models.",
       "Severity": "Warning",
@@ -6242,25 +6088,11 @@
       "LineNumber": 24
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 95
-    },
-    {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 124
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 128
+      "LineNumber": 125
     },
     {
       "Code": "STX0002",
@@ -6284,25 +6116,11 @@
       "LineNumber": 69
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 85
-    },
-    {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 133
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 137
+      "LineNumber": 134
     },
     {
       "Code": "STX0002",
@@ -6319,25 +6137,11 @@
       "LineNumber": 55
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 71
-    },
-    {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 119
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 123
+      "LineNumber": 120
     },
     {
       "Code": "STXFORMAT002",
@@ -6368,13 +6172,6 @@
       "LineNumber": 14
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.HostedServices.InstanceMaintenanceManagement",
-      "LineNumber": 17
-    },
-    {
       "Code": "STXE005",
       "Description": "An exposure must not sequence multiple routine calls.",
       "Severity": "Warning",
@@ -6382,25 +6179,11 @@
       "LineNumber": 14
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.HostedServices.QueueInstanceManagement",
-      "LineNumber": 17
-    },
-    {
       "Code": "STXE005",
       "Description": "An exposure must not sequence multiple routine calls.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.HostedServices.ScheduledTaskRunnerManagement",
       "LineNumber": 15
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.HostedServices.ScheduledTaskRunnerManagement",
-      "LineNumber": 18
     },
     {
       "Code": "STXE005",
@@ -6424,102 +6207,67 @@
       "LineNumber": 40
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STXE001",
+      "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 44
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 50
+      "LineNumber": 55
     },
     {
       "Code": "STXE001",
       "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 53
-    },
-    {
-      "Code": "STXE001",
-      "Description": "An exposure must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 58
+      "LineNumber": 60
     },
     {
       "Code": "STXE002",
       "Description": "An exposure must not contain loops.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 67
+      "LineNumber": 69
     },
     {
       "Code": "STXE005",
       "Description": "An exposure must not sequence multiple routine calls.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 73
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 78
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 83
+      "LineNumber": 75
     },
     {
       "Code": "STXE001",
       "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 87
+      "LineNumber": 92
     },
     {
       "Code": "STXE005",
       "Description": "An exposure must not sequence multiple routine calls.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 93
+      "LineNumber": 98
     },
     {
       "Code": "STXE001",
       "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 95
+      "LineNumber": 100
     },
     {
       "Code": "STXE001",
       "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 112
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 118
+      "LineNumber": 117
     },
     {
       "Code": "STXFORMAT012",
       "Description": "Expression-bodied methods must return awaitable calls directly instead of adding redundant async and await keywords.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 122
+      "LineNumber": 128
     },
     {
       "Code": "STX0002",
@@ -6739,25 +6487,18 @@
       "LineNumber": 24
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STXFORMAT005",
+      "Description": "Method call arguments must declare their parameter names.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 97
+      "LineNumber": 100
     },
     {
       "Code": "STXFORMAT005",
       "Description": "Method call arguments must declare their parameter names.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 99
-    },
-    {
-      "Code": "STXFORMAT005",
-      "Description": "Method call arguments must declare their parameter names.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
-      "LineNumber": 153
+      "LineNumber": 154
     },
     {
       "Code": "STX0008",
@@ -6942,81 +6683,18 @@
       "LineNumber": 20
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 22
+      "LineNumber": 28
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 29
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 42
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 60
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 80
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 88
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarEventService",
-      "LineNumber": 92
+      "LineNumber": 85
     },
     {
       "Code": "STX0008",
@@ -7089,46 +6767,18 @@
       "LineNumber": 20
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 22
+      "LineNumber": 28
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 29
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.CalendarService",
-      "LineNumber": 68
+      "LineNumber": 70
     },
     {
       "Code": "STX0008",
@@ -7593,60 +7243,25 @@
       "LineNumber": 19
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 21
+      "LineNumber": 27
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 26
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 26
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 28
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 75
+      "LineNumber": 98
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 95
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowDefinitionService",
-      "LineNumber": 109
+      "LineNumber": 112
     },
     {
       "Code": "STX0008",
@@ -7719,95 +7334,18 @@
       "LineNumber": 19
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 21
+      "LineNumber": 27
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 26
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 26
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 28
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 41
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 47
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 66
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 83
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 89
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 106
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 107
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.FlowInstanceDataService",
-      "LineNumber": 111
+      "LineNumber": 113
     },
     {
       "Code": "STX0008",
@@ -7880,67 +7418,25 @@
       "LineNumber": 20
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 22
-    },
-    {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 29
+      "LineNumber": 28
     },
     {
       "Code": "STXFORMAT012",
       "Description": "Expression-bodied methods must return awaitable calls directly instead of adding redundant async and await keywords.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 43
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 92
+      "LineNumber": 45
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 116
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.ScheduledTaskService",
-      "LineNumber": 125
+      "LineNumber": 119
     },
     {
       "Code": "STX0008",
@@ -8013,67 +7509,18 @@
       "LineNumber": 20
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 22
+      "LineNumber": 28
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 27
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 29
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 77
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 92
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 93
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.WorkflowEventService",
-      "LineNumber": 97
+      "LineNumber": 95
     },
     {
       "Code": "STX0008",
@@ -8601,25 +8048,11 @@
       "LineNumber": 86
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "LineNumber": 100
-    },
-    {
       "Code": "STXFORMAT005",
       "Description": "Method call arguments must declare their parameter names.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "LineNumber": 110
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService",
-      "LineNumber": 110
+      "LineNumber": 111
     },
     {
       "Code": "STX0008",
@@ -9084,25 +8517,18 @@
       "LineNumber": 39
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "LineNumber": 41
+      "LineNumber": 66
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "LineNumber": 64
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.CalendarProcessingService",
-      "LineNumber": 65
+      "LineNumber": 67
     },
     {
       "Code": "STX0003",
@@ -9378,25 +8804,18 @@
       "LineNumber": 12
     },
     {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService",
-      "LineNumber": 38
+      "LineNumber": 70
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService",
-      "LineNumber": 68
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService",
-      "LineNumber": 69
+      "LineNumber": 71
     },
     {
       "Code": "STX0003",
@@ -9546,39 +8965,18 @@
       "LineNumber": 16
     },
     {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
+      "Code": "STX0005",
+      "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 34
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 45
-    },
-    {
-      "Code": "STXFORMAT003",
-      "Description": "Control-flow blocks must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 54
+      "LineNumber": 83
     },
     {
       "Code": "STX0005",
       "Description": "A public service method must not call another public method on the same service.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 79
-    },
-    {
-      "Code": "STX0005",
-      "Description": "A public service method must not call another public method on the same service.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
-      "LineNumber": 80
+      "LineNumber": 84
     },
     {
       "Code": "STX0003",

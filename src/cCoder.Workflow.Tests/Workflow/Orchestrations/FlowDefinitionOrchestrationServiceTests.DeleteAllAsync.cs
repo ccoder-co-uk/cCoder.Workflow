@@ -19,6 +19,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
     {
         // Given
         FlowDefinition[] entities = [CreateRandomFlowDefinition()];
+
         flowDefinitionProcessingServiceMock.Setup(expression: x => x.DeleteAllAsync(items: entities))
             .Returns(value: ValueTask.CompletedTask);
 

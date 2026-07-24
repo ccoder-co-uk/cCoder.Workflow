@@ -33,16 +33,21 @@ public partial class FlowInstanceDataEventServiceTests
         // Then
         actualMessage.Should()
             .NotBeNull();
+
         actualMessage!.Data.Should()
             .BeEquivalentTo(expectation: entity);
+
         actualMessage.AuthInfo.Should()
             .NotBeNull();
+
         actualMessage.AuthInfo.SSOUserId.Should()
             .Be(expected: CurrentUserId);
+
         flowInstanceDataEventBrokerMock.Verify(
 expression: x => x.RaiseFlowInstanceDataAddEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>()),
 times: Times.Once
         );
+
         flowInstanceDataEventBrokerMock.VerifyNoOtherCalls();
     }
 

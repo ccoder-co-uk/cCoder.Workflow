@@ -16,8 +16,10 @@ public sealed partial class WorkflowHubTests
     {
         // Given
         string expectedMessage = $"acceptance-message-{Guid.NewGuid():N}";
+
         TaskCompletionSource<(string level, string message, string thread)> messageReceived =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
+
         HubConnection connection = await ConnectAsync();
 
         try
@@ -33,17 +35,21 @@ public sealed partial class WorkflowHubTests
             // When
             await connection.InvokeAsync(methodName: "Join", arg1: Thread)
                 .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
+
             await connection
                 .InvokeAsync(methodName: "ConsoleSend", arg1: "info", arg2: expectedMessage, arg3: Thread)
                 .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
+
             (string level, string message, string receivedThread) actual = await messageReceived
                 .Task.WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
 
             // Then
             actual.level.Should()
                 .Be(expected: "info");
+
             actual.message.Should()
                 .Be(expected: expectedMessage);
+
             actual.receivedThread.Should()
                 .Be(expected: Thread);
         }
@@ -51,6 +57,7 @@ public sealed partial class WorkflowHubTests
         {
             await connection.StopAsync()
                 .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 5));
+
             await connection.DisposeAsync()
                 .AsTask()
                 .WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 5));

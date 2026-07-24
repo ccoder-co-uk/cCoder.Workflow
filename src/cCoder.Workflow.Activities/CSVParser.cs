@@ -19,6 +19,7 @@ public static class CSVParser<T>
         options.FieldNames = GetFieldNames(csvReader: reader, options: options);
 
         string line = reader.ReadLine();
+
         while (line != null)
         {
             result.Add(item: ParseLine(csvLine: line, options: options));
@@ -50,9 +51,11 @@ public static class CSVParser<T>
         if (!options.FieldNamesInHeader)
         {
             int offset = 0;
+
             for (int i = 0; i < properties.Length; i++)
             {
                 PropertyInfo property = properties[i];
+
                 if (property.CanWrite && (property.PropertyType.IsValueType || property.PropertyType == typeof(string)))
                 {
                     property.SetValue(obj: result, value: dataItems[i - offset]);
@@ -115,11 +118,13 @@ public static class CSVParser<T>
         if (!options.FieldNamesInHeader)
         {
             string[] fieldNames = options.FieldNames;
+
             for (int i = 0; i < dataItems.Length; i++)
             {
                 string field = fieldNames != null && fieldNames.Length > i
                     ? fieldNames[i].Replace(oldValue: " ", newValue: "_")
                     : $"Item{i + 1}";
+
                 items.Add(key: field, value: dataItems[i]);
             }
         }

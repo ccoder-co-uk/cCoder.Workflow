@@ -29,11 +29,14 @@ public partial class FlowInstanceDataServiceTests
         // Then
         result.Should()
             .BeEquivalentTo(expectation: flowInstanceData);
+
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
+
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
+
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

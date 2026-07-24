@@ -43,13 +43,17 @@ entity: It.Is<FlowInstanceData>(candidate =>
 
         result.Should()
             .BeSameAs(expected: flowInstanceData);
+
         submitted.Should()
             .NotBeNull();
+
         submitted.Should()
             .NotBeSameAs(unexpected: flowInstanceData);
+
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.AddFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()),
 times: Times.Once);
+
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

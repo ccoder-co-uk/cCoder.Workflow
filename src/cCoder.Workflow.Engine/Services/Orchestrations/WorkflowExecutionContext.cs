@@ -81,6 +81,7 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
             Log(level: WorkflowLogLevel.Error, message: $"{exception.Message}{Environment.NewLine}{exception.StackTrace}");
 
             Exception inner = exception.InnerException;
+
             while (inner is not null)
             {
                 Log(level: WorkflowLogLevel.Error, message: $"{inner.Message}{Environment.NewLine}{inner.StackTrace}");
@@ -94,6 +95,7 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
     public void Log(WorkflowLogLevel level, string message)
     {
         ExecutionLog.Add(item: new WorkflowLogEntry(level, message));
+
         Instance?.LogAsync(level: level, message: message)
             .GetAwaiter()
             .GetResult();
@@ -104,9 +106,11 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
         if (Flow.Activities.All(predicate: activity => activity.State is ActivityState.Complete or ActivityState.Skipped))
         {
             Log(level: WorkflowLogLevel.Info, message: "Execution complete.");
+
             ExecutionState = ExecutionLog.Any(predicate: entry => entry.Level == "Warn")
                 ? "CompletedWithWarnings"
                 : "Complete";
+
             return;
         }
 

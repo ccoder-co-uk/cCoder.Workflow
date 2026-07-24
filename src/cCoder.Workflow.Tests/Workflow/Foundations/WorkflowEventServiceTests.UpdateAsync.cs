@@ -20,12 +20,14 @@ public partial class WorkflowEventServiceTests
         // Given
         authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
             .Returns(value: new User { Id = "test-user" });
+
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         WorkflowEvent submitted = null;
 
         workflowEventBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_update"));
 
         workflowEventBrokerMock
@@ -39,29 +41,39 @@ public partial class WorkflowEventServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: workflowEvent);
+
         submitted.Should()
             .NotBeNull();
+
         submitted.Should()
             .NotBeSameAs(unexpected: workflowEvent);
+
         result.Should()
             .NotBeSameAs(unexpected: submitted);
+
         submitted.Should()
             .BeEquivalentTo(expectation: workflowEvent);
+
         result.Should()
             .BeEquivalentTo(expectation: workflowEvent);
+
         workflowEventBrokerMock.Verify(
 expression: x => x.UpdateWorkflowEventAsync(entity: It.IsAny<WorkflowEvent>()),
 times: Times.Once
         );
+
         workflowEventBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
 expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_update"),
 times: Times.Once
         );
+
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -73,6 +85,7 @@ times: Times.Once
 
         workflowEventBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
+
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_update"))
             .Throws(exception: new SecurityException("Access Denied!"));
@@ -84,15 +97,19 @@ times: Times.Once
         await action.Should()
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         workflowEventBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
+
         authorizationBrokerMock.Verify(
 expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_update"),
 times: Times.Once
         );
+
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 

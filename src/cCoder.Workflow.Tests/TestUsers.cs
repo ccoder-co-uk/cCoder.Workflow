@@ -42,6 +42,7 @@ internal static class TestUsers
 
         user.Roles = [userRole];
         role.Users = [userRole];
+
         role.App = new App
         {
             Id = appId,

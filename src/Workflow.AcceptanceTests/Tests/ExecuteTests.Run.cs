@@ -23,6 +23,7 @@ public sealed partial class ExecuteTests
             Api = "https://localhost/",
             AuthToken = "token",
         };
+
         TestHttpRequestData request = CreateRequest(request: requestPayload);
 
         // When
@@ -31,9 +32,11 @@ public sealed partial class ExecuteTests
         // Then
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK);
+
         response.ReadBody()
             .Should()
             .Be(expected: "OK");
+
         flowRunnerMock.Verify(expression: runner =>
             runner.RunAsync(request: It.Is<WorkflowRequest>(actual =>
                 actual.InstanceId == requestPayload.InstanceId

@@ -20,6 +20,7 @@ public partial class WorkflowEventServiceTests
     {
         // Given
         cCoder.Data.Models.Workflow.WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
+
         IQueryable<cCoder.Data.Models.Workflow.WorkflowEvent> workflowEvents = new[]
         {
             workflowEvent
@@ -34,11 +35,14 @@ public partial class WorkflowEventServiceTests
         // Then
         result.Should()
             .BeEquivalentTo(expectation: workflowEvents.Select(selector: item => (WorkflowEvent)item));
+
         workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
+
         workflowEventBrokerMock.Verify(
 expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
+
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

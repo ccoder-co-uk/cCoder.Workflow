@@ -33,16 +33,21 @@ public partial class FlowDefinitionEventServiceTests
         // Then
         actualMessage.Should()
             .NotBeNull();
+
         actualMessage!.Data.Should()
             .BeEquivalentTo(expectation: entity);
+
         actualMessage.AuthInfo.Should()
             .NotBeNull();
+
         actualMessage.AuthInfo.SSOUserId.Should()
             .Be(expected: CurrentUserId);
+
         flowDefinitionEventBrokerMock.Verify(
 expression: x => x.RaiseFlowDefinitionDeleteEventAsync(message: It.IsAny<EventMessage<FlowDefinition>>()),
 times: Times.Once
         );
+
         flowDefinitionEventBrokerMock.VerifyNoOtherCalls();
     }
 

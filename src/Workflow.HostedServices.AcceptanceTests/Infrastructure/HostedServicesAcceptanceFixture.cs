@@ -30,6 +30,7 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
         Factory = new HostedServicesAcceptanceFactory(settings);
         databaseManager = new AcceptanceDatabaseManager(Factory.Services);
         await databaseManager.ResetDatabasesAsync();
+
         Client = Factory.CreateClient(options: new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
@@ -70,6 +71,7 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
             Encrypt = true,
             TrustServerCertificate = true,
         };
+
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
         if (string.IsNullOrWhiteSpace(value: databaseName))

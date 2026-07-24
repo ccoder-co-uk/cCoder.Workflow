@@ -43,6 +43,7 @@ public sealed partial class ScheduledTaskControllerTests
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
         string name = Unique(prefix: "ScheduledTask");
+
         ScheduledTask expectedScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
@@ -58,6 +59,7 @@ public sealed partial class ScheduledTaskControllerTests
             lastUpdated = DateTimeOffset.UtcNow,
             nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
+
         ScheduledTask actualScheduledTask;
 
         // When
@@ -66,6 +68,7 @@ public sealed partial class ScheduledTaskControllerTests
         // Then
         actualScheduledTask.Id.Should()
             .Be(expected: expectedScheduledTask.Id);
+
         actualScheduledTask.Name.Should()
             .Be(expected: name);
 

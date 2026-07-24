@@ -19,6 +19,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     {
         // Given
         FlowInstanceData[] entities = [CreateRandomFlowInstanceData()];
+
         flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAllAsync(items: entities))
             .Returns(value: ValueTask.CompletedTask);
 

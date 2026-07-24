@@ -50,6 +50,7 @@ public sealed partial class WorkflowEventControllerTests
         // Then
         actualWorkflowEvent.Should()
             .NotBeNull();
+
         actualWorkflowEvent.Id.Should()
             .Be(expected: seededContext.EventId);
 

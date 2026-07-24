@@ -19,6 +19,7 @@ internal class CalendarEventService(
     {
         CalendarEvent calendarEvent = GetAll()
             .FirstOrDefault(predicate: i => i.Id == calendarEventId);
+
         if (calendarEvent is not null)
         {
             return calendarEvent;
@@ -26,6 +27,7 @@ internal class CalendarEventService(
 
         CalendarEvent unrestrictedCalendarEvent = GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: i => i.Id == calendarEventId);
+
         if (unrestrictedCalendarEvent is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -43,6 +45,7 @@ internal class CalendarEventService(
 appId: calendarEventBroker.GetAppId(entity: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_create"
         );
+
         CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
         CalendarEvent result = await calendarEventBroker.AddCalendarEventAsync(entity: newCalendarEvent);
@@ -61,11 +64,13 @@ privilege: $"{nameof(CalendarEvent)}_create"
 appId: calendarEventBroker.GetAppId(entity: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_update"
         );
+
         CalendarEvent updateCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
         CalendarEvent result = await calendarEventBroker.UpdateCalendarEventAsync(
 entity: updateCalendarEvent
         );
+
         calendarEvent.Id = result.Id;
         calendarEvent.Name = result.Name;
         calendarEvent.Description = result.Description;
@@ -89,6 +94,7 @@ entity: updateCalendarEvent
 appId: calendarEventBroker.GetAppId(entity: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_delete"
         );
+
         _ = await calendarEventBroker.DeleteCalendarEventAsync(
 entity: CreateStorageCalendarEvent(item: calendarEvent)
         );

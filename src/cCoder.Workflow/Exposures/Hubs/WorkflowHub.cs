@@ -41,12 +41,14 @@ public class WorkflowHub : Hub
     {
         log.LogDebug(message: $"User joining {thread}");
         await Groups.AddToGroupAsync(connectionId: Context.ConnectionId, groupName: thread);
+
         await Clients.Caller.SendAsync(
 method: "ConsoleReceive",
 arg1: "info",
 arg2: "Connected to instance " + thread,
 arg3: thread
         );
+
         await Clients.Group(groupName: thread)
             .SendAsync(method: "ConsoleReceive", arg1: "info", arg2: "User Joined", arg3: thread);
 
@@ -75,13 +77,16 @@ arg3: thread
         log.LogDebug(message: $"User leaving {thread}");
 
         await Groups.RemoveFromGroupAsync(connectionId: Context.ConnectionId, groupName: thread);
+
         await Clients.Caller.SendAsync(
 method: "info",
 arg1: "Stopped listening to messages for " + thread,
 arg2: thread
         );
+
         await Clients.Group(groupName: thread)
             .SendAsync(method: "ConsoleReceive", arg1: "info", arg2: "User Left", arg3: thread);
+
         UserCounts[thread]--;
 
         if (UserCounts[thread] == 0)
@@ -115,6 +120,7 @@ arg2: thread
         }
 
         History[thread].Add(item: new HistoryItem { Message = message, Level = level });
+
         await Clients.Group(groupName: thread)
             .SendAsync(method: "ConsoleReceive", arg1: level, arg2: message, arg3: thread);
     }

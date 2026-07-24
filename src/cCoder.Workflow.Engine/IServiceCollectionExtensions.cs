@@ -18,6 +18,7 @@ public static class IServiceCollectionExtensions
         services.AddTransient<IWorkflowScriptExecutionService, WorkflowScriptExecutionService>();
         services.AddTransient<IFlowExecutionOrchestrationService, FlowExecutionOrchestrationService>();
         services.AddTransient<IWorkflowScriptExecutionOrchestrationService, WorkflowScriptExecutionOrchestrationService>();
+
         services.AddTransient<IScriptProcessingService>(implementationFactory: _ =>
             new ScriptRunner((_, _) => Task.CompletedTask));
 

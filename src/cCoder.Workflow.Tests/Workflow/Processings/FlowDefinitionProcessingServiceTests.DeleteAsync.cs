@@ -14,6 +14,7 @@ public partial class FlowDefinitionProcessingServiceTests
     public async Task ShouldDelegateToServiceForDeleteAsync()
     {
         Guid flowId = Guid.NewGuid();
+
         flowDefinitionServiceMock
             .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
             .Returns(value: ValueTask.CompletedTask);
@@ -24,6 +25,7 @@ public partial class FlowDefinitionProcessingServiceTests
 expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId),
 times: Times.Once
         );
+
         flowDefinitionServiceMock.VerifyNoOtherCalls();
     }
 
@@ -31,6 +33,7 @@ times: Times.Once
     public async Task ShouldBubbleExceptionFromServiceForDeleteAsync()
     {
         Guid flowId = Guid.NewGuid();
+
         flowDefinitionServiceMock
             .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
             .Returns(value: ValueTask.FromException(exception: new InvalidOperationException("boom")));

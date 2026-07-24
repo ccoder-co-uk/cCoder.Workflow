@@ -18,6 +18,7 @@ public sealed class Execute(IFlowRunner flowRunner)
         [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData request)
     {
         string json = await new StreamReader(request.Body).ReadToEndAsync();
+
         WorkflowRequest workflowRequest = JsonConvert.DeserializeObject<WorkflowRequest>(value: json, settings: WorkflowJson.GetJsonSettings())
             ?? throw new InvalidOperationException("Workflow request payload could not be deserialized.");
 

@@ -32,6 +32,7 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
         databaseManager = new AcceptanceDatabaseManager(Factory.Services);
         await databaseManager.ResetDatabasesAsync();
         await SeedAsync();
+
         Client = Factory.CreateClient(options: new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
@@ -75,6 +76,7 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
             Encrypt = true,
             TrustServerCertificate = true,
         };
+
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
         if (string.IsNullOrWhiteSpace(value: databaseName))

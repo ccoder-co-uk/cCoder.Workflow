@@ -97,6 +97,7 @@ internal sealed class TaskRunnerOrchestrationService(
         if (!string.IsNullOrWhiteSpace(value: task.ExcludedEventsName))
         {
             string[] eventNames = task.ExcludedEventsName.Split(separator: ",");
+
             CalendarEvent[] matchedEvents = task.ExcludedEventsCalendarId != null
                 ? events
                     .Where(predicate: calendarEvent =>
@@ -112,6 +113,7 @@ internal sealed class TaskRunnerOrchestrationService(
                     task.Id,
                     task.Name,
                     task.AppId);
+
                 return;
             }
         }

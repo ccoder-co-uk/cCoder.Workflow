@@ -34,6 +34,7 @@ public static class Data
 
         List<ExpandoObject> results = [];
         IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(o: source);
+
         KeyValuePair<string, JToken>[] values = obj.Where(predicate: kv => Primitives.Contains(value: kv.Value.Type))
             .ToArray();
 
@@ -44,6 +45,7 @@ collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
         if (!results.Any())
         {
             IDictionary<string, object> current = new ExpandoObject();
+
             foreach (KeyValuePair<string, JToken> value in values)
             {
                 current[$"{path}_{value.Key}".Trim(trimChar: '_')] = value.Value;
@@ -56,6 +58,7 @@ collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
             foreach (ExpandoObject result in results)
             {
                 IDictionary<string, object> current = result;
+
                 foreach (KeyValuePair<string, JToken> value in values)
                 {
                     current[$"{path}_{value.Key}".Trim(trimChar: '_')] = value.Value;
@@ -69,8 +72,10 @@ collection: obj.Where(predicate: kv => !Primitives.Contains(kv.Value.Type))
     public static T ParseXml<T>(string data)
     {
         StringBuilder builder = new();
+
         JsonSerializer.Create()
             .Serialize(jsonWriter: new CleanJsonWriter(new StringWriter(builder)), value: ParseXml(data: data));
+
         return JsonConvert.DeserializeObject<T>(value: builder.ToString());
     }
 

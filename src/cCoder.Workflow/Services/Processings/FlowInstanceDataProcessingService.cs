@@ -35,10 +35,12 @@ internal class FlowInstanceDataProcessingService(IFlowInstanceDataService servic
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)
     {
         FlowInstanceData dbVersion = service.Get(flowInstanceDataId: entity.Id);
+
         if (dbVersion == null)
         {
             throw new SecurityException("Access Denied!");
         }
+
         dbVersion.FlowDefinitionId = entity.FlowDefinitionId;
         dbVersion.Name = entity.Name;
         dbVersion.ContextString = entity.ContextString;

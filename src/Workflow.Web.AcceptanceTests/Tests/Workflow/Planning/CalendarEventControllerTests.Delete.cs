@@ -16,6 +16,7 @@ public sealed partial class CalendarEventControllerTests
     {
         // Given
         SeededCalendarEventContext seededContext = await SeedDatabase();
+
         CalendarEvent createdCalendarEvent = await CreateCalendarEventAsync(payload: new
         {
             calendarId = seededContext.CalendarId,
@@ -24,6 +25,7 @@ public sealed partial class CalendarEventControllerTests
             start = DateTimeOffset.UtcNow,
             durationInTicks = TimeSpan.FromHours(hours: 1).Ticks,
         });
+
         int actualReadStatusCode;
 
         // When
@@ -33,6 +35,7 @@ public sealed partial class CalendarEventControllerTests
         // Then
         actualStatusCode.Should()
             .Be(expected: 200);
+
         actualReadStatusCode.Should()
             .Be(expected: 404);
 

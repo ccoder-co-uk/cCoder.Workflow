@@ -23,6 +23,7 @@ public sealed partial class HealthTests
         // Then
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK);
+
         ReadBody(response: response)
             .Should()
             .Be(expected: "OK");

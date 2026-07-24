@@ -74,6 +74,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         {
             IQueryable<CalendarEvent> result = Service.GetAll()
                 .Where(predicate: calendarEvent => calendarEvent.Id == key);
+
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
@@ -124,6 +125,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<CalendarEvent> delta)
     {
         CalendarEvent originalEntity = Service.Get(calendarEventId: key);
+
         if (originalEntity == null)
         {
             return NotFound();

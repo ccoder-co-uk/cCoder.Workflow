@@ -82,6 +82,7 @@ public abstract class Activity
     public void Skip()
     {
         State = ActivityState.Skipped;
+
         Next.Where(predicate: n => n.Previous.Length == 1)
             .ForEach(action: n => n.Skip());
     }
@@ -89,6 +90,7 @@ public abstract class Activity
     public void Log(WorkflowLogLevel level, string message)
     {
         Context?.Log(level: level, message: $"{Ref}:: {message}");
+
         if (level is WorkflowLogLevel.Error or WorkflowLogLevel.Fatal)
         {
             State = ActivityState.Failed;

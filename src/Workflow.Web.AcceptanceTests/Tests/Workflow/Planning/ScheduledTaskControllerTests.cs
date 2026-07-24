@@ -35,6 +35,7 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     private async Task<SeededScheduledTaskContext> SeedDatabase()
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
@@ -67,8 +68,10 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return JsonSerializer.Deserialize<ScheduledTask>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected scheduled task payload.");
     }
@@ -77,8 +80,10 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({scheduledTaskId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
@@ -88,10 +93,13 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
         {
             Content = JsonContent.Create(inputValue: payload),
         };
+
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
@@ -99,8 +107,10 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
@@ -108,8 +118,10 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return JsonSerializer.Deserialize<ScheduledTask>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected scheduled task payload.");
     }
@@ -117,6 +129,7 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     private async Task Teardown(SeededScheduledTaskContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
@@ -125,28 +138,33 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
             .IgnoreQueryFilters()
             .Where(predicate: instance => instance.FlowDefinitionId == seededContext.FlowId)
             .ToArray();
+
         await core.DeleteAllAsync(flowInstances: instances);
 
         ScheduledTask[] tasks = core.Set<ScheduledTask>()
             .IgnoreQueryFilters()
             .Where(predicate: task => task.AppId == seededContext.AppId)
             .ToArray();
+
         await core.DeleteAllAsync(scheduledTasks: tasks);
 
         FlowDefinition flow = core.Set<FlowDefinition>()
             .IgnoreQueryFilters()
             .Single(predicate: found => found.Id == seededContext.FlowId);
+
         await core.DeleteAsync(flowDefinition: flow);
 
         UserRole[] userRoles = core.Set<UserRole>()
             .IgnoreQueryFilters()
             .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
             .ToArray();
+
         await core.DeleteAllAsync(userRoles: userRoles);
 
         Role role = core.Set<Role>()
             .IgnoreQueryFilters()
             .Single(predicate: found => found.Id == seededContext.RoleId);
+
         await core.DeleteAsync(role: role);
 
     }
@@ -155,8 +173,10 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return int.Parse(s: content);
     }
 
@@ -164,8 +184,10 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return JsonSerializer.Deserialize<ODataEnvelope<ScheduledTask>>(json: content, options: JsonOptions)?.Value
             ?? throw new InvalidOperationException("Expected scheduled task OData payload.");
     }
@@ -174,18 +196,23 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
     {
         using HttpResponseMessage response = await Client.PostAsync(requestUri: $"{BaseUrl}({scheduledTaskId})/Execute?incrementNextExecution={incrementNextExecution.ToString()
             .ToLowerInvariant()}", content: null);
+
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
     private async Task<bool> HasQueuedInstanceAsync(Guid flowId)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
+
         return await Task.FromResult(result: core.Set<FlowInstanceData>()
             .IgnoreQueryFilters()
             .Any(predicate: instance => instance.FlowDefinitionId == flowId));

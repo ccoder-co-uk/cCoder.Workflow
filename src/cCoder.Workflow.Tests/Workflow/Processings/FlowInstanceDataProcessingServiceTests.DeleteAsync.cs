@@ -20,6 +20,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
         var id = entity.Id;
+
         flowInstanceDataServiceMock.Setup(expression: x => x.DeleteAsync(flowInstanceDataId: id))
             .Returns(value: ValueTask.CompletedTask);
 

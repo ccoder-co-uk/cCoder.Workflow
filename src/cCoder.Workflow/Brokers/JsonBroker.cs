@@ -53,6 +53,7 @@ public class JsonBroker : IJsonBroker
                 try
                 {
                     Type resolvedType = binder.BindToType(assemblyName: candidateAssembly, typeName: candidateType);
+
                     if (resolvedType != null)
                     {
                         return resolvedType;
@@ -77,6 +78,7 @@ public class JsonBroker : IJsonBroker
                     WorkflowAssemblyName,
                     WorkflowDtoNamespace + typeName[CoreObjectsWorkflowDtoNamespace.Length..]
                 );
+
                 yield break;
             }
 

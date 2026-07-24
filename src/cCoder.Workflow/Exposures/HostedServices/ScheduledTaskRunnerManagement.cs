@@ -15,6 +15,7 @@ internal sealed class ScheduledTaskRunnerManagement(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using IServiceScope scope = serviceScopeFactory.CreateScope();
+
         ITaskRunnerOrchestrationService taskRunnerOrchestrationService =
             scope.ServiceProvider.GetRequiredService<ITaskRunnerOrchestrationService>();
 

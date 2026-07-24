@@ -31,6 +31,7 @@ public partial class WorkflowEventProcessingServiceTests
         wrongAppEvent.Flow = new FlowDefinition { AppId = 2 };
 
         IQueryable<WorkflowEvent> entities = new[] { matchingEvent, wrongContextEvent, wrongAppEvent }.AsQueryable();
+
         workflowEventServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
             .Returns(value: entities);
 
@@ -43,6 +44,7 @@ eventContext: "page_update/home");
         result.Should()
             .ContainSingle().Which.Should()
             .BeSameAs(expected: matchingEvent);
+
         workflowEventServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }

@@ -36,6 +36,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     private async Task<SeededFlowInstanceDataContext> SeedDatabase(bool includeInstance = false, params string[] privileges)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
@@ -102,16 +103,20 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     {
         using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return JsonSerializer.Deserialize<FlowInstanceData>(json: content, options: JsonOptions)!;
     }
 
     private async Task<int> UpdateFlowInstanceDataAsync(Guid flowInstanceDataId, object payload)
     {
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})", value: payload);
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.NoContent);
+
         return (int)response.StatusCode;
     }
 
@@ -121,10 +126,13 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         {
             Content = JsonContent.Create(inputValue: payload),
         };
+
         using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
@@ -132,8 +140,10 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
@@ -141,6 +151,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
 
@@ -151,6 +162,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     private async Task Teardown(SeededFlowInstanceDataContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
@@ -159,27 +171,32 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
             .IgnoreQueryFilters()
             .Where(predicate: instance => instance.FlowDefinitionId == seededContext.FlowId)
             .ToArray();
+
         await core.DeleteAllAsync(flowInstances: instances);
 
         FlowDefinition flow = core.Set<FlowDefinition>()
             .IgnoreQueryFilters()
             .Single(predicate: found => found.Id == seededContext.FlowId);
+
         await core.DeleteAsync(flowDefinition: flow);
 
         UserRole[] userRoles = core.Set<UserRole>()
             .IgnoreQueryFilters()
             .Where(predicate: userRole => userRole.RoleId == seededContext.RoleId)
             .ToArray();
+
         await core.DeleteAllAsync(userRoles: userRoles);
 
         Role role = core.Set<Role>()
             .IgnoreQueryFilters()
             .Single(predicate: found => found.Id == seededContext.RoleId);
+
         await core.DeleteAsync(role: role);
 
         App app = core.Set<App>()
             .IgnoreQueryFilters()
             .Single(predicate: found => found.Id == seededContext.AppId);
+
         await core.DeleteAsync(app: app);
 
     }
@@ -188,8 +205,10 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return int.Parse(s: content);
     }
 
@@ -197,8 +216,10 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
     {
         using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should()
             .Be(expected: HttpStatusCode.OK, because: content);
+
         return JsonSerializer.Deserialize<ODataEnvelope<FlowInstanceData>>(json: content, options: JsonOptions)!.Value;
     }
     private async Task<int> GetFlowInstanceDataStatusCodeAsync(Guid flowInstanceDataId)
