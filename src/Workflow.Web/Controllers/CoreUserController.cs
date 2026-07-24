@@ -3,22 +3,26 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Security;
+using cCoder.Security.Data.EF;
+using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects.Entities;
-using cCoder.Security.Services.Orchestrations.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Workflow.Web.Controllers;
 
 [ApiController]
-public sealed class CoreUserController(IAuthenticationOrchestrationService authenticationOrchestrationService)
+public sealed class CoreUserController(ISecurityDbContextFactory securityDbContextFactory)
     : ControllerBase
 {
     [HttpGet("/Api/AppSecurity/User/Me()")]
     public IActionResult Me()
     {
-        SSOUser user = authenticationOrchestrationService.Me();
+        using SecurityDbContext securityDbContext =
+            securityDbContextFactory.CreateDbContext();
 
-        return Ok(value:new User
+        SSOUser user = securityDbContext.GetCurrentUser();
+
+        return Ok(value: new User
         {
             Id = user.Id,
             DisplayName = user.DisplayName,

@@ -14,7 +14,7 @@ public class DMSDeleteActivity : DMSActivity
     {
         try
         {
-            if (Paths == null && !string.IsNullOrEmpty(value:Path))
+            if (Paths == null && !string.IsNullOrEmpty(value: Path))
             {
                 Paths = new string[] { Path };
             }
@@ -24,14 +24,14 @@ public class DMSDeleteActivity : DMSActivity
 
             while (n.MoveNext())
             {
-                _ = await api.DeleteAsync(requestUri:$"DMS/{n.Current}");
+                _ = await api.DeleteAsync(requestUri: $"DMS/{n.Current}");
             }
 
-            Log(level:WorkflowLogLevel.Info, message:$"DMS deletions complete");
+            Log(level: WorkflowLogLevel.Info, message: $"DMS deletions complete");
         }
         catch (Exception ex)
         {
-            Log(level:WorkflowLogLevel.Error, message:$"Failed to create DMS file because of exception:\n{ex.Message}");
+            Log(level: WorkflowLogLevel.Error, message: $"Failed to create DMS file because of exception:\n{ex.Message}");
         }
     }
 }

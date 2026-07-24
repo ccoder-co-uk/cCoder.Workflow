@@ -22,7 +22,7 @@ internal class FlowInstanceDataEventService(
             Data = entity,
         };
 
-        await flowInstanceDataEventBroker.RaiseFlowInstanceDataAddEventAsync(message:message);
+        await flowInstanceDataEventBroker.RaiseFlowInstanceDataAddEventAsync(message: message);
     }
 
     public async ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData entity)
@@ -33,7 +33,7 @@ internal class FlowInstanceDataEventService(
             Data = entity,
         };
 
-        await flowInstanceDataEventBroker.RaiseFlowInstanceDataUpdateEventAsync(message:message);
+        await flowInstanceDataEventBroker.RaiseFlowInstanceDataUpdateEventAsync(message: message);
     }
 
     public async ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData entity)
@@ -44,6 +44,6 @@ internal class FlowInstanceDataEventService(
             Data = entity,
         };
 
-        await flowInstanceDataEventBroker.RaiseFlowInstanceDataDeleteEventAsync(message:message);
+        await flowInstanceDataEventBroker.RaiseFlowInstanceDataDeleteEventAsync(message: message);
     }
 }

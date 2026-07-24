@@ -20,7 +20,7 @@ public sealed partial class WorkflowHubTests
         int actualStatusCode = await NegotiateAsync();
 
         // Then
-        actualStatusCode.Should().NotBe(unexpected:(int)HttpStatusCode.NotFound);
-        actualStatusCode.Should().NotBe(unexpected:(int)HttpStatusCode.InternalServerError);
+        actualStatusCode.Should().NotBe(unexpected: (int)HttpStatusCode.NotFound);
+        actualStatusCode.Should().NotBe(unexpected: (int)HttpStatusCode.InternalServerError);
     }
 }

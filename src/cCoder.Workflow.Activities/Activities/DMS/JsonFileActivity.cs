@@ -14,7 +14,7 @@ public class JsonFileActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        string results = await GetFileContents(api:api);
-        Result = cCoder.Workflow.Activities.Support.Data.ParseJson(data:results);
+        string results = await GetFileContents(api: api);
+        Result = cCoder.Workflow.Activities.Support.Data.ParseJson(data: results);
     }
 }

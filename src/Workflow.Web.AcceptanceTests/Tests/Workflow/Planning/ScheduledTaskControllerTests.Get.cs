@@ -20,7 +20,7 @@ public sealed partial class ScheduledTaskControllerTests
         int actualCount = await GetScheduledTaskCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected:0);
+        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public sealed partial class ScheduledTaskControllerTests
         // Given
 
         // When
-        IReadOnlyList<ScheduledTask> actualScheduledTasks = await GetScheduledTasksAsync(top:1);
+        IReadOnlyList<ScheduledTask> actualScheduledTasks = await GetScheduledTasksAsync(top: 1);
 
         // Then
         actualScheduledTasks.Should().NotBeNull();
@@ -40,32 +40,32 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
-        string name = Unique(prefix:"ScheduledTask");
-        ScheduledTask expectedScheduledTask = await CreateScheduledTaskAsync(payload:new
+        string name = Unique(prefix: "ScheduledTask");
+        ScheduledTask expectedScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
             flowId = seededContext.FlowId,
             name,
             description = "Acceptance scheduled task",
             executionArgs = "{}",
-            scheduleInTicks = TimeSpan.FromHours(1).Ticks,
+            scheduleInTicks = TimeSpan.FromHours(hours: 1).Ticks,
             executeAs = "Guest",
             createdBy = "Guest",
             updatedBy = "Guest",
             created = DateTimeOffset.UtcNow,
             lastUpdated = DateTimeOffset.UtcNow,
-            nextExecution = DateTimeOffset.UtcNow.AddHours(1),
+            nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
         ScheduledTask actualScheduledTask;
 
         // When
-        actualScheduledTask = await GetScheduledTaskAsync(id:expectedScheduledTask.Id);
+        actualScheduledTask = await GetScheduledTaskAsync(id: expectedScheduledTask.Id);
 
         // Then
-        actualScheduledTask.Id.Should().Be(expected:expectedScheduledTask.Id);
-        actualScheduledTask.Name.Should().Be(expected:name);
+        actualScheduledTask.Id.Should().Be(expected: expectedScheduledTask.Id);
+        actualScheduledTask.Name.Should().Be(expected: name);
 
-        await DeleteScheduledTaskAsync(id:expectedScheduledTask.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteScheduledTaskAsync(id: expectedScheduledTask.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

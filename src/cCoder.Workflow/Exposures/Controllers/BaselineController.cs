@@ -13,5 +13,5 @@ public sealed class BaselineController : ControllerBase
 {
     [HttpGet]
     public IActionResult Get() =>
-        Ok(value:UIBaseline.Packages);
+        Ok(value: UIBaseline.Packages);
 }

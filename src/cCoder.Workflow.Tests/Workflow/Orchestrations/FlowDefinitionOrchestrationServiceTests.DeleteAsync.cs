@@ -21,20 +21,20 @@ public partial class FlowDefinitionOrchestrationServiceTests
         Guid id = Guid.NewGuid();
         FlowDefinition entity = CreateRandomFlowDefinition();
         entity.Id = id;
-        flowDefinitionProcessingServiceMock.Setup(expression:x => x.GetAll(true)).Returns(value:new[] { entity }.AsQueryable());
-        flowDefinitionProcessingServiceMock.Setup(expression:x => x.DeleteAsync(id)).Returns(value:ValueTask.CompletedTask);
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: new[] { entity }.AsQueryable());
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
 
         flowDefinitionEventProcessingServiceMock
-            .Setup(expression:x => x.RaiseFlowDefinitionDeleteEventAsync(entity))
-            .Returns(value:ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id:id);
+        await orchestrationService.DeleteAsync(id: id);
 
         // Then
-        flowDefinitionProcessingServiceMock.Verify(expression:x => x.GetAll(true), times:Times.Once);
-        flowDefinitionProcessingServiceMock.Verify(expression:x => x.DeleteAsync(id), times:Times.Once);
-        flowDefinitionEventProcessingServiceMock.Verify(expression:x => x.RaiseFlowDefinitionDeleteEventAsync(entity), times:Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
+        flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }

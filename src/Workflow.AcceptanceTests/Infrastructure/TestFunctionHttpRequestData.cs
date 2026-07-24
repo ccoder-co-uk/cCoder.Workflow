@@ -31,7 +31,7 @@ internal sealed class TestHttpRequestData : HttpRequestData
     public TestHttpRequestData(string body = "")
         : base(new TestFunctionContext())
     {
-        Body = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(s:body));
+        Body = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(s: body));
     }
 
     public override Stream Body { get; }

@@ -21,21 +21,21 @@ public partial class WorkflowEventEventServiceTests
         EventMessage<WorkflowEvent> actualMessage = null;
 
         workflowEventEventBrokerMock
-            .Setup(expression:x => x.RaiseWorkflowEventAddEventAsync(It.IsAny<EventMessage<WorkflowEvent>>()))
-            .Callback<EventMessage<WorkflowEvent>>(action:message => actualMessage = message)
-            .Returns(value:ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseWorkflowEventAddEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()))
+            .Callback<EventMessage<WorkflowEvent>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseWorkflowEventAddEventAsync(entity:entity);
+        await service.RaiseWorkflowEventAddEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation:entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected:CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         workflowEventEventBrokerMock.Verify(
-expression:            x => x.RaiseWorkflowEventAddEventAsync(It.IsAny<EventMessage<WorkflowEvent>>()),
-times:            Times.Once
+expression: x => x.RaiseWorkflowEventAddEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()),
+times: Times.Once
         );
         workflowEventEventBrokerMock.VerifyNoOtherCalls();
     }

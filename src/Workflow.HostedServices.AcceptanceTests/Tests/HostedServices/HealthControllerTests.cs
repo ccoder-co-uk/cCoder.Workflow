@@ -13,8 +13,8 @@ public sealed partial class HealthControllerTests(HostedServicesAcceptanceFixtur
     private HttpClient Client { get; } = fixture.Client;
 
     private async Task<string> GetHealthAsync() =>
-        await Client.GetStringAsync(requestUri:"Health");
+        await Client.GetStringAsync(requestUri: "Health");
 
     private async Task<string> GetHomeAsync() =>
-        await Client.GetStringAsync(requestUri:"/");
+        await Client.GetStringAsync(requestUri: "/");
 }

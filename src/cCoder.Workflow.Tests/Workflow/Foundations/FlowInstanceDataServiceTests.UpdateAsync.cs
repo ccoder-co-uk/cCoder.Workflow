@@ -18,41 +18,41 @@ public partial class FlowInstanceDataServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForUpdateAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(expression:x => x.GetCurrentUser()).Returns(value:new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(value: new User { Id = "test-user" });
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
 
         FlowInstanceData submitted = null;
 
-        flowInstanceDataBrokerMock.Setup(expression:x => x.GetAppId(It.IsAny<FlowInstanceData>())).Returns(value:(int?)7);
-        authorizationBrokerMock.Setup(expression:x => x.Authorize((int?)7, "FlowInstanceData_update"));
+        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>())).Returns(value: (int?)7);
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_update"));
 
         flowInstanceDataBrokerMock
-            .Setup(expression:x => x.UpdateFlowInstanceDataAsync(It.IsAny<FlowInstanceData>()))
-            .Callback<FlowInstanceData>(action:candidate => submitted = candidate)
-            .ReturnsAsync(valueFunction:(FlowInstanceData value) => value);
+            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()))
+            .Callback<FlowInstanceData>(action: candidate => submitted = candidate)
+            .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
 
         // When
-        FlowInstanceData result = await flowInstanceDataService.UpdateAsync(flowInstanceData:flowInstanceData);
+        FlowInstanceData result = await flowInstanceDataService.UpdateAsync(flowInstanceData: flowInstanceData);
 
         // Then
-        result.Should().BeSameAs(expected:flowInstanceData);
+        result.Should().BeSameAs(expected: flowInstanceData);
         submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(unexpected:flowInstanceData);
-        result.Should().NotBeSameAs(unexpected:submitted);
-        submitted.Should().BeEquivalentTo(expectation:flowInstanceData);
-        result.Should().BeEquivalentTo(expectation:flowInstanceData);
+        submitted.Should().NotBeSameAs(unexpected: flowInstanceData);
+        result.Should().NotBeSameAs(unexpected: submitted);
+        submitted.Should().BeEquivalentTo(expectation: flowInstanceData);
+        result.Should().BeEquivalentTo(expectation: flowInstanceData);
         flowInstanceDataBrokerMock.Verify(
-expression:            x => x.UpdateFlowInstanceDataAsync(It.IsAny<FlowInstanceData>()),
-times:            Times.Once
+expression: x => x.UpdateFlowInstanceDataAsync(entity: It.IsAny<FlowInstanceData>()),
+times: Times.Once
         );
         flowInstanceDataBrokerMock.Verify(
-expression:            x => x.GetAppId(It.IsAny<FlowInstanceData>()),
-times:            Times.AtMostOnce()
+expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),
+times: Times.AtMostOnce()
         );
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(
-expression:            x => x.Authorize((int?)7, "FlowInstanceData_update"),
-times:            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_update"),
+times: Times.Once
         );
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
@@ -63,24 +63,24 @@ times:            Times.Once
         // Given
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
 
-        flowInstanceDataBrokerMock.Setup(expression:x => x.GetAppId(It.IsAny<FlowInstanceData>())).Returns(value:(int?)7);
+        flowInstanceDataBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>())).Returns(value: (int?)7);
         authorizationBrokerMock
-            .Setup(expression:x => x.Authorize((int?)7, "FlowInstanceData_update"))
-            .Throws(exception:new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_update"))
+            .Throws(exception: new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await flowInstanceDataService.UpdateAsync(flowInstanceData:flowInstanceData);
+        Func<Task> action = async () => await flowInstanceDataService.UpdateAsync(flowInstanceData: flowInstanceData);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern:"Access Denied!");
+        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
         flowInstanceDataBrokerMock.Verify(
-expression:            x => x.GetAppId(It.IsAny<FlowInstanceData>()),
-times:            Times.AtMostOnce()
+expression: x => x.GetAppId(entity: It.IsAny<FlowInstanceData>()),
+times: Times.AtMostOnce()
         );
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(
-expression:            x => x.Authorize((int?)7, "FlowInstanceData_update"),
-times:            Times.Once
+expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_update"),
+times: Times.Once
         );
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

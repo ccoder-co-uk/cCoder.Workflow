@@ -13,7 +13,7 @@ public sealed class ExecuteFromServiceBus(ILogger<ExecuteFromServiceBus> logger)
         string message)
     {
         logger.LogInformation(
-message:            "Service Bus workflow trigger is scaffolded but disabled. Uncomment the trigger attribute to enable direct queue execution.");
+message: "Service Bus workflow trigger is scaffolded but disabled. Uncomment the trigger attribute to enable direct queue execution.");
 
         return Task.CompletedTask;
     }

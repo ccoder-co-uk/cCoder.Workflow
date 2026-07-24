@@ -31,16 +31,16 @@ public partial class WorkflowEventProcessingServiceTests
         wrongAppEvent.Flow = new FlowDefinition { AppId = 2 };
 
         IQueryable<WorkflowEvent> entities = new[] { matchingEvent, wrongContextEvent, wrongAppEvent }.AsQueryable();
-        workflowEventServiceMock.Setup(expression:x => x.GetAll(true)).Returns(value:entities);
+        workflowEventServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: entities);
 
         // When
         WorkflowEvent[] result = await workflowEventProcessingService.GetSubscriptionsAsync(
-appId:            1,
-eventContext:            "page_update/home");
+appId: 1,
+eventContext: "page_update/home");
 
         // Then
-        result.Should().ContainSingle().Which.Should().BeSameAs(expected:matchingEvent);
-        workflowEventServiceMock.Verify(expression:x => x.GetAll(true), times:Times.Once);
+        result.Should().ContainSingle().Which.Should().BeSameAs(expected: matchingEvent);
+        workflowEventServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 }

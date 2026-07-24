@@ -21,24 +21,24 @@ public partial class FlowInstanceDataEventServiceTests
         EventMessage<FlowInstanceData> actualMessage = null;
 
         flowInstanceDataEventBrokerMock
-            .Setup(expression:x =>
-                x.RaiseFlowInstanceDataDeleteEventAsync(It.IsAny<EventMessage<FlowInstanceData>>())
+            .Setup(expression: x =>
+                x.RaiseFlowInstanceDataDeleteEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>())
             )
-            .Callback<EventMessage<FlowInstanceData>>(action:message => actualMessage = message)
-            .Returns(value:ValueTask.CompletedTask);
+            .Callback<EventMessage<FlowInstanceData>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowInstanceDataDeleteEventAsync(entity:entity);
+        await service.RaiseFlowInstanceDataDeleteEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation:entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected:CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         flowInstanceDataEventBrokerMock.Verify(
-expression:            x =>
-                x.RaiseFlowInstanceDataDeleteEventAsync(It.IsAny<EventMessage<FlowInstanceData>>()),
-times:            Times.Once
+expression: x =>
+                x.RaiseFlowInstanceDataDeleteEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>()),
+times: Times.Once
         );
         flowInstanceDataEventBrokerMock.VerifyNoOtherCalls();
     }

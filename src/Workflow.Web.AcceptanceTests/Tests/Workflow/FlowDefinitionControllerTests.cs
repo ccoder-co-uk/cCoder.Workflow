@@ -41,37 +41,37 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(app:new App
+        App app = await core.AddAppAsync(app: new App
         {
-            Name = Unique("AcceptanceApp"),
-            Domain = $"{Unique("workflow")}.local",
+            Name = Unique(prefix: "AcceptanceApp"),
+            Domain = $"{Unique(prefix: "workflow")}.local",
             DefaultTheme = "Default",
             DefaultCultureId = string.Empty,
-            TenantId = Unique("tenant"),
+            TenantId = Unique(prefix: "tenant"),
             ConfigJson = "{}",
         });
 
-        Role role = await core.AddRoleAsync(role:new Role
+        Role role = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("AcceptanceRole"),
+            Name = Unique(prefix: "AcceptanceRole"),
             Description = "Acceptance role",
             Privs = privileges.Length == 0
                 ? "app_admin,flowdefinition_create,flowdefinition_update,flowdefinition_execute,flowdefinition_delete,flowdefinition_read,workflowevent_create,workflowevent_update,workflowevent_delete,workflowevent_read,flowinstancedata_create,flowinstancedata_update,flowinstancedata_delete,flowinstancedata_read"
-                : string.Join(',', privileges),
+                : string.Join(separator: ',', value: privileges),
         });
 
-        await core.AddUserRoleAsync(userRole:new UserRole { RoleId = role.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = role.Id, UserId = "Guest" });
 
         Guid flowId = Guid.Empty;
 
         if (includeFlow)
         {
-            FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition:new FlowDefinition
+            FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition: new FlowDefinition
             {
                 AppId = app.Id,
-                Name = Unique("Flow"),
+                Name = Unique(prefix: "Flow"),
                 Description = "Acceptance flow",
                 DefinitionJson = new Flow
                 {
@@ -90,17 +90,17 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
 
     private async Task<FlowDefinition> CreateFlowDefinitionAsync(object payload)
     {
-        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri:BaseUrl, value:payload);
+        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return JsonSerializer.Deserialize<FlowDefinition>(json:content, options:JsonOptions)!;
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return JsonSerializer.Deserialize<FlowDefinition>(json: content, options: JsonOptions)!;
     }
 
     private async Task<int> UpdateFlowDefinitionAsync(Guid id, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri:$"{BaseUrl}({id})", value:payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -108,29 +108,29 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
     {
         using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
         {
-            Content = JsonContent.Create(inputValue:payload),
+            Content = JsonContent.Create(inputValue: payload),
         };
-        using HttpResponseMessage response = await Client.SendAsync(request:request);
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
     private async Task<int> DeleteFlowDefinitionAsync(Guid id)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri:$"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
     private async Task<FlowDefinition> GetFlowDefinitionAsync(Guid id)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
 
-        return JsonSerializer.Deserialize<FlowDefinition>(json:content, options:JsonOptions)
+        return JsonSerializer.Deserialize<FlowDefinition>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected flow definition payload.");
     }
 
@@ -142,55 +142,55 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
             .CreateCoreContext();
 
         FlowInstanceData[] appInstances = core.Set<FlowInstanceData>().IgnoreQueryFilters()
-            .Where(predicate:instance => instance.FlowDefinition.AppId == seededContext.AppId)
+            .Where(predicate: instance => instance.FlowDefinition.AppId == seededContext.AppId)
             .ToArray();
-        await core.DeleteAllAsync(flowInstances:appInstances);
+        await core.DeleteAllAsync(flowInstances: appInstances);
 
         FlowDefinition[] flows = core.Set<FlowDefinition>().IgnoreQueryFilters()
-            .Where(predicate:flow => flow.AppId == seededContext.AppId)
+            .Where(predicate: flow => flow.AppId == seededContext.AppId)
             .ToArray();
-        await core.DeleteAllAsync(flowDefinitions:flows);
+        await core.DeleteAllAsync(flowDefinitions: flows);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate:userRole => userRole.RoleId == seededContext.RoleId).ToArray();
-        await core.DeleteAllAsync(userRoles:userRoles);
+        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate: userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.RoleId);
-        await core.DeleteAsync(role:role);
+        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.RoleId);
+        await core.DeleteAsync(role: role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.AppId);
-        await core.DeleteAsync(app:app);
+        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.AppId);
+        await core.DeleteAsync(app: app);
 
     }
 
     private async Task<int> GetFlowDefinitionCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return int.Parse(s:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return int.Parse(s: content);
     }
 
     private async Task<IReadOnlyList<FlowDefinition>> GetFlowDefinitionsAsync(int top)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}?$top={top}");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return JsonSerializer.Deserialize<ODataEnvelope<FlowDefinition>>(json:content, options:JsonOptions)!.Value;
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return JsonSerializer.Deserialize<ODataEnvelope<FlowDefinition>>(json: content, options: JsonOptions)!.Value;
     }
 
     private async Task<string> GetKnownActivityTypesAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}/KnownActivityTypes()");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/KnownActivityTypes()");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return content;
     }
 
     private async Task<string> GetKnownSystemTypesAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}/KnownSystemTypes()");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/KnownSystemTypes()");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return content;
     }
 
@@ -201,14 +201,14 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
             Content = new StringContent(payload, Encoding.UTF8, "application/json"),
         };
 
-        using HttpResponseMessage response = await Client.SendAsync(request:request);
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
     private async Task<int> GetFlowDefinitionStatusCodeAsync(Guid id)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
         return (int)response.StatusCode;
     }
 }

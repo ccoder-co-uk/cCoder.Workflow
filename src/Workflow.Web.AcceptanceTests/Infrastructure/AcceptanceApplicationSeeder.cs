@@ -30,19 +30,19 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        await EnsureAppAsync(core:core);
-        await EnsureGuestUserAsync(core:core);
-        await EnsureGuestAdminAsync(core:core);
+        await EnsureAppAsync(core: core);
+        await EnsureGuestUserAsync(core: core);
+        await EnsureGuestAdminAsync(core: core);
     }
 
     private static async Task EnsureAppAsync(DbContext core)
     {
-        if (await core.Set<App>().AnyAsync(predicate:app => app.Id == AppId))
+        if (await core.Set<App>().AnyAsync(predicate: app => app.Id == AppId))
         {
             return;
         }
 
-        core.Add(entity:new App
+        core.Add(entity: new App
         {
             Name = "Acceptance",
             Domain = AppDomain,
@@ -57,12 +57,12 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
 
     private static async Task EnsureGuestUserAsync(DbContext core)
     {
-        if (await core.Set<User>().AnyAsync(predicate:existing => existing.Id == "Guest"))
+        if (await core.Set<User>().AnyAsync(predicate: existing => existing.Id == "Guest"))
         {
             return;
         }
 
-        core.Add(entity:new User
+        core.Add(entity: new User
         {
             Id = "Guest",
             DefaultCultureId = string.Empty,
@@ -76,7 +76,7 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
 
     private static async Task EnsureGuestAdminAsync(DbContext core)
     {
-        Role role = await core.Set<Role>().FirstOrDefaultAsync(predicate:existing =>
+        Role role = await core.Set<Role>().FirstOrDefaultAsync(predicate: existing =>
             existing.AppId == AppId && existing.Name == AcceptanceAdminRoleName);
 
         if (role is null)
@@ -90,7 +90,7 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
                 Privs = AcceptanceAdminPrivileges,
             };
 
-            core.Add(entity:role);
+            core.Add(entity: role);
             await core.SaveChangesAsync();
         }
         else if (role.Privs != AcceptanceAdminPrivileges)
@@ -99,12 +99,12 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
             await core.SaveChangesAsync();
         }
 
-        bool hasGuestRole = await core.Set<UserRole>().AnyAsync(predicate:existing =>
+        bool hasGuestRole = await core.Set<UserRole>().AnyAsync(predicate: existing =>
             existing.RoleId == role.Id && existing.UserId == "Guest");
 
         if (!hasGuestRole)
         {
-            core.Add(entity:new UserRole { RoleId = role.Id, UserId = "Guest" });
+            core.Add(entity: new UserRole { RoleId = role.Id, UserId = "Guest" });
             await core.SaveChangesAsync();
         }
     }

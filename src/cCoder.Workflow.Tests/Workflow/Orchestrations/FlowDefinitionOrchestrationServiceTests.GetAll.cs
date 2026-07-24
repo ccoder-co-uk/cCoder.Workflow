@@ -20,14 +20,14 @@ public partial class FlowDefinitionOrchestrationServiceTests
     {
         // Given
         IQueryable<FlowDefinition> entities = new[] { CreateRandomFlowDefinition() }.AsQueryable();
-        flowDefinitionProcessingServiceMock.Setup(expression:x => x.GetAll(true)).Returns(value:entities);
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: entities);
 
         // When
-        IQueryable<FlowDefinition> result = orchestrationService.GetAll(ignoreFilters:true);
+        IQueryable<FlowDefinition> result = orchestrationService.GetAll(ignoreFilters: true);
 
         // Then
-        result.Should().BeSameAs(expected:entities);
-        flowDefinitionProcessingServiceMock.Verify(expression:x => x.GetAll(true), times:Times.Once);
+        result.Should().BeSameAs(expected: entities);
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
     }

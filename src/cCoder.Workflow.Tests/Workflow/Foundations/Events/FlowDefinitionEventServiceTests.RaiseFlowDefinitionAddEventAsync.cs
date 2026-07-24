@@ -21,23 +21,23 @@ public partial class FlowDefinitionEventServiceTests
         EventMessage<FlowDefinition> actualMessage = null;
 
         flowDefinitionEventBrokerMock
-            .Setup(expression:x =>
-                x.RaiseFlowDefinitionAddEventAsync(It.IsAny<EventMessage<FlowDefinition>>())
+            .Setup(expression: x =>
+                x.RaiseFlowDefinitionAddEventAsync(message: It.IsAny<EventMessage<FlowDefinition>>())
             )
-            .Callback<EventMessage<FlowDefinition>>(action:message => actualMessage = message)
-            .Returns(value:ValueTask.CompletedTask);
+            .Callback<EventMessage<FlowDefinition>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowDefinitionAddEventAsync(entity:entity);
+        await service.RaiseFlowDefinitionAddEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation:entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected:CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         flowDefinitionEventBrokerMock.Verify(
-expression:            x => x.RaiseFlowDefinitionAddEventAsync(It.IsAny<EventMessage<FlowDefinition>>()),
-times:            Times.Once
+expression: x => x.RaiseFlowDefinitionAddEventAsync(message: It.IsAny<EventMessage<FlowDefinition>>()),
+times: Times.Once
         );
         flowDefinitionEventBrokerMock.VerifyNoOtherCalls();
     }

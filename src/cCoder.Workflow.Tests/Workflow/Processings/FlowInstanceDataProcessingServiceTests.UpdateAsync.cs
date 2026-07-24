@@ -34,22 +34,22 @@ public partial class FlowInstanceDataProcessingServiceTests
             App = null!,
             Instances = [],
         };
-        DataUser user = TestUsers.WithPrivilege(privilege:"flowinstancedata_update", appId:1);
+        DataUser user = TestUsers.WithPrivilege(privilege: "flowinstancedata_update", appId: 1);
         currentUser = user;
-        flowInstanceDataServiceMock.Setup(expression:x => x.Get(entity.Id)).Returns(value:dbVersion);
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(id: entity.Id)).Returns(value: dbVersion);
 
         flowInstanceDataServiceMock
-            .Setup(expression:x => x.UpdateAsync(It.IsAny<FlowInstanceData>()))
-            .ReturnsAsync(valueFunction:(FlowInstanceData updated) => updated);
+            .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
+            .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
-        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateAsync(entity:entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateAsync(entity: entity);
 
         // Then
-        Assert.Equal(expected:entity.Name, actual:result.Name);
+        Assert.Equal(expected: entity.Name, actual: result.Name);
         flowInstanceDataServiceMock.Verify(
-expression:            x => x.UpdateAsync(It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
-times:            Times.Once
+expression: x => x.UpdateAsync(flowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
+times: Times.Once
         );
     }
 
@@ -72,20 +72,20 @@ times:            Times.Once
             App = null!,
             Instances = [],
         };
-        flowInstanceDataServiceMock.Setup(expression:x => x.Get(entity.Id)).Returns(value:dbVersion);
+        flowInstanceDataServiceMock.Setup(expression: x => x.Get(id: entity.Id)).Returns(value: dbVersion);
         flowInstanceDataServiceMock
-            .Setup(expression:x => x.UpdateAsync(It.IsAny<FlowInstanceData>()))
-            .ReturnsAsync(valueFunction:(FlowInstanceData updated) => updated);
+            .Setup(expression: x => x.UpdateAsync(flowInstanceData: It.IsAny<FlowInstanceData>()))
+            .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
         FlowInstanceData actualFlowInstanceData =
-            await flowInstanceDataProcessingService.UpdateAsync(entity:entity);
+            await flowInstanceDataProcessingService.UpdateAsync(entity: entity);
 
         // Then
-        Assert.Equal(expected:entity.Name, actual:actualFlowInstanceData.Name);
+        Assert.Equal(expected: entity.Name, actual: actualFlowInstanceData.Name);
         flowInstanceDataServiceMock.Verify(
-expression:            x => x.UpdateAsync(It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
-times:            Times.Once
+expression: x => x.UpdateAsync(flowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
+times: Times.Once
         );
     }
 

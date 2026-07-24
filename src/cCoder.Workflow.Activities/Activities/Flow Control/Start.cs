@@ -28,12 +28,12 @@ public sealed class Start : CoreActivity
                 message: dataJson);
         }
 
-        if (Context.Variables.ContainsKey(key:"AppId"))
+        if (Context.Variables.ContainsKey(key: "AppId"))
         {
             using HttpClient api = GetHttpClient();
-            App app = await api.GetAsync<App>(query:$"ContentManagement/App({Context.Variables["AppId"]})");
-            Context.Variables.Add(item:new KeyValuePair<string, object>("App", app));
-            Log(level:WorkflowLogLevel.Info, message:"Grabbed app information");
+            App app = await api.GetAsync<App>(query: $"ContentManagement/App({Context.Variables["AppId"]})");
+            Context.Variables.Add(item: new KeyValuePair<string, object>("App", app));
+            Log(level: WorkflowLogLevel.Info, message: "Grabbed app information");
         }
 
         await base.ExecuteAsync();
@@ -42,6 +42,6 @@ public sealed class Start : CoreActivity
     public override async Task ExecuteInternal(IWorkflowContext context)
     {
         Context = context;
-        await base.ExecuteInternal(context:context);
+        await base.ExecuteInternal(context: context);
     }
 }

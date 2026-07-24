@@ -19,7 +19,7 @@ public sealed partial class FlowInstanceDataControllerTests
         FlowInstanceData actualInstance;
 
         // When
-        await UpdateFlowInstanceDataAsync(id:seededContext.InstanceId, payload:new
+        await UpdateFlowInstanceDataAsync(id: seededContext.InstanceId, payload: new
         {
             id = seededContext.InstanceId,
             flowDefinitionId = seededContext.FlowId,
@@ -30,12 +30,12 @@ public sealed partial class FlowInstanceDataControllerTests
             start = DateTimeOffset.UtcNow,
         });
 
-        actualInstance = await GetFlowInstanceDataAsync(id:seededContext.InstanceId);
+        actualInstance = await GetFlowInstanceDataAsync(id: seededContext.InstanceId);
 
         // Then
         actualInstance.Should().NotBeNull();
-        actualInstance!.State.Should().Be(expected:"Running");
+        actualInstance!.State.Should().Be(expected: "Running");
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

@@ -19,17 +19,17 @@ public sealed partial class WorkflowEventControllerTests
         WorkflowEvent actualWorkflowEvent;
 
         // When
-        await PatchWorkflowEventAsync(id:seededContext.EventId, payload:new
+        await PatchWorkflowEventAsync(id: seededContext.EventId, payload: new
         {
             type = "Patched",
         });
 
-        actualWorkflowEvent = await GetWorkflowEventAsync(id:seededContext.EventId);
+        actualWorkflowEvent = await GetWorkflowEventAsync(id: seededContext.EventId);
 
         // Then
         actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent!.Type.Should().Be(expected:"Patched");
+        actualWorkflowEvent!.Type.Should().Be(expected: "Patched");
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

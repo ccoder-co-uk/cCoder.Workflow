@@ -15,36 +15,36 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
 {
     public FlowDefinition Get(Guid id)
     {
-        return service.Get(id:id);
+        return service.Get(id: id);
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false)
     {
-        return service.GetAll(ignoreFilters:ignoreFilters);
+        return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
     public ValueTask<FlowDefinition> AddAsync(FlowDefinition entity)
     {
-        return service.AddAsync(flowDefinition:entity);
+        return service.AddAsync(flowDefinition: entity);
     }
 
     public ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity)
     {
-        return service.UpdateAsync(flowDefinition:entity);
+        return service.UpdateAsync(flowDefinition: entity);
     }
 
     public ValueTask DeleteAsync(Guid id)
     {
-        return service.DeleteWithInstancesAsync(id:id);
+        return service.DeleteWithInstancesAsync(id: id);
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
-        service.DeleteWithInstancesByAppIdAsync(appId:appId);
+        service.DeleteWithInstancesByAppIdAsync(appId: appId);
 
     public async ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdate(IEnumerable<FlowDefinition> items)
     {
         FlowDefinition[] itemArray = items.ToArray();
-        log.LogDebug(message:"AddOrUpdate:\n" + jsonBroker.Serialize(itemArray.Select(i => new { i.Id, i.Name })));
+        log.LogDebug(message: "AddOrUpdate:\n" + jsonBroker.Serialize(value: itemArray.Select(i => new { i.Id, i.Name })));
         List<Result<FlowDefinition>> results = new List<Result<FlowDefinition>>();
 
         foreach (FlowDefinition item in itemArray)
@@ -53,10 +53,10 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
             {
                 FlowDefinition savedItem =
                     item.Id == Guid.Empty
-                        ? await AddAsync(entity:item)
-                        : await UpdateAsync(entity:item);
+                        ? await AddAsync(entity: item)
+                        : await UpdateAsync(entity: item);
 
-                results.Add(item:new Result<FlowDefinition>
+                results.Add(item: new Result<FlowDefinition>
                 {
                     Success = true,
                     Item = savedItem,
@@ -65,7 +65,7 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
             }
             catch (Exception ex)
             {
-                results.Add(item:new Result<FlowDefinition>
+                results.Add(item: new Result<FlowDefinition>
                 {
                     Success = false,
                     Item = item,
@@ -81,7 +81,7 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
     {
         foreach (FlowDefinition item in items)
         {
-            await DeleteAsync(id:item.Id);
+            await DeleteAsync(id: item.Id);
         }
     }
 }

@@ -39,11 +39,11 @@ public partial class CalendarEventController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(CalendarEvent))
+                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(CalendarEvent))
             )
-            : Ok(value:new MetadataContainer(typeof(CalendarEvent), true, true));
+            : Ok(value: new MetadataContainer(typeof(CalendarEvent), true, true));
     }
 
     [HttpGet]
@@ -56,7 +56,7 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<CalendarEvent> queryOptions) => Ok(value:Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<CalendarEvent> queryOptions) => Ok(value: Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -72,8 +72,8 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            IQueryable<CalendarEvent> result = Service.GetAll().Where(predicate:calendarEvent => calendarEvent.Id == key);
-            return Ok(value:SingleResult.Create(result));
+            IQueryable<CalendarEvent> result = Service.GetAll().Where(predicate: calendarEvent => calendarEvent.Id == key);
+            return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
         {
@@ -97,7 +97,7 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value:await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -116,26 +116,26 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value:await Service.UpdateAsync(entity));
+        return Ok(value: await Service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<CalendarEvent> delta)
     {
-        CalendarEvent originalEntity = Service.Get(id:key);
+        CalendarEvent originalEntity = Service.Get(id: key);
         if (originalEntity == null)
         {
             return NotFound();
         }
 
-        delta.Patch(original:originalEntity);
-        return Ok(value:await Service.UpdateAsync(originalEntity));
+        delta.Patch(original: originalEntity);
+        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await Service.DeleteAsync(id:key);
+        await Service.DeleteAsync(id: key);
         return Ok();
     }
 }

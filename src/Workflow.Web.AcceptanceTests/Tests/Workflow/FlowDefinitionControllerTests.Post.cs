@@ -19,12 +19,12 @@ public sealed partial class FlowDefinitionControllerTests
     {
         // Given
         SeededFlowDefinitionContext seededContext = await SeedDatabase();
-        string name = Unique(prefix:"Flow");
+        string name = Unique(prefix: "Flow");
         FlowDefinition expectedFlowDefinition;
         FlowDefinition actualFlowDefinition;
 
         // When
-        expectedFlowDefinition = await CreateFlowDefinitionAsync(payload:new
+        expectedFlowDefinition = await CreateFlowDefinitionAsync(payload: new
         {
             appId = seededContext.AppId,
             name,
@@ -38,13 +38,13 @@ public sealed partial class FlowDefinitionControllerTests
             configJson = "{}",
         });
 
-        actualFlowDefinition = await GetFlowDefinitionAsync(id:expectedFlowDefinition.Id);
+        actualFlowDefinition = await GetFlowDefinitionAsync(id: expectedFlowDefinition.Id);
 
         // Then
         actualFlowDefinition.Should().NotBeNull();
-        actualFlowDefinition!.Name.Should().Be(expected:name);
+        actualFlowDefinition!.Name.Should().Be(expected: name);
 
-        await DeleteFlowDefinitionAsync(id:expectedFlowDefinition.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteFlowDefinitionAsync(id: expectedFlowDefinition.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

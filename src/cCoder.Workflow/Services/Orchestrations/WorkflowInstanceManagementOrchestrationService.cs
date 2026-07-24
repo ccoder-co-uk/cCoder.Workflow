@@ -30,16 +30,16 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     {
         try
         {
-            await RunInstanceMaintenanceAsync(cancellationToken:cancellationToken);
-            await RunQueueInstanceManagementAsync(cancellationToken:cancellationToken);
+            await RunInstanceMaintenanceAsync(cancellationToken: cancellationToken);
+            await RunQueueInstanceManagementAsync(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
-            log.LogError(exception:ex, message:ex.Message);
+            log.LogError(exception: ex, message: ex.Message);
 
             if (ex.InnerException != null)
             {
-                log.LogError(exception:ex.InnerException, message:ex.InnerException.Message);
+                log.LogError(exception: ex.InnerException, message: ex.InnerException.Message);
             }
         }
     }
@@ -54,13 +54,13 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             return;
         }
 
-        await RunInstanceMaintenanceAsync(cancellationToken:cancellationToken);
+        await RunInstanceMaintenanceAsync(cancellationToken: cancellationToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes:1));
+        using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes: 1));
 
-        while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken:cancellationToken))
+        while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: cancellationToken))
         {
-            await RunInstanceMaintenanceAsync(cancellationToken:cancellationToken);
+            await RunInstanceMaintenanceAsync(cancellationToken: cancellationToken);
         }
     }
 
@@ -68,15 +68,15 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     {
         try
         {
-            await DropOldInstancesAsync(cancellationToken:cancellationToken);
+            await DropOldInstancesAsync(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
-            log.LogError(exception:ex, message:ex.Message);
+            log.LogError(exception: ex, message: ex.Message);
 
             if (ex.InnerException != null)
             {
-                log.LogError(exception:ex.InnerException, message:ex.InnerException.Message);
+                log.LogError(exception: ex.InnerException, message: ex.InnerException.Message);
             }
         }
     }
@@ -88,13 +88,13 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             return;
         }
 
-        await RunQueueInstanceManagementAsync(cancellationToken:cancellationToken);
+        await RunQueueInstanceManagementAsync(cancellationToken: cancellationToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes:1));
+        using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes: 1));
 
-        while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken:cancellationToken))
+        while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: cancellationToken))
         {
-            await RunQueueInstanceManagementAsync(cancellationToken:cancellationToken);
+            await RunQueueInstanceManagementAsync(cancellationToken: cancellationToken);
         }
     }
 
@@ -102,16 +102,16 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     {
         try
         {
-            await ExecuteQueuedInstancesAsync(cancellationToken:cancellationToken);
-            await RequeueHungExecutingInstancesAsync(cancellationToken:cancellationToken);
+            await ExecuteQueuedInstancesAsync(cancellationToken: cancellationToken);
+            await RequeueHungExecutingInstancesAsync(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
-            log.LogError(exception:ex, message:ex.Message);
+            log.LogError(exception: ex, message: ex.Message);
 
             if (ex.InnerException != null)
             {
-                log.LogError(exception:ex.InnerException, message:ex.InnerException.Message);
+                log.LogError(exception: ex.InnerException, message: ex.InnerException.Message);
             }
         }
     }
@@ -122,19 +122,19 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
 
         foreach (FlowInstanceData queuedInstance in queuedInstances)
         {
-            await ExecuteInstanceAsync(instanceId:queuedInstance.Id, cancellationToken:cancellationToken);
+            await ExecuteInstanceAsync(instanceId: queuedInstance.Id, cancellationToken: cancellationToken);
         }
     }
 
     public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid id)
     {
-        await ExecuteInstanceAsync(instanceId:id);
+        await ExecuteInstanceAsync(instanceId: id);
     }
 
     private async ValueTask DropOldInstancesAsync(CancellationToken cancellationToken)
     {
         int dropCount = await workflowInstanceManagementBroker
-            .FlushOldInstancesAsync(cutoff:DateTimeOffset.UtcNow.Subtract(GetInstanceMaintenanceMaxAge()), cancellationToken:cancellationToken);
+            .FlushOldInstancesAsync(cutoff: DateTimeOffset.UtcNow.Subtract(value: GetInstanceMaintenanceMaxAge()), cancellationToken: cancellationToken);
 
         if (dropCount > 0)
         {
@@ -148,7 +148,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     private async ValueTask RequeueHungExecutingInstancesAsync(CancellationToken cancellationToken)
     {
         int requeueCount = await workflowInstanceManagementBroker
-            .RequeueHungExecutingInstancesAsync(cutoff:DateTimeOffset.UtcNow.Subtract(GetExecutingInstanceTimeout()), cancellationToken:cancellationToken);
+            .RequeueHungExecutingInstancesAsync(cutoff: DateTimeOffset.UtcNow.Subtract(value: GetExecutingInstanceTimeout()), cancellationToken: cancellationToken);
 
         if (requeueCount > 0)
         {
@@ -162,7 +162,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
         FlowInstanceData dbInstance = await workflowInstanceManagementBroker
-            .ClaimQueuedInstanceAsync(id:instanceId, cancellationToken:cancellationToken);
+            .ClaimQueuedInstanceAsync(id: instanceId, cancellationToken: cancellationToken);
 
         if (dbInstance == null)
         {
@@ -172,11 +172,11 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         try
         {
             ITokenManager tokenManager = serviceProvider.GetRequiredService<ITokenManager>();
-            Token token = await tokenManager.IssueTokenAsync(userId:dbInstance.Caller, tokenUse:TokenUse.WorkflowExecution);
+            Token token = await tokenManager.IssueTokenAsync(userId: dbInstance.Caller, tokenUse: TokenUse.WorkflowExecution);
 
-            WorkflowRequest request = CreateWorkflowRequest(dbInstance:dbInstance, token:token);
+            WorkflowRequest request = CreateWorkflowRequest(dbInstance: dbInstance, token: token);
 
-            HttpResponseMessage result = await SendToWorkflowAsync(request:request);
+            HttpResponseMessage result = await SendToWorkflowAsync(request: request);
 
             if (!result.IsSuccessStatusCode)
             {
@@ -188,19 +188,19 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
                     errorDetails);
 
                 await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
-id:                    dbInstance.Id,
-failedAt:                    DateTimeOffset.UtcNow,
-cancellationToken:                    cancellationToken);
+id: dbInstance.Id,
+failedAt: DateTimeOffset.UtcNow,
+cancellationToken: cancellationToken);
             }
         }
         catch (Exception exception)
         {
-            log.LogError(exception:exception, message:"Flow instance {InstanceId} execution failed.", args:dbInstance.Id);
+            log.LogError(exception: exception, message: "Flow instance {InstanceId} execution failed.", args: dbInstance.Id);
 
             await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
-id:                dbInstance.Id,
-failedAt:                DateTimeOffset.UtcNow,
-cancellationToken:                cancellationToken);
+id: dbInstance.Id,
+failedAt: DateTimeOffset.UtcNow,
+cancellationToken: cancellationToken);
         }
     }
 
@@ -212,8 +212,8 @@ cancellationToken:                cancellationToken);
         };
 
         return await api.PostAsync(
-requestUri:            "Execute",
-content:            new StringContent(JsonSerializer.Serialize(request), System.Text.Encoding.UTF8, "application/json"));
+requestUri: "Execute",
+content: new StringContent(JsonSerializer.Serialize(value: request), System.Text.Encoding.UTF8, "application/json"));
     }
 
     internal WorkflowRequest CreateWorkflowRequest(FlowInstanceData dbInstance, Token token) =>
@@ -226,8 +226,8 @@ content:            new StringContent(JsonSerializer.Serialize(request), System.
         };
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
-        TimeSpan.FromDays(value:appConfiguration.GetValue<double?>("Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
+        TimeSpan.FromDays(value: appConfiguration.GetValue<double?>(key: "Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
 
     private TimeSpan GetExecutingInstanceTimeout() =>
-        TimeSpan.FromMinutes(value:appConfiguration.GetValue<double?>("Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30);
+        TimeSpan.FromMinutes(value: appConfiguration.GetValue<double?>(key: "Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30);
 }

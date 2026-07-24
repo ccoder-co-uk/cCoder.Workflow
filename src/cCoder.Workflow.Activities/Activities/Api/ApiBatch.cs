@@ -16,8 +16,8 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level:WorkflowLogLevel.Info, message:$"HTTP POST {BaseUrl}{Query}$batch");
-        Log(level:WorkflowLogLevel.Info, message:$"Sending a batch of {Data.Length} requests to the API.");
+        Log(level: WorkflowLogLevel.Info, message: $"HTTP POST {BaseUrl}{Query}$batch");
+        Log(level: WorkflowLogLevel.Info, message: $"Sending a batch of {Data.Length} requests to the API.");
 
         string body = new { Requests = Data }.ToJsonForOdata();
 
@@ -30,9 +30,9 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
 
         if (!response.IsSuccessStatusCode)
         {
-            Log(level:WorkflowLogLevel.Error, message:$"HTTP POST {BaseUrl}{Query}$batch failed with status code {(int)response.StatusCode}\n");
+            Log(level: WorkflowLogLevel.Error, message: $"HTTP POST {BaseUrl}{Query}$batch failed with status code {(int)response.StatusCode}\n");
             string content = await response.Content.ReadAsStringAsync();
-            Log(level:WorkflowLogLevel.Error, message:content);
+            Log(level: WorkflowLogLevel.Error, message: content);
             return;
         }
 
@@ -41,7 +41,7 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
             ResponseBatch responseBatch = await response.Content.ReadAsAsync<ResponseBatch>();
             Result = responseBatch.Responses;
 
-            Log(level:WorkflowLogLevel.Info, message:$"Received {responseBatch.Responses.Length} batched responses");
+            Log(level: WorkflowLogLevel.Info, message: $"Received {responseBatch.Responses.Length} batched responses");
 
             int successCount = responseBatch
                 .Responses
@@ -62,7 +62,7 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
 
             if (failures.Any())
             {
-                Log(level:WorkflowLogLevel.Warning, message:$"Received {failures.Length} failures");
+                Log(level: WorkflowLogLevel.Warning, message: $"Received {failures.Length} failures");
 
                 foreach (BatchedResponse failure in failures)
                 {
@@ -74,8 +74,8 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
         }
         catch (Exception ex)
         {
-            Log(level:WorkflowLogLevel.Error, message:$"Exception {ex.Message}");
-            Log(level:WorkflowLogLevel.Error, message:await response.Content.ReadAsStringAsync());
+            Log(level: WorkflowLogLevel.Error, message: $"Exception {ex.Message}");
+            Log(level: WorkflowLogLevel.Error, message: await response.Content.ReadAsStringAsync());
         }
     }
 }

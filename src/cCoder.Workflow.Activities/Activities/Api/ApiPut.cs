@@ -27,9 +27,9 @@ public class ApiPut<T, TResult> : ApiActivity<TResult>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level:WorkflowLogLevel.Info, message:$"HTTP PUT {BaseUrl}{Query}");
+        Log(level: WorkflowLogLevel.Info, message: $"HTTP PUT {BaseUrl}{Query}");
 
-        object payload = AutoWrapForOdata && typeof(T).GetInterface(name:"IEnumerable") != null
+        object payload = AutoWrapForOdata && typeof(T).GetInterface(name: "IEnumerable") != null
             ? new { value = Data }
             : Data;
 
@@ -48,9 +48,9 @@ public class ApiPut<T, TResult> : ApiActivity<TResult>
 
             if (!response.IsSuccessStatusCode)
             {
-                Log(level:WorkflowLogLevel.Error, message:$"HTTP PUT {BaseUrl}{Query} failed with status code {(int)response.StatusCode}\n");
+                Log(level: WorkflowLogLevel.Error, message: $"HTTP PUT {BaseUrl}{Query} failed with status code {(int)response.StatusCode}\n");
                 string content = await response.Content.ReadAsStringAsync();
-                Log(level:WorkflowLogLevel.Error, message:content);
+                Log(level: WorkflowLogLevel.Error, message: content);
                 return;
             }
 
@@ -66,8 +66,8 @@ public class ApiPut<T, TResult> : ApiActivity<TResult>
                 }
                 catch (Exception ex)
                 {
-                    Log(level:WorkflowLogLevel.Error, message:$"Exception {ex.Message}");
-                    Log(level:WorkflowLogLevel.Error, message:await response.Content.ReadAsStringAsync());
+                    Log(level: WorkflowLogLevel.Error, message: $"Exception {ex.Message}");
+                    Log(level: WorkflowLogLevel.Error, message: await response.Content.ReadAsStringAsync());
                 }
             }
         }

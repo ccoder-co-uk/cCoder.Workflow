@@ -17,14 +17,14 @@ public sealed partial class WorkflowScriptExecutionServiceTests
         const string payload = "return true";
         const string expectedResult = "true";
         orchestrationServiceMock
-            .Setup(expression:service => service.ExecuteAsync(payload, true))
-            .ReturnsAsync(value:expectedResult);
+            .Setup(expression: service => service.ExecuteAsync(payload: payload, useDetails: true))
+            .ReturnsAsync(value: expectedResult);
 
         // When
-        string actualResult = await workflowScriptExecutionService.ExecuteAsync(payload:payload, useDetails: true);
+        string actualResult = await workflowScriptExecutionService.ExecuteAsync(payload: payload, useDetails: true);
 
         // Then
-        actualResult.Should().Be(expected:expectedResult);
-        orchestrationServiceMock.Verify(expression:service => service.ExecuteAsync(payload, true), times:Times.Once);
+        actualResult.Should().Be(expected: expectedResult);
+        orchestrationServiceMock.Verify(expression: service => service.ExecuteAsync(payload: payload, useDetails: true), times: Times.Once);
     }
 }

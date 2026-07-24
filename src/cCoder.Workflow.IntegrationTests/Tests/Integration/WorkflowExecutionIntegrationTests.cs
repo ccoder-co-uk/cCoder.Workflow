@@ -41,32 +41,32 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
 
         try
         {
-            string authToken = await CreateAuthTokenAsync(userId:AdminUserId);
+            string authToken = await CreateAuthTokenAsync(userId: AdminUserId);
 
-            await PostRawAsync(relativeUrl:$"/Api/Workflow/FlowDefinition({flowId})/Execute", body:"{}", authToken:authToken);
+            await PostRawAsync(relativeUrl: $"/Api/Workflow/FlowDefinition({flowId})/Execute", body: "{}", authToken: authToken);
 
-            await WaitUntilAsync(predicate:async () => await HasFlowInstanceStateAsync(flowId, "Complete"),
-                diagnosticsFactory: () => BuildFlowDiagnosticsAsync(flowId:flowId));
+            await WaitUntilAsync(predicate: async () => await HasFlowInstanceStateAsync(flowId: flowId, state: "Complete"),
+                diagnosticsFactory: () => BuildFlowDiagnosticsAsync(flowId: flowId));
 
-            FlowInstanceData instance = await GetLatestInstanceAsync(flowId:flowId);
-            instance.Caller.Should().Be(expected:AdminUserId);
-            instance.State.Should().Be(expected:"Complete");
-            instance.ContextString.Should().Contain(expected:"Execution complete.");
-            instance.ContextString.Should().NotContain(unexpected:"Execution failed.");
+            FlowInstanceData instance = await GetLatestInstanceAsync(flowId: flowId);
+            instance.Caller.Should().Be(expected: AdminUserId);
+            instance.State.Should().Be(expected: "Complete");
+            instance.ContextString.Should().Contain(expected: "Execution complete.");
+            instance.ContextString.Should().NotContain(unexpected: "Execution failed.");
         }
         finally
         {
-            await DeleteAppGraphAsync(appId:appId, roleId:roleId);
+            await DeleteAppGraphAsync(appId: appId, roleId: roleId);
         }
     }
 
     private async Task<(int appId, Guid flowId, Guid roleId)> CreateAppWithExecutableFlowAsync()
     {
         await using CoreDataContext core = CreateCoreContext();
-        string unique = Guid.NewGuid().ToString(format:"N");
+        string unique = Guid.NewGuid().ToString(format: "N");
         Guid roleId = Guid.NewGuid();
 
-        App app = await core.AddAppAsync(app:new App
+        App app = await core.AddAppAsync(app: new App
         {
             Name = $"Workflow Integration {unique}",
             Domain = "localhost",
@@ -89,9 +89,9 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
 
         using IServiceScope scope = fixture.DatabaseServices.CreateScope();
         IAppOrchestrationService appSecurity = scope.ServiceProvider.GetRequiredService<IAppOrchestrationService>();
-        await appSecurity.AddAsync(app);
+        await appSecurity.AddAppAsync(app: app);
 
-        FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition:new FlowDefinition
+        FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition: new FlowDefinition
         {
             AppId = app.Id,
             Name = $"Manual Flow {unique}",
@@ -114,32 +114,32 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
             Content = new StringContent(body ?? string.Empty, Encoding.UTF8, "application/json")
         };
 
-        if (!string.IsNullOrWhiteSpace(value:authToken))
+        if (!string.IsNullOrWhiteSpace(value: authToken))
         {
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
         }
 
-        using HttpResponseMessage response = await fixture.WebClient.SendAsync(request:request);
+        using HttpResponseMessage response = await fixture.WebClient.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(
-expected:            HttpStatusCode.OK,
-because:            "{0}",
-becauseArgs:            content + Environment.NewLine + Environment.NewLine + await BuildFlowDiagnosticsAsync(Guid.Empty));
+expected: HttpStatusCode.OK,
+because: "{0}",
+becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFlowDiagnosticsAsync(flowId: Guid.Empty));
     }
 
     private async Task<string> CreateAuthTokenAsync(string userId)
     {
         await using DbContext sso = fixture.DatabaseServices
             .GetRequiredService<ISecurityDbContextFactory>()
-            .CreateDbContext(ignoreAuthInfo:true);
+            .CreateDbContext(ignoreAuthInfo: true);
 
-        string tokenId = Guid.NewGuid().ToString(format:"N");
+        string tokenId = Guid.NewGuid().ToString(format: "N");
 
-        sso.Add(entity:new SsoToken
+        sso.Add(entity: new SsoToken
         {
             Id = tokenId,
             Reason = (int)TokenUse.Auth,
-            Expires = DateTimeOffset.UtcNow.AddHours(1),
+            Expires = DateTimeOffset.UtcNow.AddHours(hours: 1),
             UserName = userId
         });
 
@@ -151,15 +151,15 @@ becauseArgs:            content + Environment.NewLine + Environment.NewLine + aw
     {
         await using CoreDataContext core = CreateCoreContext();
         return await core.Set<FlowInstanceData>().IgnoreQueryFilters()
-            .AnyAsync(predicate:instance => instance.FlowDefinitionId == flowId && instance.State == state);
+            .AnyAsync(predicate: instance => instance.FlowDefinitionId == flowId && instance.State == state);
     }
 
     private async Task<FlowInstanceData> GetLatestInstanceAsync(Guid flowId)
     {
         await using CoreDataContext core = CreateCoreContext();
         return await core.Set<FlowInstanceData>().IgnoreQueryFilters()
-            .Where(predicate:instance => flowId == Guid.Empty || instance.FlowDefinitionId == flowId)
-            .OrderByDescending(keySelector:instance => instance.Start)
+            .Where(predicate: instance => flowId == Guid.Empty || instance.FlowDefinitionId == flowId)
+            .OrderByDescending(keySelector: instance => instance.Start)
             .FirstAsync();
     }
 
@@ -168,36 +168,36 @@ becauseArgs:            content + Environment.NewLine + Environment.NewLine + aw
         await using CoreDataContext core = CreateCoreContext();
 
         FlowInstanceData[] instances = await core.Set<FlowInstanceData>().IgnoreQueryFilters()
-            .Where(predicate:instance => instance.FlowDefinition.AppId == appId)
+            .Where(predicate: instance => instance.FlowDefinition.AppId == appId)
             .ToArrayAsync();
-        await core.DeleteAllAsync(flowInstances:instances);
+        await core.DeleteAllAsync(flowInstances: instances);
 
         FlowDefinition[] flows = await core.Set<FlowDefinition>().IgnoreQueryFilters()
-            .Where(predicate:flow => flow.AppId == appId)
+            .Where(predicate: flow => flow.AppId == appId)
             .ToArrayAsync();
-        await core.DeleteAllAsync(flowDefinitions:flows);
+        await core.DeleteAllAsync(flowDefinitions: flows);
 
         Guid[] roleIds = await core.Set<Role>().IgnoreQueryFilters()
-            .Where(predicate:role => role.AppId == appId || role.Id == roleId)
-            .Select(selector:role => role.Id)
+            .Where(predicate: role => role.AppId == appId || role.Id == roleId)
+            .Select(selector: role => role.Id)
             .ToArrayAsync();
 
         UserRole[] userRoles = await core.Set<UserRole>().IgnoreQueryFilters()
-            .Where(predicate:userRole => roleIds.Contains(userRole.RoleId))
+            .Where(predicate: userRole => roleIds.Contains(value: userRole.RoleId))
             .ToArrayAsync();
-        await core.DeleteAllAsync(userRoles:userRoles);
+        await core.DeleteAllAsync(userRoles: userRoles);
 
         Role[] roles = await core.Set<Role>().IgnoreQueryFilters()
-            .Where(predicate:role => roleIds.Contains(role.Id))
+            .Where(predicate: role => roleIds.Contains(value: role.Id))
             .ToArrayAsync();
-        await core.DeleteAllAsync(roles:roles);
+        await core.DeleteAllAsync(roles: roles);
 
         App app = await core.Set<App>().IgnoreQueryFilters()
-            .FirstOrDefaultAsync(predicate:found => found.Id == appId);
+            .FirstOrDefaultAsync(predicate: found => found.Id == appId);
 
         if (app is not null)
         {
-            await core.DeleteAsync(app:app);
+            await core.DeleteAsync(app: app);
         }
     }
 
@@ -206,28 +206,28 @@ becauseArgs:            content + Environment.NewLine + Environment.NewLine + aw
         await using CoreDataContext core = CreateCoreContext();
 
         FlowInstanceData[] instances = await core.Set<FlowInstanceData>().IgnoreQueryFilters()
-            .Where(predicate:instance => instance.FlowDefinitionId == flowId)
-            .OrderByDescending(keySelector:instance => instance.Start)
+            .Where(predicate: instance => instance.FlowDefinitionId == flowId)
+            .OrderByDescending(keySelector: instance => instance.Start)
             .ToArrayAsync();
 
         string instanceSummary = instances.Length == 0
             ? "No flow instances were found."
             : string.Join(
-separator:                Environment.NewLine,
-values:                instances.Select(instance =>
+separator: Environment.NewLine,
+values: instances.Select(selector: instance =>
                     $"Instance {instance.Id} | State={instance.State} | Start={instance.Start:u} | End={(instance.End.HasValue ? instance.End.Value.ToString("u") : "<null>")} | Context={instance.ContextString ?? "<null>"}"));
 
         return string.Join(
-separator:            Environment.NewLine + Environment.NewLine,
-value:            [
+separator: Environment.NewLine + Environment.NewLine,
+value: [
                 "Flow instances:",
                 instanceSummary,
                 "HostedServices output:",
-                TakeLastLines(fixture.HostedServicesOutput, 200),
+                TakeLastLines(content:fixture.HostedServicesOutput, maxLines:200),
                 "Workflow output:",
-                TakeLastLines(fixture.WorkflowOutput, 200),
+                TakeLastLines(content:fixture.WorkflowOutput, maxLines:200),
                 "Web output:",
-                TakeLastLines(fixture.WebOutput, 200)
+                TakeLastLines(content:fixture.WebOutput, maxLines:200)
             ]);
     }
 
@@ -244,7 +244,7 @@ value:            [
                 return;
             }
 
-            await Task.Delay(millisecondsDelay:delayMilliseconds);
+            await Task.Delay(millisecondsDelay: delayMilliseconds);
         }
 
         string diagnostics = diagnosticsFactory is null
@@ -259,14 +259,14 @@ value:            [
 
     private static string TakeLastLines(string content, int maxLines)
     {
-        if (string.IsNullOrWhiteSpace(value:content))
+        if (string.IsNullOrWhiteSpace(value: content))
         {
             return "<no output>";
         }
 
         string[] lines = content
-            .Split(separator:Environment.NewLine, options:StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            .Split(separator: Environment.NewLine, options: StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        return string.Join(separator:Environment.NewLine, values:lines.TakeLast(maxLines));
+        return string.Join(separator: Environment.NewLine, values: lines.TakeLast(count: maxLines));
     }
 }

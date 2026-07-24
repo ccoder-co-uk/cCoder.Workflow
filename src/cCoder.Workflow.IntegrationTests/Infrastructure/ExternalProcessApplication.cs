@@ -43,8 +43,8 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
             process.StartInfo.Environment[key] = value;
         }
 
-        process.OutputDataReceived += (_, args) => Append(line:args.Data);
-        process.ErrorDataReceived += (_, args) => Append(line:args.Data);
+        process.OutputDataReceived += (_, args) => Append(line: args.Data);
+        process.ErrorDataReceived += (_, args) => Append(line: args.Data);
 
         if (!process.Start())
         {
@@ -68,11 +68,11 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
                 return;
             }
 
-            await Task.Delay(millisecondsDelay:500, cancellationToken:cancellationTokenSource.Token).ContinueWith(continuationAction:_ => { }, scheduler:TaskScheduler.Default);
+            await Task.Delay(millisecondsDelay: 500, cancellationToken: cancellationTokenSource.Token).ContinueWith(continuationAction: _ => { }, scheduler: TaskScheduler.Default);
         }
 
         string diagnostics = readinessDiagnostics?.Invoke();
-        string readinessDetails = string.IsNullOrWhiteSpace(value:diagnostics)
+        string readinessDetails = string.IsNullOrWhiteSpace(value: diagnostics)
             ? string.Empty
             : $"{Environment.NewLine}Readiness diagnostics:{Environment.NewLine}{diagnostics}";
 
@@ -94,7 +94,7 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
                 process.Kill(entireProcessTree: true);
 
                 Task waitForExitTask = process.WaitForExitAsync();
-                Task completedTask = await Task.WhenAny(task1:waitForExitTask, task2:Task.Delay(TimeSpan.FromSeconds(15)));
+                Task completedTask = await Task.WhenAny(task1: waitForExitTask, task2: Task.Delay(delay: TimeSpan.FromSeconds(15)));
 
                 if (completedTask == waitForExitTask)
                 {
@@ -121,7 +121,7 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
 
         lock (output)
         {
-            output.AppendLine(value:line);
+            output.AppendLine(value: line);
         }
     }
 }

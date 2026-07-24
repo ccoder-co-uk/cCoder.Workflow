@@ -17,6 +17,6 @@ internal sealed class QueueInstanceManagement(IServiceScopeFactory serviceScopeF
         IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementOrchestrationService =
             scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
-        await workflowInstanceManagementOrchestrationService.RunQueueInstanceManagementContinuouslyAsync(cancellationToken:stoppingToken);
+        await workflowInstanceManagementOrchestrationService.RunQueueInstanceManagementContinuouslyAsync(cancellationToken: stoppingToken);
     }
 }

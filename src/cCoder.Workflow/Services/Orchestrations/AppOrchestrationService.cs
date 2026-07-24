@@ -18,29 +18,29 @@ internal class AppOrchestrationService(
 {
     public async ValueTask AddAsync(App app)
     {
-        StampCalendars(app:app);
-        StampFlows(app:app);
-        StampScheduledTasks(app:app);
-        _ = await calendarOrchestrationService.AddOrUpdate(items:app.Calendars ?? []);
-        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items:app.Flows ?? []);
-        _ = await scheduledTaskOrchestrationService.AddOrUpdate(items:app.Tasks ?? []);
+        StampCalendars(app: app);
+        StampFlows(app: app);
+        StampScheduledTasks(app: app);
+        _ = await calendarOrchestrationService.AddOrUpdate(items: app.Calendars ?? []);
+        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items: app.Flows ?? []);
+        _ = await scheduledTaskOrchestrationService.AddOrUpdate(items: app.Tasks ?? []);
     }
 
     public async ValueTask UpdateAsync(App app)
     {
-        StampCalendars(app:app);
-        StampFlows(app:app);
-        StampScheduledTasks(app:app);
-        _ = await calendarOrchestrationService.AddOrUpdate(items:app.Calendars ?? []);
-        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items:app.Flows ?? []);
-        _ = await scheduledTaskOrchestrationService.AddOrUpdate(items:app.Tasks ?? []);
+        StampCalendars(app: app);
+        StampFlows(app: app);
+        StampScheduledTasks(app: app);
+        _ = await calendarOrchestrationService.AddOrUpdate(items: app.Calendars ?? []);
+        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items: app.Flows ?? []);
+        _ = await scheduledTaskOrchestrationService.AddOrUpdate(items: app.Tasks ?? []);
     }
 
     public async ValueTask DeleteAsync(int appId)
     {
-        await scheduledTaskOrchestrationService.DeleteByAppIdAsync(appId:appId);
-        await calendarOrchestrationService.DeleteByAppIdAsync(appId:appId);
-        await flowDefinitionOrchestrationService.DeleteByAppIdAsync(appId:appId);
+        await scheduledTaskOrchestrationService.DeleteByAppIdAsync(appId: appId);
+        await calendarOrchestrationService.DeleteByAppIdAsync(appId: appId);
+        await flowDefinitionOrchestrationService.DeleteByAppIdAsync(appId: appId);
     }
 
     private static void StampCalendars(App app)

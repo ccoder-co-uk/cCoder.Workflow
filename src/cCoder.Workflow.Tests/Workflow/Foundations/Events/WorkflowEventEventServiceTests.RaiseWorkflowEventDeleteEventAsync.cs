@@ -21,23 +21,23 @@ public partial class WorkflowEventEventServiceTests
         EventMessage<WorkflowEvent> actualMessage = null;
 
         workflowEventEventBrokerMock
-            .Setup(expression:x =>
-                x.RaiseWorkflowEventDeleteEventAsync(It.IsAny<EventMessage<WorkflowEvent>>())
+            .Setup(expression: x =>
+                x.RaiseWorkflowEventDeleteEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>())
             )
-            .Callback<EventMessage<WorkflowEvent>>(action:message => actualMessage = message)
-            .Returns(value:ValueTask.CompletedTask);
+            .Callback<EventMessage<WorkflowEvent>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseWorkflowEventDeleteEventAsync(entity:entity);
+        await service.RaiseWorkflowEventDeleteEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation:entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected:CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         workflowEventEventBrokerMock.Verify(
-expression:            x => x.RaiseWorkflowEventDeleteEventAsync(It.IsAny<EventMessage<WorkflowEvent>>()),
-times:            Times.Once
+expression: x => x.RaiseWorkflowEventDeleteEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()),
+times: Times.Once
         );
         workflowEventEventBrokerMock.VerifyNoOtherCalls();
     }

@@ -13,22 +13,22 @@ public class ApiGet<T> : ApiActivity<T>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level:WorkflowLogLevel.Info, message:$"HTTP GET {api.BaseAddress}{Query}");
+        Log(level: WorkflowLogLevel.Info, message: $"HTTP GET {api.BaseAddress}{Query}");
 
         if (typeof(T) == typeof(string))
         {
-            string responseString = await api.GetStringAsync(requestUri:Query);
+            string responseString = await api.GetStringAsync(requestUri: Query);
 
             GetType()
-                .GetProperty(name:"Result")
-                .SetValue(obj:this, value:responseString);
+                .GetProperty(name: "Result")
+                .SetValue(obj: this, value: responseString);
 
         }
         else
         {
-            Result = await api.GetAsync<T>(query:Query);
+            Result = await api.GetAsync<T>(query: Query);
         }
 
-        Log(level:WorkflowLogLevel.Debug, message:Result.ToJson());
+        Log(level: WorkflowLogLevel.Debug, message: Result.ToJson());
     }
 }

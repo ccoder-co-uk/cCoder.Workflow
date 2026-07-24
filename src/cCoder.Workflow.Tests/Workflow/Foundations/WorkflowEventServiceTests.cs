@@ -34,13 +34,13 @@ public partial class WorkflowEventServiceTests
     {
         WorkflowEvent workflowEvent = Builder<WorkflowEvent>
             .CreateNew()
-            .With(func:x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
-            .With(func:x => x.FlowId = flowId == Guid.Empty ? Guid.NewGuid() : flowId)
-            .With(func:x => x.Type = $"Type-{Guid.NewGuid():N}")
-            .With(func:x => x.EventContext = $"Context-{Guid.NewGuid():N}")
-            .With(func:x => x.CreatedBy = $"creator-{Guid.NewGuid():N}")
-            .With(func:x => x.CreatedOn = DateTimeOffset.UtcNow)
-            .With(func:x => x.ExecuteAs = $"user-{Guid.NewGuid():N}")
+            .With(func: x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
+            .With(func: x => x.FlowId = flowId == Guid.Empty ? Guid.NewGuid() : flowId)
+            .With(func: x => x.Type = $"Type-{Guid.NewGuid():N}")
+            .With(func: x => x.EventContext = $"Context-{Guid.NewGuid():N}")
+            .With(func: x => x.CreatedBy = $"creator-{Guid.NewGuid():N}")
+            .With(func: x => x.CreatedOn = DateTimeOffset.UtcNow)
+            .With(func: x => x.ExecuteAs = $"user-{Guid.NewGuid():N}")
             .Build();
 
         return workflowEvent;

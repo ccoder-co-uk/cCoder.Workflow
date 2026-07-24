@@ -19,41 +19,41 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args:args);
-        IConfiguration configuration = ConfigureApplication(configuration:builder.Configuration, environment:builder.Environment);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args: args);
+        IConfiguration configuration = ConfigureApplication(configuration: builder.Configuration, environment: builder.Environment);
 
         string coreConnection = GetRequiredConfigurationValue(
-configuration:            configuration,
-key:            "ConnectionStrings:Core");
+configuration: configuration,
+key: "ConnectionStrings:Core");
 
         string ssoConnection = GetRequiredConfigurationValue(
-configuration:            configuration,
-key:            "ConnectionStrings:SSO");
+configuration: configuration,
+key: "ConnectionStrings:SSO");
 
         builder.Services.AddEventing();
-        builder.Services.AddHttpEventingHostedServices(configure:options =>
+        builder.Services.AddHttpEventingHostedServices(configure: options =>
         {
-            options.MaxConcurrency = ResolveMaxConcurrency(configuration);
+            options.MaxConcurrency = ResolveMaxConcurrency(configuration: configuration);
         });
         builder.Services.AddControllers();
 
-        builder.Services.AddSecurityApi(configAction:(services, securityConfig) =>
+        builder.Services.AddSecurityApi(configAction: (services, securityConfig) =>
         {
-            securityConfig.AddMSSQLModelProvider(services, ssoConnection);
+            securityConfig.AddMSSQLModelProvider(services: services, connectionString: ssoConnection);
             securityConfig.UseAESHMMACPasswordEncryption(
-                services,
-                GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));
+services: services,
+decryptionKey: GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));
         });
 
         cCoder.Data.IServiceCollectionExtensions.AddCoreData(
-services:            builder.Services,
-connectionString:            coreConnection);
+services: builder.Services,
+connectionString: coreConnection);
 
-        builder.Services.AddWorkflowHostedServices(configure:workflowConfiguration =>
+        builder.Services.AddWorkflowHostedServices(configure: workflowConfiguration =>
         {
             workflowConfiguration.IsMigrating =
-                configuration.GetValue<int?>("MIGRATING") == 1
-                || configuration.GetValue<bool?>("Workflow:IsMigrating") == true;
+                configuration.GetValue<int?>(key: "MIGRATING") == 1
+                || configuration.GetValue<bool?>(key: "Workflow:IsMigrating") == true;
 
             workflowConfiguration.WithEventProviders(
                 CreateAppReceiveProvider(),
@@ -72,9 +72,9 @@ connectionString:            coreConnection);
         IWebHostEnvironment environment)
     {
         configuration
-            .SetBasePath(basePath:Directory.GetCurrentDirectory())
-            .AddJsonFile(path:"appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile(path:$"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .SetBasePath(basePath: Directory.GetCurrentDirectory())
+            .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(path: $"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
         return configuration;
@@ -84,15 +84,15 @@ connectionString:            coreConnection);
         IConfiguration configuration,
         string key)
     {
-        string value = configuration.GetValue<string>(key:key);
+        string value = configuration.GetValue<string>(key: key);
 
-        return string.IsNullOrWhiteSpace(value:value)
+        return string.IsNullOrWhiteSpace(value: value)
             ? throw new InvalidOperationException($"{key} is required.")
             : value;
     }
 
     private static int ResolveMaxConcurrency(IConfiguration configuration) =>
-        configuration.GetValue<int?>(key:"Eventing:Http:MaxConcurrency") ?? 1;
+        configuration.GetValue<int?>(key: "Eventing:Http:MaxConcurrency") ?? 1;
 
     private static EventProvider<App> CreateAppReceiveProvider() =>
         new()
@@ -103,15 +103,15 @@ connectionString:            coreConnection);
                 IEventHub eventHub = serviceProvider.GetRequiredService<IEventHub>();
 
                 await eventHub.RaiseEventAsync(
-name:                    eventName,
-message:                    new EventMessage<App>
-                    {
-                        AuthInfo = new EventAuthInfo
-                        {
-                            SSOUserId = message.AuthInfo?.SSOUserId ?? "Guest",
-                        },
-                        Data = message.Data,
-                    });
+name: eventName,
+message: new EventMessage<App>
+{
+    AuthInfo = new EventAuthInfo
+    {
+        SSOUserId = message.AuthInfo?.SSOUserId ?? "Guest",
+    },
+    Data = message.Data,
+});
             },
         };
 
@@ -127,7 +127,7 @@ message:                    new EventMessage<App>
                         "You must provide a workflow instance payload with a valid id.");
                 }
 
-                if (!string.Equals(a:message.Data?.State, b:"Queued", comparisonType:StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(a: message.Data?.State, b: "Queued", comparisonType: StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }
@@ -136,7 +136,7 @@ message:                    new EventMessage<App>
                     serviceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
                 await workflowInstanceManagementService.ExecuteWaitingQueuedInstanceByIdAsync(
-id:                    message.Data.Id);
+id: message.Data.Id);
             },
         };
 }

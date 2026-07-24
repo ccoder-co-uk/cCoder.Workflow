@@ -20,7 +20,7 @@ public sealed partial class WorkflowEventControllerTests
         WorkflowEvent actualWorkflowEvent;
 
         // When
-        expectedWorkflowEvent = await CreateWorkflowEventAsync(payload:new
+        expectedWorkflowEvent = await CreateWorkflowEventAsync(payload: new
         {
             flowId = seededContext.FlowId,
             type = "Acceptance",
@@ -30,13 +30,13 @@ public sealed partial class WorkflowEventControllerTests
             executeAs = "Guest",
         });
 
-        actualWorkflowEvent = await GetWorkflowEventAsync(id:expectedWorkflowEvent.Id);
+        actualWorkflowEvent = await GetWorkflowEventAsync(id: expectedWorkflowEvent.Id);
 
         // Then
         actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent!.Id.Should().Be(expected:expectedWorkflowEvent.Id);
+        actualWorkflowEvent!.Id.Should().Be(expected: expectedWorkflowEvent.Id);
 
-        await DeleteWorkflowEventAsync(id:expectedWorkflowEvent.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteWorkflowEventAsync(id: expectedWorkflowEvent.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

@@ -9,55 +9,55 @@ using cCoder.Workflow.Services.Processings;
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal class FlowInstanceDataOrchestrationService(
-    IFlowInstanceDataProcessingService processingService, 
-    IFlowInstanceDataEventProcessingService eventService) 
+    IFlowInstanceDataProcessingService processingService,
+    IFlowInstanceDataEventProcessingService eventService)
         : IFlowInstanceDataOrchestrationService
 {
     public FlowInstanceData Get(Guid id)
     {
-        return processingService.Get(id:id);
+        return processingService.Get(id: id);
     }
 
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false)
     {
-        return processingService.GetAll(ignoreFilters:ignoreFilters);
+        return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
     public async ValueTask<FlowInstanceData> AddAsync(FlowInstanceData entity)
     {
-        FlowInstanceData result = await processingService.AddAsync(entity:entity);
-        await eventService.RaiseFlowInstanceDataAddEventAsync(entity:result);
+        FlowInstanceData result = await processingService.AddAsync(entity: entity);
+        await eventService.RaiseFlowInstanceDataAddEventAsync(entity: result);
         return result;
     }
 
     public async ValueTask<FlowInstanceData> AddQueuedAsync(FlowInstanceData entity)
     {
-        FlowInstanceData result = await processingService.AddQueuedAsync(entity:entity);
-        await eventService.RaiseFlowInstanceDataAddEventAsync(entity:result);
+        FlowInstanceData result = await processingService.AddQueuedAsync(entity: entity);
+        await eventService.RaiseFlowInstanceDataAddEventAsync(entity: result);
         return result;
     }
 
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)
     {
-        FlowInstanceData result = await processingService.UpdateAsync(entity:entity);
-        await eventService.RaiseFlowInstanceDataUpdateEventAsync(entity:result);
+        FlowInstanceData result = await processingService.UpdateAsync(entity: entity);
+        await eventService.RaiseFlowInstanceDataUpdateEventAsync(entity: result);
         return result;
     }
 
     public async ValueTask DeleteAsync(Guid id)
     {
-        FlowInstanceData entity = processingService.Get(id:id);
-        await eventService.RaiseFlowInstanceDataDeleteEventAsync(entity:entity);
-        await processingService.DeleteAsync(id:id);
+        FlowInstanceData entity = processingService.Get(id: id);
+        await eventService.RaiseFlowInstanceDataDeleteEventAsync(entity: entity);
+        await processingService.DeleteAsync(id: id);
     }
 
     public ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items)
     {
-        return processingService.AddOrUpdate(items:items);
+        return processingService.AddOrUpdate(items: items);
     }
 
     public ValueTask DeleteAllAsync(IEnumerable<FlowInstanceData> items)
     {
-        return processingService.DeleteAllAsync(items:items);
+        return processingService.DeleteAllAsync(items: items);
     }
 }

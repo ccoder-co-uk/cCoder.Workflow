@@ -21,7 +21,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     public async ValueTask<User> AddUserAsync(User entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = (await coreDataContext.Users.AddAsync(entity:entity)).Entity;
+        User result = (await coreDataContext.Users.AddAsync(entity: entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -29,7 +29,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     public async ValueTask<User> UpdateUserAsync(User entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = coreDataContext.Users.Update(entity:entity).Entity;
+        User result = coreDataContext.Users.Update(entity: entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -37,7 +37,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     public async ValueTask<int> DeleteUserAsync(User entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.Remove(entity:entity);
+        coreDataContext.Users.Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -49,7 +49,7 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.RemoveRange(entities:items);
+        coreDataContext.Users.RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
@@ -57,12 +57,12 @@ internal class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.UserRoles
-            .Where(predicate:userRole => userRole.UserId == entity.Id)
+            .Where(predicate: userRole => userRole.UserId == entity.Id)
             .Join(
-inner:                coreDataContext.Roles,
-outerKeySelector:                userRole => userRole.RoleId,
-innerKeySelector:                role => role.Id,
-resultSelector:                (userRole, role) => (int?)role.AppId)
+inner: coreDataContext.Roles,
+outerKeySelector: userRole => userRole.RoleId,
+innerKeySelector: role => role.Id,
+resultSelector: (userRole, role) => (int?)role.AppId)
             .FirstOrDefault();
     }
 }

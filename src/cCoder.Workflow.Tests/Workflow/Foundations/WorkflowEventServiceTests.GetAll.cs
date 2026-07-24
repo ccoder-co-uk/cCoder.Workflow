@@ -25,17 +25,17 @@ public partial class WorkflowEventServiceTests
             workflowEvent
         }.AsQueryable();
 
-        workflowEventBrokerMock.Setup(expression:x => x.GetAllWorkflowEvents(false)).Returns(value:workflowEvents);
+        workflowEventBrokerMock.Setup(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false)).Returns(value: workflowEvents);
 
         // When
         IQueryable<WorkflowEvent> result = workflowEventService.GetAll();
 
         // Then
-        result.Should().BeEquivalentTo(expectation:workflowEvents.Select(item => (WorkflowEvent)item));
-        workflowEventBrokerMock.Verify(expression:x => x.GetAllWorkflowEvents(false), times:Times.Once);
+        result.Should().BeEquivalentTo(expectation: workflowEvents.Select(selector: item => (WorkflowEvent)item));
+        workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
         workflowEventBrokerMock.Verify(
-expression:            x => x.GetAppId(It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
-times:            Times.AtMostOnce()
+expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Workflow.WorkflowEvent>()),
+times: Times.AtMostOnce()
         );
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();

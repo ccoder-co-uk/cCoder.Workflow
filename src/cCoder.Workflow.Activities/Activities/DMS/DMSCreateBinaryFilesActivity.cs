@@ -37,16 +37,16 @@ public class DMSCreateBinaryFilesActivity : DMSActivity
                     }
                 }
 
-                Log(level:WorkflowLogLevel.Info, message:$"File upload complete, files posted to DMS folder {Path}!");
+                Log(level: WorkflowLogLevel.Info, message: $"File upload complete, files posted to DMS folder {Path}!");
             }
             else
             {
-                Log(level:WorkflowLogLevel.Warning, message:$"No files requested for creation.");
+                Log(level: WorkflowLogLevel.Warning, message: $"No files requested for creation.");
             }
         }
         catch (Exception ex)
         {
-            Log(level:WorkflowLogLevel.Error, message:$"Failed to create DMS file because of exception:\n{ex.Message}");
+            Log(level: WorkflowLogLevel.Error, message: $"Failed to create DMS file because of exception:\n{ex.Message}");
         }
     }
 }

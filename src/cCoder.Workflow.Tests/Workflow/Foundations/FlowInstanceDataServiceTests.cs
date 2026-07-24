@@ -36,15 +36,15 @@ public partial class FlowInstanceDataServiceTests
     {
         FlowInstanceData flowInstanceData = Builder<FlowInstanceData>
             .CreateNew()
-            .With(func:x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
-            .With(func:x => x.FlowDefinitionId = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
-            .With(func:x => x.Name = $"FlowInstance-{Guid.NewGuid():N}")
-            .With(func:x => x.State = "Queued")
-            .With(func:x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
-            .With(func:x => x.Caller = "tester")
-            .With(func:x => x.ContextString = "{}")
-            .With(func:x => x.Start = DateTimeOffset.UtcNow)
-            .With(func:x => x.End = default(DateTimeOffset))
+            .With(func: x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
+            .With(func: x => x.FlowDefinitionId = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
+            .With(func: x => x.Name = $"FlowInstance-{Guid.NewGuid():N}")
+            .With(func: x => x.State = "Queued")
+            .With(func: x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
+            .With(func: x => x.Caller = "tester")
+            .With(func: x => x.ContextString = "{}")
+            .With(func: x => x.Start = DateTimeOffset.UtcNow)
+            .With(func: x => x.End = default(DateTimeOffset))
             .Build();
 
         return flowInstanceData;

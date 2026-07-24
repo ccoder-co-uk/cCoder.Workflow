@@ -33,17 +33,17 @@ public class AuthenticateActivity : ApiActivity
         using HttpClient api = GetHttpClient();
 
         var auth = new { User = Username, Pass = Password };
-        HttpResponseMessage response = await api.PostAsync(requestUri:"Account/Login", content:new StringContent(Json(auth), Encoding.UTF8, "application/json"));
+        HttpResponseMessage response = await api.PostAsync(requestUri: "Account/Login", content: new StringContent(Json(source: auth), Encoding.UTF8, "application/json"));
         _ = response.EnsureSuccessStatusCode();
-        Token token = await ReadAsAsync<Token>(content:response.Content);
+        Token token = await ReadAsAsync<Token>(content: response.Content);
         AuthToken = token.Id;
     }
 
     public static async Task<T> ReadAsAsync<T>(HttpContent content)
-        => JsonConvert.DeserializeObject<T>(value:await content.ReadAsStringAsync());
+        => JsonConvert.DeserializeObject<T>(value: await content.ReadAsStringAsync());
 
     static string Json(object source)
-        => JsonConvert.SerializeObject(value:source, settings:new JsonSerializerSettings
+        => JsonConvert.SerializeObject(value: source, settings: new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             TypeNameHandling = TypeNameHandling.None,

@@ -23,32 +23,32 @@ public partial class FlowDefinitionCoordinationServiceTests
 
         FlowInstanceData flowInstanceData = Builder<FlowInstanceData>
             .CreateNew()
-            .With(func:item => item.FlowDefinitionId = flowDefinition.Id)
+            .With(func: item => item.FlowDefinitionId = flowDefinition.Id)
             .Build();
 
         IQueryable<FlowInstanceData> flowInstances = new[] { flowInstanceData }.AsQueryable();
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(expression:service => service.GetAll(true))
-            .Returns(value:flowInstances);
+            .Setup(expression: service => service.GetAll(ignoreFilters: true))
+            .Returns(value: flowInstances);
 
         flowInstanceDataOrchestrationServiceMock
-            .Setup(expression:service => service.DeleteAllAsync(It.IsAny<IEnumerable<FlowInstanceData>>()))
-            .Returns(value:ValueTask.CompletedTask);
+            .Setup(expression: service => service.DeleteAllAsync(items: It.IsAny<IEnumerable<FlowInstanceData>>()))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await coordinationService.HandleFlowDefinitionDeleteAsync(flowDefinition:flowDefinition);
+        await coordinationService.HandleFlowDefinitionDeleteAsync(flowDefinition: flowDefinition);
 
         // Then
-        flowInstanceDataOrchestrationServiceMock.Verify(expression:service => service.GetAll(true), times:Times.Once);
+        flowInstanceDataOrchestrationServiceMock.Verify(expression: service => service.GetAll(ignoreFilters: true), times: Times.Once);
 
         flowInstanceDataOrchestrationServiceMock.Verify(
-expression:            service => service.DeleteAllAsync(
-                It.Is<IEnumerable<FlowInstanceData>>(items =>
+expression: service => service.DeleteAllAsync(
+items: It.Is<IEnumerable<FlowInstanceData>>(items =>
                     items.Single().FlowDefinitionId == flowDefinition.Id
                 )
             ),
-times:            Times.Once
+times: Times.Once
         );
 
         flowInstanceDataOrchestrationServiceMock.VerifyNoOtherCalls();

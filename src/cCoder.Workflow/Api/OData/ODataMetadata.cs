@@ -39,7 +39,7 @@ public class MetadataContainer
     public MetadataContainer(Type type)
     {
         IsValueType = type.IsValueType || type == typeof(string);
-        Type = GetTypeName(type:type);
+        Type = GetTypeName(type: type);
         Name = type.Name;
         DisplayName = type.Name;
         Description = type.Name;
@@ -47,7 +47,7 @@ public class MetadataContainer
         ServerTypeName = type.GetCSharpTypeName();
         Properties = type.IsValueType || type == typeof(string)
             ? []
-            : type.GetProperties().Select(selector:PropertyInfoFor).ToArray();
+            : type.GetProperties().Select(selector: PropertyInfoFor).ToArray();
     }
 
     public MetadataContainer(Type type, bool isEntity, bool hasEndpoint)
@@ -62,7 +62,7 @@ public class MetadataContainer
         new()
         {
             Name = property.Name,
-            Type = GetTypeName(type:property.PropertyType),
+            Type = GetTypeName(type: property.PropertyType),
             ServerType = property.PropertyType.ToString(),
             ServerTypeName = property.PropertyType.GetCSharpTypeName(),
             IsValueType = property.PropertyType.IsValueType || property.PropertyType == typeof(string),
@@ -86,12 +86,12 @@ public class MetadataContainer
             return "string";
         }
 
-        if (typeof(IEnumerable).IsAssignableFrom(c:type))
+        if (typeof(IEnumerable).IsAssignableFrom(c: type))
         {
             return "array";
         }
 
-        return Lookup.TryGetValue(key:type, value:out string name) ? name : "object";
+        return Lookup.TryGetValue(key: type, value: out string name) ? name : "object";
     }
 
     private static readonly Dictionary<Type, string> Lookup = new()

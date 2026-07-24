@@ -26,20 +26,20 @@ public sealed class WorkflowScriptExecutionOrchestrationService(
         if (useDetails)
         {
             ExecutionDetails details = JsonConvert.DeserializeObject<ExecutionDetails>(
-value:                payload,
-settings:                new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None })
+value: payload,
+settings: new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None })
                 ?? throw new InvalidOperationException("Workflow script execution details could not be deserialized.");
 
-            return await runner.Run<string>(code:details.Script, imports:Imports, args:details.Model, log:LogSync);
+            return await runner.Run<string>(code: details.Script, imports: Imports, args: details.Model, log: LogSync);
         }
 
-        object result = await runner.Run<object>(code:payload, imports:Imports, log: LogSync);
-        return JsonConvert.SerializeObject(value:result, settings:WorkflowJson.GetODataJsonSettings());
+        object result = await runner.Run<object>(code: payload, imports: Imports, log: LogSync);
+        return JsonConvert.SerializeObject(value: result, settings: WorkflowJson.GetODataJsonSettings());
     }
 
     private Task LogAsync(WorkflowLogLevel level, string message)
     {
-        LogSync(level:level, message:message);
+        LogSync(level: level, message: message);
         return Task.CompletedTask;
     }
 
@@ -47,19 +47,19 @@ settings:                new JsonSerializerSettings { TypeNameHandling = TypeNam
     {
         if (level == WorkflowLogLevel.Error || level == WorkflowLogLevel.Fatal)
         {
-            logger.LogError(message:"{Message}", args:message);
+            logger.LogError(message: "{Message}", args: message);
         }
         else if (level == WorkflowLogLevel.Warning)
         {
-            logger.LogWarning(message:"{Message}", args:message);
+            logger.LogWarning(message: "{Message}", args: message);
         }
         else if (level == WorkflowLogLevel.Info)
         {
-            logger.LogInformation(message:"{Message}", args:message);
+            logger.LogInformation(message: "{Message}", args: message);
         }
         else
         {
-            logger.LogDebug(message:"{Message}", args:message);
+            logger.LogDebug(message: "{Message}", args: message);
         }
     }
 

@@ -17,12 +17,12 @@ public class XslActivity : TransformationActivity<string, string>
     public override async Task ExecuteAsync()
     {
         XslCompiledTransform t = new();
-        t.Load(stylesheet:new XmlTextReader(new StringReader(Xslt)));
+        t.Load(stylesheet: new XmlTextReader(new StringReader(Xslt)));
 
-        using XmlTextReader input = new(new MemoryStream(Encoding.UTF8.GetBytes(s:Source)));
+        using XmlTextReader input = new(new MemoryStream(Encoding.UTF8.GetBytes(s: Source)));
         using XmlTextWriter output = new(new MemoryStream(), Encoding.UTF8);
-        t.Transform(input:input, results:output);
-        _ = output.BaseStream.Seek(offset:0, origin:SeekOrigin.Begin);
+        t.Transform(input: input, results: output);
+        _ = output.BaseStream.Seek(offset: 0, origin: SeekOrigin.Begin);
         using StreamReader reader = new(output.BaseStream);
         Result = await reader.ReadToEndAsync();
     }

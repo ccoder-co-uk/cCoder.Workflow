@@ -32,18 +32,18 @@ public class AppOrchestrationServiceTests
     [Fact]
     public async Task ShouldDeleteAppOwnedFlowsByAppIdWhenDeleteAsync()
     {
-        scheduledTaskOrchestrationServiceMock.Setup(expression:x => x.DeleteByAppIdAsync(5))
-            .Returns(value:ValueTask.CompletedTask);
-        calendarOrchestrationServiceMock.Setup(expression:x => x.DeleteByAppIdAsync(5))
-            .Returns(value:ValueTask.CompletedTask);
-        flowDefinitionOrchestrationServiceMock.Setup(expression:x => x.DeleteByAppIdAsync(5))
-            .Returns(value:ValueTask.CompletedTask);
+        scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
+            .Returns(value: ValueTask.CompletedTask);
+        calendarOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
+            .Returns(value: ValueTask.CompletedTask);
+        flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
+            .Returns(value: ValueTask.CompletedTask);
 
-        await service.DeleteAsync(appId:5);
+        await service.DeleteAsync(appId: 5);
 
-        scheduledTaskOrchestrationServiceMock.Verify(expression:x => x.DeleteByAppIdAsync(5), times:Times.Once);
-        calendarOrchestrationServiceMock.Verify(expression:x => x.DeleteByAppIdAsync(5), times:Times.Once);
-        flowDefinitionOrchestrationServiceMock.Verify(expression:x => x.DeleteByAppIdAsync(5), times:Times.Once);
+        scheduledTaskOrchestrationServiceMock.Verify(expression: x => x.DeleteByAppIdAsync(appId: 5), times: Times.Once);
+        calendarOrchestrationServiceMock.Verify(expression: x => x.DeleteByAppIdAsync(appId: 5), times: Times.Once);
+        flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.DeleteByAppIdAsync(appId: 5), times: Times.Once);
         scheduledTaskOrchestrationServiceMock.VerifyNoOtherCalls();
         calendarOrchestrationServiceMock.VerifyNoOtherCalls();
         flowDefinitionOrchestrationServiceMock.VerifyNoOtherCalls();
@@ -60,17 +60,17 @@ public class AppOrchestrationServiceTests
             Tasks = [new ScheduledTask { Name = "Task" }],
         };
 
-        calendarOrchestrationServiceMock.Setup(expression:x => x.AddOrUpdate(
-                It.Is<IEnumerable<Calendar>>(items => items.All(calendar => calendar.AppId == 9))))
-            .Returns(value:ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<Calendar>>>([]));
-        flowDefinitionOrchestrationServiceMock.Setup(expression:x => x.AddOrUpdate(
-                It.Is<IEnumerable<FlowDefinition>>(items => items.All(flow => flow.AppId == 9))))
-            .Returns(value:ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<FlowDefinition>>>([]));
-        scheduledTaskOrchestrationServiceMock.Setup(expression:x => x.AddOrUpdate(
-                It.Is<IEnumerable<ScheduledTask>>(items => items.All(task => task.AppId == 9))))
-            .Returns(value:ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<ScheduledTask>>>([]));
+        calendarOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
+items: It.Is<IEnumerable<Calendar>>(items => items.All(calendar => calendar.AppId == 9))))
+            .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<Calendar>>>(result: []));
+        flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
+items: It.Is<IEnumerable<FlowDefinition>>(items => items.All(flow => flow.AppId == 9))))
+            .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<FlowDefinition>>>(result: []));
+        scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdate(
+items: It.Is<IEnumerable<ScheduledTask>>(items => items.All(task => task.AppId == 9))))
+            .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<ScheduledTask>>>(result: []));
 
-        await service.AddAsync(app:app);
+        await service.AddAsync(app: app);
 
         calendarOrchestrationServiceMock.VerifyAll();
         flowDefinitionOrchestrationServiceMock.VerifyAll();

@@ -21,23 +21,23 @@ public partial class FlowInstanceDataEventServiceTests
         EventMessage<FlowInstanceData> actualMessage = null;
 
         flowInstanceDataEventBrokerMock
-            .Setup(expression:x =>
-                x.RaiseFlowInstanceDataAddEventAsync(It.IsAny<EventMessage<FlowInstanceData>>())
+            .Setup(expression: x =>
+                x.RaiseFlowInstanceDataAddEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>())
             )
-            .Callback<EventMessage<FlowInstanceData>>(action:message => actualMessage = message)
-            .Returns(value:ValueTask.CompletedTask);
+            .Callback<EventMessage<FlowInstanceData>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowInstanceDataAddEventAsync(entity:entity);
+        await service.RaiseFlowInstanceDataAddEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation:entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected:CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         flowInstanceDataEventBrokerMock.Verify(
-expression:            x => x.RaiseFlowInstanceDataAddEventAsync(It.IsAny<EventMessage<FlowInstanceData>>()),
-times:            Times.Once
+expression: x => x.RaiseFlowInstanceDataAddEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>()),
+times: Times.Once
         );
         flowInstanceDataEventBrokerMock.VerifyNoOtherCalls();
     }

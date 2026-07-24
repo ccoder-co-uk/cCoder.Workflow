@@ -23,7 +23,7 @@ internal class CalendarEventEventService(
             Data = entity,
         };
 
-        await calendarEventEventBroker.RaiseCalendarEventAddEventAsync(message:message);
+        await calendarEventEventBroker.RaiseCalendarEventAddEventAsync(message: message);
     }
 
     public async ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity)
@@ -34,7 +34,7 @@ internal class CalendarEventEventService(
             Data = entity,
         };
 
-        await calendarEventEventBroker.RaiseCalendarEventUpdateEventAsync(message:message);
+        await calendarEventEventBroker.RaiseCalendarEventUpdateEventAsync(message: message);
     }
 
     public async ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity)
@@ -45,6 +45,6 @@ internal class CalendarEventEventService(
             Data = entity,
         };
 
-        await calendarEventEventBroker.RaiseCalendarEventDeleteEventAsync(message:message);
+        await calendarEventEventBroker.RaiseCalendarEventDeleteEventAsync(message: message);
     }
 }

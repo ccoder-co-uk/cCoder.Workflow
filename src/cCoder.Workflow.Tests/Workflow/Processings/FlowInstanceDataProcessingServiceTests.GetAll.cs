@@ -23,14 +23,14 @@ public partial class FlowInstanceDataProcessingServiceTests
         {
             CreateRandomFlowInstanceData(),
         }.AsQueryable();
-        flowInstanceDataServiceMock.Setup(expression:x => x.GetAll()).Returns(value:entities);
+        flowInstanceDataServiceMock.Setup(expression: x => x.GetAll()).Returns(value: entities);
 
         // When
         IQueryable<FlowInstanceData> result = flowInstanceDataProcessingService.GetAll();
 
         // Then
-        result.Should().BeSameAs(expected:entities);
-        flowInstanceDataServiceMock.Verify(expression:x => x.GetAll(), times:Times.Once);
+        result.Should().BeSameAs(expected: entities);
+        flowInstanceDataServiceMock.Verify(expression: x => x.GetAll(), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }
 

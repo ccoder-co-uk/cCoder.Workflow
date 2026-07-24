@@ -19,7 +19,7 @@ public partial class WorkflowMetadataTypeServiceTests
     {
         var result = service.GetKnownActivityTypes();
 
-        result.Select(selector:set => set.Name)
+        result.Select(selector: set => set.Name)
             .Should()
             .Equal(
                 "ApiActivity",
@@ -37,10 +37,10 @@ public partial class WorkflowMetadataTypeServiceTests
     {
         var result = service.GetSharedMetadata();
 
-        result.Name.Should().Be(expected:"Workflow");
-        result.Types.Select(selector:type => type.Name)
+        result.Name.Should().Be(expected: "Workflow");
+        result.Types.Select(selector: type => type.Name)
             .Should()
-            .Contain(expected:[
+            .Contain(expected: [
                 nameof(Start),
                 nameof(PageBuilder),
                 nameof(SendEmailActivity),
@@ -51,9 +51,9 @@ public partial class WorkflowMetadataTypeServiceTests
                 nameof(WorkflowLogEntry),
             ]);
 
-        result.Types.Select(selector:type => type.Name)
+        result.Types.Select(selector: type => type.Name)
             .Should()
-            .NotContain(unexpected:[
+            .NotContain(unexpected: [
                 "SftpFetchActivity",
                 "SftpMoveActivity",
                 "SftpCreateBinaryFilesActivity",
@@ -68,8 +68,8 @@ public partial class WorkflowMetadataTypeServiceTests
         var result = service.GetKnownSystemTypes();
 
         result.Should().ContainSingle();
-        result[0].Name.Should().Be(expected:"System");
-        result[0].Types.Select(selector:type => type.Name)
+        result[0].Name.Should().Be(expected: "System");
+        result[0].Types.Select(selector: type => type.Name)
             .Should()
             .Contain(nameof(Int32), nameof(String), nameof(DateTime), nameof(TimeSpan));
     }

@@ -23,8 +23,8 @@ public class HostedServicesRegistrationTests
         services.AddWorkflowWeb();
 
         Assert.DoesNotContain(
-collection:            services,
-filter:            descriptor => descriptor.ServiceType == typeof(IHostedService)
+collection: services,
+filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
                 && descriptor.ImplementationFactory is not null);
     }
 
@@ -36,24 +36,24 @@ filter:            descriptor => descriptor.ServiceType == typeof(IHostedService
         services.AddWorkflowHostedServices();
 
         Assert.Contains(
-collection:            services,
-filter:            descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceManagement)
+collection: services,
+filter: descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceManagement)
                 && descriptor.ImplementationType == typeof(InstanceMaintenanceManagement));
         Assert.Contains(
-collection:            services,
-filter:            descriptor => descriptor.ServiceType == typeof(IQueueInstanceManagement)
+collection: services,
+filter: descriptor => descriptor.ServiceType == typeof(IQueueInstanceManagement)
                 && descriptor.ImplementationType == typeof(QueueInstanceManagement));
         Assert.Contains(
-collection:            services,
-filter:            descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerManagement)
+collection: services,
+filter: descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerManagement)
                 && descriptor.ImplementationType == typeof(ScheduledTaskRunnerManagement));
         Assert.Equal(
-expected:            3,
-actual:            services.Count(descriptor => descriptor.ServiceType == typeof(IHostedService)
+expected: 3,
+actual: services.Count(predicate: descriptor => descriptor.ServiceType == typeof(IHostedService)
                 && descriptor.ImplementationFactory is not null));
         Assert.Contains(
-collection:            services,
-filter:            descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceManagementOrchestrationService)
+collection: services,
+filter: descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceManagementOrchestrationService)
                 && descriptor.ImplementationType?.Name == "WorkflowInstanceManagementOrchestrationService");
     }
 

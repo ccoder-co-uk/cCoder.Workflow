@@ -27,11 +27,11 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(predicate:instance => instance.State == "Failed")
-            .Include(navigationPropertyPath:instance => instance.FlowDefinition)
-                .ThenInclude(navigationPropertyPath:definition => definition.App)
-            .OrderByDescending(keySelector:instance => instance.Start)
-            .Select(selector:instance => new
+            .Where(predicate: instance => instance.State == "Failed")
+            .Include(navigationPropertyPath: instance => instance.FlowDefinition)
+                .ThenInclude(navigationPropertyPath: definition => definition.App)
+            .OrderByDescending(keySelector: instance => instance.Start)
+            .Select(selector: instance => new
             {
                 InstanceId = instance.Id,
                 FlowId = instance.FlowDefinition.Id,
@@ -51,10 +51,10 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(predicate:instance => instance.State == "Queued")
-            .Include(navigationPropertyPath:instance => instance.FlowDefinition)
-                .ThenInclude(navigationPropertyPath:definition => definition.App)
-            .OrderBy(keySelector:instance => instance.Start)
+            .Where(predicate: instance => instance.State == "Queued")
+            .Include(navigationPropertyPath: instance => instance.FlowDefinition)
+                .ThenInclude(navigationPropertyPath: definition => definition.App)
+            .OrderBy(keySelector: instance => instance.Start)
             .ToArray();
     }
 
@@ -66,8 +66,8 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(predicate:instance => instance.Start < cutoff)
-            .ExecuteDeleteAsync(cancellationToken:cancellationToken);
+            .Where(predicate: instance => instance.Start < cutoff)
+            .ExecuteDeleteAsync(cancellationToken: cancellationToken);
     }
 
     public async ValueTask<int> RequeueHungExecutingInstancesAsync(
@@ -78,13 +78,13 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(predicate:instance => instance.State == "Executing")
-            .Where(predicate:instance => instance.Start < cutoff)
+            .Where(predicate: instance => instance.State == "Executing")
+            .Where(predicate: instance => instance.Start < cutoff)
             .ExecuteUpdateAsync(
-setPropertyCalls:                setters => setters
-                    .SetProperty(instance => instance.State, "Queued")
-                    .SetProperty(instance => instance.End, (DateTimeOffset?)null),
-cancellationToken:                cancellationToken);
+setPropertyCalls: setters => setters
+                    .SetProperty(propertyExpression: instance => instance.State, valueExpression: "Queued")
+                    .SetProperty(propertyExpression: instance => instance.End, valueExpression: (DateTimeOffset?)null),
+cancellationToken: cancellationToken);
     }
 
     public async ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(
@@ -97,14 +97,14 @@ cancellationToken:                cancellationToken);
 
         int claimedCount = await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(predicate:instance => instance.Id == id)
-            .Where(predicate:instance => instance.State == "Queued")
+            .Where(predicate: instance => instance.Id == id)
+            .Where(predicate: instance => instance.State == "Queued")
             .ExecuteUpdateAsync(
-setPropertyCalls:                setters => setters
-                    .SetProperty(instance => instance.State, "Executing")
-                    .SetProperty(instance => instance.Start, claimedAt)
-                    .SetProperty(instance => instance.End, (DateTimeOffset?)null),
-cancellationToken:                cancellationToken);
+setPropertyCalls: setters => setters
+                    .SetProperty(propertyExpression: instance => instance.State, valueExpression: "Executing")
+                    .SetProperty(propertyExpression: instance => instance.Start, valueExpression: claimedAt)
+                    .SetProperty(propertyExpression: instance => instance.End, valueExpression: (DateTimeOffset?)null),
+cancellationToken: cancellationToken);
 
         if (claimedCount == 0)
         {
@@ -113,9 +113,9 @@ cancellationToken:                cancellationToken);
 
         FlowInstanceData instance = await core.FlowInstances
             .IgnoreQueryFilters()
-            .Include(navigationPropertyPath:item => item.FlowDefinition)
-                .ThenInclude(navigationPropertyPath:definition => definition.App)
-            .FirstOrDefaultAsync(predicate:item => item.Id == id, cancellationToken:cancellationToken);
+            .Include(navigationPropertyPath: item => item.FlowDefinition)
+                .ThenInclude(navigationPropertyPath: definition => definition.App)
+            .FirstOrDefaultAsync(predicate: item => item.Id == id, cancellationToken: cancellationToken);
 
         if (instance == null)
         {
@@ -134,11 +134,11 @@ cancellationToken:                cancellationToken);
 
         return await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(predicate:instance => instance.Id == id)
+            .Where(predicate: instance => instance.Id == id)
             .ExecuteUpdateAsync(
-setPropertyCalls:                setters => setters
-                    .SetProperty(instance => instance.State, "Failed")
-                    .SetProperty(instance => instance.End, failedAt),
-cancellationToken:                cancellationToken);
+setPropertyCalls: setters => setters
+                    .SetProperty(propertyExpression: instance => instance.State, valueExpression: "Failed")
+                    .SetProperty(propertyExpression: instance => instance.End, valueExpression: failedAt),
+cancellationToken: cancellationToken);
     }
 }

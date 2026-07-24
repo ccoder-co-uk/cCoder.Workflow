@@ -22,12 +22,12 @@ public class FolderImportActivity : DMSActivity
         using HttpClient remoteApi = GetRemoteHttpClient();
         using HttpClient localApi = GetHttpClient();
 
-        Log(level:WorkflowLogLevel.Info, message:$"Downloading from {RemoteApiUrl}DMS/{RemotePath}");
-        HttpResponseMessage response = await remoteApi.GetAsync(requestUri:$"DMS/{RemotePath}", completionOption:HttpCompletionOption.ResponseHeadersRead);
+        Log(level: WorkflowLogLevel.Info, message: $"Downloading from {RemoteApiUrl}DMS/{RemotePath}");
+        HttpResponseMessage response = await remoteApi.GetAsync(requestUri: $"DMS/{RemotePath}", completionOption: HttpCompletionOption.ResponseHeadersRead);
 
         if (!response.IsSuccessStatusCode)
         {
-            Log(level:WorkflowLogLevel.Warning, message:$"Source {RemoteApiUrl}DMS/{RemotePath} returned nothing downloadable:\n" +
+            Log(level: WorkflowLogLevel.Warning, message: $"Source {RemoteApiUrl}DMS/{RemotePath} returned nothing downloadable:\n" +
                 $"HTTP Status: {response.StatusCode}:\n{await response.Content.ReadAsStringAsync()}");
 
             State = ActivityState.Skipped;
@@ -36,15 +36,15 @@ public class FolderImportActivity : DMSActivity
 
         using Stream remoteFolderStream = await response.Content.ReadAsStreamAsync();
         MemoryStream memoryStream = new();
-        await remoteFolderStream.CopyToAsync(destination:memoryStream);
+        await remoteFolderStream.CopyToAsync(destination: memoryStream);
         memoryStream.Position = 0;
 
-        Log(level:WorkflowLogLevel.Info, message:$"Importing to {localApi.BaseAddress}DMS/{Path}");
-        response = await localApi.PostAsync(requestUri:$"DMS/{Path}?unpack=true&ignoreArchiveRoot=true", content:new StreamContent(memoryStream));
+        Log(level: WorkflowLogLevel.Info, message: $"Importing to {localApi.BaseAddress}DMS/{Path}");
+        response = await localApi.PostAsync(requestUri: $"DMS/{Path}?unpack=true&ignoreArchiveRoot=true", content: new StreamContent(memoryStream));
 
         if (!response.IsSuccessStatusCode)
         {
-            Log(level:WorkflowLogLevel.Error, message:$"Failed to upload to {localApi.BaseAddress}DMS/{Path} due to error:\n" +
+            Log(level: WorkflowLogLevel.Error, message: $"Failed to upload to {localApi.BaseAddress}DMS/{Path} due to error:\n" +
                 $"HTTP Status: {response.StatusCode}:\n{await response.Content.ReadAsStringAsync()}");
 
             State = ActivityState.Failed;
@@ -54,7 +54,7 @@ public class FolderImportActivity : DMSActivity
     protected HttpClient GetRemoteHttpClient()
     {
         HttpClient result = new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate })
-            .WithBaseUri(baseUriString:RemoteApiUrl);
+            .WithBaseUri(baseUriString: RemoteApiUrl);
 
         if (RemoteAuthToken != null)
         {

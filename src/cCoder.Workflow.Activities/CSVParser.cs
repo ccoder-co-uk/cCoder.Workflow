@@ -16,12 +16,12 @@ public static class CSVParser<T>
         options ??= CSVParseConfig.DefaultOptions;
 
         using StringReader reader = new(csvData);
-        options.FieldNames = GetFieldNames(csvReader:reader, options:options);
+        options.FieldNames = GetFieldNames(csvReader: reader, options: options);
 
         string line = reader.ReadLine();
         while (line != null)
         {
-            result.Add(item:ParseLine(line, options));
+            result.Add(item: ParseLine(csvLine: line, options: options));
             line = reader.ReadLine();
         }
 
@@ -30,19 +30,19 @@ public static class CSVParser<T>
 
     private static string[] GetFieldNames(StringReader csvReader, CSVParseConfig options) =>
         options.FieldNamesInHeader
-            ? csvReader.ReadLine().Split(separator:options.Separator)
-            : options.FieldNames ?? Enumerable.Range(start:0, count:50).Select(selector:i => $"Value{i}").ToArray();
+            ? csvReader.ReadLine().Split(separator: options.Separator)
+            : options.FieldNames ?? Enumerable.Range(start: 0, count: 50).Select(selector: i => $"Value{i}").ToArray();
 
     private static T ParseLine(string csvLine, CSVParseConfig options) =>
         typeof(object) == typeof(T)
-            ? ParseDynamicData(csvLine:csvLine, options:options)
-            : ParseTypedData(csvLine:csvLine, options:options);
+            ? ParseDynamicData(csvLine: csvLine, options: options)
+            : ParseTypedData(csvLine: csvLine, options: options);
 
     private static T ParseTypedData(string csvLine, CSVParseConfig options)
     {
         T result = new();
         PropertyInfo[] properties = typeof(T).GetProperties();
-        string[] dataItems = csvLine.Split(separator:options.Separator);
+        string[] dataItems = csvLine.Split(separator: options.Separator);
 
         if (!options.FieldNamesInHeader)
         {
@@ -52,7 +52,7 @@ public static class CSVParser<T>
                 PropertyInfo property = properties[i];
                 if (property.CanWrite && (property.PropertyType.IsValueType || property.PropertyType == typeof(string)))
                 {
-                    property.SetValue(obj:result, value:dataItems[i - offset]);
+                    property.SetValue(obj: result, value: dataItems[i - offset]);
                 }
             }
         }
@@ -60,7 +60,7 @@ public static class CSVParser<T>
         {
             for (int i = 0; i < dataItems.Length; i++)
             {
-                SetDataItem(options:options, result:result, properties:properties, dataItems:dataItems, index:i);
+                SetDataItem(options: options, result: result, properties: properties, dataItems: dataItems, index: i);
             }
         }
 
@@ -71,9 +71,9 @@ public static class CSVParser<T>
     {
         string field = options.FieldNames[index];
         string value = dataItems[index];
-        PropertyInfo property = properties.FirstOrDefault(predicate:p => p.Name.Equals(field, StringComparison.OrdinalIgnoreCase));
+        PropertyInfo property = properties.FirstOrDefault(predicate: p => p.Name.Equals(value: field, comparisonType: StringComparison.OrdinalIgnoreCase));
 
-        if (property == null || string.IsNullOrEmpty(value:value))
+        if (property == null || string.IsNullOrEmpty(value: value))
         {
             return;
         }
@@ -82,31 +82,31 @@ public static class CSVParser<T>
         {
             if (property.PropertyType == typeof(double))
             {
-                property.SetValue(obj:result, value:double.Parse(value));
+                property.SetValue(obj: result, value: double.Parse(s: value));
             }
             else if (property.PropertyType == typeof(decimal))
             {
-                property.SetValue(obj:result, value:decimal.Parse(value));
+                property.SetValue(obj: result, value: decimal.Parse(s: value));
             }
             else if (property.PropertyType == typeof(bool?) || property.PropertyType == typeof(bool))
             {
-                property.SetValue(obj:result, value:bool.Parse(value));
+                property.SetValue(obj: result, value: bool.Parse(value: value));
             }
             else
             {
-                property.SetValue(obj:result, value:value);
+                property.SetValue(obj: result, value: value);
             }
         }
         catch
         {
-            property.SetValue(obj:result, value:null);
+            property.SetValue(obj: result, value: null);
         }
     }
 
     private static T ParseDynamicData(string csvLine, CSVParseConfig options)
     {
         dynamic result = new ExpandoObject();
-        string[] dataItems = csvLine.Split(separator:options.Separator);
+        string[] dataItems = csvLine.Split(separator: options.Separator);
         IDictionary<string, object> items = result;
 
         if (!options.FieldNamesInHeader)
@@ -115,16 +115,16 @@ public static class CSVParser<T>
             for (int i = 0; i < dataItems.Length; i++)
             {
                 string field = fieldNames != null && fieldNames.Length > i
-                    ? fieldNames[i].Replace(oldValue:" ", newValue:"_")
+                    ? fieldNames[i].Replace(oldValue: " ", newValue: "_")
                     : $"Item{i + 1}";
-                items.Add(key:field, value:dataItems[i]);
+                items.Add(key: field, value: dataItems[i]);
             }
         }
         else
         {
             for (int i = 0; i < options.FieldNames.Length; i++)
             {
-                items.Add(key:options.FieldNames[i], value:i < dataItems.Length ? dataItems[i] : null);
+                items.Add(key: options.FieldNames[i], value: i < dataItems.Length ? dataItems[i] : null);
             }
         }
 

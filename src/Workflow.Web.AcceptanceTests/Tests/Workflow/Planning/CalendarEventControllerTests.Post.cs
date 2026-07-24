@@ -16,26 +16,26 @@ public sealed partial class CalendarEventControllerTests
     {
         // Given
         SeededCalendarEventContext seededContext = await SeedDatabase();
-        string name = Unique(prefix:"CalendarEvent");
+        string name = Unique(prefix: "CalendarEvent");
         CalendarEvent expectedCalendarEvent;
         CalendarEvent actualCalendarEvent;
 
         // When
-        expectedCalendarEvent = await CreateCalendarEventAsync(payload:new
+        expectedCalendarEvent = await CreateCalendarEventAsync(payload: new
         {
             calendarId = seededContext.CalendarId,
             name,
             description = "Acceptance calendar event",
             start = DateTimeOffset.UtcNow,
-            durationInTicks = TimeSpan.FromHours(1).Ticks,
+            durationInTicks = TimeSpan.FromHours(hours: 1).Ticks,
         });
 
-        actualCalendarEvent = await GetCalendarEventAsync(id:expectedCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(id: expectedCalendarEvent.Id);
 
         // Then
-        actualCalendarEvent.Name.Should().Be(expected:name);
+        actualCalendarEvent.Name.Should().Be(expected: name);
 
-        await DeleteCalendarEventAsync(id:expectedCalendarEvent.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteCalendarEventAsync(id: expectedCalendarEvent.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

@@ -18,21 +18,21 @@ public partial class WorkflowEventProcessingServiceTests
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventServiceMock
-            .Setup(expression:x => x.GetAppIdForWorkflowEvent(workflowEvent))
-            .Returns(value:1);
+            .Setup(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent))
+            .Returns(value: 1);
         authorizationBrokerMock
-            .Setup(expression:x => x.Authorize(workflowEvent.ExecuteAs, 1, "app_admin"));
+            .Setup(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"));
         workflowEventServiceMock
-            .Setup(expression:x => x.UpdateAsync(workflowEvent))
-            .ReturnsAsync(value:workflowEvent);
+            .Setup(expression: x => x.UpdateAsync(workflowEvent: workflowEvent))
+            .ReturnsAsync(value: workflowEvent);
 
-        WorkflowEvent result = await workflowEventProcessingService.UpdateAsync(entity:workflowEvent);
+        WorkflowEvent result = await workflowEventProcessingService.UpdateAsync(entity: workflowEvent);
 
-        result.Should().BeSameAs(expected:workflowEvent);
-        workflowEventServiceMock.Verify(expression:x => x.GetAppIdForWorkflowEvent(workflowEvent), times:Times.Once);
-        workflowEventServiceMock.Verify(expression:x => x.UpdateAsync(workflowEvent), times:Times.Once);
+        result.Should().BeSameAs(expected: workflowEvent);
+        workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
+        workflowEventServiceMock.Verify(expression: x => x.UpdateAsync(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(expression:x => x.Authorize(workflowEvent.ExecuteAs, 1, "app_admin"), times:Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -42,19 +42,19 @@ public partial class WorkflowEventProcessingServiceTests
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventServiceMock
-            .Setup(expression:x => x.GetAppIdForWorkflowEvent(workflowEvent))
-            .Returns(value:1);
+            .Setup(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent))
+            .Returns(value: 1);
         authorizationBrokerMock
-            .Setup(expression:x => x.Authorize(workflowEvent.ExecuteAs, 1, "app_admin"))
-            .Throws(exception:new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"))
+            .Throws(exception: new SecurityException("Access Denied!"));
 
-        Func<Task> act = async () => await workflowEventProcessingService.UpdateAsync(entity:workflowEvent);
+        Func<Task> act = async () => await workflowEventProcessingService.UpdateAsync(entity: workflowEvent);
 
-        await act.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern:"Access Denied!");
-        workflowEventServiceMock.Verify(expression:x => x.GetAppIdForWorkflowEvent(workflowEvent), times:Times.Once);
-        workflowEventServiceMock.Verify(expression:x => x.UpdateAsync(It.IsAny<WorkflowEvent>()), times:Times.Never);
+        await act.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
+        workflowEventServiceMock.Verify(expression: x => x.UpdateAsync(workflowEvent: It.IsAny<WorkflowEvent>()), times: Times.Never);
         workflowEventServiceMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(expression:x => x.Authorize(workflowEvent.ExecuteAs, 1, "app_admin"), times:Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 }

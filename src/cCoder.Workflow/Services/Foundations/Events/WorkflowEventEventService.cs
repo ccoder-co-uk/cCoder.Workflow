@@ -23,7 +23,7 @@ internal class WorkflowEventEventService(
             Data = entity,
         };
 
-        await workflowEventEventBroker.RaiseWorkflowEventAddEventAsync(message:message);
+        await workflowEventEventBroker.RaiseWorkflowEventAddEventAsync(message: message);
     }
 
     public async ValueTask RaiseWorkflowEventUpdateEventAsync(WorkflowEvent entity)
@@ -34,7 +34,7 @@ internal class WorkflowEventEventService(
             Data = entity,
         };
 
-        await workflowEventEventBroker.RaiseWorkflowEventUpdateEventAsync(message:message);
+        await workflowEventEventBroker.RaiseWorkflowEventUpdateEventAsync(message: message);
     }
 
     public async ValueTask RaiseWorkflowEventDeleteEventAsync(WorkflowEvent entity)
@@ -45,6 +45,6 @@ internal class WorkflowEventEventService(
             Data = entity,
         };
 
-        await workflowEventEventBroker.RaiseWorkflowEventDeleteEventAsync(message:message);
+        await workflowEventEventBroker.RaiseWorkflowEventDeleteEventAsync(message: message);
     }
 }

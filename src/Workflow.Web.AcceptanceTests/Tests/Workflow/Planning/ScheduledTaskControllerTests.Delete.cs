@@ -16,31 +16,31 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
-        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload:new
+        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
             flowId = seededContext.FlowId,
-            name = Unique("ScheduledTask"),
+            name = Unique(prefix: "ScheduledTask"),
             description = "Acceptance scheduled task",
             executionArgs = "{}",
-            scheduleInTicks = TimeSpan.FromHours(1).Ticks,
+            scheduleInTicks = TimeSpan.FromHours(hours: 1).Ticks,
             executeAs = "Guest",
             createdBy = "Guest",
             updatedBy = "Guest",
             created = DateTimeOffset.UtcNow,
             lastUpdated = DateTimeOffset.UtcNow,
-            nextExecution = DateTimeOffset.UtcNow.AddHours(1),
+            nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteScheduledTaskAsync(id:createdScheduledTask.Id);
-        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(id:createdScheduledTask.Id);
+        int actualStatusCode = await DeleteScheduledTaskAsync(id: createdScheduledTask.Id);
+        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(id: createdScheduledTask.Id);
 
         // Then
-        actualStatusCode.Should().Be(expected:200);
-        actualReadStatusCode.Should().Be(expected:404);
+        actualStatusCode.Should().Be(expected: 200);
+        actualReadStatusCode.Should().Be(expected: 404);
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

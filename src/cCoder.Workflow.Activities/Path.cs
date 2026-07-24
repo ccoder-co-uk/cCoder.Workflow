@@ -17,7 +17,7 @@ public class Path
 
     public string Lowered => FullPath.ToLowerInvariant();
 
-    public string[] Segments => FullPath.Split(separator:'/');
+    public string[] Segments => FullPath.Split(separator: '/');
 
     public Path ParentPath =>
         Segments.Length > 1
@@ -31,7 +31,7 @@ public class Path
             : Empty;
 
     public string Extension =>
-        Segments.LastOrDefault()?.Contains(value:'.') ?? false
+        Segments.LastOrDefault()?.Contains(value: '.') ?? false
             ? Segments
                 .Last()
                 .Split(

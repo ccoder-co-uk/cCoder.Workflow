@@ -20,24 +20,24 @@ public sealed partial class FlowInstanceDataControllerTests
         FlowInstanceData actualInstance;
 
         // When
-        expectedInstance = await CreateFlowInstanceDataAsync(payload:new
+        expectedInstance = await CreateFlowInstanceDataAsync(payload: new
         {
             id = Guid.NewGuid(),
             flowDefinitionId = seededContext.FlowId,
-            name = Unique("Instance"),
+            name = Unique(prefix: "Instance"),
             state = "Queued",
             caller = "Guest",
             contextString = "{}",
             start = DateTimeOffset.UtcNow,
         });
 
-        actualInstance = await GetFlowInstanceDataAsync(id:expectedInstance.Id);
+        actualInstance = await GetFlowInstanceDataAsync(id: expectedInstance.Id);
 
         // Then
         actualInstance.Should().NotBeNull();
-        actualInstance!.Id.Should().Be(expected:expectedInstance.Id);
+        actualInstance!.Id.Should().Be(expected: expectedInstance.Id);
 
-        await DeleteFlowInstanceDataAsync(id:expectedInstance.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteFlowInstanceDataAsync(id: expectedInstance.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

@@ -21,14 +21,14 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         FlowDefinition entity = CreateRandomFlowDefinition();
-        flowDefinitionProcessingServiceMock.Setup(expression:x => x.Get(id)).Returns(value:entity);
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
 
         // When
-        FlowDefinition result = orchestrationService.Get(id:id);
+        FlowDefinition result = orchestrationService.Get(id: id);
 
         // Then
-        result.Should().BeSameAs(expected:entity);
-        flowDefinitionProcessingServiceMock.Verify(expression:x => x.Get(id), times:Times.Once);
+        result.Should().BeSameAs(expected: entity);
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
         flowDefinitionProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionEventProcessingServiceMock.VerifyNoOtherCalls();
     }

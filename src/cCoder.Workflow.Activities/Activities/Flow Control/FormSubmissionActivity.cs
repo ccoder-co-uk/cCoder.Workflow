@@ -15,7 +15,7 @@ public class FormSubmissionActivity<T> : Activity
     {
         if (Data != null)
         {
-            await base.ExecuteInternal(context:context);
+            await base.ExecuteInternal(context: context);
         }
     }
 }

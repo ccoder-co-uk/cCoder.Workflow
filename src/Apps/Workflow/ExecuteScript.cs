@@ -17,10 +17,10 @@ public sealed class ExecuteScript(IWorkflowScriptExecutionService scriptExecutio
         [FromQuery] bool useDetails = false)
     {
         string payload = await new StreamReader(request.Body).ReadToEndAsync();
-        string result = await scriptExecutionService.ExecuteAsync(payload:payload, useDetails:useDetails);
+        string result = await scriptExecutionService.ExecuteAsync(payload: payload, useDetails: useDetails);
 
-        HttpResponseData response = request.CreateResponse(statusCode:System.Net.HttpStatusCode.OK);
-        await response.WriteStringAsync(value:result);
+        HttpResponseData response = request.CreateResponse(statusCode: System.Net.HttpStatusCode.OK);
+        await response.WriteStringAsync(value: result);
         return response;
     }
 }

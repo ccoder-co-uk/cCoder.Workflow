@@ -21,11 +21,11 @@ internal class FlowDefinitionCoordinationService(
     public async ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition)
     {
         IEnumerable<FlowInstanceData> instancesToDelete = flowInstanceDataOrchestrationService
-            .GetAll(ignoreFilters:true)
-            .Where(predicate:instance => instance.FlowDefinitionId == flowDefinition.Id)
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: instance => instance.FlowDefinitionId == flowDefinition.Id)
             .ToArray();
 
-        await flowInstanceDataOrchestrationService.DeleteAllAsync(items:instancesToDelete);
+        await flowInstanceDataOrchestrationService.DeleteAllAsync(items: instancesToDelete);
     }
 
     public async ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
@@ -33,18 +33,18 @@ internal class FlowDefinitionCoordinationService(
         FlowDefinition flowDefinition =
             flowDefinitionOrchestrationService
                 .GetAll(ignoreFilters: true)
-                .FirstOrDefault(predicate:foundFlowDefinition => foundFlowDefinition.Id == id);
+                .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == id);
 
         authorizationBroker.Authorize(
-userId:            asUserId, 
-appId:            flowDefinition?.AppId, 
-privilege:            "flowdefinition_execute");
+userId: asUserId,
+appId: flowDefinition?.AppId,
+privilege: "flowdefinition_execute");
 
-        FlowInstanceData flowInstance = 
-            CreateFlowInstanceData(flowDefinition:flowDefinition, caller:asUserId, args:args);
+        FlowInstanceData flowInstance =
+            CreateFlowInstanceData(flowDefinition: flowDefinition, caller: asUserId, args: args);
 
         flowInstance = await flowInstanceDataOrchestrationService
-            .AddQueuedAsync(entity:flowInstance);
+            .AddQueuedAsync(entity: flowInstance);
 
         return flowInstance.Id;
     }
@@ -56,13 +56,13 @@ privilege:            "flowdefinition_execute");
             throw new SecurityException("Access Denied!");
         }
 
-        if (string.IsNullOrWhiteSpace(value:caller))
+        if (string.IsNullOrWhiteSpace(value: caller))
         {
             throw new SecurityException("Access Denied!");
         }
 
         Guid instanceId = Guid.NewGuid();
-        Flow flow = ParseFlow(definitionJson:flowDefinition.DefinitionJson);
+        Flow flow = ParseFlow(definitionJson: flowDefinition.DefinitionJson);
 
         if (flow == null)
         {
@@ -85,7 +85,7 @@ privilege:            "flowdefinition_execute");
             throw new InvalidOperationException("Flow definition does not contain a Start activity.");
         }
 
-        start.Data = jsonBroker.ParseJson(json:args);
+        start.Data = jsonBroker.ParseJson(json: args);
 
         return new FlowInstanceData
         {
@@ -94,13 +94,13 @@ privilege:            "flowdefinition_execute");
             FlowDefinitionId = flowDefinition.Id,
             Start = DateTimeOffset.UtcNow,
             Caller = caller,
-            ContextString = jsonBroker.Serialize(value:context),
+            ContextString = jsonBroker.Serialize(value: context),
             FlowDefinition = flowDefinition
         };
     }
 
     private Flow ParseFlow(string definitionJson) =>
-        string.IsNullOrWhiteSpace(value:definitionJson)
+        string.IsNullOrWhiteSpace(value: definitionJson)
             ? null
-            : jsonBroker.ParseJson<Flow>(json:definitionJson);
+            : jsonBroker.ParseJson<Flow>(json: definitionJson);
 }

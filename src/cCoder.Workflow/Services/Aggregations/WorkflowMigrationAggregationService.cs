@@ -33,13 +33,13 @@ internal class WorkflowMigrationAggregationService(
             switch (item.Type)
             {
                 case "Core/Calendar":
-                    await ImportCalendarsAsync(appId:appId, item:item);
+                    await ImportCalendarsAsync(appId: appId, item: item);
                     break;
                 case "Core/CalendarEvent":
-                    await ImportCalendarEventsAsync(appId:appId, item:item);
+                    await ImportCalendarEventsAsync(appId: appId, item: item);
                     break;
                 case "Core/FlowDefinition":
-                    await ImportFlowDefinitionsAsync(appId:appId, item:item);
+                    await ImportFlowDefinitionsAsync(appId: appId, item: item);
                     break;
             }
         }
@@ -49,9 +49,9 @@ internal class WorkflowMigrationAggregationService(
     {
         var package = packageName switch
         {
-            "Calendars" => ExportCalendars(appId:appId),
-            "CalendarEvents" => ExportCalendarEvents(appId:appId),
-            "Workflows" => ExportFlowDefinitions(appId:appId),
+            "Calendars" => ExportCalendars(appId: appId),
+            "CalendarEvents" => ExportCalendarEvents(appId: appId),
+            "Workflows" => ExportFlowDefinitions(appId: appId),
             _ => new Data.Models.Packaging.Package(packageName) { Items = [] },
         };
 
@@ -63,7 +63,7 @@ internal class WorkflowMigrationAggregationService(
             Category = package.Category,
             SourceApi = package.SourceApi,
             Items = package.Items?
-                .Select(selector:item => new WorkflowPackageItem
+                .Select(selector: item => new WorkflowPackageItem
                 {
                     Id = item.Id,
                     PackageId = item.PackageId,
@@ -76,49 +76,49 @@ internal class WorkflowMigrationAggregationService(
 
     private async ValueTask ImportCalendarsAsync(int appId, WorkflowPackageItem item)
     {
-        Calendar[] calendars = item.Data.StartsWith(value:"{")
-            ? [jsonBroker.ParseJson<Calendar>(json:item.Data)]
-            : jsonBroker.ParseJson<Calendar[]>(json:item.Data);
+        Calendar[] calendars = item.Data.StartsWith(value: "{")
+            ? [jsonBroker.ParseJson<Calendar>(json: item.Data)]
+            : jsonBroker.ParseJson<Calendar[]>(json: item.Data);
 
-        string[] names = calendars.Select(selector:calendar => calendar.Name.ToLower()).ToArray();
+        string[] names = calendars.Select(selector: calendar => calendar.Name.ToLower()).ToArray();
 
         var existingCalendars = calendarOrchestrationService
             .GetAll()
-            .Where(predicate:calendar => calendar.AppId == appId && names.Contains(calendar.Name.ToLower()))
-            .Select(selector:calendar => new { calendar.Id, calendar.Name })
+            .Where(predicate: calendar => calendar.AppId == appId && names.Contains(value: calendar.Name.ToLower()))
+            .Select(selector: calendar => new { calendar.Id, calendar.Name })
             .ToArray();
 
         Array.ForEach(
-array:            calendars,
-action:            calendar =>
+array: calendars,
+action: calendar =>
             {
                 calendar.AppId = appId;
                 calendar.Id =
-                    existingCalendars.FirstOrDefault(existing =>
+                    existingCalendars.FirstOrDefault(predicate: existing =>
                         existing.Name.Equals(calendar.Name, StringComparison.OrdinalIgnoreCase))
                     ?.Id ?? 0;
             });
 
-        _ = await calendarOrchestrationService.AddOrUpdate(items:calendars.Where(calendar => calendar.Id == 0));
+        _ = await calendarOrchestrationService.AddOrUpdate(items: calendars.Where(predicate: calendar => calendar.Id == 0));
     }
 
     private async ValueTask ImportCalendarEventsAsync(int appId, WorkflowPackageItem item)
     {
-        ImportCalendarEventInfo[] importSet = item.Data.StartsWith(value:"{")
-            ? [jsonBroker.ParseJson<ImportCalendarEventInfo>(json:item.Data)]
-            : jsonBroker.ParseJson<ImportCalendarEventInfo[]>(json:item.Data);
+        ImportCalendarEventInfo[] importSet = item.Data.StartsWith(value: "{")
+            ? [jsonBroker.ParseJson<ImportCalendarEventInfo>(json: item.Data)]
+            : jsonBroker.ParseJson<ImportCalendarEventInfo[]>(json: item.Data);
 
         Calendar[] calendars = calendarOrchestrationService
-            .GetAll(ignoreFilters:true)
-            .Where(predicate:calendar => calendar.AppId == appId)
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: calendar => calendar.AppId == appId)
             .ToArray();
 
-        string[] calendarEventNames = importSet.Select(selector:calendarEvent => calendarEvent.Name).ToArray();
+        string[] calendarEventNames = importSet.Select(selector: calendarEvent => calendarEvent.Name).ToArray();
 
         CalendarEvent[] existingCalendarEvents = calendarEventOrchestrationService
-            .GetAll(ignoreFilters:true)
-            .Where(predicate:calendarEvent =>
-                calendarEvent.Calendar.AppId == appId && calendarEventNames.Contains(calendarEvent.Name))
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: calendarEvent =>
+                calendarEvent.Calendar.AppId == appId && calendarEventNames.Contains(value: calendarEvent.Name))
             .ToArray();
 
         List<CalendarEvent> calendarEventsToAdd = [];
@@ -128,12 +128,12 @@ action:            calendar =>
             CalendarEvent calendarEvent = new()
             {
                 Id =
-                    existingCalendarEvents.FirstOrDefault(predicate:existing =>
+                    existingCalendarEvents.FirstOrDefault(predicate: existing =>
                         existing.Name == importInfo.Name
                         && existing.Calendar.Name == importInfo.CalendarName)
                     ?.Id ?? 0,
                 CalendarId =
-                    calendars.FirstOrDefault(predicate:calendar => calendar.Name == importInfo.CalendarName)?.Id ?? 0,
+                    calendars.FirstOrDefault(predicate: calendar => calendar.Name == importInfo.CalendarName)?.Id ?? 0,
                 Name = importInfo.Name,
                 DurationInTicks = importInfo.DurationInTicks,
                 Start = importInfo.Start,
@@ -145,7 +145,7 @@ action:            calendar =>
                 continue;
             }
 
-            calendarEventsToAdd.Add(item:calendarEvent);
+            calendarEventsToAdd.Add(item: calendarEvent);
         }
 
         logger.LogDebug(
@@ -153,22 +153,22 @@ action:            calendar =>
             calendarEventsToAdd.Count,
             appId);
 
-        _ = await calendarEventOrchestrationService.AddOrUpdate(items:[.. calendarEventsToAdd]);
+        _ = await calendarEventOrchestrationService.AddOrUpdate(items: [.. calendarEventsToAdd]);
     }
 
     private async ValueTask ImportFlowDefinitionsAsync(int appId, WorkflowPackageItem item)
     {
-        FlowDefinition[] flowDefinitions = item.Data.StartsWith(value:"{")
-            ? [jsonBroker.ParseJson<FlowDefinition>(json:item.Data)]
-            : jsonBroker.ParseJson<FlowDefinition[]>(json:item.Data);
+        FlowDefinition[] flowDefinitions = item.Data.StartsWith(value: "{")
+            ? [jsonBroker.ParseJson<FlowDefinition>(json: item.Data)]
+            : jsonBroker.ParseJson<FlowDefinition[]>(json: item.Data);
 
-        string[] names = flowDefinitions.Select(selector:flowDefinition => flowDefinition.Name.ToLower()).ToArray();
+        string[] names = flowDefinitions.Select(selector: flowDefinition => flowDefinition.Name.ToLower()).ToArray();
 
         var existingFlowDefinitions = flowDefinitionOrchestrationService
             .GetAll()
-            .Where(predicate:flowDefinition =>
-                flowDefinition.AppId == appId && names.Contains(flowDefinition.Name.ToLower()))
-            .Select(selector:flowDefinition => new
+            .Where(predicate: flowDefinition =>
+                flowDefinition.AppId == appId && names.Contains(value: flowDefinition.Name.ToLower()))
+            .Select(selector: flowDefinition => new
             {
                 flowDefinition.Id,
                 flowDefinition.Name
@@ -176,18 +176,18 @@ action:            calendar =>
             .ToArray();
 
         logger.LogDebug(
-message:            "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
-args:            cCoder.Workflow.Api.OData.ODataJsonExtensions.ToJsonForOdata(existingFlowDefinitions));
+message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
+args: cCoder.Workflow.Api.OData.ODataJsonExtensions.ToJsonForOdata(value: existingFlowDefinitions));
 
         for (int index = 0; index < flowDefinitions.Length; index++)
         {
             FlowDefinition flowDefinition = flowDefinitions[index];
-            var existingFlowDefinition = existingFlowDefinitions.FirstOrDefault(predicate:existing => existing.Name.Equals(flowDefinition.Name, StringComparison.OrdinalIgnoreCase));
+            var existingFlowDefinition = existingFlowDefinitions.FirstOrDefault(predicate: existing => existing.Name.Equals(value: flowDefinition.Name, comparisonType: StringComparison.OrdinalIgnoreCase));
             flowDefinition.AppId = appId;
             flowDefinition.Id = existingFlowDefinition?.Id ?? Guid.Empty;
         }
 
-        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items:flowDefinitions);
+        _ = await flowDefinitionOrchestrationService.AddOrUpdate(items: flowDefinitions);
     }
 
     private cCoder.Data.Models.Packaging.Package ExportCalendars(int appId) =>
@@ -244,9 +244,9 @@ args:            cCoder.Workflow.Api.OData.ODataJsonExtensions.ToJsonForOdata(ex
                     Type = "Core/FlowDefinition",
                     Data = jsonBroker.Serialize(
 value:                        flowDefinitionOrchestrationService
-                            .GetAll(false)
-                            .Where(flowDefinition => flowDefinition.AppId == appId)
-                            .Select(flowDefinition => new
+                            .GetAll(ignoreFilters:false)
+                            .Where(predicate:flowDefinition => flowDefinition.AppId == appId)
+                            .Select(selector:flowDefinition => new
                             {
                                 ProcessName = flowDefinition.App.Name,
                                 flowDefinition.Name,

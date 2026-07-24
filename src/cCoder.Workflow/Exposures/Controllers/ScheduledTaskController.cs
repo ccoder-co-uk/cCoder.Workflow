@@ -38,7 +38,7 @@ public partial class ScheduledTaskController : ODataController
         bool incrementNextExecution = true
     )
     {
-        await Service.ExecuteAsync(id:key, incrementNextExecution:incrementNextExecution);
+        await Service.ExecuteAsync(id: key, incrementNextExecution: incrementNextExecution);
         return Ok();
     }
 
@@ -49,11 +49,11 @@ public partial class ScheduledTaskController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(ScheduledTask))
+                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(ScheduledTask))
             )
-            : Ok(value:new MetadataContainer(typeof(ScheduledTask), true, true));
+            : Ok(value: new MetadataContainer(typeof(ScheduledTask), true, true));
     }
 
     [HttpGet]
@@ -66,7 +66,7 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<ScheduledTask> queryOptions) => Ok(value:Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<ScheduledTask> queryOptions) => Ok(value: Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -82,8 +82,8 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            IQueryable<ScheduledTask> result = Service.GetAll().Where(predicate:scheduledTask => scheduledTask.Id == key);
-            return Ok(value:SingleResult.Create(result));
+            IQueryable<ScheduledTask> result = Service.GetAll().Where(predicate: scheduledTask => scheduledTask.Id == key);
+            return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
         {
@@ -107,7 +107,7 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value:await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -126,26 +126,26 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value:await Service.UpdateAsync(entity));
+        return Ok(value: await Service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<ScheduledTask> delta)
     {
-        ScheduledTask originalEntity = Service.Get(id:key);
+        ScheduledTask originalEntity = Service.Get(id: key);
         if (originalEntity == null)
         {
             return NotFound();
         }
 
-        delta.Patch(original:originalEntity);
-        return Ok(value:await Service.UpdateAsync(originalEntity));
+        delta.Patch(original: originalEntity);
+        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await Service.DeleteAsync(id:key);
+        await Service.DeleteAsync(id: key);
         return Ok();
     }
 }

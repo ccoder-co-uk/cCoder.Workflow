@@ -37,31 +37,31 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(app:new App
+        App app = await core.AddAppAsync(app: new App
         {
-            Name = Unique("AcceptanceApp"),
-            Domain = $"{Unique("calendarevent")}.local",
+            Name = Unique(prefix: "AcceptanceApp"),
+            Domain = $"{Unique(prefix: "calendarevent")}.local",
             DefaultTheme = "Default",
             DefaultCultureId = string.Empty,
-            TenantId = Unique("tenant"),
+            TenantId = Unique(prefix: "tenant"),
             ConfigJson = "{}",
         });
 
-        Role role = await core.AddRoleAsync(role:new Role
+        Role role = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("AcceptanceRole"),
+            Name = Unique(prefix: "AcceptanceRole"),
             Description = "Acceptance role",
             Privs = "app_admin,calendar_create,calendar_update,calendar_delete,calendar_read,calendarevent_create,calendarevent_update,calendarevent_delete,calendarevent_read",
         });
 
-        await core.AddUserRoleAsync(userRole:new UserRole { RoleId = role.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = role.Id, UserId = "Guest" });
 
-        Calendar calendar = await core.AddCalendarAsync(calendar:new Calendar
+        Calendar calendar = await core.AddCalendarAsync(calendar: new Calendar
         {
             AppId = app.Id,
-            Name = Unique("Calendar"),
+            Name = Unique(prefix: "Calendar"),
             Description = "Acceptance calendar",
         });
 
@@ -70,18 +70,18 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
 
     private async Task<CalendarEvent> CreateCalendarEventAsync(object payload)
     {
-        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri:BaseUrl, value:payload);
+        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return JsonSerializer.Deserialize<CalendarEvent>(json:content, options:JsonOptions)
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return JsonSerializer.Deserialize<CalendarEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar event payload.");
     }
 
     private async Task<int> UpdateCalendarEventAsync(int id, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri:$"{BaseUrl}({id})", value:payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
@@ -89,28 +89,28 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
     {
         using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
         {
-            Content = JsonContent.Create(inputValue:payload),
+            Content = JsonContent.Create(inputValue: payload),
         };
-        using HttpResponseMessage response = await Client.SendAsync(request:request);
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
     private async Task<int> DeleteCalendarEventAsync(int id)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri:$"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
     private async Task<CalendarEvent> GetCalendarEventAsync(int id)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return JsonSerializer.Deserialize<CalendarEvent>(json:content, options:JsonOptions)
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return JsonSerializer.Deserialize<CalendarEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar event payload.");
     }
 
@@ -121,41 +121,41 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>().IgnoreQueryFilters().Where(predicate:calendarEvent => calendarEvent.CalendarId == seededContext.CalendarId).ToArray();
-        await core.DeleteAllAsync(calendarEvents:calendarEvents);
+        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>().IgnoreQueryFilters().Where(predicate: calendarEvent => calendarEvent.CalendarId == seededContext.CalendarId).ToArray();
+        await core.DeleteAllAsync(calendarEvents: calendarEvents);
 
-        Calendar calendar = core.Set<Calendar>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.CalendarId);
-        await core.DeleteAsync(calendar:calendar);
+        Calendar calendar = core.Set<Calendar>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.CalendarId);
+        await core.DeleteAsync(calendar: calendar);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate:userRole => userRole.RoleId == seededContext.RoleId).ToArray();
-        await core.DeleteAllAsync(userRoles:userRoles);
+        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate: userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        await core.DeleteAllAsync(userRoles: userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.RoleId);
-        await core.DeleteAsync(role:role);
+        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.RoleId);
+        await core.DeleteAsync(role: role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.AppId);
-        await core.DeleteAsync(app:app);
+        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate: found => found.Id == seededContext.AppId);
+        await core.DeleteAsync(app: app);
     }
 
     private async Task<int> GetCalendarEventCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return int.Parse(s:content);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return int.Parse(s: content);
     }
 
     private async Task<IReadOnlyList<CalendarEvent>> GetCalendarEventsAsync(int top)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}?$top={top}");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
-        return JsonSerializer.Deserialize<ODataEnvelope<CalendarEvent>>(json:content, options:JsonOptions)?.Value
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
+        return JsonSerializer.Deserialize<ODataEnvelope<CalendarEvent>>(json: content, options: JsonOptions)?.Value
             ?? throw new InvalidOperationException("Expected calendar event OData payload.");
     }
     private async Task<int> GetCalendarEventStatusCodeAsync(int id)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
         return (int)response.StatusCode;
     }
 }

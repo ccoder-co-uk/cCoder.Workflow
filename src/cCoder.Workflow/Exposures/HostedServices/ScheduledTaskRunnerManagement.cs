@@ -18,6 +18,6 @@ internal sealed class ScheduledTaskRunnerManagement(
         ITaskRunnerOrchestrationService taskRunnerOrchestrationService =
             scope.ServiceProvider.GetRequiredService<ITaskRunnerOrchestrationService>();
 
-        await taskRunnerOrchestrationService.RunContinuouslyAsync(cancellationToken:stoppingToken);
+        await taskRunnerOrchestrationService.RunContinuouslyAsync(cancellationToken: stoppingToken);
     }
 }

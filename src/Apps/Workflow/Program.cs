@@ -11,20 +11,20 @@ using cCoder.Workflow.Engine;
 
 IHost host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
-    .ConfigureLogging(configureLogging:loggingBuilder =>
+    .ConfigureLogging(configureLogging: loggingBuilder =>
     {
         IConfigurationRoot configRoot = new ConfigurationBuilder()
             .AddEnvironmentVariables()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("host.json", optional: false, reloadOnChange: true)
+            .SetBasePath(basePath: Directory.GetCurrentDirectory())
+            .AddJsonFile(path: "host.json", optional: false, reloadOnChange: true)
             .Build();
 
         loggingBuilder.ClearProviders();
-        loggingBuilder.AddSimpleConsole(options => options.SingleLine = true);
-        loggingBuilder.AddFilter(level => level >= LogLevel.Debug);
-        loggingBuilder.AddConfiguration(configRoot.GetSection("logging"));
+        loggingBuilder.AddSimpleConsole(configure: options => options.SingleLine = true);
+        loggingBuilder.AddFilter(levelFilter: level => level >= LogLevel.Debug);
+        loggingBuilder.AddConfiguration(configuration: configRoot.GetSection("logging"));
     })
-    .ConfigureServices(configureDelegate:services =>
+    .ConfigureServices(configureDelegate: services =>
     {
         services.AddWorkflowEngine();
     })

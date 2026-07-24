@@ -135,8 +135,8 @@ types:        [
         {
             Name = "Workflow",
             Types = GetKnownActivityTypes()
-                .SelectMany(selector:set => set.Types)
-                .OrderBy(keySelector:type => type.Name)
+                .SelectMany(selector: set => set.Types)
+                .OrderBy(keySelector: type => type.Name)
                 .ToArray(),
         };
 
@@ -145,8 +145,8 @@ types:        [
         {
             Name = name,
             Types = types
-                .Select(selector:type => Metadata(type, name))
-                .OrderBy(keySelector:type => type.Name)
+                .Select(selector: type => Metadata(type: type, category: name))
+                .OrderBy(keySelector: type => type.Name)
                 .ToArray(),
         };
 

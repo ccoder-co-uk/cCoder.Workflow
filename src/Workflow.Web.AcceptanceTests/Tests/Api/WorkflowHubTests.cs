@@ -20,14 +20,14 @@ public sealed partial class WorkflowHubTests(WebAcceptanceFixture fixture)
     private async Task<HubConnection> ConnectAsync()
     {
         HubConnection connection = new HubConnectionBuilder()
-            .WithUrl(url:new Uri(Client.BaseAddress!, HubRoute), configureHttpConnection:options =>
+            .WithUrl(url: new Uri(Client.BaseAddress!, HubRoute), configureHttpConnection: options =>
             {
                 options.HttpMessageHandlerFactory = _ => fixture.Factory.Server.CreateHandler();
                 options.Transports = HttpTransportType.LongPolling;
             })
             .Build();
 
-        await connection.StartAsync().WaitAsync(timeout:TimeSpan.FromSeconds(10));
+        await connection.StartAsync().WaitAsync(timeout: TimeSpan.FromSeconds(seconds: 10));
         return connection;
     }
 
@@ -37,7 +37,7 @@ public sealed partial class WorkflowHubTests(WebAcceptanceFixture fixture)
             HttpMethod.Post,
             $"{HubRoute}/negotiate?negotiateVersion=1"
         );
-        using HttpResponseMessage response = await Client.SendAsync(request:request);
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         return (int)response.StatusCode;
     }
 }

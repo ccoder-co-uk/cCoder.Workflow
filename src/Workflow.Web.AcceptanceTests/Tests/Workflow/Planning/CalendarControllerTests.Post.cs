@@ -16,25 +16,25 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
-        string name = Unique(prefix:"Calendar");
+        string name = Unique(prefix: "Calendar");
         Calendar expectedCalendar;
         Calendar actualCalendar;
 
         // When
-        expectedCalendar = await CreateCalendarAsync(payload:new
+        expectedCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
             name,
             description = "Acceptance calendar",
         });
 
-        actualCalendar = await GetCalendarAsync(id:expectedCalendar.Id);
+        actualCalendar = await GetCalendarAsync(id: expectedCalendar.Id);
 
         // Then
         actualCalendar.Should().NotBeNull();
-        actualCalendar.Name.Should().Be(expected:name);
+        actualCalendar.Name.Should().Be(expected: name);
 
-        await DeleteCalendarAsync(id:expectedCalendar.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteCalendarAsync(id: expectedCalendar.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

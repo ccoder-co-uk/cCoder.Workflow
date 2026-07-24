@@ -20,20 +20,20 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         FlowInstanceData entity = CreateRandomFlowInstanceData();
-        flowInstanceDataProcessingServiceMock.Setup(expression:x => x.Get(id)).Returns(value:entity);
-        flowInstanceDataProcessingServiceMock.Setup(expression:x => x.DeleteAsync(id)).Returns(value:ValueTask.CompletedTask);
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
+        flowInstanceDataProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
 
         flowInstanceDataEventProcessingServiceMock
-            .Setup(expression:x => x.RaiseFlowInstanceDataDeleteEventAsync(entity))
-            .Returns(value:ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id:id);
+        await orchestrationService.DeleteAsync(id: id);
 
         // Then
-        flowInstanceDataProcessingServiceMock.Verify(expression:x => x.Get(id), times:Times.Once);
-        flowInstanceDataProcessingServiceMock.Verify(expression:x => x.DeleteAsync(id), times:Times.Once);
-        flowInstanceDataEventProcessingServiceMock.Verify(expression:x => x.RaiseFlowInstanceDataDeleteEventAsync(entity), times:Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
+        flowInstanceDataProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
+        flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }

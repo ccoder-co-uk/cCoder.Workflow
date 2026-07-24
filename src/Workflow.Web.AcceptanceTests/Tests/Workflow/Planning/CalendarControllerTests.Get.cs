@@ -24,7 +24,7 @@ public sealed partial class CalendarControllerTests
         int actualCount = await GetCalendarCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected:0);
+        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public sealed partial class CalendarControllerTests
         // Given
 
         // When
-        IReadOnlyList<PlanningCalendar> actualCalendars = await GetCalendarsAsync(top:1);
+        IReadOnlyList<PlanningCalendar> actualCalendars = await GetCalendarsAsync(top: 1);
 
         // Then
         actualCalendars.Should().NotBeNull();
@@ -44,8 +44,8 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
-        string name = Unique(prefix:"Calendar");
-        PlanningCalendar expectedCalendar = await CreateCalendarAsync(payload:new
+        string name = Unique(prefix: "Calendar");
+        PlanningCalendar expectedCalendar = await CreateCalendarAsync(payload: new
         {
             appId = seededContext.AppId,
             name,
@@ -54,15 +54,15 @@ public sealed partial class CalendarControllerTests
         PlanningCalendar actualCalendar;
 
         // When
-        actualCalendar = await GetCalendarAsync(id:expectedCalendar.Id);
+        actualCalendar = await GetCalendarAsync(id: expectedCalendar.Id);
 
         // Then
         actualCalendar.Should().NotBeNull();
-        actualCalendar.Id.Should().Be(expected:expectedCalendar.Id);
-        actualCalendar.Name.Should().Be(expected:name);
+        actualCalendar.Id.Should().Be(expected: expectedCalendar.Id);
+        actualCalendar.Name.Should().Be(expected: name);
 
-        await DeleteCalendarAsync(id:expectedCalendar.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteCalendarAsync(id: expectedCalendar.Id);
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
@@ -75,17 +75,17 @@ public sealed partial class CalendarControllerTests
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        PlanningCalendar hiddenCalendar = await core.AddPlanningCalendarAsync(calendar:new PlanningCalendar
+        PlanningCalendar hiddenCalendar = await core.AddPlanningCalendarAsync(calendar: new PlanningCalendar
         {
             AppId = seededContext.AppId,
-            Name = Unique("HiddenCalendar"),
+            Name = Unique(prefix: "HiddenCalendar"),
             Description = "Hidden calendar",
         });
 
-        int actualStatusCode = await GetCalendarStatusCodeAsync(id:hiddenCalendar.Id);
+        int actualStatusCode = await GetCalendarStatusCodeAsync(id: hiddenCalendar.Id);
 
-        actualStatusCode.Should().Be(expected:(int)HttpStatusCode.NotFound);
+        actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

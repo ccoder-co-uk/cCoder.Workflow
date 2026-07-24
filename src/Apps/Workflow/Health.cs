@@ -13,8 +13,8 @@ public sealed class Health
     public async Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Health")] HttpRequestData request)
     {
-        HttpResponseData response = request.CreateResponse(statusCode:System.Net.HttpStatusCode.OK);
-        await response.WriteStringAsync(value:"OK");
+        HttpResponseData response = request.CreateResponse(statusCode: System.Net.HttpStatusCode.OK);
+        await response.WriteStringAsync(value: "OK");
         return response;
     }
 }

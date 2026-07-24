@@ -25,52 +25,52 @@ public class Program
 
     public static void Main(string[] args)
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args:args);
-        IConfiguration configuration = ConfigureApplication(configuration:builder.Configuration, environment:builder.Environment);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args: args);
+        IConfiguration configuration = ConfigureApplication(configuration: builder.Configuration, environment: builder.Environment);
 
         string coreConnection = GetRequiredConfigurationValue(
-configuration:            configuration,
-key:            "ConnectionStrings:Core");
+configuration: configuration,
+key: "ConnectionStrings:Core");
 
         string ssoConnection = GetRequiredConfigurationValue(
-configuration:            configuration,
-key:            "ConnectionStrings:SSO");
+configuration: configuration,
+key: "ConnectionStrings:SSO");
 
         Config config = new();
-        configuration.Bind(instance:config);
-        builder.Services.AddSingleton(implementationInstance:config);
+        configuration.Bind(instance: config);
+        builder.Services.AddSingleton(implementationInstance: config);
         builder.Services.AddEventing();
 
-        builder.Services.AddSecurityApi(configAction:(services, securityConfig) =>
+        builder.Services.AddSecurityApi(configAction: (services, securityConfig) =>
         {
-            securityConfig.AddMSSQLModelProvider(services, ssoConnection);
+            securityConfig.AddMSSQLModelProvider(services: services, connectionString: ssoConnection);
             securityConfig.UseAESHMMACPasswordEncryption(
-                services,
-                GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));
+services: services,
+decryptionKey: GetRequiredConfigurationValue(configuration, "Settings:DecryptionKey"));
         });
 
         cCoder.Data.IServiceCollectionExtensions.AddCoreData(
-services:            builder.Services,
-connectionString:            coreConnection);
+services: builder.Services,
+connectionString: coreConnection);
 
-        string eventProviderType = ResolveEventProviderType(configuration:configuration);
-        string httpEventHubUrl = HttpEventHubUrlResolver.Resolve(configuration:configuration);
+        string eventProviderType = ResolveEventProviderType(configuration: configuration);
+        string httpEventHubUrl = HttpEventHubUrlResolver.Resolve(configuration: configuration);
 
-        if (IsHttpEventProvider(eventProviderType:eventProviderType) && !string.IsNullOrWhiteSpace(value:httpEventHubUrl))
+        if (IsHttpEventProvider(eventProviderType: eventProviderType) && !string.IsNullOrWhiteSpace(value: httpEventHubUrl))
         {
-            builder.Services.AddHttpEventingWeb(configure:options =>
+            builder.Services.AddHttpEventingWeb(configure: options =>
             {
                 options.HubUrl = httpEventHubUrl;
-                options.MaxConcurrency = ResolveMaxConcurrency(configuration);
+                options.MaxConcurrency = ResolveMaxConcurrency(configuration: configuration);
             });
         }
 
-        builder.Services.AddWorkflowWeb(configure:workflowConfig =>
+        builder.Services.AddWorkflowWeb(configure: workflowConfig =>
         {
-            if (IsHttpEventProvider(eventProviderType) && !string.IsNullOrWhiteSpace(httpEventHubUrl))
+            if (IsHttpEventProvider(eventProviderType: eventProviderType) && !string.IsNullOrWhiteSpace(value: httpEventHubUrl))
             {
                 workflowConfig.WithEventProviders(
-                    CreateExternalSendProvider<FlowInstanceData>(["flow_instance_data_add"])
+eventProviders: CreateExternalSendProvider<FlowInstanceData>(["flow_instance_data_add"])
                 );
             }
         });
@@ -83,20 +83,20 @@ connectionString:            coreConnection);
         app.UseSession();
 
         app.UseSwagger()
-            .UseSwaggerUI(setupAction:options =>
+            .UseSwaggerUI(setupAction: options =>
             {
-                options.SwaggerEndpoint("/swagger/Workflow/swagger.json", "Workflow API");
-                options.SwaggerEndpoint("/swagger/Core/swagger.json", "Core API");
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API");
+                options.SwaggerEndpoint(url: "/swagger/Workflow/swagger.json", name: "Workflow API");
+                options.SwaggerEndpoint(url: "/swagger/Core/swagger.json", name: "Core API");
+                options.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Core API");
             })
             .UseODataBatching()
             .UseODataRouteDebug();
 
         app.UseDomainApiShell();
-        app.MapGet(pattern:"/", handler:() => Results.Redirect("/tools/index.html"));
-        app.StartWorkflowWeb(log:log);
+        app.MapGet(pattern: "/", handler: () => Results.Redirect(url: "/tools/index.html"));
+        app.StartWorkflowWeb(log: log);
         app.UseDomainDefaultCors();
-        app.UseDomainExceptionHandling(errorHandler:HandleUnhandledException);
+        app.UseDomainExceptionHandling(errorHandler: HandleUnhandledException);
         app.Run();
     }
 
@@ -105,9 +105,9 @@ connectionString:            coreConnection);
         IWebHostEnvironment environment)
     {
         configuration
-            .SetBasePath(basePath:Directory.GetCurrentDirectory())
-            .AddJsonFile(path:"appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile(path:$"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .SetBasePath(basePath: Directory.GetCurrentDirectory())
+            .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(path: $"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
         return configuration;
@@ -117,9 +117,9 @@ connectionString:            coreConnection);
         IConfiguration configuration,
         string key)
     {
-        string value = configuration.GetValue<string>(key:key);
+        string value = configuration.GetValue<string>(key: key);
 
-        return string.IsNullOrWhiteSpace(value:value)
+        return string.IsNullOrWhiteSpace(value: value)
             ? throw new InvalidOperationException($"{key} is required.")
             : value;
     }
@@ -131,20 +131,20 @@ connectionString:            coreConnection);
             SendHandler = async (serviceProvider, eventName, message) =>
             {
                 IHttpEventHub httpEventHub = serviceProvider.GetRequiredService<IHttpEventHub>();
-                await httpEventHub.RaiseEventAsync(name:eventName, message:message);
+                await httpEventHub.RaiseEventAsync(name: eventName, message: message);
             }
         };
 
     private static string ResolveEventProviderType(IConfiguration configuration) =>
-        configuration.GetValue<string>(key:"Eventing:ProviderType")
-        ?? configuration.GetValue<string>(key:"Eventing:Provider")
+        configuration.GetValue<string>(key: "Eventing:ProviderType")
+        ?? configuration.GetValue<string>(key: "Eventing:Provider")
         ?? "Http";
 
     private static int ResolveMaxConcurrency(IConfiguration configuration) =>
-        configuration.GetValue<int?>(key:"Eventing:Http:MaxConcurrency") ?? 1;
+        configuration.GetValue<int?>(key: "Eventing:Http:MaxConcurrency") ?? 1;
 
     private static bool IsHttpEventProvider(string eventProviderType) =>
-        string.Equals(a:eventProviderType, b:"Http", comparisonType:StringComparison.OrdinalIgnoreCase);
+        string.Equals(a: eventProviderType, b: "Http", comparisonType: StringComparison.OrdinalIgnoreCase);
 
     private static async Task HandleUnhandledException(HttpContext context)
     {
@@ -161,6 +161,6 @@ connectionString:            coreConnection);
 
         log.LogError("{Message}\n{StackTrace}", exception.Message, exception.StackTrace);
         await context.Response.WriteAsync(
-text:            "{ \"error\": \"" + exception.Message.Replace("\"", "\'") + "\" }");
+text: "{ \"error\": \"" + exception.Message.Replace(oldValue: "\"", newValue: "\'") + "\" }");
     }
 }

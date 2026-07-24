@@ -24,11 +24,11 @@ public partial class FlowDefinitionController(IFlowDefinitionControllerService s
 
         return isExtendedMetaRequest
             ? Ok(
-value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("Workflow", typeof(FlowDefinition))
+                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
             )
-            : Ok(value:new MetadataContainer(typeof(FlowDefinition), true, true));
+            : Ok(value: new MetadataContainer(typeof(FlowDefinition), true, true));
     }
 
     [HttpGet]
@@ -42,7 +42,7 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<FlowDefinition> queryOptions) =>
-        Ok(value:service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -58,8 +58,8 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            FlowDefinition result = service.Get(id:key);
-            return result is null ? NotFound() : Ok(value:result);
+            FlowDefinition result = service.Get(id: key);
+            return result is null ? NotFound() : Ok(value: result);
         }
         catch (System.Security.SecurityException)
         {
@@ -83,7 +83,7 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value:await service.AddAsync(entity));
+        return Ok(value: await service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -102,26 +102,26 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value:await service.UpdateAsync(entity));
+        return Ok(value: await service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<FlowDefinition> delta)
     {
-        FlowDefinition originalEntity = service.Get(id:key);
+        FlowDefinition originalEntity = service.Get(id: key);
         if (originalEntity == null)
         {
             return NotFound();
         }
 
-        delta.Patch(original:originalEntity);
-        return Ok(value:await service.UpdateAsync(originalEntity));
+        delta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await service.DeleteAsync(id:key);
+        await service.DeleteAsync(id: key);
         return Ok();
     }
 
@@ -130,14 +130,14 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
         string asUserId = User?.Identity?.Name;
-        return Ok(value:await service.QueueAsync(key, asUserId, await reader.ReadToEndAsync()));
+        return Ok(value: await service.QueueAsync(id: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
     }
 
     [HttpPost]
     public async Task<IActionResult> ExecuteScript()
     {
         string script = await new StreamReader(Request.Body).ReadToEndAsync();
-        return Ok(value:await service.ExecuteScriptAsync(script));
+        return Ok(value: await service.ExecuteScriptAsync(script: script));
     }
 
     [HttpGet]
@@ -151,13 +151,13 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     )]
     public IActionResult KnownActivityTypes()
     {
-        return Ok(value:service.GetKnownActivityTypes());
+        return Ok(value: service.GetKnownActivityTypes());
     }
 
     [AllowAnonymous]
     [HttpGet]
     public IActionResult KnownSystemTypes()
     {
-        return Ok(value:service.GetKnownSystemTypes());
+        return Ok(value: service.GetKnownSystemTypes());
     }
 }

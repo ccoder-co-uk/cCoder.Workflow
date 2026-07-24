@@ -22,7 +22,7 @@ public sealed partial class IServiceCollectionExtensionsTests
 
         // Then
         using ServiceProvider serviceProvider = services.BuildServiceProvider(
-options:            new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
+options: new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
 
         serviceProvider.GetRequiredService<IFlowRunner>().Should().NotBeNull();
         serviceProvider.GetRequiredService<IWorkflowScriptExecutionService>().Should().NotBeNull();

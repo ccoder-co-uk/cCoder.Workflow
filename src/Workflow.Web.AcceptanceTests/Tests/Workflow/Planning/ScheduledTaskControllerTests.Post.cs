@@ -16,33 +16,33 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
-        string name = Unique(prefix:"ScheduledTask");
+        string name = Unique(prefix: "ScheduledTask");
         ScheduledTask expectedScheduledTask;
         ScheduledTask actualScheduledTask;
 
         // When
-        expectedScheduledTask = await CreateScheduledTaskAsync(payload:new
+        expectedScheduledTask = await CreateScheduledTaskAsync(payload: new
         {
             appId = seededContext.AppId,
             flowId = seededContext.FlowId,
             name,
             description = "Acceptance scheduled task",
             executionArgs = "{}",
-            scheduleInTicks = TimeSpan.FromHours(1).Ticks,
+            scheduleInTicks = TimeSpan.FromHours(hours: 1).Ticks,
             executeAs = "Guest",
             createdBy = "Guest",
             updatedBy = "Guest",
             created = DateTimeOffset.UtcNow,
             lastUpdated = DateTimeOffset.UtcNow,
-            nextExecution = DateTimeOffset.UtcNow.AddHours(1),
+            nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 1),
         });
 
-        actualScheduledTask = await GetScheduledTaskAsync(id:expectedScheduledTask.Id);
+        actualScheduledTask = await GetScheduledTaskAsync(id: expectedScheduledTask.Id);
 
         // Then
-        actualScheduledTask.Name.Should().Be(expected:name);
+        actualScheduledTask.Name.Should().Be(expected: name);
 
-        await DeleteScheduledTaskAsync(id:expectedScheduledTask.Id);
-        await Teardown(seededContext:seededContext);
+        await DeleteScheduledTaskAsync(id: expectedScheduledTask.Id);
+        await Teardown(seededContext: seededContext);
     }
 }

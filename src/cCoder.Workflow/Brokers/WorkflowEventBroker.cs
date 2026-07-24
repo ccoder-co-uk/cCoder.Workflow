@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Data.Brokers;
 
-public class WorkflowEventBroker(ICoreContextFactory coreContextFactory) 
+public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     : IWorkflowEventBroker
 {
 
@@ -22,7 +22,7 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        WorkflowEvent result = (await coreDataContext.WorflowEvents.AddAsync(entity:entity)).Entity;
+        WorkflowEvent result = (await coreDataContext.WorflowEvents.AddAsync(entity: entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -30,7 +30,7 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        WorkflowEvent result = coreDataContext.WorflowEvents.Update(entity:entity).Entity;
+        WorkflowEvent result = coreDataContext.WorflowEvents.Update(entity: entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -38,7 +38,7 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.WorflowEvents.Remove(entity:entity);
+        coreDataContext.WorflowEvents.Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -50,7 +50,7 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.WorflowEvents.RemoveRange(entities:items);
+        coreDataContext.WorflowEvents.RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
@@ -59,8 +59,8 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.FlowDefinitions
 
-            .Where(predicate:flowDefinition => flowDefinition.Id == entity.FlowId)
-            .Select(selector:flowDefinition => (int?)flowDefinition.AppId)
+            .Where(predicate: flowDefinition => flowDefinition.Id == entity.FlowId)
+            .Select(selector: flowDefinition => (int?)flowDefinition.AppId)
             .FirstOrDefault();
 
     }

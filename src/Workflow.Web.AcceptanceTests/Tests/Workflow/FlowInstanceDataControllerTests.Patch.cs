@@ -19,17 +19,17 @@ public sealed partial class FlowInstanceDataControllerTests
         FlowInstanceData actualInstance;
 
         // When
-        await PatchFlowInstanceDataAsync(id:seededContext.InstanceId, payload:new
+        await PatchFlowInstanceDataAsync(id: seededContext.InstanceId, payload: new
         {
             state = "Completed",
         });
 
-        actualInstance = await GetFlowInstanceDataAsync(id:seededContext.InstanceId);
+        actualInstance = await GetFlowInstanceDataAsync(id: seededContext.InstanceId);
 
         // Then
         actualInstance.Should().NotBeNull();
-        actualInstance!.State.Should().Be(expected:"Completed");
+        actualInstance!.State.Should().Be(expected: "Completed");
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

@@ -18,13 +18,13 @@ public sealed partial class WorkflowEventControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteWorkflowEventAsync(id:seededContext.EventId);
-        actualReadStatusCode = await GetWorkflowEventStatusCodeAsync(id:seededContext.EventId);
+        int actualStatusCode = await DeleteWorkflowEventAsync(id: seededContext.EventId);
+        actualReadStatusCode = await GetWorkflowEventStatusCodeAsync(id: seededContext.EventId);
 
         // Then
-        actualStatusCode.Should().Be(expected:200);
-        actualReadStatusCode.Should().Be(expected:404);
+        actualStatusCode.Should().Be(expected: 200);
+        actualReadStatusCode.Should().Be(expected: 404);
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

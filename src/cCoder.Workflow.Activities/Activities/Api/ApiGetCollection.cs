@@ -13,7 +13,7 @@ public class ApiGetCollection<T> : ApiActivity<IEnumerable<T>>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(level:WorkflowLogLevel.Info, message:$"HTTP GET {api.BaseAddress}{Query}");
-        Result = await api.GetODataCollection<T>(query:Query);
+        Log(level: WorkflowLogLevel.Info, message: $"HTTP GET {api.BaseAddress}{Query}");
+        Result = await api.GetODataCollection<T>(query: Query);
     }
 }

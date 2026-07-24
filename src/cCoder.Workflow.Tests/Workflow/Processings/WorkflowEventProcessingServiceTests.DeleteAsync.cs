@@ -15,13 +15,13 @@ public partial class WorkflowEventProcessingServiceTests
     {
         // Given
         Guid id = Guid.NewGuid();
-        workflowEventServiceMock.Setup(expression:x => x.DeleteAsync(id)).Returns(value:ValueTask.CompletedTask);
+        workflowEventServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
 
         // When
-        await workflowEventProcessingService.DeleteAsync(id:id);
+        await workflowEventProcessingService.DeleteAsync(id: id);
 
         // Then
-        workflowEventServiceMock.Verify(expression:x => x.DeleteAsync(id), times:Times.Once);
+        workflowEventServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 

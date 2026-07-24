@@ -21,7 +21,7 @@ public sealed partial class WorkflowEventControllerTests
         int actualCount = await GetWorkflowEventCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(expected:0);
+        actualCount.Should().BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public sealed partial class WorkflowEventControllerTests
         // Given
 
         // When
-        IReadOnlyList<WorkflowEvent> actualWorkflowEvents = await GetWorkflowEventsAsync(top:1);
+        IReadOnlyList<WorkflowEvent> actualWorkflowEvents = await GetWorkflowEventsAsync(top: 1);
 
         // Then
         actualWorkflowEvents.Should().NotBeNull();
@@ -43,13 +43,13 @@ public sealed partial class WorkflowEventControllerTests
         SeededWorkflowEventContext seededContext = await SeedDatabase(includeEvent: true);
 
         // When
-        WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(id:seededContext.EventId);
+        WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(id: seededContext.EventId);
 
         // Then
         actualWorkflowEvent.Should().NotBeNull();
-        actualWorkflowEvent.Id.Should().Be(expected:seededContext.EventId);
+        actualWorkflowEvent.Id.Should().Be(expected: seededContext.EventId);
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
@@ -61,10 +61,10 @@ public sealed partial class WorkflowEventControllerTests
             "workflowevent_update",
             "workflowevent_delete");
 
-        int actualStatusCode = await GetWorkflowEventStatusCodeAsync(id:seededContext.EventId);
+        int actualStatusCode = await GetWorkflowEventStatusCodeAsync(id: seededContext.EventId);
 
-        actualStatusCode.Should().Be(expected:(int)HttpStatusCode.NotFound);
+        actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
 
-        await Teardown(seededContext:seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

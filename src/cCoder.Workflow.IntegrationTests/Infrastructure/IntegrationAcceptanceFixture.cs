@@ -11,6 +11,7 @@ using cCoder.AppSecurity;
 using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Security.Data.EF;
+using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects;
 using Microsoft.Data.SqlClient;
@@ -65,8 +66,8 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
     {
         Settings = new AcceptanceSettings
         {
-            CoreConnectionString = AddDatabaseSuffix(variableName:"CCODER_ACCEPTANCE_CORE_CONNECTION_STRING", suffix:"integration"),
-            SsoConnectionString = AddDatabaseSuffix(variableName:"CCODER_ACCEPTANCE_SSO_CONNECTION_STRING", suffix:"integration"),
+            CoreConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_CORE_CONNECTION_STRING", suffix: "integration"),
+            SsoConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_SSO_CONNECTION_STRING", suffix: "integration"),
             DecryptionKey = DecryptionKey,
         };
 
@@ -78,35 +79,35 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
         HostedServicesBaseAddress = new Uri($"http://localhost:{hostedServicesHttpPort}/");
         WorkflowBaseAddress = new Uri($"http://localhost:{workflowHttpPort}/api/");
 
-        artifactsRoot = Path.Combine(path1:repositoryRoot, path2:"artifacts", path3:"workflow-integration", path4:Guid.NewGuid().ToString("N"));
-        string workflowOutputDirectory = Path.Combine(path1:artifactsRoot, path2:"Workflow");
-        string hostedServicesOutputDirectory = Path.Combine(path1:artifactsRoot, path2:"HostedServices");
-        string webOutputDirectory = Path.Combine(path1:artifactsRoot, path2:"Web");
+        artifactsRoot = Path.Combine(path1: repositoryRoot, path2: "artifacts", path3: "workflow-integration", path4: Guid.NewGuid().ToString(format: "N"));
+        string workflowOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "Workflow");
+        string hostedServicesOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "HostedServices");
+        string webOutputDirectory = Path.Combine(path1: artifactsRoot, path2: "Web");
 
-        Directory.CreateDirectory(path:workflowOutputDirectory);
-        Directory.CreateDirectory(path:hostedServicesOutputDirectory);
-        Directory.CreateDirectory(path:webOutputDirectory);
+        Directory.CreateDirectory(path: workflowOutputDirectory);
+        Directory.CreateDirectory(path: hostedServicesOutputDirectory);
+        Directory.CreateDirectory(path: webOutputDirectory);
 
-        databaseServices = CreateDatabaseServices(settings:Settings);
+        databaseServices = CreateDatabaseServices(settings: Settings);
         databaseManager = new AcceptanceDatabaseManager(databaseServices);
         await databaseManager.ResetDatabasesAsync();
         await SeedBaselineUsersAsync();
 
-        await BuildApplicationAsync(projectPath:"src\\Apps\\Workflow\\Workflow.csproj", outputDirectory:workflowOutputDirectory, intermediateDirectory:Path.Combine(artifactsRoot, "obj", "Workflow"));
-        await BuildApplicationAsync(projectPath:"src\\Workflow.HostedServices\\Workflow.HostedServices.csproj", outputDirectory:hostedServicesOutputDirectory, intermediateDirectory:Path.Combine(artifactsRoot, "obj", "HostedServices"));
-        await BuildApplicationAsync(projectPath:"src\\Workflow.Web\\Workflow.Web.csproj", outputDirectory:webOutputDirectory, intermediateDirectory:Path.Combine(artifactsRoot, "obj", "Web"));
+        await BuildApplicationAsync(projectPath: "src\\Apps\\Workflow\\Workflow.csproj", outputDirectory: workflowOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "Workflow"));
+        await BuildApplicationAsync(projectPath: "src\\Workflow.HostedServices\\Workflow.HostedServices.csproj", outputDirectory: hostedServicesOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "HostedServices"));
+        await BuildApplicationAsync(projectPath: "src\\Workflow.Web\\Workflow.Web.csproj", outputDirectory: webOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "Web"));
 
         workflowApplication = new ExternalProcessApplication("Workflow");
         await workflowApplication.StartAsync(
-fileName:            ResolveFuncExecutablePath(),
-arguments:            $"start --port {workflowHttpPort} --csharp --no-build",
-workingDirectory:            workflowOutputDirectory,
-environmentVariables:            new Dictionary<string, string>
-            {
-                ["FUNCTIONS_WORKER_RUNTIME"] = "dotnet-isolated"
-            },
-            readinessProbe: () => ProbeHealthAsync(baseAddress:WorkflowBaseAddress),
-            timeout: TimeSpan.FromMinutes(minutes:2),
+fileName: ResolveFuncExecutablePath(),
+arguments: $"start --port {workflowHttpPort} --csharp --no-build",
+workingDirectory: workflowOutputDirectory,
+environmentVariables: new Dictionary<string, string>
+{
+    ["FUNCTIONS_WORKER_RUNTIME"] = "dotnet-isolated"
+},
+            readinessProbe: () => ProbeHealthAsync(baseAddress: WorkflowBaseAddress),
+            timeout: TimeSpan.FromMinutes(minutes: 2),
             readinessDiagnostics: GetHealthProbeDiagnostics);
 
         Dictionary<string, string> hostedServicesEnvironment = CreateCommonEnvironment();
@@ -115,32 +116,32 @@ environmentVariables:            new Dictionary<string, string>
 
         hostedServicesApplication = new ExternalProcessApplication("HostedServices");
         await hostedServicesApplication.StartAsync(
-fileName:            "dotnet",
-arguments:            $"\"{Path.Combine(hostedServicesOutputDirectory, "Workflow.HostedServices.dll")}\"",
-workingDirectory:            hostedServicesOutputDirectory,
-environmentVariables:            hostedServicesEnvironment,
-            readinessProbe: () => ProbeHealthAsync(baseAddress:HostedServicesBaseAddress),
-            timeout: TimeSpan.FromMinutes(minutes:2),
+fileName: "dotnet",
+arguments: $"\"{Path.Combine(path1: hostedServicesOutputDirectory, path2: "Workflow.HostedServices.dll")}\"",
+workingDirectory: hostedServicesOutputDirectory,
+environmentVariables: hostedServicesEnvironment,
+            readinessProbe: () => ProbeHealthAsync(baseAddress: HostedServicesBaseAddress),
+            timeout: TimeSpan.FromMinutes(minutes: 2),
             readinessDiagnostics: GetHealthProbeDiagnostics);
 
         Dictionary<string, string> webEnvironment = CreateCommonEnvironment();
-        AddHttpsCertificateEnvironment(environment:webEnvironment);
+        AddHttpsCertificateEnvironment(environment: webEnvironment);
         webEnvironment["ASPNETCORE_URLS"] = WebBaseAddress.ToString();
         webEnvironment["Settings__sslPort"] = webHttpsPort.ToString();
         webEnvironment["Services__HostedServices"] = HostedServicesBaseAddress.ToString();
 
         webApplication = new ExternalProcessApplication("Web");
         await webApplication.StartAsync(
-fileName:            "dotnet",
-arguments:            $"\"{Path.Combine(webOutputDirectory, "Workflow.Web.dll")}\"",
-workingDirectory:            webOutputDirectory,
-environmentVariables:            webEnvironment,
-            readinessProbe: () => ProbeHealthAsync(baseAddress:WebBaseAddress, useInsecureHandler: true),
-            timeout: TimeSpan.FromMinutes(minutes:2),
+fileName: "dotnet",
+arguments: $"\"{Path.Combine(path1: webOutputDirectory, path2: "Workflow.Web.dll")}\"",
+workingDirectory: webOutputDirectory,
+environmentVariables: webEnvironment,
+            readinessProbe: () => ProbeHealthAsync(baseAddress: WebBaseAddress, useInsecureHandler: true),
+            timeout: TimeSpan.FromMinutes(minutes: 2),
             readinessDiagnostics: GetHealthProbeDiagnostics);
 
-        WebClient = CreateClient(baseAddress:WebBaseAddress, useInsecureHandler: true);
-        HostedServicesClient = CreateClient(baseAddress:HostedServicesBaseAddress, useInsecureHandler: false);
+        WebClient = CreateClient(baseAddress: WebBaseAddress, useInsecureHandler: true);
+        HostedServicesClient = CreateClient(baseAddress: HostedServicesBaseAddress, useInsecureHandler: false);
     }
 
     public async Task DisposeAsync()
@@ -175,9 +176,9 @@ environmentVariables:            webEnvironment,
 
         try
         {
-            if (!string.IsNullOrWhiteSpace(value:artifactsRoot) && Directory.Exists(path:artifactsRoot))
+            if (!string.IsNullOrWhiteSpace(value: artifactsRoot) && Directory.Exists(path: artifactsRoot))
             {
-                Directory.Delete(path:artifactsRoot, recursive: true);
+                Directory.Delete(path: artifactsRoot, recursive: true);
             }
         }
         catch
@@ -190,12 +191,12 @@ environmentVariables:            webEnvironment,
     {
         using IServiceScope scope = databaseServices.CreateScope();
         using var core = scope.ServiceProvider.GetRequiredService<ICoreContextFactory>().CreateCoreContext();
-        using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>().CreateDbContext(ignoreAuthInfo:true);
+        using var sso = scope.ServiceProvider.GetRequiredService<ISecurityDbContextFactory>().CreateDbContext(ignoreAuthInfo: true);
 
-        await AcceptanceUserSeeder.EnsureCoreUserAsync(core:core, id:"Guest", displayName:"Guest", email:string.Empty);
-        await AcceptanceUserSeeder.EnsureCoreUserAsync(core:core, id:"admin", displayName:"Acceptance Admin", email:"admin@localhost");
-        await AcceptanceUserSeeder.EnsureSsoUserAsync(sso:sso, id:"Guest", displayName:"Guest", email:string.Empty);
-        await AcceptanceUserSeeder.EnsureSsoUserAsync(sso:sso, id:"admin", displayName:"Acceptance Admin", email:"admin@localhost");
+        await AcceptanceUserSeeder.EnsureCoreUserAsync(core: core, id: "Guest", displayName: "Guest", email: string.Empty);
+        await AcceptanceUserSeeder.EnsureCoreUserAsync(core: core, id: "admin", displayName: "Acceptance Admin", email: "admin@localhost");
+        await AcceptanceUserSeeder.EnsureSsoUserAsync(sso: sso, id: "Guest", displayName: "Guest", email: string.Empty);
+        await AcceptanceUserSeeder.EnsureSsoUserAsync(sso: sso, id: "admin", displayName: "Acceptance Admin", email: "admin@localhost");
     }
 
     private static ServiceProvider CreateDatabaseServices(AcceptanceSettings settings)
@@ -204,20 +205,20 @@ environmentVariables:            webEnvironment,
         services.AddLogging();
         services.AddEventing();
         services.AddSingleton(
-implementationInstance:            new Config
-            {
-                ConnectionStrings = new Dictionary<string, string>
-                {
-                    ["Core"] = settings.CoreConnectionString,
-                    ["SSO"] = settings.SsoConnectionString
-                },
-                Settings = new Dictionary<string, string>
-                {
-                    ["DecryptionKey"] = settings.DecryptionKey,
-                    ["enableExternalEventing"] = "true"
-                },
-                Services = new Dictionary<string, string>()
-            });
+implementationInstance: new Config
+{
+    ConnectionStrings = new Dictionary<string, string>
+    {
+        ["Core"] = settings.CoreConnectionString,
+        ["SSO"] = settings.SsoConnectionString
+    },
+    Settings = new Dictionary<string, string>
+    {
+        ["DecryptionKey"] = settings.DecryptionKey,
+        ["enableExternalEventing"] = "true"
+    },
+    Services = new Dictionary<string, string>()
+});
         services.AddScoped<ISecurityDbContextFactory>(
             provider => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
             {
@@ -225,7 +226,7 @@ implementationInstance:            new Config
                     ? new SSOAuthInfo { SSOUserId = "admin" }
                     : provider.GetService<ISSOAuthInfo>()
             });
-        services.AddCoreData(connectionString:settings.CoreConnectionString);
+        services.AddCoreData(connectionString: settings.CoreConnectionString);
         services.AddAppSecurityWeb();
         return services.BuildServiceProvider(validateScopes: false);
     }
@@ -245,15 +246,15 @@ implementationInstance:            new Config
 
     private async Task BuildApplicationAsync(string projectPath, string outputDirectory, string intermediateDirectory)
     {
-        string projectIntermediateDirectory = Path.Combine(path1:intermediateDirectory, path2:"$(MSBuildProjectName)");
+        string projectIntermediateDirectory = Path.Combine(path1: intermediateDirectory, path2: "$(MSBuildProjectName)");
         string outputProperties =
-            $"-p:OutputPath=\"{FormatMsBuildPath(path:outputDirectory, trailingSlash: false)}\" " +
-            $"-p:IntermediateOutputPath=\"{FormatMsBuildPath(path:projectIntermediateDirectory, trailingSlash: true)}\"";
+            $"-p:OutputPath=\"{FormatMsBuildPath(path: outputDirectory, trailingSlash: false)}\" " +
+            $"-p:IntermediateOutputPath=\"{FormatMsBuildPath(path: projectIntermediateDirectory, trailingSlash: true)}\"";
 
-        await RunCommandAsync(fileName:"dotnet", arguments:$"restore {projectPath} {outputProperties}");
+        await RunCommandAsync(fileName: "dotnet", arguments: $"restore {projectPath} {outputProperties}");
         await RunCommandAsync(
-fileName:            "dotnet",
-arguments:            $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
+fileName: "dotnet",
+arguments: $"build {projectPath} --no-restore -c {buildConfiguration} -m:1 " +
             $"-p:BuildInParallel=false -p:UseSharedCompilation=false {outputProperties}");
     }
 
@@ -286,7 +287,7 @@ arguments:            $"build {projectPath} --no-restore -c {buildConfiguration}
         {
             if (args.Data is not null)
             {
-                output.AppendLine(value:args.Data);
+                output.AppendLine(value: args.Data);
             }
         };
 
@@ -294,7 +295,7 @@ arguments:            $"build {projectPath} --no-restore -c {buildConfiguration}
         {
             if (args.Data is not null)
             {
-                output.AppendLine(value:args.Data);
+                output.AppendLine(value: args.Data);
             }
         };
 
@@ -316,14 +317,14 @@ arguments:            $"build {projectPath} --no-restore -c {buildConfiguration}
 
     private async Task<bool> ProbeHealthAsync(Uri baseAddress, bool useInsecureHandler = false)
     {
-        using HttpClient client = CreateClient(baseAddress:baseAddress, useInsecureHandler:useInsecureHandler);
+        using HttpClient client = CreateClient(baseAddress: baseAddress, useInsecureHandler: useInsecureHandler);
         Uri healthUri = new(baseAddress, "Health");
 
         try
         {
-            using HttpResponseMessage response = await client.GetAsync(requestUri:"Health");
+            using HttpResponseMessage response = await client.GetAsync(requestUri: "Health");
             string content = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode && string.Equals(a:content, b:"OK", comparisonType:StringComparison.Ordinal))
+            if (response.IsSuccessStatusCode && string.Equals(a: content, b: "OK", comparisonType: StringComparison.Ordinal))
             {
                 lastHealthProbeFailure = null;
                 return true;
@@ -347,16 +348,16 @@ arguments:            $"build {projectPath} --no-restore -c {buildConfiguration}
             : new HttpClient();
 
         client.BaseAddress = baseAddress;
-        client.Timeout = TimeSpan.FromMinutes(minutes:2);
+        client.Timeout = TimeSpan.FromMinutes(minutes: 2);
         return client;
     }
 
     private void AddHttpsCertificateEnvironment(Dictionary<string, string> environment)
     {
-        string certificatePath = Path.Combine(path1:artifactsRoot, path2:"localhost-https.pfx");
-        string certificatePassword = Guid.NewGuid().ToString(format:"N");
+        string certificatePath = Path.Combine(path1: artifactsRoot, path2: "localhost-https.pfx");
+        string certificatePassword = Guid.NewGuid().ToString(format: "N");
 
-        using RSA rsa = RSA.Create(keySizeInBits:2048);
+        using RSA rsa = RSA.Create(keySizeInBits: 2048);
         CertificateRequest request = new(
             "CN=localhost",
             rsa,
@@ -364,24 +365,24 @@ arguments:            $"build {projectPath} --no-restore -c {buildConfiguration}
             RSASignaturePadding.Pkcs1);
 
         SubjectAlternativeNameBuilder subjectAlternativeNameBuilder = new();
-        subjectAlternativeNameBuilder.AddDnsName(dnsName:"localhost");
-        subjectAlternativeNameBuilder.AddIpAddress(ipAddress:IPAddress.Loopback);
-        subjectAlternativeNameBuilder.AddIpAddress(ipAddress:IPAddress.IPv6Loopback);
+        subjectAlternativeNameBuilder.AddDnsName(dnsName: "localhost");
+        subjectAlternativeNameBuilder.AddIpAddress(ipAddress: IPAddress.Loopback);
+        subjectAlternativeNameBuilder.AddIpAddress(ipAddress: IPAddress.IPv6Loopback);
 
-        request.CertificateExtensions.Add(item:subjectAlternativeNameBuilder.Build());
-        request.CertificateExtensions.Add(item:new X509BasicConstraintsExtension(false, false, 0, false));
+        request.CertificateExtensions.Add(item: subjectAlternativeNameBuilder.Build());
+        request.CertificateExtensions.Add(item: new X509BasicConstraintsExtension(false, false, 0, false));
         request.CertificateExtensions.Add(
-item:            new X509KeyUsageExtension(
+item: new X509KeyUsageExtension(
                 X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment,
                 critical: true));
         request.CertificateExtensions.Add(
-item:            new X509EnhancedKeyUsageExtension([new Oid("1.3.6.1.5.5.7.3.1")], critical: false));
+item: new X509EnhancedKeyUsageExtension([new Oid("1.3.6.1.5.5.7.3.1")], critical: false));
 
         using X509Certificate2 certificate = request.CreateSelfSigned(
-notBefore:            DateTimeOffset.UtcNow.AddMinutes(-5),
-notAfter:            DateTimeOffset.UtcNow.AddDays(1));
+notBefore: DateTimeOffset.UtcNow.AddMinutes(minutes: -5),
+notAfter: DateTimeOffset.UtcNow.AddDays(days: 1));
 
-        File.WriteAllBytes(path:certificatePath, bytes:certificate.Export(X509ContentType.Pkcs12, certificatePassword));
+        File.WriteAllBytes(path: certificatePath, bytes: certificate.Export(contentType: X509ContentType.Pkcs12, password: certificatePassword));
 
         environment["ASPNETCORE_Kestrel__Certificates__Default__Path"] = certificatePath;
         environment["ASPNETCORE_Kestrel__Certificates__Default__Password"] = certificatePassword;
@@ -400,7 +401,7 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
 
         while (directory is not null)
         {
-            if (File.Exists(path:Path.Combine(directory.FullName, "src", "cCoder.Workflow.sln")))
+            if (File.Exists(path: Path.Combine(path1: directory.FullName, path2: "src", path3: "cCoder.Workflow.sln")))
             {
                 return directory.FullName;
             }
@@ -414,12 +415,12 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
     private static string AddDatabaseSuffix(string variableName, string suffix)
     {
         string connectionString =
-            Environment.GetEnvironmentVariable(variable:variableName)
-            ?? Environment.GetEnvironmentVariable(variable:variableName, target:EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable(variable:variableName, target:EnvironmentVariableTarget.Machine)
-            ?? ReadConfiguredConnectionString(variableName:variableName);
+            Environment.GetEnvironmentVariable(variable: variableName)
+            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.User)
+            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.Machine)
+            ?? ReadConfiguredConnectionString(variableName: variableName);
 
-        if (string.IsNullOrWhiteSpace(value:connectionString))
+        if (string.IsNullOrWhiteSpace(value: connectionString))
         {
             return string.Empty;
         }
@@ -430,7 +431,7 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
             TrustServerCertificate = true,
         };
 
-        if (!string.IsNullOrWhiteSpace(value:builder.InitialCatalog))
+        if (!string.IsNullOrWhiteSpace(value: builder.InitialCatalog))
         {
             builder.InitialCatalog = $"{builder.InitialCatalog}-workflow-{suffix}";
         }
@@ -440,23 +441,23 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
 
     private static string ReadConfiguredConnectionString(string variableName)
     {
-        string connectionName = variableName.Contains(value:"CORE", comparisonType:StringComparison.OrdinalIgnoreCase)
+        string connectionName = variableName.Contains(value: "CORE", comparisonType: StringComparison.OrdinalIgnoreCase)
             ? "Core"
             : "SSO";
 
         IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(basePath:AppContext.BaseDirectory)
-            .AddJsonFile(path:"appsettings.testing.json", optional: true)
+            .SetBasePath(basePath: AppContext.BaseDirectory)
+            .AddJsonFile(path: "appsettings.testing.json", optional: true)
             .Build();
 
-        return configuration.GetConnectionString(name:connectionName) ?? string.Empty;
+        return configuration.GetConnectionString(name: connectionName) ?? string.Empty;
     }
 
     private static string FormatMsBuildPath(string path, bool trailingSlash)
     {
-        string formattedPath = path.Replace(oldChar:'\\', newChar:'/');
+        string formattedPath = path.Replace(oldChar: '\\', newChar: '/');
 
-        if (trailingSlash && !formattedPath.EndsWith(value:'/'))
+        if (trailingSlash && !formattedPath.EndsWith(value: '/'))
         {
             formattedPath += '/';
         }
@@ -470,11 +471,11 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
     private static string ResolveFuncExecutablePath()
     {
         string roamingNpmFunc = Path.Combine(
-path1:            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-path2:            "npm",
-path3:            "func.cmd");
+path1: Environment.GetFolderPath(folder: Environment.SpecialFolder.ApplicationData),
+path2: "npm",
+path3: "func.cmd");
 
-        if (File.Exists(path:roamingNpmFunc))
+        if (File.Exists(path: roamingNpmFunc))
         {
             return roamingNpmFunc;
         }

@@ -13,7 +13,7 @@ namespace cCoder.Workflow.Exposures;
 internal class WorkflowAppExposure(IAppOrchestrationService appOrchestrationService)
     : IWorkflowAppExposure
 {
-    public ValueTask AddAsync(App app) => appOrchestrationService.AddAsync(app:app);
-    public ValueTask UpdateAsync(App app) => appOrchestrationService.UpdateAsync(app:app);
-    public ValueTask DeleteAsync(int appId) => appOrchestrationService.DeleteAsync(appId:appId);
+    public ValueTask AddAsync(App app) => appOrchestrationService.AddAsync(app: app);
+    public ValueTask UpdateAsync(App app) => appOrchestrationService.UpdateAsync(app: app);
+    public ValueTask DeleteAsync(int appId) => appOrchestrationService.DeleteAsync(appId: appId);
 }

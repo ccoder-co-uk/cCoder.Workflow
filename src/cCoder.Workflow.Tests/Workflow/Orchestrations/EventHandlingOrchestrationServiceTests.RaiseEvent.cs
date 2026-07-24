@@ -16,29 +16,29 @@ public partial class EventHandlingOrchestrationServiceTests
     public async Task ShouldQueueAndRaiseFlowInstanceEventWhenMatchingSubscriptionExists()
     {
         Page page = CreateRandomPage();
-        WorkflowEvent subscription = CreateSubscription(page:page);
+        WorkflowEvent subscription = CreateSubscription(page: page);
         Guid queuedId = Guid.NewGuid();
 
         workflowEventProcessingServiceMock
-            .Setup(expression:x => x.GetSubscriptionsAsync(page.AppId, $"page_update{page.Path}"))
-            .ReturnsAsync(value:[subscription]);
+            .Setup(expression: x => x.GetSubscriptionsAsync(appId: page.AppId, eventContext: $"page_update{page.Path}"))
+            .ReturnsAsync(value: [subscription]);
 
         flowDefinitionCoordinationServiceMock
-            .Setup(expression:x => x.QueueAsync(subscription.FlowId, subscription.ExecuteAs, It.IsAny<string>()))
-            .ReturnsAsync(value:queuedId);
+            .Setup(expression: x => x.QueueAsync(id: subscription.FlowId, asUserId: subscription.ExecuteAs, args: It.IsAny<string>()))
+            .ReturnsAsync(value: queuedId);
 
-        await orchestrationService.RaiseEvents(payload:page, eventName:"page_update");
+        await orchestrationService.RaiseEvents(payload: page, eventName: "page_update");
 
         workflowEventProcessingServiceMock.Verify(
-expression:            x => x.GetSubscriptionsAsync(page.AppId, $"page_update{page.Path}"),
-times:            Times.Once);
+expression: x => x.GetSubscriptionsAsync(appId: page.AppId, eventContext: $"page_update{page.Path}"),
+times: Times.Once);
 
         flowDefinitionCoordinationServiceMock.Verify(
-expression:            x => x.QueueAsync(
-                subscription.FlowId,
-                subscription.ExecuteAs,
-                It.Is<string>(args => args.Contains("\"Path\":\"home\""))),
-times:            Times.Once);
+expression: x => x.QueueAsync(
+id: subscription.FlowId,
+asUserId: subscription.ExecuteAs,
+args: It.Is<string>(args => args.Contains("\"Path\":\"home\""))),
+times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
     }
@@ -48,7 +48,7 @@ times:            Times.Once);
     {
         PageInfo pageInfo = new() { PageId = 1, CultureId = "en-GB" };
 
-        await orchestrationService.RaiseEvents(payload:pageInfo, eventName:"page_info_update");
+        await orchestrationService.RaiseEvents(payload: pageInfo, eventName: "page_info_update");
 
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();

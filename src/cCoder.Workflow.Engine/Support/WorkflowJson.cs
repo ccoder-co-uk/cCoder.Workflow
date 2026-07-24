@@ -35,8 +35,8 @@ public static class WorkflowJson
         };
 
     public static string ToJson(this object value) =>
-        JsonConvert.SerializeObject(value:value, formatting:Formatting.None, settings:GetJsonSettings());
+        JsonConvert.SerializeObject(value: value, formatting: Formatting.None, settings: GetJsonSettings());
 
     public static string ToJsonForOdata(this object value) =>
-        JsonConvert.SerializeObject(value:value, formatting:Formatting.None, settings:GetODataJsonSettings());
+        JsonConvert.SerializeObject(value: value, formatting: Formatting.None, settings: GetODataJsonSettings());
 }
