@@ -8,7 +8,8 @@ namespace cCoder.Workflow.Exposures.Setup;
 
 public static partial class UIBaseline
 {
-    static Package FlowDefinitions => new()
+    private static Package CreateFlowDefinitionsPackage() =>
+        new()
     {
         Name = "Workflow Flow Definitions",
         Category = "Workflow",

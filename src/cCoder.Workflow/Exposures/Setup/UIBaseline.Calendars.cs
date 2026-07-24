@@ -8,7 +8,8 @@ namespace cCoder.Workflow.Exposures.Setup;
 
 public static partial class UIBaseline
 {
-    static Package Calendars => new()
+    private static Package CreateCalendarsPackage() =>
+        new()
     {
         Name = "Workflow Calendars",
         Category = "Workflow",

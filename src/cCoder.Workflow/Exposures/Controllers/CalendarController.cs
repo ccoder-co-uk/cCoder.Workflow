@@ -21,14 +21,14 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class CalendarController : ODataController
 {
-    protected ICalendarOrchestrationService Service { get; }
+    private readonly ICalendarOrchestrationService service;
 
     public CalendarController(
         ICalendarOrchestrationService service,
         ILogger<CalendarController> log
     )
     {
-        Service = service;
+        this.service = service;
     }
 
     [HttpGet]
@@ -44,7 +44,7 @@ public partial class CalendarController : ODataController
     {
         try
         {
-            IQueryable<Calendar> result = Service.GetAll()
+            IQueryable<Calendar> result = service.GetAll()
                 .Where(predicate: calendar => calendar.Id == key);
 
             return Ok(value: SingleResult.Create(queryable: result));
@@ -80,7 +80,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<Calendar> queryOptions) =>
-        Ok(value: Service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpPost]
     [EnableQuery(
@@ -98,7 +98,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity: entity));
+        return Ok(value: await service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -117,13 +117,13 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await Service.UpdateAsync(entity: entity));
+        return Ok(value: await service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<Calendar> delta)
     {
-        Calendar originalEntity = Service.Get(calendarId: key);
+        Calendar originalEntity = service.Get(calendarId: key);
 
         if (originalEntity == null)
         {
@@ -131,13 +131,13 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         }
 
         delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
+        return Ok(value: await service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await Service.DeleteAsync(calendarId: key);
+        await service.DeleteAsync(calendarId: key);
         return Ok();
     }
 }

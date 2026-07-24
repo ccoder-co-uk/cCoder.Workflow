@@ -21,11 +21,11 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class WorkflowEventController : ODataController
 {
-    protected IWorkflowEventOrchestrationService Service { get; }
+    private readonly IWorkflowEventOrchestrationService service;
 
     public WorkflowEventController(IWorkflowEventOrchestrationService service)
     {
-        Service = service;
+        this.service = service;
     }
 
     [HttpGet]
@@ -53,7 +53,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<WorkflowEvent> queryOptions) =>
-        Ok(value: Service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -69,7 +69,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            IQueryable<WorkflowEvent> result = Service.GetAll()
+            IQueryable<WorkflowEvent> result = service.GetAll()
                 .Where(predicate: workflowEvent => workflowEvent.Id == key);
 
             return Ok(value: SingleResult.Create(queryable: result));
@@ -96,7 +96,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity: entity));
+        return Ok(value: await service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -115,13 +115,13 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
         }
 
-        return Ok(value: await Service.UpdateAsync(entity: entity));
+        return Ok(value: await service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<WorkflowEvent> delta)
     {
-        WorkflowEvent originalEntity = Service.Get(workflowEventId: key);
+        WorkflowEvent originalEntity = service.Get(workflowEventId: key);
 
         if (originalEntity == null)
         {
@@ -129,13 +129,13 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
         }
 
         delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
+        return Ok(value: await service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await Service.DeleteAsync(workflowEventId: key);
+        await service.DeleteAsync(workflowEventId: key);
         return Ok();
     }
 }

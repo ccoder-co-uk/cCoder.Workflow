@@ -8,7 +8,8 @@ namespace cCoder.Workflow.Exposures.Setup;
 
 public static partial class UIBaseline
 {
-    static Package PageRoles => new()
+    private static Package CreatePageRolesPackage() =>
+        new()
     {
         Name = "Workflow Page Roles",
         Category = "Workflow",

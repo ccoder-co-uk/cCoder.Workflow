@@ -8,7 +8,8 @@ namespace cCoder.Workflow.Exposures.Setup;
 
 public static partial class UIBaseline
 {
-    static Package Components => new()
+    private static Package CreateComponentsPackage() =>
+        new()
     {
         Name = "Workflow Components",
         Category = "Workflow",

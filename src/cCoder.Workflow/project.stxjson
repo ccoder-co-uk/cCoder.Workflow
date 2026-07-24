@@ -2305,12 +2305,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Setup.UIBaseline",
       "StandardElementType": "Exposure",
-      "Properties": [
-        {
-          "Name": "Packages",
-          "Type": "Package[]"
-        }
-      ],
+      "Properties": [],
       "Methods": []
     },
     {
@@ -5793,25 +5788,11 @@
       "LineNumber": 10
     },
     {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 24
-    },
-    {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "LineNumber": 123
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 25
     },
     {
       "Code": "STXAPI004",
@@ -5905,25 +5886,11 @@
       "LineNumber": 47
     },
     {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 24
-    },
-    {
       "Code": "STXAPI004",
       "Description": "API controller methods must use HTTP nouns: Get, Post, Put, or Delete.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
       "LineNumber": 125
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 25
     },
     {
       "Code": "STXAPI004",
@@ -5938,13 +5905,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
       "LineNumber": 135
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 24
     },
     {
       "Code": "STXAPI004",
@@ -6050,62 +6010,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
       "LineNumber": 117
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0002",
-      "Description": "Properties may only be declared on models.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "LineNumber": 11
     },
     {
       "Code": "STXAPP001",

@@ -8,13 +8,13 @@ namespace cCoder.Workflow.Exposures.Setup;
 
 public static partial class UIBaseline
 {
-    public static Package[] Packages => [
-        Components,
-        Pages,
-        Resources,
-        FlowDefinitions,
-        Calendars,
-        CalendarEvents,
-        PageRoles
+    public static readonly Package[] Packages = [
+        CreateComponentsPackage(),
+        CreatePagesPackage(),
+        CreateResourcesPackage(),
+        CreateFlowDefinitionsPackage(),
+        CreateCalendarsPackage(),
+        CreateCalendarEventsPackage(),
+        CreatePageRolesPackage()
     ];
 }
