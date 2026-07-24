@@ -15,6 +15,6 @@ public abstract class CoreActivity : ApiActivity
     public override Task ExecuteInternal(IWorkflowContext context)
     {
         AppId = (int)context.Variables["AppId"];
-        return base.ExecuteInternal(context);
+        return base.ExecuteInternal(context:context);
     }
 }

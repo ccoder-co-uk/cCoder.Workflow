@@ -52,12 +52,12 @@ public static partial class IServiceCollectionExtensions
         this IServiceCollection services,
         Action<WorkflowConfiguration> configure = null,
         ODataConventionModelBuilder builder = null) =>
-        services.AddConfiguredWorkflowWeb((_, configuration) => configure?.Invoke(configuration), builder);
+        services.AddConfiguredWorkflowWeb(configure:(_, configuration) => configure?.Invoke(configuration), builder:builder);
 
     public static void AddWorkflowHostedServices(
         this IServiceCollection services,
         Action<WorkflowConfiguration> configure = null) =>
-        services.AddConfiguredWorkflowHostedServices((_, configuration) => configure?.Invoke(configuration));
+        services.AddConfiguredWorkflowHostedServices(configure:(_, configuration) => configure?.Invoke(configuration));
 
     private static void AddWorkflow(this IServiceCollection services)
     {
@@ -80,13 +80,13 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddWorkflow();
         services.AddSingleton<IInstanceMaintenanceManagement, InstanceMaintenanceManagement>();
-        services.AddSingleton<IHostedService>(serviceProvider =>
+        services.AddSingleton<IHostedService>(implementationFactory:serviceProvider =>
             serviceProvider.GetRequiredService<IInstanceMaintenanceManagement>());
         services.AddSingleton<IQueueInstanceManagement, QueueInstanceManagement>();
-        services.AddSingleton<IHostedService>(serviceProvider =>
+        services.AddSingleton<IHostedService>(implementationFactory:serviceProvider =>
             serviceProvider.GetRequiredService<IQueueInstanceManagement>());
         services.AddSingleton<IScheduledTaskRunnerManagement, ScheduledTaskRunnerManagement>();
-        services.AddSingleton<IHostedService>(serviceProvider =>
+        services.AddSingleton<IHostedService>(implementationFactory:serviceProvider =>
             serviceProvider.GetRequiredService<IScheduledTaskRunnerManagement>());
     }
 

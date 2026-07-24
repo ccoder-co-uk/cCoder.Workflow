@@ -34,14 +34,14 @@ public partial class EventHandlingOrchestrationServiceTests
 
     private static Page CreateRandomPage() =>
         Builder<Page>.CreateNew()
-            .With(x => x.Id = 1)
-            .With(x => x.AppId = 1)
-            .With(x => x.Name = "Home")
-            .With(x => x.Path = "home")
+            .With(func:x => x.Id = 1)
+            .With(func:x => x.AppId = 1)
+            .With(func:x => x.Name = "Home")
+            .With(func:x => x.Path = "home")
             .Build();
 
     private static WorkflowEvent CreateSubscription(Page page, string executeAs = "system") =>
-        CreateSubscription(page, Guid.NewGuid(), executeAs);
+        CreateSubscription(page:page, flowId:Guid.NewGuid(), executeAs:executeAs);
 
     private static WorkflowEvent CreateSubscription(Page page, Guid flowId, string executeAs = "system") =>
         new()

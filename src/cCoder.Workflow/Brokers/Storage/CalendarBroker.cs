@@ -23,7 +23,7 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
     public async ValueTask<Calendar> AddCalendarAsync(Calendar entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Calendar result = (await coreDataContext.Calendars.AddAsync(entity)).Entity;
+        Calendar result = (await coreDataContext.Calendars.AddAsync(entity:entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -31,7 +31,7 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
     public async ValueTask<Calendar> UpdateCalendarAsync(Calendar entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Calendar result = coreDataContext.Calendars.Update(entity).Entity;
+        Calendar result = coreDataContext.Calendars.Update(entity:entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -39,7 +39,7 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
     public async ValueTask<int> DeleteCalendarAsync(Calendar entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Calendars.Remove(entity);
+        coreDataContext.Calendars.Remove(entity:entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -49,7 +49,7 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
             return;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Calendars.RemoveRange(items);
+        coreDataContext.Calendars.RemoveRange(entities:items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
@@ -59,7 +59,7 @@ public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarB
 
         await coreDataContext.Calendars
             .IgnoreQueryFilters()
-            .Where(calendar => calendar.AppId == appId)
+            .Where(predicate:calendar => calendar.AppId == appId)
             .ExecuteDeleteAsync();
     }
 

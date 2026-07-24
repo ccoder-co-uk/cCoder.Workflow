@@ -12,11 +12,11 @@ namespace cCoder.Workflow.Brokers.Events;
 public class FlowDefinitionEventBroker(IEventHub eventHub) : IFlowDefinitionEventBroker
 {
     public ValueTask RaiseFlowDefinitionAddEventAsync(EventMessage<FlowDefinition> message) =>
-        eventHub.RaiseEventAsync("flow_definition_add", message);
+        eventHub.RaiseEventAsync(name:"flow_definition_add", message:message);
 
     public ValueTask RaiseFlowDefinitionUpdateEventAsync(EventMessage<FlowDefinition> message) =>
-        eventHub.RaiseEventAsync("flow_definition_update", message);
+        eventHub.RaiseEventAsync(name:"flow_definition_update", message:message);
 
     public ValueTask RaiseFlowDefinitionDeleteEventAsync(EventMessage<FlowDefinition> message) =>
-        eventHub.RaiseEventAsync("flow_definition_delete", message);
+        eventHub.RaiseEventAsync(name:"flow_definition_delete", message:message);
 }

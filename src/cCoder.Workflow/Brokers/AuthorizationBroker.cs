@@ -21,13 +21,13 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
     public User GetUser(string id)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        return LoadUserWithRoles(coreDataContext, id);
+        return LoadUserWithRoles(coreDataContext:coreDataContext, userId:id);
     }
 
     public bool IsAdminOfApp(int? appId)
     {
         User user = GetCurrentUser();
-        return user != null && appId.HasValue && HasAppAdminPrivilege(user, appId.Value);
+        return user != null && appId.HasValue && HasAppAdminPrivilege(user:user, appId:appId.Value);
     }
 
     public bool IsAdminOfApp(int appId, string userName)
@@ -35,35 +35,35 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         User user = coreDataContext.Users
-            .Include(foundUser => foundUser.Roles)
-            .FirstOrDefault(foundUser => foundUser.Id == userName);
+            .Include(navigationPropertyPath:foundUser => foundUser.Roles)
+            .FirstOrDefault(predicate:foundUser => foundUser.Id == userName);
 
-        return user != null && HasAppAdminPrivilege(user, appId);
+        return user != null && HasAppAdminPrivilege(user:user, appId:appId);
     }
 
     public void Authorize(int? appId, string privilege)
     {
         User user = GetCurrentUser();
 
-        if (user == null || !(HasAppAdminPrivilege(user, appId) || HasPrivilege(user, appId, privilege)))
+        if (user == null || !(HasAppAdminPrivilege(user:user, appId:appId) || HasPrivilege(user:user, appId:appId, privilege:privilege)))
             throw new SecurityException("Access Denied!");
     }
 
     public void Authorize(string userId, int? appId, string privilege)
     {
-        if (string.IsNullOrWhiteSpace(userId))
+        if (string.IsNullOrWhiteSpace(value:userId))
             throw new SecurityException("Access Denied!");
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User user = LoadUserWithRoles(coreDataContext, userId);
+        User user = LoadUserWithRoles(coreDataContext:coreDataContext, userId:userId);
 
-        if (!(HasAppAdminPrivilege(user, appId) || HasPrivilege(user, appId, privilege)))
+        if (!(HasAppAdminPrivilege(user:user, appId:appId) || HasPrivilege(user:user, appId:appId, privilege:privilege)))
             throw new SecurityException("Access Denied!");
     }
 
     public bool UserBelongsToApp(string userId, int? appId)
     {
-        if (string.IsNullOrWhiteSpace(userId) || !appId.HasValue)
+        if (string.IsNullOrWhiteSpace(value:userId) || !appId.HasValue)
             return false;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
@@ -71,21 +71,21 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
         return coreDataContext.UserRoles
             .IgnoreQueryFilters()
             .AsNoTracking()
-            .Where(userRole => userRole.UserId == userId)
+            .Where(predicate:userRole => userRole.UserId == userId)
             .Join(
-                coreDataContext.Roles.IgnoreQueryFilters().AsNoTracking(),
-                userRole => userRole.RoleId,
-                role => role.Id,
-                (_, role) => role.AppId)
-            .Any(foundAppId => foundAppId == appId.Value);
+inner:                coreDataContext.Roles.IgnoreQueryFilters().AsNoTracking(),
+outerKeySelector:                userRole => userRole.RoleId,
+innerKeySelector:                role => role.Id,
+resultSelector:                (_, role) => role.AppId)
+            .Any(predicate:foundAppId => foundAppId == appId.Value);
     }
 
     private static bool HasPrivilege(User user, int? appId, string privilege)
     {
         string normalizedPrivilege = privilege?.ToLowerInvariant() ?? string.Empty;
 
-        return (appId != null && HasAppAdminPrivilege(user, appId.Value))
-            || (user.Roles?.Any(role =>
+        return (appId != null && HasAppAdminPrivilege(user:user, appId:appId.Value))
+            || (user.Roles?.Any(predicate:role =>
                 (appId == null || role.Role?.AppId == appId)
                 && (role.Role?.Privileges?.Contains(normalizedPrivilege) ?? false))
                 ?? false);
@@ -93,7 +93,7 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
 
     private static bool HasAppAdminPrivilege(User user, int? appId) =>
         appId.HasValue
-        && (user.Roles?.Any(role =>
+        && (user.Roles?.Any(predicate:role =>
             role.Role?.AppId == appId.Value
             && (role.Role?.Privileges?.Contains("app_admin") ?? false)) ?? false);
 
@@ -101,7 +101,7 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
         coreDataContext.Users
             .IgnoreQueryFilters()
             .AsNoTracking()
-            .Include(foundUser => foundUser.Roles)
-                .ThenInclude(userRole => userRole.Role)
-            .FirstOrDefault(foundUser => foundUser.Id == userId);
+            .Include(navigationPropertyPath:foundUser => foundUser.Roles)
+                .ThenInclude(navigationPropertyPath:userRole => userRole.Role)
+            .FirstOrDefault(predicate:foundUser => foundUser.Id == userId);
 }

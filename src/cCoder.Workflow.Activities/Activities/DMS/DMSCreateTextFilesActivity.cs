@@ -27,20 +27,20 @@ public class DMSCreateTextFilesActivity : DMSActivity
                 {
                     if (n.Current != null && c.Current != null)
                     {
-                        _ = await api.PutAsync($"DMS/{Path.TrimEnd('/')}/{n.Current}", new StringContent(c.Current));
+                        _ = await api.PutAsync(requestUri:$"DMS/{Path.TrimEnd('/')}/{n.Current}", content:new StringContent(c.Current));
                     }
                 }
 
-                Log(WorkflowLogLevel.Info, $"File upload complete, {Names.Count()} files posted to DMS folder {Path}");
+                Log(level:WorkflowLogLevel.Info, message:$"File upload complete, {Names.Count()} files posted to DMS folder {Path}");
             }
             else
             {
-                Log(WorkflowLogLevel.Warning, $"No files requested for creation.");
+                Log(level:WorkflowLogLevel.Warning, message:$"No files requested for creation.");
             }
         }
         catch (Exception ex)
         {
-            Log(WorkflowLogLevel.Error, $"Failed to create DMS file because of exception:\n{ex.Message}");
+            Log(level:WorkflowLogLevel.Error, message:$"Failed to create DMS file because of exception:\n{ex.Message}");
         }
     }
 }

@@ -11,7 +11,7 @@ using cCoder.Workflow.Engine;
 
 IHost host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
-    .ConfigureLogging(loggingBuilder =>
+    .ConfigureLogging(configureLogging:loggingBuilder =>
     {
         IConfigurationRoot configRoot = new ConfigurationBuilder()
             .AddEnvironmentVariables()
@@ -24,7 +24,7 @@ IHost host = new HostBuilder()
         loggingBuilder.AddFilter(level => level >= LogLevel.Debug);
         loggingBuilder.AddConfiguration(configRoot.GetSection("logging"));
     })
-    .ConfigureServices(services =>
+    .ConfigureServices(configureDelegate:services =>
     {
         services.AddWorkflowEngine();
     })

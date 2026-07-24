@@ -16,7 +16,7 @@ public class SftpMoveFilesToFolderActivity : SftpBaseActivity
 
     public List<string> Files { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(client =>
+    public override async Task ExecuteAsync() => SftpDo(operation:client =>
     {
         FromFolder = FromFolder.Trim('/');
         ToFolder = ToFolder.Trim('/');

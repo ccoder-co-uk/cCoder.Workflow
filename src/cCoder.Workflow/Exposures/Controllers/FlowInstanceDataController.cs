@@ -45,7 +45,7 @@ public partial class FlowInstanceDataController : ODataController
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
 
         entity.Id = key;
-        await Service.UpdateAsync(entity);
+        await Service.UpdateAsync(entity:entity);
         return NoContent();
     }
 
@@ -56,11 +56,11 @@ public partial class FlowInstanceDataController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType("Workflow", typeof(FlowInstanceData))
             )
-            : Ok(new MetadataContainer(typeof(FlowInstanceData), true, true));
+            : Ok(value:new MetadataContainer(typeof(FlowInstanceData), true, true));
     }
 
     [HttpGet]
@@ -74,7 +74,7 @@ public partial class FlowInstanceDataController : ODataController
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<FlowInstanceData> queryOptions) =>
-        Ok(Service.GetAll());
+        Ok(value:Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -90,8 +90,8 @@ public partial class FlowInstanceDataController : ODataController
     {
         try
         {
-            IQueryable<FlowInstanceData> result = Service.GetAll().Where(flowInstanceData => flowInstanceData.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<FlowInstanceData> result = Service.GetAll().Where(predicate:flowInstanceData => flowInstanceData.Id == key);
+            return Ok(value:SingleResult.Create(result));
         }
         catch (System.Security.SecurityException)
         {
@@ -113,24 +113,24 @@ public partial class FlowInstanceDataController : ODataController
         if (!ModelState.IsValid)
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value:await Service.AddAsync(entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<FlowInstanceData> delta)
     {
-        FlowInstanceData originalEntity = Service.Get(key);
+        FlowInstanceData originalEntity = Service.Get(id:key);
         if (originalEntity == null)
             return NotFound();
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        delta.Patch(original:originalEntity);
+        return Ok(value:await Service.UpdateAsync(originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await Service.DeleteAsync(key);
+        await Service.DeleteAsync(id:key);
         return Ok();
     }
 }

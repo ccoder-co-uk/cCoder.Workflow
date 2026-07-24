@@ -37,7 +37,7 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(new App
+        App app = await core.AddAppAsync(app:new App
         {
             Name = Unique("AcceptanceApp"),
             Domain = $"{Unique("calendar")}.local",
@@ -47,7 +47,7 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
             ConfigJson = "{}",
         });
 
-        Role role = await core.AddRoleAsync(new Role
+        Role role = await core.AddRoleAsync(role:new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
@@ -58,24 +58,24 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
                 : string.Join(',', privileges),
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = role.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole:new UserRole { RoleId = role.Id, UserId = "Guest" });
 
         return new SeededCalendarContext(app.Id, role.Id);
     }
 
     private async Task<Calendar> CreateCalendarAsync(object payload)
     {
-        using HttpResponseMessage response = await Client.PostAsJsonAsync(BaseUrl, payload);
+        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri:BaseUrl, value:payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<Calendar>(content, JsonOptions)!;
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        return JsonSerializer.Deserialize<Calendar>(json:content, options:JsonOptions)!;
     }
 
     private async Task<int> UpdateCalendarAsync(int id, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync($"{BaseUrl}({id})", payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri:$"{BaseUrl}({id})", value:payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
         return (int)response.StatusCode;
     }
 
@@ -83,29 +83,29 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
     {
         using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
         {
-            Content = JsonContent.Create(payload),
+            Content = JsonContent.Create(inputValue:payload),
         };
-        using HttpResponseMessage response = await Client.SendAsync(request);
+        using HttpResponseMessage response = await Client.SendAsync(request:request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
         return (int)response.StatusCode;
     }
 
     private async Task<int> DeleteCalendarAsync(int id)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync($"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri:$"{BaseUrl}({id})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
         return (int)response.StatusCode;
     }
 
     private async Task<Calendar> GetCalendarAsync(int id)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}({id})");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
 
-        return JsonSerializer.Deserialize<Calendar>(content, JsonOptions)
+        return JsonSerializer.Deserialize<Calendar>(json:content, options:JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar payload.");
     }
 
@@ -116,41 +116,41 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>().IgnoreQueryFilters().Where(calendarEvent => calendarEvent.Calendar.AppId == seededContext.AppId).ToArray();
-        await core.DeleteAllAsync(calendarEvents);
+        CalendarEvent[] calendarEvents = core.Set<CalendarEvent>().IgnoreQueryFilters().Where(predicate:calendarEvent => calendarEvent.Calendar.AppId == seededContext.AppId).ToArray();
+        await core.DeleteAllAsync(calendarEvents:calendarEvents);
 
-        Calendar[] calendars = core.Set<Calendar>().IgnoreQueryFilters().Where(calendar => calendar.AppId == seededContext.AppId).ToArray();
-        await core.DeleteAllAsync(calendars);
+        Calendar[] calendars = core.Set<Calendar>().IgnoreQueryFilters().Where(predicate:calendar => calendar.AppId == seededContext.AppId).ToArray();
+        await core.DeleteAllAsync(calendars:calendars);
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(userRole => userRole.RoleId == seededContext.RoleId).ToArray();
-        await core.DeleteAllAsync(userRoles);
+        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(predicate:userRole => userRole.RoleId == seededContext.RoleId).ToArray();
+        await core.DeleteAllAsync(userRoles:userRoles);
 
-        Role role = core.Set<Role>().IgnoreQueryFilters().Single(found => found.Id == seededContext.RoleId);
-        await core.DeleteAsync(role);
+        Role role = core.Set<Role>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.RoleId);
+        await core.DeleteAsync(role:role);
 
-        App app = core.Set<App>().IgnoreQueryFilters().Single(found => found.Id == seededContext.AppId);
-        await core.DeleteAsync(app);
+        App app = core.Set<App>().IgnoreQueryFilters().Single(predicate:found => found.Id == seededContext.AppId);
+        await core.DeleteAsync(app:app);
 
     }
 
     private async Task<int> GetCalendarCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return int.Parse(content);
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        return int.Parse(s:content);
     }
 
     private async Task<IReadOnlyList<Calendar>> GetCalendarsAsync(int top)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}?$top={top}");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<ODataEnvelope<Calendar>>(content, JsonOptions)!.Value;
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK, because:content);
+        return JsonSerializer.Deserialize<ODataEnvelope<Calendar>>(json:content, options:JsonOptions)!.Value;
     }
     private async Task<int> GetCalendarStatusCodeAsync(int id)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri:$"{BaseUrl}({id})");
         return (int)response.StatusCode;
     }
 }

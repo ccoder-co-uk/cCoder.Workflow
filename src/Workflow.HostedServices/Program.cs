@@ -19,25 +19,25 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-        IConfiguration configuration = ConfigureApplication(builder.Configuration, builder.Environment);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args:args);
+        IConfiguration configuration = ConfigureApplication(configuration:builder.Configuration, environment:builder.Environment);
 
         string coreConnection = GetRequiredConfigurationValue(
-            configuration,
-            "ConnectionStrings:Core");
+configuration:            configuration,
+key:            "ConnectionStrings:Core");
 
         string ssoConnection = GetRequiredConfigurationValue(
-            configuration,
-            "ConnectionStrings:SSO");
+configuration:            configuration,
+key:            "ConnectionStrings:SSO");
 
         builder.Services.AddEventing();
-        builder.Services.AddHttpEventingHostedServices(options =>
+        builder.Services.AddHttpEventingHostedServices(configure:options =>
         {
             options.MaxConcurrency = ResolveMaxConcurrency(configuration);
         });
         builder.Services.AddControllers();
 
-        builder.Services.AddSecurityApi((services, securityConfig) =>
+        builder.Services.AddSecurityApi(configAction:(services, securityConfig) =>
         {
             securityConfig.AddMSSQLModelProvider(services, ssoConnection);
             securityConfig.UseAESHMMACPasswordEncryption(
@@ -46,10 +46,10 @@ public class Program
         });
 
         cCoder.Data.IServiceCollectionExtensions.AddCoreData(
-            builder.Services,
-            coreConnection);
+services:            builder.Services,
+connectionString:            coreConnection);
 
-        builder.Services.AddWorkflowHostedServices(workflowConfiguration =>
+        builder.Services.AddWorkflowHostedServices(configure:workflowConfiguration =>
         {
             workflowConfiguration.IsMigrating =
                 configuration.GetValue<int?>("MIGRATING") == 1
@@ -72,9 +72,9 @@ public class Program
         IWebHostEnvironment environment)
     {
         configuration
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .SetBasePath(basePath:Directory.GetCurrentDirectory())
+            .AddJsonFile(path:"appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(path:$"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
         return configuration;
@@ -84,15 +84,15 @@ public class Program
         IConfiguration configuration,
         string key)
     {
-        string value = configuration.GetValue<string>(key);
+        string value = configuration.GetValue<string>(key:key);
 
-        return string.IsNullOrWhiteSpace(value)
+        return string.IsNullOrWhiteSpace(value:value)
             ? throw new InvalidOperationException($"{key} is required.")
             : value;
     }
 
     private static int ResolveMaxConcurrency(IConfiguration configuration) =>
-        configuration.GetValue<int?>("Eventing:Http:MaxConcurrency") ?? 1;
+        configuration.GetValue<int?>(key:"Eventing:Http:MaxConcurrency") ?? 1;
 
     private static EventProvider<App> CreateAppReceiveProvider() =>
         new()
@@ -103,8 +103,8 @@ public class Program
                 IEventHub eventHub = serviceProvider.GetRequiredService<IEventHub>();
 
                 await eventHub.RaiseEventAsync(
-                    eventName,
-                    new EventMessage<App>
+name:                    eventName,
+message:                    new EventMessage<App>
                     {
                         AuthInfo = new EventAuthInfo
                         {
@@ -125,14 +125,14 @@ public class Program
                     throw new InvalidOperationException(
                         "You must provide a workflow instance payload with a valid id.");
 
-                if (!string.Equals(message.Data?.State, "Queued", StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(a:message.Data?.State, b:"Queued", comparisonType:StringComparison.OrdinalIgnoreCase))
                     return;
 
                 IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementService =
                     serviceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
                 await workflowInstanceManagementService.ExecuteWaitingQueuedInstanceByIdAsync(
-                    message.Data.Id);
+id:                    message.Data.Id);
             },
         };
 }

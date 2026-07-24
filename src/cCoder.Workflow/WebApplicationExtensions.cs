@@ -20,11 +20,11 @@ public static partial class WebApplicationExtensions
     private static readonly object StartedHostedServiceAppsLock = new();
 
     public static WebApplication StartWorkflowWeb(this WebApplication app, ILogger log = null) =>
-        app.UseWorkflowExposure(log);
+        app.UseWorkflowExposure(log:log);
 
     public static WebApplication StartWorkflowHostedServices(this WebApplication app)
     {
-        if (!TryMarkWorkflowHostedServicesStarted(app))
+        if (!TryMarkWorkflowHostedServicesStarted(app:app))
             return app;
 
         return app.UseWorkflowEventHandlers()
@@ -36,19 +36,19 @@ public static partial class WebApplicationExtensions
     {
         lock (StartedHostedServiceAppsLock)
         {
-            if (StartedHostedServiceApps.TryGetValue(app, out _))
+            if (StartedHostedServiceApps.TryGetValue(key:app, value:out _))
                 return false;
 
-            StartedHostedServiceApps.Add(app, new object());
+            StartedHostedServiceApps.Add(key:app, value:new object());
             return true;
         }
     }
 
     private static WebApplication UseWorkflowExposure(this WebApplication app, ILogger log = null)
     {
-        log?.LogInformation("Initialising Workflow");
-        PopulateMetadataTypeCache(app);
-        app.MapHub<WorkflowHub>("/Api/Hubs/Workflow");
+        log?.LogInformation(message:"Initialising Workflow");
+        PopulateMetadataTypeCache(app:app);
+        app.MapHub<WorkflowHub>(pattern:"/Api/Hubs/Workflow");
         return app;
     }
 
@@ -56,7 +56,7 @@ public static partial class WebApplicationExtensions
     {
         using IServiceScope scope = app.Services.CreateScope();
         IServiceProvider services = scope.ServiceProvider;
-        ILogger logger = services.GetRequiredService<ILoggerFactory>().CreateLogger("WorkflowStartup");
+        ILogger logger = services.GetRequiredService<ILoggerFactory>().CreateLogger(categoryName:"WorkflowStartup");
 
         foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
         {
@@ -67,8 +67,8 @@ public static partial class WebApplicationExtensions
             catch (Exception ex)
             {
                 logger.LogWarning(
-                    ex,
-                    "Workflow event handler registration was skipped because the event hub is unavailable in the current host.");
+exception:                    ex,
+message:                    "Workflow event handler registration was skipped because the event hub is unavailable in the current host.");
             }
         }
 
@@ -101,11 +101,11 @@ public static partial class WebApplicationExtensions
     {
         IMetadataTypeCache metadataTypeCache = app.Services.GetRequiredService<IMetadataTypeCache>();
 
-        if (!metadataTypeCache.Contains(MetadataScope))
+        if (!metadataTypeCache.Contains(scope:MetadataScope))
         {
             metadataTypeCache.Set(
-                MetadataScope,
-                new[]
+scope:                MetadataScope,
+typeSetPayloads:                new[]
                 {
                     app.Services.GetRequiredService<IWorkflowMetadataTypeService>().GetCoreMetadata(),
                     app.Services.GetRequiredService<IWorkflowMetadataTypeService>().GetSharedMetadata(),

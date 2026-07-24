@@ -39,11 +39,11 @@ public partial class CalendarEventController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType("Workflow", typeof(CalendarEvent))
             )
-            : Ok(new MetadataContainer(typeof(CalendarEvent), true, true));
+            : Ok(value:new MetadataContainer(typeof(CalendarEvent), true, true));
     }
 
     [HttpGet]
@@ -56,7 +56,7 @@ public partial class CalendarEventController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<CalendarEvent> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<CalendarEvent> queryOptions) => Ok(value:Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -72,8 +72,8 @@ public partial class CalendarEventController : ODataController
     {
         try
         {
-            IQueryable<CalendarEvent> result = Service.GetAll().Where(calendarEvent => calendarEvent.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<CalendarEvent> result = Service.GetAll().Where(predicate:calendarEvent => calendarEvent.Id == key);
+            return Ok(value:SingleResult.Create(result));
         }
         catch (System.Security.SecurityException)
         {
@@ -95,7 +95,7 @@ public partial class CalendarEventController : ODataController
         if (!ModelState.IsValid)
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value:await Service.AddAsync(entity));
     }
 
     [HttpPut]
@@ -112,24 +112,24 @@ public partial class CalendarEventController : ODataController
         if (!ModelState.IsValid)
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value:await Service.UpdateAsync(entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<CalendarEvent> delta)
     {
-        CalendarEvent originalEntity = Service.Get(key);
+        CalendarEvent originalEntity = Service.Get(id:key);
         if (originalEntity == null)
             return NotFound();
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        delta.Patch(original:originalEntity);
+        return Ok(value:await Service.UpdateAsync(originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await Service.DeleteAsync(key);
+        await Service.DeleteAsync(id:key);
         return Ok();
     }
 }

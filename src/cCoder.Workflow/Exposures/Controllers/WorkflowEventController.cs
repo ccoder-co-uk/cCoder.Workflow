@@ -35,11 +35,11 @@ public partial class WorkflowEventController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
+value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType("Workflow", typeof(WorkflowEvent))
             )
-            : Ok(new MetadataContainer(typeof(WorkflowEvent), true, true));
+            : Ok(value:new MetadataContainer(typeof(WorkflowEvent), true, true));
     }
 
     [HttpGet]
@@ -52,7 +52,7 @@ public partial class WorkflowEventController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<WorkflowEvent> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<WorkflowEvent> queryOptions) => Ok(value:Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -68,8 +68,8 @@ public partial class WorkflowEventController : ODataController
     {
         try
         {
-            IQueryable<WorkflowEvent> result = Service.GetAll().Where(workflowEvent => workflowEvent.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<WorkflowEvent> result = Service.GetAll().Where(predicate:workflowEvent => workflowEvent.Id == key);
+            return Ok(value:SingleResult.Create(result));
         }
         catch (System.Security.SecurityException)
         {
@@ -91,7 +91,7 @@ public partial class WorkflowEventController : ODataController
         if (!ModelState.IsValid)
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value:await Service.AddAsync(entity));
     }
 
     [HttpPut]
@@ -108,24 +108,24 @@ public partial class WorkflowEventController : ODataController
         if (!ModelState.IsValid)
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value:await Service.UpdateAsync(entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<WorkflowEvent> delta)
     {
-        WorkflowEvent originalEntity = Service.Get(key);
+        WorkflowEvent originalEntity = Service.Get(id:key);
         if (originalEntity == null)
             return NotFound();
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        delta.Patch(original:originalEntity);
+        return Ok(value:await Service.UpdateAsync(originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await Service.DeleteAsync(key);
+        await Service.DeleteAsync(id:key);
         return Ok();
     }
 }

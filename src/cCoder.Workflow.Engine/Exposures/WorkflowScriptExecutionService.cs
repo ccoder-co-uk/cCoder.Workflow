@@ -11,5 +11,5 @@ public sealed class WorkflowScriptExecutionService(
     : IWorkflowScriptExecutionService
 {
     public Task<string> ExecuteAsync(string payload, bool useDetails) =>
-        workflowScriptExecutionOrchestrationService.ExecuteAsync(payload, useDetails);
+        workflowScriptExecutionOrchestrationService.ExecuteAsync(payload:payload, useDetails:useDetails);
 }

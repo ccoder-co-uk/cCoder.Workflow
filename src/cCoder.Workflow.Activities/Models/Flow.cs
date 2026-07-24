@@ -21,5 +21,5 @@ public class Flow
 
     public Link[] Links { get; set; }
 
-    public T GetActivity<T>(string withRef) where T : Activity => (T)Activities.FirstOrDefault(a => a.Ref == withRef);
+    public T GetActivity<T>(string withRef) where T : Activity => (T)Activities.FirstOrDefault(predicate:a => a.Ref == withRef);
 }

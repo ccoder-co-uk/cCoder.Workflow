@@ -19,12 +19,12 @@ public sealed class CoreAppController(ICoreContextFactory coreContextFactory) : 
 
         App app = await core.Set<App>()
             .IgnoreQueryFilters()
-            .FirstOrDefaultAsync(found => found.Id == key);
+            .FirstOrDefaultAsync(predicate:found => found.Id == key);
 
         if (app is null)
             return NotFound();
 
-        return Ok(new
+        return Ok(value:new
         {
             app.Id,
             app.DefaultCultureId,

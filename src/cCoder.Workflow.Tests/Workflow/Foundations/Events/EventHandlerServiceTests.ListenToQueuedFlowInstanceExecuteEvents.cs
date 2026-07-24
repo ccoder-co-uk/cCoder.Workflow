@@ -22,18 +22,18 @@ public sealed class EventHandlerServiceQueuedFlowInstanceTests
         Func<IWorkflowInstanceManagementOrchestrationService, FlowInstanceData, ValueTask> updateHandler = null;
 
         eventHubBrokerMock
-            .Setup(broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManagementOrchestrationService>(
+            .Setup(expression:broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManagementOrchestrationService>(
                 "flow_instance_data_add",
                 It.IsAny<Func<IWorkflowInstanceManagementOrchestrationService, FlowInstanceData, ValueTask>>()))
             .Callback<string, Func<IWorkflowInstanceManagementOrchestrationService, FlowInstanceData, ValueTask>>(
-                (_, handler) => addHandler = handler);
+action:                (_, handler) => addHandler = handler);
 
         eventHubBrokerMock
-            .Setup(broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManagementOrchestrationService>(
+            .Setup(expression:broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManagementOrchestrationService>(
                 "flow_instance_data_update",
                 It.IsAny<Func<IWorkflowInstanceManagementOrchestrationService, FlowInstanceData, ValueTask>>()))
             .Callback<string, Func<IWorkflowInstanceManagementOrchestrationService, FlowInstanceData, ValueTask>>(
-                (_, handler) => updateHandler = handler);
+action:                (_, handler) => updateHandler = handler);
 
         EventHandlerService service = new(eventHubBrokerMock.Object);
         Mock<IWorkflowInstanceManagementOrchestrationService> orchestrationServiceMock = new(MockBehavior.Strict);
@@ -42,27 +42,27 @@ public sealed class EventHandlerServiceQueuedFlowInstanceTests
         FlowInstanceData executingInstance = new() { Id = Guid.NewGuid(), State = "Executing" };
 
         orchestrationServiceMock
-            .Setup(orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedAddInstance.Id))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression:orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedAddInstance.Id))
+            .Returns(value:ValueTask.CompletedTask);
 
         orchestrationServiceMock
-            .Setup(orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedUpdateInstance.Id))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression:orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedUpdateInstance.Id))
+            .Returns(value:ValueTask.CompletedTask);
 
         // When
         service.ListenToQueuedFlowInstanceExecuteEvents();
-        await addHandler!(orchestrationServiceMock.Object, queuedAddInstance);
-        await updateHandler!(orchestrationServiceMock.Object, queuedUpdateInstance);
-        await updateHandler!(orchestrationServiceMock.Object, executingInstance);
+        await addHandler!(arg1:orchestrationServiceMock.Object, arg2:queuedAddInstance);
+        await updateHandler!(arg1:orchestrationServiceMock.Object, arg2:queuedUpdateInstance);
+        await updateHandler!(arg1:orchestrationServiceMock.Object, arg2:executingInstance);
 
         // Then
         orchestrationServiceMock.Verify(
-            orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedAddInstance.Id),
-            Times.Once);
+expression:            orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedAddInstance.Id),
+times:            Times.Once);
 
         orchestrationServiceMock.Verify(
-            orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedUpdateInstance.Id),
-            Times.Once);
+expression:            orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(queuedUpdateInstance.Id),
+times:            Times.Once);
 
         orchestrationServiceMock.VerifyNoOtherCalls();
         eventHubBrokerMock.VerifyAll();

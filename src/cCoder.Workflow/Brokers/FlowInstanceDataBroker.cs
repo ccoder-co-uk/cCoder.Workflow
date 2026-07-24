@@ -24,7 +24,7 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowInstanceData result = (await coreDataContext.FlowInstances.AddAsync(entity)).Entity;
+        FlowInstanceData result = (await coreDataContext.FlowInstances.AddAsync(entity:entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -32,7 +32,7 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowInstanceData result = coreDataContext.FlowInstances.Update(entity).Entity;
+        FlowInstanceData result = coreDataContext.FlowInstances.Update(entity:entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -40,7 +40,7 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowInstances.Remove(entity);
+        coreDataContext.FlowInstances.Remove(entity:entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -50,7 +50,7 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
             return;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowInstances.RemoveRange(items);
+        coreDataContext.FlowInstances.RemoveRange(entities:items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
@@ -59,8 +59,8 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.FlowDefinitions
 
-            .Where(flowDefinition => flowDefinition.Id == entity.FlowDefinitionId)
-            .Select(flowDefinition => (int?)flowDefinition.AppId)
+            .Where(predicate:flowDefinition => flowDefinition.Id == entity.FlowDefinitionId)
+            .Select(selector:flowDefinition => (int?)flowDefinition.AppId)
             .FirstOrDefault();
 
     }

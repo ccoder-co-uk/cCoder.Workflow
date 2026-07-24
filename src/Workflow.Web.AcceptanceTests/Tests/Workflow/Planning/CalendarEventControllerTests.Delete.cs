@@ -16,7 +16,7 @@ public sealed partial class CalendarEventControllerTests
     {
         // Given
         SeededCalendarEventContext seededContext = await SeedDatabase();
-        CalendarEvent createdCalendarEvent = await CreateCalendarEventAsync(new
+        CalendarEvent createdCalendarEvent = await CreateCalendarEventAsync(payload:new
         {
             calendarId = seededContext.CalendarId,
             name = Unique("CalendarEvent"),
@@ -27,13 +27,13 @@ public sealed partial class CalendarEventControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteCalendarEventAsync(createdCalendarEvent.Id);
-        actualReadStatusCode = await GetCalendarEventStatusCodeAsync(createdCalendarEvent.Id);
+        int actualStatusCode = await DeleteCalendarEventAsync(id:createdCalendarEvent.Id);
+        actualReadStatusCode = await GetCalendarEventStatusCodeAsync(id:createdCalendarEvent.Id);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualReadStatusCode.Should().Be(404);
+        actualStatusCode.Should().Be(expected:200);
+        actualReadStatusCode.Should().Be(expected:404);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext:seededContext);
     }
 }

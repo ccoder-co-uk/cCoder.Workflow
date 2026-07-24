@@ -18,47 +18,47 @@ public partial class WorkflowEventServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(new User { Id = "test-user" });
+        authorizationBrokerMock.Setup(expression:x => x.GetCurrentUser()).Returns(value:new User { Id = "test-user" });
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventBrokerMock
-            .Setup(x => x.GetAllWorkflowEvents(false))
-            .Returns(new[] { workflowEvent }.AsQueryable());
+            .Setup(expression:x => x.GetAllWorkflowEvents(false))
+            .Returns(value:new[] { workflowEvent }.AsQueryable());
 
-        workflowEventBrokerMock.Setup(x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns((int?)7);
+        workflowEventBrokerMock.Setup(expression:x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns(value:(int?)7);
 
-        workflowEventBrokerMock.Setup(x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns((int?)7);
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "WorkflowEvent_delete"));
+        workflowEventBrokerMock.Setup(expression:x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns(value:(int?)7);
+        authorizationBrokerMock.Setup(expression:x => x.Authorize((int?)7, "WorkflowEvent_delete"));
 
         workflowEventBrokerMock
             .Setup(
-                x =>
+expression:                x =>
                     x.DeleteWorkflowEventAsync(
                         It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
                     )
             )
-            .ReturnsAsync(1);
+            .ReturnsAsync(value:1);
 
         // When
-        await workflowEventService.DeleteAsync(workflowEvent.Id);
+        await workflowEventService.DeleteAsync(id:workflowEvent.Id);
 
         // Then
-        workflowEventBrokerMock.Verify(x => x.GetAllWorkflowEvents(false), Times.Once);
+        workflowEventBrokerMock.Verify(expression:x => x.GetAllWorkflowEvents(false), times:Times.Once);
         workflowEventBrokerMock.Verify(
-            x =>
+expression:            x =>
                 x.DeleteWorkflowEventAsync(
                     It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
                 ),
-            Times.Once
+times:            Times.Once
         );
         workflowEventBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
-            Times.AtMostOnce()
+expression:            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
+times:            Times.AtMostOnce()
         );
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "WorkflowEvent_delete"),
-            Times.Once
+expression:            x => x.Authorize((int?)7, "WorkflowEvent_delete"),
+times:            Times.Once
         );
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
@@ -70,28 +70,28 @@ public partial class WorkflowEventServiceTests
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventBrokerMock
-            .Setup(x => x.GetAllWorkflowEvents(false))
-            .Returns(new[] { workflowEvent }.AsQueryable());
+            .Setup(expression:x => x.GetAllWorkflowEvents(false))
+            .Returns(value:new[] { workflowEvent }.AsQueryable());
 
-        workflowEventBrokerMock.Setup(x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns((int?)7);
+        workflowEventBrokerMock.Setup(expression:x => x.GetAppId(It.IsAny<WorkflowEvent>())).Returns(value:(int?)7);
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "WorkflowEvent_delete"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression:x => x.Authorize((int?)7, "WorkflowEvent_delete"))
+            .Throws(exception:new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await workflowEventService.DeleteAsync(workflowEvent.Id);
+        Func<Task> action = async () => await workflowEventService.DeleteAsync(id:workflowEvent.Id);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
-        workflowEventBrokerMock.Verify(x => x.GetAllWorkflowEvents(false), Times.Once);
+        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern:"Access Denied!");
+        workflowEventBrokerMock.Verify(expression:x => x.GetAllWorkflowEvents(false), times:Times.Once);
         workflowEventBrokerMock.Verify(
-            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
-            Times.AtMostOnce()
+expression:            x => x.GetAppId(It.IsAny<WorkflowEvent>()),
+times:            Times.AtMostOnce()
         );
         workflowEventBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(
-            x => x.Authorize((int?)7, "WorkflowEvent_delete"),
-            Times.Once
+expression:            x => x.Authorize((int?)7, "WorkflowEvent_delete"),
+times:            Times.Once
         );
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

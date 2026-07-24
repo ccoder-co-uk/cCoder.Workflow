@@ -21,9 +21,9 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(WorkflowLogLevel.Info, $"HTTP POST {BaseUrl}{Query}");
+        Log(level:WorkflowLogLevel.Info, message:$"HTTP POST {BaseUrl}{Query}");
 
-        object payload = AutoWrapForOdata && typeof(T).GetInterface("IEnumerable") != null
+        object payload = AutoWrapForOdata && typeof(T).GetInterface(name:"IEnumerable") != null
             ? new { value = Data }
             : Data;
 
@@ -34,13 +34,13 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
                 ? d
                 : payload.ToJsonForOdata();
 
-            HttpResponseMessage response = await api.PostAsync(Query, new StringContent(body, Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await api.PostAsync(requestUri:Query, content:new StringContent(body, Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode)
             {
-                Log(WorkflowLogLevel.Error, $"HTTP POST {BaseUrl}{Query} failed with status code {(int)response.StatusCode}\n");
+                Log(level:WorkflowLogLevel.Error, message:$"HTTP POST {BaseUrl}{Query} failed with status code {(int)response.StatusCode}\n");
                 string content = await response.Content.ReadAsStringAsync();
-                Log(WorkflowLogLevel.Error, content);
+                Log(level:WorkflowLogLevel.Error, message:content);
                 return;
             }
 
@@ -54,14 +54,14 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
                 }
                 catch (Exception ex)
                 {
-                    Log(WorkflowLogLevel.Error, $"Exception {ex.Message}");
-                    Log(WorkflowLogLevel.Error, await response.Content.ReadAsStringAsync());
+                    Log(level:WorkflowLogLevel.Error, message:$"Exception {ex.Message}");
+                    Log(level:WorkflowLogLevel.Error, message:await response.Content.ReadAsStringAsync());
                 }
             }
         }
         else // fire and forget
         {
-            Task.Run(async () =>
+            Task.Run(function:async () =>
             {
                 using HttpClient api = GetHttpClient();
                 api.Timeout = TimeSpan.FromMinutes(10);

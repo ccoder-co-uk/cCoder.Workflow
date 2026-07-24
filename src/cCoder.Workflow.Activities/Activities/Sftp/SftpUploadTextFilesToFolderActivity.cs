@@ -12,7 +12,7 @@ public class SftpUploadTextFilesToFolderActivity : SftpBaseActivity
 
     public Dictionary<string, string> Files { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(client =>
+    public override async Task ExecuteAsync() => SftpDo(operation:client =>
     {
         if(!client.Exists(Path))
             client.CreateDirectory(Path);

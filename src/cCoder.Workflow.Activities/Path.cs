@@ -14,16 +14,16 @@ public class Path
 
     public string Lowered => FullPath.ToLowerInvariant();
 
-    public string[] Segments => FullPath.Split('/');
+    public string[] Segments => FullPath.Split(separator:'/');
 
     public Path ParentPath =>
         Segments.Length > 1
-            ? new(string.Join("/", Segments)[..(FullPath.Length - (1 + Segments.Last().Length))])
+            ? new(string.Join(separator:"/", value:Segments)[..(FullPath.Length - (1 + Segments.Last().Length))])
             : Empty;
 
     public string Extension =>
-        Segments.LastOrDefault()?.Contains('.') ?? false
-            ? Segments.Last().Split('.').Last().ToLowerInvariant()
+        Segments.LastOrDefault()?.Contains(value:'.') ?? false
+            ? Segments.Last().Split(separator:'.').Last().ToLowerInvariant()
             : string.Empty;
 
     public int Length => FullPath.Length;
@@ -34,7 +34,7 @@ public class Path
 
     public Path(string path)
     {
-        FullPath = (path ?? string.Empty).Trim().TrimEnd('/');
+        FullPath = (path ?? string.Empty).Trim().TrimEnd(trimChar:'/');
     }
 
     public override string ToString() => FullPath;

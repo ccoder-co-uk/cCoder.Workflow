@@ -18,7 +18,7 @@ public sealed class CoreUserController(IAuthenticationOrchestrationService authe
     {
         SSOUser user = authenticationOrchestrationService.Me();
 
-        return Ok(new User
+        return Ok(value:new User
         {
             Id = user.Id,
             DisplayName = user.DisplayName,

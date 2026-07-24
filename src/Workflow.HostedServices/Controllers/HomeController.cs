@@ -13,10 +13,10 @@ public sealed class HomeController(IConfiguration configuration) : ControllerBas
     public IActionResult Get()
     {
         double instanceMaxAgeDays =
-            configuration.GetValue<double?>("Workflow:InstanceMaintenance:MaxAgeDays") ?? 7;
+            configuration.GetValue<double?>(key:"Workflow:InstanceMaintenance:MaxAgeDays") ?? 7;
 
         double executingTimeoutMinutes =
-            configuration.GetValue<double?>("Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30;
+            configuration.GetValue<double?>(key:"Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30;
 
         double scheduledTaskIntervalMinutes = 1;
 
@@ -34,6 +34,6 @@ public sealed class HomeController(IConfiguration configuration) : ControllerBas
             "- flow_instance_data_add -> executes newly queued workflow instances by id.",
         ];
 
-        return Content(string.Join(Environment.NewLine, lines), "text/plain");
+        return Content(content:string.Join(Environment.NewLine, lines), contentType:"text/plain");
     }
 }

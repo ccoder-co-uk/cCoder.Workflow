@@ -22,8 +22,8 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Acceptance");
-        builder.ConfigureAppConfiguration((_, config) =>
+        builder.UseEnvironment(environment:"Acceptance");
+        builder.ConfigureAppConfiguration(configureDelegate:(_, config) =>
         {
             config.AddInMemoryCollection(
             [
@@ -39,7 +39,7 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
             services.RemoveAll<ISecurityDbContextFactory>();
 
             services.AddSingleton(
-                new cCoder.Data.Config
+implementationInstance:                new cCoder.Data.Config
                 {
                     ConnectionStrings = new Dictionary<string, string>
                     {
@@ -56,7 +56,7 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
             services.AddSingleton<ISecurityDbContextFactory>(
                 _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
             );
-            services.AddCoreData(settings.CoreConnectionString);
+            services.AddCoreData(connectionString:settings.CoreConnectionString);
         });
     }
 }

@@ -16,7 +16,7 @@ public sealed partial class ScheduledTaskControllerTests
     {
         // Given
         SeededScheduledTaskContext seededContext = await SeedDatabase();
-        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(new
+        ScheduledTask createdScheduledTask = await CreateScheduledTaskAsync(payload:new
         {
             appId = seededContext.AppId,
             flowId = seededContext.FlowId,
@@ -34,13 +34,13 @@ public sealed partial class ScheduledTaskControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteScheduledTaskAsync(createdScheduledTask.Id);
-        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(createdScheduledTask.Id);
+        int actualStatusCode = await DeleteScheduledTaskAsync(id:createdScheduledTask.Id);
+        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(id:createdScheduledTask.Id);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualReadStatusCode.Should().Be(404);
+        actualStatusCode.Should().Be(expected:200);
+        actualReadStatusCode.Should().Be(expected:404);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext:seededContext);
     }
 }

@@ -12,7 +12,7 @@ public class SftpGetFolderContentsActivity : SftpBaseActivity
 
     public Dictionary<string, string> Result { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(client =>
+    public override async Task ExecuteAsync() => SftpDo(operation:client =>
     {
         Result = new();
 

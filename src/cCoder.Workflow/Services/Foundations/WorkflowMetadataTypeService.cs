@@ -38,8 +38,8 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
 
     public MetadataContainerSet[] GetKnownActivityTypes() =>
     [
-        Set("ApiActivity",
-        [
+        Set(name:"ApiActivity",
+types:        [
             typeof(ApiPostBatch),
             typeof(ApiDelete<object>),
             typeof(ApiGet<object>),
@@ -48,8 +48,8 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             typeof(ApiPut<object, object>),
             typeof(AuthenticateActivity),
         ]),
-        Set("DMSActivity",
-        [
+        Set(name:"DMSActivity",
+types:        [
             typeof(CsvFileActivity),
             typeof(CSVFolderContentActivity),
             typeof(DMSCreateBinaryFilesActivity),
@@ -64,15 +64,15 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             typeof(XmlFileActivity),
             typeof(XmlFolderContentActivity),
         ]),
-        Set("LogActivity",
-        [
+        Set(name:"LogActivity",
+types:        [
             typeof(DebugActivity),
             typeof(ErrorActivity),
             typeof(InfoActivity),
             typeof(WarningActivity),
         ]),
-        Set("SftpActivity",
-        [
+        Set(name:"SftpActivity",
+types:        [
             typeof(SftpDeleteFilesActivity),
             typeof(SftpDeleteFoldersActivity),
             typeof(SftpGetFolderContentsActivity),
@@ -81,13 +81,13 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             typeof(SftpMoveFilesToFolderActivity),
             typeof(SftpUploadTextFilesToFolderActivity),
         ]),
-        Set("TemplatingActivity",
-        [
+        Set(name:"TemplatingActivity",
+types:        [
             typeof(PageBuilder),
             typeof(SendEmailActivity),
         ]),
-        Set("TransformationActivity",
-        [
+        Set(name:"TransformationActivity",
+types:        [
             typeof(ConvertActivity<object, object>),
             typeof(CsvXslActivity<object>),
             typeof(DynamicDataFlattenActivity),
@@ -95,8 +95,8 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             typeof(XmlXslActivity<object>),
             typeof(XslActivity),
         ]),
-        Set("Workflow",
-        [
+        Set(name:"Workflow",
+types:        [
             typeof(EventTrigger<object>),
             typeof(ExecuteFlow),
             typeof(FormSubmissionActivity<object>),
@@ -115,17 +115,17 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
             Name = "System",
             Types =
             [
-                Metadata(typeof(int), "System"),
-                Metadata(typeof(string), "System"),
-                Metadata(typeof(decimal), "System"),
-                Metadata(typeof(float), "System"),
-                Metadata(typeof(bool), "System"),
-                Metadata(typeof(DateTime), "System"),
-                Metadata(typeof(DateTimeOffset), "System"),
-                Metadata(typeof(TimeSpan), "System"),
-                Metadata(typeof(object), "System"),
-                Metadata(typeof(ExpandoObject), "System"),
-                Metadata(typeof(IEnumerable<object>), "System"),
+                Metadata(type:typeof(int), category:"System"),
+                Metadata(type:typeof(string), category:"System"),
+                Metadata(type:typeof(decimal), category:"System"),
+                Metadata(type:typeof(float), category:"System"),
+                Metadata(type:typeof(bool), category:"System"),
+                Metadata(type:typeof(DateTime), category:"System"),
+                Metadata(type:typeof(DateTimeOffset), category:"System"),
+                Metadata(type:typeof(TimeSpan), category:"System"),
+                Metadata(type:typeof(object), category:"System"),
+                Metadata(type:typeof(ExpandoObject), category:"System"),
+                Metadata(type:typeof(IEnumerable<object>), category:"System"),
             ],
         },
     ];
@@ -135,8 +135,8 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
         {
             Name = "Workflow",
             Types = GetKnownActivityTypes()
-                .SelectMany(set => set.Types)
-                .OrderBy(type => type.Name)
+                .SelectMany(selector:set => set.Types)
+                .OrderBy(keySelector:type => type.Name)
                 .ToArray(),
         };
 
@@ -145,8 +145,8 @@ internal sealed class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
         {
             Name = name,
             Types = types
-                .Select(type => Metadata(type, name))
-                .OrderBy(type => type.Name)
+                .Select(selector:type => Metadata(type, name))
+                .OrderBy(keySelector:type => type.Name)
                 .ToArray(),
         };
 

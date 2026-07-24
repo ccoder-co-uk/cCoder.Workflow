@@ -25,23 +25,23 @@ public class Program
 
     public static void Main(string[] args)
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-        IConfiguration configuration = ConfigureApplication(builder.Configuration, builder.Environment);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args:args);
+        IConfiguration configuration = ConfigureApplication(configuration:builder.Configuration, environment:builder.Environment);
 
         string coreConnection = GetRequiredConfigurationValue(
-            configuration,
-            "ConnectionStrings:Core");
+configuration:            configuration,
+key:            "ConnectionStrings:Core");
 
         string ssoConnection = GetRequiredConfigurationValue(
-            configuration,
-            "ConnectionStrings:SSO");
+configuration:            configuration,
+key:            "ConnectionStrings:SSO");
 
         Config config = new();
-        configuration.Bind(config);
-        builder.Services.AddSingleton(config);
+        configuration.Bind(instance:config);
+        builder.Services.AddSingleton(implementationInstance:config);
         builder.Services.AddEventing();
 
-        builder.Services.AddSecurityApi((services, securityConfig) =>
+        builder.Services.AddSecurityApi(configAction:(services, securityConfig) =>
         {
             securityConfig.AddMSSQLModelProvider(services, ssoConnection);
             securityConfig.UseAESHMMACPasswordEncryption(
@@ -50,22 +50,22 @@ public class Program
         });
 
         cCoder.Data.IServiceCollectionExtensions.AddCoreData(
-            builder.Services,
-            coreConnection);
+services:            builder.Services,
+connectionString:            coreConnection);
 
-        string eventProviderType = ResolveEventProviderType(configuration);
-        string httpEventHubUrl = HttpEventHubUrlResolver.Resolve(configuration);
+        string eventProviderType = ResolveEventProviderType(configuration:configuration);
+        string httpEventHubUrl = HttpEventHubUrlResolver.Resolve(configuration:configuration);
 
-        if (IsHttpEventProvider(eventProviderType) && !string.IsNullOrWhiteSpace(httpEventHubUrl))
+        if (IsHttpEventProvider(eventProviderType:eventProviderType) && !string.IsNullOrWhiteSpace(value:httpEventHubUrl))
         {
-            builder.Services.AddHttpEventingWeb(options =>
+            builder.Services.AddHttpEventingWeb(configure:options =>
             {
                 options.HubUrl = httpEventHubUrl;
                 options.MaxConcurrency = ResolveMaxConcurrency(configuration);
             });
         }
 
-        builder.Services.AddWorkflowWeb(workflowConfig =>
+        builder.Services.AddWorkflowWeb(configure:workflowConfig =>
         {
             if (IsHttpEventProvider(eventProviderType) && !string.IsNullOrWhiteSpace(httpEventHubUrl))
             {
@@ -83,7 +83,7 @@ public class Program
         app.UseSession();
 
         app.UseSwagger()
-            .UseSwaggerUI(options =>
+            .UseSwaggerUI(setupAction:options =>
             {
                 options.SwaggerEndpoint("/swagger/Workflow/swagger.json", "Workflow API");
                 options.SwaggerEndpoint("/swagger/Core/swagger.json", "Core API");
@@ -93,10 +93,10 @@ public class Program
             .UseODataRouteDebug();
 
         app.UseDomainApiShell();
-        app.MapGet("/", () => Results.Redirect("/tools/index.html"));
-        app.StartWorkflowWeb(log);
+        app.MapGet(pattern:"/", handler:() => Results.Redirect("/tools/index.html"));
+        app.StartWorkflowWeb(log:log);
         app.UseDomainDefaultCors();
-        app.UseDomainExceptionHandling(HandleUnhandledException);
+        app.UseDomainExceptionHandling(errorHandler:HandleUnhandledException);
         app.Run();
     }
 
@@ -105,9 +105,9 @@ public class Program
         IWebHostEnvironment environment)
     {
         configuration
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .SetBasePath(basePath:Directory.GetCurrentDirectory())
+            .AddJsonFile(path:"appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(path:$"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
         return configuration;
@@ -117,9 +117,9 @@ public class Program
         IConfiguration configuration,
         string key)
     {
-        string value = configuration.GetValue<string>(key);
+        string value = configuration.GetValue<string>(key:key);
 
-        return string.IsNullOrWhiteSpace(value)
+        return string.IsNullOrWhiteSpace(value:value)
             ? throw new InvalidOperationException($"{key} is required.")
             : value;
     }
@@ -131,20 +131,20 @@ public class Program
             SendHandler = async (serviceProvider, eventName, message) =>
             {
                 IHttpEventHub httpEventHub = serviceProvider.GetRequiredService<IHttpEventHub>();
-                await httpEventHub.RaiseEventAsync(eventName, message);
+                await httpEventHub.RaiseEventAsync(name:eventName, message:message);
             }
         };
 
     private static string ResolveEventProviderType(IConfiguration configuration) =>
-        configuration.GetValue<string>("Eventing:ProviderType")
-        ?? configuration.GetValue<string>("Eventing:Provider")
+        configuration.GetValue<string>(key:"Eventing:ProviderType")
+        ?? configuration.GetValue<string>(key:"Eventing:Provider")
         ?? "Http";
 
     private static int ResolveMaxConcurrency(IConfiguration configuration) =>
-        configuration.GetValue<int?>("Eventing:Http:MaxConcurrency") ?? 1;
+        configuration.GetValue<int?>(key:"Eventing:Http:MaxConcurrency") ?? 1;
 
     private static bool IsHttpEventProvider(string eventProviderType) =>
-        string.Equals(eventProviderType, "Http", StringComparison.OrdinalIgnoreCase);
+        string.Equals(a:eventProviderType, b:"Http", comparisonType:StringComparison.OrdinalIgnoreCase);
 
     private static async Task HandleUnhandledException(HttpContext context)
     {
@@ -159,6 +159,6 @@ public class Program
 
         log.LogError("{Message}\n{StackTrace}", exception.Message, exception.StackTrace);
         await context.Response.WriteAsync(
-            "{ \"error\": \"" + exception.Message.Replace("\"", "\'") + "\" }");
+text:            "{ \"error\": \"" + exception.Message.Replace("\"", "\'") + "\" }");
     }
 }

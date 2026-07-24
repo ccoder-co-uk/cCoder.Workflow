@@ -20,7 +20,7 @@ public sealed class WebApplicationExtensionsTests
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
         TestWorkflowEventHandlers handlers = new();
         builder.Services.AddLogging();
-        builder.Services.AddSingleton<IWorkflowEventHandlers>(handlers);
+        builder.Services.AddSingleton<IWorkflowEventHandlers>(implementationInstance:handlers);
         await using WebApplication app = builder.Build();
 
         // When
@@ -28,9 +28,9 @@ public sealed class WebApplicationExtensionsTests
         app.StartWorkflowHostedServices();
 
         // Then
-        handlers.ListenToAllEventsCallCount.Should().Be(1);
-        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should().Be(1);
-        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should().Be(1);
+        handlers.ListenToAllEventsCallCount.Should().Be(expected:1);
+        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should().Be(expected:1);
+        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should().Be(expected:1);
     }
 
     [Fact]
@@ -41,19 +41,19 @@ public sealed class WebApplicationExtensionsTests
         TestWorkflowEventHandlers handlers = new();
         builder.Services.AddLogging();
         builder.Services.AddSignalR();
-        builder.Services.AddSingleton<IWorkflowEventHandlers>(handlers);
+        builder.Services.AddSingleton<IWorkflowEventHandlers>(implementationInstance:handlers);
         builder.Services.AddSingleton<cCoder.Data.Exposures.IMetadataTypeCache, TestMetadataTypeCache>();
         builder.Services.AddSingleton<cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService>(
-            new MockWorkflowMetadataTypeService());
+implementationInstance:            new MockWorkflowMetadataTypeService());
         await using WebApplication app = builder.Build();
 
         // When
         app.StartWorkflowWeb();
 
         // Then
-        handlers.ListenToAllEventsCallCount.Should().Be(0);
-        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should().Be(0);
-        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should().Be(0);
+        handlers.ListenToAllEventsCallCount.Should().Be(expected:0);
+        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should().Be(expected:0);
+        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should().Be(expected:0);
     }
 
     private sealed class TestWorkflowEventHandlers : IWorkflowEventHandlers
@@ -77,15 +77,15 @@ public sealed class WebApplicationExtensionsTests
     {
         private readonly HashSet<string> keys = [];
 
-        public bool Contains(string key) => keys.Contains(key);
+        public bool Contains(string key) => keys.Contains(item:key);
 
         public string[] Get(string key) => [];
 
         public string[] GetAll() => [];
 
-        public void Clear(string key) => keys.Remove(key);
+        public void Clear(string key) => keys.Remove(item:key);
 
-        public void Set(string key, IEnumerable<string> values) => keys.Add(key);
+        public void Set(string key, IEnumerable<string> values) => keys.Add(item:key);
     }
 
     private sealed class MockWorkflowMetadataTypeService

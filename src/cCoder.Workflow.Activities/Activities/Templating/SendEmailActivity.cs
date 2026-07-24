@@ -18,13 +18,13 @@ public class SendEmailActivity : TemplatingActivity<dynamic>
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        Log(WorkflowLogLevel.Info, $"Building Email ...");
-        QueuedEmail email = await BuildEmailTo(To, Subject, MailServerName, api);
+        Log(level:WorkflowLogLevel.Info, message:$"Building Email ...");
+        QueuedEmail email = await BuildEmailTo(emailAddress:To, subject:Subject, serverName:MailServerName, api:api);
         if (email != null)
         {
-            Log(WorkflowLogLevel.Info, $"Email built, sending ...");
-            _ = await api.AddAsync($"Mail/QueuedEmail", email);
-            Log(WorkflowLogLevel.Info, $"Email Sent!");
+            Log(level:WorkflowLogLevel.Info, message:$"Email built, sending ...");
+            _ = await api.AddAsync(query:$"Mail/QueuedEmail", entity:email);
+            Log(level:WorkflowLogLevel.Info, message:$"Email Sent!");
         }
     }
 }

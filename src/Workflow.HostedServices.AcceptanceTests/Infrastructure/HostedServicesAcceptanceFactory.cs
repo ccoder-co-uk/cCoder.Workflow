@@ -22,8 +22,8 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Acceptance");
-        builder.ConfigureAppConfiguration((_, config) =>
+        builder.UseEnvironment(environment:"Acceptance");
+        builder.ConfigureAppConfiguration(configureDelegate:(_, config) =>
         {
             config.AddInMemoryCollection(
             [
@@ -43,16 +43,16 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
             services.RemoveAll<IScheduledTaskRunnerManagement>();
 
             ServiceDescriptor[] hostedWorkflowServices = services
-                .Where(descriptor =>
+                .Where(predicate:descriptor =>
                     descriptor.ServiceType == typeof(IHostedService)
                     && descriptor.ImplementationFactory is not null)
                 .ToArray();
 
             foreach (ServiceDescriptor descriptor in hostedWorkflowServices)
-                services.Remove(descriptor);
+                services.Remove(item:descriptor);
 
             services.AddSingleton(
-                new cCoder.Data.Config
+implementationInstance:                new cCoder.Data.Config
                 {
                     ConnectionStrings = new Dictionary<string, string>
                     {
@@ -69,7 +69,7 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
             services.AddSingleton<ISecurityDbContextFactory>(
                 _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
             );
-            services.AddCoreData(settings.CoreConnectionString);
+            services.AddCoreData(connectionString:settings.CoreConnectionString);
         });
     }
 }

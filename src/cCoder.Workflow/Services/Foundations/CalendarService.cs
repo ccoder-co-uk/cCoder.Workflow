@@ -17,11 +17,11 @@ internal class CalendarService(
 {
     public Calendar Get(int id)
     {
-        Calendar calendar = GetAll().FirstOrDefault(i => i.Id == id);
+        Calendar calendar = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (calendar is not null)
             return calendar;
 
-        Calendar unrestrictedCalendar = GetAll(true).FirstOrDefault(i => i.Id == id);
+        Calendar unrestrictedCalendar = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedCalendar is not null)
             throw new SecurityException("Access Denied!");
 
@@ -29,14 +29,14 @@ internal class CalendarService(
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false) =>
-        calendarBroker.GetAllCalendars(ignoreFilters);
+        calendarBroker.GetAllCalendars(ignoreFilters:ignoreFilters);
 
     public async ValueTask<Calendar> AddAsync(Calendar calendar)
     {
-        authorizationBroker.Authorize(calendar.AppId, $"{nameof(Calendar)}_create");
-        Calendar newCalendar = CreateStorageCalendar(calendar);
+        authorizationBroker.Authorize(appId:calendar.AppId, privilege:$"{nameof(Calendar)}_create");
+        Calendar newCalendar = CreateStorageCalendar(item:calendar);
 
-        Calendar result = await calendarBroker.AddCalendarAsync(newCalendar);
+        Calendar result = await calendarBroker.AddCalendarAsync(entity:newCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;
@@ -46,10 +46,10 @@ internal class CalendarService(
 
     public async ValueTask<Calendar> UpdateAsync(Calendar calendar)
     {
-        authorizationBroker.Authorize(calendar.AppId, $"{nameof(Calendar)}_update");
-        Calendar updateCalendar = CreateStorageCalendar(calendar);
+        authorizationBroker.Authorize(appId:calendar.AppId, privilege:$"{nameof(Calendar)}_update");
+        Calendar updateCalendar = CreateStorageCalendar(item:calendar);
 
-        Calendar result = await calendarBroker.UpdateCalendarAsync(updateCalendar);
+        Calendar result = await calendarBroker.UpdateCalendarAsync(entity:updateCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;
@@ -59,21 +59,21 @@ internal class CalendarService(
 
     public async ValueTask DeleteAsync(int id)
     {
-        Calendar calendar = GetAll(ignoreFilters: true).FirstOrDefault(item => item.Id == id);
+        Calendar calendar = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (calendar is null)
             return;
 
-        authorizationBroker.Authorize(calendar.AppId, $"{nameof(Calendar)}_delete");
-        _ = await calendarBroker.DeleteCalendarAsync(CreateStorageCalendar(calendar));
+        authorizationBroker.Authorize(appId:calendar.AppId, privilege:$"{nameof(Calendar)}_delete");
+        _ = await calendarBroker.DeleteCalendarAsync(entity:CreateStorageCalendar(calendar));
     }
 
     public ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items) =>
         calendarBroker.DeleteAllCalendarsAsync(
-            items?.Select(CreateStorageCalendar) ?? []);
+items:            items?.Select(CreateStorageCalendar) ?? []);
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
-        calendarBroker.DeleteAllCalendarsByAppIdAsync(appId);
+        calendarBroker.DeleteAllCalendarsByAppIdAsync(appId:appId);
 
     private static Calendar CreateStorageCalendar(Calendar item) =>
         item == null

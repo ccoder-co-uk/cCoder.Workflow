@@ -46,15 +46,15 @@ public sealed class FlowInstance
 
     public async Task<FlowInstanceData> ExecuteAsync(WorkflowRequest request)
     {
-        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(argument:request);
 
         Start = DateTimeOffset.UtcNow;
 
-        using HttpClient api = CreateApiClient(request.Api);
+        using HttpClient api = CreateApiClient(apiRoot:request.Api);
         api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", request.AuthToken);
 
-        string rawInstance = await api.GetStringAsync($"Workflow/FlowInstanceData({request.InstanceId})?$expand=FlowDefinition($expand=App)");
-        FlowInstanceData instanceData = await DeserializeInstanceAsync(rawInstance);
+        string rawInstance = await api.GetStringAsync(requestUri:$"Workflow/FlowInstanceData({request.InstanceId})?$expand=FlowDefinition($expand=App)");
+        FlowInstanceData instanceData = await DeserializeInstanceAsync(rawInstance:rawInstance);
 
         AppId = instanceData.FlowDefinition.AppId;
         Id = instanceData.Id;
@@ -62,13 +62,13 @@ public sealed class FlowInstance
         Caller = instanceData.Caller;
         FlowDefinitionId = instanceData.FlowDefinitionId;
 
-        WorkflowContext dtoContext = await DeserializeContextAsync(instanceData.ContextString);
+        WorkflowContext dtoContext = await DeserializeContextAsync(rawContext:instanceData.ContextString);
         Flow = dtoContext.Flow ?? throw new InvalidOperationException("Flow instance context did not contain a workflow.");
 
         await StitchAsync();
 
         Context = new WorkflowExecutionContext(Flow, this);
-        await Context.ExecuteAsync(request.Api, request.AuthToken);
+        await Context.ExecuteAsync(apiRoot:request.Api, authToken:request.AuthToken);
 
         return Complete();
     }
@@ -82,18 +82,18 @@ public sealed class FlowInstance
         BaseAddress = new Uri(apiRoot)
     };
 
-    internal Task LogAsync(WorkflowLogLevel level, string message) => log(level, message);
+    internal Task LogAsync(WorkflowLogLevel level, string message) => log(level:level, message:message);
 
     private async Task<FlowInstanceData> DeserializeInstanceAsync(string rawInstance)
     {
         try
         {
-            return JsonConvert.DeserializeObject<FlowInstanceData>(rawInstance, WorkflowJson.GetJsonSettings())
+            return JsonConvert.DeserializeObject<FlowInstanceData>(value:rawInstance, settings:WorkflowJson.GetJsonSettings())
                 ?? throw new InvalidOperationException("Workflow instance response was empty.");
         }
         catch
         {
-            await LogAsync(WorkflowLogLevel.Error, $"Failed to deserialize flow instance:{Environment.NewLine}{rawInstance}");
+            await LogAsync(level:WorkflowLogLevel.Error, message:$"Failed to deserialize flow instance:{Environment.NewLine}{rawInstance}");
             throw;
         }
     }
@@ -102,12 +102,12 @@ public sealed class FlowInstance
     {
         try
         {
-            return JsonConvert.DeserializeObject<WorkflowContext>(rawContext, WorkflowJson.GetJsonSettings())
+            return JsonConvert.DeserializeObject<WorkflowContext>(value:rawContext, settings:WorkflowJson.GetJsonSettings())
                 ?? throw new InvalidOperationException("Workflow context response was empty.");
         }
         catch
         {
-            await LogAsync(WorkflowLogLevel.Error, $"Failed to deserialize flow context:{Environment.NewLine}{rawContext}");
+            await LogAsync(level:WorkflowLogLevel.Error, message:$"Failed to deserialize flow context:{Environment.NewLine}{rawContext}");
             throw;
         }
     }
@@ -118,11 +118,11 @@ public sealed class FlowInstance
         {
             PropertyInfo[] properties = activity.GetType()
                 .GetProperties()
-                .Where(property => property.GetCustomAttribute<IgnoreWhenFlowCompleteAttribute>() is not null)
+                .Where(predicate:property => property.GetCustomAttribute<IgnoreWhenFlowCompleteAttribute>() is not null)
                 .ToArray();
 
             foreach (PropertyInfo property in properties)
-                property.SetValue(activity, default);
+                property.SetValue(obj:activity, value:default);
         }
 
         return new FlowInstanceData
@@ -131,7 +131,7 @@ public sealed class FlowInstance
             Name = Name,
             Caller = Caller,
             FlowDefinitionId = FlowDefinitionId,
-            ContextString = JsonConvert.SerializeObject(Context, WorkflowJson.GetJsonSettings()),
+            ContextString = JsonConvert.SerializeObject(value:Context, settings:WorkflowJson.GetJsonSettings()),
             State = Context.ExecutionState,
             Start = Start,
             End = DateTimeOffset.UtcNow
@@ -145,17 +145,17 @@ public sealed class FlowInstance
             try
             {
                 string[] links = Flow.Links
-                    .Where(link => link.Destination == activity.Ref)
-                    .Select(link => link.Source)
+                    .Where(predicate:link => link.Destination == activity.Ref)
+                    .Select(selector:link => link.Source)
                     .ToArray();
 
-                activity.Previous = Flow.Activities.Where(candidate => links.Contains(candidate.Ref)).ToArray();
+                activity.Previous = Flow.Activities.Where(predicate:candidate => links.Contains(candidate.Ref)).ToArray();
             }
             catch (Exception exception)
             {
                 await LogAsync(
-                    WorkflowLogLevel.Error,
-                    $"Problem in previous activity selection for activity {activity.Ref}:{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}");
+level:                    WorkflowLogLevel.Error,
+message:                    $"Problem in previous activity selection for activity {activity.Ref}:{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}");
             }
         }
 
@@ -163,24 +163,24 @@ public sealed class FlowInstance
         {
             try
             {
-                activity.Next = Flow.Activities.Where(candidate => candidate.Previous?.Contains(activity) ?? false).ToArray();
+                activity.Next = Flow.Activities.Where(predicate:candidate => candidate.Previous?.Contains(activity) ?? false).ToArray();
             }
             catch (Exception exception)
             {
                 await LogAsync(
-                    WorkflowLogLevel.Error,
-                    $"Problem in next activity selection for activity {activity.Ref}:{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}");
+level:                    WorkflowLogLevel.Error,
+message:                    $"Problem in next activity selection for activity {activity.Ref}:{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}");
             }
 
             try
             {
-                activity.AssignCode = BuildAssign(activity, Flow);
+                activity.AssignCode = BuildAssign(activity:activity, flow:Flow);
             }
             catch (Exception exception)
             {
                 await LogAsync(
-                    WorkflowLogLevel.Error,
-                    $"Problem in one or more links for activity {activity.Ref}:{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}");
+level:                    WorkflowLogLevel.Error,
+message:                    $"Problem in one or more links for activity {activity.Ref}:{Environment.NewLine}{exception.Message}{Environment.NewLine}{exception.StackTrace}");
             }
         }
     }
@@ -188,7 +188,7 @@ public sealed class FlowInstance
     private static string BuildAssign(Activity activity, Flow flow)
     {
         string[] assignments = activity.Previous?
-            .Select(source =>
+            .Select(selector:source =>
             {
                 Link link = flow.Links.First(found => found.Source == source.Ref && found.Destination == activity.Ref);
                 string sourceType = TypeNameExtensions.GetCSharpTypeName(source.GetType());
@@ -201,14 +201,14 @@ public sealed class FlowInstance
                             .Replace("destination.", $"(({destinationType})activity).", StringComparison.Ordinal)
                             .Replace("source.", $"flow.GetActivity<{sourceType}>(\"{source.Ref}\").", StringComparison.Ordinal);
             })
-            .Where(item => item is not null)
+            .Where(predicate:item => item is not null)
             .ToArray()
             ?? [];
 
         if (assignments.Length == 0)
             return null;
 
-        string body = $"\t{string.Join($";{Environment.NewLine}\t", assignments)}";
+        string body = $"\t{string.Join(separator:$";{Environment.NewLine}\t", value:assignments)}";
         return $"(activity, variables, flow) => {{{Environment.NewLine}{body}{Environment.NewLine}}}";
     }
 }

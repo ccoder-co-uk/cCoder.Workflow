@@ -17,11 +17,11 @@ internal class CalendarEventService(
 {
     public CalendarEvent Get(int id)
     {
-        CalendarEvent calendarEvent = GetAll().FirstOrDefault(i => i.Id == id);
+        CalendarEvent calendarEvent = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (calendarEvent is not null)
             return calendarEvent;
 
-        CalendarEvent unrestrictedCalendarEvent = GetAll(true).FirstOrDefault(i => i.Id == id);
+        CalendarEvent unrestrictedCalendarEvent = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedCalendarEvent is not null)
             throw new SecurityException("Access Denied!");
 
@@ -29,17 +29,17 @@ internal class CalendarEventService(
     }
 
     public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false) =>
-        calendarEventBroker.GetAllCalendarEvents(ignoreFilters);
+        calendarEventBroker.GetAllCalendarEvents(ignoreFilters:ignoreFilters);
 
     public async ValueTask<CalendarEvent> AddAsync(CalendarEvent calendarEvent)
     {
         authorizationBroker.Authorize(
-            calendarEventBroker.GetAppId(calendarEvent),
-            $"{nameof(CalendarEvent)}_create"
+appId:            calendarEventBroker.GetAppId(calendarEvent),
+privilege:            $"{nameof(CalendarEvent)}_create"
         );
-        CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(calendarEvent);
+        CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(item:calendarEvent);
 
-        CalendarEvent result = await calendarEventBroker.AddCalendarEventAsync(newCalendarEvent);
+        CalendarEvent result = await calendarEventBroker.AddCalendarEventAsync(entity:newCalendarEvent);
         calendarEvent.Id = result.Id;
         calendarEvent.Name = result.Name;
         calendarEvent.Description = result.Description;
@@ -52,13 +52,13 @@ internal class CalendarEventService(
     public async ValueTask<CalendarEvent> UpdateAsync(CalendarEvent calendarEvent)
     {
         authorizationBroker.Authorize(
-            calendarEventBroker.GetAppId(calendarEvent),
-            $"{nameof(CalendarEvent)}_update"
+appId:            calendarEventBroker.GetAppId(calendarEvent),
+privilege:            $"{nameof(CalendarEvent)}_update"
         );
-        CalendarEvent updateCalendarEvent = CreateStorageCalendarEvent(calendarEvent);
+        CalendarEvent updateCalendarEvent = CreateStorageCalendarEvent(item:calendarEvent);
 
         CalendarEvent result = await calendarEventBroker.UpdateCalendarEventAsync(
-            updateCalendarEvent
+entity:            updateCalendarEvent
         );
         calendarEvent.Id = result.Id;
         calendarEvent.Name = result.Name;
@@ -71,26 +71,26 @@ internal class CalendarEventService(
 
     public async ValueTask DeleteAsync(int id)
     {
-        CalendarEvent calendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(item => item.Id == id);
+        CalendarEvent calendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (calendarEvent is null)
             return;
 
         authorizationBroker.Authorize(
-            calendarEventBroker.GetAppId(calendarEvent),
-            $"{nameof(CalendarEvent)}_delete"
+appId:            calendarEventBroker.GetAppId(calendarEvent),
+privilege:            $"{nameof(CalendarEvent)}_delete"
         );
         _ = await calendarEventBroker.DeleteCalendarEventAsync(
-            CreateStorageCalendarEvent(calendarEvent)
+entity:            CreateStorageCalendarEvent(calendarEvent)
         );
     }
 
     public ValueTask DeleteAllForAppAsync(IEnumerable<CalendarEvent> items) =>
         calendarEventBroker.DeleteAllCalendarEventsAsync(
-            items?.Select(CreateStorageCalendarEvent) ?? []);
+items:            items?.Select(CreateStorageCalendarEvent) ?? []);
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
-        calendarEventBroker.DeleteAllCalendarEventsByAppIdAsync(appId);
+        calendarEventBroker.DeleteAllCalendarEventsByAppIdAsync(appId:appId);
 
     private static CalendarEvent CreateStorageCalendarEvent(CalendarEvent item) =>
         item == null

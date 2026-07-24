@@ -12,7 +12,7 @@ public class SftpGetListOfFoldersActivity : SftpBaseActivity
 
     public string[] Result { get; set; }
 
-    public override async Task ExecuteAsync() => SftpDo(client =>
+    public override async Task ExecuteAsync() => SftpDo(operation:client =>
     {
         IEnumerable<ISftpFile> items = client.ListDirectory(Path).Where(i => i.IsDirectory);
 

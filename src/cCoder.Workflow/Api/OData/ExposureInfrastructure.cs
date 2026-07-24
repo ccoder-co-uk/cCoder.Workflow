@@ -20,7 +20,7 @@ namespace cCoder.Workflow.Api.OData
         )
         {
             ExtendedMetadataContainer result = new(type, true, hasEndpoint) { Category = context };
-            IEdmEntitySet set = model.EntityContainer.FindEntitySet(type.Name);
+            IEdmEntitySet set = model.EntityContainer.FindEntitySet(setName:type.Name);
             if (set is null)
             {
                 result.HasEndpoint = false;
@@ -28,8 +28,8 @@ namespace cCoder.Workflow.Api.OData
             }
 
             IEnumerable<OperationContainer> customOperations = model
-                .FindDeclaredBoundOperations(set.Type)
-                .Select(operation => new OperationContainer
+                .FindDeclaredBoundOperations(bindingType:set.Type)
+                .Select(selector:operation => new OperationContainer
                 {
                     Name = operation.Name,
                     Url = $"{result.Category}/{type.Name}/{operation.Name}()",
@@ -42,8 +42,8 @@ namespace cCoder.Workflow.Api.OData
                         .ToDictionary(item => item.Name, item => item.TypeName),
                 });
 
-            result.Operations = GetBaseCrudOperations(result)
-                .Union(customOperations)
+            result.Operations = GetBaseCrudOperations(type:result)
+                .Union(second:customOperations)
                 .ToList();
 
             return result;
@@ -54,12 +54,12 @@ namespace cCoder.Workflow.Api.OData
             if (definition?.TypeKind != EdmTypeKind.Collection)
                 return null;
 
-            Type cSharpType = Type.GetType(definition.FullTypeName(), false);
+            Type cSharpType = Type.GetType(typeName:definition.FullTypeName(), throwOnError:false);
             return cSharpType is null ? null : new MetadataContainer(cSharpType, true, true);
         }
 
         private static IEnumerable<OperationContainer> GetBaseCrudOperations(MetadataContainer type) =>
-            type.IsJoinEntity ? GetBaseCrudOperationsForJoinEntity(type) : GetBaseCrudOperationsForEntity(type);
+            type.IsJoinEntity ? GetBaseCrudOperationsForJoinEntity(type:type) : GetBaseCrudOperationsForEntity(type:type);
 
         private static IEnumerable<OperationContainer> GetBaseCrudOperationsForJoinEntity(
             MetadataContainer type
@@ -83,7 +83,7 @@ namespace cCoder.Workflow.Api.OData
             ReturnType = type,
             Parameters = new Dictionary<string, string>
             {
-                { "odata:key", Type.GetType(type.ServerType)?.GetIdProperty()?.GetType().FullName! },
+                { "odata:key", Type.GetType(typeName:type.ServerType)?.GetIdProperty()?.GetType().FullName! },
             },
         },
         new()
@@ -124,7 +124,7 @@ namespace cCoder.Workflow.Api.OData
             ReturnType = type,
             Parameters = new Dictionary<string, string>
             {
-                { "odata:key", Type.GetType(type.ServerType)?.GetIdProperty()?.GetType().FullName! },
+                { "odata:key", Type.GetType(typeName:type.ServerType)?.GetIdProperty()?.GetType().FullName! },
                 { "body:entity", type.ServerType },
             },
         },
@@ -137,7 +137,7 @@ namespace cCoder.Workflow.Api.OData
             ReturnType = type,
             Parameters = new Dictionary<string, string>
             {
-                { "odata:key", Type.GetType(type.ServerType)?.GetIdProperty()?.GetType().FullName! },
+                { "odata:key", Type.GetType(typeName:type.ServerType)?.GetIdProperty()?.GetType().FullName! },
             },
         },
         new()
@@ -157,7 +157,7 @@ namespace cCoder.Workflow.Api.OData
         public BadRequestResult(ModelStateDictionary modelState)
             : base(modelState) =>
             Value = modelState
-                .Select(item => new ModelStateError
+                .Select(selector:item => new ModelStateError
                 {
                     Key = item.Key,
                     Value = item.Value?.RawValue,

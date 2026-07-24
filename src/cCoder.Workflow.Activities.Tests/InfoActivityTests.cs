@@ -22,7 +22,7 @@ public sealed partial class InfoActivityTests
         public IScriptRunner Script => null;
 
         public void Log(WorkflowLogLevel level, string message) =>
-            ExecutionLog.Add(new WorkflowLogEntry(level, message));
+            ExecutionLog.Add(item:new WorkflowLogEntry(level, message));
     }
 
     private static InfoActivity CreateInfoActivity() =>

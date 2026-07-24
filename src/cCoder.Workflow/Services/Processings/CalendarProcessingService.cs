@@ -16,39 +16,39 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
 {
     public Calendar Get(int id)
     {
-        return service.Get(id);
+        return service.Get(id:id);
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false)
     {
-        return service.GetAll(ignoreFilters);
+        return service.GetAll(ignoreFilters:ignoreFilters);
     }
 
     public ValueTask<Calendar> AddAsync(Calendar entity)
     {
-        return service.AddAsync(entity);
+        return service.AddAsync(calendar:entity);
     }
 
     public ValueTask<Calendar> UpdateAsync(Calendar entity)
     {
-        return service.UpdateAsync(entity);
+        return service.UpdateAsync(calendar:entity);
     }
 
     public async ValueTask DeleteAsync(int id)
     {
-        Calendar calendar = Get(id);
-        authorizationBroker.Authorize(calendar.AppId, "calendar_delete");
+        Calendar calendar = Get(id:id);
+        authorizationBroker.Authorize(appId:calendar.AppId, privilege:"calendar_delete");
         CalendarEvent[] events = (from ce in calendarEventService.GetAll()
                                   where ce.CalendarId == calendar.Id
                                   select ce).ToArray();
-        await calendarEventService.DeleteAllAsync(events);
-        await service.DeleteAsync(calendar.Id);
+        await calendarEventService.DeleteAllAsync(items:events);
+        await service.DeleteAsync(id:calendar.Id);
     }
 
     public async ValueTask DeleteByAppIdAsync(int appId)
     {
-        await calendarEventService.DeleteAllByAppIdAsync(appId);
-        await service.DeleteAllByAppIdAsync(appId);
+        await calendarEventService.DeleteAllByAppIdAsync(appId:appId);
+        await service.DeleteAllByAppIdAsync(appId:appId);
     }
 
     public async ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdate(IEnumerable<Calendar> items)
@@ -61,10 +61,10 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
             {
                 Calendar savedItem =
                     item.Id == 0
-                        ? await AddAsync(item)
-                        : await UpdateAsync(item);
+                        ? await AddAsync(entity:item)
+                        : await UpdateAsync(entity:item);
 
-                results.Add(new Result<Calendar>
+                results.Add(item:new Result<Calendar>
                 {
                     Success = true,
                     Item = savedItem,
@@ -73,7 +73,7 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
             }
             catch (Exception ex)
             {
-                results.Add(new Result<Calendar>
+                results.Add(item:new Result<Calendar>
                 {
                     Success = false,
                     Item = item,
@@ -89,7 +89,7 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
     {
         foreach (Calendar item in items)
         {
-            await DeleteAsync(item.Id);
+            await DeleteAsync(id:item.Id);
         }
     }
 }

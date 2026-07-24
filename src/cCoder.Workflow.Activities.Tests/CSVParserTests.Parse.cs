@@ -22,10 +22,10 @@ public sealed partial class CSVParserTests
         };
 
         // When
-        TestRow actualRow = CSVParser<TestRow>.Parse(csv, options).Single();
+        TestRow actualRow = CSVParser<TestRow>.Parse(csvData:csv, options:options).Single();
 
         // Then
-        actualRow.Name.Should().Be("Example");
+        actualRow.Name.Should().Be(expected:"Example");
         actualRow.Active.Should().BeTrue();
     }
 }

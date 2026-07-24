@@ -17,6 +17,6 @@ internal sealed class InstanceMaintenanceManagement(IServiceScopeFactory service
         IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementOrchestrationService =
             scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
-        await workflowInstanceManagementOrchestrationService.RunInstanceMaintenanceContinuouslyAsync(stoppingToken);
+        await workflowInstanceManagementOrchestrationService.RunInstanceMaintenanceContinuouslyAsync(cancellationToken:stoppingToken);
     }
 }

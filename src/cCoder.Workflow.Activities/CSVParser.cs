@@ -16,12 +16,12 @@ public static class CSVParser<T>
         options ??= CSVParseConfig.DefaultOptions;
 
         using StringReader reader = new(csvData);
-        options.FieldNames = GetFieldNames(reader, options);
+        options.FieldNames = GetFieldNames(csvReader:reader, options:options);
 
         string line = reader.ReadLine();
         while (line != null)
         {
-            result.Add(ParseLine(line, options));
+            result.Add(item:ParseLine(line, options));
             line = reader.ReadLine();
         }
 
@@ -30,19 +30,19 @@ public static class CSVParser<T>
 
     private static string[] GetFieldNames(StringReader csvReader, CSVParseConfig options) =>
         options.FieldNamesInHeader
-            ? csvReader.ReadLine().Split(options.Separator)
-            : options.FieldNames ?? Enumerable.Range(0, 50).Select(i => $"Value{i}").ToArray();
+            ? csvReader.ReadLine().Split(separator:options.Separator)
+            : options.FieldNames ?? Enumerable.Range(start:0, count:50).Select(selector:i => $"Value{i}").ToArray();
 
     private static T ParseLine(string csvLine, CSVParseConfig options) =>
         typeof(object) == typeof(T)
-            ? ParseDynamicData(csvLine, options)
-            : ParseTypedData(csvLine, options);
+            ? ParseDynamicData(csvLine:csvLine, options:options)
+            : ParseTypedData(csvLine:csvLine, options:options);
 
     private static T ParseTypedData(string csvLine, CSVParseConfig options)
     {
         T result = new();
         PropertyInfo[] properties = typeof(T).GetProperties();
-        string[] dataItems = csvLine.Split(options.Separator);
+        string[] dataItems = csvLine.Split(separator:options.Separator);
 
         if (!options.FieldNamesInHeader)
         {
@@ -51,13 +51,13 @@ public static class CSVParser<T>
             {
                 PropertyInfo property = properties[i];
                 if (property.CanWrite && (property.PropertyType.IsValueType || property.PropertyType == typeof(string)))
-                    property.SetValue(result, dataItems[i - offset]);
+                    property.SetValue(obj:result, value:dataItems[i - offset]);
             }
         }
         else
         {
             for (int i = 0; i < dataItems.Length; i++)
-                SetDataItem(options, result, properties, dataItems, i);
+                SetDataItem(options:options, result:result, properties:properties, dataItems:dataItems, index:i);
         }
 
         return result;
@@ -67,32 +67,32 @@ public static class CSVParser<T>
     {
         string field = options.FieldNames[index];
         string value = dataItems[index];
-        PropertyInfo property = properties.FirstOrDefault(p => p.Name.Equals(field, StringComparison.OrdinalIgnoreCase));
+        PropertyInfo property = properties.FirstOrDefault(predicate:p => p.Name.Equals(field, StringComparison.OrdinalIgnoreCase));
 
-        if (property == null || string.IsNullOrEmpty(value))
+        if (property == null || string.IsNullOrEmpty(value:value))
             return;
 
         try
         {
             if (property.PropertyType == typeof(double))
-                property.SetValue(result, double.Parse(value));
+                property.SetValue(obj:result, value:double.Parse(value));
             else if (property.PropertyType == typeof(decimal))
-                property.SetValue(result, decimal.Parse(value));
+                property.SetValue(obj:result, value:decimal.Parse(value));
             else if (property.PropertyType == typeof(bool?) || property.PropertyType == typeof(bool))
-                property.SetValue(result, bool.Parse(value));
+                property.SetValue(obj:result, value:bool.Parse(value));
             else
-                property.SetValue(result, value);
+                property.SetValue(obj:result, value:value);
         }
         catch
         {
-            property.SetValue(result, null);
+            property.SetValue(obj:result, value:null);
         }
     }
 
     private static T ParseDynamicData(string csvLine, CSVParseConfig options)
     {
         dynamic result = new ExpandoObject();
-        string[] dataItems = csvLine.Split(options.Separator);
+        string[] dataItems = csvLine.Split(separator:options.Separator);
         IDictionary<string, object> items = result;
 
         if (!options.FieldNamesInHeader)
@@ -101,15 +101,15 @@ public static class CSVParser<T>
             for (int i = 0; i < dataItems.Length; i++)
             {
                 string field = fieldNames != null && fieldNames.Length > i
-                    ? fieldNames[i].Replace(" ", "_")
+                    ? fieldNames[i].Replace(oldValue:" ", newValue:"_")
                     : $"Item{i + 1}";
-                items.Add(field, dataItems[i]);
+                items.Add(key:field, value:dataItems[i]);
             }
         }
         else
         {
             for (int i = 0; i < options.FieldNames.Length; i++)
-                items.Add(options.FieldNames[i], i < dataItems.Length ? dataItems[i] : null);
+                items.Add(key:options.FieldNames[i], value:i < dataItems.Length ? dataItems[i] : null);
         }
 
         return result;

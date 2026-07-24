@@ -10,13 +10,13 @@ namespace cCoder.Workflow.Brokers;
 public class JsonBroker : IJsonBroker
 {
     public object ParseJson(string json) => 
-        JsonConvert.DeserializeObject(json, CreateJsonSettings());
+        JsonConvert.DeserializeObject(value:json, settings:CreateJsonSettings());
 
     public T ParseJson<T>(string json) => 
-        JsonConvert.DeserializeObject<T>(json, CreateJsonSettings());
+        JsonConvert.DeserializeObject<T>(value:json, settings:CreateJsonSettings());
 
     public string Serialize(object value) => 
-        JsonConvert.SerializeObject(value, CreateJsonSettings());
+        JsonConvert.SerializeObject(value:value, settings:CreateJsonSettings());
 
     private static JsonSerializerSettings CreateJsonSettings() =>
         new()
@@ -48,11 +48,11 @@ public class JsonBroker : IJsonBroker
 
         public Type BindToType(string assemblyName, string typeName)
         {
-            foreach ((string candidateAssembly, string candidateType) in GetCandidates(assemblyName, typeName))
+            foreach ((string candidateAssembly, string candidateType) in GetCandidates(assemblyName:assemblyName, typeName:typeName))
             {
                 try
                 {
-                    Type resolvedType = binder.BindToType(candidateAssembly, candidateType);
+                    Type resolvedType = binder.BindToType(assemblyName:candidateAssembly, typeName:candidateType);
                     if (resolvedType != null)
                         return resolvedType;
                 }
@@ -61,15 +61,15 @@ public class JsonBroker : IJsonBroker
                 }
             }
 
-            return binder.BindToType(assemblyName, typeName);
+            return binder.BindToType(assemblyName:assemblyName, typeName:typeName);
         }
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName) =>
-            binder.BindToName(serializedType, out assemblyName, out typeName);
+            binder.BindToName(serializedType:serializedType, assemblyName:out assemblyName, typeName:out typeName);
 
         private static IEnumerable<(string assemblyName, string typeName)> GetCandidates(string assemblyName, string typeName)
         {
-            if (typeName?.StartsWith(CoreObjectsWorkflowDtoNamespace, StringComparison.Ordinal) == true)
+            if (typeName?.StartsWith(value:CoreObjectsWorkflowDtoNamespace, comparisonType:StringComparison.Ordinal) == true)
             {
                 yield return (
                     WorkflowAssemblyName,
@@ -78,7 +78,7 @@ public class JsonBroker : IJsonBroker
                 yield break;
             }
 
-            if (typeName?.StartsWith(CoreObjectsWorkflowActivityNamespace, StringComparison.Ordinal) == true)
+            if (typeName?.StartsWith(value:CoreObjectsWorkflowActivityNamespace, comparisonType:StringComparison.Ordinal) == true)
             {
                 string suffix = typeName[CoreObjectsWorkflowActivityNamespace.Length..];
 
@@ -95,8 +95,8 @@ public class JsonBroker : IJsonBroker
                 yield break;
             }
 
-            if (string.Equals(assemblyName, CoreObjectsAssemblyName, StringComparison.Ordinal) ||
-                string.Equals(assemblyName, CoreConnectivityAssemblyName, StringComparison.Ordinal))
+            if (string.Equals(a:assemblyName, b:CoreObjectsAssemblyName, comparisonType:StringComparison.Ordinal) ||
+                string.Equals(a:assemblyName, b:CoreConnectivityAssemblyName, comparisonType:StringComparison.Ordinal))
             {
                 yield return (WorkflowAssemblyName, typeName);
             }

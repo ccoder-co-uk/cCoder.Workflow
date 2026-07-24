@@ -21,12 +21,12 @@ public class ExecuteFlow : CoreActivity
         try
         {
             using HttpClient api = GetHttpClient();
-            IEnumerable<FlowDefinition> defs = await api.GetODataCollection<FlowDefinition>($"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
+            IEnumerable<FlowDefinition> defs = await api.GetODataCollection<FlowDefinition>(query:$"Workflow/FlowDefinition?$filter=AppId eq {AppId} and Process/Name eq '{ProcessName}' and Name eq '{Name}'");
             if (defs?.Any() ?? false)
-                _ = await api.PostAsync($"Workflow/FlowDefinition({defs.First().Id})/Execute", new StringContent(Data.ToJson())).ConfigureAwait(false);
+                _ = await api.PostAsync(requestUri:$"Workflow/FlowDefinition({defs.First().Id})/Execute", content:new StringContent(Data.ToJson())).ConfigureAwait(continueOnCapturedContext:false);
             else
-                Log(WorkflowLogLevel.Warning, "Flow not found!");
+                Log(level:WorkflowLogLevel.Warning, message:"Flow not found!");
         }
-        catch { Log(WorkflowLogLevel.Error, "Access Denied!"); }
+        catch { Log(level:WorkflowLogLevel.Error, message:"Access Denied!"); }
     }
 }

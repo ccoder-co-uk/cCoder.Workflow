@@ -15,8 +15,8 @@ public abstract class LogActivity : Activity
     {
         if (Message != null)
         {
-            string level = GetType().Name.Replace("Activity", "");
-            Log((WorkflowLogLevel)Enum.Parse(typeof(WorkflowLogLevel), level), Message);
+            string level = GetType().Name.Replace(oldValue:"Activity", newValue:"");
+            Log(level:(WorkflowLogLevel)Enum.Parse(typeof(WorkflowLogLevel), level), message:Message);
         }
         return base.ExecuteAsync();
     }

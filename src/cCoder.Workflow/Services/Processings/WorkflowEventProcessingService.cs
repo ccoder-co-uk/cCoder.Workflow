@@ -17,43 +17,43 @@ internal class WorkflowEventProcessingService(
 {
     public WorkflowEvent Get(Guid id)
     {
-        return service.Get(id);
+        return service.Get(id:id);
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false)
     {
-        return service.GetAll(ignoreFilters);
+        return service.GetAll(ignoreFilters:ignoreFilters);
     }
 
     public ValueTask<WorkflowEvent[]> GetSubscriptionsAsync(int appId, string eventContext)
     {
         WorkflowEvent[] subscriptions = service
             .GetAll(ignoreFilters: true)
-            .Where(item => item.Flow.AppId == appId && item.EventContext == eventContext)
-            .Include(item => item.Flow)
-            .Include(item => item.ExecuteAsUser)
-                .ThenInclude(user => user.Roles)
-                    .ThenInclude(userRole => userRole.Role)
+            .Where(predicate:item => item.Flow.AppId == appId && item.EventContext == eventContext)
+            .Include(navigationPropertyPath:item => item.Flow)
+            .Include(navigationPropertyPath:item => item.ExecuteAsUser)
+                .ThenInclude(navigationPropertyPath:user => user.Roles)
+                    .ThenInclude(navigationPropertyPath:userRole => userRole.Role)
             .ToArray();
 
-        return ValueTask.FromResult(subscriptions);
+        return ValueTask.FromResult(result:subscriptions);
     }
 
     public ValueTask<WorkflowEvent> AddAsync(WorkflowEvent entity)
     {
-        SecurityCheckEvent(entity);
-        return service.AddAsync(entity);
+        SecurityCheckEvent(workflowEvent:entity);
+        return service.AddAsync(workflowEvent:entity);
     }
 
     public ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity)
     {
-        SecurityCheckEvent(entity);
-        return service.UpdateAsync(entity);
+        SecurityCheckEvent(workflowEvent:entity);
+        return service.UpdateAsync(workflowEvent:entity);
     }
 
     public ValueTask DeleteAsync(Guid id)
     {
-        return service.DeleteAsync(id);
+        return service.DeleteAsync(id:id);
     }
 
     public async ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items)
@@ -66,10 +66,10 @@ internal class WorkflowEventProcessingService(
             {
                 WorkflowEvent savedItem =
                     item.Id == Guid.Empty
-                        ? await AddAsync(item)
-                        : await UpdateAsync(item);
+                        ? await AddAsync(entity:item)
+                        : await UpdateAsync(entity:item);
 
-                results.Add(new Result<WorkflowEvent>
+                results.Add(item:new Result<WorkflowEvent>
                 {
                     Success = true,
                     Item = savedItem,
@@ -78,7 +78,7 @@ internal class WorkflowEventProcessingService(
             }
             catch (Exception ex)
             {
-                results.Add(new Result<WorkflowEvent>
+                results.Add(item:new Result<WorkflowEvent>
                 {
                     Success = false,
                     Item = item,
@@ -94,13 +94,13 @@ internal class WorkflowEventProcessingService(
     {
         foreach (WorkflowEvent item in items)
         {
-            await DeleteAsync(item.Id);
+            await DeleteAsync(id:item.Id);
         }
     }
 
     private void SecurityCheckEvent(WorkflowEvent workflowEvent)
     {
-        int? appId = service.GetAppIdForWorkflowEvent(workflowEvent);
-        authorizationBroker.Authorize(workflowEvent.ExecuteAs, appId, "app_admin");
+        int? appId = service.GetAppIdForWorkflowEvent(workflowEvent:workflowEvent);
+        authorizationBroker.Authorize(userId:workflowEvent.ExecuteAs, appId:appId, privilege:"app_admin");
     }
 }

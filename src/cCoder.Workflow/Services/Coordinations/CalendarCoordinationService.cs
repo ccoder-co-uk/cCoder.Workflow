@@ -22,7 +22,7 @@ internal class CalendarCoordinationService(
         if (calendar.Events == null || !calendar.Events.Any())
             return;
 
-        await calendarEventOrchestrationService.AddOrUpdate(calendar.Events);
+        await calendarEventOrchestrationService.AddOrUpdate(items:calendar.Events);
     }
 
     public async ValueTask HandleCalendarUpdateAsync(Calendar calendar)
@@ -30,16 +30,16 @@ internal class CalendarCoordinationService(
         if (calendar.Events == null || !calendar.Events.Any())
             return;
 
-        await calendarEventOrchestrationService.AddOrUpdate(calendar.Events);
+        await calendarEventOrchestrationService.AddOrUpdate(items:calendar.Events);
     }
 
     public async ValueTask HandleCalendarDeleteAsync(Calendar calendar)
     {
         IEnumerable<CalendarEvent> eventsToDelete = calendarEventOrchestrationService
-            .GetAll(true)
-            .Where(calendarEvent => calendarEvent.CalendarId == calendar.Id)
+            .GetAll(ignoreFilters:true)
+            .Where(predicate:calendarEvent => calendarEvent.CalendarId == calendar.Id)
             .ToArray();
 
-        await calendarEventOrchestrationService.DeleteAllAsync(eventsToDelete);
+        await calendarEventOrchestrationService.DeleteAllAsync(items:eventsToDelete);
     }
 }

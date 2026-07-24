@@ -11,11 +11,11 @@ internal class WorkflowEventEventProcessingService(IWorkflowEventEventService ev
     : IWorkflowEventEventProcessingService
 {
     public ValueTask RaiseWorkflowEventAddEventAsync(WorkflowEvent entity) => 
-        eventService.RaiseWorkflowEventAddEventAsync(entity);
+        eventService.RaiseWorkflowEventAddEventAsync(entity:entity);
 
     public ValueTask RaiseWorkflowEventUpdateEventAsync(WorkflowEvent entity) => 
-        eventService.RaiseWorkflowEventUpdateEventAsync(entity);
+        eventService.RaiseWorkflowEventUpdateEventAsync(entity:entity);
 
     public ValueTask RaiseWorkflowEventDeleteEventAsync(WorkflowEvent entity) => 
-        eventService.RaiseWorkflowEventDeleteEventAsync(entity);
+        eventService.RaiseWorkflowEventDeleteEventAsync(entity:entity);
 }

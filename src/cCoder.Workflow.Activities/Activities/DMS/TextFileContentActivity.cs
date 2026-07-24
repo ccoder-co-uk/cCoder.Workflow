@@ -14,6 +14,6 @@ public class TextFileContentActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        Result = await GetFileContents(api);
+        Result = await GetFileContents(api:api);
     }
 }

@@ -14,7 +14,7 @@ public class DMSDeleteActivity : DMSActivity
     {
         try
         {
-            if (Paths == null && !string.IsNullOrEmpty(Path))
+            if (Paths == null && !string.IsNullOrEmpty(value:Path))
             {
                 Paths = new string[] { Path };
             }
@@ -23,14 +23,14 @@ public class DMSDeleteActivity : DMSActivity
             using IEnumerator<string> n = Paths.GetEnumerator();
             while (n.MoveNext())
             {
-                _ = await api.DeleteAsync($"DMS/{n.Current}");
+                _ = await api.DeleteAsync(requestUri:$"DMS/{n.Current}");
             }
 
-            Log(WorkflowLogLevel.Info, $"DMS deletions complete");
+            Log(level:WorkflowLogLevel.Info, message:$"DMS deletions complete");
         }
         catch (Exception ex)
         {
-            Log(WorkflowLogLevel.Error, $"Failed to create DMS file because of exception:\n{ex.Message}");
+            Log(level:WorkflowLogLevel.Error, message:$"Failed to create DMS file because of exception:\n{ex.Message}");
         }
     }
 }

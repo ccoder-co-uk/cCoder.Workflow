@@ -16,17 +16,17 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
     public override async Task ExecuteAsync()
     {
         using HttpClient api = GetHttpClient();
-        Log(WorkflowLogLevel.Info, $"HTTP POST {BaseUrl}{Query}$batch");
-        Log(WorkflowLogLevel.Info, $"Sending a batch of {Data.Length} requests to the API.");
+        Log(level:WorkflowLogLevel.Info, message:$"HTTP POST {BaseUrl}{Query}$batch");
+        Log(level:WorkflowLogLevel.Info, message:$"Sending a batch of {Data.Length} requests to the API.");
 
         string body = new { Requests = Data }.ToJsonForOdata();
-        HttpResponseMessage response = await api.PostAsync(Query + "$batch", new StringContent(body, Encoding.UTF8, "application/json"));
+        HttpResponseMessage response = await api.PostAsync(requestUri:Query + "$batch", content:new StringContent(body, Encoding.UTF8, "application/json"));
 
         if (!response.IsSuccessStatusCode)
         {
-            Log(WorkflowLogLevel.Error, $"HTTP POST {BaseUrl}{Query}$batch failed with status code {(int)response.StatusCode}\n");
+            Log(level:WorkflowLogLevel.Error, message:$"HTTP POST {BaseUrl}{Query}$batch failed with status code {(int)response.StatusCode}\n");
             string content = await response.Content.ReadAsStringAsync();
-            Log(WorkflowLogLevel.Error, content);
+            Log(level:WorkflowLogLevel.Error, message:content);
             return;
         }
 
@@ -35,23 +35,23 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
             ResponseBatch responseBatch = await response.Content.ReadAsAsync<ResponseBatch>();
             Result = responseBatch.Responses;
 
-            Log(WorkflowLogLevel.Info, $"Received {responseBatch.Responses.Length} batched responses");
-            Log(WorkflowLogLevel.Info, $"Received {responseBatch.Responses.Where(r => r.Status.StartsWith("2")).Count()} successes");
+            Log(level:WorkflowLogLevel.Info, message:$"Received {responseBatch.Responses.Length} batched responses");
+            Log(level:WorkflowLogLevel.Info, message:$"Received {responseBatch.Responses.Where(r => r.Status.StartsWith("2")).Count()} successes");
 
-            BatchedResponse[] failures = responseBatch.Responses.Where(r => !r.Status.StartsWith("2")).ToArray();
+            BatchedResponse[] failures = responseBatch.Responses.Where(predicate:r => !r.Status.StartsWith("2")).ToArray();
 
             if (failures.Any())
             {
-                Log(WorkflowLogLevel.Warning, $"Received {failures.Length} failures");
+                Log(level:WorkflowLogLevel.Warning, message:$"Received {failures.Length} failures");
 
                 foreach (BatchedResponse failure in failures)
-                    Log(WorkflowLogLevel.Error, failure.Body.ToJsonForOdata());
+                    Log(level:WorkflowLogLevel.Error, message:failure.Body.ToJsonForOdata());
             }
         }
         catch (Exception ex)
         {
-            Log(WorkflowLogLevel.Error, $"Exception {ex.Message}");
-            Log(WorkflowLogLevel.Error, await response.Content.ReadAsStringAsync());
+            Log(level:WorkflowLogLevel.Error, message:$"Exception {ex.Message}");
+            Log(level:WorkflowLogLevel.Error, message:await response.Content.ReadAsStringAsync());
         }
     }
 }

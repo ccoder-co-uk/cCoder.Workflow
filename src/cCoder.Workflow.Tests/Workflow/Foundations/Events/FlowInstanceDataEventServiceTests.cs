@@ -23,7 +23,7 @@ public partial class FlowInstanceDataEventServiceTests
         authInfoMock = new Mock<ICoreAuthInfo>(MockBehavior.Strict);
         flowInstanceDataEventBrokerMock = new(MockBehavior.Strict);
         authInfoMock = new();
-        authInfoMock.SetupGet(x => x.SSOUserId).Returns(CurrentUserId);
+        authInfoMock.SetupGet(expression:x => x.SSOUserId).Returns(value:CurrentUserId);
         service = new cCoder.Workflow.Services.Foundations.Events.FlowInstanceDataEventService(
             flowInstanceDataEventBrokerMock.Object,
             authInfoMock.Object

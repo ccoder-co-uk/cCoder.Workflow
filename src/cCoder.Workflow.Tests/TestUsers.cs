@@ -11,7 +11,7 @@ namespace cCoder.Core.Services.Tests;
 internal static class TestUsers
 {
     internal static User WithPrivilege(string privilege, int appId = 1) =>
-        WithPrivileges([privilege], appId);
+        WithPrivileges(privileges:[privilege], appId:appId);
 
     internal static User WithPrivileges(IEnumerable<string> privileges, int appId = 1)
     {
@@ -20,7 +20,7 @@ internal static class TestUsers
             Id = Guid.NewGuid(),
             AppId = appId,
             Name = "Test Role",
-            Privs = string.Join(',', privileges.Select(p => p.ToLowerInvariant())),
+            Privs = string.Join(separator:',', values:privileges.Select(p => p.ToLowerInvariant())),
         };
 
         User user = new()

@@ -13,8 +13,8 @@ public sealed partial class HomePageTests(WebAcceptanceFixture fixture)
     private HttpClient Client { get; } = fixture.Client;
 
     private async Task<HttpResponseMessage> GetHomeAsync() =>
-        await Client.GetAsync("/");
+        await Client.GetAsync(requestUri:"/");
 
     private async Task<string> GetToolsAsync() =>
-        await Client.GetStringAsync("/tools/index.html");
+        await Client.GetStringAsync(requestUri:"/tools/index.html");
 }

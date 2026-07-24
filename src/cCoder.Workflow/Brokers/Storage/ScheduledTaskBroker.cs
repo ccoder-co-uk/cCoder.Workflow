@@ -26,9 +26,9 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.ScheduledTasks
-            .Include(task => task.ExecuteAsUser)
-            .Include(task => task.Flow)
-            .FirstOrDefault(task => task.Id == id);
+            .Include(navigationPropertyPath:task => task.ExecuteAsUser)
+            .Include(navigationPropertyPath:task => task.Flow)
+            .FirstOrDefault(predicate:task => task.Id == id);
     }
 
     public async ValueTask<ScheduledTask> MarkScheduledTaskExecutedAsync(int id, bool incrementNextExecution)
@@ -37,9 +37,9 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
 
         ScheduledTask task = coreDataContext.ScheduledTasks
             .IgnoreQueryFilters()
-            .Include(foundTask => foundTask.ExecuteAsUser)
-            .Include(foundTask => foundTask.Flow)
-            .FirstOrDefault(foundTask => foundTask.Id == id);
+            .Include(navigationPropertyPath:foundTask => foundTask.ExecuteAsUser)
+            .Include(navigationPropertyPath:foundTask => foundTask.Flow)
+            .FirstOrDefault(predicate:foundTask => foundTask.Id == id);
 
         if (task is null)
             return null;
@@ -49,7 +49,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
         if (incrementNextExecution)
             while (task.NextExecution < DateTimeOffset.UtcNow && task.NextExecution != null)
                 task.NextExecution = task.ScheduleInTicks > 0
-                    ? task.NextExecution + TimeSpan.FromTicks(task.ScheduleInTicks)
+                    ? task.NextExecution + TimeSpan.FromTicks(value:task.ScheduleInTicks)
                     : null;
 
         _ = await coreDataContext.SaveChangesAsync();
@@ -61,20 +61,20 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.Users
-            .Any(user => user.Id == executeAs && user.Roles.Any(role => role.Role.AppId == appId));
+            .Any(predicate:user => user.Id == executeAs && user.Roles.Any(role => role.Role.AppId == appId));
     }
 
     public bool FlowBelongsToApp(Guid flowId, int appId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        return coreDataContext.FlowDefinitions.Any(flow => flow.Id == flowId && flow.AppId == appId);
+        return coreDataContext.FlowDefinitions.Any(predicate:flow => flow.Id == flowId && flow.AppId == appId);
     }
 
     public async ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity)).Entity;
+        ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity:entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -82,7 +82,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
     public async ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        ScheduledTask result = coreDataContext.ScheduledTasks.Update(entity).Entity;
+        ScheduledTask result = coreDataContext.ScheduledTasks.Update(entity:entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -90,7 +90,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
     public async ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.ScheduledTasks.Remove(entity);
+        coreDataContext.ScheduledTasks.Remove(entity:entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -100,7 +100,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
             return;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.ScheduledTasks.RemoveRange(items);
+        coreDataContext.ScheduledTasks.RemoveRange(entities:items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
@@ -110,7 +110,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
 
         await coreDataContext.ScheduledTasks
             .IgnoreQueryFilters()
-            .Where(task => task.AppId == appId)
+            .Where(predicate:task => task.AppId == appId)
             .ExecuteDeleteAsync();
     }
 

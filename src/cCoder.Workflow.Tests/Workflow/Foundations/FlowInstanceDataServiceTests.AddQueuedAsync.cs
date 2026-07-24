@@ -19,7 +19,7 @@ public partial class FlowInstanceDataServiceTests
         FlowInstanceData submitted = null;
 
         flowInstanceDataBrokerMock
-            .Setup(x =>
+            .Setup(expression:x =>
                 x.AddFlowInstanceDataAsync(
                     It.Is<FlowInstanceData>(candidate =>
                         !ReferenceEquals(candidate, flowInstanceData)
@@ -36,17 +36,17 @@ public partial class FlowInstanceDataServiceTests
                     )
                 )
             )
-            .Callback<FlowInstanceData>(candidate => submitted = candidate)
-            .ReturnsAsync((FlowInstanceData value) => value);
+            .Callback<FlowInstanceData>(action:candidate => submitted = candidate)
+            .ReturnsAsync(valueFunction:(FlowInstanceData value) => value);
 
-        FlowInstanceData result = await flowInstanceDataService.AddQueuedAsync(flowInstanceData);
+        FlowInstanceData result = await flowInstanceDataService.AddQueuedAsync(flowInstanceData:flowInstanceData);
 
-        result.Should().BeSameAs(flowInstanceData);
+        result.Should().BeSameAs(expected:flowInstanceData);
         submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(flowInstanceData);
+        submitted.Should().NotBeSameAs(unexpected:flowInstanceData);
         flowInstanceDataBrokerMock.Verify(
-            x => x.AddFlowInstanceDataAsync(It.IsAny<FlowInstanceData>()),
-            Times.Once);
+expression:            x => x.AddFlowInstanceDataAsync(It.IsAny<FlowInstanceData>()),
+times:            Times.Once);
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

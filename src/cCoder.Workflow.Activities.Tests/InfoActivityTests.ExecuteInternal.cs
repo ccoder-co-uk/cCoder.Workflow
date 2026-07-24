@@ -19,10 +19,10 @@ public sealed partial class InfoActivityTests
         TestWorkflowContext context = new();
 
         // When
-        await activity.ExecuteInternal(context);
+        await activity.ExecuteInternal(context:context);
 
         // Then
-        context.ExecutionLog.Should().Contain(entry =>
+        context.ExecutionLog.Should().Contain(predicate:entry =>
             entry.Level == WorkflowLogLevel.Info.ToString()
             && entry.Message == "info:: hello");
     }

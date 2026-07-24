@@ -19,5 +19,5 @@ public sealed partial class ExecuteTests
         function = new Execute(flowRunnerMock.Object);
 
     private static TestHttpRequestData CreateRequest(WorkflowRequest request) =>
-        new(JsonConvert.SerializeObject(request));
+        new(JsonConvert.SerializeObject(value:request));
 }

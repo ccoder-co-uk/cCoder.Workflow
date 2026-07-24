@@ -16,17 +16,17 @@ public sealed partial class CalendarControllerTests
     {
         // Given
         SeededCalendarContext seededContext = await SeedDatabase();
-        Calendar createdCalendar = await CreateCalendarAsync(new
+        Calendar createdCalendar = await CreateCalendarAsync(payload:new
         {
             appId = seededContext.AppId,
             name = Unique("Calendar"),
             description = "Acceptance calendar",
         });
-        string updatedName = Unique("UpdatedCalendar");
+        string updatedName = Unique(prefix:"UpdatedCalendar");
         Calendar actualCalendar;
 
         // When
-        await UpdateCalendarAsync(createdCalendar.Id, new
+        await UpdateCalendarAsync(id:createdCalendar.Id, payload:new
         {
             id = createdCalendar.Id,
             appId = seededContext.AppId,
@@ -34,13 +34,13 @@ public sealed partial class CalendarControllerTests
             description = "Updated calendar",
         });
 
-        actualCalendar = await GetCalendarAsync(createdCalendar.Id);
+        actualCalendar = await GetCalendarAsync(id:createdCalendar.Id);
 
         // Then
         actualCalendar.Should().NotBeNull();
-        actualCalendar.Name.Should().Be(updatedName);
+        actualCalendar.Name.Should().Be(expected:updatedName);
 
-        await DeleteCalendarAsync(createdCalendar.Id);
-        await Teardown(seededContext);
+        await DeleteCalendarAsync(id:createdCalendar.Id);
+        await Teardown(seededContext:seededContext);
     }
 }

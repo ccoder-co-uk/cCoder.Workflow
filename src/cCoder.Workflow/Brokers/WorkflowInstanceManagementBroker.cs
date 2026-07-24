@@ -27,11 +27,11 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.State == "Failed")
-            .Include(instance => instance.FlowDefinition)
-                .ThenInclude(definition => definition.App)
-            .OrderByDescending(instance => instance.Start)
-            .Select(instance => new
+            .Where(predicate:instance => instance.State == "Failed")
+            .Include(navigationPropertyPath:instance => instance.FlowDefinition)
+                .ThenInclude(navigationPropertyPath:definition => definition.App)
+            .OrderByDescending(keySelector:instance => instance.Start)
+            .Select(selector:instance => new
             {
                 InstanceId = instance.Id,
                 FlowId = instance.FlowDefinition.Id,
@@ -51,10 +51,10 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.State == "Queued")
-            .Include(instance => instance.FlowDefinition)
-                .ThenInclude(definition => definition.App)
-            .OrderBy(instance => instance.Start)
+            .Where(predicate:instance => instance.State == "Queued")
+            .Include(navigationPropertyPath:instance => instance.FlowDefinition)
+                .ThenInclude(navigationPropertyPath:definition => definition.App)
+            .OrderBy(keySelector:instance => instance.Start)
             .ToArray();
     }
 
@@ -66,8 +66,8 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.Start < cutoff)
-            .ExecuteDeleteAsync(cancellationToken);
+            .Where(predicate:instance => instance.Start < cutoff)
+            .ExecuteDeleteAsync(cancellationToken:cancellationToken);
     }
 
     public async ValueTask<int> RequeueHungExecutingInstancesAsync(
@@ -78,13 +78,13 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.State == "Executing")
-            .Where(instance => instance.Start < cutoff)
+            .Where(predicate:instance => instance.State == "Executing")
+            .Where(predicate:instance => instance.Start < cutoff)
             .ExecuteUpdateAsync(
-                setters => setters
+setPropertyCalls:                setters => setters
                     .SetProperty(instance => instance.State, "Queued")
                     .SetProperty(instance => instance.End, (DateTimeOffset?)null),
-                cancellationToken);
+cancellationToken:                cancellationToken);
     }
 
     public async ValueTask<FlowInstanceData> ClaimQueuedInstanceAsync(
@@ -97,23 +97,23 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         int claimedCount = await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.Id == id)
-            .Where(instance => instance.State == "Queued")
+            .Where(predicate:instance => instance.Id == id)
+            .Where(predicate:instance => instance.State == "Queued")
             .ExecuteUpdateAsync(
-                setters => setters
+setPropertyCalls:                setters => setters
                     .SetProperty(instance => instance.State, "Executing")
                     .SetProperty(instance => instance.Start, claimedAt)
                     .SetProperty(instance => instance.End, (DateTimeOffset?)null),
-                cancellationToken);
+cancellationToken:                cancellationToken);
 
         if (claimedCount == 0)
             return null;
 
         FlowInstanceData instance = await core.FlowInstances
             .IgnoreQueryFilters()
-            .Include(item => item.FlowDefinition)
-                .ThenInclude(definition => definition.App)
-            .FirstOrDefaultAsync(item => item.Id == id, cancellationToken);
+            .Include(navigationPropertyPath:item => item.FlowDefinition)
+                .ThenInclude(navigationPropertyPath:definition => definition.App)
+            .FirstOrDefaultAsync(predicate:item => item.Id == id, cancellationToken:cancellationToken);
 
         if (instance == null)
             return null;
@@ -130,11 +130,11 @@ internal sealed class WorkflowInstanceManagementBroker(ICoreContextFactory coreC
 
         return await core.FlowInstances
             .IgnoreQueryFilters()
-            .Where(instance => instance.Id == id)
+            .Where(predicate:instance => instance.Id == id)
             .ExecuteUpdateAsync(
-                setters => setters
+setPropertyCalls:                setters => setters
                     .SetProperty(instance => instance.State, "Failed")
                     .SetProperty(instance => instance.End, failedAt),
-                cancellationToken);
+cancellationToken:                cancellationToken);
     }
 }

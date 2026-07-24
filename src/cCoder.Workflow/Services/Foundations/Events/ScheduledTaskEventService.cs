@@ -23,7 +23,7 @@ internal class ScheduledTaskEventService(
             Data = entity,
         };
 
-        await scheduledTaskEventBroker.RaiseScheduledTaskAddEventAsync(message);
+        await scheduledTaskEventBroker.RaiseScheduledTaskAddEventAsync(message:message);
     }
 
     public async ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask entity)
@@ -34,7 +34,7 @@ internal class ScheduledTaskEventService(
             Data = entity,
         };
 
-        await scheduledTaskEventBroker.RaiseScheduledTaskUpdateEventAsync(message);
+        await scheduledTaskEventBroker.RaiseScheduledTaskUpdateEventAsync(message:message);
     }
 
     public async ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask entity)
@@ -45,7 +45,7 @@ internal class ScheduledTaskEventService(
             Data = entity,
         };
 
-        await scheduledTaskEventBroker.RaiseScheduledTaskDeleteEventAsync(message);
+        await scheduledTaskEventBroker.RaiseScheduledTaskDeleteEventAsync(message:message);
     }
 
     public async ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask entity)
@@ -56,6 +56,6 @@ internal class ScheduledTaskEventService(
             Data = entity,
         };
 
-        await scheduledTaskEventBroker.RaiseScheduledTaskExecuteEventAsync(message);
+        await scheduledTaskEventBroker.RaiseScheduledTaskExecuteEventAsync(message:message);
     }
 }

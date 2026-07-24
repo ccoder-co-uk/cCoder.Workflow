@@ -22,14 +22,14 @@ public sealed class WorkflowLaunchSettingsTests
             "Properties",
             "launchSettings.json");
 
-        using JsonDocument document = JsonDocument.Parse(File.ReadAllText(launchSettingsPath));
+        using JsonDocument document = JsonDocument.Parse(json:File.ReadAllText(launchSettingsPath));
 
         JsonElement profile = document.RootElement
-            .GetProperty("profiles")
-            .GetProperty("Workflow");
+            .GetProperty(propertyName:"profiles")
+            .GetProperty(propertyName:"Workflow");
 
-        profile.GetProperty("commandName").GetString().Should().Be("Project");
-        profile.GetProperty("commandLineArgs").GetString().Should().Be("--port 7071");
+        profile.GetProperty(propertyName:"commandName").GetString().Should().Be(expected:"Project");
+        profile.GetProperty(propertyName:"commandLineArgs").GetString().Should().Be(expected:"--port 7071");
     }
 
     private static string FindRepositoryRoot()
@@ -38,7 +38,7 @@ public sealed class WorkflowLaunchSettingsTests
 
         while (directory is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "src", "cCoder.Workflow.sln")))
+            if (File.Exists(path:Path.Combine(directory.FullName, "src", "cCoder.Workflow.sln")))
                 return directory.FullName;
 
             directory = directory.Parent;

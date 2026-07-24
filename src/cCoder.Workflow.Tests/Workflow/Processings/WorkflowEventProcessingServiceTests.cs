@@ -32,8 +32,8 @@ public partial class WorkflowEventProcessingServiceTests
     private static WorkflowEvent CreateRandomWorkflowEvent() =>
         Builder<WorkflowEvent>
             .CreateNew()
-            .With(x => x.Id = Guid.NewGuid())
-            .With(x => x.FlowId = Guid.NewGuid())
-            .With(x => x.ExecuteAs = Guid.NewGuid().ToString())
+            .With(func:x => x.Id = Guid.NewGuid())
+            .With(func:x => x.FlowId = Guid.NewGuid())
+            .With(func:x => x.ExecuteAs = Guid.NewGuid().ToString())
             .Build();
 }

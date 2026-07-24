@@ -20,20 +20,20 @@ public partial class WorkflowEventOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         WorkflowEvent entity = CreateRandomWorkflowEvent();
-        workflowEventProcessingServiceMock.Setup(x => x.Get(id)).Returns(entity);
-        workflowEventProcessingServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+        workflowEventProcessingServiceMock.Setup(expression:x => x.Get(id)).Returns(value:entity);
+        workflowEventProcessingServiceMock.Setup(expression:x => x.DeleteAsync(id)).Returns(value:ValueTask.CompletedTask);
 
         workflowEventEventProcessingServiceMock
-            .Setup(x => x.RaiseWorkflowEventDeleteEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression:x => x.RaiseWorkflowEventDeleteEventAsync(entity))
+            .Returns(value:ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id);
+        await orchestrationService.DeleteAsync(id:id);
 
         // Then
-        workflowEventProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
-        workflowEventProcessingServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
-        workflowEventEventProcessingServiceMock.Verify(x => x.RaiseWorkflowEventDeleteEventAsync(entity), Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression:x => x.Get(id), times:Times.Once);
+        workflowEventProcessingServiceMock.Verify(expression:x => x.DeleteAsync(id), times:Times.Once);
+        workflowEventEventProcessingServiceMock.Verify(expression:x => x.RaiseWorkflowEventDeleteEventAsync(entity), times:Times.Once);
     }
 
 }

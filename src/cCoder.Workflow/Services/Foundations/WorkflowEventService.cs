@@ -17,11 +17,11 @@ internal class WorkflowEventService(
 {
     public WorkflowEvent Get(Guid id)
     {
-        WorkflowEvent workflowEvent = GetAll().FirstOrDefault(i => i.Id == id);
+        WorkflowEvent workflowEvent = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (workflowEvent is not null)
             return workflowEvent;
 
-        WorkflowEvent unrestrictedWorkflowEvent = GetAll(true).FirstOrDefault(i => i.Id == id);
+        WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedWorkflowEvent is not null)
             throw new SecurityException("Access Denied!");
 
@@ -29,26 +29,26 @@ internal class WorkflowEventService(
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false) =>
-        workflowEventBroker.GetAllWorkflowEvents(ignoreFilters);
+        workflowEventBroker.GetAllWorkflowEvents(ignoreFilters:ignoreFilters);
 
     public int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
-        workflowEventBroker.GetAppId(workflowEvent);
+        workflowEventBroker.GetAppId(entity:workflowEvent);
 
     public async ValueTask<WorkflowEvent> AddAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(workflowEvent),
-            $"{nameof(WorkflowEvent)}_create"
+appId:            workflowEventBroker.GetAppId(workflowEvent),
+privilege:            $"{nameof(WorkflowEvent)}_create"
         );
 
-        WorkflowEvent newWorkflowEvent = CreateStorageWorkflowEvent(workflowEvent);
+        WorkflowEvent newWorkflowEvent = CreateStorageWorkflowEvent(item:workflowEvent);
 
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
         newWorkflowEvent.CreatedOn = now;
         newWorkflowEvent.CreatedBy = currentUserId;
 
-        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent);
+        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(entity:newWorkflowEvent);
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
         workflowEvent.EventContext = result.EventContext;
@@ -62,14 +62,14 @@ internal class WorkflowEventService(
     public async ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(workflowEvent),
-            $"{nameof(WorkflowEvent)}_update"
+appId:            workflowEventBroker.GetAppId(workflowEvent),
+privilege:            $"{nameof(WorkflowEvent)}_update"
         );
 
-        WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(workflowEvent);
+        WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(item:workflowEvent);
 
         WorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
-            updateWorkflowEvent
+entity:            updateWorkflowEvent
         );
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
@@ -83,13 +83,13 @@ internal class WorkflowEventService(
 
     public async ValueTask DeleteAsync(Guid id)
     {
-        WorkflowEvent workflowEvent = Get(id);
+        WorkflowEvent workflowEvent = Get(id:id);
         authorizationBroker.Authorize(
-            workflowEventBroker.GetAppId(workflowEvent),
-            $"{nameof(WorkflowEvent)}_delete"
+appId:            workflowEventBroker.GetAppId(workflowEvent),
+privilege:            $"{nameof(WorkflowEvent)}_delete"
         );
         _ = await workflowEventBroker.DeleteWorkflowEventAsync(
-            CreateStorageWorkflowEvent(workflowEvent)
+entity:            CreateStorageWorkflowEvent(workflowEvent)
         );
     }
 

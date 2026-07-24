@@ -15,49 +15,49 @@ internal class CalendarOrchestrationService(ICalendarProcessingService processin
 {
     public Calendar Get(int id)
     {
-        return processingService.Get(id);
+        return processingService.Get(id:id);
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false)
     {
-        return processingService.GetAll(ignoreFilters);
+        return processingService.GetAll(ignoreFilters:ignoreFilters);
     }
 
     public async ValueTask<Calendar> AddAsync(Calendar entity)
     {
-        Calendar result = await processingService.AddAsync(entity);
-        await eventService.RaiseCalendarAddEventAsync(result);
+        Calendar result = await processingService.AddAsync(entity:entity);
+        await eventService.RaiseCalendarAddEventAsync(entity:result);
         return result;
     }
 
     public async ValueTask<Calendar> UpdateAsync(Calendar entity)
     {
-        Calendar result = await processingService.UpdateAsync(entity);
-        await eventService.RaiseCalendarUpdateEventAsync(result);
+        Calendar result = await processingService.UpdateAsync(entity:entity);
+        await eventService.RaiseCalendarUpdateEventAsync(entity:result);
         return result;
     }
 
     public async ValueTask DeleteAsync(int id)
     {
-        Calendar entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(item => item.Id == id);
+        Calendar entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (entity is null)
             return;
 
-        await eventService.RaiseCalendarDeleteEventAsync(entity);
-        await processingService.DeleteAsync(id);
+        await eventService.RaiseCalendarDeleteEventAsync(entity:entity);
+        await processingService.DeleteAsync(id:id);
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
-        processingService.DeleteByAppIdAsync(appId);
+        processingService.DeleteByAppIdAsync(appId:appId);
 
     public ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdate(IEnumerable<Calendar> items)
     {
-        return processingService.AddOrUpdate(items);
+        return processingService.AddOrUpdate(items:items);
     }
 
     public ValueTask DeleteAllAsync(IEnumerable<Calendar> items)
     {
-        return processingService.DeleteAllAsync(items);
+        return processingService.DeleteAllAsync(items:items);
     }
 }

@@ -29,29 +29,29 @@ public abstract class TemplatingActivity<T> : ApiActivity
     public override Task ExecuteInternal(IWorkflowContext context)
     {
         AppId = (int)context.Variables["AppId"];
-        return base.ExecuteInternal(context);
+        return base.ExecuteInternal(context:context);
     }
 
     protected async Task<App> GetApp(HttpClient api)
-        => await api.Get<App>($"ContentManagement/App({AppId})?$expand=MailServers");
+        => await api.Get<App>(query:$"ContentManagement/App({AppId})?$expand=MailServers");
 
     protected string BuildRenderQuery() =>
-        $"ContentManagement/Template/Render()?appId={AppId}&name={Uri.EscapeDataString(TemplateName ?? string.Empty)}&culture={Uri.EscapeDataString(Culture ?? string.Empty)}";
+        $"ContentManagement/Template/Render()?appId={AppId}&name={Uri.EscapeDataString(stringToEscape:TemplateName ?? string.Empty)}&culture={Uri.EscapeDataString(stringToEscape:Culture ?? string.Empty)}";
 
     protected async Task<string> Render(HttpClient api)
     {
         try
         {
             using HttpResponseMessage response = await api.PostAsync(
-                BuildRenderQuery(),
-                new StringContent(Data.ToJson(), Encoding.UTF8, "application/json"));
+requestUri:                BuildRenderQuery(),
+content:                new StringContent(Data.ToJson(), Encoding.UTF8, "application/json"));
 
             _ = response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception ex)
         {
-            Log(WorkflowLogLevel.Error, "Template could not be rendered.\n" + ex.Message);
+            Log(level:WorkflowLogLevel.Error, message:"Template could not be rendered.\n" + ex.Message);
         }
 
         return string.Empty;
@@ -61,13 +61,13 @@ public abstract class TemplatingActivity<T> : ApiActivity
     {
         try
         {
-            App app = await GetApp(api);
-            MailServer serverInfo = app.MailServers.FirstOrDefault(s => s.Name == serverName);
+            App app = await GetApp(api:api);
+            MailServer serverInfo = app.MailServers.FirstOrDefault(predicate:s => s.Name == serverName);
 
             if (serverInfo == null)
                 throw new InvalidOperationException("Mail Server configuration could not be found.");
 
-            string content = await Render(api);
+            string content = await Render(api:api);
 
             QueuedEmail result = new()
             {
@@ -79,15 +79,15 @@ public abstract class TemplatingActivity<T> : ApiActivity
                 AppId = AppId
             };
 
-            result.Content = result.Content.Replace("[email[subject]]", subject);
-            result.Content = result.Content.Replace("[email[from]]", serverInfo.User);
-            result.Content = result.Content.Replace("[email[to]]", emailAddress);
+            result.Content = result.Content.Replace(oldValue:"[email[subject]]", newValue:subject);
+            result.Content = result.Content.Replace(oldValue:"[email[from]]", newValue:serverInfo.User);
+            result.Content = result.Content.Replace(oldValue:"[email[to]]", newValue:emailAddress);
 
             return result;
         }
         catch (Exception ex)
         {
-            Log(WorkflowLogLevel.Warning, "Template could not be rendered.\n" + ex.Message + "\n - " + ex.StackTrace);
+            Log(level:WorkflowLogLevel.Warning, message:"Template could not be rendered.\n" + ex.Message + "\n - " + ex.StackTrace);
             return null;
         }
     }

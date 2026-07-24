@@ -26,33 +26,33 @@ public sealed class WorkflowScriptExecutionOrchestrationService(
         if (useDetails)
         {
             ExecutionDetails details = JsonConvert.DeserializeObject<ExecutionDetails>(
-                payload,
-                new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None })
+value:                payload,
+settings:                new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None })
                 ?? throw new InvalidOperationException("Workflow script execution details could not be deserialized.");
 
-            return await runner.Run<string>(details.Script, Imports, details.Model, LogSync);
+            return await runner.Run<string>(code:details.Script, imports:Imports, args:details.Model, log:LogSync);
         }
 
-        object result = await runner.Run<object>(payload, Imports, log: LogSync);
-        return JsonConvert.SerializeObject(result, WorkflowJson.GetODataJsonSettings());
+        object result = await runner.Run<object>(code:payload, imports:Imports, log: LogSync);
+        return JsonConvert.SerializeObject(value:result, settings:WorkflowJson.GetODataJsonSettings());
     }
 
     private Task LogAsync(WorkflowLogLevel level, string message)
     {
-        LogSync(level, message);
+        LogSync(level:level, message:message);
         return Task.CompletedTask;
     }
 
     private void LogSync(WorkflowLogLevel level, string message)
     {
         if (level == WorkflowLogLevel.Error || level == WorkflowLogLevel.Fatal)
-            logger.LogError("{Message}", message);
+            logger.LogError(message:"{Message}", args:message);
         else if (level == WorkflowLogLevel.Warning)
-            logger.LogWarning("{Message}", message);
+            logger.LogWarning(message:"{Message}", args:message);
         else if (level == WorkflowLogLevel.Info)
-            logger.LogInformation("{Message}", message);
+            logger.LogInformation(message:"{Message}", args:message);
         else
-            logger.LogDebug("{Message}", message);
+            logger.LogDebug(message:"{Message}", args:message);
     }
 
     public sealed class ExecutionDetails

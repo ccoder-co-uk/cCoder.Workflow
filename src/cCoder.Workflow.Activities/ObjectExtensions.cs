@@ -34,9 +34,9 @@ public static class ObjectExtensions
             MaxDepth = 4,
         };
 
-    public static string ToJson(this object value) => JsonConvert.SerializeObject(value, Formatting.None, GetJSONSettings());
+    public static string ToJson(this object value) => JsonConvert.SerializeObject(value:value, formatting:Formatting.None, settings:GetJSONSettings());
 
-    public static string ToJsonForOdata(this object value) => JsonConvert.SerializeObject(value, Formatting.None, GetODataJsonSettings());
+    public static string ToJsonForOdata(this object value) => JsonConvert.SerializeObject(value:value, formatting:Formatting.None, settings:GetODataJsonSettings());
 }
 
 public static class EnumerableExtensions
@@ -47,6 +47,6 @@ public static class EnumerableExtensions
             return;
 
         foreach (T item in source)
-            action(item);
+            action(obj:item);
     }
 }

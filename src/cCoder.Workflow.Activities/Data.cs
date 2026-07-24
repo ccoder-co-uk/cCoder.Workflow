@@ -27,23 +27,23 @@ public static class Data
     public static ExpandoObject[] Flatten(object source, string path = "")
     {
         if (source is JArray array)
-            return array.SelectMany(item => Flatten(item, path)).ToArray();
+            return array.SelectMany(selector:item => Flatten(item, path)).ToArray();
 
         List<ExpandoObject> results = [];
-        IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(source);
-        KeyValuePair<string, JToken>[] values = obj.Where(kv => Primitives.Contains(kv.Value.Type)).ToArray();
+        IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(o:source);
+        KeyValuePair<string, JToken>[] values = obj.Where(predicate:kv => Primitives.Contains(kv.Value.Type)).ToArray();
 
         results.AddRange(
-            obj.Where(kv => !Primitives.Contains(kv.Value.Type))
+collection:            obj.Where(kv => !Primitives.Contains(kv.Value.Type))
                .SelectMany(kv => Flatten(kv.Value, $"{path}_{kv.Key}".Trim('_'))));
 
         if (!results.Any())
         {
             IDictionary<string, object> current = new ExpandoObject();
             foreach (KeyValuePair<string, JToken> value in values)
-                current[$"{path}_{value.Key}".Trim('_')] = value.Value;
+                current[$"{path}_{value.Key}".Trim(trimChar:'_')] = value.Value;
 
-            results.Add((ExpandoObject)current);
+            results.Add(item:(ExpandoObject)current);
         }
         else
         {
@@ -51,7 +51,7 @@ public static class Data
             {
                 IDictionary<string, object> current = result;
                 foreach (KeyValuePair<string, JToken> value in values)
-                    current[$"{path}_{value.Key}".Trim('_')] = value.Value;
+                    current[$"{path}_{value.Key}".Trim(trimChar:'_')] = value.Value;
             }
         }
 
@@ -61,18 +61,18 @@ public static class Data
     public static T ParseXml<T>(string data)
     {
         StringBuilder builder = new();
-        JsonSerializer.Create().Serialize(new CleanJsonWriter(new StringWriter(builder)), ParseXml(data));
-        return JsonConvert.DeserializeObject<T>(builder.ToString());
+        JsonSerializer.Create().Serialize(jsonWriter:new CleanJsonWriter(new StringWriter(builder)), value:ParseXml(data));
+        return JsonConvert.DeserializeObject<T>(value:builder.ToString());
     }
 
-    public static XDocument ParseXml(string data) => XDocument.Parse(data);
+    public static XDocument ParseXml(string data) => XDocument.Parse(text:data);
 
-    public static T ParseJson<T>(string data) => JsonConvert.DeserializeObject<T>(data, ObjectExtensions.GetJSONSettings());
+    public static T ParseJson<T>(string data) => JsonConvert.DeserializeObject<T>(value:data, settings:ObjectExtensions.GetJSONSettings());
 
-    public static object ParseJson(string data) => JsonConvert.DeserializeObject(data, ObjectExtensions.GetJSONSettings());
+    public static object ParseJson(string data) => JsonConvert.DeserializeObject(value:data, settings:ObjectExtensions.GetJSONSettings());
 
     public static IEnumerable<T> ParseCSV<T>(string data, CSVParseConfig config)
-        where T : new() => CSVParser<T>.Parse(data, config);
+        where T : new() => CSVParser<T>.Parse(csvData:data, options:config);
 }
 
 internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer)
@@ -81,12 +81,12 @@ internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer
     {
         string result = name;
 
-        if (name.StartsWith('@') || name.StartsWith('#'))
+        if (name.StartsWith(value:'@') || name.StartsWith(value:'#'))
             result = name[1..];
 
-        if (result.Contains(':'))
-            result = result.Split(':').Last();
+        if (result.Contains(value:':'))
+            result = result.Split(separator:':').Last();
 
-        base.WritePropertyName(result);
+        base.WritePropertyName(name:result);
     }
 }

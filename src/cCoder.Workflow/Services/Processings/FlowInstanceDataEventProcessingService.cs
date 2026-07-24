@@ -13,9 +13,9 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal class FlowInstanceDataEventProcessingService(IFlowInstanceDataEventService eventService) : IFlowInstanceDataEventProcessingService
 {
-    public ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData entity) => eventService.RaiseFlowInstanceDataAddEventAsync(entity);
+    public ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData entity) => eventService.RaiseFlowInstanceDataAddEventAsync(entity:entity);
 
-    public ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData entity) => eventService.RaiseFlowInstanceDataUpdateEventAsync(entity);
+    public ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData entity) => eventService.RaiseFlowInstanceDataUpdateEventAsync(entity:entity);
 
-    public ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData entity) => eventService.RaiseFlowInstanceDataDeleteEventAsync(entity);
+    public ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData entity) => eventService.RaiseFlowInstanceDataDeleteEventAsync(entity:entity);
 }

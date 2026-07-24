@@ -22,7 +22,7 @@ public abstract class ApiActivity : Activity
     {
         BaseUrl ??= context.Variables["Api"] as string;
         AuthToken ??= context.Variables["AuthToken"] as string;
-        return base.ExecuteInternal(context);
+        return base.ExecuteInternal(context:context);
     }
 
     protected HttpClient GetHttpClient()
@@ -31,9 +31,9 @@ public abstract class ApiActivity : Activity
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             ServerCertificateCustomValidationCallback = CertChainValidator.ValidateCertChain
-        }).WithBaseUri(BaseUrl);
+        }).WithBaseUri(baseUriString:BaseUrl);
 
-        httpClient.Timeout = TimeSpan.FromSeconds(200.0);
+        httpClient.Timeout = TimeSpan.FromSeconds(value:200.0);
 
         if (AuthToken != null)
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthType, AuthToken);

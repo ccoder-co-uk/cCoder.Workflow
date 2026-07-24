@@ -18,10 +18,10 @@ public sealed partial class HealthTests
         TestHttpRequestData request = CreateRequest();
 
         // When
-        TestHttpResponseData response = (TestHttpResponseData)await function.Run(request);
+        TestHttpResponseData response = (TestHttpResponseData)await function.Run(request:request);
 
         // Then
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        ReadBody(response).Should().Be("OK");
+        response.StatusCode.Should().Be(expected:HttpStatusCode.OK);
+        ReadBody(response:response).Should().Be(expected:"OK");
     }
 }

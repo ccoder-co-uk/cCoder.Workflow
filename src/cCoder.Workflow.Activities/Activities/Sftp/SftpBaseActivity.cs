@@ -29,12 +29,12 @@ public abstract class SftpBaseActivity : Activity
         MemoryStream keyStream = null;
         PrivateKeyFile keyFile = null;
 
-        if(string.IsNullOrEmpty(PrivateKey))
-            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(Password)));
+        if(string.IsNullOrEmpty(value:PrivateKey))
+            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(s:Password)));
         else
         {
-            keyStream = new(Encoding.UTF8.GetBytes(PrivateKey));
-            keyFile = string.IsNullOrEmpty(PrivateKeyEncryptionKey)
+            keyStream = new(Encoding.UTF8.GetBytes(s:PrivateKey));
+            keyFile = string.IsNullOrEmpty(value:PrivateKeyEncryptionKey)
                 ? new(keyStream)
                 : new(keyStream, PrivateKeyEncryptionKey);
 
@@ -46,15 +46,15 @@ public abstract class SftpBaseActivity : Activity
         try
         {
             client.Connect();
-            Log(WorkflowLogLevel.Info, $"Connected to Server @ {Host} as User {Username}");
-            operation(client);
+            Log(level:WorkflowLogLevel.Info, message:$"Connected to Server @ {Host} as User {Username}");
+            operation(obj:client);
         }
         catch(Exception ex)
         {
-            Log(WorkflowLogLevel.Error, $"Error: {ex.Message}\n{ex.StackTrace}");
+            Log(level:WorkflowLogLevel.Error, message:$"Error: {ex.Message}\n{ex.StackTrace}");
 
             if (ex.InnerException is not null)
-                Log(WorkflowLogLevel.Error, $"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
+                Log(level:WorkflowLogLevel.Error, message:$"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
 
             State = ActivityState.Failed;
         }
@@ -66,7 +66,7 @@ public abstract class SftpBaseActivity : Activity
             client.Dispose();
             keyFile?.Dispose();
             keyStream?.Dispose();
-            Log(WorkflowLogLevel.Info, $"Disconnected from Server @ {Host}");
+            Log(level:WorkflowLogLevel.Info, message:$"Disconnected from Server @ {Host}");
         }
     }
 
@@ -76,12 +76,12 @@ public abstract class SftpBaseActivity : Activity
         MemoryStream keyStream = null;
         PrivateKeyFile keyFile = null;
 
-        if (string.IsNullOrEmpty(PrivateKey))
-            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(Password)));
+        if (string.IsNullOrEmpty(value:PrivateKey))
+            auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(s:Password)));
         else
         {
-            keyStream = new(Encoding.UTF8.GetBytes(PrivateKey));
-            keyFile = string.IsNullOrEmpty(PrivateKeyEncryptionKey)
+            keyStream = new(Encoding.UTF8.GetBytes(s:PrivateKey));
+            keyFile = string.IsNullOrEmpty(value:PrivateKeyEncryptionKey)
                 ? new(keyStream)
                 : new(keyStream, PrivateKeyEncryptionKey);
 
@@ -93,15 +93,15 @@ public abstract class SftpBaseActivity : Activity
         try
         {
             client.Connect();
-            Log(WorkflowLogLevel.Info, $"Connected to Server @ {Host} as User {Username}");
-            return operation(client);
+            Log(level:WorkflowLogLevel.Info, message:$"Connected to Server @ {Host} as User {Username}");
+            return operation(arg:client);
         }
         catch (Exception ex)
         {
-            Log(WorkflowLogLevel.Error, $"Error: {ex.Message}\n{ex.StackTrace}");
+            Log(level:WorkflowLogLevel.Error, message:$"Error: {ex.Message}\n{ex.StackTrace}");
 
             if (ex.InnerException is not null)
-                Log(WorkflowLogLevel.Error, $"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
+                Log(level:WorkflowLogLevel.Error, message:$"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
 
             State = ActivityState.Failed;
         }
@@ -113,7 +113,7 @@ public abstract class SftpBaseActivity : Activity
             client.Dispose();
             keyFile?.Dispose();
             keyStream?.Dispose();
-            Log(WorkflowLogLevel.Info, $"Disconnected from Server @ {Host}");
+            Log(level:WorkflowLogLevel.Info, message:$"Disconnected from Server @ {Host}");
         }
 
         return default;

@@ -40,10 +40,10 @@ internal sealed class TestAsyncQueryProvider<TEntity>(Expression expression) : I
     public IQueryable<TElement> CreateQuery<TElement>(Expression queryExpression) =>
         new TestAsyncEnumerable<TElement>(queryExpression);
 
-    public object Execute(Expression queryExpression) => CreateProvider().Execute(queryExpression)!;
+    public object Execute(Expression queryExpression) => CreateProvider().Execute(expression:queryExpression)!;
 
     public TResult Execute<TResult>(Expression queryExpression) =>
-        CreateProvider().Execute<TResult>(queryExpression);
+        CreateProvider().Execute<TResult>(expression:queryExpression);
 
     public TResult ExecuteAsync<TResult>(
         Expression queryExpression,
@@ -54,18 +54,18 @@ internal sealed class TestAsyncQueryProvider<TEntity>(Expression expression) : I
 
         object executionResult = typeof(IQueryProvider)
             .GetMethods()
-            .Single(method =>
+            .Single(predicate:method =>
                 method.Name == nameof(IQueryProvider.Execute) && method.IsGenericMethod
             )
-            .MakeGenericMethod(expectedResultType)
-            .Invoke(CreateProvider(), [queryExpression])!;
+            .MakeGenericMethod(typeArguments:expectedResultType)
+            .Invoke(obj:CreateProvider(), parameters:[queryExpression])!;
 
         return (TResult)
             typeof(Task)
                 .GetMethods()
-                .Single(method => method.Name == nameof(Task.FromResult))
-                .MakeGenericMethod(expectedResultType)
-                .Invoke(null, [executionResult])!;
+                .Single(predicate:method => method.Name == nameof(Task.FromResult))
+                .MakeGenericMethod(typeArguments:expectedResultType)
+                .Invoke(obj:null, parameters:[executionResult])!;
     }
 
     private IQueryProvider CreateProvider() =>

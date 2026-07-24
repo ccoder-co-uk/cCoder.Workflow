@@ -17,7 +17,7 @@ public static class DomainApiHosting
 
     public static void UseDomainDefaultCors(this WebApplication app)
     {
-        app.UseCors(builder =>
+        app.UseCors(configurePolicy:builder =>
         {
             builder.AllowAnyHeader();
             builder.AllowAnyMethod();
@@ -31,6 +31,6 @@ public static class DomainApiHosting
         RequestDelegate errorHandler
     )
     {
-        app.UseExceptionHandler(errorApp => errorApp.Run(errorHandler));
+        app.UseExceptionHandler(configure:errorApp => errorApp.Run(errorHandler));
     }
 }

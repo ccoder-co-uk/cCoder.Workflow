@@ -20,14 +20,14 @@ public partial class WorkflowEventOrchestrationServiceTests
     {
         // Given
         IQueryable<WorkflowEvent> entities = new[] { CreateRandomWorkflowEvent() }.AsQueryable();
-        workflowEventProcessingServiceMock.Setup(x => x.GetAll(true)).Returns(entities);
+        workflowEventProcessingServiceMock.Setup(expression:x => x.GetAll(true)).Returns(value:entities);
 
         // When
-        IQueryable<WorkflowEvent> result = orchestrationService.GetAll(true);
+        IQueryable<WorkflowEvent> result = orchestrationService.GetAll(ignoreFilters:true);
 
         // Then
-        result.Should().BeSameAs(entities);
-        workflowEventProcessingServiceMock.Verify(x => x.GetAll(true), Times.Once);
+        result.Should().BeSameAs(expected:entities);
+        workflowEventProcessingServiceMock.Verify(expression:x => x.GetAll(true), times:Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();
     }

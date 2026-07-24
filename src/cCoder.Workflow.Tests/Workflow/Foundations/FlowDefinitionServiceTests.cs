@@ -34,17 +34,17 @@ public partial class FlowDefinitionServiceTests
     {
         FlowDefinition flowDefinition = Builder<FlowDefinition>
             .CreateNew()
-            .With(x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
-            .With(x => x.AppId = appId)
-            .With(x => x.DefinitionJson = "{}")
-            .With(x => x.ConfigJson = "{}")
-            .With(x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
-            .With(x => x.InstanceReportingComponentName = $"instance-report-{Guid.NewGuid():N}")
-            .With(x => x.Name = $"FlowDefinition-{Guid.NewGuid():N}")
-            .With(x => x.CreatedBy = "tester")
-            .With(x => x.LastUpdatedBy = "tester")
-            .With(x => x.CreatedOn = DateTimeOffset.UtcNow.AddMinutes(-5))
-            .With(x => x.LastUpdated = DateTimeOffset.UtcNow)
+            .With(func:x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
+            .With(func:x => x.AppId = appId)
+            .With(func:x => x.DefinitionJson = "{}")
+            .With(func:x => x.ConfigJson = "{}")
+            .With(func:x => x.ReportingComponentName = $"report-{Guid.NewGuid():N}")
+            .With(func:x => x.InstanceReportingComponentName = $"instance-report-{Guid.NewGuid():N}")
+            .With(func:x => x.Name = $"FlowDefinition-{Guid.NewGuid():N}")
+            .With(func:x => x.CreatedBy = "tester")
+            .With(func:x => x.LastUpdatedBy = "tester")
+            .With(func:x => x.CreatedOn = DateTimeOffset.UtcNow.AddMinutes(-5))
+            .With(func:x => x.LastUpdated = DateTimeOffset.UtcNow)
             .Build();
 
         return flowDefinition;
