@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Data.Brokers;
 
-public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
+internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     : IWorkflowEventBroker
 {
 

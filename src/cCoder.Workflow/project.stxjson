@@ -5513,13 +5513,6 @@
   ],
   "AnalysisItems": [
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "LineNumber": 10
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
@@ -5546,34 +5539,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Api.OData.MetadataContainerSet",
       "LineNumber": 13
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Api.OData.ModelStateError",
-      "LineNumber": 176
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Api.OData.ODataModel",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Api.OData.ODataModel",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Api.OData.ODataModel",
-      "LineNumber": 14
     },
     {
       "Code": "STX0001",
@@ -5660,13 +5625,6 @@
       "LineNumber": 13
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 12
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
@@ -5688,13 +5646,6 @@
       "LineNumber": 95
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "LineNumber": 12
-    },
-    {
       "Code": "STXB002",
       "Description": "A broker must not contain branching logic.",
       "Severity": "Warning",
@@ -5709,13 +5660,6 @@
       "LineNumber": 50
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.JsonBroker",
-      "LineNumber": 10
-    },
-    {
       "Code": "STXB005",
       "Description": "A broker must not handle exceptions.",
       "Severity": "Warning",
@@ -5786,13 +5730,6 @@
       "LineNumber": 102
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 12
-    },
-    {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
@@ -5828,13 +5765,6 @@
       "LineNumber": 69
     },
     {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 12
-    },
-    {
       "Code": "STXB007",
       "Description": "Storage broker methods must use SQL nouns: Select, Insert, Update, or Delete.",
       "Severity": "Warning",
@@ -5868,13 +5798,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
       "LineNumber": 69
-    },
-    {
-      "Code": "STX0006",
-      "Description": "Business implementation classes should be internal by default.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 13
     },
     {
       "Code": "STXB007",
@@ -6332,53 +6255,11 @@
       "LineNumber": 45
     },
     {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 16
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXM002",
-      "Description": "Model properties must not declare default values.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 19
-    },
-    {
       "Code": "STXM001",
       "Description": "Models must not declare methods.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 21
+      "LineNumber": 39
     },
     {
       "Code": "STXA001",

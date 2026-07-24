@@ -31,6 +31,10 @@ internal sealed partial class EventHandlerService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
+        catch (System.Security.SecurityException)
+        {
+            throw;
+        }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);

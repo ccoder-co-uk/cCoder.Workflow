@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers;
 
-public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
+internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
     : IFlowDefinitionBroker
 {
 

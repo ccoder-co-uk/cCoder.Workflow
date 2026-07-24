@@ -31,6 +31,10 @@ internal sealed partial class FlowDefinitionOrchestrationService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
+        catch (System.Security.SecurityException)
+        {
+            throw;
+        }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);
@@ -61,6 +65,10 @@ internal sealed partial class FlowDefinitionOrchestrationService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
+        catch (System.Security.SecurityException)
+        {
+            throw;
+        }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);
@@ -90,6 +98,10 @@ internal sealed partial class FlowDefinitionOrchestrationService
         catch (InvalidOperationException innerException)
         {
             throw new WorkflowDependencyException(innerException: innerException);
+        }
+        catch (System.Security.SecurityException)
+        {
+            throw;
         }
         catch (Exception innerException)
         {

@@ -48,6 +48,10 @@ expression: x => x.RaiseFlowDefinitionAddEventAsync(message: It.IsAny<EventMessa
 times: Times.Once
         );
 
+        flowDefinitionEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         flowDefinitionEventBrokerMock.VerifyNoOtherCalls();
     }
 

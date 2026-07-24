@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers;
 
-public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
+internal sealed class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     : IFlowInstanceDataBroker
 {
 

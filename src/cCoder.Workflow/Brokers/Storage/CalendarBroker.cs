@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers.Storage;
 
-public class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarBroker
+internal sealed class CalendarBroker(ICoreContextFactory coreContextFactory) : ICalendarBroker
 {
 
     public IQueryable<Calendar> GetAllCalendars(bool ignoreFilters)

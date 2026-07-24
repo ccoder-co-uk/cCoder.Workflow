@@ -49,6 +49,10 @@ expression: x =>
 times: Times.Once
         );
 
+        flowInstanceDataEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         flowInstanceDataEventBrokerMock.VerifyNoOtherCalls();
     }
 

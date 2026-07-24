@@ -48,6 +48,10 @@ expression: x => x.RaiseWorkflowEventDeleteEventAsync(message: It.IsAny<EventMes
 times: Times.Once
         );
 
+        workflowEventEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         workflowEventEventBrokerMock.VerifyNoOtherCalls();
     }
 

@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace cCoder.Workflow.Brokers;
 
-public class JsonBroker : IJsonBroker
+internal sealed class JsonBroker : IJsonBroker
 {
     public object ParseJson(string json) =>
         JsonConvert.DeserializeObject(value: json, settings: CreateJsonSettings());

@@ -48,6 +48,10 @@ expression: x => x.RaiseFlowInstanceDataAddEventAsync(message: It.IsAny<EventMes
 times: Times.Once
         );
 
+        flowInstanceDataEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         flowInstanceDataEventBrokerMock.VerifyNoOtherCalls();
     }
 

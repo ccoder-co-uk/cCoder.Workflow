@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers.Storage;
 
-public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : IScheduledTaskBroker
+internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : IScheduledTaskBroker
 {
 
     public IQueryable<ScheduledTask> GetAllScheduledTasks(bool ignoreFilters)

@@ -33,6 +33,10 @@ internal sealed partial class CalendarEventEventService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
+        catch (System.Security.SecurityException)
+        {
+            throw;
+        }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);

@@ -46,6 +46,10 @@ expression: x => x.RaiseWorkflowEventAddEventAsync(message: It.IsAny<EventMessag
 times: Times.Once
         );
 
+        workflowEventEventBrokerMock.Verify(
+            expression: x => x.GetCurrentUserId(),
+            times: Times.Once);
+
         workflowEventEventBrokerMock.VerifyNoOtherCalls();
     }
 
