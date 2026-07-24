@@ -15,13 +15,13 @@ public partial class FlowDefinitionProcessingServiceTests
     {
         Guid flowId = Guid.NewGuid();
         flowDefinitionServiceMock
-            .Setup(expression: x => x.DeleteWithInstancesAsync(id: flowId))
+            .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
             .Returns(value: ValueTask.CompletedTask);
 
-        await flowDefinitionProcessingService.DeleteAsync(id: flowId);
+        await flowDefinitionProcessingService.DeleteAsync(flowDefinitionId: flowId);
 
         flowDefinitionServiceMock.Verify(
-expression: x => x.DeleteWithInstancesAsync(id: flowId),
+expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId),
 times: Times.Once
         );
         flowDefinitionServiceMock.VerifyNoOtherCalls();
@@ -32,14 +32,14 @@ times: Times.Once
     {
         Guid flowId = Guid.NewGuid();
         flowDefinitionServiceMock
-            .Setup(expression: x => x.DeleteWithInstancesAsync(id: flowId))
+            .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
             .Returns(value: ValueTask.FromException(exception: new InvalidOperationException("boom")));
 
         await Assert.ThrowsAsync<InvalidOperationException>(testCode: async () =>
-            await flowDefinitionProcessingService.DeleteAsync(id: flowId)
+            await flowDefinitionProcessingService.DeleteAsync(flowDefinitionId: flowId)
         );
 
-        flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(id: flowId), times: Times.Once);
+        flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
     }
 }

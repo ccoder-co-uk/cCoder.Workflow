@@ -18,10 +18,10 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
         return coreDataContext.User;
     }
 
-    public User GetUser(string id)
+    public User GetUser(string userId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        return LoadUserWithRoles(coreDataContext: coreDataContext, userId: id);
+        return LoadUserWithRoles(coreDataContext: coreDataContext, userId: userId);
     }
 
     public bool IsAdminOfApp(int? appId)

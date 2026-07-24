@@ -23,7 +23,7 @@ public partial class WorkflowEventServiceTests
             .Returns(value: new[] { workflowEvent }.AsQueryable());
 
         // When
-        WorkflowEvent result = workflowEventService.Get(id: workflowEvent.Id);
+        WorkflowEvent result = workflowEventService.Get(workflowEventId: workflowEvent.Id);
 
         // Then
         result.Should().BeEquivalentTo(expectation: workflowEvent);

@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface ICalendarEventOrchestrationService
 {
-    CalendarEvent Get(int id);
+    CalendarEvent Get(int calendarEventId);
 
     IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false);
 
@@ -20,7 +20,7 @@ public interface ICalendarEventOrchestrationService
 
     ValueTask<CalendarEvent> UpdateAsync(CalendarEvent entity);
 
-    ValueTask DeleteAsync(int id);
+    ValueTask DeleteAsync(int calendarEventId);
 
     ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdate(IEnumerable<CalendarEvent> items);
 

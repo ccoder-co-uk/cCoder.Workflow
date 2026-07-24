@@ -10,7 +10,7 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public interface IFlowDefinitionControllerService
 {
-    FlowDefinition Get(Guid id);
+    FlowDefinition Get(Guid flowDefinitionId);
 
     IQueryable<FlowDefinition> GetAll();
 
@@ -18,9 +18,9 @@ public interface IFlowDefinitionControllerService
 
     ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid flowDefinitionId);
 
-    ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args);
+    ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args);
 
     Task<string> ExecuteScriptAsync(string script);
 

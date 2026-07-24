@@ -44,14 +44,14 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid id)
+    public async ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid flowDefinitionId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         FlowDefinition flowDefinition = coreDataContext.FlowDefinitions
             .IgnoreQueryFilters()
             .Include(navigationPropertyPath: foundFlowDefinition => foundFlowDefinition.Instances)
-            .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == id);
+            .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == flowDefinitionId);
 
         if (flowDefinition is null)
         {

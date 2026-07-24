@@ -20,13 +20,13 @@ public partial class FlowInstanceDataProcessingServiceTests
         // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
         var id = entity.Id;
-        flowInstanceDataServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
+        flowInstanceDataServiceMock.Setup(expression: x => x.DeleteAsync(flowInstanceDataId: id)).Returns(value: ValueTask.CompletedTask);
 
         // When
         await flowInstanceDataProcessingService.DeleteAllAsync(items: new[] { entity });
 
         // Then
-        flowInstanceDataServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
+        flowInstanceDataServiceMock.Verify(expression: x => x.DeleteAsync(flowInstanceDataId: id), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();
     }
 

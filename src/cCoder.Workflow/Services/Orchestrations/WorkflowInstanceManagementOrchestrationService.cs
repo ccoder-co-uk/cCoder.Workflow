@@ -126,9 +126,9 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid id)
+    public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid flowInstanceDataId)
     {
-        await ExecuteInstanceAsync(instanceId: id);
+        await ExecuteInstanceAsync(instanceId: flowInstanceDataId);
     }
 
     private async ValueTask DropOldInstancesAsync(CancellationToken cancellationToken)
@@ -162,7 +162,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
         FlowInstanceData dbInstance = await workflowInstanceManagementBroker
-            .ClaimQueuedInstanceAsync(id: instanceId, cancellationToken: cancellationToken);
+            .ClaimQueuedInstanceAsync(flowInstanceDataId: instanceId, cancellationToken: cancellationToken);
 
         if (dbInstance == null)
         {
@@ -188,7 +188,7 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
                     errorDetails);
 
                 await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
-id: dbInstance.Id,
+flowInstanceDataId: dbInstance.Id,
 failedAt: DateTimeOffset.UtcNow,
 cancellationToken: cancellationToken);
             }
@@ -198,7 +198,7 @@ cancellationToken: cancellationToken);
             log.LogError(exception: exception, message: "Flow instance {InstanceId} execution failed.", args: dbInstance.Id);
 
             await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
-id: dbInstance.Id,
+flowInstanceDataId: dbInstance.Id,
 failedAt: DateTimeOffset.UtcNow,
 cancellationToken: cancellationToken);
         }

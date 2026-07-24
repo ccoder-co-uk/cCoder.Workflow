@@ -12,5 +12,5 @@ public interface IWorkflowInstanceManagementOrchestrationService
     Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default);
     Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default);
     object[] GetStats();
-    ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid id);
+    ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid flowInstanceDataId);
 }

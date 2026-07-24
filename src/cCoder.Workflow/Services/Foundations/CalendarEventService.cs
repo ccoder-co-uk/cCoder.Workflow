@@ -15,15 +15,15 @@ internal class CalendarEventService(
     IAuthorizationBroker authorizationBroker
 ) : ICalendarEventService
 {
-    public CalendarEvent Get(int id)
+    public CalendarEvent Get(int calendarEventId)
     {
-        CalendarEvent calendarEvent = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        CalendarEvent calendarEvent = GetAll().FirstOrDefault(predicate: i => i.Id == calendarEventId);
         if (calendarEvent is not null)
         {
             return calendarEvent;
         }
 
-        CalendarEvent unrestrictedCalendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        CalendarEvent unrestrictedCalendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == calendarEventId);
         if (unrestrictedCalendarEvent is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -73,9 +73,9 @@ entity: updateCalendarEvent
         return calendarEvent;
     }
 
-    public async ValueTask DeleteAsync(int id)
+    public async ValueTask DeleteAsync(int calendarEventId)
     {
-        CalendarEvent calendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        CalendarEvent calendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == calendarEventId);
 
         if (calendarEvent is null)
         {

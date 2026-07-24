@@ -35,7 +35,7 @@ public sealed partial class ScheduledTaskControllerTests
         ScheduledTask actualScheduledTask;
 
         // When
-        await UpdateScheduledTaskAsync(id: createdScheduledTask.Id, payload: new
+        await UpdateScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id, payload: new
         {
             id = createdScheduledTask.Id,
             appId = seededContext.AppId,
@@ -52,12 +52,12 @@ public sealed partial class ScheduledTaskControllerTests
             nextExecution = DateTimeOffset.UtcNow.AddHours(hours: 2),
         });
 
-        actualScheduledTask = await GetScheduledTaskAsync(id: createdScheduledTask.Id);
+        actualScheduledTask = await GetScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
 
         // Then
         actualScheduledTask.Name.Should().Be(expected: updatedName);
 
-        await DeleteScheduledTaskAsync(id: createdScheduledTask.Id);
+        await DeleteScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
         await Teardown(seededContext: seededContext);
     }
 }

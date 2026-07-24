@@ -34,8 +34,8 @@ public sealed partial class ScheduledTaskControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteScheduledTaskAsync(id: createdScheduledTask.Id);
-        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(id: createdScheduledTask.Id);
+        int actualStatusCode = await DeleteScheduledTaskAsync(scheduledTaskId: createdScheduledTask.Id);
+        actualReadStatusCode = await GetScheduledTaskStatusCodeAsync(scheduledTaskId: createdScheduledTask.Id);
 
         // Then
         actualStatusCode.Should().Be(expected: 200);

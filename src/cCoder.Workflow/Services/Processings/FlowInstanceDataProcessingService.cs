@@ -12,9 +12,9 @@ namespace cCoder.Workflow.Services.Processings;
 internal class FlowInstanceDataProcessingService(IFlowInstanceDataService service)
     : IFlowInstanceDataProcessingService
 {
-    public FlowInstanceData Get(Guid id)
+    public FlowInstanceData Get(Guid flowInstanceDataId)
     {
-        return service.Get(id: id);
+        return service.Get(flowInstanceDataId: flowInstanceDataId);
     }
 
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false)
@@ -34,7 +34,7 @@ internal class FlowInstanceDataProcessingService(IFlowInstanceDataService servic
 
     public async ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity)
     {
-        FlowInstanceData dbVersion = service.Get(id: entity.Id);
+        FlowInstanceData dbVersion = service.Get(flowInstanceDataId: entity.Id);
         if (dbVersion == null)
         {
             throw new SecurityException("Access Denied!");
@@ -50,9 +50,9 @@ internal class FlowInstanceDataProcessingService(IFlowInstanceDataService servic
         return await service.UpdateAsync(flowInstanceData: dbVersion);
     }
 
-    public ValueTask DeleteAsync(Guid id)
+    public ValueTask DeleteAsync(Guid flowInstanceDataId)
     {
-        return service.DeleteAsync(id: id);
+        return service.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
     }
 
     public async ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items)
@@ -93,7 +93,7 @@ internal class FlowInstanceDataProcessingService(IFlowInstanceDataService servic
     {
         foreach (FlowInstanceData item in items)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(flowInstanceDataId: item.Id);
         }
     }
 }

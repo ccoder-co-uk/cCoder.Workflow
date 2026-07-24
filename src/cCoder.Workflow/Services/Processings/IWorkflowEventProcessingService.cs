@@ -11,7 +11,7 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface IWorkflowEventProcessingService
 {
-    WorkflowEvent Get(Guid id);
+    WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
 
@@ -21,7 +21,7 @@ public interface IWorkflowEventProcessingService
 
     ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid workflowEventId);
 
     ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items);
 

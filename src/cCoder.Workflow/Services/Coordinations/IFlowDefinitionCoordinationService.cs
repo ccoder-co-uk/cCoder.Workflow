@@ -14,5 +14,5 @@ public interface IFlowDefinitionCoordinationService
 {
     ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition);
 
-    ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args);
+    ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args);
 }

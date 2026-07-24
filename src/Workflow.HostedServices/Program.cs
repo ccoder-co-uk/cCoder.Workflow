@@ -136,7 +136,7 @@ message: new EventMessage<App>
                     serviceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
                 await workflowInstanceManagementService.ExecuteWaitingQueuedInstanceByIdAsync(
-id: message.Data.Id);
+flowInstanceDataId: message.Data.Id);
             },
         };
 }

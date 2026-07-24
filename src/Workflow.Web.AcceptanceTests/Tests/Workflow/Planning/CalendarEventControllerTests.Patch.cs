@@ -28,18 +28,18 @@ public sealed partial class CalendarEventControllerTests
         CalendarEvent actualCalendarEvent;
 
         // When
-        await PatchCalendarEventAsync(id: createdCalendarEvent.Id, payload: new
+        await PatchCalendarEventAsync(calendarEventId: createdCalendarEvent.Id, payload: new
         {
             name = updatedName,
             description = "Patched calendar event",
         });
 
-        actualCalendarEvent = await GetCalendarEventAsync(id: createdCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
 
         // Then
         actualCalendarEvent.Name.Should().Be(expected: updatedName);
 
-        await DeleteCalendarEventAsync(id: createdCalendarEvent.Id);
+        await DeleteCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
         await Teardown(seededContext: seededContext);
     }
 }

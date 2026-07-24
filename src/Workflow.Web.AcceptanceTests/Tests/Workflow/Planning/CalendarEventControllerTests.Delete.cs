@@ -27,8 +27,8 @@ public sealed partial class CalendarEventControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteCalendarEventAsync(id: createdCalendarEvent.Id);
-        actualReadStatusCode = await GetCalendarEventStatusCodeAsync(id: createdCalendarEvent.Id);
+        int actualStatusCode = await DeleteCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
+        actualReadStatusCode = await GetCalendarEventStatusCodeAsync(calendarEventId: createdCalendarEvent.Id);
 
         // Then
         actualStatusCode.Should().Be(expected: 200);

@@ -21,14 +21,14 @@ public partial class WorkflowEventProcessingServiceTests
         // Given
         WorkflowEvent entity = CreateRandomWorkflowEvent();
         var id = entity.Id;
-        workflowEventServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
+        workflowEventServiceMock.Setup(expression: x => x.Get(workflowEventId: id)).Returns(value: entity);
 
         // When
-        WorkflowEvent result = workflowEventProcessingService.Get(id: id);
+        WorkflowEvent result = workflowEventProcessingService.Get(workflowEventId: id);
 
         // Then
         result.Should().BeSameAs(expected: entity);
-        workflowEventServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
+        workflowEventServiceMock.Verify(expression: x => x.Get(workflowEventId: id), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 

@@ -30,13 +30,13 @@ public sealed partial class WorkflowEventControllerTests
             executeAs = "Guest",
         });
 
-        actualWorkflowEvent = await GetWorkflowEventAsync(id: expectedWorkflowEvent.Id);
+        actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: expectedWorkflowEvent.Id);
 
         // Then
         actualWorkflowEvent.Should().NotBeNull();
         actualWorkflowEvent!.Id.Should().Be(expected: expectedWorkflowEvent.Id);
 
-        await DeleteWorkflowEventAsync(id: expectedWorkflowEvent.Id);
+        await DeleteWorkflowEventAsync(workflowEventId: expectedWorkflowEvent.Id);
         await Teardown(seededContext: seededContext);
     }
 }

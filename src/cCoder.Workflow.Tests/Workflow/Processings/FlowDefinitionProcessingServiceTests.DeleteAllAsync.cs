@@ -19,12 +19,12 @@ public partial class FlowDefinitionProcessingServiceTests
     {
         FlowDefinition entity = CreateRandomFlowDefinition();
         flowDefinitionServiceMock
-            .Setup(expression: x => x.DeleteWithInstancesAsync(id: entity.Id))
+            .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id))
             .Returns(value: ValueTask.CompletedTask);
 
         await flowDefinitionProcessingService.DeleteAllAsync(items: new[] { entity });
 
-        flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(id: entity.Id), times: Times.Once);
+        flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
         loggerMock.VerifyNoOtherCalls();
     }

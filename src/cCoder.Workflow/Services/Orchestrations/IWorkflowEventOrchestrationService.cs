@@ -11,7 +11,7 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IWorkflowEventOrchestrationService
 {
-    WorkflowEvent Get(Guid id);
+    WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
 
@@ -19,7 +19,7 @@ public interface IWorkflowEventOrchestrationService
 
     ValueTask<WorkflowEvent> UpdateAsync(WorkflowEvent entity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid workflowEventId);
 
     ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items);
 

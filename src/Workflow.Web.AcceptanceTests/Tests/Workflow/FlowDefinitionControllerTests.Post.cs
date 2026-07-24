@@ -38,13 +38,13 @@ public sealed partial class FlowDefinitionControllerTests
             configJson = "{}",
         });
 
-        actualFlowDefinition = await GetFlowDefinitionAsync(id: expectedFlowDefinition.Id);
+        actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: expectedFlowDefinition.Id);
 
         // Then
         actualFlowDefinition.Should().NotBeNull();
         actualFlowDefinition!.Name.Should().Be(expected: name);
 
-        await DeleteFlowDefinitionAsync(id: expectedFlowDefinition.Id);
+        await DeleteFlowDefinitionAsync(flowDefinitionId: expectedFlowDefinition.Id);
         await Teardown(seededContext: seededContext);
     }
 }

@@ -28,13 +28,13 @@ public sealed partial class CalendarControllerTests
             description = "Acceptance calendar",
         });
 
-        actualCalendar = await GetCalendarAsync(id: expectedCalendar.Id);
+        actualCalendar = await GetCalendarAsync(calendarId: expectedCalendar.Id);
 
         // Then
         actualCalendar.Should().NotBeNull();
         actualCalendar.Name.Should().Be(expected: name);
 
-        await DeleteCalendarAsync(id: expectedCalendar.Id);
+        await DeleteCalendarAsync(calendarId: expectedCalendar.Id);
         await Teardown(seededContext: seededContext);
     }
 }

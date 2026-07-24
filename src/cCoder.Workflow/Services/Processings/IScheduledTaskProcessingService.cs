@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface IScheduledTaskProcessingService
 {
-    ScheduledTask Get(int id);
+    ScheduledTask Get(int scheduledTaskId);
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
@@ -20,7 +20,7 @@ public interface IScheduledTaskProcessingService
 
     ValueTask<ScheduledTask> UpdateAsync(ScheduledTask entity);
 
-    ValueTask DeleteAsync(int id);
+    ValueTask DeleteAsync(int scheduledTaskId);
 
     ValueTask DeleteByAppIdAsync(int appId);
 
@@ -28,5 +28,5 @@ public interface IScheduledTaskProcessingService
 
     ValueTask DeleteAllAsync(IEnumerable<ScheduledTask> items);
 
-    ValueTask ExecuteAsync(int id, bool incrementNextExecution = true);
+    ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true);
 }

@@ -20,7 +20,7 @@ public partial class FlowInstanceDataServiceTests
         // Given
         authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(value: new User { Id = "test-user" });
         Guid flowInstanceDataId = Guid.NewGuid();
-        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(id: flowInstanceDataId);
+        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
         flowInstanceDataBrokerMock
             .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
@@ -41,7 +41,7 @@ entity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id
             .ReturnsAsync(value: 1);
 
         // When
-        await flowInstanceDataService.DeleteAsync(id: flowInstanceDataId);
+        await flowInstanceDataService.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
 
         // Then
         flowInstanceDataBrokerMock.Verify(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false), times: Times.Once);
@@ -69,7 +69,7 @@ times: Times.Once
     {
         // Given
         Guid flowInstanceDataId = Guid.NewGuid();
-        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(id: flowInstanceDataId);
+        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData(flowInstanceDataId: flowInstanceDataId);
 
         flowInstanceDataBrokerMock
             .Setup(expression: x => x.GetAllFlowInstanceData(ignoreFilters: false))
@@ -82,7 +82,7 @@ times: Times.Once
 
         // When
         Func<Task> action = async () =>
-            await flowInstanceDataService.DeleteAsync(id: flowInstanceDataId);
+            await flowInstanceDataService.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");

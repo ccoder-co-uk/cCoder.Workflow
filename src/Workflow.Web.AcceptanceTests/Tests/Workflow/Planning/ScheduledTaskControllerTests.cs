@@ -72,17 +72,17 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
             ?? throw new InvalidOperationException("Expected scheduled task payload.");
     }
 
-    private async Task<int> UpdateScheduledTaskAsync(int id, object payload)
+    private async Task<int> UpdateScheduledTaskAsync(int scheduledTaskId, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({scheduledTaskId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchScheduledTaskAsync(int id, object payload)
+    private async Task<int> PatchScheduledTaskAsync(int scheduledTaskId, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
+        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({scheduledTaskId})")
         {
             Content = JsonContent.Create(inputValue: payload),
         };
@@ -92,17 +92,17 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
         return (int)response.StatusCode;
     }
 
-    private async Task<int> DeleteScheduledTaskAsync(int id)
+    private async Task<int> DeleteScheduledTaskAsync(int scheduledTaskId)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<ScheduledTask> GetScheduledTaskAsync(int id)
+    private async Task<ScheduledTask> GetScheduledTaskAsync(int scheduledTaskId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ScheduledTask>(json: content, options: JsonOptions)
@@ -150,9 +150,9 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
             ?? throw new InvalidOperationException("Expected scheduled task OData payload.");
     }
 
-    private async Task<int> ExecuteScheduledTaskAsync(int id, bool incrementNextExecution)
+    private async Task<int> ExecuteScheduledTaskAsync(int scheduledTaskId, bool incrementNextExecution)
     {
-        using HttpResponseMessage response = await Client.PostAsync(requestUri: $"{BaseUrl}({id})/Execute?incrementNextExecution={incrementNextExecution.ToString().ToLowerInvariant()}", content: null);
+        using HttpResponseMessage response = await Client.PostAsync(requestUri: $"{BaseUrl}({scheduledTaskId})/Execute?incrementNextExecution={incrementNextExecution.ToString().ToLowerInvariant()}", content: null);
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
@@ -166,9 +166,9 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
             .CreateCoreContext();
         return await Task.FromResult(result: core.Set<FlowInstanceData>().IgnoreQueryFilters().Any(predicate: instance => instance.FlowDefinitionId == flowId));
     }
-    private async Task<int> GetScheduledTaskStatusCodeAsync(int id)
+    private async Task<int> GetScheduledTaskStatusCodeAsync(int scheduledTaskId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");
         return (int)response.StatusCode;
     }
 }

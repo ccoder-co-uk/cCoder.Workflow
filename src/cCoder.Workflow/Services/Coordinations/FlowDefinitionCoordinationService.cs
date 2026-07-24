@@ -28,12 +28,12 @@ internal class FlowDefinitionCoordinationService(
         await flowInstanceDataOrchestrationService.DeleteAllAsync(items: instancesToDelete);
     }
 
-    public async ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
+    public async ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args)
     {
         FlowDefinition flowDefinition =
             flowDefinitionOrchestrationService
                 .GetAll(ignoreFilters: true)
-                .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == id);
+                .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == flowDefinitionId);
 
         authorizationBroker.Authorize(
 userId: asUserId,

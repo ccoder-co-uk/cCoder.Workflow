@@ -21,17 +21,17 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
             : coreDataContext.ScheduledTasks;
     }
 
-    public ScheduledTask GetScheduledTaskForExecution(int id)
+    public ScheduledTask GetScheduledTaskForExecution(int scheduledTaskId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.ScheduledTasks
             .Include(navigationPropertyPath: task => task.ExecuteAsUser)
             .Include(navigationPropertyPath: task => task.Flow)
-            .FirstOrDefault(predicate: task => task.Id == id);
+            .FirstOrDefault(predicate: task => task.Id == scheduledTaskId);
     }
 
-    public async ValueTask<ScheduledTask> MarkScheduledTaskExecutedAsync(int id, bool incrementNextExecution)
+    public async ValueTask<ScheduledTask> MarkScheduledTaskExecutedAsync(int scheduledTaskId, bool incrementNextExecution)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
@@ -39,7 +39,7 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
             .IgnoreQueryFilters()
             .Include(navigationPropertyPath: foundTask => foundTask.ExecuteAsUser)
             .Include(navigationPropertyPath: foundTask => foundTask.Flow)
-            .FirstOrDefault(predicate: foundTask => foundTask.Id == id);
+            .FirstOrDefault(predicate: foundTask => foundTask.Id == scheduledTaskId);
 
         if (task is null)
         {

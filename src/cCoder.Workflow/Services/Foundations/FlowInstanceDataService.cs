@@ -14,15 +14,15 @@ internal class FlowInstanceDataService(
     IAuthorizationBroker authorizationBroker
 ) : IFlowInstanceDataService
 {
-    public FlowInstanceData Get(Guid id)
+    public FlowInstanceData Get(Guid flowInstanceDataId)
     {
-        FlowInstanceData flowInstanceData = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        FlowInstanceData flowInstanceData = GetAll().FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
         if (flowInstanceData is not null)
         {
             return flowInstanceData;
         }
 
-        FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == flowInstanceDataId);
         if (unrestrictedFlowInstanceData is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -99,9 +99,9 @@ entity: updateFlowInstanceData
         return flowInstanceData;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public async ValueTask DeleteAsync(Guid flowInstanceDataId)
     {
-        FlowInstanceData flowInstanceData = Get(id: id);
+        FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
         authorizationBroker.Authorize(
 appId: flowInstanceDataBroker.GetAppId(entity: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_delete"

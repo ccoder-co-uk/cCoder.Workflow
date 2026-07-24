@@ -13,9 +13,9 @@ internal class FlowDefinitionOrchestrationService(
     IFlowDefinitionEventProcessingService eventService)
         : IFlowDefinitionOrchestrationService
 {
-    public FlowDefinition Get(Guid id)
+    public FlowDefinition Get(Guid flowDefinitionId)
     {
-        return processingService.Get(id: id);
+        return processingService.Get(flowDefinitionId: flowDefinitionId);
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false)
@@ -37,9 +37,9 @@ internal class FlowDefinitionOrchestrationService(
         return result;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public async ValueTask DeleteAsync(Guid flowDefinitionId)
     {
-        FlowDefinition entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        FlowDefinition entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (entity is null)
         {
@@ -47,7 +47,7 @@ internal class FlowDefinitionOrchestrationService(
         }
 
         await eventService.RaiseFlowDefinitionDeleteEventAsync(entity: entity);
-        await processingService.DeleteAsync(id: id);
+        await processingService.DeleteAsync(flowDefinitionId: flowDefinitionId);
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>

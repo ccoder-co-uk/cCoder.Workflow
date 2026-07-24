@@ -43,7 +43,7 @@ public sealed partial class WorkflowEventControllerTests
         SeededWorkflowEventContext seededContext = await SeedDatabase(includeEvent: true);
 
         // When
-        WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(id: seededContext.EventId);
+        WorkflowEvent actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: seededContext.EventId);
 
         // Then
         actualWorkflowEvent.Should().NotBeNull();
@@ -61,7 +61,7 @@ public sealed partial class WorkflowEventControllerTests
             "workflowevent_update",
             "workflowevent_delete");
 
-        int actualStatusCode = await GetWorkflowEventStatusCodeAsync(id: seededContext.EventId);
+        int actualStatusCode = await GetWorkflowEventStatusCodeAsync(workflowEventId: seededContext.EventId);
 
         actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
 

@@ -11,7 +11,7 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface IFlowInstanceDataProcessingService
 {
-    FlowInstanceData Get(Guid id);
+    FlowInstanceData Get(Guid flowInstanceDataId);
 
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
 
@@ -21,7 +21,7 @@ public interface IFlowInstanceDataProcessingService
 
     ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid flowInstanceDataId);
 
     ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items);
 

@@ -28,7 +28,7 @@ public sealed partial class CalendarEventControllerTests
         CalendarEvent actualCalendarEvent;
 
         // When
-        await UpdateCalendarEventAsync(id: createdCalendarEvent.Id, payload: new
+        await UpdateCalendarEventAsync(calendarEventId: createdCalendarEvent.Id, payload: new
         {
             id = createdCalendarEvent.Id,
             calendarId = seededContext.CalendarId,
@@ -38,12 +38,12 @@ public sealed partial class CalendarEventControllerTests
             durationInTicks = TimeSpan.FromHours(hours: 2).Ticks,
         });
 
-        actualCalendarEvent = await GetCalendarEventAsync(id: createdCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
 
         // Then
         actualCalendarEvent.Name.Should().Be(expected: updatedName);
 
-        await DeleteCalendarEventAsync(id: createdCalendarEvent.Id);
+        await DeleteCalendarEventAsync(calendarEventId: createdCalendarEvent.Id);
         await Teardown(seededContext: seededContext);
     }
 }

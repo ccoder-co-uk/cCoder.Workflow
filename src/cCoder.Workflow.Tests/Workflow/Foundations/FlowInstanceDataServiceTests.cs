@@ -30,13 +30,13 @@ public partial class FlowInstanceDataServiceTests
     }
 
     private static FlowInstanceData CreateRandomFlowInstanceData(
-        Guid id = default,
+        Guid flowInstanceDataId = default,
         Guid flowDefinitionId = default
     )
     {
         FlowInstanceData flowInstanceData = Builder<FlowInstanceData>
             .CreateNew()
-            .With(func: x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
+            .With(func: x => x.Id = flowInstanceDataId == Guid.Empty ? Guid.NewGuid() : flowInstanceDataId)
             .With(func: x => x.FlowDefinitionId = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
             .With(func: x => x.Name = $"FlowInstance-{Guid.NewGuid():N}")
             .With(func: x => x.State = "Queued")

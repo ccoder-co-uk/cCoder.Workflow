@@ -15,9 +15,9 @@ internal class WorkflowEventProcessingService(
     IAuthorizationBroker authorizationBroker)
         : IWorkflowEventProcessingService
 {
-    public WorkflowEvent Get(Guid id)
+    public WorkflowEvent Get(Guid workflowEventId)
     {
-        return service.Get(id: id);
+        return service.Get(workflowEventId: workflowEventId);
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false)
@@ -51,9 +51,9 @@ internal class WorkflowEventProcessingService(
         return service.UpdateAsync(workflowEvent: entity);
     }
 
-    public ValueTask DeleteAsync(Guid id)
+    public ValueTask DeleteAsync(Guid workflowEventId)
     {
-        return service.DeleteAsync(id: id);
+        return service.DeleteAsync(workflowEventId: workflowEventId);
     }
 
     public async ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items)
@@ -94,7 +94,7 @@ internal class WorkflowEventProcessingService(
     {
         foreach (WorkflowEvent item in items)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(workflowEventId: item.Id);
         }
     }
 

@@ -23,8 +23,8 @@ public sealed class FlowDefinitionControllerService(
     Config config)
     : IFlowDefinitionControllerService
 {
-    public FlowDefinition Get(Guid id) =>
-        flowDefinitionOrchestrationService.Get(id: id);
+    public FlowDefinition Get(Guid flowDefinitionId) =>
+        flowDefinitionOrchestrationService.Get(flowDefinitionId: flowDefinitionId);
 
     public IQueryable<FlowDefinition> GetAll() =>
         flowDefinitionOrchestrationService.GetAll();
@@ -35,13 +35,13 @@ public sealed class FlowDefinitionControllerService(
     public ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity) =>
         flowDefinitionOrchestrationService.UpdateAsync(entity: entity);
 
-    public ValueTask DeleteAsync(Guid id) =>
-        flowDefinitionOrchestrationService.DeleteAsync(id: id);
+    public ValueTask DeleteAsync(Guid flowDefinitionId) =>
+        flowDefinitionOrchestrationService.DeleteAsync(flowDefinitionId: flowDefinitionId);
 
-    public ValueTask<Guid> QueueAsync(Guid id, string asUserId, string args)
+    public ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args)
     {
         string callerId = ResolveCallerId(asUserId: asUserId);
-        return flowDefinitionCoordinationService.QueueAsync(id: id, asUserId: callerId, args: args);
+        return flowDefinitionCoordinationService.QueueAsync(flowDefinitionId: flowDefinitionId, asUserId: callerId, args: args);
     }
 
     public async Task<string> ExecuteScriptAsync(string script)

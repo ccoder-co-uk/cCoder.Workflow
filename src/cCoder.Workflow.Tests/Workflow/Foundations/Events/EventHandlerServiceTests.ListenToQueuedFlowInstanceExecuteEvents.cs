@@ -42,11 +42,11 @@ action: (_, handler) => updateHandler = handler);
         FlowInstanceData executingInstance = new() { Id = Guid.NewGuid(), State = "Executing" };
 
         orchestrationServiceMock
-            .Setup(expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(id: queuedAddInstance.Id))
+            .Setup(expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: queuedAddInstance.Id))
             .Returns(value: ValueTask.CompletedTask);
 
         orchestrationServiceMock
-            .Setup(expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(id: queuedUpdateInstance.Id))
+            .Setup(expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: queuedUpdateInstance.Id))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -57,11 +57,11 @@ action: (_, handler) => updateHandler = handler);
 
         // Then
         orchestrationServiceMock.Verify(
-expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(id: queuedAddInstance.Id),
+expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: queuedAddInstance.Id),
 times: Times.Once);
 
         orchestrationServiceMock.Verify(
-expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(id: queuedUpdateInstance.Id),
+expression: orchestration => orchestration.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: queuedUpdateInstance.Id),
 times: Times.Once);
 
         orchestrationServiceMock.VerifyNoOtherCalls();

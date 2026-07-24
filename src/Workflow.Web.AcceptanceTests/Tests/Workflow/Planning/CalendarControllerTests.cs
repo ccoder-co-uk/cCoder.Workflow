@@ -71,17 +71,17 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
         return JsonSerializer.Deserialize<Calendar>(json: content, options: JsonOptions)!;
     }
 
-    private async Task<int> UpdateCalendarAsync(int id, object payload)
+    private async Task<int> UpdateCalendarAsync(int calendarId, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({calendarId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchCalendarAsync(int id, object payload)
+    private async Task<int> PatchCalendarAsync(int calendarId, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
+        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({calendarId})")
         {
             Content = JsonContent.Create(inputValue: payload),
         };
@@ -91,17 +91,17 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
         return (int)response.StatusCode;
     }
 
-    private async Task<int> DeleteCalendarAsync(int id)
+    private async Task<int> DeleteCalendarAsync(int calendarId)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({calendarId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<Calendar> GetCalendarAsync(int id)
+    private async Task<Calendar> GetCalendarAsync(int calendarId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({calendarId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
 
@@ -148,9 +148,9 @@ public sealed partial class CalendarControllerTests(WebAcceptanceFixture fixture
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<Calendar>>(json: content, options: JsonOptions)!.Value;
     }
-    private async Task<int> GetCalendarStatusCodeAsync(int id)
+    private async Task<int> GetCalendarStatusCodeAsync(int calendarId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({calendarId})");
         return (int)response.StatusCode;
     }
 }

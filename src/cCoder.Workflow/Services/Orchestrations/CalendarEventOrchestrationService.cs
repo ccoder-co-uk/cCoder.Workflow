@@ -13,9 +13,9 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal class CalendarEventOrchestrationService(ICalendarEventProcessingService processingService, ICalendarEventEventProcessingService eventService) : ICalendarEventOrchestrationService
 {
-    public CalendarEvent Get(int id)
+    public CalendarEvent Get(int calendarEventId)
     {
-        return processingService.Get(id: id);
+        return processingService.Get(calendarEventId: calendarEventId);
     }
 
     public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false)
@@ -37,9 +37,9 @@ internal class CalendarEventOrchestrationService(ICalendarEventProcessingService
         return result;
     }
 
-    public async ValueTask DeleteAsync(int id)
+    public async ValueTask DeleteAsync(int calendarEventId)
     {
-        CalendarEvent entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        CalendarEvent entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == calendarEventId);
 
         if (entity is null)
         {
@@ -47,7 +47,7 @@ internal class CalendarEventOrchestrationService(ICalendarEventProcessingService
         }
 
         await eventService.RaiseCalendarEventDeleteEventAsync(entity: entity);
-        await processingService.DeleteAsync(id: id);
+        await processingService.DeleteAsync(calendarEventId: calendarEventId);
     }
 
     public ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdate(IEnumerable<CalendarEvent> items)

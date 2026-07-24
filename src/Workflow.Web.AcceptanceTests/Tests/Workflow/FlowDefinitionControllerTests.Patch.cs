@@ -20,13 +20,13 @@ public sealed partial class FlowDefinitionControllerTests
         FlowDefinition actualFlowDefinition;
 
         // When
-        await PatchFlowDefinitionAsync(id: seededContext.FlowId, payload: new
+        await PatchFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId, payload: new
         {
             name = updatedName,
             description = "Patched flow",
         });
 
-        actualFlowDefinition = await GetFlowDefinitionAsync(id: seededContext.FlowId);
+        actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
         actualFlowDefinition.Should().NotBeNull();

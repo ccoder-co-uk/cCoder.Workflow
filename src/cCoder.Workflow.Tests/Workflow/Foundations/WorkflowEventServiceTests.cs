@@ -30,11 +30,11 @@ public partial class WorkflowEventServiceTests
         );
     }
 
-    private static WorkflowEvent CreateRandomWorkflowEvent(Guid id = default, Guid flowId = default)
+    private static WorkflowEvent CreateRandomWorkflowEvent(Guid workflowEventId = default, Guid flowId = default)
     {
         WorkflowEvent workflowEvent = Builder<WorkflowEvent>
             .CreateNew()
-            .With(func: x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
+            .With(func: x => x.Id = workflowEventId == Guid.Empty ? Guid.NewGuid() : workflowEventId)
             .With(func: x => x.FlowId = flowId == Guid.Empty ? Guid.NewGuid() : flowId)
             .With(func: x => x.Type = $"Type-{Guid.NewGuid():N}")
             .With(func: x => x.EventContext = $"Context-{Guid.NewGuid():N}")

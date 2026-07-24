@@ -23,7 +23,7 @@ public sealed partial class FlowDefinitionControllerTests
         FlowDefinition actualFlowDefinition;
 
         // When
-        await UpdateFlowDefinitionAsync(id: seededContext.FlowId, payload: new
+        await UpdateFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId, payload: new
         {
             id = seededContext.FlowId,
             appId = seededContext.AppId,
@@ -38,7 +38,7 @@ public sealed partial class FlowDefinitionControllerTests
             configJson = "{}",
         });
 
-        actualFlowDefinition = await GetFlowDefinitionAsync(id: seededContext.FlowId);
+        actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
         actualFlowDefinition.Should().NotBeNull();

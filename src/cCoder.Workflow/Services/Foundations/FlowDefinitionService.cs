@@ -14,15 +14,15 @@ internal class FlowDefinitionService(
     IAuthorizationBroker authorizationBroker
 ) : IFlowDefinitionService
 {
-    public FlowDefinition Get(Guid id)
+    public FlowDefinition Get(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        FlowDefinition flowDefinition = GetAll().FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
         if (flowDefinition is not null)
         {
             return flowDefinition;
         }
 
-        FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == flowDefinitionId);
         if (unrestrictedFlowDefinition is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -88,9 +88,9 @@ entity: updateFlowDefinition
         return flowDefinition;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public async ValueTask DeleteAsync(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (flowDefinition is null)
         {
@@ -101,9 +101,9 @@ entity: updateFlowDefinition
         _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(entity: CreateStorageFlowDefinition(item: flowDefinition));
     }
 
-    public async ValueTask DeleteWithInstancesAsync(Guid id)
+    public async ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId)
     {
-        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == flowDefinitionId);
 
         if (flowDefinition is null)
         {
@@ -111,7 +111,7 @@ entity: updateFlowDefinition
         }
 
         authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete");
-        await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(id: id);
+        await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId);
     }
 
     public ValueTask DeleteWithInstancesByAppIdAsync(int appId) =>

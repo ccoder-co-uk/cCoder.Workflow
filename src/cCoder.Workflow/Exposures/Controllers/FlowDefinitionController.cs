@@ -58,7 +58,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         try
         {
-            FlowDefinition result = service.Get(id: key);
+            FlowDefinition result = service.Get(flowDefinitionId: key);
             return result is null ? NotFound() : Ok(value: result);
         }
         catch (System.Security.SecurityException)
@@ -108,7 +108,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<FlowDefinition> delta)
     {
-        FlowDefinition originalEntity = service.Get(id: key);
+        FlowDefinition originalEntity = service.Get(flowDefinitionId: key);
         if (originalEntity == null)
         {
             return NotFound();
@@ -121,7 +121,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await service.DeleteAsync(id: key);
+        await service.DeleteAsync(flowDefinitionId: key);
         return Ok();
     }
 
@@ -130,7 +130,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         using StreamReader reader = new(Request.Body, Encoding.UTF8);
         string asUserId = User?.Identity?.Name;
-        return Ok(value: await service.QueueAsync(id: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
+        return Ok(value: await service.QueueAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
     }
 
     [HttpPost]

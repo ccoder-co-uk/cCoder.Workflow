@@ -106,16 +106,16 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         return JsonSerializer.Deserialize<FlowInstanceData>(json: content, options: JsonOptions)!;
     }
 
-    private async Task<int> UpdateFlowInstanceDataAsync(Guid id, object payload)
+    private async Task<int> UpdateFlowInstanceDataAsync(Guid flowInstanceDataId, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})", value: payload);
         response.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchFlowInstanceDataAsync(Guid id, object payload)
+    private async Task<int> PatchFlowInstanceDataAsync(Guid flowInstanceDataId, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
+        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({flowInstanceDataId})")
         {
             Content = JsonContent.Create(inputValue: payload),
         };
@@ -125,17 +125,17 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         return (int)response.StatusCode;
     }
 
-    private async Task<int> DeleteFlowInstanceDataAsync(Guid id)
+    private async Task<int> DeleteFlowInstanceDataAsync(Guid flowInstanceDataId)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<FlowInstanceData> GetFlowInstanceDataAsync(Guid id)
+    private async Task<FlowInstanceData> GetFlowInstanceDataAsync(Guid flowInstanceDataId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
 
@@ -182,9 +182,9 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<FlowInstanceData>>(json: content, options: JsonOptions)!.Value;
     }
-    private async Task<int> GetFlowInstanceDataStatusCodeAsync(Guid id)
+    private async Task<int> GetFlowInstanceDataStatusCodeAsync(Guid flowInstanceDataId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");
         return (int)response.StatusCode;
     }
 }

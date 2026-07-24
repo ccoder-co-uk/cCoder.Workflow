@@ -14,9 +14,9 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal class CalendarProcessingService(ICalendarService service, ICalendarEventProcessingService calendarEventService, IAuthorizationBroker authorizationBroker) : ICalendarProcessingService
 {
-    public Calendar Get(int id)
+    public Calendar Get(int calendarId)
     {
-        return service.Get(id: id);
+        return service.Get(calendarId: calendarId);
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false)
@@ -34,15 +34,15 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
         return service.UpdateAsync(calendar: entity);
     }
 
-    public async ValueTask DeleteAsync(int id)
+    public async ValueTask DeleteAsync(int calendarId)
     {
-        Calendar calendar = Get(id: id);
+        Calendar calendar = Get(calendarId: calendarId);
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: "calendar_delete");
         CalendarEvent[] events = (from ce in calendarEventService.GetAll()
                                   where ce.CalendarId == calendar.Id
                                   select ce).ToArray();
         await calendarEventService.DeleteAllAsync(items: events);
-        await service.DeleteAsync(id: calendar.Id);
+        await service.DeleteAsync(calendarId: calendar.Id);
     }
 
     public async ValueTask DeleteByAppIdAsync(int appId)
@@ -89,7 +89,7 @@ internal class CalendarProcessingService(ICalendarService service, ICalendarEven
     {
         foreach (Calendar item in items)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(calendarId: item.Id);
         }
     }
 }

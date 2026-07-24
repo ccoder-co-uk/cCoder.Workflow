@@ -13,9 +13,9 @@ internal class FlowInstanceDataOrchestrationService(
     IFlowInstanceDataEventProcessingService eventService)
         : IFlowInstanceDataOrchestrationService
 {
-    public FlowInstanceData Get(Guid id)
+    public FlowInstanceData Get(Guid flowInstanceDataId)
     {
-        return processingService.Get(id: id);
+        return processingService.Get(flowInstanceDataId: flowInstanceDataId);
     }
 
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false)
@@ -44,11 +44,11 @@ internal class FlowInstanceDataOrchestrationService(
         return result;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public async ValueTask DeleteAsync(Guid flowInstanceDataId)
     {
-        FlowInstanceData entity = processingService.Get(id: id);
+        FlowInstanceData entity = processingService.Get(flowInstanceDataId: flowInstanceDataId);
         await eventService.RaiseFlowInstanceDataDeleteEventAsync(entity: entity);
-        await processingService.DeleteAsync(id: id);
+        await processingService.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
     }
 
     public ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items)

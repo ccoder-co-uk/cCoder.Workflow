@@ -38,7 +38,7 @@ public partial class ScheduledTaskController : ODataController
         bool incrementNextExecution = true
     )
     {
-        await Service.ExecuteAsync(id: key, incrementNextExecution: incrementNextExecution);
+        await Service.ExecuteAsync(scheduledTaskId: key, incrementNextExecution: incrementNextExecution);
         return Ok();
     }
 
@@ -132,7 +132,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] int key, Delta<ScheduledTask> delta)
     {
-        ScheduledTask originalEntity = Service.Get(id: key);
+        ScheduledTask originalEntity = Service.Get(scheduledTaskId: key);
         if (originalEntity == null)
         {
             return NotFound();
@@ -145,7 +145,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await Service.DeleteAsync(id: key);
+        await Service.DeleteAsync(scheduledTaskId: key);
         return Ok();
     }
 }

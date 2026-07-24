@@ -18,9 +18,9 @@ internal class ScheduledTaskProcessingService(
     IAuthorizationBroker authorizationBroker,
     IScheduledTaskEventProcessingService scheduledTaskEventProcessingService) : IScheduledTaskProcessingService
 {
-    public ScheduledTask Get(int id)
+    public ScheduledTask Get(int scheduledTaskId)
     {
-        return service.Get(id: id);
+        return service.Get(scheduledTaskId: scheduledTaskId);
     }
 
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false)
@@ -28,12 +28,12 @@ internal class ScheduledTaskProcessingService(
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public async ValueTask ExecuteAsync(int id, bool incrementNextExecution = true)
+    public async ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true)
     {
-        ScheduledTask task = service.GetForExecution(id: id);
+        ScheduledTask task = service.GetForExecution(scheduledTaskId: scheduledTaskId);
         if (task != null && authorizationBroker.IsAdminOfApp(appId: task.AppId))
         {
-            ScheduledTask updatedTask = await service.MarkExecutedAsync(id: id, incrementNextExecution: incrementNextExecution);
+            ScheduledTask updatedTask = await service.MarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution);
             await scheduledTaskEventProcessingService.RaiseScheduledTaskExecuteEventAsync(entity: updatedTask);
             return;
         }
@@ -58,9 +58,9 @@ internal class ScheduledTaskProcessingService(
         return service.UpdateAsync(scheduledTask: entity);
     }
 
-    public ValueTask DeleteAsync(int id)
+    public ValueTask DeleteAsync(int scheduledTaskId)
     {
-        return service.DeleteAsync(id: id);
+        return service.DeleteAsync(scheduledTaskId: scheduledTaskId);
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
@@ -104,7 +104,7 @@ internal class ScheduledTaskProcessingService(
     {
         foreach (ScheduledTask item in items)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(scheduledTaskId: item.Id);
         }
     }
 

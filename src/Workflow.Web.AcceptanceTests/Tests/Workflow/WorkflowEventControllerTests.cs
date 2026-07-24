@@ -105,17 +105,17 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
         return JsonSerializer.Deserialize<WorkflowEvent>(json: content, options: JsonOptions)!;
     }
 
-    private async Task<int> UpdateWorkflowEventAsync(Guid id, object payload)
+    private async Task<int> UpdateWorkflowEventAsync(Guid workflowEventId, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({workflowEventId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchWorkflowEventAsync(Guid id, object payload)
+    private async Task<int> PatchWorkflowEventAsync(Guid workflowEventId, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
+        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({workflowEventId})")
         {
             Content = JsonContent.Create(inputValue: payload),
         };
@@ -125,17 +125,17 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
         return (int)response.StatusCode;
     }
 
-    private async Task<int> DeleteWorkflowEventAsync(Guid id)
+    private async Task<int> DeleteWorkflowEventAsync(Guid workflowEventId)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<WorkflowEvent> GetWorkflowEventAsync(Guid id)
+    private async Task<WorkflowEvent> GetWorkflowEventAsync(Guid workflowEventId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
 
@@ -182,9 +182,9 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return JsonSerializer.Deserialize<ODataEnvelope<WorkflowEvent>>(json: content, options: JsonOptions)!.Value;
     }
-    private async Task<int> GetWorkflowEventStatusCodeAsync(Guid id)
+    private async Task<int> GetWorkflowEventStatusCodeAsync(Guid workflowEventId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({workflowEventId})");
         return (int)response.StatusCode;
     }
 }

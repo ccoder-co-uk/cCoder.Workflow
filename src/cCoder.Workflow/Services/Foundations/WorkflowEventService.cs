@@ -15,15 +15,15 @@ internal class WorkflowEventService(
     IAuthorizationBroker authorizationBroker
 ) : IWorkflowEventService
 {
-    public WorkflowEvent Get(Guid id)
+    public WorkflowEvent Get(Guid workflowEventId)
     {
-        WorkflowEvent workflowEvent = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        WorkflowEvent workflowEvent = GetAll().FirstOrDefault(predicate: i => i.Id == workflowEventId);
         if (workflowEvent is not null)
         {
             return workflowEvent;
         }
 
-        WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == workflowEventId);
         if (unrestrictedWorkflowEvent is not null)
         {
             throw new SecurityException("Access Denied!");
@@ -85,9 +85,9 @@ entity: updateWorkflowEvent
         return workflowEvent;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public async ValueTask DeleteAsync(Guid workflowEventId)
     {
-        WorkflowEvent workflowEvent = Get(id: id);
+        WorkflowEvent workflowEvent = Get(workflowEventId: workflowEventId);
         authorizationBroker.Authorize(
 appId: workflowEventBroker.GetAppId(entity: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_delete"

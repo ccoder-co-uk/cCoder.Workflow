@@ -24,7 +24,7 @@ public partial class EventHandlingOrchestrationServiceTests
             .ReturnsAsync(value: [subscription]);
 
         flowDefinitionCoordinationServiceMock
-            .Setup(expression: x => x.QueueAsync(id: subscription.FlowId, asUserId: subscription.ExecuteAs, args: It.IsAny<string>()))
+            .Setup(expression: x => x.QueueAsync(flowDefinitionId: subscription.FlowId, asUserId: subscription.ExecuteAs, args: It.IsAny<string>()))
             .ReturnsAsync(value: queuedId);
 
         await orchestrationService.RaiseEvents(payload: page, eventName: "page_update");
@@ -35,7 +35,7 @@ times: Times.Once);
 
         flowDefinitionCoordinationServiceMock.Verify(
 expression: x => x.QueueAsync(
-id: subscription.FlowId,
+flowDefinitionId: subscription.FlowId,
 asUserId: subscription.ExecuteAs,
 args: It.Is<string>(args => args.Contains("\"Path\":\"home\""))),
 times: Times.Once);

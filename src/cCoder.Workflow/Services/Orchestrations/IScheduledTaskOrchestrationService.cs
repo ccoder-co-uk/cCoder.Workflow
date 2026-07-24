@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IScheduledTaskOrchestrationService
 {
-    ScheduledTask Get(int id);
+    ScheduledTask Get(int scheduledTaskId);
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
@@ -20,12 +20,12 @@ public interface IScheduledTaskOrchestrationService
 
     ValueTask<ScheduledTask> UpdateAsync(ScheduledTask entity);
 
-    ValueTask DeleteAsync(int id);
+    ValueTask DeleteAsync(int scheduledTaskId);
     ValueTask DeleteByAppIdAsync(int appId);
 
     ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdate(IEnumerable<ScheduledTask> items);
 
     ValueTask DeleteAllAsync(IEnumerable<ScheduledTask> items);
 
-    ValueTask ExecuteAsync(int id, bool incrementNextExecution = true);
+    ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true);
 }

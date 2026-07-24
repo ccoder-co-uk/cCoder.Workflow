@@ -96,17 +96,17 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
         return JsonSerializer.Deserialize<FlowDefinition>(json: content, options: JsonOptions)!;
     }
 
-    private async Task<int> UpdateFlowDefinitionAsync(Guid id, object payload)
+    private async Task<int> UpdateFlowDefinitionAsync(Guid flowDefinitionId, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({id})", value: payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({flowDefinitionId})", value: payload);
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchFlowDefinitionAsync(Guid id, object payload)
+    private async Task<int> PatchFlowDefinitionAsync(Guid flowDefinitionId, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({id})")
+        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({flowDefinitionId})")
         {
             Content = JsonContent.Create(inputValue: payload),
         };
@@ -116,17 +116,17 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
         return (int)response.StatusCode;
     }
 
-    private async Task<int> DeleteFlowDefinitionAsync(Guid id)
+    private async Task<int> DeleteFlowDefinitionAsync(Guid flowDefinitionId)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({flowDefinitionId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
 
-    private async Task<FlowDefinition> GetFlowDefinitionAsync(Guid id)
+    private async Task<FlowDefinition> GetFlowDefinitionAsync(Guid flowDefinitionId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowDefinitionId})");
         string content = await response.Content.ReadAsStringAsync();
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
 
@@ -194,9 +194,9 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
         return content;
     }
 
-    private async Task<int> ExecuteFlowDefinitionAsync(Guid id, string payload)
+    private async Task<int> ExecuteFlowDefinitionAsync(Guid flowDefinitionId, string payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Post, $"{BaseUrl}({id})/Execute")
+        using HttpRequestMessage request = new(HttpMethod.Post, $"{BaseUrl}({flowDefinitionId})/Execute")
         {
             Content = new StringContent(payload, Encoding.UTF8, "application/json"),
         };
@@ -206,9 +206,9 @@ public sealed partial class FlowDefinitionControllerTests(WebAcceptanceFixture f
         response.StatusCode.Should().Be(expected: HttpStatusCode.OK, because: content);
         return (int)response.StatusCode;
     }
-    private async Task<int> GetFlowDefinitionStatusCodeAsync(Guid id)
+    private async Task<int> GetFlowDefinitionStatusCodeAsync(Guid flowDefinitionId)
     {
-        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({id})");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}({flowDefinitionId})");
         return (int)response.StatusCode;
     }
 }

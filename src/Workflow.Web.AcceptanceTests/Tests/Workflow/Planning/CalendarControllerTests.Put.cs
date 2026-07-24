@@ -26,7 +26,7 @@ public sealed partial class CalendarControllerTests
         Calendar actualCalendar;
 
         // When
-        await UpdateCalendarAsync(id: createdCalendar.Id, payload: new
+        await UpdateCalendarAsync(calendarId: createdCalendar.Id, payload: new
         {
             id = createdCalendar.Id,
             appId = seededContext.AppId,
@@ -34,13 +34,13 @@ public sealed partial class CalendarControllerTests
             description = "Updated calendar",
         });
 
-        actualCalendar = await GetCalendarAsync(id: createdCalendar.Id);
+        actualCalendar = await GetCalendarAsync(calendarId: createdCalendar.Id);
 
         // Then
         actualCalendar.Should().NotBeNull();
         actualCalendar.Name.Should().Be(expected: updatedName);
 
-        await DeleteCalendarAsync(id: createdCalendar.Id);
+        await DeleteCalendarAsync(calendarId: createdCalendar.Id);
         await Teardown(seededContext: seededContext);
     }
 }

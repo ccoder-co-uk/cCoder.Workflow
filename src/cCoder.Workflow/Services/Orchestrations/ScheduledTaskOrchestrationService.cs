@@ -10,9 +10,9 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService processingService, IScheduledTaskEventProcessingService eventService) : IScheduledTaskOrchestrationService
 {
-    public ScheduledTask Get(int id)
+    public ScheduledTask Get(int scheduledTaskId)
     {
-        return processingService.Get(id: id);
+        return processingService.Get(scheduledTaskId: scheduledTaskId);
     }
 
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false)
@@ -34,9 +34,9 @@ internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService
         return result;
     }
 
-    public async ValueTask DeleteAsync(int id)
+    public async ValueTask DeleteAsync(int scheduledTaskId)
     {
-        ScheduledTask entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        ScheduledTask entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == scheduledTaskId);
 
         if (entity is null)
         {
@@ -44,7 +44,7 @@ internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService
         }
 
         await eventService.RaiseScheduledTaskDeleteEventAsync(entity: entity);
-        await processingService.DeleteAsync(id: id);
+        await processingService.DeleteAsync(scheduledTaskId: scheduledTaskId);
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
@@ -60,8 +60,8 @@ internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService
         return processingService.DeleteAllAsync(items: items);
     }
 
-    public ValueTask ExecuteAsync(int id, bool incrementNextExecution = true)
+    public ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true)
     {
-        return processingService.ExecuteAsync(id: id, incrementNextExecution: incrementNextExecution);
+        return processingService.ExecuteAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution);
     }
 }

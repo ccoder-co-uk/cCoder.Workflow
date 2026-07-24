@@ -43,7 +43,7 @@ public sealed partial class FlowDefinitionControllerTests
         SeededFlowDefinitionContext seededContext = await SeedDatabase(includeFlow: true);
 
         // When
-        FlowDefinition actualFlowDefinition = await GetFlowDefinitionAsync(id: seededContext.FlowId);
+        FlowDefinition actualFlowDefinition = await GetFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
         actualFlowDefinition.Should().NotBeNull();
@@ -62,7 +62,7 @@ public sealed partial class FlowDefinitionControllerTests
             "flowdefinition_execute",
             "flowdefinition_delete");
 
-        int actualStatusCode = await GetFlowDefinitionStatusCodeAsync(id: seededContext.FlowId);
+        int actualStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
         actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
 

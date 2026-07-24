@@ -11,7 +11,7 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 public interface IFlowInstanceDataOrchestrationService
 {
-    FlowInstanceData Get(Guid id);
+    FlowInstanceData Get(Guid flowInstanceDataId);
 
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);
 
@@ -20,7 +20,7 @@ public interface IFlowInstanceDataOrchestrationService
 
     ValueTask<FlowInstanceData> UpdateAsync(FlowInstanceData entity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid flowInstanceDataId);
 
     ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdate(IEnumerable<FlowInstanceData> items);
 

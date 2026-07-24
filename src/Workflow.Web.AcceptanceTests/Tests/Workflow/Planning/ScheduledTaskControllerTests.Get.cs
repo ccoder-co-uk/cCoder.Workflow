@@ -59,13 +59,13 @@ public sealed partial class ScheduledTaskControllerTests
         ScheduledTask actualScheduledTask;
 
         // When
-        actualScheduledTask = await GetScheduledTaskAsync(id: expectedScheduledTask.Id);
+        actualScheduledTask = await GetScheduledTaskAsync(scheduledTaskId: expectedScheduledTask.Id);
 
         // Then
         actualScheduledTask.Id.Should().Be(expected: expectedScheduledTask.Id);
         actualScheduledTask.Name.Should().Be(expected: name);
 
-        await DeleteScheduledTaskAsync(id: expectedScheduledTask.Id);
+        await DeleteScheduledTaskAsync(scheduledTaskId: expectedScheduledTask.Id);
         await Teardown(seededContext: seededContext);
     }
 }

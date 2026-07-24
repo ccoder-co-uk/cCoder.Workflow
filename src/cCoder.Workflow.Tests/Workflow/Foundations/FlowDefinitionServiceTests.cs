@@ -30,11 +30,11 @@ public partial class FlowDefinitionServiceTests
         );
     }
 
-    private static FlowDefinition CreateRandomFlowDefinition(Guid id = default, int appId = 7)
+    private static FlowDefinition CreateRandomFlowDefinition(Guid flowDefinitionId = default, int appId = 7)
     {
         FlowDefinition flowDefinition = Builder<FlowDefinition>
             .CreateNew()
-            .With(func: x => x.Id = id == Guid.Empty ? Guid.NewGuid() : id)
+            .With(func: x => x.Id = flowDefinitionId == Guid.Empty ? Guid.NewGuid() : flowDefinitionId)
             .With(func: x => x.AppId = appId)
             .With(func: x => x.DefinitionJson = "{}")
             .With(func: x => x.ConfigJson = "{}")

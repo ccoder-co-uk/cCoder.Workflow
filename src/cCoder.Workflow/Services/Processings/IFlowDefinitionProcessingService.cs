@@ -11,7 +11,7 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface IFlowDefinitionProcessingService
 {
-    FlowDefinition Get(Guid id);
+    FlowDefinition Get(Guid flowDefinitionId);
 
     IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false);
 
@@ -19,7 +19,7 @@ public interface IFlowDefinitionProcessingService
 
     ValueTask<FlowDefinition> UpdateAsync(FlowDefinition entity);
 
-    ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteAsync(Guid flowDefinitionId);
 
     ValueTask DeleteByAppIdAsync(int appId);
 

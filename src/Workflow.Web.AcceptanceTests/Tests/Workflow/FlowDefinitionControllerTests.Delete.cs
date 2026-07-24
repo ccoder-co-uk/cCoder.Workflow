@@ -18,8 +18,8 @@ public sealed partial class FlowDefinitionControllerTests
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteFlowDefinitionAsync(id: seededContext.FlowId);
-        actualReadStatusCode = await GetFlowDefinitionStatusCodeAsync(id: seededContext.FlowId);
+        int actualStatusCode = await DeleteFlowDefinitionAsync(flowDefinitionId: seededContext.FlowId);
+        actualReadStatusCode = await GetFlowDefinitionStatusCodeAsync(flowDefinitionId: seededContext.FlowId);
 
         // Then
         actualStatusCode.Should().Be(expected: 200);

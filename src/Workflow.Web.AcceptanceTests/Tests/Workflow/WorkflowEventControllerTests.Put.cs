@@ -19,7 +19,7 @@ public sealed partial class WorkflowEventControllerTests
         WorkflowEvent actualWorkflowEvent;
 
         // When
-        await UpdateWorkflowEventAsync(id: seededContext.EventId, payload: new
+        await UpdateWorkflowEventAsync(workflowEventId: seededContext.EventId, payload: new
         {
             id = seededContext.EventId,
             flowId = seededContext.FlowId,
@@ -30,7 +30,7 @@ public sealed partial class WorkflowEventControllerTests
             executeAs = "Guest",
         });
 
-        actualWorkflowEvent = await GetWorkflowEventAsync(id: seededContext.EventId);
+        actualWorkflowEvent = await GetWorkflowEventAsync(workflowEventId: seededContext.EventId);
 
         // Then
         actualWorkflowEvent.Should().NotBeNull();

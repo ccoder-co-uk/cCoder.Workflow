@@ -22,15 +22,15 @@ public partial class FlowDefinitionControllerServiceTests
             .Setup(expression: broker => broker.GetCurrentUser())
             .Returns(value: currentUser);
         flowDefinitionCoordinationServiceMock
-            .Setup(expression: service => service.QueueAsync(id: flowId, asUserId: currentUser.Id, args: "{}"))
+            .Setup(expression: service => service.QueueAsync(flowDefinitionId: flowId, asUserId: currentUser.Id, args: "{}"))
             .ReturnsAsync(value: queuedId);
 
-        Guid result = await service.QueueAsync(id: flowId, asUserId: null, args: "{}");
+        Guid result = await service.QueueAsync(flowDefinitionId: flowId, asUserId: null, args: "{}");
 
         result.Should().Be(expected: queuedId);
         authorizationBrokerMock.Verify(expression: broker => broker.GetCurrentUser(), times: Times.Once);
         flowDefinitionCoordinationServiceMock.Verify(
-expression: foundService => foundService.QueueAsync(id: flowId, asUserId: currentUser.Id, args: "{}"),
+expression: foundService => foundService.QueueAsync(flowDefinitionId: flowId, asUserId: currentUser.Id, args: "{}"),
 times: Times.Once);
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
@@ -43,14 +43,14 @@ times: Times.Once);
         Guid queuedId = Guid.NewGuid();
 
         flowDefinitionCoordinationServiceMock
-            .Setup(expression: service => service.QueueAsync(id: flowId, asUserId: "ash", args: "{}"))
+            .Setup(expression: service => service.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}"))
             .ReturnsAsync(value: queuedId);
 
-        Guid result = await service.QueueAsync(id: flowId, asUserId: "ash", args: "{}");
+        Guid result = await service.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}");
 
         result.Should().Be(expected: queuedId);
         flowDefinitionCoordinationServiceMock.Verify(
-expression: foundService => foundService.QueueAsync(id: flowId, asUserId: "ash", args: "{}"),
+expression: foundService => foundService.QueueAsync(flowDefinitionId: flowId, asUserId: "ash", args: "{}"),
 times: Times.Once);
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();

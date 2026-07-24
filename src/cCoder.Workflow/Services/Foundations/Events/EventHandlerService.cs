@@ -161,7 +161,7 @@ handler: (service, args) => new ValueTask(service.RaiseEvents(payload: args.pack
 eventName: "scheduled_task_execute",
 handler: async (service, task) =>
             {
-                _ = await service.QueueAsync(id: task.FlowId, asUserId: task.ExecuteAs, args: task.ExecutionArgs);
+                _ = await service.QueueAsync(flowDefinitionId: task.FlowId, asUserId: task.ExecuteAs, args: task.ExecutionArgs);
             });
 
     void ListenToQueuedFlowInstanceExecuteEventsInternal()
@@ -177,7 +177,7 @@ handler: async (service, instance) =>
             {
                 if (string.Equals(a: instance?.State, b: "Queued", comparisonType: StringComparison.OrdinalIgnoreCase))
                 {
-                    await service.ExecuteWaitingQueuedInstanceByIdAsync(id: instance.Id);
+                    await service.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: instance.Id);
                 }
             });
 

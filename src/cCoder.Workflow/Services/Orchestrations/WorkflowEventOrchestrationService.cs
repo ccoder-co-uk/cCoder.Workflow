@@ -12,9 +12,9 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal class WorkflowEventOrchestrationService(IWorkflowEventProcessingService processingService, IWorkflowEventEventProcessingService eventService) : IWorkflowEventOrchestrationService
 {
-    public WorkflowEvent Get(Guid id)
+    public WorkflowEvent Get(Guid workflowEventId)
     {
-        return processingService.Get(id: id);
+        return processingService.Get(workflowEventId: workflowEventId);
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false)
@@ -36,11 +36,11 @@ internal class WorkflowEventOrchestrationService(IWorkflowEventProcessingService
         return result;
     }
 
-    public async ValueTask DeleteAsync(Guid id)
+    public async ValueTask DeleteAsync(Guid workflowEventId)
     {
-        WorkflowEvent entity = processingService.Get(id: id);
+        WorkflowEvent entity = processingService.Get(workflowEventId: workflowEventId);
         await eventService.RaiseWorkflowEventDeleteEventAsync(entity: entity);
-        await processingService.DeleteAsync(id: id);
+        await processingService.DeleteAsync(workflowEventId: workflowEventId);
     }
 
     public ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdate(IEnumerable<WorkflowEvent> items)

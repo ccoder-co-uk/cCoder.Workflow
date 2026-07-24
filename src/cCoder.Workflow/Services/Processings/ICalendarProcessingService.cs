@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Services.Processings;
 
 public interface ICalendarProcessingService
 {
-    Calendar Get(int id);
+    Calendar Get(int calendarId);
 
     IQueryable<Calendar> GetAll(bool ignoreFilters = false);
 
@@ -20,7 +20,7 @@ public interface ICalendarProcessingService
 
     ValueTask<Calendar> UpdateAsync(Calendar entity);
 
-    ValueTask DeleteAsync(int id);
+    ValueTask DeleteAsync(int calendarId);
 
     ValueTask DeleteByAppIdAsync(int appId);
 

@@ -54,14 +54,14 @@ public sealed partial class CalendarControllerTests
         PlanningCalendar actualCalendar;
 
         // When
-        actualCalendar = await GetCalendarAsync(id: expectedCalendar.Id);
+        actualCalendar = await GetCalendarAsync(calendarId: expectedCalendar.Id);
 
         // Then
         actualCalendar.Should().NotBeNull();
         actualCalendar.Id.Should().Be(expected: expectedCalendar.Id);
         actualCalendar.Name.Should().Be(expected: name);
 
-        await DeleteCalendarAsync(id: expectedCalendar.Id);
+        await DeleteCalendarAsync(calendarId: expectedCalendar.Id);
         await Teardown(seededContext: seededContext);
     }
 
@@ -82,7 +82,7 @@ public sealed partial class CalendarControllerTests
             Description = "Hidden calendar",
         });
 
-        int actualStatusCode = await GetCalendarStatusCodeAsync(id: hiddenCalendar.Id);
+        int actualStatusCode = await GetCalendarStatusCodeAsync(calendarId: hiddenCalendar.Id);
 
         actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
 

@@ -10,8 +10,8 @@ namespace cCoder.Workflow.Brokers.Storage;
 public interface IScheduledTaskBroker
 {
     IQueryable<ScheduledTask> GetAllScheduledTasks(bool ignoreFilters);
-    ScheduledTask GetScheduledTaskForExecution(int id);
-    ValueTask<ScheduledTask> MarkScheduledTaskExecutedAsync(int id, bool incrementNextExecution);
+    ScheduledTask GetScheduledTaskForExecution(int scheduledTaskId);
+    ValueTask<ScheduledTask> MarkScheduledTaskExecutedAsync(int scheduledTaskId, bool incrementNextExecution);
     bool ExecuteAsUserBelongsToApp(string executeAs, int appId);
     bool FlowBelongsToApp(Guid flowId, int appId);
     ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask entity);

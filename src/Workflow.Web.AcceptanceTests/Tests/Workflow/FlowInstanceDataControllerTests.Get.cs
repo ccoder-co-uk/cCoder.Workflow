@@ -43,7 +43,7 @@ public sealed partial class FlowInstanceDataControllerTests
         SeededFlowInstanceDataContext seededContext = await SeedDatabase(includeInstance: true);
 
         // When
-        FlowInstanceData actualInstance = await GetFlowInstanceDataAsync(id: seededContext.InstanceId);
+        FlowInstanceData actualInstance = await GetFlowInstanceDataAsync(flowInstanceDataId: seededContext.InstanceId);
 
         // Then
         actualInstance.Should().NotBeNull();
@@ -61,7 +61,7 @@ public sealed partial class FlowInstanceDataControllerTests
             "flowinstancedata_update",
             "flowinstancedata_delete");
 
-        int actualStatusCode = await GetFlowInstanceDataStatusCodeAsync(id: seededContext.InstanceId);
+        int actualStatusCode = await GetFlowInstanceDataStatusCodeAsync(flowInstanceDataId: seededContext.InstanceId);
 
         actualStatusCode.Should().Be(expected: (int)HttpStatusCode.NotFound);
 

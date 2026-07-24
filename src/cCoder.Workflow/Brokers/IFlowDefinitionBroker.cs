@@ -13,7 +13,7 @@ public interface IFlowDefinitionBroker
     ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition entity);
     ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition entity);
     ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition entity);
-    ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid id);
+    ValueTask DeleteFlowDefinitionWithInstancesAsync(Guid flowDefinitionId);
     ValueTask DeleteFlowDefinitionsWithInstancesByAppIdAsync(int appId);
     ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items);
     int? GetAppId(FlowDefinition entity);

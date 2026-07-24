@@ -52,13 +52,13 @@ public sealed partial class CalendarEventControllerTests
         CalendarEvent actualCalendarEvent;
 
         // When
-        actualCalendarEvent = await GetCalendarEventAsync(id: expectedCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
 
         // Then
         actualCalendarEvent.Id.Should().Be(expected: expectedCalendarEvent.Id);
         actualCalendarEvent.Name.Should().Be(expected: name);
 
-        await DeleteCalendarEventAsync(id: expectedCalendarEvent.Id);
+        await DeleteCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
         await Teardown(seededContext: seededContext);
     }
 }

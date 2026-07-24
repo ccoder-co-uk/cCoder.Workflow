@@ -124,7 +124,7 @@ internal sealed class TaskRunnerOrchestrationService(
         CancellationToken cancellationToken)
     {
         ScheduledTask updatedTask = await scheduledTaskService.MarkExecutedAsync(
-id: task.Id,
+scheduledTaskId: task.Id,
             incrementNextExecution: true);
 
         if (updatedTask == null)

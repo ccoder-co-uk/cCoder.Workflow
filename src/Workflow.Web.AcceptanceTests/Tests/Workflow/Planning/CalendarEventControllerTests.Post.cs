@@ -30,12 +30,12 @@ public sealed partial class CalendarEventControllerTests
             durationInTicks = TimeSpan.FromHours(hours: 1).Ticks,
         });
 
-        actualCalendarEvent = await GetCalendarEventAsync(id: expectedCalendarEvent.Id);
+        actualCalendarEvent = await GetCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
 
         // Then
         actualCalendarEvent.Name.Should().Be(expected: name);
 
-        await DeleteCalendarEventAsync(id: expectedCalendarEvent.Id);
+        await DeleteCalendarEventAsync(calendarEventId: expectedCalendarEvent.Id);
         await Teardown(seededContext: seededContext);
     }
 }

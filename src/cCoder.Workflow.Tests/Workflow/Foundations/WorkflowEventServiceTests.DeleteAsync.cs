@@ -40,7 +40,7 @@ entity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
             .ReturnsAsync(value: 1);
 
         // When
-        await workflowEventService.DeleteAsync(id: workflowEvent.Id);
+        await workflowEventService.DeleteAsync(workflowEventId: workflowEvent.Id);
 
         // Then
         workflowEventBrokerMock.Verify(expression: x => x.GetAllWorkflowEvents(ignoreFilters: false), times: Times.Once);
@@ -79,7 +79,7 @@ times: Times.Once
             .Throws(exception: new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await workflowEventService.DeleteAsync(id: workflowEvent.Id);
+        Func<Task> action = async () => await workflowEventService.DeleteAsync(workflowEventId: workflowEvent.Id);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");

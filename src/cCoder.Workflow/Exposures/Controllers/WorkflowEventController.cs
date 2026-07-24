@@ -118,7 +118,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<WorkflowEvent> delta)
     {
-        WorkflowEvent originalEntity = Service.Get(id: key);
+        WorkflowEvent originalEntity = Service.Get(workflowEventId: key);
         if (originalEntity == null)
         {
             return NotFound();
@@ -131,7 +131,7 @@ value: new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await Service.DeleteAsync(id: key);
+        await Service.DeleteAsync(workflowEventId: key);
         return Ok();
     }
 }

@@ -13,9 +13,9 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal class FlowDefinitionProcessingService(IFlowDefinitionService service, IJsonBroker jsonBroker, ILogger<FlowDefinitionProcessingService> log) : IFlowDefinitionProcessingService
 {
-    public FlowDefinition Get(Guid id)
+    public FlowDefinition Get(Guid flowDefinitionId)
     {
-        return service.Get(id: id);
+        return service.Get(flowDefinitionId: flowDefinitionId);
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false)
@@ -33,9 +33,9 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
         return service.UpdateAsync(flowDefinition: entity);
     }
 
-    public ValueTask DeleteAsync(Guid id)
+    public ValueTask DeleteAsync(Guid flowDefinitionId)
     {
-        return service.DeleteWithInstancesAsync(id: id);
+        return service.DeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId);
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
@@ -81,7 +81,7 @@ internal class FlowDefinitionProcessingService(IFlowDefinitionService service, I
     {
         foreach (FlowDefinition item in items)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(flowDefinitionId: item.Id);
         }
     }
 }
