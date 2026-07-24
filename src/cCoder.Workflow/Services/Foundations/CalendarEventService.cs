@@ -42,8 +42,16 @@ internal sealed partial class CalendarEventService(
     public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    private IQueryable<CalendarEvent> ExecuteGetAll(bool ignoreFilters = false) =>
-        calendarEventBroker.SelectAllCalendarEvents(ignoreFilters: ignoreFilters);
+    private IQueryable<CalendarEvent> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return calendarEventBroker
+                .SelectAllCalendarEventsIgnoringQueryFilters();
+        }
+
+        return calendarEventBroker.SelectAllCalendarEvents();
+    }
 
     public ValueTask<CalendarEvent> AddAsync(CalendarEvent calendarEvent) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); return await ExecuteAddAsync(calendarEvent: calendarEvent); }, isValueTask: true);
@@ -118,9 +126,19 @@ entity: CreateStorageCalendarEvent(item: calendarEvent)
     public ValueTask DeleteAllForAppAsync(IEnumerable<CalendarEvent> items) =>
         TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
 
-    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<CalendarEvent> items) =>
-        calendarEventBroker.DeleteAllCalendarEventsAsync(
-    items: items?.Select(selector: CreateStorageCalendarEvent) ?? []);
+    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<CalendarEvent> items)
+    {
+        IEnumerable<CalendarEvent> storageCalendarEvents =
+            items?.Select(selector: CreateStorageCalendarEvent) ?? [];
+
+        if (!storageCalendarEvents.Any())
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        return calendarEventBroker.DeleteAllCalendarEventsAsync(
+            items: storageCalendarEvents);
+    }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
         TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);

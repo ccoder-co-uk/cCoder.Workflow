@@ -48,16 +48,50 @@ internal sealed partial class ScheduledTaskService(
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    private IQueryable<ScheduledTask> ExecuteGetAll(bool ignoreFilters = false) =>
-        scheduledTaskBroker.SelectAllScheduledTasks(ignoreFilters: ignoreFilters);
+    private IQueryable<ScheduledTask> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return scheduledTaskBroker
+                .SelectAllScheduledTasksIgnoringQueryFilters();
+        }
+
+        return scheduledTaskBroker.SelectAllScheduledTasks();
+    }
 
     public ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); return await ExecuteMarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
 
-    private ValueTask<ScheduledTask> ExecuteMarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
-        scheduledTaskBroker.UpdateScheduledTaskExecutionAsync(
-                scheduledTaskId: scheduledTaskId,
-                incrementNextExecution: incrementNextExecution);
+    private async ValueTask<ScheduledTask> ExecuteMarkExecutedAsync(
+        int scheduledTaskId,
+        bool incrementNextExecution)
+    {
+        ScheduledTask scheduledTask =
+            scheduledTaskBroker.SelectScheduledTaskForExecution(
+                scheduledTaskId: scheduledTaskId);
+
+        if (scheduledTask is null)
+        {
+            return null;
+        }
+
+        scheduledTask.LastExecuted = DateTimeOffset.UtcNow;
+
+        if (incrementNextExecution)
+        {
+            while (scheduledTask.NextExecution < DateTimeOffset.UtcNow &&
+                scheduledTask.NextExecution is not null)
+            {
+                scheduledTask.NextExecution = scheduledTask.ScheduleInTicks > 0
+                    ? scheduledTask.NextExecution +
+                        TimeSpan.FromTicks(value: scheduledTask.ScheduleInTicks)
+                    : null;
+            }
+        }
+
+        return await scheduledTaskBroker.UpdateScheduledTaskAsync(
+            entity: scheduledTask);
+    }
 
     public bool GetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
         TryCatch(operation: () => { ValidateExecuteAsUserBelongsToAppOnGet(inputs: [executeAs, appId]); return ExecuteGetExecuteAsUserBelongsToApp(executeAs: executeAs, appId: appId); });
@@ -163,9 +197,19 @@ entity: CreateStorageScheduledTask(item: scheduledTask)
     public ValueTask DeleteAllForAppAsync(IEnumerable<ScheduledTask> items) =>
         TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
 
-    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<ScheduledTask> items) =>
-        scheduledTaskBroker.DeleteAllScheduledTasksAsync(
-    items: items?.Select(selector: CreateStorageScheduledTask) ?? []);
+    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<ScheduledTask> items)
+    {
+        IEnumerable<ScheduledTask> storageScheduledTasks =
+            items?.Select(selector: CreateStorageScheduledTask) ?? [];
+
+        if (!storageScheduledTasks.Any())
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        return scheduledTaskBroker.DeleteAllScheduledTasksAsync(
+            items: storageScheduledTasks);
+    }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
         TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);

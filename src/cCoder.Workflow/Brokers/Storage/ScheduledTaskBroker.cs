@@ -13,14 +13,13 @@ namespace cCoder.Workflow.Brokers.Storage;
 internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : IScheduledTaskBroker
 {
 
-    public IQueryable<ScheduledTask> SelectAllScheduledTasks(bool ignoreFilters)
-    {
-        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+    public IQueryable<ScheduledTask> SelectAllScheduledTasks() =>
+        coreContextFactory.CreateCoreContext().ScheduledTasks;
 
-        return ignoreFilters
-            ? coreDataContext.ScheduledTasks.IgnoreQueryFilters()
-            : coreDataContext.ScheduledTasks;
-    }
+    public IQueryable<ScheduledTask> SelectAllScheduledTasksIgnoringQueryFilters() =>
+        coreContextFactory.CreateCoreContext()
+            .ScheduledTasks
+            .IgnoreQueryFilters();
 
     public ScheduledTask SelectScheduledTaskForExecution(int scheduledTaskId)
     {
@@ -30,37 +29,6 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             .Include(navigationPropertyPath: task => task.ExecuteAsUser)
             .Include(navigationPropertyPath: task => task.Flow)
             .FirstOrDefault(predicate: task => task.Id == scheduledTaskId);
-    }
-
-    public async ValueTask<ScheduledTask> UpdateScheduledTaskExecutionAsync(int scheduledTaskId, bool incrementNextExecution)
-    {
-        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-
-        ScheduledTask task = coreDataContext.ScheduledTasks
-            .IgnoreQueryFilters()
-            .Include(navigationPropertyPath: foundTask => foundTask.ExecuteAsUser)
-            .Include(navigationPropertyPath: foundTask => foundTask.Flow)
-            .FirstOrDefault(predicate: foundTask => foundTask.Id == scheduledTaskId);
-
-        if (task is null)
-        {
-            return null;
-        }
-
-        task.LastExecuted = DateTimeOffset.UtcNow;
-
-        if (incrementNextExecution)
-        {
-            while (task.NextExecution < DateTimeOffset.UtcNow && task.NextExecution != null)
-            {
-                task.NextExecution = task.ScheduleInTicks > 0
-                    ? task.NextExecution + TimeSpan.FromTicks(value: task.ScheduleInTicks)
-                    : null;
-            }
-        }
-
-        _ = await coreDataContext.SaveChangesAsync();
-        return task;
     }
 
     public bool SelectExecuteAsUserBelongsToApp(string executeAs, int appId)
@@ -103,11 +71,6 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
 
     public async ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> items)
     {
-        if (items == null || !items.Any())
-        {
-            return;
-        }
-
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.ScheduledTasks.RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();

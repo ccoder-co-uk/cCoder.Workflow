@@ -1187,12 +1187,12 @@
         },
         {
           "Name": "SelectAllCalendars",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+        },
+        {
+          "Name": "SelectAllCalendarsIgnoringQueryFilters",
+          "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
         },
         {
@@ -1264,12 +1264,12 @@
         },
         {
           "Name": "SelectAllCalendarEvents",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+        },
+        {
+          "Name": "SelectAllCalendarEventsIgnoringQueryFilters",
+          "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
         },
         {
@@ -1341,12 +1341,12 @@
         },
         {
           "Name": "SelectAllScheduledTasks",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+        },
+        {
+          "Name": "SelectAllScheduledTasksIgnoringQueryFilters",
+          "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
         },
         {
@@ -1403,20 +1403,6 @@
             {
               "Name": "entity",
               "Type": "ScheduledTask"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
-        },
-        {
-          "Name": "UpdateScheduledTaskExecutionAsync",
-          "Inputs": [
-            {
-              "Name": "scheduledTaskId",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "incrementNextExecution",
-              "Type": "System.Boolean"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
@@ -5681,76 +5667,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
       "LineNumber": 102
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "LineNumber": 49
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 19
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "LineNumber": 49
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 20
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 45
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 52
-    },
-    {
-      "Code": "STXB003",
-      "Description": "A broker must not contain loops.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 54
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 56
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "LineNumber": 106
     },
     {
       "Code": "STXB002",

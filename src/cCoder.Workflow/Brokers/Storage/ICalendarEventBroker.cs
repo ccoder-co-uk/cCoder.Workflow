@@ -9,7 +9,9 @@ namespace cCoder.Workflow.Brokers.Storage;
 
 public interface ICalendarEventBroker
 {
-    IQueryable<CalendarEvent> SelectAllCalendarEvents(bool ignoreFilters);
+    IQueryable<CalendarEvent> SelectAllCalendarEvents();
+
+    IQueryable<CalendarEvent> SelectAllCalendarEventsIgnoringQueryFilters();
 
     ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent entity);
 

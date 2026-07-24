@@ -9,11 +9,11 @@ namespace cCoder.Workflow.Brokers.Storage;
 
 public interface IScheduledTaskBroker
 {
-    IQueryable<ScheduledTask> SelectAllScheduledTasks(bool ignoreFilters);
+    IQueryable<ScheduledTask> SelectAllScheduledTasks();
+
+    IQueryable<ScheduledTask> SelectAllScheduledTasksIgnoringQueryFilters();
 
     ScheduledTask SelectScheduledTaskForExecution(int scheduledTaskId);
-
-    ValueTask<ScheduledTask> UpdateScheduledTaskExecutionAsync(int scheduledTaskId, bool incrementNextExecution);
 
     bool SelectExecuteAsUserBelongsToApp(string executeAs, int appId);
 

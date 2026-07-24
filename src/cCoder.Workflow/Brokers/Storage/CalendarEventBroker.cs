@@ -12,14 +12,13 @@ namespace cCoder.Workflow.Brokers.Storage;
 internal sealed class CalendarEventBroker(ICoreContextFactory coreContextFactory) : ICalendarEventBroker
 {
 
-    public IQueryable<CalendarEvent> SelectAllCalendarEvents(bool ignoreFilters)
-    {
-        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+    public IQueryable<CalendarEvent> SelectAllCalendarEvents() =>
+        coreContextFactory.CreateCoreContext().Events;
 
-        return ignoreFilters
-            ? coreDataContext.Events.IgnoreQueryFilters()
-            : coreDataContext.Events;
-    }
+    public IQueryable<CalendarEvent> SelectAllCalendarEventsIgnoringQueryFilters() =>
+        coreContextFactory.CreateCoreContext()
+            .Events
+            .IgnoreQueryFilters();
 
     public async ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent entity)
     {
@@ -46,11 +45,6 @@ internal sealed class CalendarEventBroker(ICoreContextFactory coreContextFactory
 
     public async ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> items)
     {
-        if (items == null || !items.Any())
-        {
-            return;
-        }
-
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.Events.RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();

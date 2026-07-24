@@ -42,8 +42,15 @@ internal sealed partial class CalendarService(
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
-    private IQueryable<Calendar> ExecuteGetAll(bool ignoreFilters = false) =>
-        calendarBroker.SelectAllCalendars(ignoreFilters: ignoreFilters);
+    private IQueryable<Calendar> ExecuteGetAll(bool ignoreFilters = false)
+    {
+        if (ignoreFilters)
+        {
+            return calendarBroker.SelectAllCalendarsIgnoringQueryFilters();
+        }
+
+        return calendarBroker.SelectAllCalendars();
+    }
 
     public ValueTask<Calendar> AddAsync(Calendar calendar) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [calendar]); return await ExecuteAddAsync(calendar: calendar); }, isValueTask: true);
@@ -97,9 +104,19 @@ internal sealed partial class CalendarService(
     public ValueTask DeleteAllForAppAsync(IEnumerable<Calendar> items) =>
         TryCatch(operation: async () => { ValidateAllForAppOnDelete(inputs: [items]); await ExecuteDeleteAllForAppAsync(items: items); }, isValueTask: true);
 
-    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<Calendar> items) =>
-        calendarBroker.DeleteAllCalendarsAsync(
-    items: items?.Select(selector: CreateStorageCalendar) ?? []);
+    private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<Calendar> items)
+    {
+        IEnumerable<Calendar> storageCalendars =
+            items?.Select(selector: CreateStorageCalendar) ?? [];
+
+        if (!storageCalendars.Any())
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        return calendarBroker.DeleteAllCalendarsAsync(
+            items: storageCalendars);
+    }
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
         TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
