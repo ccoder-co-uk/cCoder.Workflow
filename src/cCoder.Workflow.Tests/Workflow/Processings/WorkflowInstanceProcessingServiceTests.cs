@@ -16,14 +16,14 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Processings;
 
-public sealed class WorkflowInstanceProcessingServiceTests
+public sealed partial class WorkflowInstanceProcessingServiceTests
 {
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
     private readonly WorkflowInstanceProcessingService processingService;
 
     public WorkflowInstanceProcessingServiceTests()
     {
-        workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(MockBehavior.Strict);
+        workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(behavior: MockBehavior.Strict);
         IConfiguration configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(initialData: new Dictionary<string, string>
             {
@@ -68,17 +68,17 @@ cancellationToken: It.IsAny<CancellationToken>()))
         // Then
         workflowInstanceManagementBrokerMock.Verify(
 expression: broker => broker.RequeueHungExecutingInstancesAsync(
-cutoff: It.Is<DateTimeOffset>(cutoff =>
-                    cutoff < DateTimeOffset.UtcNow.AddMinutes(-44)
-                    && cutoff > DateTimeOffset.UtcNow.AddMinutes(-46)),
+cutoff: It.Is<DateTimeOffset>(match: cutoff =>
+                    cutoff < DateTimeOffset.UtcNow.AddMinutes(minutes: -44)
+                    && cutoff > DateTimeOffset.UtcNow.AddMinutes(minutes: -46)),
 cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
 
         workflowInstanceManagementBrokerMock.Verify(
 expression: broker => broker.FlushOldInstancesAsync(
-cutoff: It.Is<DateTimeOffset>(cutoff =>
-                    cutoff < DateTimeOffset.UtcNow.AddDays(-4)
-                    && cutoff > DateTimeOffset.UtcNow.AddDays(-6)),
+cutoff: It.Is<DateTimeOffset>(match: cutoff =>
+                    cutoff < DateTimeOffset.UtcNow.AddDays(days: -4)
+                    && cutoff > DateTimeOffset.UtcNow.AddDays(days: -6)),
 cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
 
@@ -222,9 +222,9 @@ times: Times.Once);
         workflowInstanceManagementBrokerMock.Verify(
 expression: broker => broker.MarkInstanceFailedAsync(
 flowInstanceDataId: queuedInstance.Id,
-failedAt: It.Is<DateTimeOffset>(failedAt =>
-                    failedAt > DateTimeOffset.UtcNow.AddMinutes(-1)
-                    && failedAt <= DateTimeOffset.UtcNow.AddMinutes(1)),
+failedAt: It.Is<DateTimeOffset>(match: failedAt =>
+                    failedAt > DateTimeOffset.UtcNow.AddMinutes(minutes: -1)
+                    && failedAt <= DateTimeOffset.UtcNow.AddMinutes(minutes: 1)),
 cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
 

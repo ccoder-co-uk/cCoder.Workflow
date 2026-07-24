@@ -40,7 +40,7 @@ public partial class FlowInstanceDataServiceTests
             .Setup(
 expression: x =>
                     x.DeleteFlowInstanceDataAsync(
-deletedEntity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id)
+deletedEntity: It.Is<FlowInstanceData>(match: candidate => candidate.Id == flowInstanceData.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -54,7 +54,7 @@ deletedEntity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstance
         flowInstanceDataBrokerMock.Verify(
 expression: x =>
                 x.DeleteFlowInstanceDataAsync(
-deletedEntity: It.Is<FlowInstanceData>(candidate => candidate.Id == flowInstanceData.Id)
+deletedEntity: It.Is<FlowInstanceData>(match: candidate => candidate.Id == flowInstanceData.Id)
                 ),
 times: Times.Once
         );
@@ -90,7 +90,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () =>

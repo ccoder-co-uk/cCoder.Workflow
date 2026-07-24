@@ -13,15 +13,18 @@ using Xunit;
 
 namespace cCoder.Workflow.Tests;
 
-public class HostedServicesRegistrationTests
+public partial class HostedServicesRegistrationTests
 {
     [Fact]
     public void AddWorkflowWeb_DoesNotRegisterHostedServiceExposures()
     {
+        // Given
         IServiceCollection services = new ServiceCollection();
 
+        // When
         services.AddWorkflowWeb();
 
+        // Then
         Assert.DoesNotContain(
 collection: services,
 filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
@@ -31,10 +34,13 @@ filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
     [Fact]
     public void AddWorkflowHostedServices_RegistersHostedServiceExposures()
     {
+        // Given
         IServiceCollection services = new ServiceCollection();
 
+        // When
         services.AddWorkflowHostedServices();
 
+        // Then
         Assert.Contains(
 collection: services,
 filter: descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceBackgroundServiceDependency)
@@ -64,14 +70,17 @@ filter: descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceProcessi
     [Fact]
     public void AddWorkflowHostedServices_RegistersWorkflowEventHandlerPayloadTypes()
     {
+        // Given
         IServiceCollection services = new ServiceCollection();
         services.AddLogging();
         services.AddEventing();
         services.AddWorkflowHostedServices();
 
+        // When
         IServiceProvider serviceProvider = services.BuildServiceProvider();
         IWorkflowEventHandlers handlers = serviceProvider.GetRequiredService<IWorkflowEventHandlers>();
 
+        // Then
         handlers.ListenToAllEvents();
         handlers.ListenToScheduledTaskExecuteEvents();
         handlers.ListenToQueuedFlowInstanceExecuteEvents();

@@ -53,7 +53,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         Assert.Equal(expected: entity.Name, actual: result.Name);
 
         flowInstanceDataServiceMock.Verify(
-expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
+expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(match: item => item.Id == entity.Id)),
 times: Times.Once
         );
     }
@@ -94,7 +94,7 @@ times: Times.Once
         Assert.Equal(expected: entity.Name, actual: actualFlowInstanceData.Name);
 
         flowInstanceDataServiceMock.Verify(
-expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(item => item.Id == entity.Id)),
+expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.Is<FlowInstanceData>(match: item => item.Id == entity.Id)),
 times: Times.Once
         );
     }

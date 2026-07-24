@@ -14,14 +14,17 @@ public partial class FlowInstanceDataProcessingServiceTests
     [Fact]
     public async Task ShouldDelegateToFoundationServiceWhenAddQueuedAsync()
     {
+        // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
 
         flowInstanceDataServiceMock
             .Setup(expression: x => x.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity))
             .ReturnsAsync(value: entity);
 
+        // When
         FlowInstanceData result = await flowInstanceDataProcessingService.AddQueuedFlowInstanceDataAsync(newEntity: entity);
 
+        // Then
         result.Should()
             .BeSameAs(expected: entity);
 

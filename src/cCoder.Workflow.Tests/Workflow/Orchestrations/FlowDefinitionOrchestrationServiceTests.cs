@@ -22,8 +22,8 @@ public partial class FlowDefinitionOrchestrationServiceTests
 
     public FlowDefinitionOrchestrationServiceTests()
     {
-        flowDefinitionProcessingServiceMock = new Mock<IFlowDefinitionProcessingService>(MockBehavior.Strict);
-        flowDefinitionEventProcessingServiceMock = new Mock<IFlowDefinitionEventProcessingService>(MockBehavior.Strict);
+        flowDefinitionProcessingServiceMock = new Mock<IFlowDefinitionProcessingService>(behavior: MockBehavior.Strict);
+        flowDefinitionEventProcessingServiceMock = new Mock<IFlowDefinitionEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new FlowDefinitionOrchestrationService(
             flowDefinitionProcessingServiceMock.Object,
             flowDefinitionEventProcessingServiceMock.Object);

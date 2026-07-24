@@ -27,22 +27,22 @@ public partial class FlowDefinitionAggregationServiceTests
     public FlowDefinitionAggregationServiceTests()
     {
         serviceProviderBrokerMock =
-            new Mock<IFlowDefinitionServiceProviderBroker>(MockBehavior.Strict);
+            new Mock<IFlowDefinitionServiceProviderBroker>(behavior: MockBehavior.Strict);
         flowDefinitionOrchestrationServiceMock =
-            new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
+            new Mock<IFlowDefinitionOrchestrationService>(behavior: MockBehavior.Strict);
         flowDefinitionCoordinationServiceMock =
-            new Mock<IFlowDefinitionCoordinationService>(MockBehavior.Strict);
+            new Mock<IFlowDefinitionCoordinationService>(behavior: MockBehavior.Strict);
         workflowMetadataTypeServiceMock =
-            new Mock<IWorkflowMetadataTypeService>(MockBehavior.Strict);
+            new Mock<IWorkflowMetadataTypeService>(behavior: MockBehavior.Strict);
         authorizationBrokerMock =
-            new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+            new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
 
         service = new FlowDefinitionAggregationService(
-            serviceProviderBrokerMock.Object);
+            serviceProviderBroker: serviceProviderBrokerMock.Object);
 
         serviceProviderBrokerMock
             .Setup(expression: broker => broker.GetOperationService<IFlowDefinitionCoordinationService>(
-                FlowDefinitionOperation.Queue))
+                operation: FlowDefinitionOperation.Queue))
             .Returns(value: flowDefinitionCoordinationServiceMock.Object);
     }
 }

@@ -11,7 +11,7 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Foundations.Events;
 
-public sealed class EventHandlerServiceQueuedFlowInstanceTests
+public sealed partial class EventHandlerServiceQueuedFlowInstanceTests
 {
     [Fact]
     public async Task ListenToQueuedFlowInstanceExecuteEvents_ShouldHandleQueuedAddAndUpdateEvents()

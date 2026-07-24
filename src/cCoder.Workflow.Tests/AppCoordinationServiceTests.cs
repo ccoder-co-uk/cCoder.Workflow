@@ -12,7 +12,7 @@ using Xunit;
 
 namespace cCoder.Workflow.Tests;
 
-public class AppCoordinationServiceTests
+public partial class AppCoordinationServiceTests
 {
     private readonly Mock<ICalendarOrchestrationService> calendarOrchestrationServiceMock;
     private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
@@ -21,9 +21,9 @@ public class AppCoordinationServiceTests
 
     public AppCoordinationServiceTests()
     {
-        calendarOrchestrationServiceMock = new Mock<ICalendarOrchestrationService>(MockBehavior.Strict);
-        flowDefinitionOrchestrationServiceMock = new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
-        scheduledTaskOrchestrationServiceMock = new Mock<IScheduledTaskOrchestrationService>(MockBehavior.Strict);
+        calendarOrchestrationServiceMock = new Mock<ICalendarOrchestrationService>(behavior: MockBehavior.Strict);
+        flowDefinitionOrchestrationServiceMock = new Mock<IFlowDefinitionOrchestrationService>(behavior: MockBehavior.Strict);
+        scheduledTaskOrchestrationServiceMock = new Mock<IScheduledTaskOrchestrationService>(behavior: MockBehavior.Strict);
         service = new AppCoordinationService(
             flowDefinitionOrchestrationServiceMock.Object,
             calendarOrchestrationServiceMock.Object,
@@ -33,6 +33,7 @@ public class AppCoordinationServiceTests
     [Fact]
     public async Task ShouldDeleteAppOwnedFlowsByAppIdWhenDeleteAsync()
     {
+        // Given
         scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
             .Returns(value: ValueTask.CompletedTask);
 
@@ -42,8 +43,10 @@ public class AppCoordinationServiceTests
         flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.DeleteByAppIdAsync(appId: 5))
             .Returns(value: ValueTask.CompletedTask);
 
+        // When
         await service.DeleteAsync(appId: 5);
 
+        // Then
         scheduledTaskOrchestrationServiceMock.Verify(expression: x => x.DeleteByAppIdAsync(appId: 5), times: Times.Once);
         calendarOrchestrationServiceMock.Verify(expression: x => x.DeleteByAppIdAsync(appId: 5), times: Times.Once);
         flowDefinitionOrchestrationServiceMock.Verify(expression: x => x.DeleteByAppIdAsync(appId: 5), times: Times.Once);
@@ -55,6 +58,7 @@ public class AppCoordinationServiceTests
     [Fact]
     public async Task ShouldStampFlowAppIdsWhenAddAsync()
     {
+        // Given
         App app = new()
         {
             Id = 9,
@@ -64,19 +68,21 @@ public class AppCoordinationServiceTests
         };
 
         calendarOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateCalendar(
-items: It.Is<IEnumerable<Calendar>>(items => items.All(calendar => calendar.AppId == 9))))
+items: It.Is<IEnumerable<Calendar>>(match: items => items.All(predicate: calendar => calendar.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<Result<Calendar>>>(result: []));
 
         flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateFlowDefinition(
-items: It.Is<IEnumerable<FlowDefinition>>(items => items.All(flow => flow.AppId == 9))))
+items: It.Is<IEnumerable<FlowDefinition>>(match: items => items.All(predicate: flow => flow.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<Result<FlowDefinition>>>(result: []));
 
         scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateScheduledTask(
-items: It.Is<IEnumerable<ScheduledTask>>(items => items.All(task => task.AppId == 9))))
+items: It.Is<IEnumerable<ScheduledTask>>(match: items => items.All(predicate: task => task.AppId == 9))))
             .Returns(value: ValueTask.FromResult<IEnumerable<Result<ScheduledTask>>>(result: []));
 
+        // When
         await service.AddAppAsync(newApp: app);
 
+        // Then
         calendarOrchestrationServiceMock.VerifyAll();
         flowDefinitionOrchestrationServiceMock.VerifyAll();
         scheduledTaskOrchestrationServiceMock.VerifyAll();

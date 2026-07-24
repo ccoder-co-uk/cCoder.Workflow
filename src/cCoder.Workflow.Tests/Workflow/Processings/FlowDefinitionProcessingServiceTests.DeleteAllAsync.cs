@@ -17,14 +17,17 @@ public partial class FlowDefinitionProcessingServiceTests
     [Fact]
     public async Task ShouldUseDeleteAsyncPerItemIdWhenDeleteAllAsync()
     {
+        // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
 
         flowDefinitionServiceMock
             .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id))
             .Returns(value: ValueTask.CompletedTask);
 
+        // When
         await flowDefinitionProcessingService.DeleteAllFlowDefinitionAsync(deletedItems: new[] { entity });
 
+        // Then
         flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
         loggerMock.VerifyNoOtherCalls();

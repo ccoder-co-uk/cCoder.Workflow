@@ -33,7 +33,7 @@ public partial class FlowDefinitionServiceTests
         flowDefinitionBrokerMock
             .Setup(expression: x =>
                 x.AddFlowDefinitionAsync(
-newEntity: It.Is<FlowDefinition>(candidate => !ReferenceEquals(candidate, flowDefinition))
+newEntity: It.Is<FlowDefinition>(match: candidate => !ReferenceEquals(objA: candidate, objB: flowDefinition))
                 )
             )
             .Callback<FlowDefinition>(action: candidate => submitted = candidate)
@@ -55,84 +55,49 @@ newEntity: It.Is<FlowDefinition>(candidate => !ReferenceEquals(candidate, flowDe
         result.Should()
             .NotBeSameAs(unexpected: submitted);
 
-        submitted
-            .Should()
-            .BeEquivalentTo(
-expectation: flowDefinition,
-config: options =>
-                    options
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
-                        )
-                        .Excluding(expression: candidate => candidate.Id)
-            );
+        var expectedValues = new
+        {
+            flowDefinition.Name,
+            flowDefinition.Description,
+            flowDefinition.AppId,
+            flowDefinition.DefinitionJson,
+            flowDefinition.ConfigJson,
+            flowDefinition.ReportingComponentName,
+            flowDefinition.InstanceReportingComponentName
+        };
 
-        result
-            .Should()
-            .BeEquivalentTo(
-expectation: flowDefinition,
-config: options =>
-                    options
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
-                        )
-                        .Excluding(
-predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
-                        )
-                        .Excluding(expression: candidate => candidate.Id)
-            );
+        var submittedValues = new
+        {
+            submitted.Name,
+            submitted.Description,
+            submitted.AppId,
+            submitted.DefinitionJson,
+            submitted.ConfigJson,
+            submitted.ReportingComponentName,
+            submitted.InstanceReportingComponentName
+        };
+
+        submittedValues.Should()
+            .BeEquivalentTo(expectation: expectedValues);
+
+        var resultValues = new
+        {
+            result.Name,
+            result.Description,
+            result.AppId,
+            result.DefinitionJson,
+            result.ConfigJson,
+            result.ReportingComponentName,
+            result.InstanceReportingComponentName
+        };
+
+        resultValues.Should()
+            .BeEquivalentTo(expectation: expectedValues);
 
         flowDefinitionBrokerMock.Verify(
 expression: x =>
                 x.AddFlowDefinitionAsync(
-newEntity: It.Is<FlowDefinition>(candidate => !ReferenceEquals(candidate, flowDefinition))
+newEntity: It.Is<FlowDefinition>(match: candidate => !ReferenceEquals(objA: candidate, objB: flowDefinition))
                 ),
 times: Times.Once
         );
@@ -158,7 +123,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_create"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () => await flowDefinitionService.AddFlowDefinitionAsync(newFlowDefinition: flowDefinition);

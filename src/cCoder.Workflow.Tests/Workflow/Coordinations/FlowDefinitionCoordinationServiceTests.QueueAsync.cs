@@ -16,7 +16,10 @@ public partial class FlowDefinitionCoordinationServiceTests
         // Given
         Guid flowDefinitionId = Guid.NewGuid();
         Guid queuedFlowDefinitionId = Guid.NewGuid();
-        string asUserId = Guid.NewGuid().ToString(format: "N");
+
+        string asUserId = Guid.NewGuid()
+            .ToString(format: "N");
+
         string args = "{}";
 
         flowQueueOrchestrationServiceMock
@@ -33,7 +36,8 @@ public partial class FlowDefinitionCoordinationServiceTests
             args: args);
 
         // Then
-        result.Should().Be(expected: queuedFlowDefinitionId);
+        result.Should()
+            .Be(expected: queuedFlowDefinitionId);
 
         flowQueueOrchestrationServiceMock.Verify(
             expression: service => service.QueueFlowDefinitionAsync(

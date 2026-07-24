@@ -20,14 +20,14 @@ public partial class FlowQueueOrchestrationServiceTests
     public FlowQueueOrchestrationServiceTests()
     {
         flowDefinitionProcessingServiceMock =
-            new Mock<IFlowDefinitionProcessingService>(MockBehavior.Strict);
+            new Mock<IFlowDefinitionProcessingService>(behavior: MockBehavior.Strict);
 
         flowInstanceDataProcessingServiceMock =
-            new Mock<IFlowInstanceDataProcessingService>(MockBehavior.Strict);
+            new Mock<IFlowInstanceDataProcessingService>(behavior: MockBehavior.Strict);
 
         orchestrationService = new FlowQueueOrchestrationService(
-            flowDefinitionProcessingServiceMock.Object,
-            flowInstanceDataProcessingServiceMock.Object);
+            flowDefinitionProcessingService: flowDefinitionProcessingServiceMock.Object,
+            flowInstanceDataProcessingService: flowInstanceDataProcessingServiceMock.Object);
     }
 
     private static FlowDefinition CreateFlowDefinition(Guid flowDefinitionId) =>

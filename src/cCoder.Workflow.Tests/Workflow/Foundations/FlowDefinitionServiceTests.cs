@@ -22,8 +22,8 @@ public partial class FlowDefinitionServiceTests
 
     public FlowDefinitionServiceTests()
     {
-        flowDefinitionBrokerMock = new Mock<IFlowDefinitionBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        flowDefinitionBrokerMock = new Mock<IFlowDefinitionBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         flowDefinitionService = new FlowDefinitionService(
             flowDefinitionBrokerMock.Object,
             authorizationBrokerMock.Object

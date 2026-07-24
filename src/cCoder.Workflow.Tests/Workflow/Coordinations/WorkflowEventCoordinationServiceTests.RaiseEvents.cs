@@ -15,12 +15,16 @@ public partial class WorkflowEventCoordinationServiceTests
     [Fact]
     public async Task ShouldQueueAndRaiseFlowInstanceEventWhenMatchingSubscriptionExists()
     {
+        // Given
         Page page = CreateRandomPage();
         WorkflowEvent subscription = CreateSubscription(page: page);
         Guid queuedId = Guid.NewGuid();
 
         workflowEventOrchestrationServiceMock
-            .Setup(expression: x => x.PrepareWorkflowEventDispatch(page, "page_update", null))
+            .Setup(expression: x => x.PrepareWorkflowEventDispatch(
+                payload: page,
+                eventName: "page_update",
+                appIdOverride: null))
             .Returns(value: (page.AppId, $"page_update{page.Path}"));
 
         workflowEventOrchestrationServiceMock
@@ -30,7 +34,7 @@ public partial class WorkflowEventCoordinationServiceTests
             .ReturnsAsync(value: [subscription]);
 
         workflowEventOrchestrationServiceMock
-            .Setup(expression: x => x.SerializeWorkflowEventPayload(page))
+            .Setup(expression: x => x.SerializeWorkflowEventPayload(payload: page))
             .Returns(value: "{\"Path\":\"home\"}");
 
         flowQueueOrchestrationServiceMock
@@ -40,10 +44,15 @@ public partial class WorkflowEventCoordinationServiceTests
                 args: It.IsAny<string>()))
             .ReturnsAsync(value: queuedId);
 
+        // When
         await coordinationService.RaiseEvents(payload: page, eventName: "page_update");
 
+        // Then
         workflowEventOrchestrationServiceMock.Verify(
-            expression: x => x.PrepareWorkflowEventDispatch(page, "page_update", null),
+            expression: x => x.PrepareWorkflowEventDispatch(
+                payload: page,
+                eventName: "page_update",
+                appIdOverride: null),
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.Verify(
@@ -53,14 +62,14 @@ public partial class WorkflowEventCoordinationServiceTests
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.Verify(
-            expression: x => x.SerializeWorkflowEventPayload(page),
+            expression: x => x.SerializeWorkflowEventPayload(payload: page),
             times: Times.Once);
 
         flowQueueOrchestrationServiceMock.Verify(
             expression: x => x.QueueFlowDefinitionAsync(
                 flowDefinitionId: subscription.FlowId,
                 asUserId: subscription.ExecuteAs,
-                args: It.Is<string>(args => args.Contains("\"Path\":\"home\""))),
+                args: It.Is<string>(match: args => args.Contains(value: "\"Path\":\"home\""))),
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.VerifyNoOtherCalls();
@@ -70,16 +79,25 @@ public partial class WorkflowEventCoordinationServiceTests
     [Fact]
     public async Task ShouldIgnoreEventsWithoutAnAppId()
     {
+        // Given
         PageInfo pageInfo = new() { PageId = 1, CultureId = "en-GB" };
 
         workflowEventOrchestrationServiceMock
-            .Setup(expression: x => x.PrepareWorkflowEventDispatch(pageInfo, "page_info_update", null))
+            .Setup(expression: x => x.PrepareWorkflowEventDispatch(
+                payload: pageInfo,
+                eventName: "page_info_update",
+                appIdOverride: null))
             .Returns(value: (null, "page_info_update"));
 
+        // When
         await coordinationService.RaiseEvents(payload: pageInfo, eventName: "page_info_update");
 
+        // Then
         workflowEventOrchestrationServiceMock.Verify(
-            expression: x => x.PrepareWorkflowEventDispatch(pageInfo, "page_info_update", null),
+            expression: x => x.PrepareWorkflowEventDispatch(
+                payload: pageInfo,
+                eventName: "page_info_update",
+                appIdOverride: null),
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.VerifyNoOtherCalls();

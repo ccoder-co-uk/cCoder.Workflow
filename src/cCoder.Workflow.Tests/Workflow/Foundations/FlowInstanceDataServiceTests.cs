@@ -21,8 +21,8 @@ public partial class FlowInstanceDataServiceTests
 
     public FlowInstanceDataServiceTests()
     {
-        flowInstanceDataBrokerMock = new Mock<IFlowInstanceDataBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        flowInstanceDataBrokerMock = new Mock<IFlowInstanceDataBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         flowInstanceDataService = new FlowInstanceDataService(
             flowInstanceDataBrokerMock.Object,
             authorizationBrokerMock.Object

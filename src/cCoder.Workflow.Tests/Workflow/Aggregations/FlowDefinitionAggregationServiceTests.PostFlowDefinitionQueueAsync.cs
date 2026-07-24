@@ -16,14 +16,14 @@ public partial class FlowDefinitionAggregationServiceTests
     [Fact]
     public async Task ShouldQueueWithCurrentUserIdWhenCallerIsMissing()
     {
-        // given
+        // Given
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
         User currentUser = new() { Id = "admin" };
 
         serviceProviderBrokerMock
             .Setup(expression: broker => broker.GetOperationService<IAuthorizationBroker>(
-                FlowDefinitionOperation.Authorization))
+                operation: FlowDefinitionOperation.Authorization))
             .Returns(value: authorizationBrokerMock.Object);
 
         authorizationBrokerMock
@@ -37,13 +37,13 @@ public partial class FlowDefinitionAggregationServiceTests
                 args: "{}"))
             .ReturnsAsync(value: queuedId);
 
-        // when
+        // When
         Guid result = await service.QueueFlowDefinitionAsync(
             flowDefinitionId: flowId,
             asUserId: null,
             args: "{}");
 
-        // then
+        // Then
         result.Should()
             .Be(expected: queuedId);
 
@@ -64,7 +64,7 @@ public partial class FlowDefinitionAggregationServiceTests
     [Fact]
     public async Task ShouldQueueWithProvidedCallerIdWhenCallerIsPresent()
     {
-        // given
+        // Given
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
 
@@ -75,13 +75,13 @@ public partial class FlowDefinitionAggregationServiceTests
                 args: "{}"))
             .ReturnsAsync(value: queuedId);
 
-        // when
+        // When
         Guid result = await service.QueueFlowDefinitionAsync(
             flowDefinitionId: flowId,
             asUserId: "ash",
             args: "{}");
 
-        // then
+        // Then
         result.Should()
             .Be(expected: queuedId);
 

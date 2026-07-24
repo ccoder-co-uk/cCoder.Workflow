@@ -14,6 +14,7 @@ public partial class FlowInstanceDataServiceTests
     [Fact]
     public async Task ShouldDelegateToBrokerWithoutAuthorizationWhenAddQueuedAsync()
     {
+        // Given
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
 
         FlowInstanceData submitted = null;
@@ -21,8 +22,8 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock
             .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-newEntity: It.Is<FlowInstanceData>(candidate =>
-                        !ReferenceEquals(candidate, flowInstanceData)
+newEntity: It.Is<FlowInstanceData>(match: candidate =>
+                        !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                         && candidate.Id == flowInstanceData.Id
                         && candidate.FlowDefinitionId == flowInstanceData.FlowDefinitionId
                         && candidate.Name == flowInstanceData.Name
@@ -39,8 +40,10 @@ newEntity: It.Is<FlowInstanceData>(candidate =>
             .Callback<FlowInstanceData>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
 
+        // When
         FlowInstanceData result = await flowInstanceDataService.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData);
 
+        // Then
         result.Should()
             .BeSameAs(expected: flowInstanceData);
 

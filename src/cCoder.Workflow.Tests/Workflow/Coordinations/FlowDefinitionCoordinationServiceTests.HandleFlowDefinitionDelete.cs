@@ -44,7 +44,7 @@ public partial class FlowDefinitionCoordinationServiceTests
 
         flowInstanceDataOrchestrationServiceMock.Verify(
 expression: service => service.DeleteAllFlowInstanceDataAsync(
-deletedItems: It.Is<IEnumerable<FlowInstanceData>>(items =>
+deletedItems: It.Is<IEnumerable<FlowInstanceData>>(match: items =>
                     items.Single().FlowDefinitionId == flowDefinition.Id
                 )
             ),

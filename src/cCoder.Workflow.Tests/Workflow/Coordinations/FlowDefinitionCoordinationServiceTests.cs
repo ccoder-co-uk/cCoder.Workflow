@@ -23,20 +23,24 @@ public partial class FlowDefinitionCoordinationServiceTests
     public FlowDefinitionCoordinationServiceTests()
     {
         flowQueueOrchestrationServiceMock =
-            new Mock<IFlowQueueOrchestrationService>(MockBehavior.Strict);
+            new Mock<IFlowQueueOrchestrationService>(behavior: MockBehavior.Strict);
         flowInstanceDataOrchestrationServiceMock =
-            new Mock<IFlowInstanceDataOrchestrationService>(MockBehavior.Strict);
+            new Mock<IFlowInstanceDataOrchestrationService>(behavior: MockBehavior.Strict);
         coordinationService = new FlowDefinitionCoordinationService(
-            flowQueueOrchestrationServiceMock.Object,
-            flowInstanceDataOrchestrationServiceMock.Object);
+            flowQueueOrchestrationService: flowQueueOrchestrationServiceMock.Object,
+            flowInstanceDataOrchestrationService: flowInstanceDataOrchestrationServiceMock.Object);
     }
 
     private static FlowDefinition CreateRandomFlowDefinition() =>
         Builder<FlowDefinition>
             .CreateNew()
             .With(func: flow =>
-                flow.Instances = [Builder<FlowInstanceData>.CreateNew()
-            .Build()]
+                flow.Instances =
+                [
+                    Builder<FlowInstanceData>
+                        .CreateNew()
+                        .Build()
+                ]
             )
             .Build();
 }

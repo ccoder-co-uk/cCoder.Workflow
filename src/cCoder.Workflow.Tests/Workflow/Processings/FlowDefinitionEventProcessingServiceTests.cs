@@ -21,7 +21,7 @@ public partial class FlowDefinitionEventProcessingServiceTests
 
     public FlowDefinitionEventProcessingServiceTests()
     {
-        flowDefinitionEventServiceMock = new Mock<IFlowDefinitionEventService>(MockBehavior.Strict);
+        flowDefinitionEventServiceMock = new Mock<IFlowDefinitionEventService>(behavior: MockBehavior.Strict);
         service = new FlowDefinitionEventProcessingService(flowDefinitionEventServiceMock.Object);
     }
 

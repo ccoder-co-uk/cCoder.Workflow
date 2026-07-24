@@ -37,7 +37,7 @@ public partial class FlowDefinitionServiceTests
             .Setup(
 expression: x =>
                     x.DeleteFlowDefinitionAsync(
-deletedEntity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
+deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -51,7 +51,7 @@ deletedEntity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition
         flowDefinitionBrokerMock.Verify(
 expression: x =>
                 x.DeleteFlowDefinitionAsync(
-deletedEntity: It.Is<FlowDefinition>(candidate => candidate.Id == flowDefinition.Id)
+deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
                 ),
 times: Times.Once
         );
@@ -84,7 +84,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () => await flowDefinitionService.DeleteAsync(flowDefinitionId: flowDefinitionId);
@@ -114,6 +114,7 @@ times: Times.Once
     [Fact]
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteWithInstancesAsync()
     {
+        // Given
         Guid flowDefinitionId = Guid.NewGuid();
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(flowDefinitionId: flowDefinitionId, appId: 7);
 
@@ -127,8 +128,10 @@ times: Times.Once
             .Setup(expression: x => x.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId))
             .Returns(value: ValueTask.CompletedTask);
 
+        // When
         await flowDefinitionService.DeleteWithInstancesAsync(flowDefinitionId: flowDefinitionId);
 
+        // Then
         flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(

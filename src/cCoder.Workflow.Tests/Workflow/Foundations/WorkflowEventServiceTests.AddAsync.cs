@@ -33,7 +33,7 @@ public partial class WorkflowEventServiceTests
         workflowEventBrokerMock
             .Setup(expression: x =>
                 x.AddWorkflowEventAsync(
-newEntity: It.Is<WorkflowEvent>(candidate => !ReferenceEquals(candidate, workflowEvent))
+newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
                 )
             )
             .Callback<WorkflowEvent>(action: candidate => submitted = candidate)
@@ -63,31 +63,31 @@ config: options =>
                     options
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
+                                info.Path.EndsWith(value: "CreatedOn")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
+                                info.Path.EndsWith(value: "CreatedBy")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
+                                info.Path.EndsWith(value: "LastUpdated")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
+                                info.Path.EndsWith(value: "LastUpdatedBy")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
+                                info.Path.EndsWith(value: "LastUpdatedOn")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
+                                info.Path.EndsWith(value: "UpdatedBy")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
+                                info.Path.EndsWith(value: "Created")
                         )
                         .Excluding(expression: candidate => candidate.Id)
             );
@@ -100,31 +100,31 @@ config: options =>
                     options
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedOn")
+                                info.Path.EndsWith(value: "CreatedOn")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("CreatedBy")
+                                info.Path.EndsWith(value: "CreatedBy")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdated")
+                                info.Path.EndsWith(value: "LastUpdated")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedBy")
+                                info.Path.EndsWith(value: "LastUpdatedBy")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("LastUpdatedOn")
+                                info.Path.EndsWith(value: "LastUpdatedOn")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("UpdatedBy")
+                                info.Path.EndsWith(value: "UpdatedBy")
                         )
                         .Excluding(
 predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
-                                info.Path.EndsWith("Created")
+                                info.Path.EndsWith(value: "Created")
                         )
                         .Excluding(expression: candidate => candidate.Id)
             );
@@ -132,7 +132,7 @@ predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
         workflowEventBrokerMock.Verify(
 expression: x =>
                 x.AddWorkflowEventAsync(
-newEntity: It.Is<WorkflowEvent>(candidate => !ReferenceEquals(candidate, workflowEvent))
+newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
                 ),
 times: Times.Once
         );
@@ -161,7 +161,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () => await workflowEventService.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent);

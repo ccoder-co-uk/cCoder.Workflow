@@ -22,8 +22,8 @@ public partial class WorkflowEventServiceTests
 
     public WorkflowEventServiceTests()
     {
-        workflowEventBrokerMock = new Mock<IWorkflowEventBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        workflowEventBrokerMock = new Mock<IWorkflowEventBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         workflowEventService = new WorkflowEventService(
             workflowEventBrokerMock.Object,
             authorizationBrokerMock.Object

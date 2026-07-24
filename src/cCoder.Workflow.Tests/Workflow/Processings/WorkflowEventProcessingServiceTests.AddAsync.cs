@@ -15,6 +15,7 @@ public partial class WorkflowEventProcessingServiceTests
     [Fact]
     public async Task ShouldDelegateToFoundationServiceWhenSecurityChecksPassForAddAsync()
     {
+        // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventServiceMock
@@ -28,8 +29,10 @@ public partial class WorkflowEventProcessingServiceTests
             .Setup(expression: x => x.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent))
             .ReturnsAsync(value: workflowEvent);
 
+        // When
         WorkflowEvent result = await workflowEventProcessingService.AddWorkflowEventAsync(newEntity: workflowEvent);
 
+        // Then
         result.Should()
             .BeSameAs(expected: workflowEvent);
 
@@ -43,6 +46,7 @@ public partial class WorkflowEventProcessingServiceTests
     [Fact]
     public async Task ShouldThrowSecurityExceptionWhenExecuteAsUserIsUnauthorizedForAddAsync()
     {
+        // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
         workflowEventServiceMock
@@ -51,10 +55,12 @@ public partial class WorkflowEventProcessingServiceTests
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(userId: workflowEvent.ExecuteAs, appId: 1, privilege: "app_admin"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
+        // When
         Func<Task> act = async () => await workflowEventProcessingService.AddWorkflowEventAsync(newEntity: workflowEvent);
 
+        // Then
         await act.Should()
             .ThrowAsync<SecurityException>()
             .WithMessage(expectedWildcardPattern: "Access Denied!");

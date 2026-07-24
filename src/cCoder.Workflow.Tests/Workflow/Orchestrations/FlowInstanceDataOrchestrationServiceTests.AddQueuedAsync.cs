@@ -17,6 +17,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
     [Fact]
     public async Task ShouldCallProcessingThenRaiseAddEventAsyncWhenAddQueuedAsync()
     {
+        // Given
         FlowInstanceData entity = CreateRandomFlowInstanceData();
 
         flowInstanceDataProcessingServiceMock
@@ -27,8 +28,10 @@ public partial class FlowInstanceDataOrchestrationServiceTests
             .Setup(expression: x => x.RaiseFlowInstanceDataAddEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);
 
+        // When
         FlowInstanceData result = await orchestrationService.AddQueuedFlowInstanceDataAsync(newEntity: entity);
 
+        // Then
         result.Should()
             .BeSameAs(expected: entity);
 

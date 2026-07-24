@@ -21,14 +21,14 @@ public partial class WorkflowEventCoordinationServiceTests
     public WorkflowEventCoordinationServiceTests()
     {
         workflowEventOrchestrationServiceMock =
-            new Mock<IWorkflowEventOrchestrationService>(MockBehavior.Strict);
+            new Mock<IWorkflowEventOrchestrationService>(behavior: MockBehavior.Strict);
 
         flowQueueOrchestrationServiceMock =
-            new Mock<IFlowQueueOrchestrationService>(MockBehavior.Strict);
+            new Mock<IFlowQueueOrchestrationService>(behavior: MockBehavior.Strict);
 
         coordinationService = new WorkflowEventCoordinationService(
-            workflowEventOrchestrationServiceMock.Object,
-            flowQueueOrchestrationServiceMock.Object);
+            workflowEventOrchestrationService: workflowEventOrchestrationServiceMock.Object,
+            flowQueueOrchestrationService: flowQueueOrchestrationServiceMock.Object);
     }
 
     private static Page CreateRandomPage() =>

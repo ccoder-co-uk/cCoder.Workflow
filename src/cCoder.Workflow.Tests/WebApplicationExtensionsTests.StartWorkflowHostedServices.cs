@@ -11,7 +11,7 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests;
 
-public sealed class WebApplicationExtensionsTests
+public sealed partial class WebApplicationExtensionsTests
 {
     [Fact]
     public async Task StartWorkflowHostedServices_ShouldOnlyRegisterHandlersOnceWhenCalledMultipleTimes()

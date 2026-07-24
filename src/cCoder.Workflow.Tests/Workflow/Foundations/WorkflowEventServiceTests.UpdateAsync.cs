@@ -88,7 +88,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_update"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () => await workflowEventService.UpdateWorkflowEventAsync(updatedWorkflowEvent: workflowEvent);

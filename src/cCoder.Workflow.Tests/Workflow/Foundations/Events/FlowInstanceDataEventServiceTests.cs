@@ -15,7 +15,7 @@ public partial class FlowInstanceDataEventServiceTests
 
     public FlowInstanceDataEventServiceTests()
     {
-        flowInstanceDataEventBrokerMock = new Mock<IFlowInstanceDataEventBroker>(MockBehavior.Strict);
+        flowInstanceDataEventBrokerMock = new Mock<IFlowInstanceDataEventBroker>(behavior: MockBehavior.Strict);
 
         flowInstanceDataEventBrokerMock
             .Setup(expression: broker => broker.GetCurrentUserId())

@@ -15,7 +15,7 @@ public partial class WorkflowEventEventServiceTests
 
     public WorkflowEventEventServiceTests()
     {
-        workflowEventEventBrokerMock = new Mock<IWorkflowEventEventBroker>(MockBehavior.Strict);
+        workflowEventEventBrokerMock = new Mock<IWorkflowEventEventBroker>(behavior: MockBehavior.Strict);
 
         workflowEventEventBrokerMock
             .Setup(expression: broker => broker.GetCurrentUserId())

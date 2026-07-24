@@ -14,14 +14,17 @@ public partial class FlowDefinitionProcessingServiceTests
     [Fact]
     public async Task ShouldDelegateToServiceForDeleteAsync()
     {
+        // Given
         Guid flowId = Guid.NewGuid();
 
         flowDefinitionServiceMock
             .Setup(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId))
             .Returns(value: ValueTask.CompletedTask);
 
+        // When
         await flowDefinitionProcessingService.DeleteAsync(flowDefinitionId: flowId);
 
+        // Then
         flowDefinitionServiceMock.Verify(
 expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: flowId),
 times: Times.Once

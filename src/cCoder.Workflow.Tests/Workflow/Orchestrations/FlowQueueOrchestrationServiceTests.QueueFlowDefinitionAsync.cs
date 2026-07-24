@@ -17,7 +17,10 @@ public partial class FlowQueueOrchestrationServiceTests
         // Given
         Guid flowDefinitionId = Guid.NewGuid();
         Guid queuedFlowInstanceDataId = Guid.NewGuid();
-        string asUserId = Guid.NewGuid().ToString(format: "N");
+
+        string asUserId = Guid.NewGuid()
+            .ToString(format: "N");
+
         string args = "{}";
         FlowDefinition flowDefinition = CreateFlowDefinition(flowDefinitionId: flowDefinitionId);
 
@@ -61,12 +64,13 @@ public partial class FlowQueueOrchestrationServiceTests
             args: args);
 
         // Then
-        result.Should().Be(expected: queuedFlowInstanceDataId);
+        result.Should()
+            .Be(expected: queuedFlowInstanceDataId);
 
         flowInstanceDataProcessingServiceMock.Verify(
             expression: service => service.AddQueuedFlowInstanceDataAsync(
                 newEntity: It.Is<FlowInstanceData>(
-                    flowInstanceData =>
+                    match: flowInstanceData =>
                         flowInstanceData.FlowDefinitionId == flowDefinitionId
                         && flowInstanceData.Caller == asUserId
                         && flowInstanceData.State == "Queued")),

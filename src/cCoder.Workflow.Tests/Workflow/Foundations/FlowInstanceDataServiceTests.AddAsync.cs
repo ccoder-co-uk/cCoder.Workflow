@@ -33,8 +33,8 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock
             .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-newEntity: It.Is<FlowInstanceData>(candidate =>
-                        !ReferenceEquals(candidate, flowInstanceData)
+newEntity: It.Is<FlowInstanceData>(match: candidate =>
+                        !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                     )
                 )
             )
@@ -74,8 +74,8 @@ config: options => options.Excluding(expression: candidate => candidate.Id)
         flowInstanceDataBrokerMock.Verify(
 expression: x =>
                 x.AddFlowInstanceDataAsync(
-newEntity: It.Is<FlowInstanceData>(candidate =>
-                        !ReferenceEquals(candidate, flowInstanceData)
+newEntity: It.Is<FlowInstanceData>(match: candidate =>
+                        !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                     )
                 ),
 times: Times.Once
@@ -107,7 +107,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_create"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () => await flowInstanceDataService.AddFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData);

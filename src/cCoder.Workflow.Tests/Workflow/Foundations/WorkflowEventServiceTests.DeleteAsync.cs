@@ -39,7 +39,7 @@ public partial class WorkflowEventServiceTests
             .Setup(
 expression: x =>
                     x.DeleteWorkflowEventAsync(
-deletedEntity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
+deletedEntity: It.Is<WorkflowEvent>(match: candidate => candidate.Id == workflowEvent.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -53,7 +53,7 @@ deletedEntity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.I
         workflowEventBrokerMock.Verify(
 expression: x =>
                 x.DeleteWorkflowEventAsync(
-deletedEntity: It.Is<WorkflowEvent>(candidate => candidate.Id == workflowEvent.Id)
+deletedEntity: It.Is<WorkflowEvent>(match: candidate => candidate.Id == workflowEvent.Id)
                 ),
 times: Times.Once
         );
@@ -88,7 +88,7 @@ times: Times.Once
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_delete"))
-            .Throws(exception: new SecurityException("Access Denied!"));
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
         Func<Task> action = async () => await workflowEventService.DeleteAsync(workflowEventId: workflowEvent.Id);

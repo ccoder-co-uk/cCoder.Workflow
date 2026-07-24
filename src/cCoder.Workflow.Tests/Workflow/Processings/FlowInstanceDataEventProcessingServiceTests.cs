@@ -21,7 +21,7 @@ public partial class FlowInstanceDataEventProcessingServiceTests
 
     public FlowInstanceDataEventProcessingServiceTests()
     {
-        flowInstanceDataEventServiceMock = new Mock<IFlowInstanceDataEventService>(MockBehavior.Strict);
+        flowInstanceDataEventServiceMock = new Mock<IFlowInstanceDataEventService>(behavior: MockBehavior.Strict);
         service = new FlowInstanceDataEventProcessingService(flowInstanceDataEventServiceMock.Object);
     }
 

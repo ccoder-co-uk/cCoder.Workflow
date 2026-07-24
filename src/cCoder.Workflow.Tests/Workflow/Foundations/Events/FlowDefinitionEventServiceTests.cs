@@ -15,7 +15,7 @@ public partial class FlowDefinitionEventServiceTests
 
     public FlowDefinitionEventServiceTests()
     {
-        flowDefinitionEventBrokerMock = new Mock<IFlowDefinitionEventBroker>(MockBehavior.Strict);
+        flowDefinitionEventBrokerMock = new Mock<IFlowDefinitionEventBroker>(behavior: MockBehavior.Strict);
 
         flowDefinitionEventBrokerMock
             .Setup(expression: broker => broker.GetCurrentUserId())

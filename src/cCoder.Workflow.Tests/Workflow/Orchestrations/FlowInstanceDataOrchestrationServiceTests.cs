@@ -22,8 +22,8 @@ public partial class FlowInstanceDataOrchestrationServiceTests
 
     public FlowInstanceDataOrchestrationServiceTests()
     {
-        flowInstanceDataProcessingServiceMock = new Mock<IFlowInstanceDataProcessingService>(MockBehavior.Strict);
-        flowInstanceDataEventProcessingServiceMock = new Mock<IFlowInstanceDataEventProcessingService>(MockBehavior.Strict);
+        flowInstanceDataProcessingServiceMock = new Mock<IFlowInstanceDataProcessingService>(behavior: MockBehavior.Strict);
+        flowInstanceDataEventProcessingServiceMock = new Mock<IFlowInstanceDataEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new FlowInstanceDataOrchestrationService(
             flowInstanceDataProcessingServiceMock.Object,
             flowInstanceDataEventProcessingServiceMock.Object

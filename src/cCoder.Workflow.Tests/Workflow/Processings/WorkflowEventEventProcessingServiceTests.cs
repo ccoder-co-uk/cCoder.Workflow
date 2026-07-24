@@ -21,7 +21,7 @@ public partial class WorkflowEventEventProcessingServiceTests
 
     public WorkflowEventEventProcessingServiceTests()
     {
-        workflowEventEventServiceMock = new Mock<IWorkflowEventEventService>(MockBehavior.Strict);
+        workflowEventEventServiceMock = new Mock<IWorkflowEventEventService>(behavior: MockBehavior.Strict);
         service = new WorkflowEventEventProcessingService(workflowEventEventServiceMock.Object);
     }
 

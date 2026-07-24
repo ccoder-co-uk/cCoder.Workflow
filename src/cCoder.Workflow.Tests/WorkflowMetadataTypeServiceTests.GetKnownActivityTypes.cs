@@ -17,11 +17,16 @@ public partial class WorkflowMetadataTypeServiceTests
     [Fact]
     public void ShouldReturnKnownActivityGroupsOnGetKnownActivityTypes()
     {
+        // Given
+
+        // When
         var result = service.GetKnownActivityTypes();
 
+        // Then
         result.Select(selector: set => set.Name)
             .Should()
-            .Equal(
+            .Equal(elements:
+            [
                 "ApiActivity",
                 "DMSActivity",
                 "LogActivity",
@@ -29,14 +34,18 @@ public partial class WorkflowMetadataTypeServiceTests
                 "TemplatingActivity",
                 "TransformationActivity",
                 "Workflow"
-            );
+            ]);
     }
 
     [Fact]
     public void ShouldReturnSharedWorkflowMetadataOnGetSharedMetadata()
     {
+        // Given
+
+        // When
         var result = service.GetSharedMetadata();
 
+        // Then
         result.Name.Should()
             .Be(expected: "Workflow");
 
@@ -67,8 +76,12 @@ public partial class WorkflowMetadataTypeServiceTests
     [Fact]
     public void ShouldReturnKnownSystemTypesOnGetKnownSystemTypes()
     {
+        // Given
+
+        // When
         var result = service.GetKnownSystemTypes();
 
+        // Then
         result.Should()
             .ContainSingle();
 
@@ -77,6 +90,12 @@ public partial class WorkflowMetadataTypeServiceTests
 
         result[0].Types.Select(selector: type => type.Name)
             .Should()
-            .Contain(nameof(Int32), nameof(String), nameof(DateTime), nameof(TimeSpan));
+            .Contain(expected:
+            [
+                nameof(Int32),
+                nameof(String),
+                nameof(DateTime),
+                nameof(TimeSpan)
+            ]);
     }
 }
