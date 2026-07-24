@@ -48,19 +48,17 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        FlowDefinition flowDefinition = coreDataContext.FlowDefinitions
+        await coreDataContext.FlowInstances
             .IgnoreQueryFilters()
-            .Include(navigationPropertyPath: foundFlowDefinition => foundFlowDefinition.Instances)
-            .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == flowDefinitionId);
+            .Where(predicate: flowInstance =>
+                flowInstance.FlowDefinitionId == flowDefinitionId)
+            .ExecuteDeleteAsync();
 
-        if (flowDefinition is null)
-        {
-            return;
-        }
-
-        coreDataContext.FlowInstances.RemoveRange(entities: flowDefinition.Instances);
-        coreDataContext.FlowDefinitions.Remove(entity: flowDefinition);
-        _ = await coreDataContext.SaveChangesAsync();
+        await coreDataContext.FlowDefinitions
+            .IgnoreQueryFilters()
+            .Where(predicate: flowDefinition =>
+                flowDefinition.Id == flowDefinitionId)
+            .ExecuteDeleteAsync();
     }
 
     public async ValueTask DeleteFlowDefinitionsWithInstancesByAppIdAsync(int appId)

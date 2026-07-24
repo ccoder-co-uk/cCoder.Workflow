@@ -70,9 +70,11 @@ connectionString: coreConnection);
         {
             if (IsHttpEventProvider(eventProviderType: eventProviderType) && !string.IsNullOrWhiteSpace(value: httpEventHubUrl))
             {
-                workflowConfig.WithEventProviders(
-eventProviders: CreateExternalSendProvider<FlowInstanceData>(["flow_instance_data_add"])
-                );
+                workflowConfig.EventProviders =
+                [
+                    CreateExternalSendProvider<FlowInstanceData>(
+                        eventNames: ["flow_instance_data_add"])
+                ];
             }
         });
 

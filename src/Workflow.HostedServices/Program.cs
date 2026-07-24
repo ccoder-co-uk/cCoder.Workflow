@@ -58,9 +58,11 @@ connectionString: coreConnection);
                 configuration.GetValue<int?>(key: "MIGRATING") == 1
                 || configuration.GetValue<bool?>(key: "Workflow:IsMigrating") == true;
 
-            workflowConfiguration.WithEventProviders(
+            workflowConfiguration.EventProviders =
+            [
                 CreateAppReceiveProvider(),
-                CreateQueuedFlowInstanceReceiveProvider());
+                CreateQueuedFlowInstanceReceiveProvider()
+            ];
         });
 
         WebApplication app = builder.Build();

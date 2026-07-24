@@ -38,9 +38,7 @@ using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
-using IUserBroker = cCoder.Workflow.Brokers.IUserBroker;
 using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
-using UserBroker = cCoder.Workflow.Brokers.UserBroker;
 using DataFile = cCoder.Data.Models.DMS.File;
 
 
@@ -154,7 +152,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowEventBroker, WorkflowEventBroker>();
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
-        services.AddTransient<IUserBroker, UserBroker>();
     }
 
     private static void AddCoordinations(this IServiceCollection services)

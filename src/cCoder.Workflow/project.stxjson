@@ -1380,73 +1380,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Brokers.UserBroker",
-      "StandardElementType": "Broker",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "AddUserAsync",
-          "Inputs": [
-            {
-              "Name": "newEntity",
-              "Type": "User"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CUser\u003E"
-        },
-        {
-          "Name": "DeleteAllUsersAsync",
-          "Inputs": [
-            {
-              "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CUser\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask"
-        },
-        {
-          "Name": "DeleteUserAsync",
-          "Inputs": [
-            {
-              "Name": "deletedEntity",
-              "Type": "User"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
-        },
-        {
-          "Name": "GetAllUsers",
-          "Inputs": [
-            {
-              "Name": "ignoreFilters",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Linq.IQueryable\u003CUser\u003E"
-        },
-        {
-          "Name": "SelectAppId",
-          "Inputs": [
-            {
-              "Name": "entity",
-              "Type": "User"
-            }
-          ],
-          "ReturnType": "System.Int32?"
-        },
-        {
-          "Name": "UpdateUserAsync",
-          "Inputs": [
-            {
-              "Name": "updatedEntity",
-              "Type": "User"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CUser\u003E"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
       "StandardElementType": "Broker",
       "Properties": [],
@@ -2684,18 +2617,7 @@
           "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
         }
       ],
-      "Methods": [
-        {
-          "Name": "WithEventProviders",
-          "Inputs": [
-            {
-              "Name": "eventProviders",
-              "Type": "EventProvider[]"
-            }
-          ],
-          "ReturnType": "cCoder.Workflow.Models.WorkflowConfiguration"
-        }
-      ]
+      "Methods": []
     },
     {
       "Name": "cCoder.Workflow.Models.WorkflowPackage",
@@ -5520,13 +5442,6 @@
       "LineNumber": 72
     },
     {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "LineNumber": 56
-    },
-    {
       "Code": "STXB005",
       "Description": "A broker must not handle exceptions.",
       "Severity": "Warning",
@@ -5595,20 +5510,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Brokers.JsonBroker.WorkflowCompatibilitySerializationBinder",
       "LineNumber": 102
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.UserBroker",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXB002",
-      "Description": "A broker must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.UserBroker",
-      "LineNumber": 47
     },
     {
       "Code": "STXB002",
@@ -5763,13 +5664,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Models.Result\u003CT\u003E",
       "LineNumber": 45
-    },
-    {
-      "Code": "STXM001",
-      "Description": "Models must not declare methods.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.WorkflowConfiguration",
-      "LineNumber": 39
     },
     {
       "Code": "STXA001",

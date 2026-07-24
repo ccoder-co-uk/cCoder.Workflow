@@ -34,11 +34,5 @@ public class WorkflowConfiguration
 
     public bool IsMigrating { get; set; }
 
-    public EventProvider[] EventProviders { get; private set; }
-
-    public WorkflowConfiguration WithEventProviders(params EventProvider[] eventProviders)
-    {
-        EventProviders = eventProviders ?? [];
-        return this;
-    }
+    public EventProvider[] EventProviders { get; set; }
 }
