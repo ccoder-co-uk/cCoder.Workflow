@@ -14,9 +14,9 @@ using Microsoft.OpenApi;
 
 namespace cCoder.Workflow;
 
-public static partial class IServiceCollectionExtensions
+internal static class WorkflowServiceCollectionConfigurationExtensions
 {
-    private static WorkflowConfiguration AddConfiguredWorkflow(
+    internal static WorkflowConfiguration AddConfiguredWorkflow(
         this IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> newConfigure)
     {
@@ -25,7 +25,7 @@ public static partial class IServiceCollectionExtensions
         return configuration;
     }
 
-    private static WorkflowConfiguration AddConfiguredWorkflowWeb(
+    internal static WorkflowConfiguration AddConfiguredWorkflowWeb(
         this IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> newConfigure,
         ODataConventionModelBuilder builder = null)
@@ -42,7 +42,7 @@ builder: builder);
         return configuration;
     }
 
-    private static WorkflowConfiguration AddConfiguredWorkflowHostedServices(
+    internal static WorkflowConfiguration AddConfiguredWorkflowHostedServices(
         this IServiceCollection services,
         Action<IServiceCollection, WorkflowConfiguration> newConfigure)
     {
