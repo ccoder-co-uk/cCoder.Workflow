@@ -125,19 +125,28 @@ eventName: "app_delete",
 handler: (service, app) => service.DeleteAsync(appId: app.Id));
 
     void ListenToCalendarAddEvents() =>
-        eventHubBroker.ListenToEvent<Calendar, ICalendarCoordinationService>(
+        eventHubBroker.ListenToEvent<Calendar, ICalendarEventOrchestrationService>(
 eventName: "calendar_add",
-handler: (service, calendar) => service.HandleCalendarAddAsync(calendar: calendar));
+handler: async (service, calendar) =>
+        {
+            _ = await service.AddOrUpdateCalendarEvent(
+                items: calendar.Events ?? []);
+        });
 
     void ListenToCalendarUpdateEvents() =>
-        eventHubBroker.ListenToEvent<Calendar, ICalendarCoordinationService>(
+        eventHubBroker.ListenToEvent<Calendar, ICalendarEventOrchestrationService>(
 eventName: "calendar_update",
-handler: (service, calendar) => service.HandleCalendarUpdateAsync(calendar: calendar));
+handler: async (service, calendar) =>
+        {
+            _ = await service.AddOrUpdateCalendarEvent(
+                items: calendar.Events ?? []);
+        });
 
     void ListenToCalendarDeleteEvents() =>
-        eventHubBroker.ListenToEvent<Calendar, ICalendarCoordinationService>(
+        eventHubBroker.ListenToEvent<Calendar, ICalendarEventOrchestrationService>(
 eventName: "calendar_delete",
-handler: (service, calendar) => service.HandleCalendarDeleteAsync(calendar: calendar));
+handler: (service, calendar) => service.DeleteAllCalendarEventAsync(
+            deletedItems: calendar.Events ?? []));
 
     void ListenToFlowDefinitionDeleteEvents() =>
         eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionCoordinationService>(

@@ -7,6 +7,7 @@ using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Coordinations;
 using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
+using JsonDependency = cCoder.Workflow.Dependencies.JsonDependency;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
@@ -28,7 +29,8 @@ public partial class EventHandlingOrchestrationServiceTests
         orchestrationService = new EventHandlingOrchestrationService(
             workflowEventProcessingServiceMock.Object,
             flowDefinitionCoordinationServiceMock.Object,
-            new JsonBroker(),
+            new JsonBroker(
+                jsonDependency: new JsonDependency()),
             Mock.Of<ILogger<EventHandlingOrchestrationService>>());
     }
 

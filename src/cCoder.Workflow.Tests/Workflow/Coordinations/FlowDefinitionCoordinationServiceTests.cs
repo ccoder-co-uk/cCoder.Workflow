@@ -12,6 +12,7 @@ using FizzWare.NBuilder;
 using Moq;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
+using JsonDependency = cCoder.Workflow.Dependencies.JsonDependency;
 
 
 namespace cCoder.Core.Services.Tests.Workflow.Coordinations;
@@ -36,7 +37,8 @@ public partial class FlowDefinitionCoordinationServiceTests
             flowDefinitionOrchestrationServiceMock.Object,
             flowInstanceDataOrchestrationServiceMock.Object,
             authorizationBrokerMock.Object,
-            new JsonBroker()
+            new JsonBroker(
+                jsonDependency: new JsonDependency())
         );
     }
 

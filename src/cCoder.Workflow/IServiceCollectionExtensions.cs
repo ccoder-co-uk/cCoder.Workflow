@@ -39,6 +39,8 @@ using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
+using IJsonDependency = cCoder.Workflow.Dependencies.IJsonDependency;
+using JsonDependency = cCoder.Workflow.Dependencies.JsonDependency;
 using DataFile = cCoder.Data.Models.DMS.File;
 
 
@@ -151,12 +153,12 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowInstanceManagementBroker, WorkflowInstanceManagementBroker>();
         services.AddTransient<IWorkflowEventBroker, WorkflowEventBroker>();
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
+        services.AddTransient<IJsonDependency, JsonDependency>();
         services.AddTransient<IJsonBroker, JsonBroker>();
     }
 
     private static void AddCoordinations(this IServiceCollection services)
     {
-        services.AddTransient<ICalendarCoordinationService, CalendarCoordinationService>();
         services.AddTransient<IFlowDefinitionCoordinationService, FlowDefinitionCoordinationService>();
     }
 
