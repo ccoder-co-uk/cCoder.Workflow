@@ -4,8 +4,8 @@
 
 using Microsoft.Extensions.Hosting;
 
-namespace cCoder.Workflow.Exposures.HostedServices;
+namespace cCoder.Workflow.Dependencies.HostedServices;
 
-public interface IInstanceMaintenanceManagement : IHostedService
+public interface IInstanceMaintenanceBackgroundServiceDependency : IHostedService
 {
 }

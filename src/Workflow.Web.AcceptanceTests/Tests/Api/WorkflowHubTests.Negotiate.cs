@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Web.AcceptanceTests.Tests.Api;
 
-public sealed partial class WorkflowHubTests
+public sealed partial class WorkflowHubDependencyTests
 {
     [Fact]
     public async Task ShouldReturnNonErrorResponseForNegotiate()

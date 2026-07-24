@@ -6,7 +6,7 @@ using cCoder.Data;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Workflow.Exposures.HostedServices;
+using cCoder.Workflow.Dependencies.HostedServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -41,9 +41,9 @@ initialData: [
         {
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<ISecurityDbContextFactory>();
-            services.RemoveAll<IInstanceMaintenanceManagement>();
-            services.RemoveAll<IQueueInstanceManagement>();
-            services.RemoveAll<IScheduledTaskRunnerManagement>();
+            services.RemoveAll<IInstanceMaintenanceBackgroundServiceDependency>();
+            services.RemoveAll<IQueueInstanceBackgroundServiceDependency>();
+            services.RemoveAll<IScheduledTaskRunnerBackgroundServiceDependency>();
 
             ServiceDescriptor[] hostedWorkflowServices = services
                 .Where(predicate: descriptor =>

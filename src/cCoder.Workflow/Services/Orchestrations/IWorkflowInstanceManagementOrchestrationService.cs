@@ -12,9 +12,9 @@ public interface IWorkflowInstanceManagementOrchestrationService
 
     Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default);
 
-    Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default);
+    Task RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(CancellationToken cancellationToken = default);
 
-    Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default);
+    Task RunQueueInstanceBackgroundServiceDependencyAsync(CancellationToken cancellationToken = default);
 
     object[] GetStats();
 

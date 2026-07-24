@@ -6,11 +6,11 @@ using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace cCoder.Workflow.Exposures.HostedServices;
+namespace cCoder.Workflow.Dependencies.HostedServices;
 
-internal sealed class ScheduledTaskRunnerManagement(
+internal sealed class ScheduledTaskRunnerBackgroundServiceDependency(
     IServiceScopeFactory serviceScopeFactory)
-    : BackgroundService, IScheduledTaskRunnerManagement
+    : BackgroundService, IScheduledTaskRunnerBackgroundServiceDependency
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {

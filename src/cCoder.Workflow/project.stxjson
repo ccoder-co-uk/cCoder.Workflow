@@ -1524,6 +1524,98 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Dependencies.HostedServices.InstanceMaintenanceBackgroundServiceDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.HostedServices.QueueInstanceBackgroundServiceDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.HostedServices.ScheduledTaskRunnerBackgroundServiceDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.Hubs.WorkflowHubDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConsoleSend",
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "System.String"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "Join",
+          "Inputs": [
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "Leave",
+          "Inputs": [
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "OnConnectedAsync",
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "OnDisconnectedAsync",
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        },
+        {
+          "Name": "SendTest",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "thread",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Dependencies.JsonDependency",
       "StandardElementType": "Dependency",
       "Properties": [],
@@ -2239,98 +2331,6 @@
           "Name": "ListenToScheduledTaskExecuteEvents",
           "Inputs": [],
           "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Exposures.HostedServices.InstanceMaintenanceManagement",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Exposures.HostedServices.QueueInstanceManagement",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Exposures.HostedServices.ScheduledTaskRunnerManagement",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ConsoleSend",
-          "Inputs": [
-            {
-              "Name": "level",
-              "Type": "System.String"
-            },
-            {
-              "Name": "message",
-              "Type": "System.String"
-            },
-            {
-              "Name": "thread",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "Join",
-          "Inputs": [
-            {
-              "Name": "thread",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "Leave",
-          "Inputs": [
-            {
-              "Name": "thread",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "OnConnectedAsync",
-          "Inputs": [],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "OnDisconnectedAsync",
-          "Inputs": [
-            {
-              "Name": "exception",
-              "Type": "System.Exception"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
-        },
-        {
-          "Name": "SendTest",
-          "Inputs": [
-            {
-              "Name": "message",
-              "Type": "System.String"
-            },
-            {
-              "Name": "thread",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task"
         }
       ]
     },
@@ -4321,7 +4321,7 @@
           "ReturnType": "System.Threading.Tasks.Task"
         },
         {
-          "Name": "RunQueueInstanceManagementAsync",
+          "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -4331,7 +4331,7 @@
           "ReturnType": "System.Threading.Tasks.Task"
         },
         {
-          "Name": "RunQueueInstanceManagementContinuouslyAsync",
+          "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -5512,34 +5512,6 @@
       "LineNumber": 16
     },
     {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "LineNumber": 1
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "LineNumber": 46
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
-      "LineNumber": 21
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
-      "LineNumber": 150
-    },
-    {
       "Code": "STXAPI001",
       "Description": "An API controller must have exactly one business dependency.",
       "Severity": "Warning",
@@ -5566,104 +5538,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionControllerService",
       "LineNumber": 18
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.HostedServices.InstanceMaintenanceManagement",
-      "LineNumber": 14
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.HostedServices.QueueInstanceManagement",
-      "LineNumber": 14
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.HostedServices.ScheduledTaskRunnerManagement",
-      "LineNumber": 15
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 28
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 34
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 40
-    },
-    {
-      "Code": "STXE001",
-      "Description": "An exposure must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 55
-    },
-    {
-      "Code": "STXE001",
-      "Description": "An exposure must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 60
-    },
-    {
-      "Code": "STXE002",
-      "Description": "An exposure must not contain loops.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 69
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 75
-    },
-    {
-      "Code": "STXE001",
-      "Description": "An exposure must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 92
-    },
-    {
-      "Code": "STXE005",
-      "Description": "An exposure must not sequence multiple routine calls.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 98
-    },
-    {
-      "Code": "STXE001",
-      "Description": "An exposure must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 100
-    },
-    {
-      "Code": "STXE001",
-      "Description": "An exposure must not contain branching logic.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Hubs.WorkflowHub",
-      "LineNumber": 117
     },
     {
       "Code": "STXAPP001",
@@ -5734,20 +5608,6 @@
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
       "LineNumber": 16
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
-      "LineNumber": 184
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Orchestrations.WorkflowInstanceManagementOrchestrationService",
-      "LineNumber": 264
     }
   ]
 }

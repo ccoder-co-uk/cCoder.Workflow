@@ -4,7 +4,7 @@
 
 using cCoder.Eventing;
 using cCoder.Workflow.Exposures.EventHandlers;
-using cCoder.Workflow.Exposures.HostedServices;
+using cCoder.Workflow.Dependencies.HostedServices;
 using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,18 +37,18 @@ filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
 
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceManagement)
-                && descriptor.ImplementationType == typeof(InstanceMaintenanceManagement));
+filter: descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceBackgroundServiceDependency)
+                && descriptor.ImplementationType == typeof(InstanceMaintenanceBackgroundServiceDependency));
 
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IQueueInstanceManagement)
-                && descriptor.ImplementationType == typeof(QueueInstanceManagement));
+filter: descriptor => descriptor.ServiceType == typeof(IQueueInstanceBackgroundServiceDependency)
+                && descriptor.ImplementationType == typeof(QueueInstanceBackgroundServiceDependency));
 
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerManagement)
-                && descriptor.ImplementationType == typeof(ScheduledTaskRunnerManagement));
+filter: descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerBackgroundServiceDependency)
+                && descriptor.ImplementationType == typeof(ScheduledTaskRunnerBackgroundServiceDependency));
 
         Assert.Equal(
 expected: 3,

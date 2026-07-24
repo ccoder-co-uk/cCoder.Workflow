@@ -21,7 +21,7 @@ using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures.EventHandlers;
-using cCoder.Workflow.Exposures.HostedServices;
+using cCoder.Workflow.Dependencies.HostedServices;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Workflow.Services.Foundations;
@@ -81,20 +81,20 @@ public static partial class IServiceCollectionExtensions
     private static void AddWorkflowHostedServices(this IServiceCollection services)
     {
         services.AddWorkflow();
-        services.AddSingleton<IInstanceMaintenanceManagement, InstanceMaintenanceManagement>();
+        services.AddSingleton<IInstanceMaintenanceBackgroundServiceDependency, InstanceMaintenanceBackgroundServiceDependency>();
 
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IInstanceMaintenanceManagement>());
+            serviceProvider.GetRequiredService<IInstanceMaintenanceBackgroundServiceDependency>());
 
-        services.AddSingleton<IQueueInstanceManagement, QueueInstanceManagement>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IQueueInstanceManagement>());
-
-        services.AddSingleton<IScheduledTaskRunnerManagement, ScheduledTaskRunnerManagement>();
+        services.AddSingleton<IQueueInstanceBackgroundServiceDependency, QueueInstanceBackgroundServiceDependency>();
 
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IScheduledTaskRunnerManagement>());
+            serviceProvider.GetRequiredService<IQueueInstanceBackgroundServiceDependency>());
+
+        services.AddSingleton<IScheduledTaskRunnerBackgroundServiceDependency, ScheduledTaskRunnerBackgroundServiceDependency>();
+
+        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
+            serviceProvider.GetRequiredService<IScheduledTaskRunnerBackgroundServiceDependency>());
     }
 
     private static void AddEventingTypes(this IServiceCollection services)

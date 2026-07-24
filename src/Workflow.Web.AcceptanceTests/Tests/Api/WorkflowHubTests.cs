@@ -11,7 +11,7 @@ using Xunit;
 namespace Web.AcceptanceTests.Tests.Api;
 
 [Collection(WebAcceptanceCollection.Name)]
-public sealed partial class WorkflowHubTests(WebAcceptanceFixture fixture)
+public sealed partial class WorkflowHubDependencyTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
     private const string HubRoute = "/Api/Hubs/Workflow";

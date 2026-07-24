@@ -6,10 +6,10 @@ using cCoder.Workflow.Services.Orchestrations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace cCoder.Workflow.Exposures.HostedServices;
+namespace cCoder.Workflow.Dependencies.HostedServices;
 
-internal sealed class InstanceMaintenanceManagement(IServiceScopeFactory serviceScopeFactory)
-    : BackgroundService, IInstanceMaintenanceManagement
+internal sealed class QueueInstanceBackgroundServiceDependency(IServiceScopeFactory serviceScopeFactory)
+    : BackgroundService, IQueueInstanceBackgroundServiceDependency
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -18,6 +18,6 @@ internal sealed class InstanceMaintenanceManagement(IServiceScopeFactory service
         IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementOrchestrationService =
             scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();
 
-        await workflowInstanceManagementOrchestrationService.RunInstanceMaintenanceContinuouslyAsync(cancellationToken: stoppingToken);
+        await workflowInstanceManagementOrchestrationService.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(cancellationToken: stoppingToken);
     }
 }

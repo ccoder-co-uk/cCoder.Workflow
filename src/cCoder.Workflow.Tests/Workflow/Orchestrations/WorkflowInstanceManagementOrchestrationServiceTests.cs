@@ -30,7 +30,7 @@ public sealed class WorkflowInstanceManagementOrchestrationServiceTests
                 ["Services:Workflow"] = "https://workflow.test/",
                 ["Settings:sslPort"] = "7157",
                 ["Workflow:InstanceMaintenance:MaxAgeDays"] = "5",
-                ["Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes"] = "45",
+                ["Workflow:QueueInstanceBackgroundServiceDependency:ExecutingTimeoutMinutes"] = "45",
             })
             .Build();
 
@@ -111,7 +111,7 @@ times: Times.Once);
     }
 
     [Fact]
-    public async Task RunQueueInstanceManagementAsync_ShouldClaimQueuedInstances()
+    public async Task RunQueueInstanceBackgroundServiceDependencyAsync_ShouldClaimQueuedInstances()
     {
         // Given
         FlowInstanceData queuedInstance = CreateQueuedFlowInstanceData();
@@ -133,7 +133,7 @@ cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: 0);
 
         // When
-        await orchestrationService.RunQueueInstanceManagementAsync();
+        await orchestrationService.RunQueueInstanceBackgroundServiceDependencyAsync();
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(

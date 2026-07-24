@@ -5,16 +5,16 @@
 using Microsoft.AspNetCore.SignalR;
 
 
-namespace cCoder.Workflow.Exposures.Hubs;
+namespace cCoder.Workflow.Dependencies.Hubs;
 
-public class WorkflowHub : Hub
+public class WorkflowHubDependency : Hub
 {
     private readonly ILogger log;
     private static readonly IDictionary<string, ICollection<HistoryItem>> History =
         new Dictionary<string, ICollection<HistoryItem>>();
     private static readonly IDictionary<string, int> UserCounts = new Dictionary<string, int>();
 
-    public WorkflowHub(ILogger<WorkflowHub> log)
+    public WorkflowHubDependency(ILogger<WorkflowHubDependency> log)
     {
         this.log = log;
     }

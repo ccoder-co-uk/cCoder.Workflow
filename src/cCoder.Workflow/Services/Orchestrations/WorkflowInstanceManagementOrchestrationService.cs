@@ -34,7 +34,7 @@ internal sealed partial class WorkflowInstanceManagementOrchestrationService(
         try
         {
             await RunInstanceMaintenanceAsync(cancellationToken: cancellationToken);
-            await RunQueueInstanceManagementAsync(cancellationToken: cancellationToken);
+            await RunQueueInstanceBackgroundServiceDependencyAsync(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
@@ -94,30 +94,30 @@ internal sealed partial class WorkflowInstanceManagementOrchestrationService(
         }
     }
 
-    public Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunQueueInstanceManagementContinuouslyAsync(cancellationToken: cancellationToken); });
+    public Task RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(cancellationToken: cancellationToken); });
 
-    private async Task ExecuteRunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default)
+    private async Task ExecuteRunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (workflowConfiguration.IsMigrating)
         {
             return;
         }
 
-        await RunQueueInstanceManagementAsync(cancellationToken: cancellationToken);
+        await RunQueueInstanceBackgroundServiceDependencyAsync(cancellationToken: cancellationToken);
 
         using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes: 1));
 
         while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: cancellationToken))
         {
-            await RunQueueInstanceManagementAsync(cancellationToken: cancellationToken);
+            await RunQueueInstanceBackgroundServiceDependencyAsync(cancellationToken: cancellationToken);
         }
     }
 
-    public Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunQueueInstanceManagementAsync(cancellationToken: cancellationToken); });
+    public Task RunQueueInstanceBackgroundServiceDependencyAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunQueueInstanceBackgroundServiceDependencyAsync(cancellationToken: cancellationToken); });
 
-    private async Task ExecuteRunQueueInstanceManagementAsync(CancellationToken cancellationToken = default)
+    private async Task ExecuteRunQueueInstanceBackgroundServiceDependencyAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -260,5 +260,5 @@ content: new StringContent(JsonSerializer.Serialize(value: request), System.Text
         TimeSpan.FromDays(value: appConfiguration.GetValue<double?>(key: "Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
 
     private TimeSpan GetExecutingInstanceTimeout() =>
-        TimeSpan.FromMinutes(value: appConfiguration.GetValue<double?>(key: "Workflow:QueueInstanceManagement:ExecutingTimeoutMinutes") ?? 30);
+        TimeSpan.FromMinutes(value: appConfiguration.GetValue<double?>(key: "Workflow:QueueInstanceBackgroundServiceDependency:ExecutingTimeoutMinutes") ?? 30);
 }
