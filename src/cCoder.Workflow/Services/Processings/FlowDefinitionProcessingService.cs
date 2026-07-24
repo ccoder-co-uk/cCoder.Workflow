@@ -2,10 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies;
-using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
@@ -39,78 +37,26 @@ internal sealed partial class FlowDefinitionProcessingService(
         return true;
     }
 
-    public FlowInstanceData CreateFlowDefinitionQueuedFlowInstanceData(
-        FlowDefinition flowDefinition,
-        string caller,
-        string args) =>
+    public object ParseFlowDefinition(string definitionJson) =>
         TryCatch(operation: () =>
         {
-            ValidateInputs(inputs: [flowDefinition, caller, args]);
-
-            return ExecuteCreateFlowDefinitionQueuedFlowInstanceData(
-                flowDefinition: flowDefinition,
-                caller: caller,
-                args: args);
+            ValidateInputs(inputs: [definitionJson]);
+            return jsonBroker.ParseJson<Flow>(json: definitionJson);
         });
 
-    private FlowInstanceData ExecuteCreateFlowDefinitionQueuedFlowInstanceData(
-        FlowDefinition flowDefinition,
-        string caller,
-        string args)
-    {
-        if (flowDefinition == null)
+    public object ParseFlowDefinitionData(string args) =>
+        TryCatch(operation: () =>
         {
-            throw new SecurityException("Access Denied!");
-        }
+            ValidateInputs(inputs: [args]);
+            return jsonBroker.ParseJson(json: args);
+        });
 
-        if (string.IsNullOrWhiteSpace(value: caller))
+    public string SerializeFlowDefinitionContext(object context) =>
+        TryCatch(operation: () =>
         {
-            throw new SecurityException("Access Denied!");
-        }
-
-        Guid instanceId = Guid.NewGuid();
-        Flow flow = ParseFlow(definitionJson: flowDefinition.DefinitionJson);
-
-        if (flow == null)
-        {
-            throw new InvalidOperationException("Flow definition does not contain a valid workflow definition.");
-        }
-
-        WorkflowContext context = new()
-        {
-            ExecutionState = "Queued",
-            InstanceId = instanceId,
-            Flow = flow,
-            Variables = new Dictionary<string, object> { { "Data", args } },
-            ExecutionLog = Array.Empty<WorkflowLogEntry>()
-        };
-
-        Start start = context.Flow.Activities.OfType<Start>()
-            .FirstOrDefault();
-
-        if (start == null)
-        {
-            throw new InvalidOperationException("Flow definition does not contain a Start activity.");
-        }
-
-        start.Data = jsonBroker.ParseJson(json: args);
-
-        return new FlowInstanceData
-        {
-            Id = instanceId,
-            State = "Queued",
-            FlowDefinitionId = flowDefinition.Id,
-            Start = DateTimeOffset.UtcNow,
-            Caller = caller,
-            ContextString = jsonBroker.Serialize(value: context),
-            FlowDefinition = flowDefinition
-        };
-    }
-
-    private Flow ParseFlow(string definitionJson) =>
-        string.IsNullOrWhiteSpace(value: definitionJson)
-            ? null
-            : jsonBroker.ParseJson<Flow>(json: definitionJson);
+            ValidateInputs(inputs: [context]);
+            return jsonBroker.Serialize(value: context);
+        });
 
     public FlowDefinition Get(Guid flowDefinitionId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowDefinitionId]); return ExecuteGet(flowDefinitionId: flowDefinitionId); });

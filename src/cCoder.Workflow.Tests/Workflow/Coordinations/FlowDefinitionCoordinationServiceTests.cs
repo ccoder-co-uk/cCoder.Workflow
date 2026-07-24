@@ -16,18 +16,18 @@ namespace cCoder.Core.Services.Tests.Workflow.Coordinations;
 
 public partial class FlowDefinitionCoordinationServiceTests
 {
-    private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
+    private readonly Mock<IFlowQueueOrchestrationService> flowQueueOrchestrationServiceMock;
     private readonly Mock<IFlowInstanceDataOrchestrationService> flowInstanceDataOrchestrationServiceMock;
     private readonly FlowDefinitionCoordinationService coordinationService;
 
     public FlowDefinitionCoordinationServiceTests()
     {
-        flowDefinitionOrchestrationServiceMock =
-            new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
+        flowQueueOrchestrationServiceMock =
+            new Mock<IFlowQueueOrchestrationService>(MockBehavior.Strict);
         flowInstanceDataOrchestrationServiceMock =
             new Mock<IFlowInstanceDataOrchestrationService>(MockBehavior.Strict);
         coordinationService = new FlowDefinitionCoordinationService(
-            flowDefinitionOrchestrationServiceMock.Object,
+            flowQueueOrchestrationServiceMock.Object,
             flowInstanceDataOrchestrationServiceMock.Object);
     }
 

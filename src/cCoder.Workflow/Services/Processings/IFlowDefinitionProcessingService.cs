@@ -13,10 +13,11 @@ public interface IFlowDefinitionProcessingService
 {
     bool AuthorizeFlowDefinitionExecution(string userId, int? appId);
 
-    FlowInstanceData CreateFlowDefinitionQueuedFlowInstanceData(
-        FlowDefinition flowDefinition,
-        string caller,
-        string args);
+    object ParseFlowDefinition(string definitionJson);
+
+    object ParseFlowDefinitionData(string args);
+
+    string SerializeFlowDefinitionContext(object context);
 
     FlowDefinition Get(Guid flowDefinitionId);
 

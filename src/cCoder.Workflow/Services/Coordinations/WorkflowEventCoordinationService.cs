@@ -9,7 +9,7 @@ namespace cCoder.Workflow.Services.Coordinations;
 
 internal sealed partial class WorkflowEventCoordinationService(
     IWorkflowEventOrchestrationService workflowEventOrchestrationService,
-    IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService)
+    IFlowQueueOrchestrationService flowQueueOrchestrationService)
     : IWorkflowEventCoordinationService
 {
     public Task RaiseEvents(object payload, string eventName, int? appIdOverride = null) =>
@@ -53,7 +53,7 @@ internal sealed partial class WorkflowEventCoordinationService(
     {
         try
         {
-            _ = await flowDefinitionOrchestrationService.QueueFlowDefinitionAsync(
+            _ = await flowQueueOrchestrationService.QueueFlowDefinitionAsync(
                 flowDefinitionId: subscription.FlowId,
                 asUserId: subscription.ExecuteAsUser?.Id ?? subscription.ExecuteAs,
                 args: args);

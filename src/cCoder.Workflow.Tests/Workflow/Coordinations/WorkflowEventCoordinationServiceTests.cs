@@ -15,7 +15,7 @@ namespace cCoder.Core.Services.Tests.Workflow.Coordinations;
 public partial class WorkflowEventCoordinationServiceTests
 {
     private readonly Mock<IWorkflowEventOrchestrationService> workflowEventOrchestrationServiceMock;
-    private readonly Mock<IFlowDefinitionOrchestrationService> flowDefinitionOrchestrationServiceMock;
+    private readonly Mock<IFlowQueueOrchestrationService> flowQueueOrchestrationServiceMock;
     private readonly WorkflowEventCoordinationService coordinationService;
 
     public WorkflowEventCoordinationServiceTests()
@@ -23,12 +23,12 @@ public partial class WorkflowEventCoordinationServiceTests
         workflowEventOrchestrationServiceMock =
             new Mock<IWorkflowEventOrchestrationService>(MockBehavior.Strict);
 
-        flowDefinitionOrchestrationServiceMock =
-            new Mock<IFlowDefinitionOrchestrationService>(MockBehavior.Strict);
+        flowQueueOrchestrationServiceMock =
+            new Mock<IFlowQueueOrchestrationService>(MockBehavior.Strict);
 
         coordinationService = new WorkflowEventCoordinationService(
             workflowEventOrchestrationServiceMock.Object,
-            flowDefinitionOrchestrationServiceMock.Object);
+            flowQueueOrchestrationServiceMock.Object);
     }
 
     private static Page CreateRandomPage() =>

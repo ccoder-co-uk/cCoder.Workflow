@@ -1692,6 +1692,51 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Dependencies.Results.Result",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Id",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Message",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Success",
+          "Type": "System.Boolean"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.Results.Result\u003CT\u003E",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Id",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Item",
+          "Type": "T"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "ToNew",
+          "Inputs": [
+            {
+              "Name": "item",
+              "Type": "TNew"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Dependencies.Results.Result\u003CTNew\u003E"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Exposures.Controllers.BaselineController",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -2663,51 +2708,6 @@
         }
       ],
       "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Models.Result",
-      "StandardElementType": "Model",
-      "Properties": [
-        {
-          "Name": "Id",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Message",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Success",
-          "Type": "System.Boolean"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Models.Result\u003CT\u003E",
-      "StandardElementType": "Model",
-      "Properties": [
-        {
-          "Name": "Id",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Item",
-          "Type": "T"
-        }
-      ],
-      "Methods": [
-        {
-          "Name": "ToNew",
-          "Inputs": [
-            {
-              "Name": "item",
-              "Type": "TNew"
-            }
-          ],
-          "ReturnType": "cCoder.Workflow.Models.Result\u003CTNew\u003E"
-        }
-      ]
     },
     {
       "Name": "cCoder.Workflow.Models.WorkflowConfiguration",
@@ -3740,7 +3740,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendarEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarEventAsync",
@@ -3817,7 +3817,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendar\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendar\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarAsync",
@@ -3904,39 +3904,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowDefinition\u003E\u003E\u003E"
-        },
-        {
-          "Name": "AuthorizeFlowDefinitionExecution",
-          "Inputs": [
-            {
-              "Name": "userId",
-              "Type": "System.String"
-            },
-            {
-              "Name": "appId",
-              "Type": "System.Int32?"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "CreateFlowDefinitionQueuedFlowInstanceData",
-          "Inputs": [
-            {
-              "Name": "flowDefinition",
-              "Type": "FlowDefinition"
-            },
-            {
-              "Name": "caller",
-              "Type": "System.String"
-            },
-            {
-              "Name": "args",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "FlowInstanceData"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllFlowDefinitionAsync",
@@ -3989,24 +3957,6 @@
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
         },
         {
-          "Name": "QueueFlowDefinitionAsync",
-          "Inputs": [
-            {
-              "Name": "flowDefinitionId",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "asUserId",
-              "Type": "System.String"
-            },
-            {
-              "Name": "args",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
-        },
-        {
           "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
@@ -4041,7 +3991,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
@@ -4106,6 +4056,31 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "QueueFlowDefinitionAsync",
+          "Inputs": [
+            {
+              "Name": "flowDefinitionId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "asUserId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Guid\u003E"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService",
       "StandardElementType": "OrchestrationService",
       "Properties": [],
@@ -4118,7 +4093,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CScheduledTask\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
         },
         {
           "Name": "AddScheduledTaskAsync",
@@ -4246,7 +4221,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
         },
         {
           "Name": "AddWorkflowEventAsync",
@@ -4463,7 +4438,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendarEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -4560,7 +4535,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CCalendar\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendar\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarAsync",
@@ -4684,7 +4659,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowDefinition\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
           "Name": "AuthorizeFlowDefinitionExecution",
@@ -4699,24 +4674,6 @@
             }
           ],
           "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "CreateFlowDefinitionQueuedFlowInstanceData",
-          "Inputs": [
-            {
-              "Name": "flowDefinition",
-              "Type": "FlowDefinition"
-            },
-            {
-              "Name": "caller",
-              "Type": "System.String"
-            },
-            {
-              "Name": "args",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "FlowInstanceData"
         },
         {
           "Name": "DeleteAllFlowDefinitionAsync",
@@ -4767,6 +4724,36 @@
             }
           ],
           "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+        },
+        {
+          "Name": "ParseFlowDefinition",
+          "Inputs": [
+            {
+              "Name": "definitionJson",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "ParseFlowDefinitionData",
+          "Inputs": [
+            {
+              "Name": "args",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "SerializeFlowDefinitionContext",
+          "Inputs": [
+            {
+              "Name": "context",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
         },
         {
           "Name": "UpdateFlowDefinitionAsync",
@@ -4840,7 +4827,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
@@ -4964,7 +4951,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CScheduledTask\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
         },
         {
           "Name": "AddScheduledTaskAsync",
@@ -5162,7 +5149,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
         },
         {
           "Name": "AddWorkflowEventAsync",
@@ -5494,15 +5481,15 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
       "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
     },
     {
+      "FromType": "cCoder.Workflow.Services.Coordinations.FlowDefinitionCoordinationService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService"
+    },
+    {
       "FromType": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
-      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService"
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Coordinations.WorkflowEventCoordinationService",
@@ -5613,15 +5600,19 @@
       "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService"
     },
     {
-      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowDefinitionOrchestrationService",
-      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService"
-    },
-    {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataProcessingService"
     },
     {
@@ -5759,74 +5750,11 @@
       "LineNumber": 18
     },
     {
-      "Code": "STXM001",
-      "Description": "Models must not declare methods.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Models.Result\u003CT\u003E",
-      "LineNumber": 45
-    },
-    {
       "Code": "STXA001",
       "Description": "An aggregation service may have any number of dependencies, but they must share the same service variation.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
       "LineNumber": 16
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "LineNumber": 226
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "LineNumber": 7
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "LineNumber": 8
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "LineNumber": 13
-    },
-    {
-      "Code": "STXFORMAT013",
-      "Description": "C# source files must use one consistent line-ending style throughout the project.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "LineNumber": 14
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "LineNumber": 109
-    },
-    {
-      "Code": "STXFORMAT001",
-      "Description": "Source files must not contain newline characters after the final code token.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "LineNumber": 264
     }
   ]
 }

@@ -33,7 +33,7 @@ public partial class WorkflowEventCoordinationServiceTests
             .Setup(expression: x => x.SerializeWorkflowEventPayload(page))
             .Returns(value: "{\"Path\":\"home\"}");
 
-        flowDefinitionOrchestrationServiceMock
+        flowQueueOrchestrationServiceMock
             .Setup(expression: x => x.QueueFlowDefinitionAsync(
                 flowDefinitionId: subscription.FlowId,
                 asUserId: subscription.ExecuteAs,
@@ -56,7 +56,7 @@ public partial class WorkflowEventCoordinationServiceTests
             expression: x => x.SerializeWorkflowEventPayload(page),
             times: Times.Once);
 
-        flowDefinitionOrchestrationServiceMock.Verify(
+        flowQueueOrchestrationServiceMock.Verify(
             expression: x => x.QueueFlowDefinitionAsync(
                 flowDefinitionId: subscription.FlowId,
                 asUserId: subscription.ExecuteAs,
@@ -64,7 +64,7 @@ public partial class WorkflowEventCoordinationServiceTests
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.VerifyNoOtherCalls();
-        flowDefinitionOrchestrationServiceMock.VerifyNoOtherCalls();
+        flowQueueOrchestrationServiceMock.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -83,6 +83,6 @@ public partial class WorkflowEventCoordinationServiceTests
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.VerifyNoOtherCalls();
-        flowDefinitionOrchestrationServiceMock.VerifyNoOtherCalls();
+        flowQueueOrchestrationServiceMock.VerifyNoOtherCalls();
     }
 }

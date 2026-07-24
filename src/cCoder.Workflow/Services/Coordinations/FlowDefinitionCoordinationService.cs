@@ -8,7 +8,7 @@ using cCoder.Workflow.Services.Orchestrations;
 namespace cCoder.Workflow.Services.Coordinations;
 
 internal sealed partial class FlowDefinitionCoordinationService(
-    IFlowDefinitionOrchestrationService flowDefinitionOrchestrationService,
+    IFlowQueueOrchestrationService flowQueueOrchestrationService,
     IFlowInstanceDataOrchestrationService flowInstanceDataOrchestrationService)
     : IFlowDefinitionCoordinationService
 {
@@ -28,26 +28,9 @@ internal sealed partial class FlowDefinitionCoordinationService(
     public ValueTask<Guid> QueueAsync(Guid flowDefinitionId, string asUserId, string args) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinitionId, asUserId, args]); return await ExecuteQueueAsync(flowDefinitionId: flowDefinitionId, asUserId: asUserId, args: args); }, isValueTask: true);
 
-    private async ValueTask<Guid> ExecuteQueueAsync(Guid flowDefinitionId, string asUserId, string args)
-    {
-        FlowDefinition flowDefinition =
-            flowDefinitionOrchestrationService
-                .GetAll(ignoreFilters: true)
-                .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == flowDefinitionId);
-
-        flowDefinitionOrchestrationService.AuthorizeFlowDefinitionExecution(
-            userId: asUserId,
-            appId: flowDefinition?.AppId);
-
-        FlowInstanceData flowInstance =
-            flowDefinitionOrchestrationService.CreateFlowDefinitionQueuedFlowInstanceData(
-                flowDefinition: flowDefinition,
-                caller: asUserId,
-                args: args);
-
-        flowInstance = await flowInstanceDataOrchestrationService
-            .AddQueuedFlowInstanceDataAsync(newEntity: flowInstance);
-
-        return flowInstance.Id;
-    }
+    private ValueTask<Guid> ExecuteQueueAsync(Guid flowDefinitionId, string asUserId, string args) =>
+        flowQueueOrchestrationService.QueueFlowDefinitionAsync(
+            flowDefinitionId: flowDefinitionId,
+            asUserId: asUserId,
+            args: args);
 }

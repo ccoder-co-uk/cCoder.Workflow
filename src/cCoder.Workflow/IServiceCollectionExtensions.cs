@@ -198,6 +198,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowEventCoordinationService, WorkflowEventCoordinationService>();
         services.AddTransient<IWorkflowMigrationAggregationService, WorkflowMigrationAggregationService>();
         services.AddTransient<IFlowDefinitionOrchestrationService, FlowDefinitionOrchestrationService>();
+        services.AddTransient<IFlowQueueOrchestrationService, FlowQueueOrchestrationService>();
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IScheduledTaskOrchestrationService, ScheduledTaskOrchestrationService>();
         services.AddTransient<ITaskRunnerOrchestrationService, TaskRunnerOrchestrationService>();

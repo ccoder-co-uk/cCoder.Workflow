@@ -65,15 +65,15 @@ public class AppCoordinationServiceTests
 
         calendarOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateCalendar(
 items: It.Is<IEnumerable<Calendar>>(items => items.All(calendar => calendar.AppId == 9))))
-            .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<Calendar>>>(result: []));
+            .Returns(value: ValueTask.FromResult<IEnumerable<Result<Calendar>>>(result: []));
 
         flowDefinitionOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateFlowDefinition(
 items: It.Is<IEnumerable<FlowDefinition>>(items => items.All(flow => flow.AppId == 9))))
-            .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<FlowDefinition>>>(result: []));
+            .Returns(value: ValueTask.FromResult<IEnumerable<Result<FlowDefinition>>>(result: []));
 
         scheduledTaskOrchestrationServiceMock.Setup(expression: x => x.AddOrUpdateScheduledTask(
 items: It.Is<IEnumerable<ScheduledTask>>(items => items.All(task => task.AppId == 9))))
-            .Returns(value: ValueTask.FromResult<IEnumerable<cCoder.Workflow.Models.Result<ScheduledTask>>>(result: []));
+            .Returns(value: ValueTask.FromResult<IEnumerable<Result<ScheduledTask>>>(result: []));
 
         await service.AddAppAsync(newApp: app);
 
