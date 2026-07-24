@@ -20,7 +20,12 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
         Log(level:WorkflowLogLevel.Info, message:$"Sending a batch of {Data.Length} requests to the API.");
 
         string body = new { Requests = Data }.ToJsonForOdata();
-        HttpResponseMessage response = await api.PostAsync(requestUri:Query + "$batch", content:new StringContent(body, Encoding.UTF8, "application/json"));
+        HttpResponseMessage response = await api.PostAsync(
+            requestUri: Query + "$batch",
+            content: new StringContent(
+                content: body,
+                encoding: Encoding.UTF8,
+                mediaType: "application/json"));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -36,16 +41,33 @@ public class ApiPostBatch : ApiActivity<BatchedResponse[]>
             Result = responseBatch.Responses;
 
             Log(level:WorkflowLogLevel.Info, message:$"Received {responseBatch.Responses.Length} batched responses");
-            Log(level:WorkflowLogLevel.Info, message:$"Received {responseBatch.Responses.Where(r => r.Status.StartsWith("2")).Count()} successes");
+            int successCount = responseBatch
+                .Responses
+                .Count(
+                    predicate: response => response.Status.StartsWith(
+                        value: "2"));
 
-            BatchedResponse[] failures = responseBatch.Responses.Where(predicate:r => !r.Status.StartsWith("2")).ToArray();
+            Log(
+                level: WorkflowLogLevel.Info,
+                message: $"Received {successCount} successes");
+
+            BatchedResponse[] failures = responseBatch
+                .Responses
+                .Where(
+                    predicate: response => !response.Status.StartsWith(
+                        value: "2"))
+                .ToArray();
 
             if (failures.Any())
             {
                 Log(level:WorkflowLogLevel.Warning, message:$"Received {failures.Length} failures");
 
                 foreach (BatchedResponse failure in failures)
-                    Log(level:WorkflowLogLevel.Error, message:failure.Body.ToJsonForOdata());
+                {
+                    Log(
+                        level: WorkflowLogLevel.Error,
+                        message: failure.Body.ToJsonForOdata());
+                }
             }
         }
         catch (Exception ex)

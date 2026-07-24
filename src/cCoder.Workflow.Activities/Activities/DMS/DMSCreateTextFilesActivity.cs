@@ -23,11 +23,18 @@ public class DMSCreateTextFilesActivity : DMSActivity
                 using HttpClient api = GetHttpClient();
                 using IEnumerator<string> n = Names.GetEnumerator();
                 using IEnumerator<string> c = Contents.GetEnumerator();
+
                 while (n.MoveNext() && c.MoveNext())
                 {
                     if (n.Current != null && c.Current != null)
                     {
-                        _ = await api.PutAsync(requestUri:$"DMS/{Path.TrimEnd('/')}/{n.Current}", content:new StringContent(c.Current));
+                        string path = Path.TrimEnd(
+                            trimChar: '/');
+
+                        _ = await api.PutAsync(
+                            requestUri: $"DMS/{path}/{n.Current}",
+                            content: new StringContent(
+                                content: c.Current));
                     }
                 }
 

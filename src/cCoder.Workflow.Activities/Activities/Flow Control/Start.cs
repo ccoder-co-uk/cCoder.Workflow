@@ -18,7 +18,15 @@ public sealed class Start : CoreActivity
     public override async Task ExecuteAsync()
     {
         if (Data != null)
-            Log(level:WorkflowLogLevel.Debug, message:JsonConvert.SerializeObject(Data, ObjectExtensions.GetODataJsonSettings()));
+        {
+            string dataJson = JsonConvert.SerializeObject(
+                value: Data,
+                settings: ObjectExtensions.GetODataJsonSettings());
+
+            Log(
+                level: WorkflowLogLevel.Debug,
+                message: dataJson);
+        }
 
         if (Context.Variables.ContainsKey(key:"AppId"))
         {

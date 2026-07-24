@@ -17,6 +17,9 @@ public class CsvFileActivity : DMSActivity
     public override async Task ExecuteAsync()
     {
         using System.Net.Http.HttpClient api = GetHttpClient();
-        Result = cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(data:await GetFileContents(api), config:CSVParseConfig);
+        Result = cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(
+            data: await GetFileContents(
+                api: api),
+            config: CSVParseConfig);
     }
 }

@@ -22,11 +22,18 @@ public class DMSCreateBinaryFilesActivity : DMSActivity
                 using HttpClient api = GetHttpClient();
                 using IEnumerator<string> n = Names.GetEnumerator();
                 using IEnumerator<byte[]> c = Contents.GetEnumerator();
+
                 while (n.MoveNext() && c.MoveNext())
                 {
                     if (n.Current != null && c.Current != null)
                     {
-                        _ = await api.PostAsync(requestUri:$"DMS/{Path.TrimEnd('/')}/{n.Current}", content:new ByteArrayContent(c.Current));
+                        string path = Path.TrimEnd(
+                            trimChar: '/');
+
+                        _ = await api.PostAsync(
+                            requestUri: $"DMS/{path}/{n.Current}",
+                            content: new ByteArrayContent(
+                                content: c.Current));
                     }
                 }
 
