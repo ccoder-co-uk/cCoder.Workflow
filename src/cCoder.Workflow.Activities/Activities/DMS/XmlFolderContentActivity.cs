@@ -54,12 +54,14 @@ public class XmlFolderContentActivity : DMSActivity
         List<(string, string)> results = [];
 
         foreach (ZipArchiveEntry entry in folderArchive.Entries)
+        {
             if (entry.Name.EndsWith(value:".xml"))
             {
                 using Stream entryStream = entry.Open();
                 using StreamReader entryReader = new(entryStream);
                 results.Add(item:(entry.Name, entryReader.ReadToEnd()));
             }
+        }
 
         return results;
     }

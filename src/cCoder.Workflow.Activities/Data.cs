@@ -27,7 +27,9 @@ public static class Data
     public static ExpandoObject[] Flatten(object source, string path = "")
     {
         if (source is JArray array)
+        {
             return array.SelectMany(selector:item => Flatten(item, path)).ToArray();
+        }
 
         List<ExpandoObject> results = [];
         IDictionary<string, JToken> obj = source as JObject ?? JObject.FromObject(o:source);
@@ -41,7 +43,9 @@ collection:            obj.Where(kv => !Primitives.Contains(kv.Value.Type))
         {
             IDictionary<string, object> current = new ExpandoObject();
             foreach (KeyValuePair<string, JToken> value in values)
+            {
                 current[$"{path}_{value.Key}".Trim(trimChar:'_')] = value.Value;
+            }
 
             results.Add(item:(ExpandoObject)current);
         }
@@ -51,7 +55,9 @@ collection:            obj.Where(kv => !Primitives.Contains(kv.Value.Type))
             {
                 IDictionary<string, object> current = result;
                 foreach (KeyValuePair<string, JToken> value in values)
+                {
                     current[$"{path}_{value.Key}".Trim(trimChar:'_')] = value.Value;
+                }
             }
         }
 
@@ -82,10 +88,14 @@ internal sealed class CleanJsonWriter(TextWriter writer) : JsonTextWriter(writer
         string result = name;
 
         if (name.StartsWith(value:'@') || name.StartsWith(value:'#'))
+        {
             result = name[1..];
+        }
 
         if (result.Contains(value:':'))
+        {
             result = result.Split(separator:':').Last();
+        }
 
         base.WritePropertyName(name:result);
     }

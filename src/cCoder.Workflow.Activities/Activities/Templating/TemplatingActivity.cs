@@ -65,7 +65,9 @@ content:                new StringContent(Data.ToJson(), Encoding.UTF8, "applica
             MailServer serverInfo = app.MailServers.FirstOrDefault(predicate:s => s.Name == serverName);
 
             if (serverInfo == null)
+            {
                 throw new InvalidOperationException("Mail Server configuration could not be found.");
+            }
 
             string content = await Render(api:api);
 

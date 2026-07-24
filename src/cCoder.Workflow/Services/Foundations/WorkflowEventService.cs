@@ -19,11 +19,15 @@ internal class WorkflowEventService(
     {
         WorkflowEvent workflowEvent = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (workflowEvent is not null)
+        {
             return workflowEvent;
+        }
 
         WorkflowEvent unrestrictedWorkflowEvent = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedWorkflowEvent is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }

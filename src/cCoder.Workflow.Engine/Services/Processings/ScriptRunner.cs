@@ -33,7 +33,9 @@ public sealed class ScriptRunner : IScriptProcessingService
                 .ToArray();
 
             foreach (string assemblyPath in assembliesToLoad)
+            {
                 SafelyLoadAssembly(log:log, loadedAssemblies:loadedAssemblies, assemblyPath:assemblyPath);
+            }
 
             references = loadedAssemblies.ToArray();
         }
@@ -60,7 +62,9 @@ public sealed class ScriptRunner : IScriptProcessingService
             log(arg1:WorkflowLogLevel.Error, arg2:exception.Message);
 
             if (exception is Microsoft.CodeAnalysis.Scripting.CompilationErrorException compilationError)
+            {
                 log(arg1:WorkflowLogLevel.Error, arg2:$"Source of the problem:{Environment.NewLine}{compilationError.Source}");
+            }
 
             return default;
         }
@@ -98,7 +102,9 @@ public sealed class ScriptRunner : IScriptProcessingService
             List<string> context = [];
 
             foreach (object key in exception.Data.Keys)
+            {
                 context.Add(item:$"{key}: {exception.Data[key]}");
+            }
 
             log?.Invoke(
 arg1:                WorkflowLogLevel.Error,

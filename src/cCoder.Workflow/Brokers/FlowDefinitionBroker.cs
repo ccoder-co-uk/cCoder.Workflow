@@ -54,7 +54,9 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
             .FirstOrDefault(predicate:foundFlowDefinition => foundFlowDefinition.Id == id);
 
         if (flowDefinition is null)
+        {
             return;
+        }
 
         coreDataContext.FlowInstances.RemoveRange(entities:flowDefinition.Instances);
         coreDataContext.FlowDefinitions.Remove(entity:flowDefinition);
@@ -89,7 +91,9 @@ public class FlowDefinitionBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask DeleteAllFlowDefinitionsAsync(IEnumerable<FlowDefinition> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.FlowDefinitions.RemoveRange(entities:items);

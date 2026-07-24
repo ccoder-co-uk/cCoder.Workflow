@@ -79,7 +79,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Post([FromBody] FlowDefinition entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        }
 
         return Ok(value:await service.AddAsync(entity));
     }
@@ -96,7 +98,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        }
 
         return Ok(value:await service.UpdateAsync(entity));
     }
@@ -106,7 +110,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         FlowDefinition originalEntity = service.Get(id:key);
         if (originalEntity == null)
+        {
             return NotFound();
+        }
 
         delta.Patch(original:originalEntity);
         return Ok(value:await service.UpdateAsync(originalEntity));

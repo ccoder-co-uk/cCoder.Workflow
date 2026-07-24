@@ -38,7 +38,9 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             log.LogError(exception:ex, message:ex.Message);
 
             if (ex.InnerException != null)
+            {
                 log.LogError(exception:ex.InnerException, message:ex.InnerException.Message);
+            }
         }
     }
 
@@ -48,14 +50,18 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
     public async Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (workflowConfiguration.IsMigrating)
+        {
             return;
+        }
 
         await RunInstanceMaintenanceAsync(cancellationToken:cancellationToken);
 
         using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes:1));
 
         while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken:cancellationToken))
+        {
             await RunInstanceMaintenanceAsync(cancellationToken:cancellationToken);
+        }
     }
 
     public async Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default)
@@ -69,21 +75,27 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             log.LogError(exception:ex, message:ex.Message);
 
             if (ex.InnerException != null)
+            {
                 log.LogError(exception:ex.InnerException, message:ex.InnerException.Message);
+            }
         }
     }
 
     public async Task RunQueueInstanceManagementContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (workflowConfiguration.IsMigrating)
+        {
             return;
+        }
 
         await RunQueueInstanceManagementAsync(cancellationToken:cancellationToken);
 
         using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes:1));
 
         while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken:cancellationToken))
+        {
             await RunQueueInstanceManagementAsync(cancellationToken:cancellationToken);
+        }
     }
 
     public async Task RunQueueInstanceManagementAsync(CancellationToken cancellationToken = default)
@@ -98,7 +110,9 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             log.LogError(exception:ex, message:ex.Message);
 
             if (ex.InnerException != null)
+            {
                 log.LogError(exception:ex.InnerException, message:ex.InnerException.Message);
+            }
         }
     }
 
@@ -107,7 +121,9 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
         FlowInstanceData[] queuedInstances = workflowInstanceManagementBroker.GetQueuedInstances();
 
         foreach (FlowInstanceData queuedInstance in queuedInstances)
+        {
             await ExecuteInstanceAsync(instanceId:queuedInstance.Id, cancellationToken:cancellationToken);
+        }
     }
 
     public async ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid id)
@@ -149,7 +165,9 @@ internal sealed class WorkflowInstanceManagementOrchestrationService(
             .ClaimQueuedInstanceAsync(id:instanceId, cancellationToken:cancellationToken);
 
         if (dbInstance == null)
+        {
             return;
+        }
 
         try
         {

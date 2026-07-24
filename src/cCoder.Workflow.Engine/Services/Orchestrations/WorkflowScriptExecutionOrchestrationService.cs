@@ -46,13 +46,21 @@ settings:                new JsonSerializerSettings { TypeNameHandling = TypeNam
     private void LogSync(WorkflowLogLevel level, string message)
     {
         if (level == WorkflowLogLevel.Error || level == WorkflowLogLevel.Fatal)
+        {
             logger.LogError(message:"{Message}", args:message);
+        }
         else if (level == WorkflowLogLevel.Warning)
+        {
             logger.LogWarning(message:"{Message}", args:message);
+        }
         else if (level == WorkflowLogLevel.Info)
+        {
             logger.LogInformation(message:"{Message}", args:message);
+        }
         else
+        {
             logger.LogDebug(message:"{Message}", args:message);
+        }
     }
 
     public sealed class ExecutionDetails

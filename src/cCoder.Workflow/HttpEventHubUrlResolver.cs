@@ -17,10 +17,14 @@ public static class HttpEventHubUrlResolver
         string explicitHubUrl = configuration.GetValue<string>(key:"Eventing:Http:HubUrl");
 
         if (!string.IsNullOrWhiteSpace(value:explicitHubUrl))
+        {
             return Normalize(value:explicitHubUrl);
+        }
 
         if (!(configuration.GetValue<bool?>(key:"Settings:enableExternalEventing") ?? true))
+        {
             return string.Empty;
+        }
 
         string hostedServicesRoot = configuration.GetValue<string>(key:"Services:HostedServices");
 
@@ -32,18 +36,26 @@ public static class HttpEventHubUrlResolver
     public static string Normalize(string value)
     {
         if (string.IsNullOrWhiteSpace(value:value))
+        {
             return value;
+        }
 
         if (!Uri.TryCreate(uriString:value, uriKind:UriKind.Absolute, result:out Uri uri))
+        {
             return value;
+        }
 
         string path = uri.AbsolutePath?.Trim(trimChar:'/') ?? string.Empty;
 
         if (string.Equals(a:path, b:DefaultHubPath, comparisonType:StringComparison.OrdinalIgnoreCase))
+        {
             return uri.ToString();
+        }
 
         if (string.IsNullOrWhiteSpace(value:path))
+        {
             return $"{value.TrimEnd(trimChar:'/')}/{DefaultHubPath}";
+        }
 
         return uri.ToString();
     }

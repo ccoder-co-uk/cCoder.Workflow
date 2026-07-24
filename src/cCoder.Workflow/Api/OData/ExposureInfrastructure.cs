@@ -52,7 +52,9 @@ namespace cCoder.Workflow.Api.OData
         private static MetadataContainer BuildMetaFor(IEdmType definition)
         {
             if (definition?.TypeKind != EdmTypeKind.Collection)
+            {
                 return null;
+            }
 
             Type cSharpType = Type.GetType(typeName:definition.FullTypeName(), throwOnError:false);
             return cSharpType is null ? null : new MetadataContainer(cSharpType, true, true);

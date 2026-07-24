@@ -40,7 +40,9 @@ public class JsonFolderContentActivity : DMSActivity
         string query = $"DocumentManagement/File?$filter=Folder/AppId eq {AppId} AND Folder/Path eq '{Path.Trim().TrimEnd(trimChars:"/".ToCharArray())}' AND endswith(Name, '.json')&$expand=Contents";
 
         if (Page != null && PageSize != null)
+        {
             query += $"&$top={PageSize}&$skip={(Page - 1) * PageSize}";
+        }
 
         return await api.GetODataCollection<DmsFile>(query:query);
     }

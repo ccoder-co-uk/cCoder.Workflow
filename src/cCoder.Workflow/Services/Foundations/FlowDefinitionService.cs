@@ -18,11 +18,15 @@ internal class FlowDefinitionService(
     {
         FlowDefinition flowDefinition = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (flowDefinition is not null)
+        {
             return flowDefinition;
+        }
 
         FlowDefinition unrestrictedFlowDefinition = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedFlowDefinition is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
@@ -89,7 +93,9 @@ entity:            updateFlowDefinition
         FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (flowDefinition is null)
+        {
             return;
+        }
 
         authorizationBroker.Authorize(appId:flowDefinition.AppId, privilege:$"{nameof(FlowDefinition)}_delete");
         _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(entity:CreateStorageFlowDefinition(flowDefinition));
@@ -100,7 +106,9 @@ entity:            updateFlowDefinition
         FlowDefinition flowDefinition = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (flowDefinition is null)
+        {
             return;
+        }
 
         authorizationBroker.Authorize(appId:flowDefinition.AppId, privilege:$"{nameof(FlowDefinition)}_delete");
         await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(id:id);

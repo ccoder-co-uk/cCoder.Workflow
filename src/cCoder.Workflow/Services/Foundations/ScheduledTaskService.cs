@@ -19,11 +19,15 @@ internal class ScheduledTaskService(
     {
         ScheduledTask scheduledTask = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (scheduledTask is not null)
+        {
             return scheduledTask;
+        }
 
         ScheduledTask unrestrictedScheduledTask = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedScheduledTask is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
@@ -110,7 +114,9 @@ entity:            updateScheduledTask
         ScheduledTask scheduledTask = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (scheduledTask is null)
+        {
             return;
+        }
 
         authorizationBroker.Authorize(appId:scheduledTask.AppId, privilege:$"{nameof(ScheduledTask)}_delete");
         _ = await scheduledTaskBroker.DeleteScheduledTaskAsync(

@@ -25,7 +25,9 @@ public sealed partial class WorkflowHubTests
             connection.On<string, string, string>(methodName:"ConsoleReceive", handler:(level, message, receivedThread) =>
             {
                 if (message == expectedMessage)
+                {
                     messageReceived.TrySetResult((level, message, receivedThread));
+                }
             });
 
             // When

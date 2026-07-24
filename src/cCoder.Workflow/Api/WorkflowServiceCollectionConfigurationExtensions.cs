@@ -75,12 +75,16 @@ builder:            builder);
         services.AddSingleton<Action<ODataConventionModelBuilder>>(implementationInstance:configureModel);
 
         if (builder is not null)
+        {
             configureModel(obj:builder);
+        }
 
         AddAspNet(services:services);
 
         if (builder is null)
+        {
             AddApiDocumentation(services:services, documentName:documentName, configuration:configuration, useFullSchemaIds:useFullSchemaIds);
+        }
 
         IEdmModel routeModel = BuildRouteModel(configureModel:configureModel);
         DefaultODataBatchHandler batchHandler = new();
@@ -129,7 +133,9 @@ builder:            builder);
                         configuration));
 
             if (useFullSchemaIds)
+            {
                 options.CustomSchemaIds(type => type.FullName?.Replace('+', '.') ?? type.Name);
+            }
 
             options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
             {
@@ -175,10 +181,14 @@ builder:            builder);
         WorkflowConfiguration configuration)
     {
         if (string.IsNullOrWhiteSpace(value:relativePath))
+        {
             return false;
+        }
 
         if (string.Equals(a:swaggerDocumentName, b:"v1", comparisonType:StringComparison.OrdinalIgnoreCase))
+        {
             swaggerDocumentName = "Core";
+        }
 
         string path = NormalizePath(relativePath:relativePath);
         string rootPath = string.IsNullOrWhiteSpace(value:configuration.RootPath)

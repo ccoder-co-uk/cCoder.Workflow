@@ -73,7 +73,9 @@ content:            new StringContent(script, Encoding.UTF8, "text/plain")
     private string ResolveCallerId(string asUserId)
     {
         if (!string.IsNullOrWhiteSpace(value:asUserId) && !string.Equals(a:asUserId, b:"Guest", comparisonType:StringComparison.Ordinal))
+        {
             return asUserId;
+        }
 
         return authorizationBroker.GetCurrentUser()?.Id ?? "Guest";
     }

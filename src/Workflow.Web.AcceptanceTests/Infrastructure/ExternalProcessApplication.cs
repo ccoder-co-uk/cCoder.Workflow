@@ -39,13 +39,17 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
         };
 
         foreach ((string key, string value) in environmentVariables)
+        {
             process.StartInfo.Environment[key] = value;
+        }
 
         process.OutputDataReceived += (_, args) => Append(line:args.Data);
         process.ErrorDataReceived += (_, args) => Append(line:args.Data);
 
         if (!process.Start())
+        {
             throw new InvalidOperationException($"Failed to start process '{name}'.");
+        }
 
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
@@ -55,10 +59,14 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
         while (!cancellationTokenSource.IsCancellationRequested)
         {
             if (process.HasExited)
+            {
                 throw new InvalidOperationException($"Process '{name}' exited before it became ready.{Environment.NewLine}{Output}");
+            }
 
             if (await readinessProbe())
+            {
                 return;
+            }
 
             await Task.Delay(millisecondsDelay:500, cancellationToken:cancellationTokenSource.Token).ContinueWith(continuationAction:_ => { }, scheduler:TaskScheduler.Default);
         }
@@ -75,7 +83,9 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         if (process is null)
+        {
             return;
+        }
 
         try
         {
@@ -87,7 +97,9 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
                 Task completedTask = await Task.WhenAny(task1:waitForExitTask, task2:Task.Delay(TimeSpan.FromSeconds(15)));
 
                 if (completedTask == waitForExitTask)
+                {
                     await waitForExitTask;
+                }
             }
         }
         catch
@@ -103,9 +115,13 @@ internal sealed class ExternalProcessApplication(string name) : IAsyncDisposable
     private void Append(string line)
     {
         if (line is null)
+        {
             return;
+        }
 
         lock (output)
+        {
             output.AppendLine(value:line);
+        }
     }
 }

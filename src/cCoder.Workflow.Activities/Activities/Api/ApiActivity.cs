@@ -36,7 +36,9 @@ public abstract class ApiActivity : Activity
         httpClient.Timeout = TimeSpan.FromSeconds(value:200.0);
 
         if (AuthToken != null)
+        {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthType, AuthToken);
+        }
 
         return httpClient;
     }

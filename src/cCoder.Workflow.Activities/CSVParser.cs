@@ -51,13 +51,17 @@ public static class CSVParser<T>
             {
                 PropertyInfo property = properties[i];
                 if (property.CanWrite && (property.PropertyType.IsValueType || property.PropertyType == typeof(string)))
+                {
                     property.SetValue(obj:result, value:dataItems[i - offset]);
+                }
             }
         }
         else
         {
             for (int i = 0; i < dataItems.Length; i++)
+            {
                 SetDataItem(options:options, result:result, properties:properties, dataItems:dataItems, index:i);
+            }
         }
 
         return result;
@@ -70,18 +74,28 @@ public static class CSVParser<T>
         PropertyInfo property = properties.FirstOrDefault(predicate:p => p.Name.Equals(field, StringComparison.OrdinalIgnoreCase));
 
         if (property == null || string.IsNullOrEmpty(value:value))
+        {
             return;
+        }
 
         try
         {
             if (property.PropertyType == typeof(double))
+            {
                 property.SetValue(obj:result, value:double.Parse(value));
+            }
             else if (property.PropertyType == typeof(decimal))
+            {
                 property.SetValue(obj:result, value:decimal.Parse(value));
+            }
             else if (property.PropertyType == typeof(bool?) || property.PropertyType == typeof(bool))
+            {
                 property.SetValue(obj:result, value:bool.Parse(value));
+            }
             else
+            {
                 property.SetValue(obj:result, value:value);
+            }
         }
         catch
         {
@@ -109,7 +123,9 @@ public static class CSVParser<T>
         else
         {
             for (int i = 0; i < options.FieldNames.Length; i++)
+            {
                 items.Add(key:options.FieldNames[i], value:i < dataItems.Length ? dataItems[i] : null);
+            }
         }
 
         return result;

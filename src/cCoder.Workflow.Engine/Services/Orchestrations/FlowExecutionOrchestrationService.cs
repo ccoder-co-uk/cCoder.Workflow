@@ -54,19 +54,25 @@ instanceId:                request.InstanceId);
     private async Task LogAsync(WorkflowLogLevel level, string message, Guid instanceId)
     {
         if (message?.Length > 4000 && !message.Contains(value:"Failed to deserialise", comparisonType:StringComparison.OrdinalIgnoreCase))
+        {
             message = $"{message[..1900]} ... {message.Length - 1900} characters cut due to excessive length.";
+        }
 
         Console.WriteLine(value:$"{level}:: {message}");
 
         try
         {
             if (connection is not null)
+            {
                 await connection.InvokeAsync(methodName:"ConsoleSend", arg1:level.ToString().ToLowerInvariant(), arg2:message, arg3:instanceId.ToString());
+            }
         }
         catch (Exception exception)
         {
             if (connection is not null)
+            {
                 await connection.DisposeAsync();
+            }
 
             connection = null;
             await LogAsync(level:WorkflowLogLevel.Error, message:exception.Message, instanceId:instanceId);
@@ -88,7 +94,9 @@ instanceId:                request.InstanceId);
                     options.HttpMessageHandlerFactory = handler =>
                     {
                         if (handler is HttpClientHandler clientHandler)
+                        {
                             clientHandler.ServerCertificateCustomValidationCallback += CertChainValidator.ValidateCertChain;
+                        }
 
                         return handler;
                     };
@@ -103,7 +111,9 @@ instanceId:                request.InstanceId);
         catch (Exception exception)
         {
             if (connection is not null)
+            {
                 await connection.DisposeAsync();
+            }
 
             connection = null;
             await LogAsync(level:WorkflowLogLevel.Warning, message:$"Workflow hub connection could not be established: {exception.Message}", instanceId:request.InstanceId);

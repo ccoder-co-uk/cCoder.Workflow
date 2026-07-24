@@ -20,7 +20,9 @@ internal class CalendarCoordinationService(
     public async ValueTask HandleCalendarAddAsync(Calendar calendar)
     {
         if (calendar.Events == null || !calendar.Events.Any())
+        {
             return;
+        }
 
         await calendarEventOrchestrationService.AddOrUpdate(items:calendar.Events);
     }
@@ -28,7 +30,9 @@ internal class CalendarCoordinationService(
     public async ValueTask HandleCalendarUpdateAsync(Calendar calendar)
     {
         if (calendar.Events == null || !calendar.Events.Any())
+        {
             return;
+        }
 
         await calendarEventOrchestrationService.AddOrUpdate(items:calendar.Events);
     }

@@ -91,7 +91,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Post([FromBody] Calendar entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        }
 
         return Ok(value:await Service.AddAsync(entity));
     }
@@ -108,7 +110,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Put([FromRoute] int key, [FromBody] Calendar entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        }
 
         return Ok(value:await Service.UpdateAsync(entity));
     }
@@ -118,7 +122,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         Calendar originalEntity = Service.Get(id:key);
         if (originalEntity == null)
+        {
             return NotFound();
+        }
 
         delta.Patch(original:originalEntity);
         return Ok(value:await Service.UpdateAsync(originalEntity));

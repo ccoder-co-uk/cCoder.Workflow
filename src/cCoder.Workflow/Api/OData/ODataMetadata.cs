@@ -82,10 +82,14 @@ public class MetadataContainer
     private static string GetTypeName(Type type)
     {
         if (type == typeof(string))
+        {
             return "string";
+        }
 
         if (typeof(IEnumerable).IsAssignableFrom(c:type))
+        {
             return "array";
+        }
 
         return Lookup.TryGetValue(key:type, value:out string name) ? name : "object";
     }

@@ -47,7 +47,9 @@ public class FlowInstanceDataBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.FlowInstances.RemoveRange(entities:items);

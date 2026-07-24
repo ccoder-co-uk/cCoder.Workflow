@@ -25,7 +25,9 @@ public static partial class WebApplicationExtensions
     public static WebApplication StartWorkflowHostedServices(this WebApplication app)
     {
         if (!TryMarkWorkflowHostedServicesStarted(app:app))
+        {
             return app;
+        }
 
         return app.UseWorkflowEventHandlers()
             .UseWorkflowScheduledTaskExecutionHandlers()
@@ -37,7 +39,9 @@ public static partial class WebApplicationExtensions
         lock (StartedHostedServiceAppsLock)
         {
             if (StartedHostedServiceApps.TryGetValue(key:app, value:out _))
+            {
                 return false;
+            }
 
             StartedHostedServiceApps.Add(key:app, value:new object());
             return true;
@@ -81,7 +85,9 @@ message:                    "Workflow event handler registration was skipped bec
         IServiceProvider services = scope.ServiceProvider;
 
         foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
+        {
             handlers.ListenToScheduledTaskExecuteEvents();
+        }
 
         return app;
     }
@@ -92,7 +98,9 @@ message:                    "Workflow event handler registration was skipped bec
         IServiceProvider services = scope.ServiceProvider;
 
         foreach (IWorkflowEventHandlers handlers in services.GetServices<IWorkflowEventHandlers>())
+        {
             handlers.ListenToQueuedFlowInstanceExecuteEvents();
+        }
 
         return app;
     }

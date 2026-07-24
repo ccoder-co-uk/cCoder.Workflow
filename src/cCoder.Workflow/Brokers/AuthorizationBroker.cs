@@ -46,25 +46,33 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory)
         User user = GetCurrentUser();
 
         if (user == null || !(HasAppAdminPrivilege(user:user, appId:appId) || HasPrivilege(user:user, appId:appId, privilege:privilege)))
+        {
             throw new SecurityException("Access Denied!");
+        }
     }
 
     public void Authorize(string userId, int? appId, string privilege)
     {
         if (string.IsNullOrWhiteSpace(value:userId))
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         User user = LoadUserWithRoles(coreDataContext:coreDataContext, userId:userId);
 
         if (!(HasAppAdminPrivilege(user:user, appId:appId) || HasPrivilege(user:user, appId:appId, privilege:privilege)))
+        {
             throw new SecurityException("Access Denied!");
+        }
     }
 
     public bool UserBelongsToApp(string userId, int? appId)
     {
         if (string.IsNullOrWhiteSpace(value:userId) || !appId.HasValue)
+        {
             return false;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 

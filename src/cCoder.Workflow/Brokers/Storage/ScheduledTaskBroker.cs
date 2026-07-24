@@ -42,15 +42,21 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
             .FirstOrDefault(predicate:foundTask => foundTask.Id == id);
 
         if (task is null)
+        {
             return null;
+        }
 
         task.LastExecuted = DateTimeOffset.UtcNow;
 
         if (incrementNextExecution)
+        {
             while (task.NextExecution < DateTimeOffset.UtcNow && task.NextExecution != null)
+            {
                 task.NextExecution = task.ScheduleInTicks > 0
                     ? task.NextExecution + TimeSpan.FromTicks(value:task.ScheduleInTicks)
                     : null;
+            }
+        }
 
         _ = await coreDataContext.SaveChangesAsync();
         return task;
@@ -97,7 +103,9 @@ public class ScheduledTaskBroker(ICoreContextFactory coreContextFactory) : ISche
     public async ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.ScheduledTasks.RemoveRange(entities:items);

@@ -63,10 +63,14 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
             Start start = Flow.Activities.OfType<Start>().First();
 
             if (authToken is not null)
+            {
                 start.AuthToken = authToken;
+            }
 
             if (Variables.TryGetValue(key:"Data", value:out object data))
+            {
                 start.Data = data;
+            }
 
             await start.ExecuteInternal(context:this);
         }

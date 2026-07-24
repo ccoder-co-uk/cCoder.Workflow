@@ -21,7 +21,9 @@ internal sealed class EventHandlingOrchestrationService(
         int? appId = appIdOverride ?? GetIntProperty(payload:payload, propertyName:"AppId");
 
         if (appId == null)
+        {
             return;
+        }
 
         string context = GetStringProperty(payload:payload, propertyName:"Path") ?? string.Empty;
         string eventContext = $"{eventName}{context}";
@@ -33,7 +35,9 @@ appId:            appId.Value,
 eventContext:            eventContext);
 
         if (subscriptions.Length == 0)
+        {
             return;
+        }
 
         log.LogDebug(message:"Found {Count} subscribers, calling ...", args:subscriptions.Length);
 

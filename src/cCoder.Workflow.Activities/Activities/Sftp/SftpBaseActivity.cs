@@ -30,7 +30,9 @@ public abstract class SftpBaseActivity : Activity
         PrivateKeyFile keyFile = null;
 
         if(string.IsNullOrEmpty(value:PrivateKey))
+        {
             auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(s:Password)));
+        }
         else
         {
             keyStream = new(Encoding.UTF8.GetBytes(s:PrivateKey));
@@ -54,14 +56,18 @@ public abstract class SftpBaseActivity : Activity
             Log(level:WorkflowLogLevel.Error, message:$"Error: {ex.Message}\n{ex.StackTrace}");
 
             if (ex.InnerException is not null)
+            {
                 Log(level:WorkflowLogLevel.Error, message:$"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
+            }
 
             State = ActivityState.Failed;
         }
         finally
         {
             if (client.IsConnected)
+            {
                 client.Disconnect();
+            }
 
             client.Dispose();
             keyFile?.Dispose();
@@ -79,7 +85,9 @@ public abstract class SftpBaseActivity : Activity
         PrivateKeyFile keyFile = null;
 
         if (string.IsNullOrEmpty(value:PrivateKey))
+        {
             auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(s:Password)));
+        }
         else
         {
             keyStream = new(Encoding.UTF8.GetBytes(s:PrivateKey));
@@ -103,14 +111,18 @@ public abstract class SftpBaseActivity : Activity
             Log(level:WorkflowLogLevel.Error, message:$"Error: {ex.Message}\n{ex.StackTrace}");
 
             if (ex.InnerException is not null)
+            {
                 Log(level:WorkflowLogLevel.Error, message:$"Inner exception: {ex.InnerException.Message}\n{ex.InnerException.StackTrace}");
+            }
 
             State = ActivityState.Failed;
         }
         finally
         {
             if (client.IsConnected)
+            {
                 client.Disconnect();
+            }
 
             client.Dispose();
             keyFile?.Dispose();

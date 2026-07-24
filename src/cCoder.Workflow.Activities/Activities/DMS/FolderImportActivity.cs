@@ -57,7 +57,9 @@ public class FolderImportActivity : DMSActivity
             .WithBaseUri(baseUriString:RemoteApiUrl);
 
         if (RemoteAuthToken != null)
+        {
             result.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", RemoteAuthToken);
+        }
 
         return result;
     }

@@ -115,7 +115,9 @@ public sealed class WorkflowExecutionIntegrationTests(IntegrationAcceptanceFixtu
         };
 
         if (!string.IsNullOrWhiteSpace(value:authToken))
+        {
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+        }
 
         using HttpResponseMessage response = await fixture.WebClient.SendAsync(request:request);
         string content = await response.Content.ReadAsStringAsync();
@@ -194,7 +196,9 @@ becauseArgs:            content + Environment.NewLine + Environment.NewLine + aw
             .FirstOrDefaultAsync(predicate:found => found.Id == appId);
 
         if (app is not null)
+        {
             await core.DeleteAsync(app:app);
+        }
     }
 
     private async Task<string> BuildFlowDiagnosticsAsync(Guid flowId)
@@ -236,7 +240,9 @@ value:            [
         for (int attempt = 0; attempt < attempts; attempt++)
         {
             if (await predicate())
+            {
                 return;
+            }
 
             await Task.Delay(millisecondsDelay:delayMilliseconds);
         }
@@ -254,7 +260,9 @@ value:            [
     private static string TakeLastLines(string content, int maxLines)
     {
         if (string.IsNullOrWhiteSpace(value:content))
+        {
             return "<no output>";
+        }
 
         string[] lines = content
             .Split(separator:Environment.NewLine, options:StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

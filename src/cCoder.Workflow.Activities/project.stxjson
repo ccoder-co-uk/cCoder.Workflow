@@ -1817,20 +1817,6 @@
       "LineNumber": 11
     },
     {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Activities.Activities.Api.ApiPost\u003CT, TResult\u003E",
-      "LineNumber": 81
-    },
-    {
-      "Code": "STXFORMAT008",
-      "Description": "Wrapped statements must be separated from adjacent method statements by an empty line.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Activities.Activities.Api.ApiPut\u003CT, TResult\u003E",
-      "LineNumber": 81
-    },
-    {
       "Code": "STX0001",
       "Description": "The type is not a valid Standard element type.",
       "Severity": "Warning",

@@ -18,11 +18,15 @@ internal class FlowInstanceDataService(
     {
         FlowInstanceData flowInstanceData = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (flowInstanceData is not null)
+        {
             return flowInstanceData;
+        }
 
         FlowInstanceData unrestrictedFlowInstanceData = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedFlowInstanceData is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }

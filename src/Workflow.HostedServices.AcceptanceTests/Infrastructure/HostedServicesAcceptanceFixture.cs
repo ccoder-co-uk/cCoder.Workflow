@@ -42,10 +42,14 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
         Client?.Dispose();
 
         if (databaseManager is not null)
+        {
             await databaseManager.DropDatabasesAsync();
+        }
 
         if (Factory is not null)
+        {
             await Factory.DisposeAsync();
+        }
     }
 
     private static string AddDatabaseSuffix(string variableName)
@@ -57,7 +61,9 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
             ?? ReadConfiguredConnectionString(variableName:variableName);
 
         if (string.IsNullOrWhiteSpace(value:connectionString))
+        {
             return string.Empty;
+        }
 
         SqlConnectionStringBuilder builder = new(connectionString)
         {
@@ -67,7 +73,9 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
         if (string.IsNullOrWhiteSpace(value:databaseName))
+        {
             return connectionString;
+        }
 
         string suffix = typeof(HostedServicesAcceptanceFixture).Assembly.GetName().Name!
             .Replace(oldValue:".AcceptanceTests", newValue:string.Empty, comparisonType:StringComparison.Ordinal)

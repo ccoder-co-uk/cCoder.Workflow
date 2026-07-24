@@ -22,14 +22,18 @@ internal sealed class TaskRunnerOrchestrationService(
     public async Task RunContinuouslyAsync(CancellationToken cancellationToken = default)
     {
         if (configuration.IsMigrating)
+        {
             return;
+        }
 
         await RunAsync(cancellationToken:cancellationToken);
 
         using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes:1));
 
         while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken:cancellationToken))
+        {
             await RunAsync(cancellationToken:cancellationToken);
+        }
     }
 
     public async Task RunAsync(CancellationToken cancellationToken = default)
@@ -124,11 +128,15 @@ id:            task.Id,
             incrementNextExecution: true);
 
         if (updatedTask == null)
+        {
             throw new InvalidOperationException(
                 $"Scheduled task {task.Id} could not be marked as executed.");
+        }
 
         if (task.ExecuteAsUser == null)
+        {
             throw new InvalidOperationException("User doesn't exist.");
+        }
 
         await scheduledTaskEventProcessingService.RaiseScheduledTaskExecuteEventAsync(entity:updatedTask);
     }

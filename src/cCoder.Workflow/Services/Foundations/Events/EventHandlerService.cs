@@ -176,7 +176,9 @@ eventName:            eventName,
 handler:            async (service, instance) =>
             {
                 if (string.Equals(instance?.State, "Queued", StringComparison.OrdinalIgnoreCase))
+                {
                     await service.ExecuteWaitingQueuedInstanceByIdAsync(instance.Id);
+                }
             });
 
     static WorkflowPackage ToLocalPackage(Package package) =>

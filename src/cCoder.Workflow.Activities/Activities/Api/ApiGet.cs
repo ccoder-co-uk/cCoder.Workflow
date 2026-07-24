@@ -25,7 +25,9 @@ public class ApiGet<T> : ApiActivity<T>
 
         }
         else
+        {
             Result = await api.GetAsync<T>(query:Query);
+        }
 
         Log(level:WorkflowLogLevel.Debug, message:Result.ToJson());
     }

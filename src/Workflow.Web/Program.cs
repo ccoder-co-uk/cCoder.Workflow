@@ -155,7 +155,9 @@ connectionString:            coreConnection);
         context.Response.ContentType = "application/json";
 
         if (exception is null)
+        {
             return;
+        }
 
         log.LogError("{Message}\n{StackTrace}", exception.Message, exception.StackTrace);
         await context.Response.WriteAsync(

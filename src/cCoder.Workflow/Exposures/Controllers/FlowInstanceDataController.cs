@@ -42,7 +42,9 @@ public partial class FlowInstanceDataController : ODataController
     public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowInstanceData entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        }
 
         entity.Id = key;
         await Service.UpdateAsync(entity:entity);
@@ -111,7 +113,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     public async Task<IActionResult> Post([FromBody] FlowInstanceData entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.Workflow.Api.OData.BadRequestResult(ModelState);
+        }
 
         return Ok(value:await Service.AddAsync(entity));
     }
@@ -121,7 +125,9 @@ value:                new cCoder.Workflow.Api.OData.WorkflowModelBuilder()
     {
         FlowInstanceData originalEntity = Service.Get(id:key);
         if (originalEntity == null)
+        {
             return NotFound();
+        }
 
         delta.Patch(original:originalEntity);
         return Ok(value:await Service.UpdateAsync(originalEntity));

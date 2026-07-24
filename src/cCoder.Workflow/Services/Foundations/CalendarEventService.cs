@@ -19,11 +19,15 @@ internal class CalendarEventService(
     {
         CalendarEvent calendarEvent = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (calendarEvent is not null)
+        {
             return calendarEvent;
+        }
 
         CalendarEvent unrestrictedCalendarEvent = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedCalendarEvent is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
@@ -74,7 +78,9 @@ entity:            updateCalendarEvent
         CalendarEvent calendarEvent = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (calendarEvent is null)
+        {
             return;
+        }
 
         authorizationBroker.Authorize(
 appId:            calendarEventBroker.GetAppId(calendarEvent),

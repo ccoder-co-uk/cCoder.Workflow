@@ -45,7 +45,9 @@ public class WorkflowEventBroker(ICoreContextFactory coreContextFactory)
     public async ValueTask DeleteAllWorkflowEventsAsync(IEnumerable<WorkflowEvent> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.WorflowEvents.RemoveRange(entities:items);

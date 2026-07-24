@@ -106,7 +106,9 @@ public abstract class Activity
             await ExecuteLinksAsync(context:context);
 
             if (State == ActivityState.NotRun)
+            {
                 await SafeExecuteAndUpdateState(context:context);
+            }
         }
     }
 
@@ -149,9 +151,13 @@ public abstract class Activity
             try
             {
                 if (CompiledLinkCache is not null && CompiledLinkCache.ContainsKey(key:this))
+                {
                     CompiledLinkCache[this](arg1:this, arg2:context.Variables, arg3:context.Flow);
+                }
                 else
+                {
                     (await BuildScript<Action<Activity, IDictionary<string, object>, Flow>>(code:AssignCode))?.Invoke(arg1:this, arg2:context.Variables, arg3:context.Flow);
+                }
             }
             catch (Exception ex)
             {
@@ -166,8 +172,12 @@ public abstract class Activity
     private async Task ContinueFlow(IWorkflowContext context)
     {
         if (Next != null)
+        {
             foreach (Activity t in Next)
+            {
                 await t.ExecuteInternal(context:context);
+            }
+        }
     }
 
     protected Task<TFunc> BuildScript<TFunc>(string code) =>

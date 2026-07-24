@@ -22,7 +22,9 @@ public sealed class CoreAppController(ICoreContextFactory coreContextFactory) : 
             .FirstOrDefaultAsync(predicate:found => found.Id == key);
 
         if (app is null)
+        {
             return NotFound();
+        }
 
         return Ok(value:new
         {

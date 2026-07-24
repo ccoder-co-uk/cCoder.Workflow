@@ -52,16 +52,22 @@ privilege:            "flowdefinition_execute");
     private FlowInstanceData CreateFlowInstanceData(FlowDefinition flowDefinition, string caller, string args)
     {
         if (flowDefinition == null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         if (string.IsNullOrWhiteSpace(value:caller))
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         Guid instanceId = Guid.NewGuid();
         Flow flow = ParseFlow(definitionJson:flowDefinition.DefinitionJson);
 
         if (flow == null)
+        {
             throw new InvalidOperationException("Flow definition does not contain a valid workflow definition.");
+        }
 
         WorkflowContext context = new()
         {
@@ -75,7 +81,9 @@ privilege:            "flowdefinition_execute");
         Start start = context.Flow.Activities.OfType<Start>().FirstOrDefault();
 
         if (start == null)
+        {
             throw new InvalidOperationException("Flow definition does not contain a Start activity.");
+        }
 
         start.Data = jsonBroker.ParseJson(json:args);
 

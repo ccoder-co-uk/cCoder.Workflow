@@ -38,7 +38,9 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
     private static async Task EnsureAppAsync(DbContext core)
     {
         if (await core.Set<App>().AnyAsync(predicate:app => app.Id == AppId))
+        {
             return;
+        }
 
         core.Add(entity:new App
         {
@@ -56,7 +58,9 @@ internal sealed class AcceptanceApplicationSeeder(IServiceProvider services)
     private static async Task EnsureGuestUserAsync(DbContext core)
     {
         if (await core.Set<User>().AnyAsync(predicate:existing => existing.Id == "Guest"))
+        {
             return;
+        }
 
         core.Add(entity:new User
         {

@@ -46,18 +46,24 @@ internal class AppOrchestrationService(
     private static void StampCalendars(App app)
     {
         foreach (Calendar calendar in app.Calendars ?? [])
+        {
             calendar.AppId = app.Id;
+        }
     }
 
     private static void StampFlows(App app)
     {
         foreach (FlowDefinition flow in app.Flows ?? [])
+        {
             flow.AppId = app.Id;
+        }
     }
 
     private static void StampScheduledTasks(App app)
     {
         foreach (ScheduledTask task in app.Tasks ?? [])
+        {
             task.AppId = app.Id;
+        }
     }
 }

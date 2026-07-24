@@ -41,7 +41,9 @@ public abstract class DMSActivity : CoreActivity
             List<string> results = [];
 
             foreach (string f in paths)
+            {
                 results.Add(item:await api.GetStringAsync($"DMS/{f.ToLower()}"));
+            }
 
             return [.. results];
         }
@@ -64,7 +66,9 @@ public abstract class DMSActivity : CoreActivity
             catch { return string.Empty; }
         }
         else
+        {
             return string.Empty;
+        }
     }
 
     private bool ParamsAllSet()

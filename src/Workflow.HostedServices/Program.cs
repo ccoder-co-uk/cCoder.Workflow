@@ -122,11 +122,15 @@ message:                    new EventMessage<App>
             ReceiveHandler = async (serviceProvider, _, message) =>
             {
                 if (message.Data?.Id == Guid.Empty)
+                {
                     throw new InvalidOperationException(
                         "You must provide a workflow instance payload with a valid id.");
+                }
 
                 if (!string.Equals(a:message.Data?.State, b:"Queued", comparisonType:StringComparison.OrdinalIgnoreCase))
+                {
                     return;
+                }
 
                 IWorkflowInstanceManagementOrchestrationService workflowInstanceManagementService =
                     serviceProvider.GetRequiredService<IWorkflowInstanceManagementOrchestrationService>();

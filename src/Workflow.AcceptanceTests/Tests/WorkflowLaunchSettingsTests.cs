@@ -39,7 +39,9 @@ public sealed class WorkflowLaunchSettingsTests
         while (directory is not null)
         {
             if (File.Exists(path:Path.Combine(directory.FullName, "src", "cCoder.Workflow.sln")))
+            {
                 return directory.FullName;
+            }
 
             directory = directory.Parent;
         }

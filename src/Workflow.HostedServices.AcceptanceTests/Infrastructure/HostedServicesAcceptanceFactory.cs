@@ -49,7 +49,9 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
                 .ToArray();
 
             foreach (ServiceDescriptor descriptor in hostedWorkflowServices)
+            {
                 services.Remove(item:descriptor);
+            }
 
             services.AddSingleton(
 implementationInstance:                new cCoder.Data.Config

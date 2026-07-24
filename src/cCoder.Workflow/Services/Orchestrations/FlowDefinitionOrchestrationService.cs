@@ -42,7 +42,9 @@ internal class FlowDefinitionOrchestrationService(
         FlowDefinition entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (entity is null)
+        {
             return;
+        }
 
         await eventService.RaiseFlowDefinitionDeleteEventAsync(entity:entity);
         await processingService.DeleteAsync(id:id);

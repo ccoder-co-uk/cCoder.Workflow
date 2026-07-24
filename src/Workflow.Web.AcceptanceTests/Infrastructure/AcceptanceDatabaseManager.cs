@@ -70,35 +70,47 @@ internal sealed class AcceptanceDatabaseManager(IServiceProvider services)
     private static void EnsureSafeAcceptanceDatabase(string connectionString, string protectedDatabaseName)
     {
         if (string.IsNullOrWhiteSpace(value:connectionString))
+        {
             throw new InvalidOperationException("Acceptance database connection string is empty.");
+        }
 
         SqlConnectionStringBuilder builder = CreateAcceptanceConnectionStringBuilder(connectionString:connectionString);
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
         if (string.IsNullOrWhiteSpace(value:databaseName))
+        {
             throw new InvalidOperationException("Acceptance database name is empty.");
+        }
 
         if (databaseName.Equals(value:protectedDatabaseName, comparisonType:StringComparison.OrdinalIgnoreCase))
+        {
             throw new InvalidOperationException(
                 $"Refusing to run acceptance database operations against protected database '{protectedDatabaseName}'."
             );
+        }
 
         if (!databaseName.Contains(value:"accept", comparisonType:StringComparison.OrdinalIgnoreCase))
+        {
             throw new InvalidOperationException(
                 $"Refusing to run acceptance database operations against non-acceptance database '{databaseName}'."
             );
+        }
     }
 
     private static void ForceDropDatabase(string connectionString)
     {
         if (string.IsNullOrWhiteSpace(value:connectionString))
+        {
             return;
+        }
 
         SqlConnectionStringBuilder builder = CreateAcceptanceConnectionStringBuilder(connectionString:connectionString);
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
         if (string.IsNullOrWhiteSpace(value:databaseName))
+        {
             return;
+        }
 
         builder.InitialCatalog = "master";
 

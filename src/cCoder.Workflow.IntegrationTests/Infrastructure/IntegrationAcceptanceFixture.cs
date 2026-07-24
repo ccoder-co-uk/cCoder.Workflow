@@ -149,24 +149,36 @@ environmentVariables:            webEnvironment,
         HostedServicesClient?.Dispose();
 
         if (webApplication is not null)
+        {
             await webApplication.DisposeAsync();
+        }
 
         if (hostedServicesApplication is not null)
+        {
             await hostedServicesApplication.DisposeAsync();
+        }
 
         if (workflowApplication is not null)
+        {
             await workflowApplication.DisposeAsync();
+        }
 
         if (databaseManager is not null)
+        {
             await databaseManager.DropDatabasesAsync();
+        }
 
         if (databaseServices is not null)
+        {
             await databaseServices.DisposeAsync();
+        }
 
         try
         {
             if (!string.IsNullOrWhiteSpace(value:artifactsRoot) && Directory.Exists(path:artifactsRoot))
+            {
                 Directory.Delete(path:artifactsRoot, recursive: true);
+            }
         }
         catch
         {
@@ -273,25 +285,33 @@ arguments:            $"build {projectPath} --no-restore -c {buildConfiguration}
         process.OutputDataReceived += (_, args) =>
         {
             if (args.Data is not null)
+            {
                 output.AppendLine(value:args.Data);
+            }
         };
 
         process.ErrorDataReceived += (_, args) =>
         {
             if (args.Data is not null)
+            {
                 output.AppendLine(value:args.Data);
+            }
         };
 
         if (!process.Start())
+        {
             throw new InvalidOperationException($"Failed to start command '{fileName} {arguments}'.");
+        }
 
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
         await process.WaitForExitAsync();
 
         if (process.ExitCode != 0)
+        {
             throw new InvalidOperationException(
                 $"Command '{fileName} {arguments}' failed with exit code {process.ExitCode}.{Environment.NewLine}{output}");
+        }
     }
 
     private async Task<bool> ProbeHealthAsync(Uri baseAddress, bool useInsecureHandler = false)
@@ -381,7 +401,9 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
         while (directory is not null)
         {
             if (File.Exists(path:Path.Combine(directory.FullName, "src", "cCoder.Workflow.sln")))
+            {
                 return directory.FullName;
+            }
 
             directory = directory.Parent;
         }
@@ -398,7 +420,9 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
             ?? ReadConfiguredConnectionString(variableName:variableName);
 
         if (string.IsNullOrWhiteSpace(value:connectionString))
+        {
             return string.Empty;
+        }
 
         SqlConnectionStringBuilder builder = new(connectionString)
         {
@@ -407,7 +431,9 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
         };
 
         if (!string.IsNullOrWhiteSpace(value:builder.InitialCatalog))
+        {
             builder.InitialCatalog = $"{builder.InitialCatalog}-workflow-{suffix}";
+        }
 
         return builder.ConnectionString;
     }
@@ -431,7 +457,9 @@ notAfter:            DateTimeOffset.UtcNow.AddDays(1));
         string formattedPath = path.Replace(oldChar:'\\', newChar:'/');
 
         if (trailingSlash && !formattedPath.EndsWith(value:'/'))
+        {
             formattedPath += '/';
+        }
 
         return formattedPath;
     }
@@ -447,7 +475,9 @@ path2:            "npm",
 path3:            "func.cmd");
 
         if (File.Exists(path:roamingNpmFunc))
+        {
             return roamingNpmFunc;
+        }
 
         return "func";
     }

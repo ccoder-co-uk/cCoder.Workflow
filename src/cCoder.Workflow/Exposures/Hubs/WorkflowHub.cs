@@ -50,15 +50,23 @@ arg3:            thread
         await Clients.Group(groupName:thread).SendAsync(method:"ConsoleReceive", arg1:"info", arg2:"User Joined", arg3:thread);
 
         if (!History.ContainsKey(key:thread))
+        {
             History.Add(key:thread, value:new List<HistoryItem>());
+        }
 
         if (!UserCounts.ContainsKey(key:thread))
+        {
             UserCounts.Add(key:thread, value:1);
+        }
         else
+        {
             UserCounts[thread]++;
+        }
 
         foreach (HistoryItem item in History[thread])
+        {
             await Clients.Caller.SendAsync(method:"ConsoleReceive", arg1:item.Level, arg2:item.Message, arg3:thread);
+        }
     }
 
     public virtual async Task Leave(string thread)
@@ -75,7 +83,9 @@ arg2:            thread
         UserCounts[thread]--;
 
         if (UserCounts[thread] == 0)
+        {
             History.Remove(key:thread);
+        }
     }
 
     public async Task ConsoleSend(string level, string message, string thread)
@@ -98,7 +108,9 @@ arg2:            thread
         }
 
         if (!History.ContainsKey(key:thread))
+        {
             History.Add(key:thread, value:new List<HistoryItem>());
+        }
 
         History[thread].Add(item:new HistoryItem { Message = message, Level = level });
         await Clients.Group(groupName:thread).SendAsync(method:"ConsoleReceive", arg1:level, arg2:message, arg3:thread);

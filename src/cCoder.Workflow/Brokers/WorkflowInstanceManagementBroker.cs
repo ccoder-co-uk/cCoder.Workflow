@@ -107,7 +107,9 @@ setPropertyCalls:                setters => setters
 cancellationToken:                cancellationToken);
 
         if (claimedCount == 0)
+        {
             return null;
+        }
 
         FlowInstanceData instance = await core.FlowInstances
             .IgnoreQueryFilters()
@@ -116,7 +118,9 @@ cancellationToken:                cancellationToken);
             .FirstOrDefaultAsync(predicate:item => item.Id == id, cancellationToken:cancellationToken);
 
         if (instance == null)
+        {
             return null;
+        }
 
         return instance;
     }

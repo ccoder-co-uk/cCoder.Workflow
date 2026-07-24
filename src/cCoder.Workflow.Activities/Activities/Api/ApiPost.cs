@@ -78,6 +78,7 @@ public class ApiPost<T, TResult> : ApiActivity<TResult>
                     function: async () =>
                     {
                         using HttpClient api = GetHttpClient();
+
                         api.Timeout = TimeSpan.FromMinutes(
                             value: 10);
 

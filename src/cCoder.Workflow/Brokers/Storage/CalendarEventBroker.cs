@@ -46,7 +46,9 @@ public class CalendarEventBroker(ICoreContextFactory coreContextFactory) : ICale
     public async ValueTask DeleteAllCalendarEventsAsync(IEnumerable<CalendarEvent> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.Events.RemoveRange(entities:items);

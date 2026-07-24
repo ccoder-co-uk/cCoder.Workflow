@@ -54,7 +54,9 @@ public class JsonBroker : IJsonBroker
                 {
                     Type resolvedType = binder.BindToType(assemblyName:candidateAssembly, typeName:candidateType);
                     if (resolvedType != null)
+                    {
                         return resolvedType;
+                    }
                 }
                 catch
                 {

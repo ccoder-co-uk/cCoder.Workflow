@@ -122,7 +122,9 @@ public sealed class FlowInstance
                 .ToArray();
 
             foreach (PropertyInfo property in properties)
+            {
                 property.SetValue(obj:activity, value:default);
+            }
         }
 
         return new FlowInstanceData
@@ -206,7 +208,9 @@ message:                    $"Problem in one or more links for activity {activit
             ?? [];
 
         if (assignments.Length == 0)
+        {
             return null;
+        }
 
         string body = $"\t{string.Join(separator:$";{Environment.NewLine}\t", value:assignments)}";
         return $"(activity, variables, flow) => {{{Environment.NewLine}{body}{Environment.NewLine}}}";

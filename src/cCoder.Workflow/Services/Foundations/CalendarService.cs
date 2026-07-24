@@ -19,11 +19,15 @@ internal class CalendarService(
     {
         Calendar calendar = GetAll().FirstOrDefault(predicate:i => i.Id == id);
         if (calendar is not null)
+        {
             return calendar;
+        }
 
         Calendar unrestrictedCalendar = GetAll(ignoreFilters:true).FirstOrDefault(predicate:i => i.Id == id);
         if (unrestrictedCalendar is not null)
+        {
             throw new SecurityException("Access Denied!");
+        }
 
         return null;
     }
@@ -62,7 +66,9 @@ internal class CalendarService(
         Calendar calendar = GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (calendar is null)
+        {
             return;
+        }
 
         authorizationBroker.Authorize(appId:calendar.AppId, privilege:$"{nameof(Calendar)}_delete");
         _ = await calendarBroker.DeleteCalendarAsync(entity:CreateStorageCalendar(calendar));

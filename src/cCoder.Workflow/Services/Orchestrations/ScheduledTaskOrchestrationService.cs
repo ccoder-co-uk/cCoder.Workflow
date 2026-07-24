@@ -39,7 +39,9 @@ internal class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService
         ScheduledTask entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (entity is null)
+        {
             return;
+        }
 
         await eventService.RaiseScheduledTaskDeleteEventAsync(entity:entity);
         await processingService.DeleteAsync(id:id);

@@ -42,7 +42,9 @@ internal class CalendarOrchestrationService(ICalendarProcessingService processin
         Calendar entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate:item => item.Id == id);
 
         if (entity is null)
+        {
             return;
+        }
 
         await eventService.RaiseCalendarDeleteEventAsync(entity:entity);
         await processingService.DeleteAsync(id:id);

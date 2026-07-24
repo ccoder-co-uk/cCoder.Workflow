@@ -24,7 +24,9 @@ internal class WorkflowMigrationAggregationService(
     public async ValueTask ImportPackageAsync(int appId, WorkflowPackage package)
     {
         if (package.Items is null || package.Items.Count == 0)
+        {
             return;
+        }
 
         foreach (WorkflowPackageItem item in package.Items)
         {
@@ -139,7 +141,9 @@ action:            calendar =>
             };
 
             if (calendarEvent.CalendarId == 0 || calendarEvent.Id != 0)
+            {
                 continue;
+            }
 
             calendarEventsToAdd.Add(item:calendarEvent);
         }
