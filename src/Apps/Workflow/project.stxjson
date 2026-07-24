@@ -1,8 +1,8 @@
 {
   "Classes": [
     {
-      "Name": "Workflow.Execute",
-      "StandardElementType": "Unknown",
+      "Name": "Workflow.Exposures.Execute",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": [
         {
@@ -18,8 +18,8 @@
       ]
     },
     {
-      "Name": "Workflow.ExecuteFromServiceBus",
-      "StandardElementType": "Unknown",
+      "Name": "Workflow.Exposures.ExecuteFromServiceBus",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": [
         {
@@ -35,8 +35,8 @@
       ]
     },
     {
-      "Name": "Workflow.ExecuteScript",
-      "StandardElementType": "Unknown",
+      "Name": "Workflow.Exposures.ExecuteScript",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": [
         {
@@ -56,8 +56,8 @@
       ]
     },
     {
-      "Name": "Workflow.Health",
-      "StandardElementType": "Unknown",
+      "Name": "Workflow.Exposures.Health",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": [
         {
@@ -71,37 +71,88 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CMicrosoft.Azure.Functions.Worker.Http.HttpResponseData\u003E"
         }
       ]
+    },
+    {
+      "Name": "Workflow.IServiceCollectionExtensions",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "Workflow.Program",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ProcessExecuteAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "Microsoft.Azure.Functions.Worker.Http.HttpRequestData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CMicrosoft.Azure.Functions.Worker.Http.HttpResponseData\u003E"
+        },
+        {
+          "Name": "ProcessExecuteScriptAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "Microsoft.Azure.Functions.Worker.Http.HttpRequestData"
+            },
+            {
+              "Name": "useDetails",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CMicrosoft.Azure.Functions.Worker.Http.HttpResponseData\u003E"
+        },
+        {
+          "Name": "ProcessHealthAsync",
+          "Inputs": [
+            {
+              "Name": "request",
+              "Type": "Microsoft.Azure.Functions.Worker.Http.HttpRequestData"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CMicrosoft.Azure.Functions.Worker.Http.HttpResponseData\u003E"
+        },
+        {
+          "Name": "ProcessServiceBusMessageAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
     }
   ],
-  "Links": [],
-  "AnalysisItems": [
+  "Links": [
     {
-      "Code": "STX0001",
-      "Description": "The type is not a valid Standard element type.",
-      "Severity": "Warning",
-      "Type": "Workflow.Execute",
-      "LineNumber": 14
+      "FromType": "Workflow.Exposures.Execute",
+      "ToType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService"
     },
     {
-      "Code": "STX0001",
-      "Description": "The type is not a valid Standard element type.",
-      "Severity": "Warning",
-      "Type": "Workflow.ExecuteFromServiceBus",
-      "LineNumber": 9
+      "FromType": "Workflow.Exposures.ExecuteFromServiceBus",
+      "ToType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService"
     },
     {
-      "Code": "STX0001",
-      "Description": "The type is not a valid Standard element type.",
-      "Severity": "Warning",
-      "Type": "Workflow.ExecuteScript",
-      "LineNumber": 12
+      "FromType": "Workflow.Exposures.ExecuteScript",
+      "ToType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService"
     },
     {
-      "Code": "STX0001",
-      "Description": "The type is not a valid Standard element type.",
-      "Severity": "Warning",
-      "Type": "Workflow.Health",
-      "LineNumber": 10
+      "FromType": "Workflow.Exposures.Health",
+      "ToType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService"
     }
-  ]
+  ],
+  "AnalysisItems": []
 }
