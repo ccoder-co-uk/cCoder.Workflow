@@ -75,7 +75,6 @@ internal sealed partial class ScheduledTaskService(
             throw new SecurityException("Access Denied!");
         }
 
-        ValidateScheduledTaskExecutionAccess(scheduledTask: scheduledTask);
         scheduledTask.LastExecuted = DateTimeOffset.UtcNow;
 
         if (incrementNextExecution)

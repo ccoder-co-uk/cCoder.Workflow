@@ -58,12 +58,4 @@ internal sealed partial class ScheduledTaskService
         }
     }
 
-    private void ValidateScheduledTaskExecutionAccess(
-        ScheduledTask scheduledTask)
-    {
-        if (!authorizationBroker.IsAdminOfApp(appId: scheduledTask.AppId))
-        {
-            throw new SecurityException("Access Denied!");
-        }
-    }
 }
