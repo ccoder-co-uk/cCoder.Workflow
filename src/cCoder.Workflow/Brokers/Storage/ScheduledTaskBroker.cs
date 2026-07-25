@@ -26,6 +26,7 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.ScheduledTasks
+            .IgnoreQueryFilters()
             .Include(navigationPropertyPath: task => task.ExecuteAsUser)
             .Include(navigationPropertyPath: task => task.Flow)
             .FirstOrDefault(predicate: task => task.Id == scheduledTaskId);
