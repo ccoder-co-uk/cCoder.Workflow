@@ -267,7 +267,6 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddProcessings(this IServiceCollection services)
     {
-        services.AddTransient<IBaselineProcessingService, BaselineProcessingService>();
         services.AddTransient<ICalendarEntityEventProcessingService, CalendarEntityEventProcessingService>();
         services.AddTransient<ICalendarEventEventProcessingService, CalendarEventEventProcessingService>();
         services.AddTransient<ICalendarEventProcessingService, CalendarEventProcessingService>();

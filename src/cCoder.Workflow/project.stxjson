@@ -1771,18 +1771,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Exposures.Controllers.BaselineController",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "Get",
-          "Inputs": [],
-          "ReturnType": "IActionResult"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -2322,12 +2310,6 @@
           "ReturnType": "System.Void"
         }
       ]
-    },
-    {
-      "Name": "cCoder.Workflow.Exposures.Setup.UIBaseline",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
     },
     {
       "Name": "cCoder.Workflow.Exposures.WorkflowAppExposure",
@@ -4386,18 +4368,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Services.Processings.BaselineProcessingService",
-      "StandardElementType": "ProcessingService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetBaselinePackages",
-          "Inputs": [],
-          "ReturnType": "Package[]"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Services.Processings.CalendarEntityEventProcessingService",
       "StandardElementType": "ProcessingService",
       "Properties": [],
@@ -5443,10 +5413,6 @@
     {
       "FromType": "cCoder.Workflow.Brokers.JsonBroker",
       "ToType": "cCoder.Workflow.Dependencies.JsonDependency"
-    },
-    {
-      "FromType": "cCoder.Workflow.Exposures.Controllers.BaselineController",
-      "ToType": "cCoder.Workflow.Services.Processings.BaselineProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
