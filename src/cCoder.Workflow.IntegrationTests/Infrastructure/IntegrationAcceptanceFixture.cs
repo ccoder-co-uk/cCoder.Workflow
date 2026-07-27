@@ -67,8 +67,8 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
     {
         Settings = new AcceptanceSettings
         {
-            CoreConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_CORE_CONNECTION_STRING", suffix: "integration"),
-            SsoConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_SSO_CONNECTION_STRING", suffix: "integration"),
+            CoreConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__Core"),
+            SsoConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__SSO"),
             DecryptionKey = DecryptionKey,
         };
 
@@ -438,7 +438,7 @@ notAfter: DateTimeOffset.UtcNow.AddDays(days: 1));
         throw new InvalidOperationException("Could not locate the cCoder.Workflow repository root.");
     }
 
-    private static string AddDatabaseSuffix(string variableName, string suffix)
+    private static string AddDatabaseSuffix(string variableName)
     {
         string connectionString =
             Environment.GetEnvironmentVariable(variable: variableName)
@@ -459,7 +459,7 @@ notAfter: DateTimeOffset.UtcNow.AddDays(days: 1));
 
         if (!string.IsNullOrWhiteSpace(value: builder.InitialCatalog))
         {
-            builder.InitialCatalog = $"{builder.InitialCatalog}-workflow-{suffix}";
+            builder.InitialCatalog = $"{builder.InitialCatalog}-acceptance-{Guid.NewGuid():N}";
         }
 
         return builder.ConnectionString;
