@@ -90,7 +90,7 @@ internal sealed partial class WorkflowMigrationAggregationService(
             .ToArray();
 
         var existingCalendars = GetCalendarOrchestrationService()
-            .GetAll()
+            .GetAll(ignoreFilters: true)
             .Where(predicate: calendar => calendar.AppId == appId && names.Contains(value: calendar.Name.ToLower()))
             .Select(selector: calendar => new { calendar.Id, calendar.Name })
             .ToArray();
@@ -183,7 +183,7 @@ action: calendar =>
             .ToArray();
 
         var existingFlowDefinitions = GetFlowDefinitionOrchestrationService()
-            .GetAll()
+            .GetAll(ignoreFilters: true)
             .Where(predicate: flowDefinition =>
                 flowDefinition.AppId == appId && names.Contains(value: flowDefinition.Name.ToLower()))
             .Select(selector: flowDefinition => new
@@ -219,7 +219,7 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
                 {
                     Type = "Core/Calendar",
                     Data = GetCalendarOrchestrationService()
-                        .GetAll(ignoreFilters:false)
+                        .GetAll(ignoreFilters:true)
                         .Where(predicate:calendar => calendar.AppId == appId)
                         .Select(selector:calendar => new { calendar.Name, calendar.Description })
                         .ToArray()
@@ -237,7 +237,7 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
                 {
                     Type = "Core/CalendarEvent",
                     Data = GetCalendarEventOrchestrationService()
-                        .GetAll(ignoreFilters:false)
+                        .GetAll(ignoreFilters:true)
                         .ToArray()
                         .Where(predicate:calendarEvent => calendarEvent.Calendar != null && calendarEvent.Calendar.AppId == appId)
                         .Select(selector:calendarEvent => new
@@ -265,7 +265,7 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
                     Data = GetJsonBroker()
                         .Serialize(
                             value: GetFlowDefinitionOrchestrationService()
-                            .GetAll(ignoreFilters:false)
+                            .GetAll(ignoreFilters:true)
                             .Where(predicate:flowDefinition => flowDefinition.AppId == appId)
                             .Select(selector:flowDefinition => new
                             {
