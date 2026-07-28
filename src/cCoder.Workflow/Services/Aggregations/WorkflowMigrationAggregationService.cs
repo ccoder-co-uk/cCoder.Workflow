@@ -9,6 +9,7 @@ using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Dependencies.ServiceProviders;
+using cCoder.Workflow.Dependencies.Results;
 using cCoder.Workflow.Services.Orchestrations;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 
@@ -109,8 +110,10 @@ action: calendar =>
                     ?.Id ?? 0;
             });
 
-        _ = await GetCalendarOrchestrationService()
+        IEnumerable<Result<Calendar>> results = await GetCalendarOrchestrationService()
             .AddOrUpdateCalendar(items: calendars.Where(predicate: calendar => calendar.Id == 0));
+
+        EnsureImportSucceeded(itemType: "calendars", results: results);
     }
 
     private async ValueTask ImportCalendarEventsAsync(int appId, WorkflowPackageItem item)
@@ -167,8 +170,10 @@ action: calendar =>
             message: "Importing {CalendarEventCount} new calendar events for app {AppId}",
             args: [calendarEventsToAdd.Count, appId]);
 
-        _ = await GetCalendarEventOrchestrationService()
+        IEnumerable<Result<CalendarEvent>> results = await GetCalendarEventOrchestrationService()
             .AddOrUpdateCalendarEvent(items: [.. calendarEventsToAdd]);
+
+        EnsureImportSucceeded(itemType: "calendar events", results: results);
     }
 
     private async ValueTask ImportFlowDefinitionsAsync(int appId, WorkflowPackageItem item)
@@ -206,8 +211,29 @@ args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(valu
             flowDefinition.Id = existingFlowDefinition?.Id ?? Guid.Empty;
         }
 
-        _ = await GetFlowDefinitionOrchestrationService()
+        IEnumerable<Result<FlowDefinition>> results = await GetFlowDefinitionOrchestrationService()
             .AddOrUpdateFlowDefinition(items: flowDefinitions);
+
+        EnsureImportSucceeded(itemType: "flow definitions", results: results);
+    }
+
+    private static void EnsureImportSucceeded<T>(
+        string itemType,
+        IEnumerable<Result<T>> results)
+    {
+        string[] failures = results
+            .Where(predicate: result => !result.Success)
+            .Select(selector: result =>
+                string.IsNullOrWhiteSpace(value: result.Message)
+                    ? result.Id ?? "Unknown item"
+                    : result.Message)
+            .ToArray();
+
+        if (failures.Length > 0)
+        {
+            throw new InvalidOperationException(
+                message: $"Failed to import {itemType}: {string.Join(separator: "; ", value: failures)}");
+        }
     }
 
     private cCoder.Data.Models.Packaging.Package ExportCalendars(int appId) =>
