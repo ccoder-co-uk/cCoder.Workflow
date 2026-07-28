@@ -2,7 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Dependencies.OData;
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
 
 
 namespace cCoder.Workflow.Services.Foundations;

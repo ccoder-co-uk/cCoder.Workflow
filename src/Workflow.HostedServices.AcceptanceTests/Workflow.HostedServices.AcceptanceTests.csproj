@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Security.Data" Version="2026.7.23.2120" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.7.28.1631" />
     <PackageReference Include="FluentAssertions" Version="8.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
@@ -22,14 +22,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\Testing\AcceptanceTestConfiguration.cs" Link="Testing\AcceptanceTestConfiguration.cs" />
     <ProjectReference Include="..\Workflow.HostedServices\Workflow.HostedServices.csproj" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="appsettings.testing.json" />
-    <Content Include="appsettings.testing.json">
+    <Content Include="..\Shared\Testing\appsettings.testing.json" Link="appsettings.testing.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

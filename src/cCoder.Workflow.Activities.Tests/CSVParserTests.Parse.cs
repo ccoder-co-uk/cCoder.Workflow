@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Workflow.Activities.Support;
 using FluentAssertions;
 using Xunit;
@@ -11,6 +15,7 @@ public sealed partial class CSVParserTests
     {
         // Given
         const string csv = "Name,Active\r\nExample,true";
+
         CSVParseConfig options = new()
         {
             FieldNamesInHeader = true,
@@ -18,10 +23,14 @@ public sealed partial class CSVParserTests
         };
 
         // When
-        TestRow actualRow = CSVParser<TestRow>.Parse(csv, options).Single();
+        TestRow actualRow = CSVParser<TestRow>.Parse(csvData: csv, options: options)
+            .Single();
 
         // Then
-        actualRow.Name.Should().Be("Example");
-        actualRow.Active.Should().BeTrue();
+        actualRow.Name.Should()
+            .Be(expected: "Example");
+
+        actualRow.Active.Should()
+            .BeTrue();
     }
 }

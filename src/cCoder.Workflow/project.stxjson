@@ -604,6 +604,35 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Brokers.OData.ODataModelBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Build",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Models.OData.ODataModel"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Build",
+          "Inputs": [],
+          "ReturnType": "cCoder.Workflow.Models.OData.ODataModel"
+        },
+        {
+          "Name": "Configure",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker",
       "StandardElementType": "Broker",
       "Properties": [],
@@ -998,98 +1027,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Dependencies.AuthorizationDependency",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "Authorize",
-          "Inputs": [
-            {
-              "Name": "appId",
-              "Type": "System.Int32?"
-            },
-            {
-              "Name": "privilege",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "Authorize",
-          "Inputs": [
-            {
-              "Name": "userId",
-              "Type": "System.String"
-            },
-            {
-              "Name": "appId",
-              "Type": "System.Int32?"
-            },
-            {
-              "Name": "privilege",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "GetCurrentUser",
-          "Inputs": [],
-          "ReturnType": "User"
-        },
-        {
-          "Name": "GetUser",
-          "Inputs": [
-            {
-              "Name": "userId",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "User"
-        },
-        {
-          "Name": "IsAdminOfApp",
-          "Inputs": [
-            {
-              "Name": "appId",
-              "Type": "System.Int32?"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "IsAdminOfApp",
-          "Inputs": [
-            {
-              "Name": "appId",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "userName",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "UserBelongsToApp",
-          "Inputs": [
-            {
-              "Name": "userId",
-              "Type": "System.String"
-            },
-            {
-              "Name": "appId",
-              "Type": "System.Int32?"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Dependencies.HostedServices.InstanceMaintenanceBackgroundServiceDependency",
       "StandardElementType": "Dependency",
       "Properties": [],
@@ -1178,595 +1115,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.JsonDependency",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ParseJson",
-          "Inputs": [
-            {
-              "Name": "json",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Object"
-        },
-        {
-          "Name": "ParseJson",
-          "Inputs": [
-            {
-              "Name": "json",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "T"
-        },
-        {
-          "Name": "Serialize",
-          "Inputs": [
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            }
-          ],
-          "ReturnType": "System.String"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.JsonDependency.WorkflowCompatibilitySerializationBinder",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "BindToName",
-          "Inputs": [
-            {
-              "Name": "serializedType",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "assemblyName",
-              "Type": "System.String"
-            },
-            {
-              "Name": "typeName",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "BindToType",
-          "Inputs": [
-            {
-              "Name": "assemblyName",
-              "Type": "System.String"
-            },
-            {
-              "Name": "typeName",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Type"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.BadRequestResult",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.CompositePropertyInfo",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Attributes",
-          "Type": "System.Reflection.PropertyAttributes"
-        },
-        {
-          "Name": "CanRead",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "CanWrite",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "DeclaringType",
-          "Type": "System.Type"
-        },
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "PropertyType",
-          "Type": "System.Type"
-        },
-        {
-          "Name": "ReflectedType",
-          "Type": "System.Type"
-        }
-      ],
-      "Methods": [
-        {
-          "Name": "GetAccessors",
-          "Inputs": [
-            {
-              "Name": "nonPublic",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Reflection.MethodInfo[]"
-        },
-        {
-          "Name": "GetCustomAttributes",
-          "Inputs": [
-            {
-              "Name": "inherit",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Object[]"
-        },
-        {
-          "Name": "GetCustomAttributes",
-          "Inputs": [
-            {
-              "Name": "attributeType",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "inherit",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Object[]"
-        },
-        {
-          "Name": "GetGetMethod",
-          "Inputs": [
-            {
-              "Name": "nonPublic",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Reflection.MethodInfo"
-        },
-        {
-          "Name": "GetIndexParameters",
-          "Inputs": [],
-          "ReturnType": "System.Reflection.ParameterInfo[]"
-        },
-        {
-          "Name": "GetSetMethod",
-          "Inputs": [
-            {
-              "Name": "nonPublic",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Reflection.MethodInfo"
-        },
-        {
-          "Name": "GetValue",
-          "Inputs": [
-            {
-              "Name": "obj",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "invokeAttr",
-              "Type": "System.Reflection.BindingFlags"
-            },
-            {
-              "Name": "binder",
-              "Type": "System.Reflection.Binder"
-            },
-            {
-              "Name": "index",
-              "Type": "System.Object[]"
-            },
-            {
-              "Name": "culture",
-              "Type": "System.Globalization.CultureInfo"
-            }
-          ],
-          "ReturnType": "System.Object"
-        },
-        {
-          "Name": "IsDefined",
-          "Inputs": [
-            {
-              "Name": "attributeType",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "inherit",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "SetValue",
-          "Inputs": [
-            {
-              "Name": "obj",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "invokeAttr",
-              "Type": "System.Reflection.BindingFlags"
-            },
-            {
-              "Name": "binder",
-              "Type": "System.Reflection.Binder"
-            },
-            {
-              "Name": "index",
-              "Type": "System.Object[]"
-            },
-            {
-              "Name": "culture",
-              "Type": "System.Globalization.CultureInfo"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.EdmModelExtensions",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetExtendedMetadataForType",
-          "Inputs": [
-            {
-              "Name": "model",
-              "Type": "IEdmModel"
-            },
-            {
-              "Name": "context",
-              "Type": "System.String"
-            },
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "hasEndpoint",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.ExtendedMetadataContainer"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ExtendedMetadataContainer",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Operations",
-          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.OData.OperationContainer\u003E"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.MetadataContainer",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Category",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Description",
-          "Type": "System.String"
-        },
-        {
-          "Name": "DisplayName",
-          "Type": "System.String"
-        },
-        {
-          "Name": "HasEndpoint",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsEntity",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsJoinEntity",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsSystemManaged",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsValueType",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Properties",
-          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.OData.PropertyContainer\u003E"
-        },
-        {
-          "Name": "ServerType",
-          "Type": "System.String"
-        },
-        {
-          "Name": "ServerTypeName",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Type",
-          "Type": "System.String"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Types",
-          "Type": "cCoder.Workflow.Dependencies.OData.ExtendedMetadataContainer[]"
-        },
-        {
-          "Name": "UriBase",
-          "Type": "System.String"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ModelStateError",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Errors",
-          "Type": "System.String[]"
-        },
-        {
-          "Name": "Key",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Value",
-          "Type": "System.Object"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ODataCollectionExtensions",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ODataJsonExtensions",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ODataModel",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Context",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Description",
-          "Type": "System.String"
-        },
-        {
-          "Name": "EDMModel",
-          "Type": "IEdmModel"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ODataModelBuilder",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "Build",
-          "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.ODataModel"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.ODataTypeExtensions",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.OperationContainer",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Definition",
-          "Type": "System.String"
-        },
-        {
-          "Name": "HttpVerb",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Parameters",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        },
-        {
-          "Name": "Queryable",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "ReturnType",
-          "Type": "cCoder.Workflow.Dependencies.OData.MetadataContainer"
-        },
-        {
-          "Name": "Url",
-          "Type": "System.String"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.PropertyContainer",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Description",
-          "Type": "System.String"
-        },
-        {
-          "Name": "DisplayName",
-          "Type": "System.String"
-        },
-        {
-          "Name": "IsGeneric",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsReadOnly",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsRequired",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsSystemManaged",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "IsValueType",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "ServerType",
-          "Type": "System.String"
-        },
-        {
-          "Name": "ServerTypeName",
-          "Type": "System.String"
-        },
-        {
-          "Name": "ShortDisplayName",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Template",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Type",
-          "Type": "System.String"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "Build",
-          "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.ODataModel"
-        },
-        {
-          "Name": "Configure",
-          "Inputs": [],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.Results.Result",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Id",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Message",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Success",
-          "Type": "System.Boolean"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.Results.Result\u003CT\u003E",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Id",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Item",
-          "Type": "T"
-        }
-      ],
-      "Methods": [
-        {
-          "Name": "ToNew",
-          "Inputs": [
-            {
-              "Name": "item",
-              "Type": "TNew"
-            }
-          ],
-          "ReturnType": "cCoder.Workflow.Dependencies.Results.Result\u003CTNew\u003E"
         }
       ]
     },
@@ -1966,16 +1314,6 @@
           "ReturnType": "IActionResult"
         },
         {
-          "Name": "GetKnownActivityTypes",
-          "Inputs": [],
-          "ReturnType": "IActionResult"
-        },
-        {
-          "Name": "GetKnownSystemTypes",
-          "Inputs": [],
-          "ReturnType": "IActionResult"
-        },
-        {
           "Name": "GetMetadata",
           "Inputs": [],
           "ReturnType": "IActionResult"
@@ -2032,6 +1370,23 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetKnownActivityTypes",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetKnownSystemTypes",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
         }
       ]
     },
@@ -2384,8 +1739,319 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.HttpEventHubUrlResolver",
+      "Name": "cCoder.Workflow.Extensions.AuthorizationExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.BadRequestResult",
       "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.CompositePropertyInfo",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Attributes",
+          "Type": "System.Reflection.PropertyAttributes"
+        },
+        {
+          "Name": "CanRead",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "CanWrite",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "DeclaringType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "PropertyType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "ReflectedType",
+          "Type": "System.Type"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "GetAccessors",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetGetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetIndexParameters",
+          "Inputs": [],
+          "ReturnType": "System.Reflection.ParameterInfo[]"
+        },
+        {
+          "Name": "GetSetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "IsDefined",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "SetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.EdmModelExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetExtendedMetadataForType",
+          "Inputs": [
+            {
+              "Name": "model",
+              "Type": "IEdmModel"
+            },
+            {
+              "Name": "context",
+              "Type": "System.String"
+            },
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Models.OData.ExtendedMetadataContainer"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.MetadataTypeExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.ModelStateError",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Errors",
+          "Type": "System.String[]"
+        },
+        {
+          "Name": "Key",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Value",
+          "Type": "System.Object"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.ODataCollectionExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.ODataJsonExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.ODataTypeExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.WorkflowODataModelExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConfigureWorkflowApiModel",
+          "Inputs": [
+            {
+              "Name": "builder",
+              "Type": "ODataConventionModelBuilder"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.WorkflowJsonExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.WorkflowJsonExtensions.WorkflowCompatibilitySerializationBinder",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "BindToName",
+          "Inputs": [
+            {
+              "Name": "serializedType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "assemblyName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "typeName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "BindToType",
+          "Inputs": [
+            {
+              "Name": "assemblyName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "typeName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Type"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.HttpEventHubUrlResolver",
+      "StandardElementType": "App",
       "Properties": [],
       "Methods": [
         {
@@ -2430,6 +2096,20 @@
           "ReturnType": "System.Void"
         },
         {
+          "Name": "AddWorkflowHostedServices",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configuration",
+              "Type": "cCoder.Workflow.Models.WorkflowConfiguration"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
           "Name": "AddWorkflowWeb",
           "Inputs": [
             {
@@ -2448,8 +2128,16 @@
           "ReturnType": "System.Void"
         },
         {
-          "Name": "ConfigureWorkflowApiModel",
+          "Name": "AddWorkflowWeb",
           "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configuration",
+              "Type": "cCoder.Workflow.Models.WorkflowConfiguration"
+            },
             {
               "Name": "builder",
               "Type": "ODataConventionModelBuilder"
@@ -2631,6 +2319,208 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.Workflow.Models.OData.ExtendedMetadataContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Operations",
+          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.OData.OperationContainer\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.OData.MetadataContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Category",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "HasEndpoint",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsEntity",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsJoinEntity",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsSystemManaged",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsValueType",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Properties",
+          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.OData.PropertyContainer\u003E"
+        },
+        {
+          "Name": "ServerType",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerTypeName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.OData.MetadataContainerSet",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Types",
+          "Type": "cCoder.Workflow.Models.OData.ExtendedMetadataContainer[]"
+        },
+        {
+          "Name": "UriBase",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.OData.ODataModel",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Context",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "EDMModel",
+          "Type": "IEdmModel"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.OData.OperationContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Definition",
+          "Type": "System.String"
+        },
+        {
+          "Name": "HttpVerb",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Parameters",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "Queryable",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "ReturnType",
+          "Type": "cCoder.Workflow.Models.OData.MetadataContainer"
+        },
+        {
+          "Name": "Url",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.OData.PropertyContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "IsGeneric",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsReadOnly",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsRequired",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsSystemManaged",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsValueType",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerType",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerTypeName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ShortDisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Template",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.Workflow.Models.ODataCollection\u003CTCollectionType\u003E",
       "StandardElementType": "Model",
       "Properties": [
@@ -2646,24 +2536,54 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.Workflow.Models.Results.Result",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Id",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Message",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Success",
+          "Type": "System.Boolean"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.Results.Result\u003CT\u003E",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Id",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Item",
+          "Type": "T"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.Workflow.Models.WorkflowConfiguration",
       "StandardElementType": "Model",
       "Properties": [
         {
-          "Name": "ConnectionStrings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+          "Name": "ConnectionString",
+          "Type": "System.String"
         },
         {
           "Name": "DebugInfo",
           "Type": "System.Boolean"
         },
         {
-          "Name": "EventProviders",
-          "Type": "EventProvider[]"
-        },
-        {
-          "Name": "IncludeLegacyCoreContext",
-          "Type": "System.Boolean"
+          "Name": "InstanceMaintenance",
+          "Type": "cCoder.Workflow.Models.WorkflowInstanceMaintenanceConfiguration"
         },
         {
           "Name": "IsMigrating",
@@ -2674,16 +2594,31 @@
           "Type": "System.Boolean"
         },
         {
+          "Name": "QueueInstanceManagement",
+          "Type": "cCoder.Workflow.Models.WorkflowQueueInstanceManagementConfiguration"
+        },
+        {
           "Name": "RootPath",
           "Type": "System.String"
         },
         {
-          "Name": "Services",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+          "Name": "ServiceUrl",
+          "Type": "System.String"
         },
         {
-          "Name": "Settings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+          "Name": "SslPort",
+          "Type": "System.Int32"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.WorkflowInstanceMaintenanceConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "MaxAgeDays",
+          "Type": "System.Double"
         }
       ],
       "Methods": []
@@ -2747,6 +2682,21 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.Workflow.Models.WorkflowQueueInstanceManagementConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "ExecutingTimeoutMinutes",
+          "Type": "System.Double"
+        },
+        {
+          "Name": "PollingIntervalMilliseconds",
+          "Type": "System.Int32"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
       "StandardElementType": "AggregationService",
       "Properties": [],
@@ -2795,16 +2745,6 @@
             }
           ],
           "ReturnType": "FlowDefinition"
-        },
-        {
-          "Name": "GetKnownActivityTypes",
-          "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
-        },
-        {
-          "Name": "GetKnownSystemTypes",
-          "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
         },
         {
           "Name": "QueueFlowDefinitionAsync",
@@ -3724,22 +3664,22 @@
         {
           "Name": "GetCoreMetadata",
           "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet"
+          "ReturnType": "cCoder.Workflow.Models.OData.MetadataContainerSet"
         },
         {
           "Name": "GetKnownActivityTypes",
           "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+          "ReturnType": "cCoder.Workflow.Models.OData.MetadataContainerSet[]"
         },
         {
           "Name": "GetKnownSystemTypes",
           "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet[]"
+          "ReturnType": "cCoder.Workflow.Models.OData.MetadataContainerSet[]"
         },
         {
           "Name": "GetSharedMetadata",
           "Inputs": [],
-          "ReturnType": "cCoder.Workflow.Dependencies.OData.MetadataContainerSet"
+          "ReturnType": "cCoder.Workflow.Models.OData.MetadataContainerSet"
         }
       ]
     },
@@ -3766,7 +3706,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarEventAsync",
@@ -3843,7 +3783,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendar\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendar\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarAsync",
@@ -3930,7 +3870,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllFlowDefinitionAsync",
@@ -4017,7 +3957,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
@@ -4119,7 +4059,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
         },
         {
           "Name": "AddScheduledTaskAsync",
@@ -4247,7 +4187,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
         },
         {
           "Name": "AddWorkflowEventAsync",
@@ -4464,7 +4404,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -4561,7 +4501,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CCalendar\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendar\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarAsync",
@@ -4685,7 +4625,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
         },
         {
           "Name": "AuthorizeFlowDefinitionExecution",
@@ -4853,7 +4793,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
@@ -4977,7 +4917,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
         },
         {
           "Name": "AddScheduledTaskAsync",
@@ -5175,7 +5115,7 @@
               "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Dependencies.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
         },
         {
           "Name": "AddWorkflowEventAsync",
@@ -5369,7 +5309,7 @@
     },
     {
       "Name": "cCoder.Workflow.WebApplicationExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "App",
       "Properties": [],
       "Methods": [
         {
@@ -5400,20 +5340,12 @@
     },
     {
       "Name": "cCoder.Workflow.WorkflowServiceCollectionConfigurationExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
     }
   ],
   "Links": [
-    {
-      "FromType": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "ToType": "cCoder.Workflow.Dependencies.AuthorizationDependency"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.JsonBroker",
-      "ToType": "cCoder.Workflow.Dependencies.JsonDependency"
-    },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
@@ -5425,6 +5357,10 @@
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
       "ToType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
+      "ToType": "cCoder.Workflow.Services.Foundations.WorkflowMetadataTypeService"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
@@ -5601,6 +5537,10 @@
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
       "ToType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",
+      "ToType": "cCoder.Workflow.Services.Processings.FlowInstanceDataEventProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Services.Orchestrations.FlowQueueOrchestrationService",

@@ -11,7 +11,7 @@ using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Dependencies;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Support;
+using cCoder.Workflow.Engine.Extensions;
 using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
@@ -102,7 +102,7 @@ internal sealed partial class FlowInstanceProcessingService(
         {
             return JsonConvert.DeserializeObject<FlowInstanceData>(
                 value: rawInstance,
-                settings: WorkflowJson.GetJsonSettings())
+                settings: WorkflowJsonExtensions.GetJsonSettings())
                 ?? throw new InvalidOperationException(
                     "Workflow instance response was empty.");
         }
@@ -128,7 +128,7 @@ internal sealed partial class FlowInstanceProcessingService(
         {
             return JsonConvert.DeserializeObject<WorkflowContext>(
                 value: rawContext,
-                settings: WorkflowJson.GetJsonSettings())
+                settings: WorkflowJsonExtensions.GetJsonSettings())
                 ?? throw new InvalidOperationException(
                     "Workflow context response was empty.");
         }
@@ -174,7 +174,7 @@ internal sealed partial class FlowInstanceProcessingService(
             FlowDefinitionId = flowExecution.FlowDefinitionId,
             ContextString = JsonConvert.SerializeObject(
                 value: flowExecution.Context,
-                settings: WorkflowJson.GetJsonSettings()),
+                settings: WorkflowJsonExtensions.GetJsonSettings()),
             State = flowExecution.Context.ExecutionState,
             Start = flowExecution.Start,
             End = DateTimeOffset.UtcNow

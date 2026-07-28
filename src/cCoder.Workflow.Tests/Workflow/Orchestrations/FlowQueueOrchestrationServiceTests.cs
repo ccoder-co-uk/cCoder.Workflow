@@ -15,6 +15,8 @@ public partial class FlowQueueOrchestrationServiceTests
 {
     private readonly Mock<IFlowDefinitionProcessingService> flowDefinitionProcessingServiceMock;
     private readonly Mock<IFlowInstanceDataProcessingService> flowInstanceDataProcessingServiceMock;
+    private readonly Mock<IFlowInstanceDataEventProcessingService>
+        flowInstanceDataEventProcessingServiceMock;
     private readonly FlowQueueOrchestrationService orchestrationService;
 
     public FlowQueueOrchestrationServiceTests()
@@ -25,9 +27,15 @@ public partial class FlowQueueOrchestrationServiceTests
         flowInstanceDataProcessingServiceMock =
             new Mock<IFlowInstanceDataProcessingService>(behavior: MockBehavior.Strict);
 
+        flowInstanceDataEventProcessingServiceMock =
+            new Mock<IFlowInstanceDataEventProcessingService>(
+                behavior: MockBehavior.Strict);
+
         orchestrationService = new FlowQueueOrchestrationService(
             flowDefinitionProcessingService: flowDefinitionProcessingServiceMock.Object,
-            flowInstanceDataProcessingService: flowInstanceDataProcessingServiceMock.Object);
+            flowInstanceDataProcessingService: flowInstanceDataProcessingServiceMock.Object,
+            flowInstanceDataEventProcessingService:
+                flowInstanceDataEventProcessingServiceMock.Object);
     }
 
     private static FlowDefinition CreateFlowDefinition(Guid flowDefinitionId) =>

@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <cCoderCodeAnalysisGenerateArchitecture>false</cCoderCodeAnalysisGenerateArchitecture>
-    <RunAnalyzers>false</RunAnalyzers>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>

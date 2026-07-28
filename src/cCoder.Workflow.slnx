@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Activities/">
+    <Project Path="cCoder.Workflow.Activities.Tests/cCoder.Workflow.Activities.Tests.csproj" />
+    <Project Path="cCoder.Workflow.Activities/cCoder.Workflow.Activities.csproj" />
+  </Folder>
+  <Folder Name="/Apps/">
+    <Project Path="Apps/Workflow/Workflow.csproj" />
+    <Project Path="cCoder.Workflow.IntegrationTests/cCoder.Workflow.IntegrationTests.csproj" />
+    <Project Path="Workflow.AcceptanceTests/Workflow.AcceptanceTests.csproj" />
+    <Project Path="Workflow.HostedServices.AcceptanceTests/Workflow.HostedServices.AcceptanceTests.csproj" />
+    <Project Path="Workflow.HostedServices/Workflow.HostedServices.csproj" />
+    <Project Path="Workflow.Web.AcceptanceTests/Workflow.Web.AcceptanceTests.csproj" />
+    <Project Path="Workflow.Web/Workflow.Web.csproj" />
+  </Folder>
+  <Folder Name="/Engine/">
+    <Project Path="cCoder.Workflow.Engine.Tests/cCoder.Workflow.Engine.Tests.csproj" />
+    <Project Path="cCoder.Workflow.Engine/cCoder.Workflow.Engine.csproj" />
+  </Folder>
+  <Project Path="cCoder.Workflow.Tests/cCoder.Workflow.Tests.csproj" />
+  <Project Path="cCoder.Workflow/cCoder.Workflow.csproj" />
+</Solution>

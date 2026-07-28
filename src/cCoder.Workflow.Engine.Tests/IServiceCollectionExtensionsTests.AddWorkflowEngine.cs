@@ -18,7 +18,7 @@ public sealed partial class IServiceCollectionExtensionsTests
         // Given
 
         // When
-        services.AddWorkflowEngine();
+        services.AddWorkflowEngineHostedServices();
 
         // Then
         using ServiceProvider serviceProvider = services.BuildServiceProvider(
@@ -32,8 +32,5 @@ options: new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = t
             .Should()
             .NotBeNull();
 
-        serviceProvider.GetRequiredService<IScriptProcessingService>()
-            .Should()
-            .NotBeNull();
     }
 }

@@ -5,19 +5,18 @@
 namespace Workflow.HostedServices.Services.Processings;
 
 internal sealed partial class HomeProcessingService(
-    IConfiguration configuration)
+    cCoder.Workflow.Models.WorkflowConfiguration configuration)
     : IHomeProcessingService
 {
     public string GetHome() =>
         TryCatch(operation: () =>
         {
             double instanceMaxAgeDays =
-                configuration.GetValue<double?>(
-                    key: "Workflow:InstanceMaintenance:MaxAgeDays") ?? 7;
+                configuration.InstanceMaintenance.MaxAgeDays;
 
             double executingTimeoutMinutes =
-                configuration.GetValue<double?>(
-                    key: "Workflow:QueueInstanceBackgroundServiceDependency:ExecutingTimeoutMinutes") ?? 30;
+                configuration.QueueInstanceManagement
+                    .ExecutingTimeoutMinutes;
 
             double scheduledTaskIntervalMinutes = 1;
 

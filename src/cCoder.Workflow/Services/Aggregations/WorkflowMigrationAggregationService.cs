@@ -5,11 +5,12 @@
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Dependencies.OData;
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Dependencies.ServiceProviders;
-using cCoder.Workflow.Dependencies.Results;
+using cCoder.Workflow.Models.Results;
 using cCoder.Workflow.Services.Orchestrations;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 
@@ -201,7 +202,7 @@ action: calendar =>
         GetLogger()
             .LogDebug(
 message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
-args: cCoder.Workflow.Dependencies.OData.ODataJsonExtensions.ToJsonForOdata(value: existingFlowDefinitions));
+args: cCoder.Workflow.Extensions.OData.ODataJsonExtensions.ToJsonForOdata(value: existingFlowDefinitions));
 
         for (int index = 0; index < flowDefinitions.Length; index++)
         {

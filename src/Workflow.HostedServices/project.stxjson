@@ -25,9 +25,51 @@
       ]
     },
     {
-      "Name": "Workflow.HostedServices.Extensions.WebApplicationBuilderExtensions",
-      "StandardElementType": "Dependency",
+      "Name": "Workflow.HostedServices.IServiceCollectionExtensions",
+      "StandardElementType": "App",
       "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowHostedServices",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configuration",
+              "Type": "IConfiguration"
+            },
+            {
+              "Name": "configure",
+              "Type": "System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E"
+            }
+          ],
+          "ReturnType": "IServiceCollection"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Models.WorkflowHostedServicesConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Data",
+          "Type": "cCoder.Data.Models.DataConfiguration"
+        },
+        {
+          "Name": "Eventing",
+          "Type": "cCoder.Eventing.Models.EventingConfiguration"
+        },
+        {
+          "Name": "Security",
+          "Type": "cCoder.Security.Objects.SecurityConfiguration"
+        },
+        {
+          "Name": "Workflow",
+          "Type": "cCoder.Workflow.Models.WorkflowConfiguration"
+        }
+      ],
       "Methods": []
     },
     {

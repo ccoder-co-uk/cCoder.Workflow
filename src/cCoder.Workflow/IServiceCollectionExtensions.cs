@@ -13,7 +13,8 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Data.Models.Logging;
 using cCoder.Data.Models.Mail;
 using cCoder.Data.Models.Security;
-using cCoder.Workflow.Dependencies.OData;
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
@@ -37,14 +38,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi;
-using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
-using AuthorizationDependency = cCoder.Workflow.Dependencies.AuthorizationDependency;
-using IAuthorizationDependency = cCoder.Workflow.Dependencies.IAuthorizationDependency;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
-using JsonBroker = cCoder.Workflow.Brokers.JsonBroker;
-using IJsonDependency = cCoder.Workflow.Dependencies.IJsonDependency;
-using JsonDependency = cCoder.Workflow.Dependencies.JsonDependency;
 using DataFile = cCoder.Data.Models.DMS.File;
 
 
@@ -52,24 +47,24 @@ namespace cCoder.Workflow;
 
 public static partial class IServiceCollectionExtensions
 {
-    public static void ConfigureWorkflowApiModel(
-        this ODataConventionModelBuilder builder) =>
-        new WorkflowModelBuilder(builder: builder)
-            .Configure();
-
     public static void AddWorkflowWeb(
         this IServiceCollection services,
         Action<WorkflowConfiguration> newConfigure = null,
-        ODataConventionModelBuilder builder = null) =>
-        services.AddConfiguredWorkflowWeb(newConfigure: (_, configuration) => newConfigure?.Invoke(obj: configuration), builder: builder);
-
-    public static void AddWorkflowHostedServices(
-        this IServiceCollection services,
-        Action<WorkflowConfiguration> newConfigure = null) =>
-        services.AddConfiguredWorkflowHostedServices(newConfigure: (_, configuration) => newConfigure?.Invoke(obj: configuration));
-
-    internal static void AddWorkflow(IServiceCollection services)
+        ODataConventionModelBuilder builder = null)
     {
+        WorkflowConfiguration configuration = new();
+        newConfigure?.Invoke(obj: configuration);
+        services.AddWorkflowWeb(configuration: configuration, builder: builder);
+    }
+
+    public static void AddWorkflowWeb(
+        this IServiceCollection services,
+        WorkflowConfiguration configuration,
+        ODataConventionModelBuilder builder = null)
+    {
+        ArgumentNullException.ThrowIfNull(argument: configuration);
+        services.RegisterWorkflowConfiguration(
+            configuration: configuration);
         services.AddEventingTypes();
         services.AddBrokers();
         services.AddFoundations();
@@ -77,17 +72,50 @@ public static partial class IServiceCollectionExtensions
         services.AddOrchestrations();
         services.AddCoordinations();
         services.AddEventHandlers();
+        services.AddWebExposures();
+        services.AddConfiguredWorkflowApi(
+            configuration: configuration,
+            documentName: "Workflow",
+            configureModel: static modelBuilder =>
+                modelBuilder.ConfigureWorkflowApiModel(),
+            builder: builder);
     }
 
-    internal static void AddWorkflowWeb(IServiceCollection services, ODataConventionModelBuilder builder = null)
+    public static void AddWorkflowHostedServices(
+        this IServiceCollection services,
+        Action<WorkflowConfiguration> newConfigure = null)
     {
-        AddWorkflow(services: services);
+        WorkflowConfiguration configuration = new();
+        newConfigure?.Invoke(obj: configuration);
+        services.AddWorkflowHostedServices(configuration: configuration);
+    }
+
+    public static void AddWorkflowHostedServices(
+        this IServiceCollection services,
+        WorkflowConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(argument: configuration);
+        services.RegisterWorkflowConfiguration(
+            configuration: configuration);
+        services.AddEventingTypes();
+        services.AddBrokers();
+        services.AddFoundations();
+        services.AddProcessings();
+        services.AddOrchestrations();
+        services.AddCoordinations();
+        services.AddEventHandlers();
+        services.AddHostedServiceExposures();
+    }
+
+    private static void AddWebExposures(
+        this IServiceCollection services)
+    {
         services.AddTransient<IFlowDefinitionAggregationService, FlowDefinitionAggregationService>();
     }
 
-    internal static void AddWorkflowHostedServices(IServiceCollection services)
+    private static void AddHostedServiceExposures(
+        this IServiceCollection services)
     {
-        AddWorkflow(services: services);
         services.AddSingleton<IInstanceMaintenanceBackgroundServiceDependency, InstanceMaintenanceBackgroundServiceDependency>();
 
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
@@ -163,9 +191,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IScheduledTaskBroker, ScheduledTaskBroker>();
         services.AddTransient<IWorkflowInstanceManagementBroker, WorkflowInstanceManagementBroker>();
         services.AddTransient<IWorkflowEventBroker, WorkflowEventBroker>();
-        services.AddTransient<IAuthorizationDependency, AuthorizationDependency>();
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
-        services.AddTransient<IJsonDependency, JsonDependency>();
         services.AddTransient<IJsonBroker, JsonBroker>();
     }
 
@@ -224,20 +250,15 @@ public static partial class IServiceCollectionExtensions
             implementationFactory: static (serviceProvider, _) =>
                 serviceProvider.GetRequiredService<IFlowDefinitionCoordinationService>());
 
-        services.AddKeyedTransient<IWorkflowMetadataTypeService>(
-            serviceKey: FlowDefinitionOperation.Metadata,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IWorkflowMetadataTypeService>());
-
         services.AddKeyedTransient<IAuthorizationBroker>(
             serviceKey: FlowDefinitionOperation.Authorization,
             implementationFactory: static (serviceProvider, _) =>
                 serviceProvider.GetRequiredService<IAuthorizationBroker>());
 
-        services.AddKeyedTransient<Config>(
+        services.AddKeyedTransient<WorkflowConfiguration>(
             serviceKey: FlowDefinitionOperation.Configuration,
             implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<Config>());
+                serviceProvider.GetRequiredService<WorkflowConfiguration>());
 
         services.AddKeyedTransient<ICalendarOrchestrationService>(
             serviceKey: WorkflowMigrationOperation.Calendar,

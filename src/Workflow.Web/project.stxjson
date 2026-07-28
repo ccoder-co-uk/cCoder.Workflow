@@ -1,47 +1,6 @@
 {
   "Classes": [
     {
-      "Name": "Apps.Shared.DomainApiHosting",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "UseDomainApiShell",
-          "Inputs": [
-            {
-              "Name": "app",
-              "Type": "WebApplication"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "UseDomainDefaultCors",
-          "Inputs": [
-            {
-              "Name": "app",
-              "Type": "WebApplication"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "UseDomainExceptionHandling",
-          "Inputs": [
-            {
-              "Name": "app",
-              "Type": "WebApplication"
-            },
-            {
-              "Name": "errorHandler",
-              "Type": "RequestDelegate"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
       "Name": "Apps.Shared.Hosting.NoOpSession",
       "StandardElementType": "Dependency",
       "Properties": [
@@ -140,33 +99,6 @@
       "Methods": []
     },
     {
-      "Name": "Apps.Shared.Models.Config",
-      "StandardElementType": "Model",
-      "Properties": [
-        {
-          "Name": "ConnectionStrings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        },
-        {
-          "Name": "DebugInfo",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "LogSQL",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "Services",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        },
-        {
-          "Name": "Settings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        }
-      ],
-      "Methods": []
-    },
-    {
       "Name": "Workflow.Web.Controllers.CoreAppController",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -208,9 +140,51 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Extensions.WebApplicationBuilderExtensions",
-      "StandardElementType": "Dependency",
+      "Name": "Workflow.Web.IServiceCollectionExtensions",
+      "StandardElementType": "App",
       "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddWorkflowWeb",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configuration",
+              "Type": "IConfiguration"
+            },
+            {
+              "Name": "configure",
+              "Type": "System.Action\u003CWorkflow.Web.Models.WorkflowWebConfiguration\u003E"
+            }
+          ],
+          "ReturnType": "IServiceCollection"
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.Web.Models.WorkflowWebConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Data",
+          "Type": "cCoder.Data.Models.DataConfiguration"
+        },
+        {
+          "Name": "Eventing",
+          "Type": "cCoder.Eventing.Models.EventingConfiguration"
+        },
+        {
+          "Name": "Security",
+          "Type": "cCoder.Security.Objects.SecurityConfiguration"
+        },
+        {
+          "Name": "Workflow",
+          "Type": "cCoder.Workflow.Models.WorkflowConfiguration"
+        }
+      ],
       "Methods": []
     },
     {
@@ -270,6 +244,12 @@
           "ReturnType": "System.String"
         }
       ]
+    },
+    {
+      "Name": "Workflow.Web.WebApplicationExtensions",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": []
     }
   ],
   "Links": [

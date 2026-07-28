@@ -2,20 +2,25 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Dependencies;
+using cCoder.Workflow.Extensions;
+using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Brokers;
 
-internal sealed class JsonBroker(
-    IJsonDependency jsonDependency)
-    : IJsonBroker
+internal class JsonBroker : IJsonBroker
 {
     public object ParseJson(string json) =>
-        jsonDependency.ParseJson(json: json);
+        JsonConvert.DeserializeObject(
+            value: json,
+            settings: WorkflowJsonExtensions.CreateJsonSerializerSettings());
 
     public T ParseJson<T>(string json) =>
-        jsonDependency.ParseJson<T>(json: json);
+        JsonConvert.DeserializeObject<T>(
+            value: json,
+            settings: WorkflowJsonExtensions.CreateJsonSerializerSettings());
 
     public string Serialize(object value) =>
-        jsonDependency.Serialize(value: value);
+        JsonConvert.SerializeObject(
+            value: value,
+            settings: WorkflowJsonExtensions.CreateJsonSerializerSettings());
 }

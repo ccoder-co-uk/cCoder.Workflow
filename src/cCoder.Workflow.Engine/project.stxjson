@@ -106,7 +106,7 @@
     },
     {
       "Name": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Unknown",
       "Properties": [],
       "Methods": [
         {
@@ -268,12 +268,66 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Engine.Extensions.TypeNameExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCSharpTypeName",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Extensions.WorkflowJsonExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetJsonSettings",
+          "Inputs": [],
+          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
+        },
+        {
+          "Name": "GetODataJsonSettings",
+          "Inputs": [],
+          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
+        },
+        {
+          "Name": "ToJson",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        },
+        {
+          "Name": "ToJsonForOdata",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
       "StandardElementType": "App",
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddWorkflowEngine",
+          "Name": "AddWorkflowEngineHostedServices",
           "Inputs": [
             {
               "Name": "services",
@@ -484,60 +538,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Support.TypeNameExtensions",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetCSharpTypeName",
-          "Inputs": [
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            }
-          ],
-          "ReturnType": "System.String"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Support.WorkflowJson",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetJsonSettings",
-          "Inputs": [],
-          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
-        },
-        {
-          "Name": "GetODataJsonSettings",
-          "Inputs": [],
-          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
-        },
-        {
-          "Name": "ToJson",
-          "Inputs": [
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            }
-          ],
-          "ReturnType": "System.String"
-        },
-        {
-          "Name": "ToJsonForOdata",
-          "Inputs": [
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            }
-          ],
-          "ReturnType": "System.String"
         }
       ]
     }
