@@ -2,9 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Testing;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using Web.AcceptanceTests.Models;
 using Xunit;
 
@@ -20,11 +19,14 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        AcceptanceTestConfiguration configuration =
+            AcceptanceTestConfiguration.Load();
+
         AcceptanceSettings settings = new()
         {
-            CoreConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__Core"),
-            SsoConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__SSO"),
-            DecryptionKey = "000000000000000000000000000000000000000000000000",
+            CoreConnectionString = configuration.CoreConnectionString,
+            SsoConnectionString = configuration.SecurityConnectionString,
+            DecryptionKey = configuration.SecurityDecryptionKey
         };
 
         Factory = new HostedServicesAcceptanceFactory(settings);
@@ -53,49 +55,6 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
         }
     }
 
-    private static string AddDatabaseSuffix(string variableName)
-    {
-        string connectionString =
-            Environment.GetEnvironmentVariable(variable: variableName)
-            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.Machine)
-            ?? ReadConfiguredConnectionString(variableName: variableName);
-
-        if (string.IsNullOrWhiteSpace(value: connectionString))
-        {
-            return string.Empty;
-        }
-
-        SqlConnectionStringBuilder builder = new(connectionString)
-        {
-            Encrypt = true,
-            TrustServerCertificate = true,
-        };
-
-        string databaseName = builder.InitialCatalog ?? string.Empty;
-
-        if (string.IsNullOrWhiteSpace(value: databaseName))
-        {
-            return connectionString;
-        }
-
-        builder.InitialCatalog = $"{databaseName}-acceptance-{Guid.NewGuid():N}";
-        return builder.ConnectionString;
-    }
-
-    private static string ReadConfiguredConnectionString(string variableName)
-    {
-        string connectionName = variableName.Contains(value: "CORE", comparisonType: StringComparison.OrdinalIgnoreCase)
-            ? "Core"
-            : "SSO";
-
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(basePath: AppContext.BaseDirectory)
-            .AddJsonFile(path: "appsettings.testing.json", optional: true)
-            .Build();
-
-        return configuration.GetConnectionString(name: connectionName) ?? string.Empty;
-    }
 }
 
 [CollectionDefinition(Name)]

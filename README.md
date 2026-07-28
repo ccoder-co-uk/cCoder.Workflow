@@ -2,6 +2,22 @@
 
 `cCoder.Workflow` contains the Workflow domain for the cCoder platform.
 
+## Local Configuration
+
+Each app binds its committed `appsettings.json` directly into its root
+configuration object. Leave secret values empty and define these user- or
+machine-level environment variables:
+
+- `Data__ConnectionString`
+- `Workflow__ConnectionString`
+- `Security__ConnectionString`
+- `Security__DecryptionKey`
+- `Eventing__ServiceBus__ConnectionString` when Service Bus eventing is selected
+
+Restart Visual Studio after changing environment variables, select the required
+startup projects, and press F5. No conversion, `.env` file, or startup script is
+required.
+
 ## Functionality
 
 The repository provides the Workflow domain packages and standalone hosts used by cCoder applications.
@@ -47,45 +63,14 @@ The repository provides the Workflow domain packages and standalone hosts used b
 ## Build
 
 ```powershell
-dotnet build src/cCoder.Workflow.sln -v minimal
+dotnet build src/cCoder.Workflow.slnx -v minimal
 ```
 
 ## Test
 
 ```powershell
-dotnet test src/cCoder.Workflow.sln -v minimal --no-build
+dotnet test src/cCoder.Workflow.slnx -v minimal --no-build
 ```
-
-## Local Configuration
-
-The standalone hosts read local secrets from environment variables rather than committed config.
-
-Before running `src/Workflow.Web` or `src/Workflow.HostedServices`, set:
-
-- `ConnectionStrings__Core`
-- `ConnectionStrings__SSO`
-- `Settings__DecryptionKey`
-- `Settings__sslPort`
-- `Services__HostedServices`
-- `Eventing__Http__MaxConcurrency`
-
-`Services__HostedServices` should point to the hosted-services HTTP base URL, for example `http://localhost:5060`.
-`Services:Workflow` is committed in app config with the local Functions default `http://localhost:7071/api/`. Override it with `Services__Workflow` only when the Functions app is hosted elsewhere.
-`Settings__sslPort` should match the HTTPS port used by `Workflow.Web`, for example `7157`.
-`Eventing__Http__MaxConcurrency` controls the shared HTTP event dispatcher concurrency and can be `1` for local verification.
-
-The committed `appsettings.json` files keep these values blank so user or machine environment variables can supply them during local development.
-
-Before running `src/Apps/Workflow`, set `AzureWebJobsStorage` to a valid Functions storage connection string. For local development this is usually `UseDevelopmentStorage=true` with Azurite running. The HTTP functions can respond without it, but the Functions host reports storage health as unhealthy until the setting is present and reachable.
-
-Visual Studio installations may include Azurite under `Common7\IDE\Extensions\Microsoft\Azure Storage Emulator`. Add that folder to `PATH` if `azurite --version` does not resolve in a terminal.
-
-The acceptance tests can also read environment connection strings:
-
-- `CCODER_ACCEPTANCE_CORE_CONNECTION_STRING`
-- `CCODER_ACCEPTANCE_SSO_CONNECTION_STRING`
-
-The test fixture creates suffixed databases from those connection strings and drops them when the suite completes.
 
 ## Run Locally
 

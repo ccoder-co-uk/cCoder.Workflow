@@ -12,7 +12,8 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class FlowQueueOrchestrationService(
     IFlowDefinitionProcessingService flowDefinitionProcessingService,
-    IFlowInstanceDataProcessingService flowInstanceDataProcessingService)
+    IFlowInstanceDataProcessingService flowInstanceDataProcessingService,
+    IFlowInstanceDataEventProcessingService flowInstanceDataEventProcessingService)
     : IFlowQueueOrchestrationService
 {
     public ValueTask<Guid> QueueFlowDefinitionAsync(
@@ -51,6 +52,9 @@ internal sealed partial class FlowQueueOrchestrationService(
 
         flowInstance = await flowInstanceDataProcessingService
             .AddQueuedFlowInstanceDataAsync(newEntity: flowInstance);
+
+        await flowInstanceDataEventProcessingService
+            .RaiseFlowInstanceDataAddEventAsync(entity: flowInstance);
 
         return flowInstance.Id;
     }

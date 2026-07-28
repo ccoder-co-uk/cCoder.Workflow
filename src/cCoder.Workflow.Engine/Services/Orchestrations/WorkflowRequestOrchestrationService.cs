@@ -5,7 +5,7 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Services.Processings;
-using cCoder.Workflow.Engine.Support;
+using cCoder.Workflow.Engine.Extensions;
 
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
@@ -42,7 +42,7 @@ internal sealed partial class WorkflowRequestOrchestrationService(
                     .LogWorkflowRequestAsync(
                         workflowRequest: workflowRequest,
                         level: WorkflowLogLevel.Debug,
-                        message: WorkflowJson.ToJson(
+                        message: WorkflowJsonExtensions.ToJson(
                             value: workflowRequest));
 
                 FlowExecution flowExecution =

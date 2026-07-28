@@ -16,7 +16,6 @@ namespace cCoder.Workflow.Services.Processings;
 internal sealed partial class WorkflowInstanceProcessingService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IServiceProvider serviceProvider,
-    IConfiguration appConfiguration,
     WorkflowConfiguration workflowConfiguration,
     ILogger<WorkflowInstanceProcessingService> log)
     : IWorkflowInstanceProcessingService
@@ -239,7 +238,7 @@ cancellationToken: cancellationToken);
     {
         using HttpClient api = new(Handler)
         {
-            BaseAddress = new Uri(appConfiguration["Services:Workflow"])
+            BaseAddress = new Uri(workflowConfiguration.ServiceUrl)
         };
 
         return await api.PostAsync(
@@ -250,20 +249,23 @@ content: new StringContent(JsonSerializer.Serialize(value: request), System.Text
     internal WorkflowRequest CreateWorkflowRequest(FlowInstanceData dbInstance, Token token) =>
         new()
         {
-            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{appConfiguration["Settings:sslPort"] ?? "443"}/Api/",
+            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{workflowConfiguration.SslPort}/Api/",
             FlowId = dbInstance.FlowDefinition.Id,
             AuthToken = token.Id,
             InstanceId = dbInstance.Id
         };
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
-        TimeSpan.FromDays(value: appConfiguration.GetValue<double?>(key: "Workflow:InstanceMaintenance:MaxAgeDays") ?? 7);
+        TimeSpan.FromDays(
+            value: workflowConfiguration.InstanceMaintenance.MaxAgeDays);
 
     private TimeSpan GetExecutingInstanceTimeout() =>
-        TimeSpan.FromMinutes(value: appConfiguration.GetValue<double?>(key: "Workflow:QueueInstanceBackgroundServiceDependency:ExecutingTimeoutMinutes") ?? 30);
+        TimeSpan.FromMinutes(
+            value: workflowConfiguration.QueueInstanceManagement
+                .ExecutingTimeoutMinutes);
 
     private TimeSpan GetQueuePollingInterval() =>
-        TimeSpan.FromSeconds(
-            value: appConfiguration.GetValue<double?>(
-                key: "Workflow:QueueInstanceBackgroundServiceDependency:PollingIntervalSeconds") ?? 60);
+        TimeSpan.FromMilliseconds(
+            milliseconds: workflowConfiguration.QueueInstanceManagement
+                .PollingIntervalMilliseconds);
 }

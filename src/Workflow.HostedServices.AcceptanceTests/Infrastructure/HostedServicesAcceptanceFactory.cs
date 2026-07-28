@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data;
+using cCoder.Data.Models;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
@@ -30,17 +31,20 @@ internal sealed class HostedServicesAcceptanceFactory(AcceptanceSettings setting
             config.AddInMemoryCollection(
 initialData: [
                 new KeyValuePair<string, string>(
-                    key: "ConnectionStrings:Core",
+                    key: "Data:ConnectionString",
                     value: settings.CoreConnectionString),
                 new KeyValuePair<string, string>(
-                    key: "ConnectionStrings:SSO",
+                    key: "Workflow:ConnectionString",
+                    value: settings.CoreConnectionString),
+                new KeyValuePair<string, string>(
+                    key: "Security:ConnectionString",
                     value: settings.SsoConnectionString),
                 new KeyValuePair<string, string>(
-                    key: "Settings:DecryptionKey",
+                    key: "Security:DecryptionKey",
                     value: settings.DecryptionKey),
                 new KeyValuePair<string, string>(
-                    key: "Settings:enableExternalEventing",
-                    value: "false"),
+                    key: "Eventing:Http:HubUrl",
+                    value: string.Empty),
                 new KeyValuePair<string, string>(
                     key: "Workflow:IsMigrating",
                     value: "true"),
@@ -50,6 +54,7 @@ initialData: [
         builder.ConfigureTestServices(servicesConfiguration: services =>
         {
             services.RemoveAll<ICoreContextFactory>();
+            services.RemoveAll<DataConfiguration>();
             services.RemoveAll<ISecurityDbContextFactory>();
             services.RemoveAll<IInstanceMaintenanceBackgroundServiceDependency>();
             services.RemoveAll<IQueueInstanceBackgroundServiceDependency>();
@@ -66,28 +71,16 @@ initialData: [
                 services.Remove(item: descriptor);
             }
 
-            services.AddSingleton(
-implementationInstance: new cCoder.Data.Config
-{
-    ConnectionStrings = new Dictionary<string, string>
-    {
-        ["Core"] = settings.CoreConnectionString,
-        ["SSO"] = settings.SsoConnectionString,
-    },
-    Settings = new Dictionary<string, string>
-    {
-        ["DecryptionKey"] = settings.DecryptionKey,
-        ["enableExternalEventing"] = "false",
-    },
-    Services = new Dictionary<string, string>(),
-});
-
             services.AddSingleton<ISecurityDbContextFactory>(
                 implementationFactory: _ =>
                     new MSSQLSecurityDbContextFactory(
                         connectionString: settings.SsoConnectionString));
 
-            services.AddCoreData(connectionString: settings.CoreConnectionString);
+            services.AddData(
+                configuration: new DataConfiguration
+                {
+                    ConnectionString = settings.CoreConnectionString
+                });
         });
     }
 }

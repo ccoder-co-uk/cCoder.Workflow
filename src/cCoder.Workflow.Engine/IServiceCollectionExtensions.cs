@@ -2,9 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Dependencies;
+using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Services.Orchestrations;
 using cCoder.Workflow.Engine.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +13,34 @@ namespace cCoder.Workflow.Engine;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddWorkflowEngine(this IServiceCollection services)
+    public static IServiceCollection AddWorkflowEngineHostedServices(
+        this IServiceCollection services)
     {
         services.AddLogging();
+        services.AddBrokers();
+        services.AddOrchestrations();
+        services.AddProcessings();
+
+        return services;
+    }
+
+    private static void AddBrokers(
+        this IServiceCollection services)
+    {
+        services.AddTransient<RoslynScriptDependency>();
+        services.AddTransient<IScriptBroker, ScriptBroker>();
+        services.AddTransient<
+            IWorkflowContextBroker,
+            WorkflowContextBroker>();
+    }
+
+    private static void AddOrchestrations(
+        this IServiceCollection services)
+    {
         services.AddTransient<IFlowRunner, FlowRunner>();
-        services.AddTransient<IWorkflowScriptExecutionService, WorkflowScriptExecutionService>();
+        services.AddTransient<
+            IWorkflowScriptExecutionService,
+            WorkflowScriptExecutionService>();
         services.AddTransient<
             IFlowExecutionOrchestrationService,
             FlowExecutionOrchestrationAdapter>();
@@ -27,17 +50,11 @@ public static class IServiceCollectionExtensions
         services.AddTransient<
             IWorkflowRequestOrchestrationService,
             WorkflowRequestOrchestrationService>();
-        services.AddTransient<IRoslynScriptDependency, RoslynScriptDependency>();
-        services.AddTransient<
-            IWorkflowContextBroker,
-            WorkflowContextBroker>();
-        services.AddTransient<ScriptBroker>();
-        services.AddTransient<IScriptBroker>(
-            implementationFactory: serviceProvider =>
-                serviceProvider.GetRequiredService<ScriptBroker>());
-        services.AddTransient<IScriptProcessingService>(
-            implementationFactory: serviceProvider =>
-                serviceProvider.GetRequiredService<ScriptBroker>());
+    }
+
+    private static void AddProcessings(
+        this IServiceCollection services)
+    {
         services.AddTransient<
             IWorkflowScriptExecutionProcessingService,
             WorkflowScriptExecutionProcessingService>();
@@ -50,7 +67,5 @@ public static class IServiceCollectionExtensions
         services.AddTransient<
             IFlowResultProcessingService,
             FlowResultProcessingService>();
-
-        return services;
     }
 }

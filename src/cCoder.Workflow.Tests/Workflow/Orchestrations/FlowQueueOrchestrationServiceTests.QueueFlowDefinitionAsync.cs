@@ -57,6 +57,13 @@ public partial class FlowQueueOrchestrationServiceTests
                 return flowInstanceData;
             });
 
+        flowInstanceDataEventProcessingServiceMock
+            .Setup(expression: service => service.RaiseFlowInstanceDataAddEventAsync(
+                entity: It.Is<FlowInstanceData>(
+                    match: flowInstanceData =>
+                        flowInstanceData.Id == queuedFlowInstanceDataId)))
+            .Returns(value: ValueTask.CompletedTask);
+
         // When
         Guid result = await orchestrationService.QueueFlowDefinitionAsync(
             flowDefinitionId: flowDefinitionId,
@@ -78,5 +85,6 @@ public partial class FlowQueueOrchestrationServiceTests
 
         flowDefinitionProcessingServiceMock.VerifyAll();
         flowInstanceDataProcessingServiceMock.VerifyNoOtherCalls();
+        flowInstanceDataEventProcessingServiceMock.VerifyAll();
     }
 }

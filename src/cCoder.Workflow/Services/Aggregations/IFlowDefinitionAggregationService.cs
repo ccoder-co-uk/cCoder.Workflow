@@ -2,7 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Dependencies.OData;
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
 
@@ -24,7 +25,4 @@ public interface IFlowDefinitionAggregationService
 
     ValueTask<string> ExecuteScriptAsync(string script);
 
-    MetadataContainerSet[] GetKnownActivityTypes();
-
-    MetadataContainerSet[] GetKnownSystemTypes();
 }

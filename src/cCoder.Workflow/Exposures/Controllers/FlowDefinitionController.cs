@@ -3,7 +3,8 @@
 // ---------------------------------------------------------------
 
 using System.Text;
-using cCoder.Workflow.Dependencies.OData;
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Aggregations;
@@ -25,7 +26,7 @@ public partial class FlowDefinitionController(IFlowDefinitionAggregationService 
 
         return isExtendedMetaRequest
             ? Ok(
-value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
+value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
             )
@@ -81,7 +82,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
@@ -100,7 +101,7 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Dependencies.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
@@ -145,26 +146,4 @@ value: new cCoder.Workflow.Dependencies.OData.WorkflowModelBuilder()
         return Ok(value: await service.ExecuteScriptAsync(script: script));
     }
 
-    [HttpGet]
-    [ActionName("KnownActivityTypes")]
-    [EnableQuery(
-        AllowedArithmeticOperators = AllowedArithmeticOperators.All,
-        AllowedFunctions = AllowedFunctions.All,
-        AllowedLogicalOperators = AllowedLogicalOperators.All,
-        AllowedQueryOptions = AllowedQueryOptions.All,
-        MaxAnyAllExpressionDepth = 6,
-        MaxExpansionDepth = 6
-    )]
-    public IActionResult GetKnownActivityTypes()
-    {
-        return Ok(value: service.GetKnownActivityTypes());
-    }
-
-    [AllowAnonymous]
-    [HttpGet]
-    [ActionName("KnownSystemTypes")]
-    public IActionResult GetKnownSystemTypes()
-    {
-        return Ok(value: service.GetKnownSystemTypes());
-    }
 }

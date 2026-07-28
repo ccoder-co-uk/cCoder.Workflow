@@ -4,14 +4,12 @@
 
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Dependencies;
-using cCoder.Workflow.Engine.Services.Processings;
 
 namespace cCoder.Workflow.Engine.Brokers;
 
-internal sealed class ScriptBroker(
-    IRoslynScriptDependency roslynScriptDependency)
-    : IScriptBroker,
-      IScriptProcessingService
+internal class ScriptBroker(
+    RoslynScriptDependency roslynScriptDependency)
+    : IScriptBroker
 {
     public Task<T> BuildScript<T>(
         string code,

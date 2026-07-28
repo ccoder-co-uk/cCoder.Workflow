@@ -9,14 +9,14 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using cCoder.AppSecurity;
 using cCoder.Data;
+using cCoder.Data.Models;
 using cCoder.Eventing;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects;
 using cCoder.Workflow;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+using cCoder.Workflow.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Models;
 using Xunit;
@@ -25,8 +25,6 @@ namespace Web.AcceptanceTests.Infrastructure;
 
 public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
 {
-    private const string DecryptionKey = "000000000000000000000000000000000000000000000000";
-
     private readonly HttpClientHandler insecureHttpHandler = new()
     {
         AutomaticDecompression = DecompressionMethods.All,
@@ -65,11 +63,14 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        AcceptanceTestConfiguration configuration =
+            AcceptanceTestConfiguration.Load();
+
         Settings = new AcceptanceSettings
         {
-            CoreConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__Core"),
-            SsoConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__SSO"),
-            DecryptionKey = DecryptionKey,
+            CoreConnectionString = configuration.CoreConnectionString,
+            SsoConnectionString = configuration.SecurityConnectionString,
+            DecryptionKey = configuration.SecurityDecryptionKey
         };
 
         int webHttpsPort = FindFreePort();
@@ -116,7 +117,6 @@ environmentVariables: new Dictionary<string, string>
 
         Dictionary<string, string> hostedServicesEnvironment = CreateCommonEnvironment();
         hostedServicesEnvironment["ASPNETCORE_URLS"] = HostedServicesBaseAddress.ToString();
-        hostedServicesEnvironment["Settings__sslPort"] = WebBaseAddress.Port.ToString();
 
         hostedServicesApplication = new ExternalProcessApplication("HostedServices");
 
@@ -132,8 +132,6 @@ environmentVariables: hostedServicesEnvironment,
         Dictionary<string, string> webEnvironment = CreateCommonEnvironment();
         AddHttpsCertificateEnvironment(environment: webEnvironment);
         webEnvironment["ASPNETCORE_URLS"] = WebBaseAddress.ToString();
-        webEnvironment["Settings__sslPort"] = webHttpsPort.ToString();
-        webEnvironment["Services__HostedServices"] = HostedServicesBaseAddress.ToString();
 
         webApplication = new ExternalProcessApplication("Web");
 
@@ -215,22 +213,6 @@ environmentVariables: webEnvironment,
         services.AddLogging();
         services.AddEventing();
 
-        services.AddSingleton(
-implementationInstance: new Config
-{
-    ConnectionStrings = new Dictionary<string, string>
-    {
-        ["Core"] = settings.CoreConnectionString,
-        ["SSO"] = settings.SsoConnectionString
-    },
-    Settings = new Dictionary<string, string>
-    {
-        ["DecryptionKey"] = settings.DecryptionKey,
-        ["enableExternalEventing"] = "true"
-    },
-    Services = new Dictionary<string, string>()
-});
-
         services.AddScoped<ISecurityDbContextFactory>(
             implementationFactory: provider =>
                 new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
@@ -240,7 +222,12 @@ implementationInstance: new Config
                         : provider.GetService<ISSOAuthInfo>()
                 });
 
-        services.AddCoreData(connectionString: settings.CoreConnectionString);
+        services.AddData(
+            configuration: new DataConfiguration
+            {
+                ConnectionString = settings.CoreConnectionString
+            });
+
         services.AddAppSecurityWeb();
         services.AddWorkflowWeb();
 
@@ -251,14 +238,20 @@ implementationInstance: new Config
         new()
         {
             ["ASPNETCORE_ENVIRONMENT"] = "Acceptance",
-            ["ConnectionStrings__Core"] = Settings.CoreConnectionString,
-            ["ConnectionStrings__SSO"] = Settings.SsoConnectionString,
-            ["Settings__DecryptionKey"] = Settings.DecryptionKey,
-            ["Settings__enableExternalEventing"] = "true",
-            ["Services__Workflow"] = WorkflowBaseAddress.ToString(),
+            ["Data__ConnectionString"] = Settings.CoreConnectionString,
+            ["Workflow__ConnectionString"] = Settings.CoreConnectionString,
+            ["Workflow__ServiceUrl"] = WorkflowBaseAddress.ToString(),
+            ["Workflow__SslPort"] = WebBaseAddress.Port.ToString(),
+            ["Security__ConnectionString"] = Settings.SsoConnectionString,
+            ["Security__DecryptionKey"] = Settings.DecryptionKey,
             ["Eventing__ProviderType"] = "Http",
+            ["Eventing__Http__HubUrl"] =
+                new Uri(
+                    baseUri: HostedServicesBaseAddress,
+                    relativeUri: "Api/Eventing")
+                .ToString(),
             ["Eventing__Http__MaxConcurrency"] = "1",
-            ["Workflow__QueueInstanceBackgroundServiceDependency__PollingIntervalSeconds"] = "1"
+            ["Workflow__QueueInstanceManagement__PollingIntervalMilliseconds"] = "1000"
         };
 
     private async Task BuildApplicationAsync(string projectPath, string outputDirectory, string intermediateDirectory)
@@ -427,7 +420,7 @@ notAfter: DateTimeOffset.UtcNow.AddDays(days: 1));
 
         while (directory is not null)
         {
-            if (File.Exists(path: Path.Combine(path1: directory.FullName, path2: "src", path3: "cCoder.Workflow.sln")))
+            if (File.Exists(path: Path.Combine(path1: directory.FullName, path2: "src", path3: "cCoder.Workflow.slnx")))
             {
                 return directory.FullName;
             }
@@ -436,47 +429,6 @@ notAfter: DateTimeOffset.UtcNow.AddDays(days: 1));
         }
 
         throw new InvalidOperationException("Could not locate the cCoder.Workflow repository root.");
-    }
-
-    private static string AddDatabaseSuffix(string variableName)
-    {
-        string connectionString =
-            Environment.GetEnvironmentVariable(variable: variableName)
-            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable(variable: variableName, target: EnvironmentVariableTarget.Machine)
-            ?? ReadConfiguredConnectionString(variableName: variableName);
-
-        if (string.IsNullOrWhiteSpace(value: connectionString))
-        {
-            return string.Empty;
-        }
-
-        SqlConnectionStringBuilder builder = new(connectionString)
-        {
-            Encrypt = true,
-            TrustServerCertificate = true,
-        };
-
-        if (!string.IsNullOrWhiteSpace(value: builder.InitialCatalog))
-        {
-            builder.InitialCatalog = $"{builder.InitialCatalog}-acceptance-{Guid.NewGuid():N}";
-        }
-
-        return builder.ConnectionString;
-    }
-
-    private static string ReadConfiguredConnectionString(string variableName)
-    {
-        string connectionName = variableName.Contains(value: "CORE", comparisonType: StringComparison.OrdinalIgnoreCase)
-            ? "Core"
-            : "SSO";
-
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(basePath: AppContext.BaseDirectory)
-            .AddJsonFile(path: "appsettings.testing.json", optional: true)
-            .Build();
-
-        return configuration.GetConnectionString(name: connectionName) ?? string.Empty;
     }
 
     private static string FormatMsBuildPath(string path, bool trailingSlash)

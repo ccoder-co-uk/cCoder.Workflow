@@ -52,7 +52,7 @@ public sealed partial class WorkflowLaunchSettingsTests
 
         while (directory is not null)
         {
-            if (File.Exists(path: Path.Combine(path1: directory.FullName, path2: "src", path3: "cCoder.Workflow.sln")))
+            if (File.Exists(path: Path.Combine(path1: directory.FullName, path2: "src", path3: "cCoder.Workflow.slnx")))
             {
                 return directory.FullName;
             }

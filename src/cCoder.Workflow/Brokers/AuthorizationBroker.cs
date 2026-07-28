@@ -2,45 +2,91 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Data;
 using cCoder.Data.Models.Security;
-using cCoder.Workflow.Dependencies;
+using cCoder.Workflow.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Brokers;
 
-internal sealed class AuthorizationBroker(
-    IAuthorizationDependency authorizationDependency)
+internal class AuthorizationBroker(
+    ICoreContextFactory coreContextFactory)
     : IAuthorizationBroker
 {
-    public User GetCurrentUser() =>
-        authorizationDependency.GetCurrentUser();
+    public User GetCurrentUser()
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        return coreDataContext.User;
+    }
 
-    public User GetUser(string userId) =>
-        authorizationDependency.GetUser(userId: userId);
+    public User GetUser(string userId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        return LoadUserWithRoles(coreDataContext: coreDataContext, userId: userId);
+    }
 
-    public bool IsAdminOfApp(int? appId) =>
-        authorizationDependency.IsAdminOfApp(appId: appId);
+    public bool IsAdminOfApp(int? appId)
+    {
+        User user = GetCurrentUser();
 
-    public bool IsAdminOfApp(int appId, string userName) =>
-        authorizationDependency.IsAdminOfApp(
-            appId: appId,
-            userName: userName);
+        return user?.HasAppAdminPrivilege(appId: appId) ?? false;
+    }
 
-    public void Authorize(int? appId, string privilege) =>
-        authorizationDependency.Authorize(
+    public bool IsAdminOfApp(int appId, string userName)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        User user = coreDataContext.Users
+            .Include(navigationPropertyPath: foundUser => foundUser.Roles)
+            .FirstOrDefault(predicate: foundUser => foundUser.Id == userName);
+
+        return user?.HasAppAdminPrivilege(appId: appId) ?? false;
+    }
+
+    public void Authorize(int? appId, string privilege)
+    {
+        User user = GetCurrentUser();
+
+        user.Authorize(
             appId: appId,
             privilege: privilege);
+    }
 
-    public void Authorize(
-        string userId,
-        int? appId,
-        string privilege) =>
-        authorizationDependency.Authorize(
+    public void Authorize(string userId, int? appId, string privilege)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        User user = LoadUserWithRoles(coreDataContext: coreDataContext, userId: userId);
+
+        user.Authorize(
             userId: userId,
             appId: appId,
             privilege: privilege);
+    }
 
-    public bool UserBelongsToApp(string userId, int? appId) =>
-        authorizationDependency.UserBelongsToApp(
-            userId: userId,
-            appId: appId);
+    public bool UserBelongsToApp(string userId, int? appId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        return !string.IsNullOrWhiteSpace(value: userId)
+            && appId.HasValue
+            && coreDataContext.UserRoles
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .Where(predicate: userRole => userRole.UserId == userId)
+            .Join(
+inner: coreDataContext.Roles.IgnoreQueryFilters()
+            .AsNoTracking(),
+outerKeySelector: userRole => userRole.RoleId,
+innerKeySelector: role => role.Id,
+resultSelector: (_, role) => role.AppId)
+            .Any(predicate: foundAppId => foundAppId == appId.Value);
+    }
+
+    private static User LoadUserWithRoles(CoreDataContext coreDataContext, string userId) =>
+        coreDataContext.Users
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .Include(navigationPropertyPath: foundUser => foundUser.Roles)
+                .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
+            .FirstOrDefault(predicate: foundUser => foundUser.Id == userId);
 }

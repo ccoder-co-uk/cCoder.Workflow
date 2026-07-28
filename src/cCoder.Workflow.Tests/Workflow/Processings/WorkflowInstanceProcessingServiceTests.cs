@@ -9,7 +9,6 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -24,21 +23,25 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public WorkflowInstanceProcessingServiceTests()
     {
         workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(behavior: MockBehavior.Strict);
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(initialData: new Dictionary<string, string>
+        WorkflowConfiguration configuration = new()
+        {
+            ServiceUrl = "https://workflow.test/",
+            SslPort = 7157,
+            InstanceMaintenance = new WorkflowInstanceMaintenanceConfiguration
             {
-                ["Services:Workflow"] = "https://workflow.test/",
-                ["Settings:sslPort"] = "7157",
-                ["Workflow:InstanceMaintenance:MaxAgeDays"] = "5",
-                ["Workflow:QueueInstanceBackgroundServiceDependency:ExecutingTimeoutMinutes"] = "45",
-            })
-            .Build();
+                MaxAgeDays = 5
+            },
+            QueueInstanceManagement =
+                new WorkflowQueueInstanceManagementConfiguration
+                {
+                    ExecutingTimeoutMinutes = 45
+                }
+        };
 
         processingService = new WorkflowInstanceProcessingService(
             workflowInstanceManagementBrokerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
-            new WorkflowConfiguration(),
             NullLogger<WorkflowInstanceProcessingService>.Instance);
     }
 

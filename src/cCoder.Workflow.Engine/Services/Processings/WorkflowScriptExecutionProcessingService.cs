@@ -7,7 +7,7 @@ using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Support;
+using cCoder.Workflow.Engine.Extensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -53,7 +53,7 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
 
             return JsonConvert.SerializeObject(
                 value: result,
-                settings: WorkflowJson.GetODataJsonSettings());
+                settings: WorkflowJsonExtensions.GetODataJsonSettings());
         });
 
     private void Log(

@@ -6,7 +6,8 @@ using System.Net;
 using System.Text;
 using cCoder.Data;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Dependencies.OData;
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Dependencies.ServiceProviders;
@@ -117,7 +118,7 @@ internal sealed partial class FlowDefinitionAggregationService(
             }
         )
         {
-            BaseAddress = new Uri(GetConfiguration().Services["Workflow"]),
+            BaseAddress = new Uri(GetConfiguration().ServiceUrl),
             Timeout = TimeSpan.FromMinutes(minutes: 10),
         };
 
@@ -128,24 +129,6 @@ content: new StringContent(script, Encoding.UTF8, "text/plain")
 
         return await response.Content.ReadAsStringAsync();
     }
-
-    public MetadataContainerSet[] GetKnownActivityTypes() =>
-        TryCatch(operation: () =>
-        {
-            ValidateInputs(inputs: []);
-
-            return GetWorkflowMetadataTypeService()
-                .GetKnownActivityTypes();
-        });
-
-    public MetadataContainerSet[] GetKnownSystemTypes() =>
-        TryCatch(operation: () =>
-        {
-            ValidateInputs(inputs: []);
-
-            return GetWorkflowMetadataTypeService()
-                .GetKnownSystemTypes();
-        });
 
     private string ResolveCallerId(string asUserId)
     {
@@ -166,15 +149,11 @@ content: new StringContent(script, Encoding.UTF8, "text/plain")
         serviceProviderBroker.GetOperationService<IFlowDefinitionCoordinationService>(
             operation: FlowDefinitionOperation.Queue);
 
-    private IWorkflowMetadataTypeService GetWorkflowMetadataTypeService() =>
-        serviceProviderBroker.GetOperationService<IWorkflowMetadataTypeService>(
-            operation: FlowDefinitionOperation.Metadata);
-
     private IAuthorizationBroker GetAuthorizationBroker() =>
         serviceProviderBroker.GetOperationService<IAuthorizationBroker>(
             operation: FlowDefinitionOperation.Authorization);
 
-    private Config GetConfiguration() =>
-        serviceProviderBroker.GetOperationService<Config>(
+    private WorkflowConfiguration GetConfiguration() =>
+        serviceProviderBroker.GetOperationService<WorkflowConfiguration>(
             operation: FlowDefinitionOperation.Configuration);
 }
