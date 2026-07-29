@@ -46,9 +46,9 @@
     <ProjectReference Include="$(LocalSecurityProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.7.28.1641" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.7.28.1843" Condition="'$(UseLocalEventing)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.7.28.1631" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.7.29.205" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.7.29.144" Condition="'$(UseLocalEventing)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.7.29.155" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.10" />

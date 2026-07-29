@@ -8,7 +8,6 @@ Each app binds its committed `appsettings.json` directly into its root
 configuration object. Leave secret values empty and define these user- or
 machine-level environment variables:
 
-- `Data__ConnectionString`
 - `Workflow__ConnectionString`
 - `Security__ConnectionString`
 - `Security__DecryptionKey`
