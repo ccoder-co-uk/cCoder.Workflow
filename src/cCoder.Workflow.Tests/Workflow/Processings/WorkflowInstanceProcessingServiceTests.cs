@@ -42,6 +42,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             workflowInstanceManagementBrokerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
+            Mock.Of<IHttpClientFactory>(),
             NullLogger<WorkflowInstanceProcessingService>.Instance);
     }
 

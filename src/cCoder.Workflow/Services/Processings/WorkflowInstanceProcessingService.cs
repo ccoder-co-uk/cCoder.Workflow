@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Net;
 using System.Text.Json;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Exposures;
@@ -17,14 +16,10 @@ internal sealed partial class WorkflowInstanceProcessingService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IServiceProvider serviceProvider,
     WorkflowConfiguration workflowConfiguration,
+    IHttpClientFactory httpClientFactory,
     ILogger<WorkflowInstanceProcessingService> log)
     : IWorkflowInstanceProcessingService
 {
-    private static readonly HttpClientHandler Handler = new()
-    {
-        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-    };
-
     public Task RunAsync(CancellationToken cancellationToken = default) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunAsync(cancellationToken: cancellationToken); });
 
@@ -236,10 +231,8 @@ cancellationToken: cancellationToken);
 
     private async ValueTask<HttpResponseMessage> SendToWorkflowAsync(WorkflowRequest request)
     {
-        using HttpClient api = new(Handler)
-        {
-            BaseAddress = new Uri(workflowConfiguration.ServiceUrl)
-        };
+        using HttpClient api = httpClientFactory.CreateClient();
+        api.BaseAddress = new Uri(workflowConfiguration.ServiceUrl);
 
         return await api.PostAsync(
 requestUri: "Execute",
