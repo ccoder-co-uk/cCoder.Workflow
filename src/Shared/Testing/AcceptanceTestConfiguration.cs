@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------
 
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace cCoder.Workflow.Testing;
 
@@ -25,72 +24,45 @@ internal sealed class AcceptanceTestConfiguration
 
     internal static AcceptanceTestConfiguration Load()
     {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(basePath: AppContext.BaseDirectory)
-            .AddJsonFile(
-                path: "appsettings.testing.json",
-                optional: true)
-            .AddEnvironmentVariables()
-            .Build();
-
         string suffix = $"-acceptance-{Guid.NewGuid():N}";
 
         return new AcceptanceTestConfiguration(
             coreConnectionString: AddDatabaseSuffix(
-                connectionString:
-                    GetConfigurationValue(
-                        configuration: configuration,
-                        key: "Workflow:ConnectionString")
-                    ?? GetConfigurationValue(
-                        configuration: configuration,
-                        key: "Data:ConnectionString")
-                    ?? string.Empty,
+                connectionString: ReadRequiredValue(
+                    variableName: "Workflow__ConnectionString"),
                 suffix: suffix),
             securityConnectionString: AddDatabaseSuffix(
-                connectionString:
-                    GetConfigurationValue(
-                        configuration: configuration,
-                        key: "Security:ConnectionString")
-                    ?? string.Empty,
+                connectionString: ReadRequiredValue(
+                    variableName: "Security__ConnectionString"),
                 suffix: suffix),
-            securityDecryptionKey:
-                GetConfigurationValue(
-                    configuration: configuration,
-                    key: "Security:DecryptionKey")
-                ?? string.Empty);
+            securityDecryptionKey: ReadRequiredValue(
+                variableName: "Security__DecryptionKey"));
     }
 
-    private static string GetConfigurationValue(
-        IConfiguration configuration,
-        string key)
+    private static string ReadRequiredValue(string variableName)
     {
-        string environmentVariableName =
-            key.Replace(oldValue: ":", newValue: "__");
-
-        string value = configuration[key];
+        string value =
+            Environment.GetEnvironmentVariable(variable: variableName)
+            ?? Environment.GetEnvironmentVariable(
+                variable: variableName,
+                target: EnvironmentVariableTarget.User)
+            ?? Environment.GetEnvironmentVariable(
+                variable: variableName,
+                target: EnvironmentVariableTarget.Machine);
 
         if (!string.IsNullOrWhiteSpace(value: value))
         {
             return value;
         }
 
-        return Environment.GetEnvironmentVariable(
-                variable: environmentVariableName,
-                target: EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable(
-                variable: environmentVariableName,
-                target: EnvironmentVariableTarget.Machine);
+        throw new InvalidOperationException(
+            $"Required configuration environment variable '{variableName}' was not found.");
     }
 
     private static string AddDatabaseSuffix(
         string connectionString,
         string suffix)
     {
-        if (string.IsNullOrWhiteSpace(value: connectionString))
-        {
-            return string.Empty;
-        }
-
         SqlConnectionStringBuilder builder =
             new(connectionString: connectionString)
             {
@@ -100,7 +72,8 @@ internal sealed class AcceptanceTestConfiguration
 
         if (string.IsNullOrWhiteSpace(value: builder.InitialCatalog))
         {
-            return builder.ConnectionString;
+            throw new InvalidOperationException(
+                "Acceptance test connection strings must name a database.");
         }
 
         builder.InitialCatalog = $"{builder.InitialCatalog}{suffix}";
