@@ -5,7 +5,7 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Extensions;
-using Microsoft.AspNetCore.SignalR.Client;
+using cCoder.Workflow.Engine.Dependencies;
 using Microsoft.Extensions.Logging;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
@@ -14,7 +14,7 @@ internal sealed partial class FlowCommunicationProcessingService(
     ILogger<FlowCommunicationProcessingService> logger)
     : IFlowCommunicationProcessingService
 {
-    private HubConnection connection;
+    private WorkflowHubConnectionDependency connection;
 
     public ValueTask ConnectWorkflowRequestAsync(
         WorkflowRequest workflowRequest) =>
@@ -24,37 +24,10 @@ internal sealed partial class FlowCommunicationProcessingService(
 
             try
             {
-                connection = new HubConnectionBuilder()
-                    .WithUrl(
-                        url: $"{workflowRequest.Api}Hubs/Workflow",
-                        configureHttpConnection: options =>
-                        {
-                            options.HttpMessageHandlerFactory =
-                                handler =>
-                                {
-                                    if (handler is HttpClientHandler
-                                        clientHandler)
-                                    {
-                                        clientHandler
-                                            .ServerCertificateCustomValidationCallback +=
-                                            CertChainValidator
-                                                .ValidateCertChain;
-                                    }
+                connection = new(
+                    url: $"{workflowRequest.Api}Hubs/Workflow");
 
-                                    return handler;
-                                };
-                        })
-                    .Build();
-
-                connection.On<Exception>(
-                    methodName: "error",
-                    handler: exception => Console.WriteLine(
-                        value:
-                            $"{exception.Message}"
-                            + $"{Environment.NewLine}"
-                            + exception.StackTrace));
-
-                await connection.StartAsync();
+                await connection.ConnectAsync();
 
                 await ExecuteLogWorkflowRequestAsync(
                     workflowRequest: workflowRequest,
@@ -132,13 +105,11 @@ internal sealed partial class FlowCommunicationProcessingService(
         {
             if (connection is not null)
             {
-                await connection.InvokeAsync(
-                    methodName: "ConsoleSend",
-                    arg1: level.ToString()
+                await connection.SendAsync(
+                    level: level.ToString()
                         .ToLowerInvariant(),
-                    arg2: message,
-                    arg3:
-                        workflowRequest.InstanceId.ToString());
+                    message: message,
+                    instanceId: workflowRequest.InstanceId.ToString());
             }
         }
         catch (Exception exception)

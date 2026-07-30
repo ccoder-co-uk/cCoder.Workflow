@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Security;
-using cCoder.Security.Objects.Entities;
+using cCoder.Security.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.AcceptanceTests.Infrastructure;

@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using System.Net;
+using cCoder.Workflow.Dependencies;
 using System.Text;
 using cCoder.Data;
 using cCoder.Data.Models.Workflow;
@@ -111,23 +112,13 @@ internal sealed partial class FlowDefinitionAggregationService(
 
     private async ValueTask<string> ExecuteScriptRequestAsync(string script)
     {
-        using HttpClient api = new(
-            new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            }
-        )
-        {
-            BaseAddress = new Uri(GetConfiguration().ServiceUrl),
-            Timeout = TimeSpan.FromMinutes(minutes: 10),
-        };
+        using WorkflowHttpClientDependency api = new(
+            apiRoot: GetConfiguration().ServiceUrl,
+            timeout: TimeSpan.FromMinutes(minutes: 10));
 
-        HttpResponseMessage response = await api.PostAsync(
-requestUri: "ExecuteScript",
-content: new StringContent(script, Encoding.UTF8, "text/plain")
-        );
-
-        return await response.Content.ReadAsStringAsync();
+        return await api.PostTextAsync(
+            requestUri: "ExecuteScript",
+            content: script);
     }
 
     private string ResolveCallerId(string asUserId)

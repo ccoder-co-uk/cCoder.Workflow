@@ -4,9 +4,9 @@
 
 namespace cCoder.Workflow.Engine.Extensions;
 
-internal static class TypeNameExtensions
+internal static class TypeExtensions
 {
-    public static string GetCSharpTypeName(Type type)
+    public static string GetCSharpTypeName(this Type type)
     {
         if (!type.IsGenericType)
         {

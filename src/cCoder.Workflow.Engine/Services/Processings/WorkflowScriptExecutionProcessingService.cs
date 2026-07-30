@@ -53,7 +53,7 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
 
             return JsonConvert.SerializeObject(
                 value: result,
-                settings: WorkflowJsonExtensions.GetODataJsonSettings());
+                settings: ObjectExtensions.GetODataJsonSettings());
         });
 
     private void Log(

@@ -61,9 +61,3 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
         new AcceptanceApplicationSeeder(Factory.Services).SeedAsync();
 
 }
-
-[CollectionDefinition(Name)]
-public sealed class WebAcceptanceCollection : ICollectionFixture<WebAcceptanceFixture>
-{
-    public const string Name = "Web acceptance";
-}

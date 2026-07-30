@@ -4,14 +4,12 @@
 
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OData.Edm;
 
 
 namespace cCoder.Workflow.Extensions.OData
 {
-    public static class EdmModelExtensions
+    public static class IEdmModelExtensions
     {
         public static ExtendedMetadataContainer GetExtendedMetadataForType(
             this IEdmModel model,
@@ -156,31 +154,4 @@ namespace cCoder.Workflow.Extensions.OData
         ];
     }
 
-    public sealed class BadRequestResult : BadRequestObjectResult
-    {
-        public BadRequestResult(ModelStateDictionary modelState)
-            : base(modelState) =>
-            Value = modelState
-                .Select(selector: item => new ModelStateError
-                {
-                    Key = item.Key,
-                    Value = item.Value?.RawValue,
-                    Errors = item.Value?.Errors?.Select(selector: error => $"{error.ErrorMessage} - {error.Exception?.Message}")
-                .ToArray(),
-                })
-                .ToArray()
-                .ToJsonForOdata();
-    }
-
-    public sealed class ModelStateError
-    {
-        public ModelStateError() =>
-            Key = string.Empty;
-
-        public string Key { get; set; }
-
-        public object Value { get; set; }
-
-        public string[] Errors { get; set; }
-    }
 }

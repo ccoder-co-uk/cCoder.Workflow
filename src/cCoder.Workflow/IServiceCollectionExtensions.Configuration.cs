@@ -14,7 +14,7 @@ using Microsoft.OpenApi;
 
 namespace cCoder.Workflow;
 
-internal static class WorkflowServiceCollectionConfigurationExtensions
+public static partial class IServiceCollectionExtensions
 {
     internal static void RegisterWorkflowConfiguration(
         this IServiceCollection services,
@@ -39,22 +39,22 @@ internal static class WorkflowServiceCollectionConfigurationExtensions
             configureModel(obj: builder);
         }
 
-        AddAspNet(services: services);
+        services.AddAspNet();
 
         if (builder is null)
         {
-            AddApiDocumentation(services: services, documentName: documentName, newConfiguration: configuration, useFullSchemaIds: useFullSchemaIds);
+            services.AddApiDocumentation(documentName: documentName, newConfiguration: configuration, useFullSchemaIds: useFullSchemaIds);
         }
 
-        IEdmModel routeModel = BuildRouteModel(configureModel: configureModel);
+        IEdmModel routeModel = services.BuildRouteModel(configureModel: configureModel);
         DefaultODataBatchHandler batchHandler = new();
 
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
 
-        services.AddControllers()
-            .AddOData(setupAction: options =>
+        IMvcBuilder mvcBuilder = services.AddControllers();
+        mvcBuilder.AddOData(setupAction: options =>
         {
             options.RouteOptions.EnableQualifiedOperationCall = false;
             options.EnableAttributeRouting = true;
@@ -72,18 +72,18 @@ internal static class WorkflowServiceCollectionConfigurationExtensions
     }
 
     private static void AddApiDocumentation(
-        IServiceCollection services,
+        this IServiceCollection services,
         string documentName,
         WorkflowConfiguration newConfiguration,
         bool useFullSchemaIds) =>
         services.AddSwaggerGen(setupAction: options =>
         {
             options.ResolveConflictingActions(resolver: apiDescriptions => apiDescriptions.First());
-            AddSwaggerDocuments(options: options, documentName: documentName, newConfiguration: newConfiguration);
+            services.AddSwaggerDocuments(options: options, documentName: documentName, newConfiguration: newConfiguration);
 
             options.DocInclusionPredicate(
 predicate: (swaggerDocumentName, apiDescription) =>
-                    ShouldIncludeInDocument(
+                    services.ShouldIncludeInDocument(
                         swaggerDocumentName: swaggerDocumentName,
                         relativePath: apiDescription.RelativePath,
                         documentName: documentName,
@@ -110,6 +110,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
         });
 
     private static void AddSwaggerDocuments(
+        this IServiceCollection services,
         Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions options,
         string documentName,
         WorkflowConfiguration newConfiguration) =>
@@ -120,6 +121,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
         });
 
     private static bool ShouldIncludeInDocument(
+        this IServiceCollection services,
         string swaggerDocumentName,
         string relativePath,
         string documentName,
@@ -130,7 +132,7 @@ predicate: (swaggerDocumentName, apiDescription) =>
             return false;
         }
 
-        string path = NormalizePath(relativePath: relativePath);
+        string path = services.NormalizePath(relativePath: relativePath);
 
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
@@ -140,28 +142,35 @@ predicate: (swaggerDocumentName, apiDescription) =>
             a: swaggerDocumentName,
             b: documentName,
             comparisonType: StringComparison.OrdinalIgnoreCase)
-            && MatchesContextRoute(path: path, rootPath: rootPath);
+            && services.MatchesContextRoute(path: path, rootPath: rootPath);
     }
 
-    private static bool MatchesContextRoute(string path, string rootPath)
+    private static bool MatchesContextRoute(
+        this IServiceCollection services,
+        string path,
+        string rootPath)
     {
-        string normalizedPath = NormalizePath(relativePath: rootPath);
+        string normalizedPath = services.NormalizePath(relativePath: rootPath);
 
         return path.Equals(value: normalizedPath, comparisonType: StringComparison.OrdinalIgnoreCase)
             || path.StartsWith(value: $"{normalizedPath}/", comparisonType: StringComparison.OrdinalIgnoreCase);
     }
 
-    private static string NormalizePath(string relativePath) =>
+    private static string NormalizePath(
+        this IServiceCollection services,
+        string relativePath) =>
         relativePath.StartsWith(value: '/') ? relativePath : $"/{relativePath}";
 
-    private static IEdmModel BuildRouteModel(Action<ODataConventionModelBuilder> configureModel)
+    private static IEdmModel BuildRouteModel(
+        this IServiceCollection services,
+        Action<ODataConventionModelBuilder> configureModel)
     {
         ODataConventionModelBuilder builder = new();
         configureModel(obj: builder);
         return builder.GetEdmModel();
     }
 
-    private static void AddAspNet(IServiceCollection services)
+    private static void AddAspNet(this IServiceCollection services)
     {
         services.AddRouting();
         services.AddResponseCompression();

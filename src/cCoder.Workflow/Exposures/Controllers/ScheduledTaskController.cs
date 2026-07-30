@@ -109,7 +109,7 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.AddScheduledTaskAsync(newEntity: newEntity));
@@ -128,7 +128,7 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: updatedEntity));

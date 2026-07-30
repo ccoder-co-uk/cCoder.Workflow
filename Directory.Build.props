@@ -3,6 +3,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'cCoder.Workflow.Activities'">
-    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.7.29.109" PrivateAssets="all" />
+    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.7.29.2324" PrivateAssets="all" />
   </ItemGroup>
 </Project>

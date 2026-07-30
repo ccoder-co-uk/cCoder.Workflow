@@ -7,25 +7,31 @@ using Newtonsoft.Json.Serialization;
 
 namespace cCoder.Workflow.Extensions;
 
-internal static class WorkflowJsonExtensions
+internal static class JsonSerializerSettingsExtensions
 {
-    internal static JsonSerializerSettings CreateJsonSerializerSettings() =>
-        new()
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.Objects,
-            Formatting = Formatting.None,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            NullValueHandling = NullValueHandling.Ignore,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            ContractResolver =
-                new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = true
-                },
-            SerializationBinder =
-                WorkflowCompatibilitySerializationBinder.Instance,
-        };
+    internal static JsonSerializerSettings ConfigureForWorkflow(
+        this JsonSerializerSettings settings)
+    {
+        settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        settings.TypeNameHandling = TypeNameHandling.Objects;
+        settings.Formatting = Formatting.None;
+        settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+        settings.NullValueHandling = NullValueHandling.Ignore;
+        settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+
+
+        settings.ContractResolver =
+            new DefaultContractResolver
+            {
+                IgnoreSerializableAttribute = true
+            };
+
+
+        settings.SerializationBinder =
+            WorkflowCompatibilitySerializationBinder.Instance;
+
+        return settings;
+    }
 
     private sealed class WorkflowCompatibilitySerializationBinder
         : ISerializationBinder

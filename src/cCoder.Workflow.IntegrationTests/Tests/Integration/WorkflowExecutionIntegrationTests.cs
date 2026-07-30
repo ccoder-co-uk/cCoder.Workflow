@@ -13,14 +13,14 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Security.Objects.Entities;
+using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Services.Coordinations;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Infrastructure;
 using Xunit;
-using SsoToken = cCoder.Security.Objects.Entities.Token;
+using SsoToken = cCoder.Security.Models.Entities.Token;
 
 namespace Web.AcceptanceTests.Tests.Integration;
 
@@ -105,6 +105,20 @@ public sealed partial class WorkflowExecutionIntegrationTests(IntegrationAccepta
         using IServiceScope scope = fixture.DatabaseServices.CreateScope();
         IAppCoordinationService appSecurity = scope.ServiceProvider.GetRequiredService<IAppCoordinationService>();
         await appSecurity.AddAppAsync(newApp: app);
+
+        core.ChangeTracker.Clear();
+
+        User persistedUser = await core.Users
+            .IgnoreQueryFilters()
+            .Include(navigationPropertyPath: user => user.Roles)
+                .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
+            .SingleAsync(predicate: user => user.Id == AdminUserId);
+
+        persistedUser.Roles.Should()
+            .ContainSingle(predicate: userRole =>
+                userRole.RoleId == roleId
+                && userRole.Role.AppId == app.Id
+                && userRole.Role.Privileges.Contains(item: "flowdefinition_execute"));
 
         FlowDefinition flow = await core.AddFlowDefinitionAsync(flowDefinition: new FlowDefinition
         {

@@ -14,7 +14,8 @@ using cCoder.Eventing;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Security.Objects;
+using cCoder.Security.Models;
+using cCoder.Security.Models.Configurations;
 using cCoder.Workflow;
 using cCoder.Workflow.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -460,10 +461,4 @@ path3: "func.cmd");
 
         return "func";
     }
-}
-
-[CollectionDefinition(Name)]
-public sealed class IntegrationAcceptanceCollection : ICollectionFixture<IntegrationAcceptanceFixture>
-{
-    public const string Name = "Integration acceptance";
 }

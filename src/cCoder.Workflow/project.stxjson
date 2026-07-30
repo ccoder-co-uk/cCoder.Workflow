@@ -1119,6 +1119,183 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Dependencies.OData.CompositePropertyInfo",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Attributes",
+          "Type": "System.Reflection.PropertyAttributes"
+        },
+        {
+          "Name": "CanRead",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "CanWrite",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "DeclaringType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "PropertyType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "ReflectedType",
+          "Type": "System.Type"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "GetAccessors",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetGetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetIndexParameters",
+          "Inputs": [],
+          "ReturnType": "System.Reflection.ParameterInfo[]"
+        },
+        {
+          "Name": "GetSetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "IsDefined",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "SetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Dependencies.WorkflowStreamDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -1739,279 +1916,13 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Extensions.AuthorizationExtensions",
+      "Name": "cCoder.Workflow.Extensions.JsonSerializerSettingsExtensions",
       "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
     },
     {
-      "Name": "cCoder.Workflow.Extensions.OData.BadRequestResult",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.CompositePropertyInfo",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Attributes",
-          "Type": "System.Reflection.PropertyAttributes"
-        },
-        {
-          "Name": "CanRead",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "CanWrite",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "DeclaringType",
-          "Type": "System.Type"
-        },
-        {
-          "Name": "Name",
-          "Type": "System.String"
-        },
-        {
-          "Name": "PropertyType",
-          "Type": "System.Type"
-        },
-        {
-          "Name": "ReflectedType",
-          "Type": "System.Type"
-        }
-      ],
-      "Methods": [
-        {
-          "Name": "GetAccessors",
-          "Inputs": [
-            {
-              "Name": "nonPublic",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Reflection.MethodInfo[]"
-        },
-        {
-          "Name": "GetCustomAttributes",
-          "Inputs": [
-            {
-              "Name": "inherit",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Object[]"
-        },
-        {
-          "Name": "GetCustomAttributes",
-          "Inputs": [
-            {
-              "Name": "attributeType",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "inherit",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Object[]"
-        },
-        {
-          "Name": "GetGetMethod",
-          "Inputs": [
-            {
-              "Name": "nonPublic",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Reflection.MethodInfo"
-        },
-        {
-          "Name": "GetIndexParameters",
-          "Inputs": [],
-          "ReturnType": "System.Reflection.ParameterInfo[]"
-        },
-        {
-          "Name": "GetSetMethod",
-          "Inputs": [
-            {
-              "Name": "nonPublic",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Reflection.MethodInfo"
-        },
-        {
-          "Name": "GetValue",
-          "Inputs": [
-            {
-              "Name": "obj",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "invokeAttr",
-              "Type": "System.Reflection.BindingFlags"
-            },
-            {
-              "Name": "binder",
-              "Type": "System.Reflection.Binder"
-            },
-            {
-              "Name": "index",
-              "Type": "System.Object[]"
-            },
-            {
-              "Name": "culture",
-              "Type": "System.Globalization.CultureInfo"
-            }
-          ],
-          "ReturnType": "System.Object"
-        },
-        {
-          "Name": "IsDefined",
-          "Inputs": [
-            {
-              "Name": "attributeType",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "inherit",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "System.Boolean"
-        },
-        {
-          "Name": "SetValue",
-          "Inputs": [
-            {
-              "Name": "obj",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "invokeAttr",
-              "Type": "System.Reflection.BindingFlags"
-            },
-            {
-              "Name": "binder",
-              "Type": "System.Reflection.Binder"
-            },
-            {
-              "Name": "index",
-              "Type": "System.Object[]"
-            },
-            {
-              "Name": "culture",
-              "Type": "System.Globalization.CultureInfo"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.EdmModelExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetExtendedMetadataForType",
-          "Inputs": [
-            {
-              "Name": "model",
-              "Type": "IEdmModel"
-            },
-            {
-              "Name": "context",
-              "Type": "System.String"
-            },
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "hasEndpoint",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "cCoder.Workflow.Models.OData.ExtendedMetadataContainer"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.MetadataTypeExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.ModelStateError",
-      "StandardElementType": "Model",
-      "Properties": [
-        {
-          "Name": "Errors",
-          "Type": "System.String[]"
-        },
-        {
-          "Name": "Key",
-          "Type": "System.String"
-        },
-        {
-          "Name": "Value",
-          "Type": "System.Object"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.ODataCollectionExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.ODataJsonExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.ODataTypeExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.OData.WorkflowODataModelExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "ConfigureWorkflowApiModel",
-          "Inputs": [
-            {
-              "Name": "builder",
-              "Type": "ODataConventionModelBuilder"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.WorkflowJsonExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Extensions.WorkflowJsonExtensions.WorkflowCompatibilitySerializationBinder",
+      "Name": "cCoder.Workflow.Extensions.JsonSerializerSettingsExtensions.WorkflowCompatibilitySerializationBinder",
       "StandardElementType": "Dependency",
       "Properties": [],
       "Methods": [
@@ -2048,6 +1959,76 @@
           "ReturnType": "System.Type"
         }
       ]
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.IEdmModelExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetExtendedMetadataForType",
+          "Inputs": [
+            {
+              "Name": "model",
+              "Type": "IEdmModel"
+            },
+            {
+              "Name": "context",
+              "Type": "System.String"
+            },
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Models.OData.ExtendedMetadataContainer"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.IEnumerableExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.ODataConventionModelBuilderExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConfigureWorkflowApiModel",
+          "Inputs": [
+            {
+              "Name": "builder",
+              "Type": "ODataConventionModelBuilder"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.ObjectExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.OData.TypeExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Extensions.UserExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
     },
     {
       "Name": "cCoder.Workflow.HttpEventHubUrlResolver",
@@ -2319,6 +2300,12 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.Workflow.Models.OData.BadRequestResult",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.Workflow.Models.OData.ExtendedMetadataContainer",
       "StandardElementType": "Model",
       "Properties": [
@@ -2403,6 +2390,25 @@
         {
           "Name": "UriBase",
           "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.OData.ModelStateError",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Errors",
+          "Type": "System.String[]"
+        },
+        {
+          "Name": "Key",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Value",
+          "Type": "System.Object"
         }
       ],
       "Methods": []
@@ -2610,6 +2616,12 @@
           "Type": "System.Int32"
         }
       ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Models.WorkflowHttpResult",
+      "StandardElementType": "Model",
+      "Properties": [],
       "Methods": []
     },
     {
@@ -5337,12 +5349,6 @@
           "ReturnType": "WebApplication"
         }
       ]
-    },
-    {
-      "Name": "cCoder.Workflow.WorkflowServiceCollectionConfigurationExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
     }
   ],
   "Links": [

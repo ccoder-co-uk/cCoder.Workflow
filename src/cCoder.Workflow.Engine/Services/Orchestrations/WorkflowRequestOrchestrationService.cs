@@ -42,7 +42,7 @@ internal sealed partial class WorkflowRequestOrchestrationService(
                     .LogWorkflowRequestAsync(
                         workflowRequest: workflowRequest,
                         level: WorkflowLogLevel.Debug,
-                        message: WorkflowJsonExtensions.ToJson(
+                        message: ObjectExtensions.ToJson(
                             value: workflowRequest));
 
                 FlowExecution flowExecution =
