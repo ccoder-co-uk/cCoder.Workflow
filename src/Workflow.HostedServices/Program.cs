@@ -7,7 +7,7 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 using cCoder.Workflow;
-using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Exposures;
 using Workflow.HostedServices.Models;
 
 namespace Workflow.HostedServices;
@@ -82,9 +82,9 @@ public class Program
                     return;
                 }
 
-                IWorkflowInstanceProcessingService processingService =
+                IWorkflowInstanceManager processingService =
                     serviceProvider.GetRequiredService<
-                        IWorkflowInstanceProcessingService>();
+                        IWorkflowInstanceManager>();
 
                 await processingService
                     .ExecuteWaitingQueuedInstanceByIdAsync(

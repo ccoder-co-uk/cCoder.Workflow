@@ -6,7 +6,7 @@ using cCoder.Workflow.Engine.Models;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
-public interface IFlowInstanceProcessingService
+internal interface IFlowInstanceProcessingService
 {
     ValueTask<FlowExecution> ExecuteFlowExecutionAsync(
         FlowExecution flowExecution);

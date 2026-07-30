@@ -4,7 +4,7 @@
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
-public interface IWorkflowScriptExecutionProcessingService
+internal interface IWorkflowScriptExecutionProcessingService
 {
     ValueTask<string> ExecuteWorkflowScriptAsync(
         string payload,

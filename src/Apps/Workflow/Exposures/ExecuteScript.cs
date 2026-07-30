@@ -10,7 +10,7 @@ using Workflow.Services.Processings.WorkflowFunctions;
 namespace Workflow.Exposures;
 
 public sealed class ExecuteScript(
-    IWorkflowFunctionsProcessingService workflowFunctionsProcessingService)
+    IWorkflowFunctionsManager workflowFunctionsProcessingService)
 {
     [Function(nameof(ExecuteScript))]
     public Task<HttpResponseData> Run(

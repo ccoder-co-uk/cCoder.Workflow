@@ -5,13 +5,12 @@
 using Moq;
 using Workflow.AcceptanceTests.Infrastructure;
 using Workflow.Exposures;
-using Workflow.Services.Processings.WorkflowFunctions;
 
 namespace Workflow.AcceptanceTests.Tests;
 
 public sealed partial class ExecuteScriptTests
 {
-    private readonly Mock<IWorkflowFunctionsProcessingService> processingServiceMock = new();
+    private readonly Mock<IWorkflowFunctionsManager> processingServiceMock = new();
     private readonly ExecuteScript function;
 
     public ExecuteScriptTests() =>

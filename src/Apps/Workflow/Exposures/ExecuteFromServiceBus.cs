@@ -7,7 +7,7 @@ using Workflow.Services.Processings.WorkflowFunctions;
 namespace Workflow.Exposures;
 
 public sealed class ExecuteFromServiceBus(
-    IWorkflowFunctionsProcessingService workflowFunctionsProcessingService)
+    IWorkflowFunctionsManager workflowFunctionsProcessingService)
 {
     public Task RunAsync(string message) =>
         workflowFunctionsProcessingService.ProcessServiceBusMessageAsync(message: message);

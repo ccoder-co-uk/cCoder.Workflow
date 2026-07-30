@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Aggregations;
 
-public interface IWorkflowMigrationAggregationService
+internal interface IWorkflowMigrationAggregationService
 {
     ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage package);
 

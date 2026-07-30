@@ -22,9 +22,9 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class FlowInstanceDataController : ODataController
 {
-    private readonly IFlowInstanceDataOrchestrationService service;
+    private readonly IFlowInstanceDataManager service;
 
-    public FlowInstanceDataController(IFlowInstanceDataOrchestrationService service)
+    public FlowInstanceDataController(IFlowInstanceDataManager service)
     {
         this.service = service;
     }

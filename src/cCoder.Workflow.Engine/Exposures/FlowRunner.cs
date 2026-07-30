@@ -7,7 +7,7 @@ using cCoder.Workflow.Engine.Services.Orchestrations;
 
 namespace cCoder.Workflow.Engine.Exposures;
 
-public sealed class FlowRunner(IFlowExecutionOrchestrationService flowExecutionOrchestrationService)
+internal sealed class FlowRunner(IFlowExecutionOrchestrationService flowExecutionOrchestrationService)
     : IFlowRunner
 {
     public Task RunAsync(WorkflowRequest request) =>

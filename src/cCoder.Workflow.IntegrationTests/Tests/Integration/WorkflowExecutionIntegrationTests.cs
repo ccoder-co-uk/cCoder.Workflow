@@ -14,7 +14,7 @@ using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Models.Entities;
-using cCoder.Workflow.Services.Coordinations;
+using cCoder.Workflow.Exposures;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -103,7 +103,7 @@ public sealed partial class WorkflowExecutionIntegrationTests(IntegrationAccepta
         });
 
         using IServiceScope scope = fixture.DatabaseServices.CreateScope();
-        IAppCoordinationService appSecurity = scope.ServiceProvider.GetRequiredService<IAppCoordinationService>();
+        IWorkflowAppManager appSecurity = scope.ServiceProvider.GetRequiredService<IWorkflowAppManager>();
         await appSecurity.AddAppAsync(newApp: app);
 
         core.ChangeTracker.Clear();

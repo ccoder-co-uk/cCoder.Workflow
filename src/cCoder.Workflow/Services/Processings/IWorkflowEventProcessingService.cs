@@ -9,7 +9,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IWorkflowEventProcessingService
+internal interface IWorkflowEventProcessingService
 {
     (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
         object payload,

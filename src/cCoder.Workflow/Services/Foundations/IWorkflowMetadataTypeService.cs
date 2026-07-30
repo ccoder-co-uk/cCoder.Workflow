@@ -6,15 +6,8 @@ using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 
 
+using cCoder.Workflow.Exposures;
+
 namespace cCoder.Workflow.Services.Foundations;
 
-public interface IWorkflowMetadataTypeService
-{
-    MetadataContainerSet GetCoreMetadata();
-
-    MetadataContainerSet[] GetKnownActivityTypes();
-
-    MetadataContainerSet[] GetKnownSystemTypes();
-
-    MetadataContainerSet GetSharedMetadata();
-}
+internal interface IWorkflowMetadataTypeService : IWorkflowMetadataTypeManager { }

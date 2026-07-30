@@ -2,9 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Workflow.Web.Exposures;
+
 namespace Workflow.Web.Services.Processings;
 
-public interface IHealthProcessingService
-{
-    string GetHealth();
-}
+internal interface IHealthProcessingService : IHealthManager { }

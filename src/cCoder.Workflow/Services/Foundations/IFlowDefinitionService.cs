@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-public interface IFlowDefinitionService
+internal interface IFlowDefinitionService
 {
     FlowDefinition Get(Guid flowDefinitionId);
 

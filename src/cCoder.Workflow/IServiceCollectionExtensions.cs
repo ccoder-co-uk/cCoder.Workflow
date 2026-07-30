@@ -111,6 +111,7 @@ public static partial class IServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddTransient<IFlowDefinitionAggregationService, FlowDefinitionAggregationService>();
+        services.AddTransient<IFlowDefinitionManager, FlowDefinitionAggregationService>();
     }
 
     private static void AddHostedServiceExposures(
@@ -216,6 +217,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IFlowInstanceDataService, FlowInstanceDataService>();
         services.AddTransient<IScheduledTaskService, ScheduledTaskService>();
         services.AddTransient<IWorkflowMetadataTypeService, WorkflowMetadataTypeService>();
+        services.AddTransient<IWorkflowMetadataTypeManager, WorkflowMetadataTypeService>();
         services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
         services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();
@@ -228,17 +230,24 @@ public static partial class IServiceCollectionExtensions
     private static void AddOrchestrations(this IServiceCollection services)
     {
         services.AddTransient<IAppCoordinationService, AppCoordinationService>();
+        services.AddTransient<IWorkflowAppManager, AppCoordinationService>();
         services.AddTransient<ICalendarOrchestrationService, CalendarOrchestrationService>();
+        services.AddTransient<ICalendarManager, CalendarOrchestrationService>();
         services.AddTransient<ICalendarEventOrchestrationService, CalendarEventOrchestrationService>();
+        services.AddTransient<ICalendarEventManager, CalendarEventOrchestrationService>();
         services.AddTransient<IWorkflowEventCoordinationService, WorkflowEventCoordinationService>();
         services.AddTransient<IWorkflowMigrationAggregationService, WorkflowMigrationAggregationService>();
         services.AddTransient<IFlowDefinitionOrchestrationService, FlowDefinitionOrchestrationService>();
         services.AddTransient<IFlowQueueOrchestrationService, FlowQueueOrchestrationService>();
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();
+        services.AddTransient<IFlowInstanceDataManager, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IScheduledTaskOrchestrationService, ScheduledTaskOrchestrationService>();
+        services.AddTransient<IScheduledTaskManager, ScheduledTaskOrchestrationService>();
         services.AddTransient<ITaskRunnerOrchestrationService, TaskRunnerOrchestrationService>();
         services.AddTransient<IWorkflowInstanceProcessingService, WorkflowInstanceProcessingService>();
+        services.AddTransient<IWorkflowInstanceManager, WorkflowInstanceProcessingService>();
         services.AddTransient<IWorkflowEventOrchestrationService, WorkflowEventOrchestrationService>();
+        services.AddTransient<IWorkflowEventManager, WorkflowEventOrchestrationService>();
 
         services.AddKeyedTransient<IFlowDefinitionOrchestrationService>(
             serviceKey: FlowDefinitionOperation.Crud,

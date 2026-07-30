@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface ICalendarProcessingService
+internal interface ICalendarProcessingService
 {
     Calendar Get(int calendarId);
 

@@ -4,9 +4,8 @@
 
 using cCoder.Data.Models.CMS;
 
+using Workflow.Web.Exposures;
+
 namespace Workflow.Web.Services.Processings;
 
-public interface ICoreAppProcessingService
-{
-    ValueTask<App> GetAppAsync(int appId);
-}
+internal interface ICoreAppProcessingService : ICoreAppManager { }

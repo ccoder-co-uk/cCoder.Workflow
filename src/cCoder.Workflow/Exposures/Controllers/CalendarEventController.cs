@@ -23,10 +23,10 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class CalendarEventController : ODataController
 {
-    private readonly ICalendarEventOrchestrationService service;
+    private readonly ICalendarEventManager service;
 
     public CalendarEventController(
-        ICalendarEventOrchestrationService service,
+        ICalendarEventManager service,
         ILogger<CalendarEventController> log
     )
     {

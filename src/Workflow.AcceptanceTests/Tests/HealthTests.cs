@@ -4,14 +4,13 @@
 
 using Workflow.AcceptanceTests.Infrastructure;
 using Workflow.Exposures;
-using Workflow.Services.Processings.WorkflowFunctions;
 using Moq;
 
 namespace Workflow.AcceptanceTests.Tests;
 
 public sealed partial class HealthTests
 {
-    private readonly Mock<IWorkflowFunctionsProcessingService> processingServiceMock = new();
+    private readonly Mock<IWorkflowFunctionsManager> processingServiceMock = new();
     private readonly Health function;
 
     public HealthTests() =>

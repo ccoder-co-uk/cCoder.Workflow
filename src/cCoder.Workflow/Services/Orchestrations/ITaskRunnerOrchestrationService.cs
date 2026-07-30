@@ -4,7 +4,7 @@
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-public interface ITaskRunnerOrchestrationService
+internal interface ITaskRunnerOrchestrationService
 {
     Task RunContinuouslyAsync(CancellationToken cancellationToken = default);
 

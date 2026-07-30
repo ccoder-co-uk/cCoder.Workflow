@@ -4,7 +4,7 @@
 
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
-public interface IWorkflowScriptExecutionOrchestrationService
+internal interface IWorkflowScriptExecutionOrchestrationService
 {
     Task<string> ExecuteAsync(
         string payload,

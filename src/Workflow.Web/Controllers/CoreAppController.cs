@@ -6,11 +6,13 @@ using cCoder.Data.Models.CMS;
 using Microsoft.AspNetCore.Mvc;
 using Workflow.Web.Services.Processings;
 
+using Workflow.Web.Exposures;
+
 namespace Workflow.Web.Controllers;
 
 [ApiController]
 public sealed class CoreAppController(
-    ICoreAppProcessingService coreAppProcessingService)
+    ICoreAppManager coreAppProcessingService)
     : ControllerBase
 {
     [HttpGet("/Api/ContentManagement/App({key:int})")]

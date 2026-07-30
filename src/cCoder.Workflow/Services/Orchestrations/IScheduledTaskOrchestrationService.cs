@@ -8,25 +8,8 @@ using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 
+using cCoder.Workflow.Exposures;
+
 namespace cCoder.Workflow.Services.Orchestrations;
 
-public interface IScheduledTaskOrchestrationService
-{
-    ScheduledTask Get(int scheduledTaskId);
-
-    IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
-
-    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity);
-
-    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
-
-    ValueTask DeleteAsync(int scheduledTaskId);
-
-    ValueTask DeleteByAppIdAsync(int appId);
-
-    ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdateScheduledTask(IEnumerable<ScheduledTask> items);
-
-    ValueTask DeleteAllScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems);
-
-    ValueTask ExecuteAsync(int scheduledTaskId, bool incrementNextExecution = true);
-}
+internal interface IScheduledTaskOrchestrationService : IScheduledTaskManager { }

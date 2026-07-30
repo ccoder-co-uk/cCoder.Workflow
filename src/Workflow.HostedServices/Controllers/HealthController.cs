@@ -5,12 +5,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Workflow.HostedServices.Services.Processings;
 
+using Workflow.HostedServices.Exposures;
+
 namespace Workflow.HostedServices.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public sealed class HealthController(
-    IHealthProcessingService healthProcessingService)
+    IHealthManager healthProcessingService)
     : ControllerBase
 {
     [HttpGet]

@@ -4,7 +4,7 @@
 
 namespace cCoder.Workflow.Services.Coordinations;
 
-public interface IWorkflowEventCoordinationService
+internal interface IWorkflowEventCoordinationService
 {
     Task RaiseEvents(object payload, string eventName, int? appIdOverride = null);
 }

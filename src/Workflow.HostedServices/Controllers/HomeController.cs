@@ -5,11 +5,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Workflow.HostedServices.Services.Processings;
 
+using Workflow.HostedServices.Exposures;
+
 namespace Workflow.HostedServices.Controllers;
 
 [ApiController]
 public sealed class HomeController(
-    IHomeProcessingService homeProcessingService)
+    IHomeManager homeProcessingService)
     : ControllerBase
 {
     [HttpGet("/")]

@@ -6,7 +6,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
-public interface IFlowResultProcessingService
+internal interface IFlowResultProcessingService
 {
     ValueTask SaveFlowInstanceDataAsync(
         FlowInstanceData flowInstanceData,

@@ -7,6 +7,7 @@ using cCoder.Eventing;
 using cCoder.Eventing.Http;
 using cCoder.Security;
 using cCoder.Workflow;
+using Workflow.HostedServices.Exposures;
 using Workflow.HostedServices.Models;
 using Workflow.HostedServices.Services.Processings;
 
@@ -50,7 +51,9 @@ public static class IServiceCollectionExtensions
     private static void AddProcessings(this IServiceCollection services)
     {
         services.AddSingleton<IHealthProcessingService, HealthProcessingService>();
+        services.AddSingleton<IHealthManager, HealthProcessingService>();
         services.AddSingleton<IHomeProcessingService, HomeProcessingService>();
+        services.AddSingleton<IHomeManager, HomeProcessingService>();
     }
 
     private static void AddExposures(

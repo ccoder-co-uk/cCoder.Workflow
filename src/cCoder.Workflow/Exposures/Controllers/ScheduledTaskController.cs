@@ -23,10 +23,10 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class ScheduledTaskController : ODataController
 {
-    private readonly IScheduledTaskOrchestrationService service;
+    private readonly IScheduledTaskManager service;
 
     public ScheduledTaskController(
-        IScheduledTaskOrchestrationService service,
+        IScheduledTaskManager service,
         ILogger<ScheduledTaskController> log
     )
     {

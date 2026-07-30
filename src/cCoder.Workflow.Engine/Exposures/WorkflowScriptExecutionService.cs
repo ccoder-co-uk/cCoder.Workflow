@@ -6,7 +6,7 @@ using cCoder.Workflow.Engine.Services.Orchestrations;
 
 namespace cCoder.Workflow.Engine.Exposures;
 
-public sealed class WorkflowScriptExecutionService(
+internal sealed class WorkflowScriptExecutionService(
     IWorkflowScriptExecutionOrchestrationService
         workflowScriptExecutionOrchestrationService)
     : IWorkflowScriptExecutionService

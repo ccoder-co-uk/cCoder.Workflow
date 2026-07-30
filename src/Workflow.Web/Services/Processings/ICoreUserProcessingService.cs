@@ -4,9 +4,8 @@
 
 using cCoder.Data.Models.Security;
 
+using Workflow.Web.Exposures;
+
 namespace Workflow.Web.Services.Processings;
 
-public interface ICoreUserProcessingService
-{
-    User GetUser();
-}
+internal interface ICoreUserProcessingService : ICoreUserManager { }

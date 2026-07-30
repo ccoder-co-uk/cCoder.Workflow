@@ -2,21 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Exposures;
+
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IWorkflowInstanceProcessingService
-{
-    Task RunAsync(CancellationToken cancellationToken = default);
-
-    Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default);
-
-    Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default);
-
-    Task RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(CancellationToken cancellationToken = default);
-
-    Task RunQueueInstanceBackgroundServiceDependencyAsync(CancellationToken cancellationToken = default);
-
-    object[] GetStats();
-
-    ValueTask ExecuteWaitingQueuedInstanceByIdAsync(Guid flowInstanceDataId);
-}
+internal interface IWorkflowInstanceProcessingService : IWorkflowInstanceManager { }

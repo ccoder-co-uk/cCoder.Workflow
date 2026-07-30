@@ -6,11 +6,13 @@ using cCoder.Data.Models.Security;
 using Microsoft.AspNetCore.Mvc;
 using Workflow.Web.Services.Processings;
 
+using Workflow.Web.Exposures;
+
 namespace Workflow.Web.Controllers;
 
 [ApiController]
 public sealed class CoreUserController(
-    ICoreUserProcessingService coreUserProcessingService)
+    ICoreUserManager coreUserProcessingService)
     : ControllerBase
 {
     [HttpGet("/Api/AppSecurity/User/Me()")]

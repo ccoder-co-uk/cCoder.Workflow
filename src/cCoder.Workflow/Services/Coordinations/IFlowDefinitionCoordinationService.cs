@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Coordinations;
 
-public interface IFlowDefinitionCoordinationService
+internal interface IFlowDefinitionCoordinationService
 {
     ValueTask HandleFlowDefinitionDeleteAsync(FlowDefinition flowDefinition);
 
