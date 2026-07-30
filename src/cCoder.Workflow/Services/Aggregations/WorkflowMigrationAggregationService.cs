@@ -12,6 +12,7 @@ using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Models.Results;
 using cCoder.Workflow.Services.Orchestrations;
+using cCoder.Workflow.Brokers;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 
 
@@ -44,6 +45,9 @@ internal sealed partial class WorkflowMigrationAggregationService(
                 case "Core/FlowDefinition":
                     await ImportFlowDefinitionsAsync(appId: appId, item: item);
                     break;
+                case "Core/ScheduledTask":
+                    await ImportScheduledTasksAsync(appId: appId, item: item);
+                    break;
             }
         }
     }
@@ -58,6 +62,7 @@ internal sealed partial class WorkflowMigrationAggregationService(
             "Calendars" => ExportCalendars(appId: appId),
             "CalendarEvents" => ExportCalendarEvents(appId: appId),
             "Workflows" => ExportFlowDefinitions(appId: appId),
+            "ScheduledTasks" => ExportScheduledTasks(appId: appId),
             _ => new Data.Models.Packaging.Package(packageName) { Items = [] },
         };
 
@@ -218,6 +223,81 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
         EnsureImportSucceeded(itemType: "flow definitions", results: results);
     }
 
+    private async ValueTask ImportScheduledTasksAsync(
+        int appId,
+        WorkflowPackageItem item)
+    {
+        ImportScheduledTaskInfo[] importSet = item.Data.StartsWith(value: "{")
+            ? [GetJsonBroker()
+                .ParseJson<ImportScheduledTaskInfo>(json: item.Data)]
+            : GetJsonBroker()
+                .ParseJson<ImportScheduledTaskInfo[]>(json: item.Data);
+
+        FlowDefinition[] flows = GetFlowDefinitionOrchestrationService()
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: flow => flow.AppId == appId)
+            .ToArray();
+
+        ScheduledTask[] existingTasks = GetScheduledTaskOrchestrationService()
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: task => task.AppId == appId)
+            .ToArray();
+
+        List<ScheduledTask> tasks = [];
+
+        foreach (ImportScheduledTaskInfo importInfo in importSet)
+        {
+            FlowDefinition flow = flows.FirstOrDefault(predicate: candidate =>
+                candidate.Name.Equals(
+                    value: importInfo.FlowName,
+                    comparisonType: StringComparison.OrdinalIgnoreCase));
+
+            if (flow is null)
+            {
+                throw new InvalidOperationException(
+                    message:
+                        $"Cannot import scheduled task '{importInfo.Name}' because flow '{importInfo.FlowName}' does not exist in app {appId}.");
+            }
+
+            ScheduledTask existingTask = existingTasks.FirstOrDefault(
+                predicate: candidate => candidate.Name.Equals(
+                    value: importInfo.Name,
+                    comparisonType: StringComparison.OrdinalIgnoreCase));
+
+            ScheduledTask task = existingTask ?? new ScheduledTask();
+            task.AppId = appId;
+            task.FlowId = flow.Id;
+            task.Name = importInfo.Name;
+            task.Description = importInfo.Description;
+
+            task.ExecuteAs =
+                string.IsNullOrWhiteSpace(value: importInfo.ExecuteAs)
+                    ? GetAuthorizationBroker()
+                        .GetCurrentUser()
+                        .Id
+                    : importInfo.ExecuteAs;
+
+            task.ExecutionArgs = importInfo.ExecutionArgs;
+            task.ScheduleInTicks = importInfo.ScheduleInTicks;
+
+            task.NextExecution =
+                importInfo.NextExecution
+                ?? existingTask?.NextExecution
+                ?? (importInfo.ScheduleInTicks > 0
+                    ? DateTimeOffset.UtcNow.AddTicks(
+                        ticks: importInfo.ScheduleInTicks)
+                    : null);
+
+            tasks.Add(item: task);
+        }
+
+        IEnumerable<Result<ScheduledTask>> results =
+            await GetScheduledTaskOrchestrationService()
+                .AddOrUpdateScheduledTask(items: tasks);
+
+        EnsureImportSucceeded(itemType: "scheduled tasks", results: results);
+    }
+
     private static void EnsureImportSucceeded<T>(
         string itemType,
         IEnumerable<Result<T>> results)
@@ -311,6 +391,37 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
             ],
         };
 
+    private cCoder.Data.Models.Packaging.Package ExportScheduledTasks(int appId) =>
+        new("ScheduledTasks")
+        {
+            Items =
+            [
+                new Data.Models.Packaging.PackageItem
+                {
+                    Type = "Core/ScheduledTask",
+                    Data = GetJsonBroker()
+                        .Serialize(
+                            value: GetScheduledTaskOrchestrationService()
+                                .GetAll(ignoreFilters: true)
+                                .Where(predicate: task => task.AppId == appId)
+                                .Select(selector: task => new
+                                {
+                                    task.Name,
+                                    task.Description,
+                                    FlowName = task.Flow.Name,
+                                    task.ExecuteAs,
+                                    task.ExecutionArgs,
+                                    task.ScheduleInTicks,
+                                })
+                                .ToArray()),
+                },
+            ],
+        };
+
+    private IAuthorizationBroker GetAuthorizationBroker() =>
+        serviceProviderBroker.GetOperationService<IAuthorizationBroker>(
+            operation: WorkflowMigrationOperation.Authorization);
+
     private ICalendarOrchestrationService GetCalendarOrchestrationService() =>
         serviceProviderBroker.GetOperationService<ICalendarOrchestrationService>(
             operation: WorkflowMigrationOperation.Calendar);
@@ -322,6 +433,10 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
     private IFlowDefinitionOrchestrationService GetFlowDefinitionOrchestrationService() =>
         serviceProviderBroker.GetOperationService<IFlowDefinitionOrchestrationService>(
             operation: WorkflowMigrationOperation.FlowDefinition);
+
+    private IScheduledTaskOrchestrationService GetScheduledTaskOrchestrationService() =>
+        serviceProviderBroker.GetOperationService<IScheduledTaskOrchestrationService>(
+            operation: WorkflowMigrationOperation.ScheduledTask);
 
     private IJsonBroker GetJsonBroker() =>
         serviceProviderBroker.GetOperationService<IJsonBroker>(

@@ -269,6 +269,11 @@ public static partial class IServiceCollectionExtensions
             implementationFactory: static (serviceProvider, _) =>
                 serviceProvider.GetRequiredService<WorkflowConfiguration>());
 
+        services.AddKeyedTransient<IAuthorizationBroker>(
+            serviceKey: WorkflowMigrationOperation.Authorization,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IAuthorizationBroker>());
+
         services.AddKeyedTransient<ICalendarOrchestrationService>(
             serviceKey: WorkflowMigrationOperation.Calendar,
             implementationFactory: static (serviceProvider, _) =>
@@ -283,6 +288,11 @@ public static partial class IServiceCollectionExtensions
             serviceKey: WorkflowMigrationOperation.FlowDefinition,
             implementationFactory: static (serviceProvider, _) =>
                 serviceProvider.GetRequiredService<IFlowDefinitionOrchestrationService>());
+
+        services.AddKeyedTransient<IScheduledTaskOrchestrationService>(
+            serviceKey: WorkflowMigrationOperation.ScheduledTask,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IScheduledTaskOrchestrationService>());
 
         services.AddKeyedTransient<IJsonBroker>(
             serviceKey: WorkflowMigrationOperation.Json,
