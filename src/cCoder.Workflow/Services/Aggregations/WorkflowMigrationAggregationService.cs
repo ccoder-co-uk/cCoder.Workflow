@@ -262,24 +262,26 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
                     value: importInfo.Name,
                     comparisonType: StringComparison.OrdinalIgnoreCase));
 
-            tasks.Add(item: new ScheduledTask
-            {
-                Id = existingTask?.Id ?? 0,
-                AppId = appId,
-                FlowId = flow.Id,
-                Name = importInfo.Name,
-                Description = importInfo.Description,
-                ExecuteAs = string.IsNullOrWhiteSpace(value: importInfo.ExecuteAs)
+            ScheduledTask task = existingTask ?? new ScheduledTask();
+            task.AppId = appId;
+            task.FlowId = flow.Id;
+            task.Name = importInfo.Name;
+            task.Description = importInfo.Description;
+            task.ExecuteAs =
+                string.IsNullOrWhiteSpace(value: importInfo.ExecuteAs)
                     ? GetAuthorizationBroker().GetCurrentUser().Id
-                    : importInfo.ExecuteAs,
-                ExecutionArgs = importInfo.ExecutionArgs,
-                ScheduleInTicks = importInfo.ScheduleInTicks,
-                NextExecution = importInfo.NextExecution
-                    ?? (importInfo.ScheduleInTicks > 0
-                        ? DateTimeOffset.UtcNow.AddTicks(
-                            ticks: importInfo.ScheduleInTicks)
-                        : null),
-            });
+                    : importInfo.ExecuteAs;
+            task.ExecutionArgs = importInfo.ExecutionArgs;
+            task.ScheduleInTicks = importInfo.ScheduleInTicks;
+            task.NextExecution =
+                importInfo.NextExecution
+                ?? existingTask?.NextExecution
+                ?? (importInfo.ScheduleInTicks > 0
+                    ? DateTimeOffset.UtcNow.AddTicks(
+                        ticks: importInfo.ScheduleInTicks)
+                    : null);
+
+            tasks.Add(item: task);
         }
 
         IEnumerable<Result<ScheduledTask>> results =
