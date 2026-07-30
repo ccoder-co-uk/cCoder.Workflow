@@ -6,7 +6,7 @@ using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
-public interface IWorkflowRequestOrchestrationService
+internal interface IWorkflowRequestOrchestrationService
 {
     ValueTask ExecuteWorkflowRequestAsync(
         WorkflowRequest workflowRequest);

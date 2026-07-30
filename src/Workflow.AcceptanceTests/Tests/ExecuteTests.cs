@@ -7,13 +7,12 @@ using Moq;
 using Newtonsoft.Json;
 using Workflow.AcceptanceTests.Infrastructure;
 using Workflow.Exposures;
-using Workflow.Services.Processings.WorkflowFunctions;
 
 namespace Workflow.AcceptanceTests.Tests;
 
 public sealed partial class ExecuteTests
 {
-    private readonly Mock<IWorkflowFunctionsProcessingService> processingServiceMock = new();
+    private readonly Mock<IWorkflowFunctionsManager> processingServiceMock = new();
     private readonly Execute function;
 
     public ExecuteTests() =>

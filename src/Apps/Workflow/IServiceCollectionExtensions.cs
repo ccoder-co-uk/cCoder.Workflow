@@ -6,6 +6,7 @@ using cCoder.Data;
 using cCoder.Workflow.Engine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Workflow.Exposures;
 using Workflow.Models;
 using Workflow.Services.Processings.WorkflowFunctions;
 
@@ -30,8 +31,14 @@ public static class IServiceCollectionExtensions
     }
 
     private static void AddProcessings(
-        this IServiceCollection services) =>
+        this IServiceCollection services)
+    {
         services.AddTransient<
             IWorkflowFunctionsProcessingService,
             WorkflowFunctionsProcessingService>();
+
+        services.AddTransient<
+            IWorkflowFunctionsManager,
+            WorkflowFunctionsProcessingService>();
+    }
 }

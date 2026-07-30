@@ -9,7 +9,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IFlowDefinitionProcessingService
+internal interface IFlowDefinitionProcessingService
 {
     bool AuthorizeFlowDefinitionExecution(string userId, int? appId);
 

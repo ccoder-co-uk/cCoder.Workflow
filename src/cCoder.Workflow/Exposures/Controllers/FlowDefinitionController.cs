@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class FlowDefinitionController(IFlowDefinitionAggregationService service) : ODataController
+public partial class FlowDefinitionController(IFlowDefinitionManager service) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()

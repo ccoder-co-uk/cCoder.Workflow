@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-public interface IWorkflowEventService
+internal interface IWorkflowEventService
 {
     WorkflowEvent Get(Guid workflowEventId);
 

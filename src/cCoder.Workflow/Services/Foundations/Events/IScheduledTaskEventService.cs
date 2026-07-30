@@ -7,7 +7,7 @@ using cCoder.Data.Models.Planning;
 
 namespace cCoder.Workflow.Services.Foundations.Events;
 
-public interface IScheduledTaskEventService
+internal interface IScheduledTaskEventService
 {
     ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask entity);
 

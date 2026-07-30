@@ -7,7 +7,7 @@ using cCoder.Data.Models.Planning;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-public interface IScheduledTaskService
+internal interface IScheduledTaskService
 {
     ScheduledTask Get(int scheduledTaskId);
 

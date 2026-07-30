@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IWorkflowEventEventProcessingService
+internal interface IWorkflowEventEventProcessingService
 {
     ValueTask RaiseWorkflowEventAddEventAsync(WorkflowEvent entity);
 

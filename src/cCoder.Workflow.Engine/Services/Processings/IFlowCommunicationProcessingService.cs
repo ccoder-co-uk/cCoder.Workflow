@@ -6,7 +6,7 @@ using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
-public interface IFlowCommunicationProcessingService
+internal interface IFlowCommunicationProcessingService
 {
     ValueTask ConnectWorkflowRequestAsync(
         WorkflowRequest workflowRequest);

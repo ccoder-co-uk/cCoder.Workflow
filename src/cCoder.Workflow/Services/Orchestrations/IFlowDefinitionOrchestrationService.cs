@@ -9,7 +9,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-public interface IFlowDefinitionOrchestrationService
+internal interface IFlowDefinitionOrchestrationService
 {
     FlowDefinition Get(Guid flowDefinitionId);
 

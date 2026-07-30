@@ -11,7 +11,7 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 [Route("Api/Workflow/FlowDefinition")]
 public sealed class FlowDefinitionMetadataController(
-    IWorkflowMetadataTypeService service)
+    IWorkflowMetadataTypeManager service)
     : ControllerBase
 {
     [HttpGet("KnownActivityTypes()")]

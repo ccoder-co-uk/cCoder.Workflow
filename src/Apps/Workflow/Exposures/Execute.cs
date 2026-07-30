@@ -8,7 +8,7 @@ using Workflow.Services.Processings.WorkflowFunctions;
 
 namespace Workflow.Exposures;
 
-public sealed class Execute(IWorkflowFunctionsProcessingService workflowFunctionsProcessingService)
+public sealed class Execute(IWorkflowFunctionsManager workflowFunctionsProcessingService)
 {
     [Function(nameof(Execute))]
     public Task<HttpResponseData> Run(

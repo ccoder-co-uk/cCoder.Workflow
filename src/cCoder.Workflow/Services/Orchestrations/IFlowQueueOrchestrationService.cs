@@ -4,7 +4,7 @@
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-public interface IFlowQueueOrchestrationService
+internal interface IFlowQueueOrchestrationService
 {
     ValueTask<Guid> QueueFlowDefinitionAsync(
         Guid flowDefinitionId,

@@ -11,7 +11,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-public interface ICalendarService
+internal interface ICalendarService
 {
     Calendar Get(int calendarId);
 

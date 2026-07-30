@@ -1,0 +1,28 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
+using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Models.OData;
+using cCoder.Workflow.Models;
+using cCoder.Data.Models.Workflow;
+
+namespace cCoder.Workflow.Exposures;
+
+public interface IFlowDefinitionManager
+{
+    FlowDefinition GetFlowDefinition(Guid flowDefinitionId);
+
+    IQueryable<FlowDefinition> GetAllFlowDefinitions();
+
+    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity);
+
+    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity);
+
+    ValueTask DeleteFlowDefinitionAsync(Guid flowDefinitionId);
+
+    ValueTask<Guid> QueueFlowDefinitionAsync(Guid flowDefinitionId, string asUserId, string args);
+
+    ValueTask<string> ExecuteScriptAsync(string script);
+
+}

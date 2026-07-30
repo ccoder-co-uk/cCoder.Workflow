@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IFlowDefinitionEventProcessingService
+internal interface IFlowDefinitionEventProcessingService
 {
     ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity);
 

@@ -11,7 +11,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface ICalendarEntityEventProcessingService
+internal interface ICalendarEntityEventProcessingService
 {
     ValueTask RaiseCalendarAddEventAsync(Calendar entity);
 

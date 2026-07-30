@@ -11,7 +11,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IScheduledTaskEventProcessingService
+internal interface IScheduledTaskEventProcessingService
 {
     ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask entity);
 

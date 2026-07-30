@@ -9,7 +9,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Services.Processings;
 
-public interface IFlowInstanceDataProcessingService
+internal interface IFlowInstanceDataProcessingService
 {
     FlowInstanceData Get(Guid flowInstanceDataId);
 

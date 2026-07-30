@@ -22,9 +22,9 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class WorkflowEventController : ODataController
 {
-    private readonly IWorkflowEventOrchestrationService service;
+    private readonly IWorkflowEventManager service;
 
-    public WorkflowEventController(IWorkflowEventOrchestrationService service)
+    public WorkflowEventController(IWorkflowEventManager service)
     {
         this.service = service;
     }
