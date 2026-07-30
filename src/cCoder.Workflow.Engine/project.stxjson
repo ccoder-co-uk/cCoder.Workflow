@@ -426,7 +426,7 @@
         },
         {
           "Name": "Result",
-          "Type": "FlowInstanceData"
+          "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
         },
         {
           "Name": "Script",
@@ -524,7 +524,7 @@
           "Inputs": [
             {
               "Name": "flowInstanceData",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             },
             {
               "Name": "apiRoot",

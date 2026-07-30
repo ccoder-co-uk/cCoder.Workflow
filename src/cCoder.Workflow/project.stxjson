@@ -10,17 +10,17 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "DeleteWorkflowEventAsync",
           "Inputs": [
             {
               "Name": "deletedEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
@@ -28,19 +28,19 @@
         {
           "Name": "SelectAllWorkflowEvents",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "SelectAllWorkflowEventsIgnoringQueryFilters",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -50,10 +50,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         }
       ]
     },
@@ -97,7 +97,7 @@
         {
           "Name": "GetCurrentUser",
           "Inputs": [],
-          "ReturnType": "User"
+          "ReturnType": "cCoder.Data.Models.Security.User"
         },
         {
           "Name": "GetUser",
@@ -107,7 +107,7 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "User"
+          "ReturnType": "cCoder.Data.Models.Security.User"
         },
         {
           "Name": "IsAdminOfApp",
@@ -164,7 +164,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CCalendar\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -174,7 +174,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CCalendar\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -184,7 +184,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CCalendar\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -206,7 +206,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CCalendarEvent\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -216,7 +216,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CCalendarEvent\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -226,7 +226,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CCalendarEvent\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -269,7 +269,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CFlowDefinition\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -279,7 +279,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CFlowDefinition\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -289,7 +289,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CFlowDefinition\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -311,7 +311,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CFlowInstanceData\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -321,7 +321,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CFlowInstanceData\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -331,7 +331,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CFlowInstanceData\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -353,7 +353,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CScheduledTask\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -363,7 +363,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CScheduledTask\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -373,7 +373,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CScheduledTask\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -383,7 +383,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CScheduledTask\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -405,7 +405,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CWorkflowEvent\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -415,7 +415,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CWorkflowEvent\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -425,7 +425,7 @@
           "Inputs": [
             {
               "Name": "message",
-              "Type": "EventMessage\u003CWorkflowEvent\u003E"
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -442,17 +442,17 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "DeleteFlowDefinitionAsync",
           "Inputs": [
             {
               "Name": "deletedEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
@@ -480,19 +480,19 @@
         {
           "Name": "SelectAllFlowDefinitions",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "SelectAllFlowDefinitionsIgnoringQueryFilters",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -502,10 +502,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         }
       ]
     },
@@ -519,17 +519,17 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "DeleteFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "deletedEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
@@ -537,19 +537,19 @@
         {
           "Name": "SelectAllFlowInstanceData",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "SelectAllFlowInstanceDataIgnoringQueryFilters",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -559,10 +559,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         }
       ]
     },
@@ -676,7 +676,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -696,7 +696,7 @@
           "Inputs": [
             {
               "Name": "deletedEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
@@ -706,27 +706,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "SelectAllCalendars",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "SelectAllCalendarsIgnoringQueryFilters",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -736,10 +736,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         }
       ]
     },
@@ -753,7 +753,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -773,7 +773,7 @@
           "Inputs": [
             {
               "Name": "deletedEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
@@ -783,27 +783,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "SelectAllCalendarEvents",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "SelectAllCalendarEventsIgnoringQueryFilters",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -813,10 +813,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         }
       ]
     },
@@ -830,7 +830,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -850,7 +850,7 @@
           "Inputs": [
             {
               "Name": "deletedEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
@@ -860,27 +860,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "SelectAllScheduledTasks",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "SelectAllScheduledTasksIgnoringQueryFilters",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "SelectAppId",
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -921,17 +921,17 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "ScheduledTask"
+          "ReturnType": "cCoder.Data.Models.Planning.ScheduledTask"
         },
         {
           "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         }
       ]
     },
@@ -962,7 +962,7 @@
         {
           "Name": "GetQueuedInstances",
           "Inputs": [],
-          "ReturnType": "FlowInstanceData[]"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowInstanceData[]"
         },
         {
           "Name": "MarkInstanceFailedAsync",
@@ -1008,7 +1008,7 @@
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "UpdateQueuedInstanceClaimAsync",
@@ -1325,7 +1325,7 @@
           "Inputs": [
             {
               "Name": "queryOptions",
-              "Type": "ODataQueryOptions\u003CCalendar\u003E"
+              "Type": "ODataQueryOptions\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "IActionResult"
@@ -1340,7 +1340,7 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1354,7 +1354,7 @@
             },
             {
               "Name": "updatedEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1368,7 +1368,7 @@
             },
             {
               "Name": "updatedDelta",
-              "Type": "Delta\u003CCalendar\u003E"
+              "Type": "Delta\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1405,7 +1405,7 @@
           "Inputs": [
             {
               "Name": "queryOptions",
-              "Type": "ODataQueryOptions\u003CCalendarEvent\u003E"
+              "Type": "ODataQueryOptions\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "IActionResult"
@@ -1420,7 +1420,7 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1434,7 +1434,7 @@
             },
             {
               "Name": "updatedEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1448,7 +1448,7 @@
             },
             {
               "Name": "updatedDelta",
-              "Type": "Delta\u003CCalendarEvent\u003E"
+              "Type": "Delta\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1485,7 +1485,7 @@
           "Inputs": [
             {
               "Name": "queryOptions",
-              "Type": "ODataQueryOptions\u003CFlowDefinition\u003E"
+              "Type": "ODataQueryOptions\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "IActionResult"
@@ -1500,7 +1500,7 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1529,7 +1529,7 @@
             },
             {
               "Name": "updatedEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1543,7 +1543,7 @@
             },
             {
               "Name": "updatedDelta",
-              "Type": "Delta\u003CFlowDefinition\u003E"
+              "Type": "Delta\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1597,7 +1597,7 @@
           "Inputs": [
             {
               "Name": "queryOptions",
-              "Type": "ODataQueryOptions\u003CFlowInstanceData\u003E"
+              "Type": "ODataQueryOptions\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "IActionResult"
@@ -1612,7 +1612,7 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1626,7 +1626,7 @@
             },
             {
               "Name": "updatedEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1640,7 +1640,7 @@
             },
             {
               "Name": "updatedDelta",
-              "Type": "Delta\u003CFlowInstanceData\u003E"
+              "Type": "Delta\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1677,7 +1677,7 @@
           "Inputs": [
             {
               "Name": "queryOptions",
-              "Type": "ODataQueryOptions\u003CScheduledTask\u003E"
+              "Type": "ODataQueryOptions\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "IActionResult"
@@ -1692,7 +1692,7 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1720,7 +1720,7 @@
             },
             {
               "Name": "updatedEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1734,7 +1734,7 @@
             },
             {
               "Name": "updatedDelta",
-              "Type": "Delta\u003CScheduledTask\u003E"
+              "Type": "Delta\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1771,7 +1771,7 @@
           "Inputs": [
             {
               "Name": "queryOptions",
-              "Type": "ODataQueryOptions\u003CWorkflowEvent\u003E"
+              "Type": "ODataQueryOptions\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "IActionResult"
@@ -1786,7 +1786,7 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1800,7 +1800,7 @@
             },
             {
               "Name": "updatedEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1814,7 +1814,7 @@
             },
             {
               "Name": "updatedDelta",
-              "Type": "Delta\u003CWorkflowEvent\u003E"
+              "Type": "Delta\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
@@ -1853,7 +1853,7 @@
           "Inputs": [
             {
               "Name": "newApp",
-              "Type": "App"
+              "Type": "cCoder.Data.Models.CMS.App"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -1873,7 +1873,7 @@
           "Inputs": [
             {
               "Name": "updatedApp",
-              "Type": "App"
+              "Type": "cCoder.Data.Models.CMS.App"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -2718,10 +2718,10 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "DeleteFlowDefinitionAsync",
@@ -2746,7 +2746,7 @@
         {
           "Name": "GetAllFlowDefinitions",
           "Inputs": [],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "GetFlowDefinition",
@@ -2756,7 +2756,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowDefinition"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowDefinition"
         },
         {
           "Name": "QueueFlowDefinitionAsync",
@@ -2781,10 +2781,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         }
       ]
     },
@@ -2833,7 +2833,7 @@
           "Inputs": [
             {
               "Name": "newApp",
-              "Type": "App"
+              "Type": "cCoder.Data.Models.CMS.App"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -2853,7 +2853,7 @@
           "Inputs": [
             {
               "Name": "updatedApp",
-              "Type": "App"
+              "Type": "cCoder.Data.Models.CMS.App"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -2870,7 +2870,7 @@
           "Inputs": [
             {
               "Name": "flowDefinition",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -2930,10 +2930,10 @@
           "Inputs": [
             {
               "Name": "newCalendarEvent",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -2950,7 +2950,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -2973,7 +2973,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "CalendarEvent"
+          "ReturnType": "cCoder.Data.Models.Planning.CalendarEvent"
         },
         {
           "Name": "GetAll",
@@ -2983,17 +2983,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
               "Name": "updatedCalendarEvent",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         }
       ]
     },
@@ -3007,10 +3007,10 @@
           "Inputs": [
             {
               "Name": "newCalendar",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -3027,7 +3027,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3050,7 +3050,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "Calendar"
+          "ReturnType": "cCoder.Data.Models.Planning.Calendar"
         },
         {
           "Name": "GetAll",
@@ -3060,17 +3060,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
               "Name": "updatedCalendar",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         }
       ]
     },
@@ -3084,7 +3084,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3094,7 +3094,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3104,7 +3104,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3121,7 +3121,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3131,7 +3131,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3141,7 +3141,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3180,7 +3180,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3190,7 +3190,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3200,7 +3200,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3217,7 +3217,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3227,7 +3227,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3237,7 +3237,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3254,7 +3254,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3264,7 +3264,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3274,7 +3274,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3284,7 +3284,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3301,7 +3301,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3311,7 +3311,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3321,7 +3321,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3338,10 +3338,10 @@
           "Inputs": [
             {
               "Name": "newFlowDefinition",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "DeleteAsync",
@@ -3381,7 +3381,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowDefinition"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowDefinition"
         },
         {
           "Name": "GetAll",
@@ -3391,17 +3391,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
               "Name": "updatedFlowDefinition",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         }
       ]
     },
@@ -3415,20 +3415,20 @@
           "Inputs": [
             {
               "Name": "newFlowInstanceData",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "newFlowInstanceData",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "DeleteAsync",
@@ -3448,7 +3448,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowInstanceData"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowInstanceData"
         },
         {
           "Name": "GetAll",
@@ -3458,17 +3458,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "updatedFlowInstanceData",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         }
       ]
     },
@@ -3482,10 +3482,10 @@
           "Inputs": [
             {
               "Name": "newScheduledTask",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -3502,7 +3502,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3525,7 +3525,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "ScheduledTask"
+          "ReturnType": "cCoder.Data.Models.Planning.ScheduledTask"
         },
         {
           "Name": "GetAll",
@@ -3535,7 +3535,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "GetExecuteAsUserBelongsToApp",
@@ -3573,7 +3573,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "ScheduledTask"
+          "ReturnType": "cCoder.Data.Models.Planning.ScheduledTask"
         },
         {
           "Name": "MarkExecutedAsync",
@@ -3587,17 +3587,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "updatedScheduledTask",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         }
       ]
     },
@@ -3611,10 +3611,10 @@
           "Inputs": [
             {
               "Name": "newWorkflowEvent",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "DeleteAsync",
@@ -3634,7 +3634,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "WorkflowEvent"
+          "ReturnType": "cCoder.Data.Models.Workflow.WorkflowEvent"
         },
         {
           "Name": "GetAll",
@@ -3644,14 +3644,14 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "GetAppIdForWorkflowEvent",
           "Inputs": [
             {
               "Name": "workflowEvent",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Int32?"
@@ -3661,10 +3661,10 @@
           "Inputs": [
             {
               "Name": "updatedWorkflowEvent",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         }
       ]
     },
@@ -3705,27 +3705,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "AddOrUpdateCalendarEvent",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarEventAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3748,7 +3748,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "CalendarEvent"
+          "ReturnType": "cCoder.Data.Models.Planning.CalendarEvent"
         },
         {
           "Name": "GetAll",
@@ -3758,17 +3758,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         }
       ]
     },
@@ -3782,27 +3782,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "AddOrUpdateCalendar",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendar\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Planning.Calendar\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3835,7 +3835,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "Calendar"
+          "ReturnType": "cCoder.Data.Models.Planning.Calendar"
         },
         {
           "Name": "GetAll",
@@ -3845,17 +3845,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         }
       ]
     },
@@ -3869,27 +3869,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "AddOrUpdateFlowDefinition",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllFlowDefinitionAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3922,7 +3922,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowDefinition"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowDefinition"
         },
         {
           "Name": "GetAll",
@@ -3932,17 +3932,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "UpdateFlowDefinitionAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         }
       ]
     },
@@ -3956,37 +3956,37 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "AddOrUpdateFlowInstanceData",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E\u003E\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "DeleteAllFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4009,7 +4009,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowInstanceData"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowInstanceData"
         },
         {
           "Name": "GetAll",
@@ -4019,17 +4019,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         }
       ]
     },
@@ -4068,27 +4068,27 @@
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E\u003E\u003E"
         },
         {
           "Name": "AddScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "DeleteAllScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4135,7 +4135,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "ScheduledTask"
+          "ReturnType": "cCoder.Data.Models.Planning.ScheduledTask"
         },
         {
           "Name": "GetAll",
@@ -4145,17 +4145,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "UpdateScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         }
       ]
     },
@@ -4196,27 +4196,27 @@
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E\u003E\u003E"
         },
         {
           "Name": "AddWorkflowEventAsync",
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "DeleteAllWorkflowEventAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4239,7 +4239,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "WorkflowEvent"
+          "ReturnType": "cCoder.Data.Models.Workflow.WorkflowEvent"
         },
         {
           "Name": "GetAll",
@@ -4249,7 +4249,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "GetWorkflowEventSubscriptionsAsync",
@@ -4263,14 +4263,14 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent[]\u003E"
         },
         {
           "Name": "LogWorkflowEventQueueFailureAsync",
           "Inputs": [
             {
               "Name": "workflowEvent",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             },
             {
               "Name": "exception",
@@ -4312,10 +4312,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         }
       ]
     },
@@ -4329,7 +4329,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4339,7 +4339,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4349,7 +4349,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4366,7 +4366,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4376,7 +4376,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4386,7 +4386,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4403,20 +4403,20 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "AddOrUpdateCalendarEvent",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendarEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllByAppIdAsync",
@@ -4433,7 +4433,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4443,7 +4443,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendarEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4466,7 +4466,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "CalendarEvent"
+          "ReturnType": "cCoder.Data.Models.Planning.CalendarEvent"
         },
         {
           "Name": "GetAll",
@@ -4476,17 +4476,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         },
         {
           "Name": "UpdateCalendarEventAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "CalendarEvent"
+              "Type": "cCoder.Data.Models.Planning.CalendarEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendarEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.CalendarEvent\u003E"
         }
       ]
     },
@@ -4500,27 +4500,27 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "AddOrUpdateCalendar",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CCalendar\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Planning.Calendar\u003E\u003E\u003E"
         },
         {
           "Name": "DeleteAllCalendarAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CCalendar\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4553,7 +4553,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "Calendar"
+          "ReturnType": "cCoder.Data.Models.Planning.Calendar"
         },
         {
           "Name": "GetAll",
@@ -4563,17 +4563,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CCalendar\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         },
         {
           "Name": "UpdateCalendarAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "Calendar"
+              "Type": "cCoder.Data.Models.Planning.Calendar"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CCalendar\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.Calendar\u003E"
         }
       ]
     },
@@ -4587,7 +4587,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4597,7 +4597,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4607,7 +4607,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4624,20 +4624,20 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "AddOrUpdateFlowDefinition",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowDefinition\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E\u003E\u003E"
         },
         {
           "Name": "AuthorizeFlowDefinitionExecution",
@@ -4658,7 +4658,7 @@
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4691,7 +4691,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowDefinition"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowDefinition"
         },
         {
           "Name": "GetAll",
@@ -4701,7 +4701,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         },
         {
           "Name": "ParseFlowDefinition",
@@ -4738,10 +4738,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowDefinition"
+              "Type": "cCoder.Data.Models.Workflow.FlowDefinition"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowDefinition\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowDefinition\u003E"
         }
       ]
     },
@@ -4755,7 +4755,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4765,7 +4765,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4775,7 +4775,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4792,37 +4792,37 @@
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "AddOrUpdateFlowInstanceData",
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CFlowInstanceData\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E\u003E\u003E"
         },
         {
           "Name": "AddQueuedFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "DeleteAllFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CFlowInstanceData\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4845,7 +4845,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "FlowInstanceData"
+          "ReturnType": "cCoder.Data.Models.Workflow.FlowInstanceData"
         },
         {
           "Name": "GetAll",
@@ -4855,17 +4855,17 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         },
         {
           "Name": "UpdateFlowInstanceDataAsync",
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "FlowInstanceData"
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CFlowInstanceData\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E"
         }
       ]
     },
@@ -4879,7 +4879,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4889,7 +4889,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4899,7 +4899,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4909,7 +4909,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4926,27 +4926,27 @@
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CScheduledTask\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E\u003E\u003E"
         },
         {
           "Name": "AddScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "DeleteAllScheduledTaskAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -4983,7 +4983,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "Get",
@@ -4993,7 +4993,7 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "ScheduledTask"
+          "ReturnType": "cCoder.Data.Models.Planning.ScheduledTask"
         },
         {
           "Name": "GetAll",
@@ -5003,7 +5003,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         },
         {
           "Name": "IsScheduledTaskMigrationActive",
@@ -5020,7 +5020,7 @@
           "Inputs": [
             {
               "Name": "scheduledTask",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5030,7 +5030,7 @@
           "Inputs": [
             {
               "Name": "scheduledTask",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5040,7 +5040,7 @@
           "Inputs": [
             {
               "Name": "scheduledTask",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5070,10 +5070,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "ScheduledTask"
+              "Type": "cCoder.Data.Models.Planning.ScheduledTask"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CScheduledTask\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E"
         }
       ]
     },
@@ -5087,7 +5087,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5097,7 +5097,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5107,7 +5107,7 @@
           "Inputs": [
             {
               "Name": "entity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5124,27 +5124,27 @@
           "Inputs": [
             {
               "Name": "items",
-              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CWorkflowEvent\u003E\u003E\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Collections.Generic.IEnumerable\u003CcCoder.Workflow.Models.Results.Result\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E\u003E\u003E"
         },
         {
           "Name": "AddWorkflowEventAsync",
           "Inputs": [
             {
               "Name": "newEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "DeleteAllWorkflowEventAsync",
           "Inputs": [
             {
               "Name": "deletedItems",
-              "Type": "System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E"
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -5167,7 +5167,7 @@
               "Type": "System.Guid"
             }
           ],
-          "ReturnType": "WorkflowEvent"
+          "ReturnType": "cCoder.Data.Models.Workflow.WorkflowEvent"
         },
         {
           "Name": "GetAll",
@@ -5177,7 +5177,7 @@
               "Type": "System.Boolean"
             }
           ],
-          "ReturnType": "System.Linq.IQueryable\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         },
         {
           "Name": "GetSubscriptionsAsync",
@@ -5191,14 +5191,14 @@
               "Type": "System.String"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent[]\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent[]\u003E"
         },
         {
           "Name": "LogWorkflowEventQueueFailureAsync",
           "Inputs": [
             {
               "Name": "workflowEvent",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             },
             {
               "Name": "exception",
@@ -5240,10 +5240,10 @@
           "Inputs": [
             {
               "Name": "updatedEntity",
-              "Type": "WorkflowEvent"
+              "Type": "cCoder.Data.Models.Workflow.WorkflowEvent"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CWorkflowEvent\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent\u003E"
         }
       ]
     },
