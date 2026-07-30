@@ -202,7 +202,7 @@ action: calendar =>
         GetLogger()
             .LogDebug(
 message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
-args: cCoder.Workflow.Extensions.OData.ODataJsonExtensions.ToJsonForOdata(value: existingFlowDefinitions));
+args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: existingFlowDefinitions));
 
         for (int index = 0; index < flowDefinitions.Length; index++)
         {

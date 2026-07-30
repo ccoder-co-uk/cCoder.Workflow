@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using System.Text;
+using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
@@ -82,7 +83,7 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
@@ -101,7 +102,7 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
@@ -133,17 +134,23 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     [ActionName("Execute")]
     public async Task<IActionResult> PostAsync([FromRoute] Guid key)
     {
-        using StreamReader reader = new(Request.Body, Encoding.UTF8);
+        string requestBody = await ReadRequestBodyAsync();
         string asUserId = User?.Identity?.Name;
-        return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: await reader.ReadToEndAsync()));
+        return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: requestBody));
     }
 
     [HttpPost]
     [ActionName("ExecuteScript")]
     public async Task<IActionResult> PostScript()
     {
-        string script = await new StreamReader(Request.Body).ReadToEndAsync();
+        string script = await ReadRequestBodyAsync();
         return Ok(value: await service.ExecuteScriptAsync(script: script));
     }
 
+    private async ValueTask<string> ReadRequestBodyAsync()
+    {
+        using WorkflowStreamDependency content = new();
+        await Request.Body.CopyToAsync(destination: content);
+        return Encoding.UTF8.GetString(bytes: content.ToArray());
+    }
 }

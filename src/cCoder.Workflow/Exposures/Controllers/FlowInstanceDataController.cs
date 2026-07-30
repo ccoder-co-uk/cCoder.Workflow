@@ -44,7 +44,7 @@ public partial class FlowInstanceDataController : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
         }
 
         updatedEntity.Id = key;
@@ -117,7 +117,7 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     {
         if (!ModelState.IsValid)
         {
-            return new cCoder.Workflow.Extensions.OData.BadRequestResult(ModelState);
+            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
         }
 
         return Ok(value: await service.AddFlowInstanceDataAsync(newEntity: newEntity));

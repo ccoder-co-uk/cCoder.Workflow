@@ -192,6 +192,24 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "DisposeAsync",
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -268,34 +286,12 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Extensions.TypeNameExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetCSharpTypeName",
-          "Inputs": [
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            }
-          ],
-          "ReturnType": "System.String"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Extensions.WorkflowJsonExtensions",
+      "Name": "cCoder.Workflow.Engine.Extensions.ObjectExtensions",
       "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": [
         {
           "Name": "GetJsonSettings",
-          "Inputs": [],
-          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
-        },
-        {
-          "Name": "GetODataJsonSettings",
           "Inputs": [],
           "ReturnType": "Newtonsoft.Json.JsonSerializerSettings"
         },
@@ -315,6 +311,23 @@
             {
               "Name": "value",
               "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Extensions.TypeExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCSharpTypeName",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
             }
           ],
           "ReturnType": "System.String"
@@ -424,6 +437,12 @@
           "Type": "System.DateTimeOffset"
         }
       ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Models.WorkflowHttpResult",
+      "StandardElementType": "Model",
+      "Properties": [],
       "Methods": []
     },
     {

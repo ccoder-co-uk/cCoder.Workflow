@@ -4,7 +4,7 @@
 
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Workflow;
-using cCoder.Security.Objects.Entities;
+using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
@@ -42,7 +42,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             workflowInstanceManagementBrokerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
-            Mock.Of<IHttpClientFactory>(),
             NullLogger<WorkflowInstanceProcessingService>.Instance);
     }
 

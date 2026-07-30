@@ -4,7 +4,7 @@
 
 using cCoder.Data.Models;
 using cCoder.Eventing.Models;
-using cCoder.Security.Objects;
+using cCoder.Security.Models;
 using cCoder.Workflow.Models;
 
 namespace Workflow.Web.Models;

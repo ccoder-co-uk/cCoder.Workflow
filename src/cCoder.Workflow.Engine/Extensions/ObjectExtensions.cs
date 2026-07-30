@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace cCoder.Workflow.Engine.Extensions;
 
-public static class WorkflowJsonExtensions
+public static class ObjectExtensions
 {
     public static JsonSerializerSettings GetJsonSettings() =>
         new()
@@ -21,7 +21,7 @@ public static class WorkflowJsonExtensions
             ContractResolver = new DefaultContractResolver { IgnoreSerializableAttribute = true }
         };
 
-    public static JsonSerializerSettings GetODataJsonSettings() =>
+    internal static JsonSerializerSettings GetODataJsonSettings() =>
         new()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

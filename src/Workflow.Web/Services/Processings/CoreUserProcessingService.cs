@@ -5,7 +5,7 @@
 using cCoder.Data.Models.Security;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Security.Objects.Entities;
+using cCoder.Security.Models.Entities;
 
 namespace Workflow.Web.Services.Processings;
 

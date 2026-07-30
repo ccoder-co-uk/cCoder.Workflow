@@ -7,7 +7,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.Workflow.Extensions;
 
-internal static class AuthorizationExtensions
+internal static class UserExtensions
 {
     internal static void Authorize(
         this User user,

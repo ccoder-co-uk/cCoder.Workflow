@@ -3,10 +3,11 @@
 // ---------------------------------------------------------------
 
 using System.Net;
-using System.Text;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities.Support;
 using Newtonsoft.Json;
+using cCoder.Workflow.Engine.Dependencies;
+using cCoder.Workflow.Engine.Models;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
@@ -27,13 +28,10 @@ internal sealed partial class FlowResultProcessingService
                     authToken
                 ]);
 
-            using HttpClient api =
-                CreateHttpClient(apiRoot: apiRoot);
-
-            api.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue(
-                    scheme: "Bearer",
-                    parameter: authToken);
+            using WorkflowHttpClientDependency api =
+                new(
+                    apiRoot: apiRoot,
+                    authToken: authToken);
 
             string payload = JsonConvert.SerializeObject(
                 value: new
@@ -50,44 +48,23 @@ internal sealed partial class FlowResultProcessingService
                 },
                 formatting: Formatting.None);
 
-            using HttpResponseMessage response = await api.PutAsync(
+            WorkflowHttpResult response = await api.PutJsonAsync(
                 requestUri:
                     $"Workflow/FlowInstanceData"
                     + $"({flowInstanceData.Id})",
-                content: new StringContent(
-                    content: payload,
-                    encoding: Encoding.UTF8,
-                    mediaType: "application/json"));
+                payload: payload);
 
-            if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccess)
             {
-                string responseBody =
-                    await response.Content.ReadAsStringAsync();
-
                 throw new HttpRequestException(
                     $"Workflow result save failed with status "
-                    + $"{(int)response.StatusCode} "
-                    + $"({response.StatusCode})."
+                    + $"{response.StatusCode} "
+                    + $"({response.Status})."
                     + $"{Environment.NewLine}Payload:"
                     + $"{Environment.NewLine}{payload}"
                     + $"{Environment.NewLine}Response:"
-                    + $"{Environment.NewLine}{responseBody}");
+                    + $"{Environment.NewLine}{response.Body}");
             }
-
-            response.EnsureSuccessStatusCode();
         });
 
-    private static HttpClient CreateHttpClient(
-        string apiRoot) =>
-        new(new HttpClientHandler
-        {
-            AutomaticDecompression =
-                DecompressionMethods.GZip
-                | DecompressionMethods.Deflate,
-            ServerCertificateCustomValidationCallback =
-                CertChainValidator.ValidateCertChain
-        })
-        {
-            BaseAddress = new Uri(apiRoot)
-        };
 }

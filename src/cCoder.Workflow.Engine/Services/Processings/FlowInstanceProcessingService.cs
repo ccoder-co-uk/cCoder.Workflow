@@ -9,9 +9,9 @@ using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Brokers;
-using cCoder.Workflow.Engine.Dependencies;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Extensions;
+using cCoder.Workflow.Engine.Dependencies;
 using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
@@ -31,12 +31,10 @@ internal sealed partial class FlowInstanceProcessingService(
             flowExecution.Start = DateTimeOffset.UtcNow;
             flowExecution.Script = scriptBroker;
 
-            using HttpClient api = CreateHttpClient(apiRoot: request.Api);
-
-            api.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue(
-                    scheme: "Bearer",
-                    parameter: request.AuthToken);
+            using WorkflowHttpClientDependency api =
+                new(
+                    apiRoot: request.Api,
+                    authToken: request.AuthToken);
 
             string rawInstance = await api.GetStringAsync(
                 requestUri:
@@ -102,7 +100,7 @@ internal sealed partial class FlowInstanceProcessingService(
         {
             return JsonConvert.DeserializeObject<FlowInstanceData>(
                 value: rawInstance,
-                settings: WorkflowJsonExtensions.GetJsonSettings())
+                settings: cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings())
                 ?? throw new InvalidOperationException(
                     "Workflow instance response was empty.");
         }
@@ -128,7 +126,7 @@ internal sealed partial class FlowInstanceProcessingService(
         {
             return JsonConvert.DeserializeObject<WorkflowContext>(
                 value: rawContext,
-                settings: WorkflowJsonExtensions.GetJsonSettings())
+                settings: cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings())
                 ?? throw new InvalidOperationException(
                     "Workflow context response was empty.");
         }
@@ -174,7 +172,7 @@ internal sealed partial class FlowInstanceProcessingService(
             FlowDefinitionId = flowExecution.FlowDefinitionId,
             ContextString = JsonConvert.SerializeObject(
                 value: flowExecution.Context,
-                settings: WorkflowJsonExtensions.GetJsonSettings()),
+                settings: cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings()),
             State = flowExecution.Context.ExecutionState,
             Start = flowExecution.Start,
             End = DateTimeOffset.UtcNow
@@ -267,11 +265,11 @@ internal sealed partial class FlowInstanceProcessingService(
                         && found.Destination == activity.Ref);
 
                 string sourceType =
-                    TypeNameExtensions.GetCSharpTypeName(
+                    cCoder.Workflow.Engine.Extensions.TypeExtensions.GetCSharpTypeName(
                         type: source.GetType());
 
                 string destinationType =
-                    TypeNameExtensions.GetCSharpTypeName(
+                    cCoder.Workflow.Engine.Extensions.TypeExtensions.GetCSharpTypeName(
                         type: activity.GetType());
 
                 return string.IsNullOrWhiteSpace(
@@ -320,17 +318,4 @@ internal sealed partial class FlowInstanceProcessingService(
             level: level,
             message: message);
 
-    private static HttpClient CreateHttpClient(
-        string apiRoot) =>
-        new(new HttpClientHandler
-        {
-            AutomaticDecompression =
-                DecompressionMethods.GZip
-                | DecompressionMethods.Deflate,
-            ServerCertificateCustomValidationCallback =
-                CertChainValidator.ValidateCertChain
-        })
-        {
-            BaseAddress = new Uri(apiRoot)
-        };
 }

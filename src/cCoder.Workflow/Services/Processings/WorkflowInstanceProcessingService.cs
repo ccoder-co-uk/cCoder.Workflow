@@ -5,9 +5,10 @@
 using System.Text.Json;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Exposures;
-using cCoder.Security.Objects.Entities;
+using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Models;
 
 namespace cCoder.Workflow.Services.Processings;
@@ -16,7 +17,6 @@ internal sealed partial class WorkflowInstanceProcessingService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IServiceProvider serviceProvider,
     WorkflowConfiguration workflowConfiguration,
-    IHttpClientFactory httpClientFactory,
     ILogger<WorkflowInstanceProcessingService> log)
     : IWorkflowInstanceProcessingService
 {
@@ -202,15 +202,14 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
             WorkflowRequest request = CreateWorkflowRequest(dbInstance: dbInstance, token: token);
 
-            HttpResponseMessage result = await SendToWorkflowAsync(request: request);
+            WorkflowHttpResult result =
+                await SendToWorkflowAsync(request: request);
 
-            if (!result.IsSuccessStatusCode)
+            if (!result.IsSuccess)
             {
-                string errorDetails = await result.Content.ReadAsStringAsync();
-
                 log.LogError(
                     message: "Flow instance {InstanceId} execution failed.\n{ErrorDetails}",
-                    args: [dbInstance.Id, errorDetails]);
+                    args: [dbInstance.Id, result.Body]);
 
                 await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
 flowInstanceDataId: dbInstance.Id,
@@ -229,14 +228,15 @@ cancellationToken: cancellationToken);
         }
     }
 
-    private async ValueTask<HttpResponseMessage> SendToWorkflowAsync(WorkflowRequest request)
+    private async ValueTask<WorkflowHttpResult> SendToWorkflowAsync(
+        WorkflowRequest request)
     {
-        using HttpClient api = httpClientFactory.CreateClient();
-        api.BaseAddress = new Uri(workflowConfiguration.ServiceUrl);
+        using WorkflowHttpClientDependency api = new(
+            apiRoot: workflowConfiguration.ServiceUrl);
 
-        return await api.PostAsync(
-requestUri: "Execute",
-content: new StringContent(JsonSerializer.Serialize(value: request), System.Text.Encoding.UTF8, "application/json"));
+        return await api.PostJsonAsync(
+            requestUri: "Execute",
+            content: JsonSerializer.Serialize(value: request));
     }
 
     internal WorkflowRequest CreateWorkflowRequest(FlowInstanceData dbInstance, Token token) =>

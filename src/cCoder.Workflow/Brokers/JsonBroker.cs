@@ -12,15 +12,15 @@ internal class JsonBroker : IJsonBroker
     public object ParseJson(string json) =>
         JsonConvert.DeserializeObject(
             value: json,
-            settings: WorkflowJsonExtensions.CreateJsonSerializerSettings());
+            settings: new JsonSerializerSettings().ConfigureForWorkflow());
 
     public T ParseJson<T>(string json) =>
         JsonConvert.DeserializeObject<T>(
             value: json,
-            settings: WorkflowJsonExtensions.CreateJsonSerializerSettings());
+            settings: new JsonSerializerSettings().ConfigureForWorkflow());
 
     public string Serialize(object value) =>
         JsonConvert.SerializeObject(
             value: value,
-            settings: WorkflowJsonExtensions.CreateJsonSerializerSettings());
+            settings: new JsonSerializerSettings().ConfigureForWorkflow());
 }
