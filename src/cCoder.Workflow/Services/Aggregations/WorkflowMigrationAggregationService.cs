@@ -228,8 +228,10 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
         WorkflowPackageItem item)
     {
         ImportScheduledTaskInfo[] importSet = item.Data.StartsWith(value: "{")
-            ? [GetJsonBroker().ParseJson<ImportScheduledTaskInfo>(json: item.Data)]
-            : GetJsonBroker().ParseJson<ImportScheduledTaskInfo[]>(json: item.Data);
+            ? [GetJsonBroker()
+                .ParseJson<ImportScheduledTaskInfo>(json: item.Data)]
+            : GetJsonBroker()
+                .ParseJson<ImportScheduledTaskInfo[]>(json: item.Data);
 
         FlowDefinition[] flows = GetFlowDefinitionOrchestrationService()
             .GetAll(ignoreFilters: true)
@@ -267,12 +269,17 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
             task.FlowId = flow.Id;
             task.Name = importInfo.Name;
             task.Description = importInfo.Description;
+
             task.ExecuteAs =
                 string.IsNullOrWhiteSpace(value: importInfo.ExecuteAs)
-                    ? GetAuthorizationBroker().GetCurrentUser().Id
+                    ? GetAuthorizationBroker()
+                        .GetCurrentUser()
+                        .Id
                     : importInfo.ExecuteAs;
+
             task.ExecutionArgs = importInfo.ExecutionArgs;
             task.ScheduleInTicks = importInfo.ScheduleInTicks;
+
             task.NextExecution =
                 importInfo.NextExecution
                 ?? existingTask?.NextExecution
