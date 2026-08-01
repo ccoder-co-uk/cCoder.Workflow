@@ -76,7 +76,7 @@ public sealed partial class FlowDefinitionControllerTests
 
         // Then
         actualStatusCode.Should()
-            .Be(expected: (int)HttpStatusCode.NotFound);
+            .Be(expected: (int)HttpStatusCode.Forbidden);
 
         await Teardown(seededContext: seededContext);
     }

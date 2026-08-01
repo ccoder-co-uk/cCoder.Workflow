@@ -23,15 +23,30 @@ public partial class FlowDefinitionController(IFlowDefinitionManager service) : 
     [HttpGet]
     public IActionResult GetMetadata()
     {
-        bool isExtendedMetaRequest = Request.Query["extend"] == "true";
+        try
+        {
+            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
 
-        return isExtendedMetaRequest
-            ? Ok(
-value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                    .Build()
-                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
-            )
-            : Ok(value: new MetadataContainer(typeof(FlowDefinition), true, true));
+            return isExtendedMetaRequest
+                ? Ok(
+    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
+                        .Build()
+                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
+                )
+                : Ok(value: new MetadataContainer(typeof(FlowDefinition), true, true));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet]
@@ -44,8 +59,25 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<FlowDefinition> queryOptions) =>
-        Ok(value: service.GetAllFlowDefinitions());
+    public IActionResult GetAll(ODataQueryOptions<FlowDefinition> queryOptions)
+    {
+        try
+        {
+            return Ok(value: service.GetAllFlowDefinitions());
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     [AllowAnonymous]
@@ -64,9 +96,17 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
             FlowDefinition result = service.GetFlowDefinition(flowDefinitionId: key);
             return result is null ? NotFound() : Ok(value: result);
         }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
         catch (System.Security.SecurityException)
         {
-            return NotFound();
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -81,12 +121,29 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     )]
     public async Task<IActionResult> Post([FromBody] FlowDefinition newEntity)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+            }
 
-        return Ok(value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
+            return StatusCode(
+                statusCode: StatusCodes.Status201Created,
+                value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPut]
@@ -100,51 +157,126 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     )]
     public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition updatedEntity)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+            }
 
-        return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
+            return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> updatedDelta)
     {
-        FlowDefinition originalEntity = service.GetFlowDefinition(flowDefinitionId: key);
-
-        if (originalEntity == null)
+        try
         {
-            return NotFound();
-        }
+            FlowDefinition originalEntity = service.GetFlowDefinition(flowDefinitionId: key);
 
-        updatedDelta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: originalEntity));
+            if (originalEntity == null)
+            {
+                return NotFound();
+            }
+
+            updatedDelta.Patch(original: originalEntity);
+            return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: originalEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await service.DeleteFlowDefinitionAsync(flowDefinitionId: key);
-        return Ok();
+        try
+        {
+            await service.DeleteFlowDefinitionAsync(flowDefinitionId: key);
+            return NoContent();
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPost]
     [ActionName("Execute")]
     public async Task<IActionResult> PostAsync([FromRoute] Guid key)
     {
-        string requestBody = await ReadRequestBodyAsync();
-        string asUserId = User?.Identity?.Name;
-        return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: requestBody));
+        try
+        {
+            string requestBody = await ReadRequestBodyAsync();
+            string asUserId = User?.Identity?.Name;
+            return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: requestBody));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPost]
     [ActionName("ExecuteScript")]
     public async Task<IActionResult> PostScript()
     {
-        string script = await ReadRequestBodyAsync();
-        return Ok(value: await service.ExecuteScriptAsync(script: script));
+        try
+        {
+            string script = await ReadRequestBodyAsync();
+            return Ok(value: await service.ExecuteScriptAsync(script: script));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     private async ValueTask<string> ReadRequestBodyAsync()

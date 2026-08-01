@@ -18,8 +18,23 @@ public sealed class CoreUserController(
     [HttpGet("/Api/AppSecurity/User/Me()")]
     public IActionResult Get()
     {
-        User user = coreUserProcessingService.GetUser();
+        try
+        {
+            User user = coreUserProcessingService.GetUser();
 
-        return Ok(value: user);
+            return Ok(value: user);
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

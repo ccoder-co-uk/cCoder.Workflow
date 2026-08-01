@@ -15,8 +15,23 @@ public sealed class HomeController(
     : ControllerBase
 {
     [HttpGet("/")]
-    public IActionResult Get() =>
-        Content(
-            content: homeProcessingService.GetHome(),
-            contentType: "text/plain");
+    public IActionResult Get()
+    {
+        try
+        {
+            return Content( content: homeProcessingService.GetHome(), contentType: "text/plain");
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 }

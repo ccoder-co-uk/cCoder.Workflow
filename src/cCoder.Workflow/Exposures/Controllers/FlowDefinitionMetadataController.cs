@@ -22,11 +22,45 @@ public sealed class FlowDefinitionMetadataController(
         AllowedQueryOptions = AllowedQueryOptions.All,
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6)]
-    public IActionResult GetKnownActivityTypes() =>
-        Ok(value: service.GetKnownActivityTypes());
+    public IActionResult GetKnownActivityTypes()
+    {
+        try
+        {
+            return Ok(value: service.GetKnownActivityTypes());
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [AllowAnonymous]
     [HttpGet("KnownSystemTypes()")]
-    public IActionResult GetKnownSystemTypes() =>
-        Ok(value: service.GetKnownSystemTypes());
+    public IActionResult GetKnownSystemTypes()
+    {
+        try
+        {
+            return Ok(value: service.GetKnownSystemTypes());
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 }

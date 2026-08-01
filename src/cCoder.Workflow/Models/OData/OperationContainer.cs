@@ -9,11 +9,13 @@ using cCoder.Workflow.Extensions.OData;
 
 namespace cCoder.Workflow.Models.OData;
 
-public class MetadataContainerSet
+public class OperationContainer
 {
     public string Name { get; set; }
-
-    public string UriBase { get; set; }
-
-    public ExtendedMetadataContainer[] Types { get; set; }
+    public string Url { get; set; }
+    public string Definition { get; set; }
+    public string HttpVerb { get; set; }
+    public bool Queryable { get; set; }
+    public MetadataContainer ReturnType { get; set; }
+    public IDictionary<string, string> Parameters { get; set; }
 }

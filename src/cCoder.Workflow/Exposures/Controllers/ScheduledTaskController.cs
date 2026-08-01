@@ -40,22 +40,52 @@ public partial class ScheduledTaskController : ODataController
         bool incrementNextExecution = true
     )
     {
-        await service.ExecuteAsync(scheduledTaskId: key, incrementNextExecution: incrementNextExecution);
-        return Ok();
+        try
+        {
+            await service.ExecuteAsync(scheduledTaskId: key, incrementNextExecution: incrementNextExecution);
+            return Ok();
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet]
     public IActionResult GetMetadata()
     {
-        bool isExtendedMetaRequest = Request.Query["extend"] == "true";
+        try
+        {
+            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
 
-        return isExtendedMetaRequest
-            ? Ok(
-value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                    .Build()
-                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(ScheduledTask))
-            )
-            : Ok(value: new MetadataContainer(typeof(ScheduledTask), true, true));
+            return isExtendedMetaRequest
+                ? Ok(
+    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
+                        .Build()
+                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(ScheduledTask))
+                )
+                : Ok(value: new MetadataContainer(typeof(ScheduledTask), true, true));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet]
@@ -68,8 +98,25 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<ScheduledTask> queryOptions) =>
-        Ok(value: service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<ScheduledTask> queryOptions)
+    {
+        try
+        {
+            return Ok(value: service.GetAll());
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     [AllowAnonymous]
@@ -88,11 +135,26 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
             IQueryable<ScheduledTask> result = service.GetAll()
                 .Where(predicate: scheduledTask => scheduledTask.Id == key);
 
+            ScheduledTask scheduledTask = result.FirstOrDefault();
+
+            if (scheduledTask is null)
+            {
+                return NotFound();
+            }
+
             return Ok(value: SingleResult.Create(queryable: result));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException)
         {
-            return NotFound();
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -107,12 +169,29 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     )]
     public async Task<IActionResult> Post([FromBody] ScheduledTask newEntity)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+            }
 
-        return Ok(value: await service.AddScheduledTaskAsync(newEntity: newEntity));
+            return StatusCode(
+                statusCode: StatusCodes.Status201Created,
+                value: await service.AddScheduledTaskAsync(newEntity: newEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPut]
@@ -126,33 +205,78 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     )]
     public async Task<IActionResult> Put([FromRoute] int key, [FromBody] ScheduledTask updatedEntity)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+            }
 
-        return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: updatedEntity));
+            return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: updatedEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] int key, Delta<ScheduledTask> updatedDelta)
     {
-        ScheduledTask originalEntity = service.Get(scheduledTaskId: key);
-
-        if (originalEntity == null)
+        try
         {
-            return NotFound();
-        }
+            ScheduledTask originalEntity = service.Get(scheduledTaskId: key);
 
-        updatedDelta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: originalEntity));
+            if (originalEntity == null)
+            {
+                return NotFound();
+            }
+
+            updatedDelta.Patch(original: originalEntity);
+            return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: originalEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await service.DeleteAsync(scheduledTaskId: key);
-        return Ok();
+        try
+        {
+            await service.DeleteAsync(scheduledTaskId: key);
+            return NoContent();
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

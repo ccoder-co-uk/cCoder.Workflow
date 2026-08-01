@@ -32,7 +32,7 @@ public sealed partial class CalendarControllerTests
 
         // Then
         actualStatusCode.Should()
-            .Be(expected: 200);
+            .Be(expected: 204);
 
         actualReadStatusCode.Should()
             .Be(expected: 404);

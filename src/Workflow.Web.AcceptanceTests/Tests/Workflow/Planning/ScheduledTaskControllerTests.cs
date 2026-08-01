@@ -71,7 +71,7 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.Created, because: content);
 
         return JsonSerializer.Deserialize<ScheduledTask>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected scheduled task payload.");
@@ -110,7 +110,7 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.NoContent, because: content);
 
         return (int)response.StatusCode;
     }
