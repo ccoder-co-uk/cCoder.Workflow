@@ -106,7 +106,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.Created, because: content);
 
         return JsonSerializer.Deserialize<FlowInstanceData>(json: content, options: JsonOptions)!;
     }
@@ -116,7 +116,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})", value: payload);
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.NoContent);
+            .Be(expected: HttpStatusCode.OK);
 
         return (int)response.StatusCode;
     }
@@ -143,7 +143,7 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.NoContent, because: content);
 
         return (int)response.StatusCode;
     }

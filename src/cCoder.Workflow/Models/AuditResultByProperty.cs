@@ -4,9 +4,9 @@
 
 namespace cCoder.Workflow.Models;
 
-public class AuditResultsByUser
+public class AuditResultByProperty
 {
-    public string UserName { get; set; }
+    public string Property { get; set; }
     public int Total { get; set; }
     public int January { get; set; }
     public int February { get; set; }

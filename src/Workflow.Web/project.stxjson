@@ -1,8 +1,28 @@
 {
+  "SchemaVersion": 2,
+  "Project": {
+    "Id": "Workflow.Web",
+    "Name": "Workflow.Web",
+    "AssemblyName": "Workflow.Web"
+  },
   "Classes": [
     {
       "Name": "Apps.Shared.Hosting.NoOpSession",
       "StandardElementType": "Dependency",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.Web:ISession",
+        "FullName": "ISession",
+        "Name": "ISession",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "Id",
@@ -23,42 +43,104 @@
       ],
       "Methods": [
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.Clear()",
           "Name": "Clear",
+          "LineNumber": 27,
           "Inputs": [],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.CommitAsync(System.Threading.CancellationToken)",
           "Name": "CommitAsync",
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "cancellationToken",
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task"
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.LoadAsync(System.Threading.CancellationToken)",
           "Name": "LoadAsync",
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "cancellationToken",
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task"
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.Remove(System.String)",
           "Name": "Remove",
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "key",
               "Type": "System.String"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.Set(System.String,System.Byte[])",
           "Name": "Set",
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "key",
@@ -69,10 +151,25 @@
               "Type": "System.Byte[]"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.TryGetValue(System.String,System.Byte[])",
           "Name": "TryGetValue",
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "key",
@@ -83,13 +180,40 @@
               "Type": "System.Byte[]"
             }
           ],
-          "ReturnType": "System.Boolean"
+          "ReturnType": "System.Boolean",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Apps.Shared.Hosting.NoOpSessionFeature",
       "StandardElementType": "Dependency",
+      "LineNumber": 10,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.Web:ISessionFeature",
+        "FullName": "ISessionFeature",
+        "Name": "ISessionFeature",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "Session",
@@ -100,52 +224,258 @@
     },
     {
       "Name": "Workflow.Web.Controllers.CoreAppController",
-      "StandardElementType": "Exposure",
+      "StandardElementType": "HttpExposure",
+      "LineNumber": 13,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.Web:ControllerBase",
+        "FullName": "ControllerBase",
+        "Name": "ControllerBase",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Controllers.CoreAppController.Get(System.Int32)",
           "Name": "Get",
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "key",
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "Workflow.Web.Exposures.ICoreAppManager",
+              "MethodName": "GetAppAsync",
+              "MethodId": "Workflow.Web.Exposures.ICoreAppManager.GetAppAsync(System.Int32)",
+              "StandardElementType": "Exposure",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [
+            "GET"
+          ],
+          "HttpResponses": [
+            {
+              "StatusCode": 200,
+              "ResultMethod": "Ok",
+              "ExceptionType": "",
+              "IsExceptionPath": false,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            },
+            {
+              "StatusCode": 400,
+              "ResultMethod": "BadRequest",
+              "ExceptionType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            },
+            {
+              "StatusCode": 404,
+              "ResultMethod": "NotFound",
+              "ExceptionType": "",
+              "IsExceptionPath": false,
+              "IsNullPath": true,
+              "HasBody": false,
+              "ExposesExceptionDetails": false
+            }
+          ],
+          "IsHttpRequestHandler": true,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": true,
+          "HasTryCatch": true
         }
       ]
     },
     {
       "Name": "Workflow.Web.Controllers.CoreUserController",
-      "StandardElementType": "Exposure",
+      "StandardElementType": "HttpExposure",
+      "LineNumber": 13,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.Web:ControllerBase",
+        "FullName": "ControllerBase",
+        "Name": "ControllerBase",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Controllers.CoreUserController.Get()",
           "Name": "Get",
+          "LineNumber": 19,
           "Inputs": [],
-          "ReturnType": "IActionResult"
+          "ReturnType": "IActionResult",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "Workflow.Web.Exposures.ICoreUserManager",
+              "MethodName": "GetUser",
+              "MethodId": "Workflow.Web.Exposures.ICoreUserManager.GetUser()",
+              "StandardElementType": "Exposure",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [
+            "GET"
+          ],
+          "HttpResponses": [
+            {
+              "StatusCode": 200,
+              "ResultMethod": "Ok",
+              "ExceptionType": "",
+              "IsExceptionPath": false,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            },
+            {
+              "StatusCode": 400,
+              "ResultMethod": "BadRequest",
+              "ExceptionType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            }
+          ],
+          "IsHttpRequestHandler": true,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
         }
       ]
     },
     {
       "Name": "Workflow.Web.Controllers.HealthController",
-      "StandardElementType": "Exposure",
+      "StandardElementType": "HttpExposure",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.Web:ControllerBase",
+        "FullName": "ControllerBase",
+        "Name": "ControllerBase",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Controllers.HealthController.Get()",
           "Name": "Get",
+          "LineNumber": 19,
           "Inputs": [],
-          "ReturnType": "IActionResult"
+          "ReturnType": "IActionResult",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "Workflow.Web.Exposures.IHealthManager",
+              "MethodName": "GetHealth",
+              "MethodId": "Workflow.Web.Exposures.IHealthManager.GetHealth()",
+              "StandardElementType": "Exposure",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [
+            "GET"
+          ],
+          "HttpResponses": [
+            {
+              "StatusCode": 400,
+              "ResultMethod": "BadRequest",
+              "ExceptionType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            }
+          ],
+          "IsHttpRequestHandler": true,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
         }
       ]
     },
     {
       "Name": "Workflow.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
+      "LineNumber": 16,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.IServiceCollectionExtensions.AddWorkflowWeb(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.Web.Models.WorkflowWebConfiguration\u003E)",
           "Name": "AddWorkflowWeb",
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "services",
@@ -160,13 +490,46 @@
               "Type": "System.Action\u003CWorkflow.Web.Models.WorkflowWebConfiguration\u003E"
             }
           ],
-          "ReturnType": "IServiceCollection"
+          "ReturnType": "IServiceCollection",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "System.Action\u003CT\u003E",
+              "MethodName": "Invoke",
+              "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Workflow.Web.IServiceCollectionExtensions",
+              "MethodName": "AddWorkflowWeb",
+              "MethodId": "Workflow.Web.IServiceCollectionExtensions.AddWorkflowWeb(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.Web.Models.WorkflowWebConfiguration\u003E)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.Web.Models.WorkflowWebConfiguration",
       "StandardElementType": "Model",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "Data",
@@ -190,64 +553,446 @@
     {
       "Name": "Workflow.Web.Program",
       "StandardElementType": "App",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Program.Main(System.String[])",
           "Name": "Main",
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "args",
               "Type": "System.String[]"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.Web.Services.Processings.CoreAppProcessingService",
       "StandardElementType": "ProcessingService",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Services.Processings.ICoreAppProcessingService",
+          "FullName": "Workflow.Web.Services.Processings.ICoreAppProcessingService",
+          "Name": "ICoreAppProcessingService",
+          "Namespace": "Workflow.Web.Services.Processings",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Services.Processings.CoreAppProcessingService.GetAppAsync(System.Int32)",
           "Name": "GetAppAsync",
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "appId",
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.CMS.App\u003E"
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.CMS.App\u003E",
+          "Implements": [
+            "Workflow.Web.Exposures.ICoreAppManager.GetAppAsync(System.Int32)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.DbContext",
+              "MethodName": "Set",
+              "MethodId": "Microsoft.EntityFrameworkCore.DbContext.Set()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions",
+              "MethodName": "FirstOrDefaultAsync",
+              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E,System.Threading.CancellationToken)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions",
+              "MethodName": "IgnoreQueryFilters",
+              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IgnoreQueryFilters(System.Linq.IQueryable\u003CTEntity\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.ICoreContextFactory",
+              "MethodName": "CreateCoreContext",
+              "MethodId": "cCoder.Data.ICoreContextFactory.CreateCoreContext()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.Web.Services.Processings.CoreUserProcessingService",
       "StandardElementType": "ProcessingService",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Services.Processings.ICoreUserProcessingService",
+          "FullName": "Workflow.Web.Services.Processings.ICoreUserProcessingService",
+          "Name": "ICoreUserProcessingService",
+          "Namespace": "Workflow.Web.Services.Processings",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Services.Processings.CoreUserProcessingService.GetUser()",
           "Name": "GetUser",
+          "LineNumber": 16,
           "Inputs": [],
-          "ReturnType": "cCoder.Data.Models.Security.User"
+          "ReturnType": "cCoder.Data.Models.Security.User",
+          "Implements": [
+            "Workflow.Web.Exposures.ICoreUserManager.GetUser()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Data.Models.Security.User",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.Security.User..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory",
+              "MethodName": "CreateDbContext",
+              "MethodId": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory.CreateDbContext(System.Boolean)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.SecurityDbContext",
+              "MethodName": "GetCurrentUser",
+              "MethodId": "cCoder.Security.Data.EF.SecurityDbContext.GetCurrentUser()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.Web.Services.Processings.HealthProcessingService",
       "StandardElementType": "ProcessingService",
+      "LineNumber": 7,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Services.Processings.IHealthProcessingService",
+          "FullName": "Workflow.Web.Services.Processings.IHealthProcessingService",
+          "Name": "IHealthProcessingService",
+          "Namespace": "Workflow.Web.Services.Processings",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.Web.Services.Processings.HealthProcessingService.GetHealth()",
           "Name": "GetHealth",
+          "LineNumber": 10,
           "Inputs": [],
-          "ReturnType": "System.String"
+          "ReturnType": "System.String",
+          "Implements": [
+            "Workflow.Web.Exposures.IHealthManager.GetHealth()"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.Web.WebApplicationExtensions",
       "StandardElementType": "App",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": []
+    }
+  ],
+  "Interfaces": [
+    {
+      "Name": "Workflow.Web.Exposures.ICoreAppManager",
+      "StandardElementType": "Exposure",
+      "LineNumber": 9,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Exposures.ICoreAppManager.GetAppAsync(System.Int32)",
+          "Name": "GetAppAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.CMS.App\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.Web.Exposures.ICoreUserManager",
+      "StandardElementType": "Exposure",
+      "LineNumber": 9,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Exposures.ICoreUserManager.GetUser()",
+          "Name": "GetUser",
+          "LineNumber": 11,
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.Web.Exposures.IHealthManager",
+      "StandardElementType": "Exposure",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Exposures.IHealthManager.GetHealth()",
+          "Name": "GetHealth",
+          "LineNumber": 9,
+          "Inputs": [],
+          "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.Web.Services.Processings.ICoreAppProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Exposures.ICoreAppManager",
+          "FullName": "Workflow.Web.Exposures.ICoreAppManager",
+          "Name": "ICoreAppManager",
+          "Namespace": "Workflow.Web.Exposures",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Exposure"
+        }
+      ],
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "Workflow.Web.Services.Processings.ICoreUserProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Exposures.ICoreUserManager",
+          "FullName": "Workflow.Web.Exposures.ICoreUserManager",
+          "Name": "ICoreUserManager",
+          "Namespace": "Workflow.Web.Exposures",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Exposure"
+        }
+      ],
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "Workflow.Web.Services.Processings.IHealthProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Exposures.IHealthManager",
+          "FullName": "Workflow.Web.Exposures.IHealthManager",
+          "Name": "IHealthManager",
+          "Namespace": "Workflow.Web.Exposures",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Exposure"
+        }
+      ],
       "Properties": [],
       "Methods": []
     }
@@ -266,5 +1011,27 @@
       "ToType": "Workflow.Web.Services.Processings.HealthProcessingService"
     }
   ],
-  "AnalysisItems": []
+  "AnalysisItems": [
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "Workflow.Web.Controllers.CoreAppController",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "Workflow.Web.Controllers.CoreUserController",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "Workflow.Web.Controllers.HealthController",
+      "LineNumber": 19
+    }
+  ]
 }

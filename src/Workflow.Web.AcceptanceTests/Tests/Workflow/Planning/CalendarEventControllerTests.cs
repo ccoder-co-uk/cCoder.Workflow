@@ -76,7 +76,7 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.Created, because: content);
 
         return JsonSerializer.Deserialize<CalendarEvent>(json: content, options: JsonOptions)
             ?? throw new InvalidOperationException("Expected calendar event payload.");
@@ -115,7 +115,7 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.NoContent, because: content);
 
         return (int)response.StatusCode;
     }

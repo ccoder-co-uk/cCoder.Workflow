@@ -1,36 +1,163 @@
 {
+  "SchemaVersion": 2,
+  "Project": {
+    "Id": "Workflow.HostedServices",
+    "Name": "Workflow.HostedServices",
+    "AssemblyName": "Workflow.HostedServices"
+  },
   "Classes": [
     {
       "Name": "Workflow.HostedServices.Controllers.HealthController",
-      "StandardElementType": "Exposure",
+      "StandardElementType": "HttpExposure",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.HostedServices:ControllerBase",
+        "FullName": "ControllerBase",
+        "Name": "ControllerBase",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.HostedServices",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.HostedServices.Controllers.HealthController.Get()",
           "Name": "Get",
+          "LineNumber": 19,
           "Inputs": [],
-          "ReturnType": "IActionResult"
+          "ReturnType": "IActionResult",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "Workflow.HostedServices.Exposures.IHealthManager",
+              "MethodName": "GetHealth",
+              "MethodId": "Workflow.HostedServices.Exposures.IHealthManager.GetHealth()",
+              "StandardElementType": "Exposure",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [
+            "GET"
+          ],
+          "HttpResponses": [
+            {
+              "StatusCode": 400,
+              "ResultMethod": "BadRequest",
+              "ExceptionType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            }
+          ],
+          "IsHttpRequestHandler": true,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
         }
       ]
     },
     {
       "Name": "Workflow.HostedServices.Controllers.HomeController",
-      "StandardElementType": "Exposure",
+      "StandardElementType": "HttpExposure",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "Workflow.HostedServices:ControllerBase",
+        "FullName": "ControllerBase",
+        "Name": "ControllerBase",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "Workflow.HostedServices",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.HostedServices.Controllers.HomeController.Get()",
           "Name": "Get",
+          "LineNumber": 18,
           "Inputs": [],
-          "ReturnType": "IActionResult"
+          "ReturnType": "IActionResult",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "Workflow.HostedServices.Exposures.IHomeManager",
+              "MethodName": "GetHome",
+              "MethodId": "Workflow.HostedServices.Exposures.IHomeManager.GetHome()",
+              "StandardElementType": "Exposure",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [
+            "GET"
+          ],
+          "HttpResponses": [
+            {
+              "StatusCode": 400,
+              "ResultMethod": "BadRequest",
+              "ExceptionType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": true,
+              "ExposesExceptionDetails": false
+            }
+          ],
+          "IsHttpRequestHandler": true,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
         }
       ]
     },
     {
       "Name": "Workflow.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
+      "LineNumber": 16,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E)",
           "Name": "AddWorkflowHostedServices",
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "services",
@@ -45,13 +172,46 @@
               "Type": "System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E"
             }
           ],
-          "ReturnType": "IServiceCollection"
+          "ReturnType": "IServiceCollection",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "System.Action\u003CT\u003E",
+              "MethodName": "Invoke",
+              "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Workflow.HostedServices.IServiceCollectionExtensions",
+              "MethodName": "AddWorkflowHostedServices",
+              "MethodId": "Workflow.HostedServices.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.HostedServices.Models.WorkflowHostedServicesConfiguration",
       "StandardElementType": "Model",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "Data",
@@ -75,43 +235,277 @@
     {
       "Name": "Workflow.HostedServices.Program",
       "StandardElementType": "App",
+      "LineNumber": 15,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.HostedServices.Program.Main(System.String[])",
           "Name": "Main",
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "args",
               "Type": "System.String[]"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "System.InvalidOperationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.InvalidOperationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "System.InvalidOperationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.HostedServices.Services.Processings.HealthProcessingService",
       "StandardElementType": "ProcessingService",
+      "LineNumber": 7,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.HostedServices:Workflow.HostedServices.Services.Processings.IHealthProcessingService",
+          "FullName": "Workflow.HostedServices.Services.Processings.IHealthProcessingService",
+          "Name": "IHealthProcessingService",
+          "Namespace": "Workflow.HostedServices.Services.Processings",
+          "AssemblyName": "Workflow.HostedServices",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.HostedServices.Services.Processings.HealthProcessingService.GetHealth()",
           "Name": "GetHealth",
+          "LineNumber": 10,
           "Inputs": [],
-          "ReturnType": "System.String"
+          "ReturnType": "System.String",
+          "Implements": [
+            "Workflow.HostedServices.Exposures.IHealthManager.GetHealth()"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Workflow.HostedServices.Services.Processings.HomeProcessingService",
       "StandardElementType": "ProcessingService",
+      "LineNumber": 7,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.HostedServices:Workflow.HostedServices.Services.Processings.IHomeProcessingService",
+          "FullName": "Workflow.HostedServices.Services.Processings.IHomeProcessingService",
+          "Name": "IHomeProcessingService",
+          "Namespace": "Workflow.HostedServices.Services.Processings",
+          "AssemblyName": "Workflow.HostedServices",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
+          "Id": "Workflow.HostedServices.Services.Processings.HomeProcessingService.GetHome()",
           "Name": "GetHome",
+          "LineNumber": 11,
           "Inputs": [],
-          "ReturnType": "System.String"
+          "ReturnType": "System.String",
+          "Implements": [
+            "Workflow.HostedServices.Exposures.IHomeManager.GetHome()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.String",
+              "MethodName": "Join",
+              "MethodId": "System.String.Join(System.String?,System.String?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
+    }
+  ],
+  "Interfaces": [
+    {
+      "Name": "Workflow.HostedServices.Exposures.IHealthManager",
+      "StandardElementType": "Exposure",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.HostedServices.Exposures.IHealthManager.GetHealth()",
+          "Name": "GetHealth",
+          "LineNumber": 9,
+          "Inputs": [],
+          "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Exposures.IHomeManager",
+      "StandardElementType": "Exposure",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.HostedServices.Exposures.IHomeManager.GetHome()",
+          "Name": "GetHome",
+          "LineNumber": 9,
+          "Inputs": [],
+          "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "Workflow.HostedServices.Services.Processings.IHealthProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.HostedServices:Workflow.HostedServices.Exposures.IHealthManager",
+          "FullName": "Workflow.HostedServices.Exposures.IHealthManager",
+          "Name": "IHealthManager",
+          "Namespace": "Workflow.HostedServices.Exposures",
+          "AssemblyName": "Workflow.HostedServices",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Exposure"
+        }
+      ],
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "Workflow.HostedServices.Services.Processings.IHomeProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.HostedServices:Workflow.HostedServices.Exposures.IHomeManager",
+          "FullName": "Workflow.HostedServices.Exposures.IHomeManager",
+          "Name": "IHomeManager",
+          "Namespace": "Workflow.HostedServices.Exposures",
+          "AssemblyName": "Workflow.HostedServices",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Exposure"
+        }
+      ],
+      "Properties": [],
+      "Methods": []
     }
   ],
   "Links": [
@@ -124,5 +518,20 @@
       "ToType": "Workflow.HostedServices.Services.Processings.HomeProcessingService"
     }
   ],
-  "AnalysisItems": []
+  "AnalysisItems": [
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "Workflow.HostedServices.Controllers.HealthController",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "Workflow.HostedServices.Controllers.HomeController",
+      "LineNumber": 18
+    }
+  ]
 }

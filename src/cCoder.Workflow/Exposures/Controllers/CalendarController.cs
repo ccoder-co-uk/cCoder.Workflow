@@ -48,26 +48,56 @@ public partial class CalendarController : ODataController
             IQueryable<Calendar> result = service.GetAll()
                 .Where(predicate: calendar => calendar.Id == key);
 
+            Calendar calendar = result.FirstOrDefault();
+
+            if (calendar is null)
+            {
+                return NotFound();
+            }
+
             return Ok(value: SingleResult.Create(queryable: result));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException)
         {
-            return NotFound();
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
 
     [HttpGet]
     public IActionResult GetMetadata()
     {
-        bool isExtendedMetaRequest = Request.Query["extend"] == "true";
+        try
+        {
+            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
 
-        return isExtendedMetaRequest
-            ? Ok(
-value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                    .Build()
-                    .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(Calendar))
-            )
-            : Ok(value: new MetadataContainer(typeof(Calendar), true, true));
+            return isExtendedMetaRequest
+                ? Ok(
+    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
+                        .Build()
+                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(Calendar))
+                )
+                : Ok(value: new MetadataContainer(typeof(Calendar), true, true));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet]
@@ -80,8 +110,25 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<Calendar> queryOptions) =>
-        Ok(value: service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<Calendar> queryOptions)
+    {
+        try
+        {
+            return Ok(value: service.GetAll());
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpPost]
     [EnableQuery(
@@ -94,12 +141,29 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     )]
     public async Task<IActionResult> Post([FromBody] Calendar newEntity)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+            }
 
-        return Ok(value: await service.AddCalendarAsync(newEntity: newEntity));
+            return StatusCode(
+                statusCode: StatusCodes.Status201Created,
+                value: await service.AddCalendarAsync(newEntity: newEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPut]
@@ -113,33 +177,78 @@ value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
     )]
     public async Task<IActionResult> Put([FromRoute] int key, [FromBody] Calendar updatedEntity)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+            }
 
-        return Ok(value: await service.UpdateCalendarAsync(updatedEntity: updatedEntity));
+            return Ok(value: await service.UpdateCalendarAsync(updatedEntity: updatedEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] int key, Delta<Calendar> updatedDelta)
     {
-        Calendar originalEntity = service.Get(calendarId: key);
-
-        if (originalEntity == null)
+        try
         {
-            return NotFound();
-        }
+            Calendar originalEntity = service.Get(calendarId: key);
 
-        updatedDelta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateCalendarAsync(updatedEntity: originalEntity));
+            if (originalEntity == null)
+            {
+                return NotFound();
+            }
+
+            updatedDelta.Patch(original: originalEntity);
+            return Ok(value: await service.UpdateCalendarAsync(updatedEntity: originalEntity));
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int key)
     {
-        await service.DeleteAsync(calendarId: key);
-        return Ok();
+        try
+        {
+            await service.DeleteAsync(calendarId: key);
+            return NoContent();
+        }
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        {
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

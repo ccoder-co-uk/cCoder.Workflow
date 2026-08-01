@@ -18,22 +18,37 @@ public sealed class CoreAppController(
     [HttpGet("/Api/ContentManagement/App({key:int})")]
     public async Task<IActionResult> Get([FromRoute] int key)
     {
-        App app = await coreAppProcessingService.GetAppAsync(appId: key);
-
-        if (app is null)
+        try
         {
-            return NotFound();
+            App app = await coreAppProcessingService.GetAppAsync(appId: key);
+
+            if (app is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(value: new
+            {
+                app.Id,
+                app.DefaultCultureId,
+                app.TenantId,
+                app.Name,
+                app.Domain,
+                app.DefaultTheme,
+                app.ConfigJson
+            });
         }
-
-        return Ok(value: new
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
         {
-            app.Id,
-            app.DefaultCultureId,
-            app.TenantId,
-            app.Name,
-            app.Domain,
-            app.DefaultTheme,
-            app.ConfigJson
-        });
+            return BadRequest(error: "The workflow request is invalid.");
+        }
+        catch (System.Security.SecurityException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

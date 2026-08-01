@@ -35,23 +35,3 @@ public class WorkflowConfiguration
     public bool IsMigrating { get; set; }
 
 }
-
-public sealed class WorkflowInstanceMaintenanceConfiguration
-{
-    public WorkflowInstanceMaintenanceConfiguration() =>
-        MaxAgeDays = 7;
-
-    public double MaxAgeDays { get; set; }
-}
-
-public sealed class WorkflowQueueInstanceManagementConfiguration
-{
-    public WorkflowQueueInstanceManagementConfiguration()
-    {
-        ExecutingTimeoutMinutes = 30;
-        PollingIntervalMilliseconds = 60000;
-    }
-
-    public double ExecutingTimeoutMinutes { get; set; }
-    public int PollingIntervalMilliseconds { get; set; }
-}
