@@ -54,7 +54,7 @@
               "TypeName": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
               "MethodName": "BuildScriptAsync",
               "MethodId": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.BuildScriptAsync(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -101,7 +101,7 @@
               "TypeName": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
               "MethodName": "RunScriptAsync",
               "MethodId": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -148,7 +148,7 @@
               "TypeName": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
               "MethodName": "RunScriptAsync",
               "MethodId": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -261,7 +261,7 @@
     },
     {
       "Name": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
-      "StandardElementType": "Unknown",
+      "StandardElementType": "Dependency",
       "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
