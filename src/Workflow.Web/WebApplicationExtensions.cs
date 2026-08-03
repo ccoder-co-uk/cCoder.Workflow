@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using System.Security;
+using cCoder.Security;
 using cCoder.Workflow;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.OData;
@@ -17,6 +18,8 @@ internal static class WebApplicationExtensions
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseSession();
+        app.StartSecurityWeb(
+            log: app.Services.GetRequiredService<ILogger<Program>>());
 
         app.UseSwagger()
             .UseSwaggerUI(setupAction: options =>
@@ -29,6 +32,7 @@ internal static class WebApplicationExtensions
             .UseODataRouteDebug();
 
         app.UseRouting();
+        app.UseAuthorization();
         app.MapControllers();
         app.MapGet(
             pattern: "/",
