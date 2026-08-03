@@ -98,9 +98,31 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
         await databaseManager.ResetDatabasesAsync();
         await SeedBaselineUsersAsync();
 
-        await BuildApplicationAsync(projectPath: "src\\Apps\\Workflow\\Workflow.csproj", outputDirectory: workflowOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "Workflow"));
-        await BuildApplicationAsync(projectPath: "src\\Workflow.HostedServices\\Workflow.HostedServices.csproj", outputDirectory: hostedServicesOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "HostedServices"));
-        await BuildApplicationAsync(projectPath: "src\\Workflow.Web\\Workflow.Web.csproj", outputDirectory: webOutputDirectory, intermediateDirectory: Path.Combine(path1: artifactsRoot, path2: "obj", path3: "Web"));
+        await Task.WhenAll(
+            tasks:
+            [
+            BuildApplicationAsync(
+                projectPath: "src\\Apps\\Workflow\\Workflow.csproj",
+                outputDirectory: workflowOutputDirectory,
+                intermediateDirectory: Path.Combine(
+                    path1: artifactsRoot,
+                    path2: "obj",
+                    path3: "Workflow")),
+            BuildApplicationAsync(
+                projectPath: "src\\Workflow.HostedServices\\Workflow.HostedServices.csproj",
+                outputDirectory: hostedServicesOutputDirectory,
+                intermediateDirectory: Path.Combine(
+                    path1: artifactsRoot,
+                    path2: "obj",
+                    path3: "HostedServices")),
+            BuildApplicationAsync(
+                projectPath: "src\\Workflow.Web\\Workflow.Web.csproj",
+                outputDirectory: webOutputDirectory,
+                intermediateDirectory: Path.Combine(
+                    path1: artifactsRoot,
+                    path2: "obj",
+                    path3: "Web"))
+            ]);
 
         workflowApplication = new ExternalProcessApplication("Workflow");
 
