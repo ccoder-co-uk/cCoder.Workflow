@@ -8,6 +8,7 @@ using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
+using cCoder.Security.Models.Configurations;
 using cCoder.Workflow.Services.Aggregations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,9 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class FlowDefinitionController(IFlowDefinitionManager service) : ODataController
+public partial class FlowDefinitionController(
+    IFlowDefinitionManager service,
+    ISSOAuthInfo authInfo) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()
@@ -239,7 +242,7 @@ public partial class FlowDefinitionController(IFlowDefinitionManager service) : 
         try
         {
             string requestBody = await ReadRequestBodyAsync();
-            string asUserId = User?.Identity?.Name;
+            string asUserId = authInfo.SSOUserId;
             return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: requestBody));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
