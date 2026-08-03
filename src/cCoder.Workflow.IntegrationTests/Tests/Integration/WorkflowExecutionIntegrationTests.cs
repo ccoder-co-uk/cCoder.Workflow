@@ -12,7 +12,7 @@ using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
-using cCoder.Security.Data.EF.Interfaces;
+using cCoder.Security.Exposures;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Exposures;
 using FluentAssertions;
@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Infrastructure;
 using Xunit;
-using SsoToken = cCoder.Security.Models.Entities.Token;
 
 namespace Web.AcceptanceTests.Tests.Integration;
 
@@ -160,23 +159,16 @@ becauseArgs: content + Environment.NewLine + Environment.NewLine + await BuildFl
 
     private async Task<string> CreateAuthTokenAsync(string userId)
     {
-        await using DbContext sso = fixture.DatabaseServices
-            .GetRequiredService<ISecurityDbContextFactory>()
-            .CreateDbContext(ignoreAuthInfo: true);
+        using IServiceScope scope = fixture.DatabaseServices.CreateScope();
 
-        string tokenId = Guid.NewGuid()
-            .ToString(format: "N");
+        ITokenManager tokenManager = scope.ServiceProvider
+            .GetRequiredService<ITokenManager>();
 
-        sso.Add(entity: new SsoToken
-        {
-            Id = tokenId,
-            Reason = (int)TokenUse.Auth,
-            Expires = DateTimeOffset.UtcNow.AddHours(hours: 1),
-            UserName = userId
-        });
+        Token token = await tokenManager.IssueTokenAsync(
+            userId: userId,
+            tokenUse: TokenUse.Auth);
 
-        await sso.SaveChangesAsync();
-        return tokenId;
+        return token.Id;
     }
 
     private async Task<bool> HasFlowInstanceStateAsync(Guid flowId, string state)

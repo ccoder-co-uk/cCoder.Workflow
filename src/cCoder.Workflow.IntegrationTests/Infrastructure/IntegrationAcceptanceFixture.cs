@@ -11,6 +11,7 @@ using cCoder.AppSecurity;
 using cCoder.Data;
 using cCoder.Data.Models;
 using cCoder.Eventing;
+using cCoder.Security;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
@@ -18,6 +19,8 @@ using cCoder.Security.Models;
 using cCoder.Security.Models.Configurations;
 using cCoder.Workflow;
 using cCoder.Workflow.Testing;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Models;
 using Xunit;
@@ -233,8 +236,20 @@ environmentVariables: webEnvironment,
     private static ServiceProvider CreateDatabaseServices(AcceptanceSettings settings)
     {
         ServiceCollection services = new();
+
+        services.AddSingleton<IConfiguration>(
+            implementationInstance: new ConfigurationBuilder().Build());
+
         services.AddLogging();
         services.AddEventing();
+
+        services.AddSecurityWeb(
+            configuration: new SecurityConfiguration
+            {
+                ConnectionString = settings.SsoConnectionString,
+                DecryptionKey = settings.DecryptionKey,
+                RootPath = string.Empty
+            });
 
         services.AddScoped<ISecurityDbContextFactory>(
             implementationFactory: provider =>
@@ -253,6 +268,8 @@ environmentVariables: webEnvironment,
 
         services.AddAppSecurityWeb();
         services.AddWorkflowWeb();
+
+        services.AddSingleton<ISession, IntegrationSession>();
 
         return services.BuildServiceProvider(validateScopes: false);
     }
