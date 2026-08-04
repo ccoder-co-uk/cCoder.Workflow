@@ -39,7 +39,12 @@ jobs:
         run: ./.github/scripts/Build-Projects.ps1 -Version "${{ steps.version.outputs.value }}"
 
       - name: Test
-        run: ./.github/scripts/Run-Tests.ps1 -CollectCoverage:${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+        run: ./.github/scripts/Run-Tests.ps1
+
+      - name: Test with coverage
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: ./.github/scripts/Run-Tests.ps1 -CollectCoverage
 
       - name: Upload test results
         if: always()
