@@ -163,15 +163,22 @@ types:        [
                 .ToArray(),
         };
 
-    private static ExtendedMetadataContainer Metadata(Type type, string category) =>
-        new(type)
-        {
-            Category = category,
-        };
+    private static ExtendedMetadataContainer Metadata(Type type, string category)
+    {
+        ExtendedMetadataContainer metadata = type.CreateExtendedMetadataContainer();
+        metadata.Category = category;
 
-    private static ExtendedMetadataContainer Entity<T>() =>
-        new(typeof(T), isEntity: true, hasEndpoint: true)
-        {
-            Category = "Workflow",
-        };
+        return metadata;
+    }
+
+    private static ExtendedMetadataContainer Entity<T>()
+    {
+        ExtendedMetadataContainer metadata = typeof(T).CreateExtendedMetadataContainer(
+            isEntity: true,
+            hasEndpoint: true);
+
+        metadata.Category = "Workflow";
+
+        return metadata;
+    }
 }

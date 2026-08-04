@@ -19,7 +19,7 @@ public static class IServiceCollectionExtensions
         IConfiguration configuration,
         Action<WorkflowConfiguration> configure = null)
     {
-        WorkflowConfiguration workflowConfiguration = new();
+        WorkflowConfiguration workflowConfiguration = new() { Data = new() };
         configuration.Bind(instance: workflowConfiguration);
         configure?.Invoke(obj: workflowConfiguration);
 

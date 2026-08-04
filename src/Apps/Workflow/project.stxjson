@@ -316,6 +316,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "cCoder.Data.Models.DataConfiguration",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.DataConfiguration..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
               "MethodName": "AddWorkflowEngineHostedServices",
               "MethodId": "cCoder.Workflow.Engine.IServiceCollectionExtensions.AddWorkflowEngineHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)",

@@ -11,14 +11,6 @@ namespace Workflow.HostedServices.Models;
 
 public sealed class WorkflowHostedServicesConfiguration
 {
-    public WorkflowHostedServicesConfiguration()
-    {
-        Data = new DataConfiguration();
-        Eventing = new EventingConfiguration();
-        Security = new SecurityConfiguration();
-        Workflow = new WorkflowConfiguration();
-    }
-
     public DataConfiguration Data { get; set; }
     public EventingConfiguration Eventing { get; set; }
     public SecurityConfiguration Security { get; set; }

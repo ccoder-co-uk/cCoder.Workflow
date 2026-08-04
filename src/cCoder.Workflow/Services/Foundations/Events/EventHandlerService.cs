@@ -204,7 +204,7 @@ handler: async (service, instance) =>
             });
 
     static WorkflowPackage ToLocalPackage(Package package) =>
-        package == null ? null : new WorkflowPackage(package.Name)
+        package == null ? null : new WorkflowPackage
         {
             Id = package.Id,
             Name = package.Name,

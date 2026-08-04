@@ -66,7 +66,7 @@ internal sealed partial class WorkflowMigrationAggregationService(
             _ => new Data.Models.Packaging.Package(packageName) { Items = [] },
         };
 
-        return new WorkflowPackage(package.Name)
+        return new WorkflowPackage
         {
             Id = package.Id,
             Name = package.Name,

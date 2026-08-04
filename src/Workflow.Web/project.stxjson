@@ -463,9 +463,20 @@
       ]
     },
     {
+      "Name": "Workflow.Web.Extensions.IConfigurationExtensions",
+      "StandardElementType": "Exposure",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "Workflow.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 16,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -475,7 +486,7 @@
         {
           "Id": "Workflow.Web.IServiceCollectionExtensions.AddWorkflowWeb(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.Web.Models.WorkflowWebConfiguration\u003E)",
           "Name": "AddWorkflowWeb",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "services",
@@ -819,7 +830,7 @@
     {
       "Name": "Workflow.Web.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,

@@ -9,13 +9,6 @@ namespace cCoder.Workflow.Models.OData;
 
 public class ODataModel
 {
-    public ODataModel()
-    {
-        Context = string.Empty;
-        Description = string.Empty;
-        EDMModel = null!;
-    }
-
     public string Context { get; set; }
 
     public string Description { get; set; }

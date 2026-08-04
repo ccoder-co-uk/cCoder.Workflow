@@ -24,11 +24,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
-    <PackageReference Include="cCoder.Data" Version="2026.8.3.2349" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.8.3.1758" />
-    <PackageReference Include="cCoder.Eventing.Http" Version="2026.8.3.1758" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.8.3.2228" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.8.3.2228" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.8.4.2132" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.8.4.2057" />
+    <PackageReference Include="cCoder.Eventing.Http" Version="2026.8.4.2057" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.8.4.2118" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.8.4.2118" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cCoder.Workflow\cCoder.Workflow.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />

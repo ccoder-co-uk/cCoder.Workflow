@@ -72,7 +72,7 @@ public partial class ScheduledTaskController : ODataController
                         .Build()
                         .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(ScheduledTask))
                 )
-                : Ok(value: new MetadataContainer(typeof(ScheduledTask), true, true));
+                : Ok(value: typeof(ScheduledTask).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
         {

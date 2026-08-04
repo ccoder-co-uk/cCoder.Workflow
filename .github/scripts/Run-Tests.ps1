@@ -1,3 +1,7 @@
+param(
+    [switch]$CollectCoverage
+)
+
 $ErrorActionPreference = "Stop"
 
 $testProjects = @(
@@ -14,7 +18,7 @@ New-Item -ItemType Directory -Path "artifacts/test-results" -Force | Out-Null
 
 $processes = foreach ($project in $testProjects) {
     $resultName = [IO.Path]::GetFileNameWithoutExtension($project)
-    Start-Process dotnet -NoNewWindow -PassThru -ArgumentList @(
+    $arguments = @(
         "test",
         $project,
         "-c", "Release",
@@ -23,6 +27,15 @@ $processes = foreach ($project in $testProjects) {
         "--logger", "trx;LogFileName=$resultName.trx",
         "--results-directory", "artifacts/test-results"
     )
+
+    if ($CollectCoverage) {
+        $arguments += @(
+            '--collect:"XPlat Code Coverage"',
+            '--settings', 'coverage.runsettings'
+        )
+    }
+
+    Start-Process dotnet -NoNewWindow -PassThru -ArgumentList $arguments
 }
 
 $processes | Wait-Process
