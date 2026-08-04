@@ -9,17 +9,27 @@ using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies;
+using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
 
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class WorkflowInstanceProcessingService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
+    IFlowInstanceDataManager flowInstanceDataManager,
     IServiceProvider serviceProvider,
     WorkflowConfiguration workflowConfiguration,
     ILogger<WorkflowInstanceProcessingService> log)
     : IWorkflowInstanceProcessingService
 {
+    public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [ignoreFilters]);
+
+            return flowInstanceDataManager.GetAll(ignoreFilters: ignoreFilters);
+        });
+
     public Task RunAsync(CancellationToken cancellationToken = default) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunAsync(cancellationToken: cancellationToken); });
 

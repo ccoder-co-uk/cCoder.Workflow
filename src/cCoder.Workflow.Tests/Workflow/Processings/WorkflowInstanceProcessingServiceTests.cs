@@ -7,6 +7,7 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -18,11 +19,13 @@ namespace cCoder.Core.Services.Tests.Workflow.Processings;
 public sealed partial class WorkflowInstanceProcessingServiceTests
 {
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
+    private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock;
     private readonly WorkflowInstanceProcessingService processingService;
 
     public WorkflowInstanceProcessingServiceTests()
     {
         workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(behavior: MockBehavior.Strict);
+        flowInstanceDataManagerMock = new Mock<IFlowInstanceDataManager>(behavior: MockBehavior.Strict);
         WorkflowConfiguration configuration = new()
         {
             ServiceUrl = "https://workflow.test/",
@@ -40,9 +43,38 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         processingService = new WorkflowInstanceProcessingService(
             workflowInstanceManagementBrokerMock.Object,
+            flowInstanceDataManagerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
             NullLogger<WorkflowInstanceProcessingService>.Instance);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void GetAll_ShouldDelegateToFlowInstanceDataManager(bool ignoreFilters)
+    {
+        // Given
+        IQueryable<FlowInstanceData> expected =
+            new[] { CreateQueuedFlowInstanceData() }.AsQueryable();
+
+        flowInstanceDataManagerMock
+            .Setup(expression: manager => manager.GetAll(ignoreFilters: ignoreFilters))
+            .Returns(value: expected);
+
+        // When
+        IQueryable<FlowInstanceData> actual =
+            processingService.GetAll(ignoreFilters: ignoreFilters);
+
+        // Then
+        Assert.Same(expected: expected, actual: actual);
+
+        flowInstanceDataManagerMock.Verify(
+            expression: manager => manager.GetAll(ignoreFilters: ignoreFilters),
+            times: Times.Once);
+
+        flowInstanceDataManagerMock.VerifyNoOtherCalls();
+        workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
     }
 
     [Fact]
