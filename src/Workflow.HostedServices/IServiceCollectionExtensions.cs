@@ -8,6 +8,7 @@ using cCoder.Eventing.Http;
 using cCoder.Security;
 using cCoder.Workflow;
 using Workflow.HostedServices.Exposures;
+using Workflow.HostedServices.Extensions;
 using Workflow.HostedServices.Models;
 using Workflow.HostedServices.Services.Processings;
 
@@ -20,7 +21,9 @@ public static class IServiceCollectionExtensions
         IConfiguration configuration,
         Action<WorkflowHostedServicesConfiguration> configure = null)
     {
-        WorkflowHostedServicesConfiguration hostedServicesConfiguration = new();
+        WorkflowHostedServicesConfiguration hostedServicesConfiguration =
+            configuration.CreateWorkflowHostedServicesConfiguration();
+
         configuration.Bind(instance: hostedServicesConfiguration);
         configure?.Invoke(obj: hostedServicesConfiguration);
 

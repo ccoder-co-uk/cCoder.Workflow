@@ -8,6 +8,7 @@ using cCoder.Eventing.Http;
 using cCoder.Security;
 using cCoder.Workflow;
 using Workflow.Web.Exposures;
+using Workflow.Web.Extensions;
 using Workflow.Web.Models;
 using Workflow.Web.Services.Processings;
 
@@ -20,7 +21,9 @@ public static class IServiceCollectionExtensions
         IConfiguration configuration,
         Action<WorkflowWebConfiguration> configure = null)
     {
-        WorkflowWebConfiguration workflowWebConfiguration = new();
+        WorkflowWebConfiguration workflowWebConfiguration =
+            configuration.CreateWorkflowWebConfiguration();
+
         configuration.Bind(instance: workflowWebConfiguration);
         configure?.Invoke(obj: workflowWebConfiguration);
 

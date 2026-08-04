@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Exclude>[*.Tests]*,[*.AcceptanceTests]*,[*.IntegrationTests]*,[Workflow]*,[Workflow.Web]*,[Workflow.HostedServices]*</Exclude>
+          <ExcludeByFile>**/Models/**/*.cs,**/Brokers/**/*.cs,**/Migrations/**/*.cs,**/*.g.cs,**/*.g.i.cs,**/*.generated.cs,**/obj/**/*.cs</ExcludeByFile>
+          <ExcludeByAttribute>ExcludeFromCodeCoverage,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

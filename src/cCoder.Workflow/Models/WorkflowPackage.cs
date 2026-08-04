@@ -17,11 +17,4 @@ public class WorkflowPackage
     public string SourceApi { get; set; }
 
     public virtual ICollection<WorkflowPackageItem> Items { get; set; }
-
-    public WorkflowPackage() { }
-
-    public WorkflowPackage(string name)
-    {
-        Name = name;
-    }
 }

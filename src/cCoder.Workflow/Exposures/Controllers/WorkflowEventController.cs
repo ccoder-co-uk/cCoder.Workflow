@@ -42,7 +42,7 @@ public partial class WorkflowEventController : ODataController
                         .Build()
                         .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(WorkflowEvent))
                 )
-                : Ok(value: new MetadataContainer(typeof(WorkflowEvent), true, true));
+                : Ok(value: typeof(WorkflowEvent).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
         {

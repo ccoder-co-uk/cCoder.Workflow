@@ -81,7 +81,7 @@ public partial class FlowInstanceDataController : ODataController
                         .Build()
                         .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowInstanceData))
                 )
-                : Ok(value: new MetadataContainer(typeof(FlowInstanceData), true, true));
+                : Ok(value: typeof(FlowInstanceData).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
         {

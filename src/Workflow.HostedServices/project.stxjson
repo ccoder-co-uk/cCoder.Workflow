@@ -145,9 +145,20 @@
       ]
     },
     {
+      "Name": "Workflow.HostedServices.Extensions.IConfigurationExtensions",
+      "StandardElementType": "Exposure",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "Workflow.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 16,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -157,7 +168,7 @@
         {
           "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E)",
           "Name": "AddWorkflowHostedServices",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "services",

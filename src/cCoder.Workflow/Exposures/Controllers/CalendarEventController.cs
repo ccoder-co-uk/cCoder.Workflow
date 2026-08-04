@@ -46,7 +46,7 @@ public partial class CalendarEventController : ODataController
                         .Build()
                         .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(CalendarEvent))
                 )
-                : Ok(value: new MetadataContainer(typeof(CalendarEvent), true, true));
+                : Ok(value: typeof(CalendarEvent).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
         {

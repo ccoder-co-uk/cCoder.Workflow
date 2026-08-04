@@ -36,7 +36,7 @@ public partial class FlowDefinitionController(
                         .Build()
                         .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
                 )
-                : Ok(value: new MetadataContainer(typeof(FlowDefinition), true, true));
+                : Ok(value: typeof(FlowDefinition).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
         {

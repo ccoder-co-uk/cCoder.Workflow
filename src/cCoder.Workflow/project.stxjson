@@ -5066,7 +5066,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 21,
+      "LineNumber": 22,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -5085,7 +5085,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 214,
+          "LineNumber": 217,
           "Inputs": [
             {
               "Name": "key",
@@ -5149,7 +5149,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 92,
+          "LineNumber": 95,
           "Inputs": [
             {
               "Name": "key",
@@ -5222,7 +5222,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.GetAll(ODataQueryOptions\u003CFlowDefinition\u003E)",
           "Name": "GetAll",
-          "LineNumber": 62,
+          "LineNumber": 65,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -5284,7 +5284,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 24,
+          "LineNumber": 27,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5340,7 +5340,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Post(FlowDefinition)",
           "Name": "Post",
-          "LineNumber": 122,
+          "LineNumber": 125,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -5395,7 +5395,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.PostAsync(System.Guid)",
           "Name": "PostAsync",
-          "LineNumber": 237,
+          "LineNumber": 240,
           "Inputs": [
             {
               "Name": "key",
@@ -5460,7 +5460,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.PostScript()",
           "Name": "PostScript",
-          "LineNumber": 261,
+          "LineNumber": 264,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
@@ -5517,7 +5517,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Put(System.Guid,Delta\u003CFlowDefinition\u003E)",
           "Name": "Put",
-          "LineNumber": 185,
+          "LineNumber": 188,
           "Inputs": [
             {
               "Name": "key",
@@ -5601,7 +5601,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Put(System.Guid,FlowDefinition)",
           "Name": "Put",
-          "LineNumber": 158,
+          "LineNumber": 161,
           "Inputs": [
             {
               "Name": "key",
@@ -8057,7 +8057,7 @@
     {
       "Name": "cCoder.Workflow.Extensions.OData.TypeExtensions",
       "StandardElementType": "Exposure",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -19400,7 +19400,7 @@
     {
       "Name": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 16,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -19421,7 +19421,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.ExecuteWaitingQueuedInstanceByIdAsync(System.Guid)",
           "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
-          "LineNumber": 142,
+          "LineNumber": 152,
           "Inputs": [
             {
               "Name": "flowInstanceDataId",
@@ -19458,9 +19458,56 @@
           "HasTryCatch": false
         },
         {
+          "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.GetAll(System.Boolean)",
+          "Name": "GetAll",
+          "LineNumber": 25,
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E",
+          "Implements": [
+            "cCoder.Workflow.Exposures.IWorkflowInstanceManager.GetAll(System.Boolean)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
+              "MethodName": "GetAll",
+              "MethodId": "cCoder.Workflow.Exposures.IFlowInstanceDataManager.GetAll(System.Boolean)",
+              "StandardElementType": "Exposure",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.GetStats()",
           "Name": "GetStats",
-          "LineNumber": 44,
+          "LineNumber": 54,
           "Inputs": [],
           "ReturnType": "System.Object[]",
           "Implements": [
@@ -19494,7 +19541,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 23,
+          "LineNumber": 33,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19533,7 +19580,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunInstanceMaintenanceAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceAsync",
-          "LineNumber": 71,
+          "LineNumber": 81,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19572,7 +19619,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunInstanceMaintenanceContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceContinuouslyAsync",
-          "LineNumber": 51,
+          "LineNumber": 61,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19611,7 +19658,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
-          "LineNumber": 111,
+          "LineNumber": 121,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19650,7 +19697,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
-          "LineNumber": 91,
+          "LineNumber": 101,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -23983,7 +24030,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.IWorkflowInstanceManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -23993,7 +24040,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.ExecuteWaitingQueuedInstanceByIdAsync(System.Guid)",
           "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
-          "LineNumber": 15,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "flowInstanceDataId",
@@ -24016,9 +24063,34 @@
           "HasTryCatch": false
         },
         {
+          "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.GetAll(System.Boolean)",
+          "Name": "GetAll",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CFlowInstanceData\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.GetStats()",
           "Name": "GetStats",
-          "LineNumber": 14,
+          "LineNumber": 17,
           "Inputs": [],
           "ReturnType": "System.Object[]",
           "Implements": [],
@@ -24038,7 +24110,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -24063,7 +24135,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.RunInstanceMaintenanceAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -24088,7 +24160,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.RunInstanceMaintenanceContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceContinuouslyAsync",
-          "LineNumber": 10,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -24113,7 +24185,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.RunQueueInstanceBackgroundServiceDependencyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -24138,7 +24210,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.IWorkflowInstanceManager.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -29367,6 +29439,10 @@
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
     }
   ],
   "AnalysisItems": [
@@ -29459,56 +29535,56 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 62
+      "LineNumber": 65
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 92
+      "LineNumber": 95
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 122
+      "LineNumber": 125
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 158
+      "LineNumber": 161
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 185
+      "LineNumber": 188
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 214
+      "LineNumber": 217
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 237
+      "LineNumber": 240
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 261
+      "LineNumber": 264
     },
     {
       "Code": "STXAPI005",

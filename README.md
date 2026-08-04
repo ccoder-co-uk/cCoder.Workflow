@@ -2,6 +2,8 @@
 
 `cCoder.Workflow` contains the Workflow domain for the cCoder platform.
 
+[View the latest main-branch code coverage report](https://ccoder-co-uk.github.io/cCoder.Workflow/)
+
 ## Local Configuration
 
 Each app binds its committed `appsettings.json` directly into its root

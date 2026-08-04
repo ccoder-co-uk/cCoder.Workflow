@@ -6,16 +6,6 @@ namespace cCoder.Workflow.Models;
 
 public class WorkflowConfiguration
 {
-    public WorkflowConfiguration()
-    {
-        ConnectionString = string.Empty;
-        RootPath = "Api/Workflow";
-        ServiceUrl = "https://localhost:7100/";
-        SslPort = 443;
-        InstanceMaintenance = new WorkflowInstanceMaintenanceConfiguration();
-        QueueInstanceManagement = new WorkflowQueueInstanceManagementConfiguration();
-    }
-
     public string ConnectionString { get; set; }
 
     public bool DebugInfo { get; set; }
