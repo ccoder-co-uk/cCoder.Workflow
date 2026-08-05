@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.AppSecurity" Version="2026.8.4.2155" />
+    <PackageReference Include="cCoder.AppSecurity" Version="2026.8.5.123" />
     <PackageReference Include="cCoder.Security.Data" Version="2026.8.5.1" />
     <PackageReference Include="FluentAssertions" Version="8.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
