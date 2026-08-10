@@ -30,7 +30,7 @@ public partial class FlowDefinitionProcessingServiceTests
         // Then
         flowDefinitionServiceMock.Verify(expression: x => x.DeleteWithInstancesAsync(flowDefinitionId: entity.Id), times: Times.Once);
         flowDefinitionServiceMock.VerifyNoOtherCalls();
-        loggerMock.VerifyNoOtherCalls();
+        loggingBrokerMock.VerifyNoOtherCalls();
     }
 
 }

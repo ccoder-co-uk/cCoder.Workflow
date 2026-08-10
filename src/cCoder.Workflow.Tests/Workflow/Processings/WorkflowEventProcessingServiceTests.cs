@@ -3,13 +3,13 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Models;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
-using Microsoft.Extensions.Logging;
 using Moq;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
@@ -22,7 +22,7 @@ public partial class WorkflowEventProcessingServiceTests
     private readonly Mock<IWorkflowEventService> workflowEventServiceMock = new();
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock = new();
     private readonly Mock<IJsonBroker> jsonBrokerMock = new();
-    private readonly Mock<ILogger<WorkflowEventProcessingService>> loggerMock = new();
+    private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
     private readonly WorkflowEventProcessingService workflowEventProcessingService;
 
     public WorkflowEventProcessingServiceTests()
@@ -31,7 +31,7 @@ public partial class WorkflowEventProcessingServiceTests
             workflowEventServiceMock.Object,
             authorizationBrokerMock.Object,
             jsonBrokerMock.Object,
-            loggerMock.Object);
+            loggingBrokerMock.Object);
     }
 
     private static WorkflowEvent CreateRandomWorkflowEvent() =>

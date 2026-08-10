@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.CMS;
 using Microsoft.AspNetCore.Mvc;
 using Workflow.Web.Services.Processings;
@@ -12,7 +13,8 @@ namespace Workflow.Web.Controllers;
 
 [ApiController]
 public sealed class CoreAppController(
-    ICoreAppManager coreAppProcessingService)
+    ICoreAppManager coreAppProcessingService,
+    ILoggingBroker loggingBroker)
     : ControllerBase
 {
     [HttpGet("/Api/ContentManagement/App({key:int})")]
@@ -38,16 +40,22 @@ public sealed class CoreAppController(
                 app.ConfigJson
             });
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "App validation failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "App authorization failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "App request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }

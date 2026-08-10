@@ -225,7 +225,7 @@
     {
       "Name": "Workflow.Web.Controllers.CoreAppController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -244,7 +244,7 @@
         {
           "Id": "Workflow.Web.Controllers.CoreAppController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "key",
@@ -260,6 +260,13 @@
               "MethodId": "Workflow.Web.Exposures.ICoreAppManager.GetAppAsync(System.Int32)",
               "StandardElementType": "Exposure",
               "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [
@@ -285,7 +292,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -294,7 +302,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -303,7 +312,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -318,7 +328,7 @@
     {
       "Name": "Workflow.Web.Controllers.CoreUserController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -337,7 +347,7 @@
         {
           "Id": "Workflow.Web.Controllers.CoreUserController.Get()",
           "Name": "Get",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -348,6 +358,13 @@
               "MethodId": "Workflow.Web.Exposures.ICoreUserManager.GetUser()",
               "StandardElementType": "Exposure",
               "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [
@@ -372,7 +389,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -381,7 +399,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -396,7 +415,7 @@
     {
       "Name": "Workflow.Web.Controllers.HealthController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -415,7 +434,7 @@
         {
           "Id": "Workflow.Web.Controllers.HealthController.Get()",
           "Name": "Get",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -426,6 +445,13 @@
               "MethodId": "Workflow.Web.Exposures.IHealthManager.GetHealth()",
               "StandardElementType": "Exposure",
               "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [
@@ -450,7 +476,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -1028,21 +1055,21 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "Workflow.Web.Controllers.CoreAppController",
-      "LineNumber": 19
+      "LineNumber": 21
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "Workflow.Web.Controllers.CoreUserController",
-      "LineNumber": 19
+      "LineNumber": 21
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "Workflow.Web.Controllers.HealthController",
-      "LineNumber": 19
+      "LineNumber": 21
     }
   ]
 }

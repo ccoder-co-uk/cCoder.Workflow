@@ -27,6 +27,7 @@ public static class IServiceCollectionExtensions
     private static void AddBrokers(
         this IServiceCollection services)
     {
+        services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
         services.AddTransient<RoslynScriptDependency>();
         services.AddTransient<IScriptBroker, ScriptBroker>();
         services.AddTransient<

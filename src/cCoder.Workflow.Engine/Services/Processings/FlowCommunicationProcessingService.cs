@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class FlowCommunicationProcessingService(
-    ILogger<FlowCommunicationProcessingService> logger)
+    cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger)
     : IFlowCommunicationProcessingService
 {
     private WorkflowHubConnectionDependency connection;

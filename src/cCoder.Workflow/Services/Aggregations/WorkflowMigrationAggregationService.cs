@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
@@ -63,7 +64,11 @@ internal sealed partial class WorkflowMigrationAggregationService(
             "CalendarEvents" => ExportCalendarEvents(appId: appId),
             "Workflows" => ExportFlowDefinitions(appId: appId),
             "ScheduledTasks" => ExportScheduledTasks(appId: appId),
-            _ => new Data.Models.Packaging.Package(packageName) { Items = [] },
+            _ => new Data.Models.Packaging.Package
+            {
+                Name = packageName,
+                Items = []
+            },
         };
 
         return new WorkflowPackage
@@ -318,8 +323,9 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
     }
 
     private cCoder.Data.Models.Packaging.Package ExportCalendars(int appId) =>
-        new("Calendars")
+        new()
         {
+            Name = "Calendars",
             Items =
             [
                 new Data.Models.Packaging.PackageItem
@@ -336,8 +342,9 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
         };
 
     private cCoder.Data.Models.Packaging.Package ExportCalendarEvents(int appId) =>
-        new("CalendarEvents")
+        new()
         {
+            Name = "CalendarEvents",
             Items =
             [
                 new Data.Models.Packaging.PackageItem
@@ -362,8 +369,9 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
         };
 
     private cCoder.Data.Models.Packaging.Package ExportFlowDefinitions(int appId) =>
-        new("Workflows")
+        new()
         {
+            Name = "Workflows",
             Items =
             [
                 new Data.Models.Packaging.PackageItem
@@ -392,8 +400,9 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
         };
 
     private cCoder.Data.Models.Packaging.Package ExportScheduledTasks(int appId) =>
-        new("ScheduledTasks")
+        new()
         {
+            Name = "ScheduledTasks",
             Items =
             [
                 new Data.Models.Packaging.PackageItem

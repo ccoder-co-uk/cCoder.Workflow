@@ -22,7 +22,7 @@ namespace cCoder.Workflow.Services.Foundations;
 internal sealed partial class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
 {
     public MetadataContainerSet GetCoreMetadata() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetCoreMetadata(); });
+        TryCatch(operation: () => { return ExecuteGetCoreMetadata(); });
 
     private MetadataContainerSet ExecuteGetCoreMetadata() =>
         new()
@@ -41,7 +41,7 @@ internal sealed partial class WorkflowMetadataTypeService : IWorkflowMetadataTyp
         };
 
     public MetadataContainerSet[] GetKnownActivityTypes() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetKnownActivityTypes(); });
+        TryCatch(operation: () => { return ExecuteGetKnownActivityTypes(); });
 
     private MetadataContainerSet[] ExecuteGetKnownActivityTypes() =>
         [
@@ -116,7 +116,7 @@ types:        [
     ];
 
     public MetadataContainerSet[] GetKnownSystemTypes() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetKnownSystemTypes(); });
+        TryCatch(operation: () => { return ExecuteGetKnownSystemTypes(); });
 
     private MetadataContainerSet[] ExecuteGetKnownSystemTypes() =>
         [
@@ -141,7 +141,7 @@ types:        [
     ];
 
     public MetadataContainerSet GetSharedMetadata() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetSharedMetadata(); });
+        TryCatch(operation: () => { return ExecuteGetSharedMetadata(); });
 
     private MetadataContainerSet ExecuteGetSharedMetadata() =>
         new()
