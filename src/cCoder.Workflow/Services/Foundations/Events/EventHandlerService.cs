@@ -155,11 +155,11 @@ eventName: "flow_definition_delete",
 handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(flowDefinition: flowDefinition));
 
     void ListenToPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<(int appId, Package package), IWorkflowMigrationAggregationService>(
+        eventHubBroker.ListenToEvent<WorkflowPackageEvent, IWorkflowMigrationAggregationService>(
             eventName: "package_import",
-            handler: (service, args) => service.ImportPackageWorkflowPackageAsync(
-                appId: args.appId,
-                package: ToLocalPackage(package: args.package)));
+            handler: (service, packageEvent) => service.ImportPackageWorkflowPackageAsync(
+                appId: packageEvent.AppId,
+                package: ToLocalPackage(package: packageEvent.Package)));
 
     void ListenToWorkflowTriggerEvents<T>(string eventStem)
     {
@@ -174,9 +174,9 @@ eventName: eventName,
 handler: (service, payload) => new ValueTask(service.RaiseEvents(payload: payload, eventName: eventName)));
 
     void ListenToWorkflowPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<(int appId, Package package), IWorkflowEventCoordinationService>(
+        eventHubBroker.ListenToEvent<WorkflowPackageEvent, IWorkflowEventCoordinationService>(
 eventName: "package_import",
-handler: (service, args) => new ValueTask(service.RaiseEvents(payload: args.package, eventName: "package_import", appIdOverride: args.appId)));
+handler: (service, packageEvent) => new ValueTask(service.RaiseEvents(payload: packageEvent.Package, eventName: "package_import", appIdOverride: packageEvent.AppId)));
 
     void ListenToScheduledTaskExecuteEventsInternal() =>
         eventHubBroker.ListenToEvent<ScheduledTask, IFlowDefinitionCoordinationService>(

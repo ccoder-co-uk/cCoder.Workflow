@@ -9831,6 +9831,26 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.Workflow.Models.WorkflowPackageEvent",
+      "StandardElementType": "Model",
+      "LineNumber": 9,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [
+        {
+          "Name": "AppId",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Package",
+          "Type": "Package"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.Workflow.Models.WorkflowPackageItem",
       "StandardElementType": "Model",
       "LineNumber": 7,
@@ -17206,7 +17226,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.CalendarProcessingService.DeleteAllCalendarAsync(System.Collections.Generic.IEnumerable\u003CCalendar\u003E)",
           "Name": "DeleteAllCalendarAsync",
-          "LineNumber": 99,
+          "LineNumber": 103,
           "Inputs": [
             {
               "Name": "deletedItems",
@@ -17743,7 +17763,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.DeleteAllFlowDefinitionAsync(System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E)",
           "Name": "DeleteAllFlowDefinitionAsync",
-          "LineNumber": 153,
+          "LineNumber": 157,
           "Inputs": [
             {
               "Name": "deletedItems",
@@ -18905,7 +18925,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.DeleteAllScheduledTaskAsync(System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E)",
           "Name": "DeleteAllScheduledTaskAsync",
-          "LineNumber": 186,
+          "LineNumber": 190,
           "Inputs": [
             {
               "Name": "deletedItems",
