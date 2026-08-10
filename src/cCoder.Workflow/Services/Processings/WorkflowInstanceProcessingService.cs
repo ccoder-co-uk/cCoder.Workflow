@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using System.Text.Json;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Exposures;
@@ -19,7 +20,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
     IFlowInstanceDataManager flowInstanceDataManager,
     IServiceProvider serviceProvider,
     WorkflowConfiguration workflowConfiguration,
-    ILogger<WorkflowInstanceProcessingService> log)
+    ILoggingBroker log)
     : IWorkflowInstanceProcessingService
 {
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
@@ -52,7 +53,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
     }
 
     public object[] GetStats() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); return ExecuteGetStats(); });
+        TryCatch(operation: () => { return ExecuteGetStats(); });
 
     private object[] ExecuteGetStats()
             =>

@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
@@ -11,7 +12,6 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
-using Microsoft.Extensions.Logging;
 using Moq;
 
 
@@ -22,7 +22,7 @@ public partial class FlowDefinitionProcessingServiceTests
     private readonly Mock<IFlowDefinitionService> flowDefinitionServiceMock = new();
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock = new();
     private readonly Mock<IJsonBroker> jsonBrokerMock = new();
-    private readonly Mock<ILogger<FlowDefinitionProcessingService>> loggerMock = new();
+    private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
     private readonly FlowDefinitionProcessingService flowDefinitionProcessingService;
 
     public FlowDefinitionProcessingServiceTests()
@@ -31,7 +31,7 @@ public partial class FlowDefinitionProcessingServiceTests
             flowDefinitionServiceMock.Object,
             authorizationBrokerMock.Object,
             jsonBrokerMock.Object,
-            loggerMock.Object
+            loggingBrokerMock.Object
         );
     }
 

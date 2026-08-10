@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using System.Text;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Extensions.OData;
@@ -21,7 +22,8 @@ namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class FlowDefinitionController(
     IFlowDefinitionManager service,
-    ISSOAuthInfo authInfo) : ODataController
+    ISSOAuthInfo authInfo,
+    ILoggingBroker loggingBroker) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()
@@ -38,16 +40,22 @@ public partial class FlowDefinitionController(
                 )
                 : Ok(value: typeof(FlowDefinition).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -68,16 +76,22 @@ public partial class FlowDefinitionController(
         {
             return Ok(value: service.GetAllFlowDefinitions());
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -99,16 +113,22 @@ public partial class FlowDefinitionController(
             FlowDefinition result = service.GetFlowDefinition(flowDefinitionId: key);
             return result is null ? NotFound() : Ok(value: result);
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -135,16 +155,22 @@ public partial class FlowDefinitionController(
                 statusCode: StatusCodes.Status201Created,
                 value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -169,16 +195,22 @@ public partial class FlowDefinitionController(
 
             return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -199,16 +231,22 @@ public partial class FlowDefinitionController(
             updatedDelta.Patch(original: originalEntity);
             return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: originalEntity));
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -221,16 +259,22 @@ public partial class FlowDefinitionController(
             await service.DeleteFlowDefinitionAsync(flowDefinitionId: key);
             return NoContent();
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -245,16 +289,22 @@ public partial class FlowDefinitionController(
             string asUserId = authInfo.SSOUserId;
             return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: requestBody));
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -268,16 +318,22 @@ public partial class FlowDefinitionController(
             string script = await ReadRequestBodyAsync();
             return Ok(value: await service.ExecuteScriptAsync(script: script));
         }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException)
+        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return BadRequest(error: "The workflow request is invalid.");
         }
-        catch (System.Security.SecurityException)
+        catch (System.Security.SecurityException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }

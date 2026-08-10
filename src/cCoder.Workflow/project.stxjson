@@ -2043,6 +2043,271 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Brokers.Loggings.LoggingBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow:cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+          "FullName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+          "Name": "ILoggingBroker",
+          "Namespace": "cCoder.Workflow.Brokers.Loggings",
+          "AssemblyName": "cCoder.Workflow",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.LoggingBroker.LogDebug(System.String,System.Object[])",
+          "Name": "LogDebug",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogDebug",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogDebug(Microsoft.Extensions.Logging.ILogger,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+          "Name": "LogError",
+          "LineNumber": 26,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogError",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogError(Microsoft.Extensions.Logging.ILogger,System.Exception?,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.LoggingBroker.LogError(System.String,System.Object[])",
+          "Name": "LogError",
+          "LineNumber": 23,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.String,System.Object[])"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogError",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogError(Microsoft.Extensions.Logging.ILogger,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.LoggingBroker.LogInformation(System.String,System.Object[])",
+          "Name": "LogInformation",
+          "LineNumber": 14,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogInformation(System.String,System.Object[])"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogInformation",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogInformation(Microsoft.Extensions.Logging.ILogger,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.LoggingBroker.LogWarning(System.Exception,System.String,System.Object[])",
+          "Name": "LogWarning",
+          "LineNumber": 20,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String,System.Object[])"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogWarning",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(Microsoft.Extensions.Logging.ILogger,System.Exception?,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.LoggingBroker.LogWarning(System.String,System.Object[])",
+          "Name": "LogWarning",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.String,System.Object[])"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogWarning",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(Microsoft.Extensions.Logging.ILogger,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Brokers.OData.ODataModelBroker",
       "StandardElementType": "Broker",
       "LineNumber": 15,
@@ -4076,7 +4341,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 23,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4095,7 +4360,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.Delete(System.Int32)",
           "Name": "Delete",
-          "LineNumber": 234,
+          "LineNumber": 273,
           "Inputs": [
             {
               "Name": "key",
@@ -4105,6 +4370,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarManager",
               "MethodName": "DeleteAsync",
@@ -4137,7 +4409,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4146,7 +4419,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4159,7 +4433,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 44,
+          "LineNumber": 47,
           "Inputs": [
             {
               "Name": "key",
@@ -4184,6 +4458,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarManager",
               "MethodName": "GetAll",
               "MethodId": "cCoder.Workflow.Exposures.ICalendarManager.GetAll(System.Boolean)",
@@ -4213,7 +4494,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4222,7 +4504,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -4231,7 +4514,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4244,7 +4528,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.GetAll(ODataQueryOptions\u003CCalendar\u003E)",
           "Name": "GetAll",
-          "LineNumber": 113,
+          "LineNumber": 128,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -4254,6 +4538,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarManager",
               "MethodName": "GetAll",
@@ -4284,7 +4575,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4293,7 +4585,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4306,11 +4599,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 75,
+          "LineNumber": 84,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
               "MethodName": "Build",
@@ -4340,7 +4640,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4349,7 +4650,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4362,7 +4664,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.Post(Calendar)",
           "Name": "Post",
-          "LineNumber": 142,
+          "LineNumber": 163,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -4372,6 +4674,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarManager",
               "MethodName": "AddCalendarAsync",
@@ -4404,7 +4713,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4417,7 +4727,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.Put(System.Int32,Calendar)",
           "Name": "Put",
-          "LineNumber": 178,
+          "LineNumber": 205,
           "Inputs": [
             {
               "Name": "key",
@@ -4431,6 +4741,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarManager",
               "MethodName": "UpdateCalendarAsync",
@@ -4463,7 +4780,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4472,7 +4790,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4485,7 +4804,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarController.Put(System.Int32,Delta\u003CCalendar\u003E)",
           "Name": "Put",
-          "LineNumber": 205,
+          "LineNumber": 238,
           "Inputs": [
             {
               "Name": "key",
@@ -4499,6 +4818,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarManager",
               "MethodName": "Get",
@@ -4538,7 +4864,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4547,7 +4874,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -4556,7 +4884,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4571,7 +4900,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 24,
+      "LineNumber": 25,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4590,7 +4919,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.Delete(System.Int32)",
           "Name": "Delete",
-          "LineNumber": 236,
+          "LineNumber": 275,
           "Inputs": [
             {
               "Name": "key",
@@ -4600,6 +4929,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarEventManager",
               "MethodName": "DeleteAsync",
@@ -4632,7 +4968,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4641,7 +4978,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4654,7 +4992,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 105,
+          "LineNumber": 120,
           "Inputs": [
             {
               "Name": "key",
@@ -4679,6 +5017,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarEventManager",
               "MethodName": "GetAll",
               "MethodId": "cCoder.Workflow.Exposures.ICalendarEventManager.GetAll(System.Boolean)",
@@ -4708,7 +5053,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4717,7 +5063,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -4726,7 +5073,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4739,7 +5087,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.GetAll(ODataQueryOptions\u003CCalendarEvent\u003E)",
           "Name": "GetAll",
-          "LineNumber": 75,
+          "LineNumber": 84,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -4749,6 +5097,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarEventManager",
               "MethodName": "GetAll",
@@ -4779,7 +5134,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4788,7 +5144,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4801,11 +5158,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 37,
+          "LineNumber": 40,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
               "MethodName": "Build",
@@ -4835,7 +5199,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4844,7 +5209,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4857,7 +5223,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.Post(CalendarEvent)",
           "Name": "Post",
-          "LineNumber": 144,
+          "LineNumber": 165,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -4867,6 +5233,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarEventManager",
               "MethodName": "AddCalendarEventAsync",
@@ -4899,7 +5272,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4912,7 +5286,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.Put(System.Int32,CalendarEvent)",
           "Name": "Put",
-          "LineNumber": 180,
+          "LineNumber": 207,
           "Inputs": [
             {
               "Name": "key",
@@ -4926,6 +5300,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarEventManager",
               "MethodName": "UpdateCalendarEventAsync",
@@ -4958,7 +5339,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -4967,7 +5349,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4980,7 +5363,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.CalendarEventController.Put(System.Int32,Delta\u003CCalendarEvent\u003E)",
           "Name": "Put",
-          "LineNumber": 207,
+          "LineNumber": 240,
           "Inputs": [
             {
               "Name": "key",
@@ -4994,6 +5377,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.ICalendarEventManager",
               "MethodName": "Get",
@@ -5033,7 +5423,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5042,7 +5433,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -5051,7 +5443,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5066,7 +5459,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 22,
+      "LineNumber": 23,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -5085,7 +5478,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 217,
+          "LineNumber": 255,
           "Inputs": [
             {
               "Name": "key",
@@ -5095,6 +5488,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "DeleteFlowDefinitionAsync",
@@ -5127,7 +5527,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5136,7 +5537,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5149,7 +5551,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 95,
+          "LineNumber": 109,
           "Inputs": [
             {
               "Name": "key",
@@ -5159,6 +5561,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "GetFlowDefinition",
@@ -5191,7 +5600,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5200,7 +5610,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -5209,7 +5620,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5222,7 +5634,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.GetAll(ODataQueryOptions\u003CFlowDefinition\u003E)",
           "Name": "GetAll",
-          "LineNumber": 65,
+          "LineNumber": 73,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -5232,6 +5644,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "GetAllFlowDefinitions",
@@ -5262,7 +5681,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5271,7 +5691,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5284,11 +5705,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 27,
+          "LineNumber": 29,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
               "MethodName": "Build",
@@ -5318,7 +5746,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5327,7 +5756,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5340,7 +5770,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Post(FlowDefinition)",
           "Name": "Post",
-          "LineNumber": 125,
+          "LineNumber": 145,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -5350,6 +5780,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "AddFlowDefinitionAsync",
@@ -5382,7 +5819,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5395,7 +5833,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.PostAsync(System.Guid)",
           "Name": "PostAsync",
-          "LineNumber": 240,
+          "LineNumber": 284,
           "Inputs": [
             {
               "Name": "key",
@@ -5405,6 +5843,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "QueueFlowDefinitionAsync",
@@ -5438,7 +5883,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5447,7 +5893,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5460,11 +5907,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.PostScript()",
           "Name": "PostScript",
-          "LineNumber": 264,
+          "LineNumber": 314,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "ExecuteScriptAsync",
@@ -5495,7 +5949,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5504,7 +5959,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5517,7 +5973,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Put(System.Guid,Delta\u003CFlowDefinition\u003E)",
           "Name": "Put",
-          "LineNumber": 188,
+          "LineNumber": 220,
           "Inputs": [
             {
               "Name": "key",
@@ -5531,6 +5987,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "GetFlowDefinition",
@@ -5570,7 +6033,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5579,7 +6043,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -5588,7 +6053,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5601,7 +6067,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController.Put(System.Guid,FlowDefinition)",
           "Name": "Put",
-          "LineNumber": 161,
+          "LineNumber": 187,
           "Inputs": [
             {
               "Name": "key",
@@ -5615,6 +6081,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "UpdateFlowDefinitionAsync",
@@ -5647,7 +6120,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5656,7 +6130,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5671,7 +6146,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -5690,11 +6165,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController.GetKnownActivityTypes()",
           "Name": "GetKnownActivityTypes",
-          "LineNumber": 25,
+          "LineNumber": 27,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowMetadataTypeManager",
               "MethodName": "GetKnownActivityTypes",
@@ -5725,7 +6207,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5734,7 +6217,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5747,11 +6231,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController.GetKnownSystemTypes()",
           "Name": "GetKnownSystemTypes",
-          "LineNumber": 47,
+          "LineNumber": 55,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowMetadataTypeManager",
               "MethodName": "GetKnownSystemTypes",
@@ -5782,7 +6273,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5791,7 +6283,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5806,7 +6299,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 23,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -5825,7 +6318,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 237,
+          "LineNumber": 276,
           "Inputs": [
             {
               "Name": "key",
@@ -5835,6 +6328,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
               "MethodName": "DeleteAsync",
@@ -5867,7 +6367,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5876,7 +6377,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5889,7 +6391,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 140,
+          "LineNumber": 161,
           "Inputs": [
             {
               "Name": "key",
@@ -5914,6 +6416,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
               "MethodName": "GetAll",
               "MethodId": "cCoder.Workflow.Exposures.IFlowInstanceDataManager.GetAll(System.Boolean)",
@@ -5943,7 +6452,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -5952,7 +6462,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -5961,7 +6472,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5974,7 +6486,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.GetAll(ODataQueryOptions\u003CFlowInstanceData\u003E)",
           "Name": "GetAll",
-          "LineNumber": 110,
+          "LineNumber": 125,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -5984,6 +6496,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
               "MethodName": "GetAll",
@@ -6014,7 +6533,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6023,7 +6543,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6036,11 +6557,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 72,
+          "LineNumber": 81,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
               "MethodName": "Build",
@@ -6070,7 +6598,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6079,7 +6608,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6092,7 +6622,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.Post(FlowInstanceData)",
           "Name": "Post",
-          "LineNumber": 179,
+          "LineNumber": 206,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -6102,6 +6632,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
               "MethodName": "AddFlowInstanceDataAsync",
@@ -6134,7 +6671,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6147,7 +6685,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.Put(System.Guid,Delta\u003CFlowInstanceData\u003E)",
           "Name": "Put",
-          "LineNumber": 208,
+          "LineNumber": 241,
           "Inputs": [
             {
               "Name": "key",
@@ -6161,6 +6699,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
               "MethodName": "Get",
@@ -6200,7 +6745,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6209,7 +6755,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -6218,7 +6765,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6231,7 +6779,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController.Put(System.Guid,FlowInstanceData)",
           "Name": "Put",
-          "LineNumber": 43,
+          "LineNumber": 46,
           "Inputs": [
             {
               "Name": "key",
@@ -6245,6 +6793,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IFlowInstanceDataManager",
               "MethodName": "UpdateFlowInstanceDataAsync",
@@ -6278,7 +6833,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6287,7 +6843,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6302,7 +6859,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 24,
+      "LineNumber": 25,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -6321,7 +6878,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Delete(System.Int32)",
           "Name": "Delete",
-          "LineNumber": 262,
+          "LineNumber": 307,
           "Inputs": [
             {
               "Name": "key",
@@ -6331,6 +6888,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "DeleteAsync",
@@ -6363,7 +6927,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6372,7 +6937,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6385,7 +6951,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 131,
+          "LineNumber": 152,
           "Inputs": [
             {
               "Name": "key",
@@ -6410,6 +6976,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "GetAll",
               "MethodId": "cCoder.Workflow.Exposures.IScheduledTaskManager.GetAll(System.Boolean)",
@@ -6439,7 +7012,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6448,7 +7022,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -6457,7 +7032,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6470,7 +7046,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.GetAll(ODataQueryOptions\u003CScheduledTask\u003E)",
           "Name": "GetAll",
-          "LineNumber": 101,
+          "LineNumber": 116,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -6480,6 +7056,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "GetAll",
@@ -6510,7 +7093,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6519,7 +7103,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6532,11 +7117,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 63,
+          "LineNumber": 72,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
               "MethodName": "Build",
@@ -6566,7 +7158,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6575,7 +7168,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6588,7 +7182,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Post(ScheduledTask)",
           "Name": "Post",
-          "LineNumber": 170,
+          "LineNumber": 197,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -6598,6 +7192,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "AddScheduledTaskAsync",
@@ -6630,7 +7231,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6643,7 +7245,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.PostAsync(System.Int32,System.Boolean)",
           "Name": "PostAsync",
-          "LineNumber": 38,
+          "LineNumber": 41,
           "Inputs": [
             {
               "Name": "key",
@@ -6657,6 +7259,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "ExecuteAsync",
@@ -6689,7 +7298,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6698,7 +7308,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6711,7 +7322,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Put(System.Int32,Delta\u003CScheduledTask\u003E)",
           "Name": "Put",
-          "LineNumber": 233,
+          "LineNumber": 272,
           "Inputs": [
             {
               "Name": "key",
@@ -6725,6 +7336,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "Get",
@@ -6764,7 +7382,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6773,7 +7392,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -6782,7 +7402,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6795,7 +7416,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Put(System.Int32,ScheduledTask)",
           "Name": "Put",
-          "LineNumber": 206,
+          "LineNumber": 239,
           "Inputs": [
             {
               "Name": "key",
@@ -6809,6 +7430,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IScheduledTaskManager",
               "MethodName": "UpdateScheduledTaskAsync",
@@ -6841,7 +7469,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6850,7 +7479,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6865,7 +7495,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 23,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -6884,7 +7514,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 232,
+          "LineNumber": 271,
           "Inputs": [
             {
               "Name": "key",
@@ -6894,6 +7524,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowEventManager",
               "MethodName": "DeleteAsync",
@@ -6926,7 +7563,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -6935,7 +7573,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6948,7 +7587,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 101,
+          "LineNumber": 116,
           "Inputs": [
             {
               "Name": "key",
@@ -6973,6 +7612,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowEventManager",
               "MethodName": "GetAll",
               "MethodId": "cCoder.Workflow.Exposures.IWorkflowEventManager.GetAll(System.Boolean)",
@@ -7002,7 +7648,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -7011,7 +7658,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -7020,7 +7668,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7033,7 +7682,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.GetAll(ODataQueryOptions\u003CWorkflowEvent\u003E)",
           "Name": "GetAll",
-          "LineNumber": 71,
+          "LineNumber": 80,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -7043,6 +7692,13 @@
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowEventManager",
               "MethodName": "GetAll",
@@ -7073,7 +7729,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -7082,7 +7739,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7095,11 +7753,18 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 33,
+          "LineNumber": 36,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
               "MethodName": "Build",
@@ -7129,7 +7794,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -7138,7 +7804,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7151,7 +7818,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.Post(WorkflowEvent)",
           "Name": "Post",
-          "LineNumber": 140,
+          "LineNumber": 161,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -7161,6 +7828,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowEventManager",
               "MethodName": "AddWorkflowEventAsync",
@@ -7193,7 +7867,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7206,7 +7881,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.Put(System.Guid,Delta\u003CWorkflowEvent\u003E)",
           "Name": "Put",
-          "LineNumber": 203,
+          "LineNumber": 236,
           "Inputs": [
             {
               "Name": "key",
@@ -7220,6 +7895,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowEventManager",
               "MethodName": "Get",
@@ -7259,7 +7941,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -7268,7 +7951,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             },
             {
               "StatusCode": 404,
@@ -7277,7 +7961,8 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7290,7 +7975,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController.Put(System.Guid,WorkflowEvent)",
           "Name": "Put",
-          "LineNumber": 176,
+          "LineNumber": 203,
           "Inputs": [
             {
               "Name": "key",
@@ -7304,6 +7989,13 @@
           "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
             {
               "TypeName": "cCoder.Workflow.Exposures.IWorkflowEventManager",
               "MethodName": "UpdateWorkflowEventAsync",
@@ -7336,7 +8028,8 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": false
             },
             {
               "StatusCode": 400,
@@ -7345,7 +8038,8 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -9212,7 +9906,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService.AddFlowDefinitionAsync(FlowDefinition)",
           "Name": "AddFlowDefinitionAsync",
-          "LineNumber": 44,
+          "LineNumber": 43,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -9262,7 +9956,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService.DeleteFlowDefinitionAsync(System.Guid)",
           "Name": "DeleteFlowDefinitionAsync",
-          "LineNumber": 66,
+          "LineNumber": 65,
           "Inputs": [
             {
               "Name": "flowDefinitionId",
@@ -9312,7 +10006,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService.ExecuteScriptAsync(System.String)",
           "Name": "ExecuteScriptAsync",
-          "LineNumber": 104,
+          "LineNumber": 103,
           "Inputs": [
             {
               "Name": "script",
@@ -9443,7 +10137,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService.QueueFlowDefinitionAsync(System.Guid,System.String,System.String)",
           "Name": "QueueFlowDefinitionAsync",
-          "LineNumber": 77,
+          "LineNumber": 76,
           "Inputs": [
             {
               "Name": "flowDefinitionId",
@@ -9494,7 +10188,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService.UpdateFlowDefinitionAsync(FlowDefinition)",
           "Name": "UpdateFlowDefinitionAsync",
-          "LineNumber": 55,
+          "LineNumber": 54,
           "Inputs": [
             {
               "Name": "updatedEntity",
@@ -9546,7 +10240,7 @@
     {
       "Name": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService",
       "StandardElementType": "AggregationService",
-      "LineNumber": 21,
+      "LineNumber": 22,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -9567,7 +10261,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 55,
+          "LineNumber": 56,
           "Inputs": [
             {
               "Name": "appId",
@@ -9610,7 +10304,7 @@
         {
           "Id": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService.ImportPackageWorkflowPackageAsync(System.Int32,cCoder.Workflow.Models.WorkflowPackage)",
           "Name": "ImportPackageWorkflowPackageAsync",
-          "LineNumber": 25,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "appId",
@@ -16900,7 +17594,7 @@
     {
       "Name": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 16,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -16921,7 +17615,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.AddFlowDefinitionAsync(FlowDefinition)",
           "Name": "AddFlowDefinitionAsync",
-          "LineNumber": 77,
+          "LineNumber": 78,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -16963,7 +17657,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.AddOrUpdateFlowDefinition(System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E)",
           "Name": "AddOrUpdateFlowDefinition",
-          "LineNumber": 107,
+          "LineNumber": 108,
           "Inputs": [
             {
               "Name": "items",
@@ -17003,7 +17697,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.AuthorizeFlowDefinitionExecution(System.String,System.Int32?)",
           "Name": "AuthorizeFlowDefinitionExecution",
-          "LineNumber": 23,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "userId",
@@ -17049,7 +17743,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.DeleteAllFlowDefinitionAsync(System.Collections.Generic.IEnumerable\u003CFlowDefinition\u003E)",
           "Name": "DeleteAllFlowDefinitionAsync",
-          "LineNumber": 152,
+          "LineNumber": 153,
           "Inputs": [
             {
               "Name": "deletedItems",
@@ -17091,7 +17785,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 93,
+          "LineNumber": 94,
           "Inputs": [
             {
               "Name": "flowDefinitionId",
@@ -17133,7 +17827,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.DeleteByAppIdAsync(System.Int32)",
           "Name": "DeleteByAppIdAsync",
-          "LineNumber": 101,
+          "LineNumber": 102,
           "Inputs": [
             {
               "Name": "appId",
@@ -17172,7 +17866,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 61,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "flowDefinitionId",
@@ -17214,7 +17908,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 69,
+          "LineNumber": 70,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -17253,7 +17947,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.ParseFlowDefinition(System.String)",
           "Name": "ParseFlowDefinition",
-          "LineNumber": 40,
+          "LineNumber": 41,
           "Inputs": [
             {
               "Name": "definitionJson",
@@ -17300,7 +17994,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.ParseFlowDefinitionData(System.String)",
           "Name": "ParseFlowDefinitionData",
-          "LineNumber": 47,
+          "LineNumber": 48,
           "Inputs": [
             {
               "Name": "args",
@@ -17347,7 +18041,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.SerializeFlowDefinitionContext(System.Object)",
           "Name": "SerializeFlowDefinitionContext",
-          "LineNumber": 54,
+          "LineNumber": 55,
           "Inputs": [
             {
               "Name": "context",
@@ -17394,7 +18088,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService.UpdateFlowDefinitionAsync(FlowDefinition)",
           "Name": "UpdateFlowDefinitionAsync",
-          "LineNumber": 85,
+          "LineNumber": 86,
           "Inputs": [
             {
               "Name": "updatedEntity",
@@ -18108,7 +18802,7 @@
     {
       "Name": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 14,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -18461,7 +19155,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.IsScheduledTaskMigrationActive()",
           "Name": "IsScheduledTaskMigrationActive",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [],
           "ReturnType": "System.Boolean",
           "Implements": [
@@ -18495,13 +19189,21 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogNoScheduledTasksDueAsync()",
           "Name": "LogNoScheduledTasksDueAsync",
-          "LineNumber": 23,
+          "LineNumber": 24,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogNoScheduledTasksDueAsync()"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogDebug",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -18540,7 +19242,15 @@
           "Implements": [
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTaskCompleteAsync(ScheduledTask)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogDebug",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -18579,7 +19289,15 @@
           "Implements": [
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTaskRunningAsync(ScheduledTask)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogDebug",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -18618,7 +19336,15 @@
           "Implements": [
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTaskSkippedAsync(ScheduledTask)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogDebug",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -18657,7 +19383,15 @@
           "Implements": [
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTasksExecutedAsync(System.Int32)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogInformation",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogInformation(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -18696,7 +19430,15 @@
           "Implements": [
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTasksRunningAsync(System.Int32)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogInformation",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogInformation(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -18908,7 +19650,7 @@
     {
       "Name": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -18929,7 +19671,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.AddOrUpdateWorkflowEvent(System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E)",
           "Name": "AddOrUpdateWorkflowEvent",
-          "LineNumber": 145,
+          "LineNumber": 146,
           "Inputs": [
             {
               "Name": "items",
@@ -18969,7 +19711,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.AddWorkflowEventAsync(WorkflowEvent)",
           "Name": "AddWorkflowEventAsync",
-          "LineNumber": 119,
+          "LineNumber": 120,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -19011,7 +19753,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.DeleteAllWorkflowEventAsync(System.Collections.Generic.IEnumerable\u003CWorkflowEvent\u003E)",
           "Name": "DeleteAllWorkflowEventAsync",
-          "LineNumber": 182,
+          "LineNumber": 183,
           "Inputs": [
             {
               "Name": "deletedItems",
@@ -19053,7 +19795,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 137,
+          "LineNumber": 138,
           "Inputs": [
             {
               "Name": "workflowEventId",
@@ -19095,7 +19837,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 84,
+          "LineNumber": 85,
           "Inputs": [
             {
               "Name": "workflowEventId",
@@ -19137,7 +19879,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 92,
+          "LineNumber": 93,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19176,7 +19918,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.GetSubscriptionsAsync(System.Int32,System.String)",
           "Name": "GetSubscriptionsAsync",
-          "LineNumber": 100,
+          "LineNumber": 101,
           "Inputs": [
             {
               "Name": "appId",
@@ -19219,7 +19961,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.LogWorkflowEventQueueFailureAsync(WorkflowEvent,System.Exception)",
           "Name": "LogWorkflowEventQueueFailureAsync",
-          "LineNumber": 57,
+          "LineNumber": 58,
           "Inputs": [
             {
               "Name": "workflowEvent",
@@ -19234,7 +19976,15 @@
           "Implements": [
             "cCoder.Workflow.Services.Processings.IWorkflowEventProcessingService.LogWorkflowEventQueueFailureAsync(WorkflowEvent,System.Exception)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogWarning",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -19262,7 +20012,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.PrepareWorkflowEventDispatch(System.Object,System.String,System.Int32?)",
           "Name": "PrepareWorkflowEventDispatch",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "payload",
@@ -19309,7 +20059,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.SerializeWorkflowEventPayload(System.Object)",
           "Name": "SerializeWorkflowEventPayload",
-          "LineNumber": 50,
+          "LineNumber": 51,
           "Inputs": [
             {
               "Name": "payload",
@@ -19356,7 +20106,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService.UpdateWorkflowEventAsync(WorkflowEvent)",
           "Name": "UpdateWorkflowEventAsync",
-          "LineNumber": 128,
+          "LineNumber": 129,
           "Inputs": [
             {
               "Name": "updatedEntity",
@@ -19400,7 +20150,7 @@
     {
       "Name": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 17,
+      "LineNumber": 18,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -19421,7 +20171,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.ExecuteWaitingQueuedInstanceByIdAsync(System.Guid)",
           "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
-          "LineNumber": 152,
+          "LineNumber": 153,
           "Inputs": [
             {
               "Name": "flowInstanceDataId",
@@ -19460,7 +20210,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 25,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19507,7 +20257,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.GetStats()",
           "Name": "GetStats",
-          "LineNumber": 54,
+          "LineNumber": 55,
           "Inputs": [],
           "ReturnType": "System.Object[]",
           "Implements": [
@@ -19541,7 +20291,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 33,
+          "LineNumber": 34,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19580,7 +20330,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunInstanceMaintenanceAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceAsync",
-          "LineNumber": 81,
+          "LineNumber": 82,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19619,7 +20369,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunInstanceMaintenanceContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceContinuouslyAsync",
-          "LineNumber": 61,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19658,7 +20408,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
-          "LineNumber": 121,
+          "LineNumber": 122,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19697,7 +20447,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
-          "LineNumber": 101,
+          "LineNumber": 102,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -21507,6 +22257,200 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])",
+          "Name": "LogDebug",
+          "LineNumber": 9,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
+          "Name": "LogError",
+          "LineNumber": 14,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.String,System.Object[])",
+          "Name": "LogError",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogInformation(System.String,System.Object[])",
+          "Name": "LogInformation",
+          "LineNumber": 10,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String,System.Object[])",
+          "Name": "LogWarning",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.String,System.Object[])",
+          "Name": "LogWarning",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object[]"
+            }
+          ],
+          "ReturnType": "System.Void",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -29138,7 +30082,15 @@
   "Links": [
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
@@ -29146,7 +30098,15 @@
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
       "ToType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
@@ -29154,11 +30114,23 @@
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.ScheduledTaskOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
@@ -29394,6 +30366,10 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.FlowDefinitionProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.FlowDefinitionService"
     },
     {
@@ -29407,6 +30383,10 @@
     {
       "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.Events.ScheduledTaskEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService",
@@ -29430,7 +30410,15 @@
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
@@ -29451,28 +30439,21 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 44
+      "LineNumber": 47
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 113
+      "LineNumber": 128
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 142
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 178
+      "LineNumber": 163
     },
     {
       "Code": "STXAPI005",
@@ -29486,35 +30467,35 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
-      "LineNumber": 234
+      "LineNumber": 238
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarController",
+      "LineNumber": 273
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 75
+      "LineNumber": 84
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 105
+      "LineNumber": 120
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 144
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 180
+      "LineNumber": 165
     },
     {
       "Code": "STXAPI005",
@@ -29528,196 +30509,196 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
-      "LineNumber": 236
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 65
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 95
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 125
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 161
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 188
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 217
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
       "LineNumber": 240
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
+      "LineNumber": 275
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "LineNumber": 264
+      "LineNumber": 73
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 109
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 145
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 187
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 220
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 255
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 284
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "LineNumber": 314
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
-      "LineNumber": 25
+      "LineNumber": 27
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionMetadataController",
-      "LineNumber": 47
+      "LineNumber": 55
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 43
+      "LineNumber": 46
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 110
+      "LineNumber": 125
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 140
+      "LineNumber": 161
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 179
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 208
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
-      "LineNumber": 237
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 38
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 101
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 131
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 170
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
       "LineNumber": 206
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 233
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
+      "LineNumber": 241
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
+      "LineNumber": 276
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
-      "LineNumber": 262
+      "LineNumber": 41
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "LineNumber": 116
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "LineNumber": 152
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "LineNumber": 197
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "LineNumber": 239
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "LineNumber": 272
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "LineNumber": 307
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 71
+      "LineNumber": 80
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 101
+      "LineNumber": 116
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 140
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 176
+      "LineNumber": 161
     },
     {
       "Code": "STXAPI005",
@@ -29731,7 +30712,14 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
-      "LineNumber": 232
+      "LineNumber": 236
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.Workflow.Exposures.Controllers.WorkflowEventController",
+      "LineNumber": 271
     }
   ]
 }

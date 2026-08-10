@@ -35,7 +35,6 @@ internal sealed partial class FlowDefinitionAggregationService(
     public IQueryable<FlowDefinition> GetAllFlowDefinitions() =>
         TryCatch(operation: () =>
         {
-            ValidateInputs(inputs: []);
 
             return GetFlowDefinitionOrchestrationService()
                 .GetAll();

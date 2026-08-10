@@ -25,7 +25,7 @@ namespace cCoder.Workflow.Services.Foundations.Events;
 internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker) : IEventHandlerService
 {
     public void ListenToAllEvents() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); ExecuteListenToAllEvents(); });
+        TryCatch(operation: () => { ExecuteListenToAllEvents(); });
 
     private void ExecuteListenToAllEvents()
     {
@@ -37,13 +37,13 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     }
 
     public void ListenToScheduledTaskExecuteEvents() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); ExecuteListenToScheduledTaskExecuteEvents(); });
+        TryCatch(operation: () => { ExecuteListenToScheduledTaskExecuteEvents(); });
 
     private void ExecuteListenToScheduledTaskExecuteEvents() =>
         ListenToScheduledTaskExecuteEventsInternal();
 
     public void ListenToQueuedFlowInstanceExecuteEvents() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); ExecuteListenToQueuedFlowInstanceExecuteEvents(); });
+        TryCatch(operation: () => { ExecuteListenToQueuedFlowInstanceExecuteEvents(); });
 
     private void ExecuteListenToQueuedFlowInstanceExecuteEvents() =>
         ListenToQueuedFlowInstanceExecuteEventsInternal();

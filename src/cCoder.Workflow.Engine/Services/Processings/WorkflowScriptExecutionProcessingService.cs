@@ -15,7 +15,7 @@ namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class WorkflowScriptExecutionProcessingService(
     IScriptBroker scriptBroker,
-    ILogger<WorkflowScriptExecutionProcessingService> logger)
+    cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger)
     : IWorkflowScriptExecutionProcessingService
 {
     private static readonly string[] Imports = Activity.ScriptImports;

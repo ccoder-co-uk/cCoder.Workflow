@@ -7,10 +7,10 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -20,12 +20,14 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 {
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
     private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock;
+    private readonly Mock<ILoggingBroker> loggingBrokerMock;
     private readonly WorkflowInstanceProcessingService processingService;
 
     public WorkflowInstanceProcessingServiceTests()
     {
         workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(behavior: MockBehavior.Strict);
         flowInstanceDataManagerMock = new Mock<IFlowInstanceDataManager>(behavior: MockBehavior.Strict);
+        loggingBrokerMock = new();
         WorkflowConfiguration configuration = new()
         {
             ServiceUrl = "https://workflow.test/",
@@ -46,7 +48,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             flowInstanceDataManagerMock.Object,
             Mock.Of<IServiceProvider>(),
             configuration,
-            NullLogger<WorkflowInstanceProcessingService>.Instance);
+            loggingBrokerMock.Object);
     }
 
     [Theory]

@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Activities.Models;
@@ -17,7 +18,7 @@ internal sealed partial class FlowDefinitionProcessingService(
     IFlowDefinitionService service,
     IAuthorizationBroker authorizationBroker,
     IJsonBroker jsonBroker,
-    ILogger<FlowDefinitionProcessingService> log)
+    ILoggingBroker log)
     : IFlowDefinitionProcessingService
 {
     public bool AuthorizeFlowDefinitionExecution(string userId, int? appId) =>

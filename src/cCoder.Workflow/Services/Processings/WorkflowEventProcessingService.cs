@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
@@ -14,7 +15,7 @@ internal sealed partial class WorkflowEventProcessingService(
     IWorkflowEventService service,
     IAuthorizationBroker authorizationBroker,
     IJsonBroker jsonBroker,
-    ILogger<WorkflowEventProcessingService> logger)
+    ILoggingBroker logger)
         : IWorkflowEventProcessingService
 {
     public (int? AppId, string EventContext) PrepareWorkflowEventDispatch(

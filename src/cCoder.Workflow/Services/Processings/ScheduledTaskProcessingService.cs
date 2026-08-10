@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
@@ -14,17 +15,16 @@ namespace cCoder.Workflow.Services.Processings;
 internal sealed partial class ScheduledTaskProcessingService(
     IScheduledTaskService service,
     WorkflowConfiguration configuration,
-    ILogger<ScheduledTaskProcessingService> logger)
+    ILoggingBroker logger)
     : IScheduledTaskProcessingService
 {
     public bool IsScheduledTaskMigrationActive() =>
-        TryCatch(operation: () => { ValidateInputs(inputs: []); return configuration.IsMigrating; });
+        TryCatch(operation: () => { return configuration.IsMigrating; });
 
     public ValueTask LogNoScheduledTasksDueAsync() =>
         TryCatch(
             operation: () =>
             {
-                ValidateInputs(inputs: []);
                 logger.LogDebug(message: "No scheduled tasks are due to run.");
                 return ValueTask.CompletedTask;
             },
