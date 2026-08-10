@@ -21,6 +21,11 @@ public sealed partial class WebApplicationExtensionsTests
         TestWorkflowEventHandlers handlers = new();
         builder.Services.AddLogging();
         builder.Services.AddSingleton<IWorkflowEventHandlers>(implementationInstance: handlers);
+        builder.Services.AddSingleton<cCoder.Data.Exposures.IMetadataTypeCache, TestMetadataTypeCache>();
+
+        builder.Services.AddSingleton<cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService>(
+            implementationInstance: new MockWorkflowMetadataTypeService());
+
         await using WebApplication app = builder.Build();
 
         // When

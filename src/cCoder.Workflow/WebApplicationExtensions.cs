@@ -29,6 +29,8 @@ public static partial class WebApplicationExtensions
             return app;
         }
 
+        PopulateMetadataTypeCache(app: app);
+
         return app.UseWorkflowEventHandlers()
             .UseWorkflowScheduledTaskExecutionHandlers()
             .UseWorkflowQueuedInstanceExecutionHandlers();
