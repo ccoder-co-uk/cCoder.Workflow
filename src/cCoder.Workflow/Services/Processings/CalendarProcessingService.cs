@@ -70,8 +70,12 @@ internal sealed partial class CalendarProcessingService(
         {
             try
             {
+                bool exists = item.Id != 0
+                    && GetAll(ignoreFilters: true)
+                        .Any(predicate: calendar => calendar.Id == item.Id);
+
                 Calendar savedItem =
-                    item.Id == 0
+                    !exists
                         ? await AddCalendarAsync(newEntity: item)
                         : await UpdateCalendarAsync(updatedEntity: item);
 
@@ -79,7 +83,7 @@ internal sealed partial class CalendarProcessingService(
                 {
                     Success = true,
                     Item = savedItem,
-                    Message = item.Id == 0 ? "Added Successfully" : "Updated Successfully"
+                    Message = !exists ? "Added Successfully" : "Updated Successfully"
                 });
             }
             catch (Exception ex)

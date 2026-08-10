@@ -123,8 +123,12 @@ internal sealed partial class FlowDefinitionProcessingService(
         {
             try
             {
+                bool exists = item.Id != Guid.Empty
+                    && GetAll(ignoreFilters: true)
+                        .Any(predicate: flow => flow.Id == item.Id);
+
                 FlowDefinition savedItem =
-                    item.Id == Guid.Empty
+                    !exists
                         ? await AddFlowDefinitionAsync(newEntity: item)
                         : await UpdateFlowDefinitionAsync(updatedEntity: item);
 
@@ -132,7 +136,7 @@ internal sealed partial class FlowDefinitionProcessingService(
                 {
                     Success = true,
                     Item = savedItem,
-                    Message = item.Id == Guid.Empty ? "Added Successfully" : "Updated Successfully"
+                    Message = !exists ? "Added Successfully" : "Updated Successfully"
                 });
             }
             catch (Exception ex)
