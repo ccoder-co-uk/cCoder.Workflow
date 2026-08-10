@@ -155,7 +155,7 @@ public static partial class IServiceCollectionExtensions
         services.AddEventingForType<MailServer>();
         services.AddEventingForType<Package>();
         services.AddEventingForType<PackageItem>();
-        services.AddEventingForType<(int, Package)>();
+        services.AddEventingForType<WorkflowPackageEvent>();
         services.AddEventingForType<Page>();
         services.AddEventingForType<PageInfo>();
         services.AddEventingForType<PageRole>();
