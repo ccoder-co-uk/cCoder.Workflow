@@ -157,8 +157,12 @@ internal sealed partial class ScheduledTaskProcessingService(
         {
             try
             {
+                bool exists = item.Id != 0
+                    && GetAll(ignoreFilters: true)
+                        .Any(predicate: task => task.Id == item.Id);
+
                 ScheduledTask savedItem =
-                    item.Id == 0
+                    !exists
                         ? await AddScheduledTaskAsync(newEntity: item)
                         : await UpdateScheduledTaskAsync(updatedEntity: item);
 
@@ -166,7 +170,7 @@ internal sealed partial class ScheduledTaskProcessingService(
                 {
                     Success = true,
                     Item = savedItem,
-                    Message = item.Id == 0 ? "Added Successfully" : "Updated Successfully"
+                    Message = !exists ? "Added Successfully" : "Updated Successfully"
                 });
             }
             catch (Exception ex)
