@@ -8,6 +8,7 @@ using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.OData.Deltas;
 using Moq;
 using Xunit;
@@ -48,52 +49,56 @@ public partial class WorkflowEventControllerTests
         result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
     }
 
-    [Fact]
-    public async Task ShouldReturnServerErrorWhenPostFailsAsync()
+    [Theory]
+    [MemberData(nameof(FailureExceptions))]
+    public async Task ShouldReturnServerErrorWhenPostFailsAsync(Exception exception, int expectedStatusCode)
     {
         WorkflowEvent item = new();
         workflowEventManagerMock.Setup(expression: service => service.AddWorkflowEventAsync(item))
-            .Throws(exception: new Exception());
+            .Throws(exception: exception);
 
         IActionResult result = await controller.Post(newEntity: item);
 
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
+        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
 
-    [Fact]
-    public async Task ShouldReturnServerErrorWhenPutFailsAsync()
+    [Theory]
+    [MemberData(nameof(FailureExceptions))]
+    public async Task ShouldReturnServerErrorWhenPutFailsAsync(Exception exception, int expectedStatusCode)
     {
         WorkflowEvent item = new();
         workflowEventManagerMock.Setup(expression: service => service.UpdateWorkflowEventAsync(item))
-            .Throws(exception: new Exception());
+            .Throws(exception: exception);
 
         IActionResult result = await controller.Put(key: Guid.Empty, updatedEntity: item);
 
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
+        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
 
-    [Fact]
-    public async Task ShouldReturnServerErrorWhenPatchFailsAsync()
+    [Theory]
+    [MemberData(nameof(FailureExceptions))]
+    public async Task ShouldReturnServerErrorWhenPatchFailsAsync(Exception exception, int expectedStatusCode)
     {
         workflowEventManagerMock.Setup(expression: service => service.Get(workflowEventId: Guid.Empty))
-            .Throws(exception: new Exception());
+            .Throws(exception: exception);
 
         IActionResult result = await controller.Put(
             key: Guid.Empty,
             updatedDelta: new Delta<WorkflowEvent>());
 
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
+        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
 
-    [Fact]
-    public async Task ShouldReturnServerErrorWhenDeleteFailsAsync()
+    [Theory]
+    [MemberData(nameof(FailureExceptions))]
+    public async Task ShouldReturnServerErrorWhenDeleteFailsAsync(Exception exception, int expectedStatusCode)
     {
         workflowEventManagerMock.Setup(expression: service => service.DeleteAsync(workflowEventId: Guid.Empty))
-            .Throws(exception: new Exception());
+            .Throws(exception: exception);
 
         IActionResult result = await controller.Delete(key: Guid.Empty);
 
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
+        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
 }
 

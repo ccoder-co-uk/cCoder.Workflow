@@ -10,6 +10,7 @@ using cCoder.Workflow.Exposures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
@@ -18,6 +19,13 @@ public partial class WorkflowEventControllerTests
     private readonly Mock<IWorkflowEventManager> workflowEventManagerMock = new();
     private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
     private readonly WorkflowEventController controller;
+
+    public static TheoryData<Exception, int> FailureExceptions => new()
+    {
+        { new cCoder.Workflow.Models.Exceptions.WorkflowValidationException(innerException: new Exception()), 400 },
+        { new System.Security.SecurityException(), 403 },
+        { new Exception(), 500 }
+    };
 
     public WorkflowEventControllerTests()
     {

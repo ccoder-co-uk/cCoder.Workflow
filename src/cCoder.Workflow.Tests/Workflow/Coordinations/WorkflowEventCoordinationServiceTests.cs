@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+#pragma warning disable STXFORMAT005, STXFORMAT009, STXTEST005
+
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
@@ -53,3 +55,5 @@ public partial class WorkflowEventCoordinationServiceTests
             ExecuteAsUser = new User { Id = executeAs },
         };
 }
+
+#pragma warning restore STXFORMAT005, STXFORMAT009, STXTEST005

@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+#pragma warning disable STXFORMAT005, STXFORMAT009, STXTEST005
+
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Coordinations;
 using cCoder.Data.Models.CMS;
@@ -44,3 +46,5 @@ public partial class FlowDefinitionCoordinationServiceTests
             )
             .Build();
 }
+
+#pragma warning restore STXFORMAT005, STXFORMAT009, STXTEST005
