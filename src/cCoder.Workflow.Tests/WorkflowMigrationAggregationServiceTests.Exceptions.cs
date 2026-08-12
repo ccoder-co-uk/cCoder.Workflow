@@ -14,6 +14,7 @@ using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 
 namespace cCoder.Workflow.Tests;
 
+#pragma warning disable STXFORMAT009
 public sealed partial class WorkflowMigrationAggregationServiceTests
 {
     public static TheoryData<Exception, Type> ExceptionMappings =>
@@ -96,3 +97,4 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
             .BeOfType(expectedType: expectedType);
     }
 }
+#pragma warning restore STXFORMAT009
