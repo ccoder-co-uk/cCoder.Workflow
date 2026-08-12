@@ -12,6 +12,7 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Processings;
 
+#pragma warning disable STXFORMAT009
 public partial class FlowDefinitionProcessingServiceTests
 {
     [Fact]
@@ -37,3 +38,4 @@ public partial class FlowDefinitionProcessingServiceTests
     }
 
 }
+#pragma warning restore STXFORMAT009
