@@ -13,7 +13,7 @@ namespace cCoder.Workflow.Engine.Tests;
 public sealed partial class IServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddWorkflowEngine_RegistersResolvableEngineServices()
+    public async Task ShouldRegisterResolvableWorkflowEngineServicesAsync()
     {
         // Given
 
@@ -21,16 +21,22 @@ public sealed partial class IServiceCollectionExtensionsTests
         services.AddWorkflowEngineHostedServices();
 
         // Then
-        using ServiceProvider serviceProvider = services.BuildServiceProvider(
-options: new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
+        await using ServiceProvider serviceProvider =
+            services.BuildServiceProvider(
+                options: new ServiceProviderOptions
+                {
+                    ValidateOnBuild = true,
+                    ValidateScopes = true
+                });
 
-        serviceProvider.GetRequiredService<IFlowRunner>()
+        serviceProvider
+            .GetRequiredService<IFlowRunner>()
             .Should()
             .NotBeNull();
 
-        serviceProvider.GetRequiredService<IWorkflowScriptExecutionService>()
+        serviceProvider
+            .GetRequiredService<IWorkflowScriptExecutionService>()
             .Should()
             .NotBeNull();
-
     }
 }

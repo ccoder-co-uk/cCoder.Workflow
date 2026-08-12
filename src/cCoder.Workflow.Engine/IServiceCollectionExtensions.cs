@@ -63,6 +63,9 @@ public static class IServiceCollectionExtensions
             IFlowCommunicationProcessingService,
             FlowCommunicationProcessingService>();
         services.AddTransient<
+            IWorkflowHubConnectionBroker,
+            WorkflowHubConnectionBroker>();
+        services.AddTransient<
             IFlowInstanceProcessingService,
             FlowInstanceProcessingService>();
         services.AddTransient<

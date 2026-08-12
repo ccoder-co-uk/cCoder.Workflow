@@ -4,17 +4,18 @@
 
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
+using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Extensions;
-using cCoder.Workflow.Engine.Dependencies;
 using Microsoft.Extensions.Logging;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class FlowCommunicationProcessingService(
-    cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger)
+    cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger,
+    IWorkflowHubConnectionBroker workflowHubConnectionBroker)
     : IFlowCommunicationProcessingService
 {
-    private WorkflowHubConnectionDependency connection;
+    private bool isConnected;
 
     public ValueTask ConnectWorkflowRequestAsync(
         WorkflowRequest workflowRequest) =>
@@ -24,10 +25,10 @@ internal sealed partial class FlowCommunicationProcessingService(
 
             try
             {
-                connection = new(
+                await workflowHubConnectionBroker.ConnectAsync(
                     url: $"{workflowRequest.Api}Hubs/Workflow");
 
-                await connection.ConnectAsync();
+                isConnected = true;
 
                 await ExecuteLogWorkflowRequestAsync(
                     workflowRequest: workflowRequest,
@@ -38,12 +39,8 @@ internal sealed partial class FlowCommunicationProcessingService(
             }
             catch (Exception exception)
             {
-                if (connection is not null)
-                {
-                    await connection.DisposeAsync();
-                }
-
-                connection = null;
+                await workflowHubConnectionBroker.DisconnectAsync();
+                isConnected = false;
 
                 await ExecuteLogWorkflowRequestAsync(
                     workflowRequest: workflowRequest,
@@ -103,9 +100,9 @@ internal sealed partial class FlowCommunicationProcessingService(
 
         try
         {
-            if (connection is not null)
+            if (isConnected)
             {
-                await connection.SendAsync(
+                await workflowHubConnectionBroker.SendAsync(
                     level: level.ToString()
                         .ToLowerInvariant(),
                     message: message,
@@ -114,12 +111,8 @@ internal sealed partial class FlowCommunicationProcessingService(
         }
         catch (Exception exception)
         {
-            if (connection is not null)
-            {
-                await connection.DisposeAsync();
-            }
-
-            connection = null;
+            await workflowHubConnectionBroker.DisconnectAsync();
+            isConnected = false;
 
             await ExecuteLogWorkflowRequestAsync(
                 workflowRequest: workflowRequest,
