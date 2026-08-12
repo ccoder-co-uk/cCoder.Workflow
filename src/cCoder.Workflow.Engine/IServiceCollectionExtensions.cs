@@ -27,9 +27,17 @@ public static class IServiceCollectionExtensions
     private static void AddBrokers(
         this IServiceCollection services)
     {
-        services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
+        services.AddTransient<
+            Brokers.Loggings.ILoggingBroker,
+            Brokers.Loggings.LoggingBroker>();
         services.AddTransient<RoslynScriptDependency>();
         services.AddTransient<IScriptBroker, ScriptBroker>();
+        services.AddTransient<
+            IWorkflowHttpClientBroker,
+            WorkflowHttpClientBroker>();
+        services.AddTransient<
+            IWorkflowHubConnectionBroker,
+            WorkflowHubConnectionBroker>();
         services.AddTransient<
             IWorkflowContextBroker,
             WorkflowContextBroker>();
@@ -62,9 +70,6 @@ public static class IServiceCollectionExtensions
         services.AddTransient<
             IFlowCommunicationProcessingService,
             FlowCommunicationProcessingService>();
-        services.AddTransient<
-            IWorkflowHubConnectionBroker,
-            WorkflowHubConnectionBroker>();
         services.AddTransient<
             IFlowInstanceProcessingService,
             FlowInstanceProcessingService>();

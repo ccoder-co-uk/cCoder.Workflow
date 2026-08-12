@@ -4,14 +4,14 @@
 
 using System.Net;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Activities.Support;
+using cCoder.Workflow.Engine.Brokers;
 using Newtonsoft.Json;
-using cCoder.Workflow.Engine.Dependencies;
 using cCoder.Workflow.Engine.Models;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
-internal sealed partial class FlowResultProcessingService
+internal sealed partial class FlowResultProcessingService(
+    IWorkflowHttpClientBroker workflowHttpClientBroker)
     : IFlowResultProcessingService
 {
     public ValueTask SaveFlowInstanceDataAsync(
@@ -28,11 +28,6 @@ internal sealed partial class FlowResultProcessingService
                     authToken
                 ]);
 
-            using WorkflowHttpClientDependency api =
-                new(
-                    apiRoot: apiRoot,
-                    authToken: authToken);
-
             string payload = JsonConvert.SerializeObject(
                 value: new
                 {
@@ -48,11 +43,14 @@ internal sealed partial class FlowResultProcessingService
                 },
                 formatting: Formatting.None);
 
-            WorkflowHttpResult response = await api.PutJsonAsync(
+            WorkflowHttpResult response =
+                await workflowHttpClientBroker.PutJsonAsync(
+                    apiRoot: apiRoot,
+                    authToken: authToken,
                 requestUri:
                     $"Workflow/FlowInstanceData"
                     + $"({flowInstanceData.Id})",
-                payload: payload);
+                    payload: payload);
 
             if (!response.IsSuccess)
             {
