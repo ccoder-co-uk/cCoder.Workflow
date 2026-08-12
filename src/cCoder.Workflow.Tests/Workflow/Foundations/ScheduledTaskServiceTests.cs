@@ -34,8 +34,13 @@ public partial class ScheduledTaskServiceTests
         {
             Id = Random.Shared.Next(minValue: 1, maxValue: int.MaxValue),
             AppId = Random.Shared.Next(minValue: 1, maxValue: int.MaxValue),
+            FlowId = Guid.NewGuid(),
+            Name = "Task",
+            ExecuteAs = "user",
             LastExecuted = DateTimeOffset.UtcNow.AddDays(days: -1),
             NextExecution = DateTimeOffset.UtcNow.AddMinutes(minutes: -1),
-            ScheduleInTicks = TimeSpan.FromMinutes(minutes: 5).Ticks
+            ScheduleInTicks = TimeSpan
+                .FromMinutes(minutes: 5)
+                .Ticks
         };
 }
