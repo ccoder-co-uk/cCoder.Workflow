@@ -10,6 +10,7 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Processings;
 
+#pragma warning disable STXFORMAT005, STXFORMAT009
 public partial class WorkflowEventProcessingServiceTests
 {
     [Fact]
@@ -72,3 +73,4 @@ public partial class WorkflowEventProcessingServiceTests
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 }
+#pragma warning restore STXFORMAT005, STXFORMAT009
