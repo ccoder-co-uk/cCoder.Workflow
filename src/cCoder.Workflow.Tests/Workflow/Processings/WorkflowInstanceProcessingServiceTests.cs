@@ -16,19 +16,26 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Processings;
 
+#pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009
 public sealed partial class WorkflowInstanceProcessingServiceTests
 {
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
     private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock;
     private readonly Mock<ILoggingBroker> loggingBrokerMock;
+    private readonly Mock<IServiceProvider> serviceProviderMock;
+    private readonly WorkflowConfiguration configuration;
     private readonly WorkflowInstanceProcessingService processingService;
 
     public WorkflowInstanceProcessingServiceTests()
     {
-        workflowInstanceManagementBrokerMock = new Mock<IWorkflowInstanceManagementBroker>(behavior: MockBehavior.Strict);
-        flowInstanceDataManagerMock = new Mock<IFlowInstanceDataManager>(behavior: MockBehavior.Strict);
+        workflowInstanceManagementBrokerMock = new(
+            behavior: MockBehavior.Strict);
+
+        flowInstanceDataManagerMock = new(
+            behavior: MockBehavior.Strict);
         loggingBrokerMock = new();
-        WorkflowConfiguration configuration = new()
+        serviceProviderMock = new();
+        configuration = new()
         {
             ServiceUrl = "https://workflow.test/",
             SslPort = 7157,
@@ -36,19 +43,18 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             {
                 MaxAgeDays = 5
             },
-            QueueInstanceManagement =
-                new WorkflowQueueInstanceManagementConfiguration
-                {
-                    ExecutingTimeoutMinutes = 45
-                }
+            QueueInstanceManagement = new()
+            {
+                ExecutingTimeoutMinutes = 45
+            }
         };
 
         processingService = new WorkflowInstanceProcessingService(
-            workflowInstanceManagementBrokerMock.Object,
-            flowInstanceDataManagerMock.Object,
-            Mock.Of<IServiceProvider>(),
-            configuration,
-            loggingBrokerMock.Object);
+            workflowInstanceManagementBroker: workflowInstanceManagementBrokerMock.Object,
+            flowInstanceDataManager: flowInstanceDataManagerMock.Object,
+            serviceProvider: serviceProviderMock.Object,
+            workflowConfiguration: configuration,
+            log: loggingBrokerMock.Object);
     }
 
     [Theory]
@@ -283,3 +289,4 @@ times: Times.Once);
             },
         };
 }
+#pragma warning restore STXFORMAT005, STXFORMAT008, STXFORMAT009

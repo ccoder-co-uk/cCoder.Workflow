@@ -39,10 +39,5 @@ public partial class FlowDefinitionAggregationServiceTests
 
         service = new FlowDefinitionAggregationService(
             serviceProviderBroker: serviceProviderBrokerMock.Object);
-
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker.GetOperationService<IFlowDefinitionCoordinationService>(
-                operation: FlowDefinitionOperation.Queue))
-            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
     }
 }

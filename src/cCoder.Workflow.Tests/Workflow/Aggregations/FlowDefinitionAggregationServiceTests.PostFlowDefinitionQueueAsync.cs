@@ -5,12 +5,14 @@
 using cCoder.Data.Models.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies.ServiceProviders;
+using cCoder.Workflow.Services.Coordinations;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
 namespace cCoder.Workflow.Tests.Workflow.Aggregations;
 
+#pragma warning disable STXFORMAT009
 public partial class FlowDefinitionAggregationServiceTests
 {
     [Fact]
@@ -20,6 +22,12 @@ public partial class FlowDefinitionAggregationServiceTests
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
         User currentUser = new() { Id = "admin" };
+
+        serviceProviderBrokerMock
+            .Setup(expression: broker => broker
+                .GetOperationService<IFlowDefinitionCoordinationService>(
+                    operation: FlowDefinitionOperation.Queue))
+            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
 
         serviceProviderBrokerMock
             .Setup(expression: broker => broker.GetOperationService<IAuthorizationBroker>(
@@ -68,6 +76,12 @@ public partial class FlowDefinitionAggregationServiceTests
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
 
+        serviceProviderBrokerMock
+            .Setup(expression: broker => broker
+                .GetOperationService<IFlowDefinitionCoordinationService>(
+                    operation: FlowDefinitionOperation.Queue))
+            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
+
         flowDefinitionCoordinationServiceMock
             .Setup(expression: service => service.QueueAsync(
                 flowDefinitionId: flowId,
@@ -96,4 +110,47 @@ public partial class FlowDefinitionAggregationServiceTests
         authorizationBrokerMock.VerifyNoOtherCalls();
         serviceProviderBrokerMock.VerifyAll();
     }
+
+    [Fact]
+    public async Task ShouldQueueAsGuestWhenCurrentUserIsMissing()
+    {
+        // Given
+        Guid flowId = Guid.NewGuid();
+        Guid queuedId = Guid.NewGuid();
+
+        serviceProviderBrokerMock
+            .Setup(expression: broker => broker
+                .GetOperationService<IFlowDefinitionCoordinationService>(
+                    operation: FlowDefinitionOperation.Queue))
+            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
+
+        serviceProviderBrokerMock
+            .Setup(expression: broker => broker.GetOperationService<IAuthorizationBroker>(
+                operation: FlowDefinitionOperation.Authorization))
+            .Returns(value: authorizationBrokerMock.Object);
+
+        authorizationBrokerMock
+            .Setup(expression: broker => broker.GetCurrentUser())
+            .Returns(value: null);
+
+        flowDefinitionCoordinationServiceMock
+            .Setup(expression: foundService => foundService.QueueAsync(
+                flowDefinitionId: flowId,
+                asUserId: "Guest",
+                args: "{}"))
+            .ReturnsAsync(value: queuedId);
+
+        // When
+        Guid result = await service.QueueFlowDefinitionAsync(
+            flowDefinitionId: flowId,
+            asUserId: "Guest",
+            args: "{}");
+
+        // Then
+        result.Should().Be(expected: queuedId);
+        serviceProviderBrokerMock.VerifyAll();
+        authorizationBrokerMock.VerifyAll();
+        flowDefinitionCoordinationServiceMock.VerifyAll();
+    }
 }
+#pragma warning restore STXFORMAT009

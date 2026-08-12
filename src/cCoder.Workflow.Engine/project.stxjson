@@ -482,6 +482,226 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
+          "FullName": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
+          "Name": "IWorkflowHttpClientBroker",
+          "Namespace": "cCoder.Workflow.Engine.Brokers",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)",
+          "Name": "GetStringAsync",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            },
+            {
+              "Name": "requestUri",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Net.Http.HttpClient",
+              "MethodName": "GetStringAsync",
+              "MethodId": "System.Net.Http.HttpClient.GetStringAsync(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
+          "Name": "PutJsonAsync",
+          "LineNumber": 25,
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            },
+            {
+              "Name": "requestUri",
+              "Type": "System.String"
+            },
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.WorkflowHttpResult\u003E",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker",
+          "FullName": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker",
+          "Name": "IWorkflowHubConnectionBroker",
+          "Namespace": "cCoder.Workflow.Engine.Brokers",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker.ConnectAsync(System.String)",
+          "Name": "ConnectAsync",
+          "LineNumber": 14,
+          "Inputs": [
+            {
+              "Name": "url",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.ConnectAsync(System.String)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker.DisconnectAsync()",
+          "Name": "DisconnectAsync",
+          "LineNumber": 29,
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.DisconnectAsync()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
+              "MethodName": "DisposeAsync",
+              "MethodId": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency.DisposeAsync()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker.SendAsync(System.String,System.String,System.String)",
+          "Name": "SendAsync",
+          "LineNumber": 20,
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "System.String"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "instanceId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.SendAsync(System.String,System.String,System.String)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
       "StandardElementType": "Dependency",
       "LineNumber": 13,
@@ -1711,7 +1931,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService.ConnectWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "ConnectWorkflowRequestAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -1724,10 +1944,17 @@
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
-              "MethodName": "DisposeAsync",
-              "MethodId": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency.DisposeAsync()",
-              "StandardElementType": "Dependency",
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker",
+              "MethodName": "ConnectAsync",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.ConnectAsync(System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker",
+              "MethodName": "DisconnectAsync",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.DisconnectAsync()",
+              "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             }
           ],
@@ -1756,7 +1983,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService.LogWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest,cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
           "Name": "LogWorkflowRequestAsync",
-          "LineNumber": 57,
+          "LineNumber": 54,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -1828,7 +2055,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 24,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -1848,13 +2075,6 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "System.Net.Http.HttpClient",
-              "MethodName": "GetStringAsync",
-              "MethodId": "System.Net.Http.HttpClient.GetStringAsync(System.String?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
               "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
               "MethodName": "CreateWorkflowExecutionContext",
               "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
@@ -1865,6 +2085,13 @@
               "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
               "MethodName": "ExecuteWorkflowExecutionContextAsync",
               "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext,System.String,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
+              "MethodName": "GetStringAsync",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             }
@@ -1902,7 +2129,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 14,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1956,6 +2183,13 @@
               "MethodId": "System.Net.Http.HttpRequestException..ctor(System.String?)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
+              "MethodName": "PutJsonAsync",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [
@@ -2168,6 +2402,178 @@
             },
             {
               "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)",
+          "Name": "GetStringAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            },
+            {
+              "Name": "requestUri",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
+          "Name": "PutJsonAsync",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            },
+            {
+              "Name": "requestUri",
+              "Type": "System.String"
+            },
+            {
+              "Name": "payload",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.WorkflowHttpResult\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 7,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.ConnectAsync(System.String)",
+          "Name": "ConnectAsync",
+          "LineNumber": 9,
+          "Inputs": [
+            {
+              "Name": "url",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.DisconnectAsync()",
+          "Name": "DisconnectAsync",
+          "LineNumber": 16,
+          "Inputs": [],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.SendAsync(System.String,System.String,System.String)",
+          "Name": "SendAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "System.String"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            },
+            {
+              "Name": "instanceId",
               "Type": "System.String"
             }
           ],
@@ -2860,12 +3266,24 @@
       "ToType": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker"
     },
     {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowCommunicationProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker"
+    },
+    {
       "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
       "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
       "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",

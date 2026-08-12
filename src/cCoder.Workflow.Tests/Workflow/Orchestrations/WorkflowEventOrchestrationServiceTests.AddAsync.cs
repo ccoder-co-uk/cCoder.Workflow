@@ -13,6 +13,7 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Orchestrations;
 
+#pragma warning disable STXFORMAT005, STXFORMAT009
 public partial class WorkflowEventOrchestrationServiceTests
 {
     [Fact]
@@ -40,3 +41,4 @@ public partial class WorkflowEventOrchestrationServiceTests
     }
 
 }
+#pragma warning restore STXFORMAT005, STXFORMAT009

@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+#pragma warning disable STXFORMAT005, STXFORMAT009, STXTEST005
+
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
@@ -88,3 +90,5 @@ items: It.Is<IEnumerable<ScheduledTask>>(match: items => items.All(predicate: ta
         scheduledTaskOrchestrationServiceMock.VerifyAll();
     }
 }
+
+#pragma warning restore STXFORMAT005, STXFORMAT009, STXTEST005

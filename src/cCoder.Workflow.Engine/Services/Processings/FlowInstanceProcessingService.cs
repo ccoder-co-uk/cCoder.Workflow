@@ -18,7 +18,8 @@ namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class FlowInstanceProcessingService(
     IScriptBroker scriptBroker,
-    IWorkflowContextBroker workflowContextBroker)
+    IWorkflowContextBroker workflowContextBroker,
+    IWorkflowHttpClientBroker workflowHttpClientBroker)
     : IFlowInstanceProcessingService
 {
     public ValueTask<FlowExecution> ExecuteFlowExecutionAsync(
@@ -31,12 +32,9 @@ internal sealed partial class FlowInstanceProcessingService(
             flowExecution.Start = DateTimeOffset.UtcNow;
             flowExecution.Script = scriptBroker;
 
-            using WorkflowHttpClientDependency api =
-                new(
-                    apiRoot: request.Api,
-                    authToken: request.AuthToken);
-
-            string rawInstance = await api.GetStringAsync(
+            string rawInstance = await workflowHttpClientBroker.GetStringAsync(
+                apiRoot: request.Api,
+                authToken: request.AuthToken,
                 requestUri:
                     $"Workflow/FlowInstanceData({request.InstanceId})"
                     + "?$expand=FlowDefinition($expand=App)");

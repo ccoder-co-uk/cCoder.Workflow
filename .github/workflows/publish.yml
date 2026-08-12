@@ -88,8 +88,8 @@ jobs:
           "Services and exposures line coverage: $coveredLines/$($lines.Count) ($percentage)" |
             Write-Output
 
-          if ($lineRate -le 0.90) {
-            throw "Services and exposures line coverage must be greater than 90%; actual: $percentage."
+          if ($lineRate -le 0.95) {
+            throw "Services and exposures line coverage must be greater than 95%; actual: $percentage."
           }
 
       - name: Upload test results
