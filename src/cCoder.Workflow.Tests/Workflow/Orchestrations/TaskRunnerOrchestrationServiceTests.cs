@@ -7,6 +7,7 @@ using Moq;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
+#pragma warning disable STXFORMAT009
 public partial class TaskRunnerOrchestrationServiceTests
 {
     private readonly Mock<ICalendarEventProcessingService> calendarEventProcessingServiceMock;
@@ -26,3 +27,4 @@ public partial class TaskRunnerOrchestrationServiceTests
             scheduledTaskEventProcessingService: scheduledTaskEventProcessingServiceMock.Object);
     }
 }
+#pragma warning restore STXFORMAT009
