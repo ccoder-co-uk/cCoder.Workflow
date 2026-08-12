@@ -43,10 +43,10 @@ internal sealed partial class WorkflowMigrationAggregationService(
                 case "Core/CalendarEvent":
                     await ImportCalendarEventsAsync(appId: appId, item: item);
                     break;
-                case "Core/FlowDefinition":
+                case "Workflow/FlowDefinition":
                     await ImportFlowDefinitionsAsync(appId: appId, item: item);
                     break;
-                case "Core/ScheduledTask":
+                case "Workflow/ScheduledTask":
                     await ImportScheduledTasksAsync(appId: appId, item: item);
                     break;
             }
