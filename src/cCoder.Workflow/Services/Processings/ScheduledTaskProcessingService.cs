@@ -21,6 +21,15 @@ internal sealed partial class ScheduledTaskProcessingService(
     public bool IsScheduledTaskMigrationActive() =>
         TryCatch(operation: () => { return configuration.IsMigrating; });
 
+    public TimeSpan GetScheduledTaskPollingInterval() =>
+        TryCatch(
+            operation: () =>
+                TimeSpan.FromMilliseconds(
+                    milliseconds:
+                        configuration.ScheduledTaskPollingIntervalMilliseconds > 0
+                            ? configuration.ScheduledTaskPollingIntervalMilliseconds
+                            : 60000));
+
     public ValueTask LogNoScheduledTasksDueAsync() =>
         TryCatch(
             operation: () =>
