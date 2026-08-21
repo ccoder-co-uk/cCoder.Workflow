@@ -14,6 +14,8 @@ internal interface IScheduledTaskProcessingService
 {
     bool IsScheduledTaskMigrationActive();
 
+    TimeSpan GetScheduledTaskPollingInterval();
+
     ValueTask LogNoScheduledTasksDueAsync();
 
     ValueTask LogScheduledTasksRunningAsync(int scheduledTaskCount);

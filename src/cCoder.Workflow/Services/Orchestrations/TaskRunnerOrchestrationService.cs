@@ -33,7 +33,8 @@ internal sealed partial class TaskRunnerOrchestrationService(
 
         await RunAsync(cancellationToken: cancellationToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(minutes: 1));
+        using PeriodicTimer timer = new(
+            period: scheduledTaskProcessingService.GetScheduledTaskPollingInterval());
 
         while (!cancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: cancellationToken))
         {

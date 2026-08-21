@@ -22,6 +22,8 @@ public class WorkflowConfiguration
 
     public WorkflowQueueInstanceManagementConfiguration QueueInstanceManagement { get; set; }
 
+    public int ScheduledTaskPollingIntervalMilliseconds { get; set; }
+
     public bool IsMigrating { get; set; }
 
 }
