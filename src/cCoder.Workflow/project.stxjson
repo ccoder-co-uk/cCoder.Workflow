@@ -9757,6 +9757,10 @@
           "Type": "System.String"
         },
         {
+          "Name": "ScheduledTaskPollingIntervalMilliseconds",
+          "Type": "System.Int32"
+        },
+        {
           "Name": "ServiceUrl",
           "Type": "System.String"
         },
@@ -15848,7 +15852,7 @@
         {
           "Id": "cCoder.Workflow.Services.Orchestrations.TaskRunnerOrchestrationService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 44,
+          "LineNumber": 45,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -18843,7 +18847,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.AddOrUpdateScheduledTask(System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E)",
           "Name": "AddOrUpdateScheduledTask",
-          "LineNumber": 149,
+          "LineNumber": 158,
           "Inputs": [
             {
               "Name": "items",
@@ -18883,7 +18887,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.AddScheduledTaskAsync(ScheduledTask)",
           "Name": "AddScheduledTaskAsync",
-          "LineNumber": 123,
+          "LineNumber": 132,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -18925,7 +18929,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.DeleteAllScheduledTaskAsync(System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E)",
           "Name": "DeleteAllScheduledTaskAsync",
-          "LineNumber": 190,
+          "LineNumber": 199,
           "Inputs": [
             {
               "Name": "deletedItems",
@@ -18967,7 +18971,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 135,
+          "LineNumber": 144,
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -19009,7 +19013,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.DeleteByAppIdAsync(System.Int32)",
           "Name": "DeleteByAppIdAsync",
-          "LineNumber": 143,
+          "LineNumber": 152,
           "Inputs": [
             {
               "Name": "appId",
@@ -19048,7 +19052,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.ExecuteScheduledTaskAsync(System.Int32,System.Boolean)",
           "Name": "ExecuteScheduledTaskAsync",
-          "LineNumber": 111,
+          "LineNumber": 120,
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -19094,7 +19098,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 95,
+          "LineNumber": 104,
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -19136,7 +19140,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 103,
+          "LineNumber": 112,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19148,6 +19152,48 @@
             "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.GetAll(System.Boolean)"
           ],
           "Calls": [],
+          "PossibleExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.GetScheduledTaskPollingInterval()",
+          "Name": "GetScheduledTaskPollingInterval",
+          "LineNumber": 24,
+          "Inputs": [],
+          "ReturnType": "System.TimeSpan",
+          "Implements": [
+            "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.GetScheduledTaskPollingInterval()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.TimeSpan",
+              "MethodName": "FromMilliseconds",
+              "MethodId": "System.TimeSpan.FromMilliseconds(System.Int64)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
           "PossibleExceptionTypes": [
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
@@ -19209,7 +19255,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogNoScheduledTasksDueAsync()",
           "Name": "LogNoScheduledTasksDueAsync",
-          "LineNumber": 24,
+          "LineNumber": 33,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [
@@ -19251,7 +19297,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogScheduledTaskCompleteAsync(ScheduledTask)",
           "Name": "LogScheduledTaskCompleteAsync",
-          "LineNumber": 57,
+          "LineNumber": 66,
           "Inputs": [
             {
               "Name": "scheduledTask",
@@ -19298,7 +19344,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogScheduledTaskRunningAsync(ScheduledTask)",
           "Name": "LogScheduledTaskRunningAsync",
-          "LineNumber": 43,
+          "LineNumber": 52,
           "Inputs": [
             {
               "Name": "scheduledTask",
@@ -19345,7 +19391,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogScheduledTaskSkippedAsync(ScheduledTask)",
           "Name": "LogScheduledTaskSkippedAsync",
-          "LineNumber": 71,
+          "LineNumber": 80,
           "Inputs": [
             {
               "Name": "scheduledTask",
@@ -19392,7 +19438,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogScheduledTasksExecutedAsync(System.Int32)",
           "Name": "LogScheduledTasksExecutedAsync",
-          "LineNumber": 85,
+          "LineNumber": 94,
           "Inputs": [
             {
               "Name": "scheduledTaskCount",
@@ -19439,7 +19485,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.LogScheduledTasksRunningAsync(System.Int32)",
           "Name": "LogScheduledTasksRunningAsync",
-          "LineNumber": 33,
+          "LineNumber": 42,
           "Inputs": [
             {
               "Name": "scheduledTaskCount",
@@ -19486,7 +19532,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.ScheduledTaskProcessingService.UpdateScheduledTaskAsync(ScheduledTask)",
           "Name": "UpdateScheduledTaskAsync",
-          "LineNumber": 129,
+          "LineNumber": 138,
           "Inputs": [
             {
               "Name": "updatedEntity",
@@ -29293,7 +29339,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.AddOrUpdateScheduledTask(System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E)",
           "Name": "AddOrUpdateScheduledTask",
-          "LineNumber": 41,
+          "LineNumber": 43,
           "Inputs": [
             {
               "Name": "items",
@@ -29318,7 +29364,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.AddScheduledTaskAsync(ScheduledTask)",
           "Name": "AddScheduledTaskAsync",
-          "LineNumber": 33,
+          "LineNumber": 35,
           "Inputs": [
             {
               "Name": "newEntity",
@@ -29343,7 +29389,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.DeleteAllScheduledTaskAsync(System.Collections.Generic.IEnumerable\u003CScheduledTask\u003E)",
           "Name": "DeleteAllScheduledTaskAsync",
-          "LineNumber": 43,
+          "LineNumber": 45,
           "Inputs": [
             {
               "Name": "deletedItems",
@@ -29368,7 +29414,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 37,
+          "LineNumber": 39,
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -29393,7 +29439,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.DeleteByAppIdAsync(System.Int32)",
           "Name": "DeleteByAppIdAsync",
-          "LineNumber": 39,
+          "LineNumber": 41,
           "Inputs": [
             {
               "Name": "appId",
@@ -29418,7 +29464,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.ExecuteScheduledTaskAsync(System.Int32,System.Boolean)",
           "Name": "ExecuteScheduledTaskAsync",
-          "LineNumber": 45,
+          "LineNumber": 47,
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -29447,7 +29493,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 29,
+          "LineNumber": 31,
           "Inputs": [
             {
               "Name": "scheduledTaskId",
@@ -29472,7 +29518,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 31,
+          "LineNumber": 33,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -29480,6 +29526,26 @@
             }
           ],
           "ReturnType": "System.Linq.IQueryable\u003CScheduledTask\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.GetScheduledTaskPollingInterval()",
+          "Name": "GetScheduledTaskPollingInterval",
+          "LineNumber": 17,
+          "Inputs": [],
+          "ReturnType": "System.TimeSpan",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -29517,7 +29583,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogNoScheduledTasksDueAsync()",
           "Name": "LogNoScheduledTasksDueAsync",
-          "LineNumber": 17,
+          "LineNumber": 19,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [],
@@ -29537,7 +29603,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTaskCompleteAsync(ScheduledTask)",
           "Name": "LogScheduledTaskCompleteAsync",
-          "LineNumber": 23,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "scheduledTask",
@@ -29562,7 +29628,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTaskRunningAsync(ScheduledTask)",
           "Name": "LogScheduledTaskRunningAsync",
-          "LineNumber": 21,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "scheduledTask",
@@ -29587,7 +29653,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTaskSkippedAsync(ScheduledTask)",
           "Name": "LogScheduledTaskSkippedAsync",
-          "LineNumber": 25,
+          "LineNumber": 27,
           "Inputs": [
             {
               "Name": "scheduledTask",
@@ -29612,7 +29678,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTasksExecutedAsync(System.Int32)",
           "Name": "LogScheduledTasksExecutedAsync",
-          "LineNumber": 27,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "scheduledTaskCount",
@@ -29637,7 +29703,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.LogScheduledTasksRunningAsync(System.Int32)",
           "Name": "LogScheduledTasksRunningAsync",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "scheduledTaskCount",
@@ -29662,7 +29728,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.IScheduledTaskProcessingService.UpdateScheduledTaskAsync(ScheduledTask)",
           "Name": "UpdateScheduledTaskAsync",
-          "LineNumber": 35,
+          "LineNumber": 37,
           "Inputs": [
             {
               "Name": "updatedEntity",
