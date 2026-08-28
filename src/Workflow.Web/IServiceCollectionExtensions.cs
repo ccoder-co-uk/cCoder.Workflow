@@ -6,6 +6,7 @@ using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Eventing.Http;
 using cCoder.Security;
+using cCoder.Security.Data.EF;
 using cCoder.Workflow;
 using Workflow.Web.Exposures;
 using Workflow.Web.Extensions;
@@ -16,31 +17,32 @@ namespace Workflow.Web;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddWorkflowWeb(
+    public static IServiceCollection AddWeb(
         this IServiceCollection services,
         IConfiguration configuration,
-        Action<WorkflowWebConfiguration> configure = null)
+        Action<AppConfiguration> configure = null)
     {
-        WorkflowWebConfiguration workflowWebConfiguration =
-            configuration.CreateWorkflowWebConfiguration();
+        AppConfiguration appConfiguration =
+            configuration.CreateAppConfiguration();
 
-        configuration.Bind(instance: workflowWebConfiguration);
-        configure?.Invoke(obj: workflowWebConfiguration);
+        configuration.Bind(instance: appConfiguration);
+        configure?.Invoke(obj: appConfiguration);
 
         services.AddProcessings();
         services.AddExposures();
-        services.AddData(configuration: workflowWebConfiguration.Data);
-        services.AddEventingWeb(configuration: workflowWebConfiguration.Eventing);
-        services.AddSecurityWeb(configuration: workflowWebConfiguration.Security);
+        services.AddData(configuration: appConfiguration.CoreData);
+        services.AddEventingWeb(configuration: appConfiguration.Eventing);
+        services.AddSecurityData(configuration: appConfiguration.SecurityData);
+        services.AddSecurityWeb(configuration: appConfiguration.Security);
         services.AddHttpEventingWeb(configure: options =>
         {
-            options.HubUrl = workflowWebConfiguration.Eventing.Http.HubUrl;
+            options.HubUrl = appConfiguration.Eventing.Http.HubUrl;
             options.MaxConcurrency =
-                workflowWebConfiguration.Eventing.Http.MaxConcurrency;
+                appConfiguration.Eventing.Http.MaxConcurrency;
         });
 
         services.AddWorkflowWeb(
-            configuration: workflowWebConfiguration.Workflow);
+            configuration: appConfiguration.Workflow);
 
         return services;
     }

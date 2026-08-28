@@ -18,7 +18,7 @@ public class Program
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args: args);
 
-        builder.Services.AddWorkflowHostedServices(
+        builder.Services.AddHostedServices(
             configuration: builder.Configuration,
             configure: configuration =>
                 configuration.Eventing.EventProviders =

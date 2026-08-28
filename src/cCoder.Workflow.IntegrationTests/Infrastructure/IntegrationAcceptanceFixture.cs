@@ -246,7 +246,6 @@ environmentVariables: webEnvironment,
         services.AddSecurityWeb(
             configuration: new SecurityConfiguration
             {
-                ConnectionString = settings.SsoConnectionString,
                 DecryptionKey = settings.DecryptionKey,
                 RootPath = string.Empty
             });
@@ -278,11 +277,10 @@ environmentVariables: webEnvironment,
         new()
         {
             ["ASPNETCORE_ENVIRONMENT"] = "Acceptance",
-            ["Data__ConnectionString"] = Settings.CoreConnectionString,
-            ["Workflow__ConnectionString"] = Settings.CoreConnectionString,
+            ["CoreData__ConnectionString"] = Settings.CoreConnectionString,
             ["Workflow__ServiceUrl"] = WorkflowBaseAddress.ToString(),
             ["Workflow__SslPort"] = WebBaseAddress.Port.ToString(),
-            ["Security__ConnectionString"] = Settings.SsoConnectionString,
+            ["SecurityData__ConnectionString"] = Settings.SsoConnectionString,
             ["Security__DecryptionKey"] = Settings.DecryptionKey,
             ["Eventing__ProviderType"] = "Http",
             ["Eventing__Http__HubUrl"] =

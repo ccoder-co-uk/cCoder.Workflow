@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.8.27.1735" />
+    <PackageReference Include="cCoder.Data" Version="2026.8.28.1700" />
     <PackageReference Include="cCoder.Eventing" Version="2026.8.27.1708" />
     <PackageReference Include="FluentAssertions" Version="8.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />

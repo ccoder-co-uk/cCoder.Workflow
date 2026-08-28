@@ -6,14 +6,35 @@
 
 ## Local Configuration
 
-Each app binds its committed `appsettings.json` directly into its root
-configuration object. Leave secret values empty and define these user- or
-machine-level environment variables:
+Each executable binds the complete configuration root to its own
+`AppConfiguration`. The Web and HostedServices composition roots register
+`CoreData`, `Workflow`, `SecurityData`, `Security`, and `Eventing` side by side.
+The Azure Functions app registers its required `CoreData` and Workflow Engine
+stack.
 
-- `Workflow__ConnectionString`
-- `Security__ConnectionString`
+Persistence belongs to the Data domains. `WorkflowConfiguration` contains only
+Workflow behavior; `CoreData` owns the database connection, Data registration,
+and migrations. Likewise, `SecurityData` owns the Security database and
+`Security` contains authentication behavior. Leave secret values empty and
+define these user- or machine-level environment variables:
+
+- `CoreData__ConnectionString`
+- `SecurityData__ConnectionString`
 - `Security__DecryptionKey`
 - `Eventing__ServiceBus__ConnectionString` when Service Bus eventing is selected
+
+`CoreData__AdminConnectionString` and
+`SecurityData__AdminConnectionString` are optional migration-only overrides. If
+an admin connection is configured, startup migrations use it and normal runtime
+operations continue to use the regular connection. If it is omitted, migrations
+use the regular connection.
+
+Library consumers register persistence and behavior explicitly at their own
+composition root: call `AddData` before the Workflow domain or engine
+registration; Web and HostedServices hosts also call `AddSecurityData` before
+their Security registration. An application that consumes `cCoder.Core` should
+use Core's composite API instead; Core deliberately composes its configured
+child domains recursively.
 
 Restart Visual Studio after changing environment variables, select the required
 startup projects, and press F5. No conversion, `.env` file, or startup script is

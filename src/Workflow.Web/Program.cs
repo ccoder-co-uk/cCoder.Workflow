@@ -15,7 +15,7 @@ public class Program
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args: args);
 
-        builder.Services.AddWorkflowWeb(
+        builder.Services.AddWeb(
             configuration: builder.Configuration,
             configure: configuration =>
                 configuration.Eventing.EventProviders =
@@ -28,7 +28,7 @@ public class Program
     }
 
     private static EventProvider[] CreateFlowInstanceDataEventProviders(
-        WorkflowWebConfiguration configuration)
+        AppConfiguration configuration)
     {
         if (!string.Equals(
             a: configuration.Eventing.ProviderType,

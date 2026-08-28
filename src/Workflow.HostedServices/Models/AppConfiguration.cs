@@ -9,10 +9,11 @@ using cCoder.Workflow.Models;
 
 namespace Workflow.HostedServices.Models;
 
-public sealed class WorkflowHostedServicesConfiguration
+public sealed class AppConfiguration
 {
-    public DataConfiguration Data { get; set; }
+    public CoreDataConfiguration CoreData { get; set; }
     public EventingConfiguration Eventing { get; set; }
     public SecurityConfiguration Security { get; set; }
+    public SecurityDataConfiguration SecurityData { get; set; }
     public WorkflowConfiguration Workflow { get; set; }
 }

@@ -6,12 +6,6 @@ namespace cCoder.Workflow.Models;
 
 public class WorkflowConfiguration
 {
-    public string ConnectionString { get; set; }
-
-    public bool DebugInfo { get; set; }
-
-    public bool LogSQL { get; set; }
-
     public string RootPath { get; set; }
 
     public string ServiceUrl { get; set; }

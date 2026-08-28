@@ -174,7 +174,7 @@
     {
       "Name": "Workflow.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 17,
+      "LineNumber": 18,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -182,9 +182,9 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E)",
-          "Name": "AddWorkflowHostedServices",
-          "LineNumber": 19,
+          "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
+          "Name": "AddHostedServices",
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "services",
@@ -196,7 +196,7 @@
             },
             {
               "Name": "configure",
-              "Type": "System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E"
+              "Type": "System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E"
             }
           ],
           "ReturnType": "IServiceCollection",
@@ -208,13 +208,6 @@
               "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Workflow.HostedServices.IServiceCollectionExtensions",
-              "MethodName": "AddWorkflowHostedServices",
-              "MethodId": "Workflow.HostedServices.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.WorkflowHostedServicesConfiguration\u003E)",
-              "StandardElementType": "App",
-              "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [],
@@ -232,7 +225,7 @@
       ]
     },
     {
-      "Name": "Workflow.HostedServices.Models.WorkflowHostedServicesConfiguration",
+      "Name": "Workflow.HostedServices.Models.AppConfiguration",
       "StandardElementType": "Model",
       "LineNumber": 12,
       "IsPublic": true,
@@ -241,8 +234,8 @@
       "Interfaces": [],
       "Properties": [
         {
-          "Name": "Data",
-          "Type": "cCoder.Data.Models.DataConfiguration"
+          "Name": "CoreData",
+          "Type": "cCoder.Data.Models.CoreDataConfiguration"
         },
         {
           "Name": "Eventing",
@@ -251,6 +244,10 @@
         {
           "Name": "Security",
           "Type": "cCoder.Security.Models.SecurityConfiguration"
+        },
+        {
+          "Name": "SecurityData",
+          "Type": "cCoder.Security.Models.SecurityDataConfiguration"
         },
         {
           "Name": "Workflow",
