@@ -6,6 +6,7 @@ using cCoder.Data;
 using cCoder.Eventing;
 using cCoder.Eventing.Http;
 using cCoder.Security;
+using cCoder.Security.Data.EF;
 using cCoder.Workflow;
 using Workflow.HostedServices.Exposures;
 using Workflow.HostedServices.Extensions;
@@ -16,37 +17,38 @@ namespace Workflow.HostedServices;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddWorkflowHostedServices(
+    public static IServiceCollection AddHostedServices(
         this IServiceCollection services,
         IConfiguration configuration,
-        Action<WorkflowHostedServicesConfiguration> configure = null)
+        Action<AppConfiguration> configure = null)
     {
-        WorkflowHostedServicesConfiguration hostedServicesConfiguration =
-            configuration.CreateWorkflowHostedServicesConfiguration();
+        AppConfiguration appConfiguration =
+            configuration.CreateAppConfiguration();
 
-        configuration.Bind(instance: hostedServicesConfiguration);
-        configure?.Invoke(obj: hostedServicesConfiguration);
+        configuration.Bind(instance: appConfiguration);
+        configure?.Invoke(obj: appConfiguration);
 
         services.AddProcessings();
         services.AddExposures();
-        services.AddData(configuration: hostedServicesConfiguration.Data);
+        services.AddData(configuration: appConfiguration.CoreData);
         services.AddEventingHostedServices(
-            configuration: hostedServicesConfiguration.Eventing);
+            configuration: appConfiguration.Eventing);
 
+        services.AddSecurityData(configuration: appConfiguration.SecurityData);
         services.AddSecurityHostedServices(
-            configuration: hostedServicesConfiguration.Security);
+            configuration: appConfiguration.Security);
 
         services.AddHttpEventingHostedServices(configure: options =>
         {
             options.HubUrl =
-                hostedServicesConfiguration.Eventing.Http.HubUrl;
+                appConfiguration.Eventing.Http.HubUrl;
 
             options.MaxConcurrency =
-                hostedServicesConfiguration.Eventing.Http.MaxConcurrency;
+                appConfiguration.Eventing.Http.MaxConcurrency;
         });
 
         services.AddWorkflowHostedServices(
-            configuration: hostedServicesConfiguration.Workflow);
+            configuration: appConfiguration.Workflow);
 
         return services;
     }

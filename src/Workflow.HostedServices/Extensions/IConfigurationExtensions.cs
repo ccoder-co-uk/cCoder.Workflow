@@ -8,17 +8,17 @@ namespace Workflow.HostedServices.Extensions;
 
 internal static class IConfigurationExtensions
 {
-    internal static WorkflowHostedServicesConfiguration
-        CreateWorkflowHostedServicesConfiguration(
+    internal static AppConfiguration
+        CreateAppConfiguration(
             this IConfiguration configuration) =>
         new()
         {
-            Data = new(),
+            CoreData = new(),
             Eventing = new(),
             Security = new(),
+            SecurityData = new(),
             Workflow = new()
             {
-                ConnectionString = string.Empty,
                 RootPath = "Api/Workflow",
                 ServiceUrl = "https://localhost:7100/",
                 SslPort = 443,

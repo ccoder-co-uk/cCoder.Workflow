@@ -29,11 +29,11 @@ internal sealed class AcceptanceTestConfiguration
         return new AcceptanceTestConfiguration(
             coreConnectionString: AddDatabaseSuffix(
                 connectionString: ReadRequiredValue(
-                    variableName: "Workflow__ConnectionString"),
+                    variableName: "CoreData__ConnectionString"),
                 suffix: suffix),
             securityConnectionString: AddDatabaseSuffix(
                 connectionString: ReadRequiredValue(
-                    variableName: "Security__ConnectionString"),
+                    variableName: "SecurityData__ConnectionString"),
                 suffix: suffix),
             securityDecryptionKey: ReadRequiredValue(
                 variableName: "Security__DecryptionKey"));

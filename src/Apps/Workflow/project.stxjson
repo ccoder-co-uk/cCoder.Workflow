@@ -336,7 +336,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.IServiceCollectionExtensions.AddWorkflow(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.Models.WorkflowConfiguration\u003E)",
+          "Id": "Workflow.IServiceCollectionExtensions.AddWorkflow(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.Models.AppConfiguration\u003E)",
           "Name": "AddWorkflow",
           "LineNumber": 18,
           "Inputs": [
@@ -350,7 +350,7 @@
             },
             {
               "Name": "configure",
-              "Type": "System.Action\u003CWorkflow.Models.WorkflowConfiguration\u003E"
+              "Type": "System.Action\u003CWorkflow.Models.AppConfiguration\u003E"
             }
           ],
           "ReturnType": "Microsoft.Extensions.DependencyInjection.IServiceCollection",
@@ -385,9 +385,9 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "cCoder.Data.Models.DataConfiguration",
+              "TypeName": "cCoder.Data.Models.CoreDataConfiguration",
               "MethodName": ".ctor",
-              "MethodId": "cCoder.Data.Models.DataConfiguration..ctor()",
+              "MethodId": "cCoder.Data.Models.CoreDataConfiguration..ctor()",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
@@ -414,7 +414,7 @@
       ]
     },
     {
-      "Name": "Workflow.Models.WorkflowConfiguration",
+      "Name": "Workflow.Models.AppConfiguration",
       "StandardElementType": "Model",
       "LineNumber": 9,
       "IsPublic": true,
@@ -423,8 +423,8 @@
       "Interfaces": [],
       "Properties": [
         {
-          "Name": "Data",
-          "Type": "cCoder.Data.Models.DataConfiguration"
+          "Name": "CoreData",
+          "Type": "cCoder.Data.Models.CoreDataConfiguration"
         }
       ],
       "Methods": []

@@ -46,9 +46,9 @@
     <ProjectReference Include="$(LocalSecurityProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.8.27.1735" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.8.28.1700" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing" Version="2026.8.27.1708" Condition="'$(UseLocalEventing)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.8.27.1720" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.8.28.1335" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.11" />
@@ -59,4 +59,3 @@
     <ProjectReference Include="..\cCoder.Workflow.Activities\cCoder.Workflow.Activities.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity)" />
   </ItemGroup>
 </Project>
-

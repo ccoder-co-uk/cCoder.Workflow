@@ -9729,23 +9729,11 @@
       "Interfaces": [],
       "Properties": [
         {
-          "Name": "ConnectionString",
-          "Type": "System.String"
-        },
-        {
-          "Name": "DebugInfo",
-          "Type": "System.Boolean"
-        },
-        {
           "Name": "InstanceMaintenance",
           "Type": "cCoder.Workflow.Models.WorkflowInstanceMaintenanceConfiguration"
         },
         {
           "Name": "IsMigrating",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "LogSQL",
           "Type": "System.Boolean"
         },
         {

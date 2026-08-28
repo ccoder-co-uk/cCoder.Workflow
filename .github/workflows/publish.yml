@@ -39,7 +39,16 @@ jobs:
         run: ./.github/scripts/Build-Projects.ps1 -Version "${{ steps.version.outputs.value }}"
 
       - name: Test with coverage
-        run: ./.github/scripts/Run-Tests.ps1 -CollectCoverage
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:CoreData__ConnectionString)) {
+            $env:CoreData__ConnectionString = $env:Workflow__ConnectionString
+          }
+
+          if ([string]::IsNullOrWhiteSpace($env:SecurityData__ConnectionString)) {
+            $env:SecurityData__ConnectionString = $env:Security__ConnectionString
+          }
+
+          ./.github/scripts/Run-Tests.ps1 -CollectCoverage
 
       - name: Enforce services and exposures coverage
         run: |

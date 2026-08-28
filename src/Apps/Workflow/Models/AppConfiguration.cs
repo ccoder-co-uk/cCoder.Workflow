@@ -6,7 +6,7 @@ using cCoder.Data.Models;
 
 namespace Workflow.Models;
 
-public sealed class WorkflowConfiguration
+public sealed class AppConfiguration
 {
-    public DataConfiguration Data { get; set; }
+    public CoreDataConfiguration CoreData { get; set; }
 }
