@@ -182,6 +182,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
         services.AddTransient<IFlowInstanceDataEventBroker, FlowInstanceDataEventBroker>();
+        services.AddTransient<IWorkflowExecutionEventBroker, WorkflowExecutionEventBroker>();
         services.AddTransient<ICalendarEntityEventBroker, CalendarEntityEventBroker>();
         services.AddTransient<ICalendarEventEventBroker, CalendarEventEventBroker>();
         services.AddTransient<IScheduledTaskEventBroker, ScheduledTaskEventBroker>();

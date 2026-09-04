@@ -259,7 +259,7 @@
     {
       "Name": "Workflow.HostedServices.Program",
       "StandardElementType": "App",
-      "LineNumber": 15,
+      "LineNumber": 16,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -269,7 +269,7 @@
         {
           "Id": "Workflow.HostedServices.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "args",

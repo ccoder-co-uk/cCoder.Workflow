@@ -7,6 +7,7 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 using cCoder.Workflow;
+using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Exposures;
 using Workflow.HostedServices.Models;
 
@@ -22,7 +23,8 @@ public class Program
             configuration: builder.Configuration,
             configure: configuration =>
                 configuration.Eventing.EventProviders =
-                    CreateWorkflowHostedServiceEventProviders());
+                    CreateWorkflowHostedServiceEventProviders(
+                        configuration: configuration));
 
         WebApplication app = builder.Build();
         app.MapControllers();
@@ -30,11 +32,36 @@ public class Program
         app.Run();
     }
 
-    private static EventProvider[] CreateWorkflowHostedServiceEventProviders() =>
+    private static EventProvider[] CreateWorkflowHostedServiceEventProviders(
+        AppConfiguration configuration) =>
     [
         CreateAppEventProvider(),
-        CreateQueuedFlowInstanceDataEventProvider()
+        CreateQueuedFlowInstanceDataEventProvider(),
+        CreateWorkflowExecuteEventProvider(configuration: configuration)
     ];
+
+    private static EventProvider<WorkflowRequest>
+        CreateWorkflowExecuteEventProvider(
+            AppConfiguration configuration) =>
+        new()
+        {
+            Events = ["workflow_execute"],
+            SendHandler = async (_, _, message) =>
+            {
+                using HttpClient client = new()
+                {
+                    BaseAddress = new Uri(
+                        uriString: configuration.Workflow.ServiceUrl)
+                };
+
+                using HttpResponseMessage response =
+                    await client.PostAsJsonAsync(
+                        requestUri: "Execute",
+                        value: message.Data);
+
+                response.EnsureSuccessStatusCode();
+            }
+        };
 
     private static EventProvider<App> CreateAppEventProvider() =>
         new()

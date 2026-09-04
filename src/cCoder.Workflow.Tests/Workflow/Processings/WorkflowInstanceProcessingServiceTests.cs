@@ -7,6 +7,7 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.Events;
 using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
@@ -23,6 +24,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock;
     private readonly Mock<ILoggingBroker> loggingBrokerMock;
     private readonly Mock<IServiceProvider> serviceProviderMock;
+    private readonly Mock<IWorkflowExecutionEventBroker> workflowExecutionEventBrokerMock;
     private readonly WorkflowConfiguration configuration;
     private readonly WorkflowInstanceProcessingService processingService;
 
@@ -35,6 +37,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             behavior: MockBehavior.Strict);
         loggingBrokerMock = new();
         serviceProviderMock = new();
+        workflowExecutionEventBrokerMock = new();
         configuration = new()
         {
             ServiceUrl = "https://workflow.test/",
@@ -53,6 +56,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             workflowInstanceManagementBroker: workflowInstanceManagementBrokerMock.Object,
             flowInstanceDataManager: flowInstanceDataManagerMock.Object,
             serviceProvider: serviceProviderMock.Object,
+            workflowExecutionEventBroker: workflowExecutionEventBrokerMock.Object,
             workflowConfiguration: configuration,
             log: loggingBrokerMock.Object);
     }

@@ -6,9 +6,7 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Security.Exposures;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
+using cCoder.Eventing.Models;
 using Moq;
 using Xunit;
 
@@ -90,12 +88,11 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     }
 
     [Fact]
-    public async Task ShouldMarkClaimedWorkflowInstanceFailedWhenWorkflowApiFailsAsync()
+    public async Task ShouldRaiseWorkflowExecuteEventForClaimedInstanceAsync()
     {
         // Given
         FlowInstanceData instance = CreateQueuedFlowInstanceData();
         Mock<ITokenManager> tokenManagerMock = new();
-        configuration.ServiceUrl = "http://127.0.0.1:1/";
 
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
@@ -109,13 +106,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
                 cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: instance);
 
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.MarkInstanceFailedAsync(
-                flowInstanceDataId: instance.Id,
-                failedAt: It.IsAny<DateTimeOffset>(),
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: 1);
-
         serviceProviderMock
             .Setup(expression: provider => provider.GetService(
                 serviceType: typeof(ITokenManager)))
@@ -127,6 +117,17 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
                 tokenUse: TokenUse.WorkflowExecution))
             .ReturnsAsync(value: new Token { Id = "token" });
 
+        workflowExecutionEventBrokerMock
+            .Setup(expression: broker => broker.RaiseWorkflowExecuteEventAsync(
+                It.Is<EventMessage<WorkflowRequest>>(message =>
+                    message.AuthInfo.SSOUserId == instance.Caller
+                    &&
+                    message.Data.InstanceId == instance.Id
+                    && message.Data.FlowId == instance.FlowDefinition.Id
+                    && message.Data.AuthToken == "token"
+                    && message.Data.Api == $"https://{instance.FlowDefinition.App.Domain}:7157/Api/")))
+            .Returns(value: ValueTask.CompletedTask);
+
         // When
         await processingService.ExecuteWaitingQueuedInstanceByIdAsync(
             flowInstanceDataId: instance.Id);
@@ -135,31 +136,16 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         workflowInstanceManagementBrokerMock.VerifyAll();
         serviceProviderMock.VerifyAll();
         tokenManagerMock.VerifyAll();
+        workflowExecutionEventBrokerMock.VerifyAll();
     }
 
     [Fact]
-    public async Task ShouldMarkClaimedWorkflowInstanceFailedForUnsuccessfulResponseAsync()
+    public async Task ShouldMarkClaimedWorkflowInstanceFailedWhenWorkflowEventFailsAsync()
     {
         // Given
         FlowInstanceData instance = CreateQueuedFlowInstanceData();
         Mock<ITokenManager> tokenManagerMock = new();
-        using TcpListener listener = new(IPAddress.Loopback, port: 0);
-        listener.Start();
-        int port = ((IPEndPoint)listener.LocalEndpoint).Port;
-        configuration.ServiceUrl = $"http://127.0.0.1:{port}/";
-
-        Task responseTask = Task.Run(async () =>
-        {
-            using TcpClient client = await listener.AcceptTcpClientAsync();
-            using NetworkStream stream = client.GetStream();
-            byte[] buffer = new byte[4096];
-            _ = await stream.ReadAsync(buffer);
-            byte[] response = Encoding.ASCII.GetBytes(
-                "HTTP/1.1 500 Internal Server Error\r\n"
-                + "Content-Length: 6\r\nConnection: close\r\n\r\nfailed");
-
-            await stream.WriteAsync(response);
-        });
+        Exception exception = new(message: "Service Bus publish failed");
 
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
@@ -191,15 +177,26 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
                 tokenUse: TokenUse.WorkflowExecution))
             .ReturnsAsync(value: new Token { Id = "token" });
 
+        workflowExecutionEventBrokerMock
+            .Setup(expression: broker => broker.RaiseWorkflowExecuteEventAsync(
+                It.IsAny<EventMessage<WorkflowRequest>>()))
+            .ThrowsAsync(exception: exception);
+
+        loggingBrokerMock
+            .Setup(expression: broker => broker.LogError(
+                exception: exception,
+                message: "Flow instance {InstanceId} execution failed.",
+                args: instance.Id));
+
         // When
         await processingService.ExecuteWaitingQueuedInstanceByIdAsync(
             flowInstanceDataId: instance.Id);
-
-        await responseTask;
 
         // Then
         workflowInstanceManagementBrokerMock.VerifyAll();
         serviceProviderMock.VerifyAll();
         tokenManagerMock.VerifyAll();
+        workflowExecutionEventBrokerMock.VerifyAll();
+        loggingBrokerMock.VerifyAll();
     }
 }
