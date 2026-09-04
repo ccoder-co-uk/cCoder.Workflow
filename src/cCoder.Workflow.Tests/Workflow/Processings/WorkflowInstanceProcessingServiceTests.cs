@@ -157,6 +157,27 @@ times: Times.Once);
         Assert.Equal(expected: token.Id, actual: actualRequest.AuthToken);
     }
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData(443)]
+    public void CreateWorkflowRequest_ShouldOmitUnsetOrDefaultWebSslPort(int sslPort)
+    {
+        // Given
+        configuration.SslPort = sslPort;
+        FlowInstanceData flowInstanceData = CreateQueuedFlowInstanceData();
+
+        Token token = new()
+        {
+            Id = "workflow-token"
+        };
+
+        // When
+        WorkflowRequest actualRequest = processingService.CreateWorkflowRequest(dbInstance: flowInstanceData, token: token);
+
+        // Then
+        Assert.Equal(expected: $"https://{flowInstanceData.FlowDefinition.App.Domain}/Api/", actual: actualRequest.Api);
+    }
+
     [Fact]
     public async Task RunQueueInstanceBackgroundServiceDependencyAsync_ShouldClaimQueuedInstances()
     {
