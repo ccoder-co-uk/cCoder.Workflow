@@ -1482,6 +1482,64 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.Brokers.Events.WorkflowExecutionEventBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow:cCoder.Workflow.Brokers.Events.IWorkflowExecutionEventBroker",
+          "FullName": "cCoder.Workflow.Brokers.Events.IWorkflowExecutionEventBroker",
+          "Name": "IWorkflowExecutionEventBroker",
+          "Namespace": "cCoder.Workflow.Brokers.Events",
+          "AssemblyName": "cCoder.Workflow",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Brokers.Events.WorkflowExecutionEventBroker.RaiseWorkflowExecuteEventAsync(EventMessage\u003CcCoder.Workflow.Activities.Models.WorkflowRequest\u003E)",
+          "Name": "RaiseWorkflowExecuteEventAsync",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CcCoder.Workflow.Activities.Models.WorkflowRequest\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Brokers.Events.IWorkflowExecutionEventBroker.RaiseWorkflowExecuteEventAsync(EventMessage\u003CcCoder.Workflow.Activities.Models.WorkflowRequest\u003E)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
+              "MethodName": "GetRequiredService",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
       "StandardElementType": "Broker",
       "LineNumber": 12,
@@ -20204,7 +20262,7 @@
     {
       "Name": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 18,
+      "LineNumber": 19,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -20225,7 +20283,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.ExecuteWaitingQueuedInstanceByIdAsync(System.Guid)",
           "Name": "ExecuteWaitingQueuedInstanceByIdAsync",
-          "LineNumber": 153,
+          "LineNumber": 155,
           "Inputs": [
             {
               "Name": "flowInstanceDataId",
@@ -20264,7 +20322,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 26,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -20311,7 +20369,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.GetStats()",
           "Name": "GetStats",
-          "LineNumber": 55,
+          "LineNumber": 57,
           "Inputs": [],
           "ReturnType": "System.Object[]",
           "Implements": [
@@ -20345,7 +20403,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 34,
+          "LineNumber": 36,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -20384,7 +20442,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunInstanceMaintenanceAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceAsync",
-          "LineNumber": 82,
+          "LineNumber": 84,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -20423,7 +20481,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunInstanceMaintenanceContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunInstanceMaintenanceContinuouslyAsync",
-          "LineNumber": 62,
+          "LineNumber": 64,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -20462,7 +20520,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyAsync",
-          "LineNumber": 122,
+          "LineNumber": 124,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -20501,7 +20559,7 @@
         {
           "Id": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService.RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(System.Threading.CancellationToken)",
           "Name": "RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync",
-          "LineNumber": 102,
+          "LineNumber": 104,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -21464,6 +21522,43 @@
             {
               "Name": "message",
               "Type": "EventMessage\u003CWorkflowEvent\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Brokers.Events.IWorkflowExecutionEventBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 10,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Brokers.Events.IWorkflowExecutionEventBroker.RaiseWorkflowExecuteEventAsync(EventMessage\u003CcCoder.Workflow.Activities.Models.WorkflowRequest\u003E)",
+          "Name": "RaiseWorkflowExecuteEventAsync",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "EventMessage\u003CcCoder.Workflow.Activities.Models.WorkflowRequest\u003E"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask",
@@ -30489,6 +30584,10 @@
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Brokers.Events.WorkflowExecutionEventBroker"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
