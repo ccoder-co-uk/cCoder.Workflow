@@ -239,11 +239,19 @@ cancellationToken: cancellationToken);
     internal WorkflowRequest CreateWorkflowRequest(FlowInstanceData dbInstance, Token token) =>
         new()
         {
-            Api = $"https://{dbInstance.FlowDefinition.App.Domain}:{workflowConfiguration.SslPort}/Api/",
+            Api = CreateApiRoot(domain: dbInstance.FlowDefinition.App.Domain),
             FlowId = dbInstance.FlowDefinition.Id,
             AuthToken = token.Id,
             InstanceId = dbInstance.Id
         };
+
+    private string CreateApiRoot(string domain)
+    {
+        int sslPort = workflowConfiguration.SslPort;
+        string port = sslPort is > 0 and not 443 ? $":{sslPort}" : string.Empty;
+
+        return $"https://{domain}{port}/Api/";
+    }
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
         TimeSpan.FromDays(
