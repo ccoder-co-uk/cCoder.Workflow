@@ -119,12 +119,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             .Setup(expression: broker => broker.GetQueuedInstances())
             .Returns(value: []);
 
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.RequeueHungExecutingInstancesAsync(
-                cutoff: It.IsAny<DateTimeOffset>(),
-                cancellationToken: cancellation.Token))
-            .ReturnsAsync(value: 0);
-
         // When
         Func<Task> action = async () => await processingService
             .RunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(
@@ -146,12 +140,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.GetQueuedInstances())
             .Returns(value: []);
-
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.RequeueHungExecutingInstancesAsync(
-                cutoff: It.IsAny<DateTimeOffset>(),
-                cancellationToken: cancellation.Token))
-            .ReturnsAsync(value: 0);
 
         // When
         await processingService

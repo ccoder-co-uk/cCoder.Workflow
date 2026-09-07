@@ -79,6 +79,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
                 requestUri: It.IsAny<string>()))
             .Returns(value: ValueTask.FromResult(result: rawInstance));
 
+        SetupStateSave(execution: execution);
+
         workflowContextBrokerMock
             .Setup(expression: broker => broker.CreateWorkflowExecutionContext(
                 flowExecution: execution))
@@ -232,6 +234,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
                 requestUri: It.IsAny<string>()))
             .Returns(value: ValueTask.FromResult(result: rawInstance));
 
+        SetupStateSave(execution: execution);
+
         var service = CreateService();
 
         // When
@@ -300,6 +304,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
                 authToken: execution.Request.AuthToken,
                 requestUri: It.IsAny<string>()))
             .Returns(value: ValueTask.FromResult(result: rawInstance));
+
+        SetupStateSave(execution: execution);
 
         workflowContextBrokerMock
             .Setup(expression: broker => broker.CreateWorkflowExecutionContext(
