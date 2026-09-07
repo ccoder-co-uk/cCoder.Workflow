@@ -129,7 +129,6 @@ internal sealed partial class WorkflowInstanceProcessingService(
         try
         {
             await ExecuteQueuedInstancesAsync(cancellationToken: cancellationToken);
-            await RequeueHungExecutingInstancesAsync(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
@@ -188,22 +187,12 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
-        int claimedCount = await workflowInstanceManagementBroker
-            .UpdateQueuedInstanceClaimAsync(
-                flowInstanceDataId: instanceId,
-                cancellationToken: cancellationToken);
-
-        if (claimedCount == 0)
-        {
-            return;
-        }
-
         FlowInstanceData dbInstance = await workflowInstanceManagementBroker
             .SelectClaimedInstanceAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: cancellationToken);
 
-        if (dbInstance is null)
+        if (dbInstance is null || dbInstance.State != "Queued")
         {
             return;
         }
@@ -228,11 +217,6 @@ internal sealed partial class WorkflowInstanceProcessingService(
         catch (Exception exception)
         {
             log.LogError(exception: exception, message: "Flow instance {InstanceId} execution failed.", args: dbInstance.Id);
-
-            await workflowInstanceManagementBroker.MarkInstanceFailedAsync(
-flowInstanceDataId: dbInstance.Id,
-failedAt: DateTimeOffset.UtcNow,
-cancellationToken: cancellationToken);
         }
     }
 

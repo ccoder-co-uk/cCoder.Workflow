@@ -48,6 +48,16 @@ internal sealed partial class FlowInstanceProcessingService(
                 flowExecution: flowExecution,
                 instanceData: instanceData);
 
+            instanceData.State = "Executing";
+            instanceData.Start = flowExecution.Start;
+            instanceData.End = null;
+            flowExecution.Result = instanceData;
+
+            await SaveFlowInstanceDataAsync(
+                flowInstanceData: instanceData,
+                apiRoot: request.Api,
+                authToken: request.AuthToken);
+
             WorkflowContext dataContext =
                 await DeserializeWorkflowContextAsync(
                     flowExecution: flowExecution,
@@ -87,6 +97,44 @@ internal sealed partial class FlowInstanceProcessingService(
 
         flowExecution.FlowDefinitionId =
             instanceData.FlowDefinitionId;
+    }
+
+    private async ValueTask SaveFlowInstanceDataAsync(
+        FlowInstanceData flowInstanceData,
+        string apiRoot,
+        string authToken)
+    {
+        string payload = JsonConvert.SerializeObject(
+            value: new
+            {
+                flowInstanceData.Id,
+                flowInstanceData.FlowDefinitionId,
+                flowInstanceData.Name,
+                flowInstanceData.State,
+                flowInstanceData.ReportingComponentName,
+                flowInstanceData.Caller,
+                flowInstanceData.ContextString,
+                flowInstanceData.Start,
+                flowInstanceData.End
+            },
+            formatting: Formatting.None);
+
+        WorkflowHttpResult response =
+            await workflowHttpClientBroker.PutJsonAsync(
+                apiRoot: apiRoot,
+                authToken: authToken,
+                requestUri:
+                    $"Workflow/FlowInstanceData({flowInstanceData.Id})",
+                payload: payload);
+
+        if (!response.IsSuccess)
+        {
+            throw new HttpRequestException(
+                $"Workflow state save failed with status "
+                + $"{response.StatusCode} ({response.Status})."
+                + Environment.NewLine
+                + response.Body);
+        }
     }
 
     private static async Task<FlowInstanceData>
