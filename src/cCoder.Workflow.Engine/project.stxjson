@@ -1808,7 +1808,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1829,7 +1829,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "ExecuteWorkflowRequestAsync",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -2099,6 +2099,7 @@
           "PossibleExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
             "System.InvalidOperationException",
+            "System.Net.Http.HttpRequestException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
@@ -2106,6 +2107,7 @@
           "IncomingExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
             "System.InvalidOperationException",
+            "System.Net.Http.HttpRequestException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"

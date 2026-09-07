@@ -31,6 +31,21 @@ public sealed partial class FlowInstanceProcessingServiceTests
             workflowContextBroker: workflowContextBrokerMock.Object,
             workflowHttpClientBroker: workflowHttpClientBrokerMock.Object);
 
+    private void SetupStateSave(FlowExecution execution) =>
+        workflowHttpClientBrokerMock
+            .Setup(expression: broker => broker.PutJsonAsync(
+                apiRoot: execution.Request.Api,
+                authToken: execution.Request.AuthToken,
+                requestUri: It.IsAny<string>(),
+                payload: It.IsAny<string>()))
+            .Returns(value: ValueTask.FromResult(
+                result: new WorkflowHttpResult
+                {
+                    IsSuccess = true,
+                    StatusCode = 204,
+                    Status = "NoContent"
+                }));
+
     private static FlowExecution CreateFlowExecution() =>
         new()
         {
