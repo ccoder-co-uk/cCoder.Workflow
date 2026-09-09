@@ -538,8 +538,20 @@
       "ToType": "Workflow.HostedServices.Services.Processings.HealthProcessingService"
     },
     {
+      "FromType": "Workflow.HostedServices.Controllers.HealthController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
+    },
+    {
       "FromType": "Workflow.HostedServices.Controllers.HomeController",
       "ToType": "Workflow.HostedServices.Services.Processings.HomeProcessingService"
+    },
+    {
+      "FromType": "Workflow.HostedServices.Controllers.HomeController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
+    },
+    {
+      "FromType": "Workflow.HostedServices.Services.Processings.HomeProcessingService",
+      "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
     }
   ],
   "AnalysisItems": [

@@ -1038,12 +1038,32 @@
       "ToType": "Workflow.Web.Services.Processings.CoreAppProcessingService"
     },
     {
+      "FromType": "Workflow.Web.Controllers.CoreAppController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
+    },
+    {
       "FromType": "Workflow.Web.Controllers.CoreUserController",
       "ToType": "Workflow.Web.Services.Processings.CoreUserProcessingService"
     },
     {
+      "FromType": "Workflow.Web.Controllers.CoreUserController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
+    },
+    {
       "FromType": "Workflow.Web.Controllers.HealthController",
       "ToType": "Workflow.Web.Services.Processings.HealthProcessingService"
+    },
+    {
+      "FromType": "Workflow.Web.Controllers.HealthController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
+    },
+    {
+      "FromType": "Workflow.Web.Services.Processings.CoreAppProcessingService",
+      "ToType": "cCoder.Data.ICoreContextFactory"
+    },
+    {
+      "FromType": "Workflow.Web.Services.Processings.CoreUserProcessingService",
+      "ToType": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory"
     }
   ],
   "AnalysisItems": [
