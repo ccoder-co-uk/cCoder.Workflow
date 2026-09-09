@@ -1656,7 +1656,7 @@
     },
     {
       "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -1676,7 +1676,7 @@
     },
     {
       "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -1696,7 +1696,7 @@
     },
     {
       "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -3228,12 +3228,28 @@
   ],
   "Links": [
     {
+      "FromType": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker",
+      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker\u003E"
+    },
+    {
       "FromType": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
       "ToType": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency"
     },
     {
+      "FromType": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
+      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Engine.Dependencies.RoslynScriptDependency\u003E"
+    },
+    {
       "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
       "ToType": "cCoder.Workflow.Engine.Models.FlowExecution"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
+      "ToType": "System.String"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
+      "ToType": "System.String"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Exposures.FlowExecutionOrchestrationAdapter",
@@ -3250,6 +3266,18 @@
     {
       "FromType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
       "ToType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionOrchestrationAdapter"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException",
+      "ToType": "System.Exception"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
