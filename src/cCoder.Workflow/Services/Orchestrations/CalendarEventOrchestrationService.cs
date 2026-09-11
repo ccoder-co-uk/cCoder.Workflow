@@ -29,23 +29,23 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newCalendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendarEvent]); return await ExecuteAddAsync(entity: newCalendarEvent); }, isValueTask: true);
 
     private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent entity)
     {
-        CalendarEvent result = await processingService.AddCalendarEventAsync(newEntity: entity);
-        await eventService.RaiseCalendarEventAddEventAsync(entity: result);
+        CalendarEvent result = await processingService.AddCalendarEventAsync(newCalendarEvent: entity);
+        await eventService.RaiseCalendarEventAddEventAsync(calendarEvent: result);
         return result;
     }
 
-    public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(entity: updatedCalendarEvent); }, isValueTask: true);
 
     private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent entity)
     {
-        CalendarEvent result = await processingService.UpdateCalendarEventAsync(updatedEntity: entity);
-        await eventService.RaiseCalendarEventUpdateEventAsync(entity: result);
+        CalendarEvent result = await processingService.UpdateCalendarEventAsync(updatedCalendarEvent: entity);
+        await eventService.RaiseCalendarEventUpdateEventAsync(calendarEvent: result);
         return result;
     }
 
@@ -62,7 +62,7 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
             return;
         }
 
-        await eventService.RaiseCalendarEventDeleteEventAsync(entity: entity);
+        await eventService.RaiseCalendarEventDeleteEventAsync(calendarEvent: entity);
         await processingService.DeleteAsync(calendarEventId: calendarEventId);
     }
 

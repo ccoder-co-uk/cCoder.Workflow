@@ -5,7 +5,6 @@
 using cCoder.Data.Models.Planning;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
-using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
@@ -53,14 +52,8 @@ internal sealed partial class TaskRunnerOrchestrationService(
 
     private async Task ExecuteRunAsync(CancellationToken cancellationToken = default)
     {
-        ScheduledTask[] dueTasks = scheduledTaskProcessingService.GetAll(ignoreFilters: true)
-            .Where(predicate: task => task.NextExecution != null && task.NextExecution < DateTimeOffset.UtcNow && task.ScheduleInTicks != 0)
-            .Include(navigationPropertyPath: task => task.Flow)
-                .ThenInclude(navigationPropertyPath: flow => flow.App)
-            .Include(navigationPropertyPath: task => task.ExecuteAsUser)
-                .ThenInclude(navigationPropertyPath: user => user.Roles)
-                    .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
-            .ToArray();
+        ScheduledTask[] dueTasks = scheduledTaskProcessingService
+            .GetDueScheduledTasks(currentDateTime: DateTimeOffset.UtcNow);
 
         if (dueTasks.Length == 0)
         {
@@ -147,6 +140,6 @@ internal sealed partial class TaskRunnerOrchestrationService(
             throw new InvalidOperationException("User doesn't exist.");
         }
 
-        await scheduledTaskEventProcessingService.RaiseScheduledTaskExecuteEventAsync(entity: updatedTask);
+        await scheduledTaskEventProcessingService.RaiseScheduledTaskExecuteEventAsync(scheduledTask: updatedTask);
     }
 }

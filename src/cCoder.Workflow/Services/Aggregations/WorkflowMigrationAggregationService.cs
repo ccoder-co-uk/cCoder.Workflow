@@ -23,8 +23,8 @@ internal sealed partial class WorkflowMigrationAggregationService(
     IWorkflowMigrationServiceProviderBroker serviceProviderBroker
 ) : IWorkflowMigrationAggregationService
 {
-    public ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage package) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId, package]); await ExecuteImportPackageAsync(appId: appId, package: package); }, isValueTask: true);
+    public ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage workflowPackage) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [appId, workflowPackage]); await ExecuteImportPackageAsync(appId: appId, package: workflowPackage); }, isValueTask: true);
 
     private async ValueTask ExecuteImportPackageAsync(int appId, WorkflowPackage package)
     {
@@ -176,9 +176,8 @@ action: calendar =>
             calendarEventsToAdd.Add(item: calendarEvent);
         }
 
-        GetLogger()
-            .LogDebug(
-            message: "Importing {CalendarEventCount} new calendar events for app {AppId}",
+        serviceProviderBroker.LogDebug(
+            message: "Importing {CalendarEventCount} new Calendar events for app {AppId}",
             args: [calendarEventsToAdd.Count, appId]);
 
         IEnumerable<Result<CalendarEvent>> results = await GetCalendarEventOrchestrationService()
@@ -209,10 +208,10 @@ action: calendar =>
             })
             .ToArray();
 
-        GetLogger()
-            .LogDebug(
-message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
-args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: existingFlowDefinitions));
+        serviceProviderBroker.LogDebug(
+            message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
+            args: GetJsonBroker()
+                .SerializeForOData(value: existingFlowDefinitions));
 
         for (int index = 0; index < flowDefinitions.Length; index++)
         {
@@ -451,7 +450,4 @@ args: cCoder.Workflow.Extensions.OData.ObjectExtensions.ToJsonForOdata(value: ex
         serviceProviderBroker.GetOperationService<IJsonBroker>(
             operation: WorkflowMigrationOperation.Json);
 
-    private ILogger<WorkflowMigrationAggregationService> GetLogger() =>
-        serviceProviderBroker.GetOperationService<ILogger<WorkflowMigrationAggregationService>>(
-            operation: WorkflowMigrationOperation.Logging);
 }

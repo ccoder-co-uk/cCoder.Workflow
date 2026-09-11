@@ -2,8 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace cCoder.Workflow.Brokers;
 
@@ -12,15 +12,55 @@ internal class JsonBroker : IJsonBroker
     public object ParseJson(string json) =>
         JsonConvert.DeserializeObject(
             value: json,
-            settings: new JsonSerializerSettings().ConfigureForWorkflow());
+            settings: GetJsonSettings());
 
     public T ParseJson<T>(string json) =>
         JsonConvert.DeserializeObject<T>(
             value: json,
-            settings: new JsonSerializerSettings().ConfigureForWorkflow());
+            settings: GetJsonSettings());
 
     public string Serialize(object value) =>
         JsonConvert.SerializeObject(
             value: value,
-            settings: new JsonSerializerSettings().ConfigureForWorkflow());
+            settings: GetJsonSettings());
+
+    public string SerializeForOData(object value) =>
+        JsonConvert.SerializeObject(
+            value: value,
+            formatting: Formatting.None,
+            settings: GetODataJsonSettings());
+
+    internal static string SerializeForODataValue(object value) =>
+        new JsonBroker().SerializeForOData(value: value);
+
+    private static JsonSerializerSettings GetJsonSettings() =>
+        new()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            TypeNameHandling = TypeNameHandling.Objects,
+            Formatting = Formatting.None,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            NullValueHandling = NullValueHandling.Ignore,
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            ContractResolver = new DefaultContractResolver
+            {
+                IgnoreSerializableAttribute = true
+            }
+        };
+
+    private static JsonSerializerSettings GetODataJsonSettings() =>
+        new()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            TypeNameHandling = TypeNameHandling.None,
+            Formatting = Formatting.None,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            NullValueHandling = NullValueHandling.Ignore,
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            ContractResolver = new DefaultContractResolver
+            {
+                IgnoreSerializableAttribute = true
+            },
+            MaxDepth = 4
+        };
 }

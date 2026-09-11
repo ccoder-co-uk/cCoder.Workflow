@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+#pragma warning disable STXFORMAT005
+
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Services.Orchestrations;
@@ -24,14 +26,21 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
         flowResultProcessingServiceMock =
             new(behavior: MockBehavior.Strict);
 
-    private WorkflowRequestOrchestrationService CreateService() =>
-        new WorkflowRequestOrchestrationService(
+    private WorkflowRequestOrchestrationService CreateService()
+    {
+        flowResultProcessingServiceMock
+            .Setup(expression: service => service.Serialize(
+                It.IsAny<object>()))
+            .Returns(value: "{}");
+
+        return new WorkflowRequestOrchestrationService(
             flowCommunicationProcessingService:
                 flowCommunicationProcessingServiceMock.Object,
             flowInstanceProcessingService:
                 flowInstanceProcessingServiceMock.Object,
             flowResultProcessingService:
                 flowResultProcessingServiceMock.Object);
+    }
 
     private static WorkflowRequest CreateWorkflowRequest() =>
         new(
@@ -51,3 +60,5 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
         return execution;
     }
 }
+
+#pragma warning restore STXFORMAT005

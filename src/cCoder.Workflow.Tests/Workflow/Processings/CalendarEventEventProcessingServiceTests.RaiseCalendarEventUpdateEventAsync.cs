@@ -21,14 +21,14 @@ public partial class CalendarEventEventProcessingServiceTests
         CalendarEvent entity = CreateRandomCalendarEvent();
 
         calendarEventEventServiceMock
-            .Setup(expression: x => x.RaiseCalendarEventUpdateEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseCalendarEventUpdateEventAsync(calendarEvent: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseCalendarEventUpdateEventAsync(entity: entity);
+        await service.RaiseCalendarEventUpdateEventAsync(calendarEvent: entity);
 
         // Then
-        calendarEventEventServiceMock.Verify(expression: x => x.RaiseCalendarEventUpdateEventAsync(entity: entity), times: Times.Once);
+        calendarEventEventServiceMock.Verify(expression: x => x.RaiseCalendarEventUpdateEventAsync(calendarEvent: entity), times: Times.Once);
         calendarEventEventServiceMock.VerifyNoOtherCalls();
     }
 

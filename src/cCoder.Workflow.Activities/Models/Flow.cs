@@ -19,6 +19,3 @@ public class Flow
 
     public T GetActivity<T>(string withRef) where T : Activity => (T)Activities.FirstOrDefault(a => a.Ref == withRef);
 }
-
-
-

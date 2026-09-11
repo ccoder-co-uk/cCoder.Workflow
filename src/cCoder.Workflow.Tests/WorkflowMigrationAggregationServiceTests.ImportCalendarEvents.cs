@@ -97,12 +97,20 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
         };
 
         // When
-        await service.ImportPackageWorkflowPackageAsync(appId: 7, package: package);
+        await service.ImportPackageWorkflowPackageAsync(appId: 7, workflowPackage: package);
 
         // Then
-        captured.Should().ContainSingle();
-        captured.Single().Name.Should().Be(expected: "New");
-        captured.Single().CalendarId.Should().Be(expected: calendar.Id);
+        captured.Should()
+            .ContainSingle();
+
+        captured.Single()
+            .Name.Should()
+            .Be(expected: "New");
+
+        captured.Single()
+            .CalendarId.Should()
+            .Be(expected: calendar.Id);
+
         calendarServiceMock.VerifyAll();
         eventServiceMock.VerifyAll();
     }

@@ -15,6 +15,8 @@ internal interface IScheduledTaskService
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
+    ScheduledTask[] GetDueScheduledTasks(DateTimeOffset currentDateTime);
+
     ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution);
 
     bool GetExecuteAsUserBelongsToApp(string executeAs, int appId);

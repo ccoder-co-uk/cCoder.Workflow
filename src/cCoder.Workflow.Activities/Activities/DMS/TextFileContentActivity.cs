@@ -13,7 +13,3 @@ public class TextFileContentActivity : DMSActivity
         Result = await GetFileContents(api);
     }
 }
-
-
-
-

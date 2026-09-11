@@ -11,5 +11,3 @@ public sealed class EventTrigger<T> : Activity
     public string AuthToken { get; set; }
     public T Data { get; set; }
 }
-
-

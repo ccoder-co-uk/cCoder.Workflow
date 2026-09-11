@@ -30,6 +30,13 @@ internal sealed partial class ScheduledTaskProcessingService(
                             ? configuration.ScheduledTaskPollingIntervalMilliseconds
                             : 60000));
 
+    public ScheduledTask[] GetDueScheduledTasks(DateTimeOffset currentDateTime) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [currentDateTime]);
+            return service.GetDueScheduledTasks(currentDateTime: currentDateTime);
+        });
+
     public ValueTask LogNoScheduledTasksDueAsync() =>
         TryCatch(
             operation: () =>
@@ -129,14 +136,14 @@ internal sealed partial class ScheduledTaskProcessingService(
             scheduledTaskId: scheduledTaskId,
             incrementNextExecution: incrementNextExecution);
 
-    public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newScheduledTask]); return await ExecuteAddAsync(entity: newScheduledTask); }, isValueTask: true);
 
     private ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask entity) =>
         service.AddScheduledTaskAsync(newScheduledTask: entity);
 
-    public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedScheduledTask]); return await ExecuteUpdateAsync(entity: updatedScheduledTask); }, isValueTask: true);
 
     private ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask entity) =>
         service.UpdateScheduledTaskAsync(updatedScheduledTask: entity);
@@ -172,8 +179,8 @@ internal sealed partial class ScheduledTaskProcessingService(
 
                 ScheduledTask savedItem =
                     !exists
-                        ? await AddScheduledTaskAsync(newEntity: item)
-                        : await UpdateScheduledTaskAsync(updatedEntity: item);
+                        ? await AddScheduledTaskAsync(newScheduledTask: item)
+                        : await UpdateScheduledTaskAsync(updatedScheduledTask: item);
 
                 results.Add(item: new Result<ScheduledTask>
                 {

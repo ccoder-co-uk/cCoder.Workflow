@@ -35,6 +35,7 @@ public partial class CalendarEventOrchestrationServiceTests
             .Should()
             .BeSameAs(expected: expected);
 
+
         calendarEventProcessingServiceMock.VerifyAll();
     }
 }

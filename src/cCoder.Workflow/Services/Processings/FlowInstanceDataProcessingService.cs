@@ -28,24 +28,24 @@ internal sealed partial class FlowInstanceDataProcessingService(IFlowInstanceDat
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowInstanceData]); return await ExecuteAddAsync(entity: newFlowInstanceData); }, isValueTask: true);
 
     private ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData entity)
     {
         return service.AddFlowInstanceDataAsync(newFlowInstanceData: entity);
     }
 
-    public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddQueuedAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowInstanceData]); return await ExecuteAddQueuedAsync(entity: newFlowInstanceData); }, isValueTask: true);
 
     private ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData entity)
     {
         return service.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity);
     }
 
-    public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedFlowInstanceData]); return await ExecuteUpdateAsync(entity: updatedFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData entity)
     {
@@ -88,8 +88,8 @@ internal sealed partial class FlowInstanceDataProcessingService(IFlowInstanceDat
             {
                 FlowInstanceData savedItem =
                     item.Id == Guid.Empty
-                        ? await AddFlowInstanceDataAsync(newEntity: item)
-                        : await UpdateFlowInstanceDataAsync(updatedEntity: item);
+                        ? await AddFlowInstanceDataAsync(newFlowInstanceData: item)
+                        : await UpdateFlowInstanceDataAsync(updatedFlowInstanceData: item);
 
                 results.Add(item: new Result<FlowInstanceData>
                 {

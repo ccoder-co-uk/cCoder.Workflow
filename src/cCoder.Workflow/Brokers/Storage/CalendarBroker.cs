@@ -20,26 +20,26 @@ internal sealed class CalendarBroker(ICoreContextFactory coreContextFactory) : I
             .Calendars
             .IgnoreQueryFilters();
 
-    public async ValueTask<Calendar> InsertCalendarAsync(Calendar newEntity)
+    public async ValueTask<Calendar> InsertCalendarAsync(Calendar newCalendar)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Calendar result = (await coreDataContext.Calendars.AddAsync(entity: newEntity)).Entity;
+        Calendar result = (await coreDataContext.Calendars.AddAsync(entity: newCalendar)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedEntity)
+    public async ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedCalendar)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Calendar result = coreDataContext.Calendars.Update(entity: updatedEntity).Entity;
+        Calendar result = coreDataContext.Calendars.Update(entity: updatedCalendar).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteCalendarAsync(Calendar deletedEntity)
+    public async ValueTask<int> DeleteCalendarAsync(Calendar deletedCalendar)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Calendars.Remove(entity: deletedEntity);
+        coreDataContext.Calendars.Remove(entity: deletedCalendar);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -60,8 +60,8 @@ internal sealed class CalendarBroker(ICoreContextFactory coreContextFactory) : I
             .ExecuteDeleteAsync();
     }
 
-    public int? SelectAppId(Calendar entity)
+    public int? SelectAppId(Calendar calendar)
     {
-        return entity.AppId;
+        return calendar.AppId;
     }
 }

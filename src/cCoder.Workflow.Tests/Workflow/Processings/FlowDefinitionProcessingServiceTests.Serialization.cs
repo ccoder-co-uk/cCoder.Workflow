@@ -26,7 +26,9 @@ public partial class FlowDefinitionProcessingServiceTests
             .AuthorizeFlowDefinitionExecution(userId: "user", appId: 7);
 
         // Then
-        result.Should().BeTrue();
+        result.Should()
+            .BeTrue();
+
         authorizationBrokerMock.VerifyAll();
     }
 
@@ -45,7 +47,9 @@ public partial class FlowDefinitionProcessingServiceTests
             .ParseFlowDefinition(definitionJson: "{}");
 
         // Then
-        actual.Should().BeSameAs(expected: expected);
+        actual.Should()
+            .BeSameAs(expected: expected);
+
         jsonBrokerMock.VerifyAll();
     }
 
@@ -64,7 +68,9 @@ public partial class FlowDefinitionProcessingServiceTests
             .ParseFlowDefinitionData(args: "{}");
 
         // Then
-        actual.Should().BeSameAs(expected: expected);
+        actual.Should()
+            .BeSameAs(expected: expected);
+
         jsonBrokerMock.VerifyAll();
     }
 
@@ -83,7 +89,9 @@ public partial class FlowDefinitionProcessingServiceTests
             .SerializeFlowDefinitionContext(context: context);
 
         // Then
-        actual.Should().Be(expected: "serialized");
+        actual.Should()
+            .Be(expected: "serialized");
+
         jsonBrokerMock.VerifyAll();
     }
 }

@@ -17,8 +17,3 @@ public class ApiDelete<T> : ApiActivity<object>
         await api.DeleteAsync(Query);
     }
 }
-
-
-
-
-

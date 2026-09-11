@@ -36,11 +36,14 @@ public sealed partial class WebApplicationExtensionsTests
         handlers.ListenToAllEventsCallCount.Should()
             .Be(expected: 1);
 
+
         handlers.ListenToScheduledTaskExecuteEventsCallCount.Should()
             .Be(expected: 1);
 
+
         handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should()
             .Be(expected: 1);
+
     }
 
     [Fact]
@@ -66,11 +69,14 @@ implementationInstance: new MockWorkflowMetadataTypeService());
         handlers.ListenToAllEventsCallCount.Should()
             .Be(expected: 0);
 
+
         handlers.ListenToScheduledTaskExecuteEventsCallCount.Should()
             .Be(expected: 0);
 
+
         handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should()
             .Be(expected: 0);
+
     }
 
     private sealed class TestWorkflowEventHandlers : IWorkflowEventHandlers

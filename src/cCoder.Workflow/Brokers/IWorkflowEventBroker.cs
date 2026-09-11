@@ -12,11 +12,13 @@ public interface IWorkflowEventBroker
 
     IQueryable<WorkflowEvent> SelectAllWorkflowEventsIgnoringQueryFilters();
 
-    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity);
+    WorkflowEvent[] SelectWorkflowEventSubscriptions(int appId, string eventContext);
 
-    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity);
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent);
 
-    ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent deletedEntity);
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent);
 
-    int? SelectAppId(WorkflowEvent entity);
+    ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent deletedWorkflowEvent);
+
+    int? SelectAppId(WorkflowEvent workflowEvent);
 }

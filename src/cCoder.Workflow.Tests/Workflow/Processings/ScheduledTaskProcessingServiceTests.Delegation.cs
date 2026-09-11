@@ -16,6 +16,7 @@ public partial class ScheduledTaskProcessingServiceTests
     {
         // Given
         ScheduledTask task = CreateScheduledTask();
+
         IQueryable<ScheduledTask> tasks = new[] { task }
             .AsQueryable();
 
@@ -67,10 +68,10 @@ public partial class ScheduledTaskProcessingServiceTests
                 incrementNextExecution: false);
 
         ScheduledTask actualAdded = await processingService.AddScheduledTaskAsync(
-            newEntity: task);
+            newScheduledTask: task);
 
         ScheduledTask actualUpdated = await processingService.UpdateScheduledTaskAsync(
-            updatedEntity: task);
+            updatedScheduledTask: task);
 
         await processingService.DeleteAsync(scheduledTaskId: task.Id);
         await processingService.DeleteByAppIdAsync(appId: task.AppId);
@@ -80,21 +81,26 @@ public partial class ScheduledTaskProcessingServiceTests
             .Should()
             .BeSameAs(expected: task);
 
+
         actualAll
             .Should()
             .BeSameAs(expected: tasks);
+
 
         actualExecuted
             .Should()
             .BeSameAs(expected: task);
 
+
         actualAdded
             .Should()
             .BeSameAs(expected: task);
 
+
         actualUpdated
             .Should()
             .BeSameAs(expected: task);
+
 
         scheduledTaskServiceMock.VerifyAll();
     }

@@ -31,16 +31,16 @@ internal sealed partial class CalendarProcessingService(
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<Calendar> AddCalendarAsync(Calendar newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<Calendar> AddCalendarAsync(Calendar newCalendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendar]); return await ExecuteAddAsync(entity: newCalendar); }, isValueTask: true);
 
     private ValueTask<Calendar> ExecuteAddAsync(Calendar entity)
     {
         return service.AddCalendarAsync(newCalendar: entity);
     }
 
-    public ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedCalendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendar]); return await ExecuteUpdateAsync(entity: updatedCalendar); }, isValueTask: true);
 
     private ValueTask<Calendar> ExecuteUpdateAsync(Calendar entity)
     {
@@ -76,8 +76,8 @@ internal sealed partial class CalendarProcessingService(
 
                 Calendar savedItem =
                     !exists
-                        ? await AddCalendarAsync(newEntity: item)
-                        : await UpdateCalendarAsync(updatedEntity: item);
+                        ? await AddCalendarAsync(newCalendar: item)
+                        : await UpdateCalendarAsync(updatedCalendar: item);
 
                 results.Add(item: new Result<Calendar>
                 {

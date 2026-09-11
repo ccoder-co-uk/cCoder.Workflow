@@ -16,23 +16,6 @@ namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
 public partial class CalendarControllerTests
 {
-    [Fact]
-    public void ShouldReturnMetadataWhenGetMetadataIsRequested()
-    {
-        IActionResult result = controller.GetMetadata();
-
-        result.Should().BeOfType<OkObjectResult>();
-    }
-
-    [Fact]
-    public void ShouldReturnExtendedMetadataWhenGetMetadataIsExtended()
-    {
-        controller.Request.QueryString = new QueryString(value: "?extend=true");
-
-        IActionResult result = controller.GetMetadata();
-
-        result.Should().BeOfType<OkObjectResult>();
-    }
 
     [Fact]
     public void ShouldReturnCalendarWhenGetFindsRequestedCalendar()
@@ -62,7 +45,7 @@ public partial class CalendarControllerTests
     {
         controller.ModelState.AddModelError(key: "Name", errorMessage: "Required");
 
-        IActionResult result = await controller.Post(newEntity: new Calendar());
+        IActionResult result = await controller.Post(newCalendar: new Calendar());
 
         result.Should().BeAssignableTo<BadRequestObjectResult>();
     }
@@ -72,34 +55,9 @@ public partial class CalendarControllerTests
     {
         controller.ModelState.AddModelError(key: "Name", errorMessage: "Required");
 
-        IActionResult result = await controller.Put(key: 1, updatedEntity: new Calendar());
+        IActionResult result = await controller.Put(key: 1, updatedCalendar: new Calendar());
 
         result.Should().BeAssignableTo<BadRequestObjectResult>();
-    }
-
-    [Fact]
-    public async Task ShouldReturnNotFoundWhenPatchCannotFindCalendarAsync()
-    {
-        calendarManagerMock.Setup(expression: service => service.Get(calendarId: 1))
-            .Returns(value: null);
-
-        IActionResult result = await controller.Put(key: 1, updatedDelta: new Delta<Calendar>());
-
-        result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task ShouldUpdateCalendarWhenPatchFindsCalendarAsync()
-    {
-        Calendar calendar = new() { Id = 1 };
-        calendarManagerMock.Setup(expression: service => service.Get(calendarId: 1))
-            .Returns(value: calendar);
-        calendarManagerMock.Setup(expression: service => service.UpdateCalendarAsync(calendar))
-            .ReturnsAsync(value: calendar);
-
-        IActionResult result = await controller.Put(key: 1, updatedDelta: new Delta<Calendar>());
-
-        result.Should().BeOfType<OkObjectResult>();
     }
 
     [Fact]

@@ -7,14 +7,13 @@ using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Extensions;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class WorkflowScriptExecutionProcessingService(
     IScriptBroker scriptBroker,
+    IJsonBroker jsonBroker,
     cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger)
     : IWorkflowScriptExecutionProcessingService
 {
@@ -30,12 +29,8 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
             if (useDetails)
             {
                 ExecutionDetails details =
-                    JsonConvert.DeserializeObject<ExecutionDetails>(
-                        value: payload,
-                        settings: new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.None
-                        })
+                    jsonBroker.DeserializeWithoutTypeInformation<ExecutionDetails>(
+                        value: payload)
                     ?? throw new InvalidOperationException(
                         "Workflow script execution details could not be deserialized.");
 
@@ -51,9 +46,7 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
                 imports: Imports,
                 log: Log);
 
-            return JsonConvert.SerializeObject(
-                value: result,
-                settings: ObjectExtensions.GetODataJsonSettings());
+            return jsonBroker.SerializeForOData(value: result);
         });
 
     private void Log(

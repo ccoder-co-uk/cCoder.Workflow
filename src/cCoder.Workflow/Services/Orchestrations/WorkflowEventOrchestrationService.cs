@@ -77,23 +77,23 @@ internal sealed partial class WorkflowEventOrchestrationService(IWorkflowEventPr
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newWorkflowEvent]); return await ExecuteAddAsync(entity: newWorkflowEvent); }, isValueTask: true);
 
     private async ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent entity)
     {
-        WorkflowEvent result = await processingService.AddWorkflowEventAsync(newEntity: entity);
-        await eventService.RaiseWorkflowEventAddEventAsync(entity: result);
+        WorkflowEvent result = await processingService.AddWorkflowEventAsync(newWorkflowEvent: entity);
+        await eventService.RaiseWorkflowEventAddEventAsync(workflowEvent: result);
         return result;
     }
 
-    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedWorkflowEvent]); return await ExecuteUpdateAsync(entity: updatedWorkflowEvent); }, isValueTask: true);
 
     private async ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent entity)
     {
-        WorkflowEvent result = await processingService.UpdateWorkflowEventAsync(updatedEntity: entity);
-        await eventService.RaiseWorkflowEventUpdateEventAsync(entity: result);
+        WorkflowEvent result = await processingService.UpdateWorkflowEventAsync(updatedWorkflowEvent: entity);
+        await eventService.RaiseWorkflowEventUpdateEventAsync(workflowEvent: result);
         return result;
     }
 
@@ -103,7 +103,7 @@ internal sealed partial class WorkflowEventOrchestrationService(IWorkflowEventPr
     private async ValueTask ExecuteDeleteAsync(Guid workflowEventId)
     {
         WorkflowEvent entity = processingService.Get(workflowEventId: workflowEventId);
-        await eventService.RaiseWorkflowEventDeleteEventAsync(entity: entity);
+        await eventService.RaiseWorkflowEventDeleteEventAsync(workflowEvent: entity);
         await processingService.DeleteAsync(workflowEventId: workflowEventId);
     }
 

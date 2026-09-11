@@ -33,6 +33,7 @@ public partial class FlowInstanceDataServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -46,7 +47,7 @@ public partial class FlowInstanceDataServiceTests
 
         flowInstanceDataBrokerMock
             .Setup(expression: broker => broker.AddFlowInstanceDataAsync(
-                newEntity: It.Is<FlowInstanceData>(match: _ => true)))
+                newFlowInstanceData: It.Is<FlowInstanceData>(match: _ => true)))
             .Throws(exception: exception);
 
         // When
@@ -62,6 +63,7 @@ public partial class FlowInstanceDataServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -79,7 +81,7 @@ public partial class FlowInstanceDataServiceTests
 
         flowInstanceDataBrokerMock
             .Setup(expression: broker => broker.SelectAppId(
-                entity: flowInstanceData))
+                flowInstanceData: flowInstanceData))
             .Throws(exception: exception);
 
         // When
@@ -94,5 +96,6 @@ public partial class FlowInstanceDataServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

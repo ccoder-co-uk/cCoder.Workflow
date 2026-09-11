@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Exposures;
 
 public interface IWorkflowPackageManager
 {
-    ValueTask ImportPackageAsync(int appId, WorkflowPackage package);
+    ValueTask ImportPackageAsync(int appId, WorkflowPackage workflowPackage);
 
     WorkflowPackage ExportPackage(int appId, string packageName);
 }

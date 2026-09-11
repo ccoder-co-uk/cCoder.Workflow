@@ -9,6 +9,7 @@ using cCoder.Security;
 using cCoder.Security.Data.EF;
 using cCoder.Workflow;
 using Workflow.Web.Exposures;
+using Workflow.Web.Brokers;
 using Workflow.Web.Extensions;
 using Workflow.Web.Models;
 using Workflow.Web.Services.Processings;
@@ -49,6 +50,7 @@ public static class IServiceCollectionExtensions
 
     private static void AddProcessings(this IServiceCollection services)
     {
+        services.AddScoped<ICoreAppBroker, CoreAppBroker>();
         services.AddScoped<ICoreAppProcessingService, CoreAppProcessingService>();
         services.AddScoped<ICoreAppManager, CoreAppProcessingService>();
         services.AddScoped<ICoreUserProcessingService, CoreUserProcessingService>();

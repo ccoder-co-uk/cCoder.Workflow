@@ -28,7 +28,7 @@ public partial class CalendarEventEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseCalendarEventDeleteEventAsync(entity: entity);
+        await service.RaiseCalendarEventDeleteEventAsync(calendarEvent: entity);
 
         // Then
         actualMessage.Should()
@@ -37,11 +37,13 @@ public partial class CalendarEventEventServiceTests
         actualMessage!.Data.Should()
             .BeEquivalentTo(expectation: entity);
 
+
         actualMessage.AuthInfo.Should()
             .NotBeNull();
 
         actualMessage.AuthInfo.SSOUserId.Should()
             .Be(expected: CurrentUserId);
+
 
         calendarEventEventBrokerMock.Verify(
 expression: x => x.RaiseCalendarEventDeleteEventAsync(message: It.IsAny<EventMessage<CalendarEvent>>()),

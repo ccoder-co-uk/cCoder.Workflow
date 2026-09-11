@@ -12,42 +12,42 @@ internal sealed partial class ScheduledTaskEventService(
     IScheduledTaskEventBroker scheduledTaskEventBroker)
         : IScheduledTaskEventService
 {
-    public ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask entity) =>
+    public ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask scheduledTask) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [scheduledTask]);
 
-            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: scheduledTask);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskAddEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask entity) =>
+    public ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask scheduledTask) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [scheduledTask]);
 
-            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: scheduledTask);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskUpdateEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask entity) =>
+    public ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask scheduledTask) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [scheduledTask]);
 
-            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: scheduledTask);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskDeleteEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask entity) =>
+    public ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask scheduledTask) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [scheduledTask]);
 
-            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: entity);
+            EventMessage<ScheduledTask> message = CreateScheduledTaskMessage(entity: scheduledTask);
 
             await scheduledTaskEventBroker.RaiseScheduledTaskExecuteEventAsync(message: message);
         }, isValueTask: true);

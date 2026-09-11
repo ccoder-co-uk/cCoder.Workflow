@@ -21,6 +21,21 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             .ScheduledTasks
             .IgnoreQueryFilters();
 
+    public ScheduledTask[] SelectDueScheduledTasks(DateTimeOffset currentDateTime) =>
+        coreContextFactory.CreateCoreContext()
+            .ScheduledTasks
+            .IgnoreQueryFilters()
+            .Where(predicate: scheduledTask =>
+                scheduledTask.NextExecution != null &&
+                scheduledTask.NextExecution < currentDateTime &&
+                scheduledTask.ScheduleInTicks != 0)
+            .Include(navigationPropertyPath: scheduledTask => scheduledTask.Flow)
+                .ThenInclude(navigationPropertyPath: flowDefinition => flowDefinition.App)
+            .Include(navigationPropertyPath: scheduledTask => scheduledTask.ExecuteAsUser)
+                .ThenInclude(navigationPropertyPath: user => user.Roles)
+                    .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
+            .ToArray();
+
     public ScheduledTask SelectScheduledTaskForExecution(int scheduledTaskId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
@@ -47,26 +62,26 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
         return coreDataContext.FlowDefinitions.Any(predicate: flow => flow.Id == flowId && flow.AppId == appId);
     }
 
-    public async ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask newEntity)
+    public async ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask newScheduledTask)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity: newEntity)).Entity;
+        ScheduledTask result = (await coreDataContext.ScheduledTasks.AddAsync(entity: newScheduledTask)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity)
+    public async ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        ScheduledTask result = coreDataContext.ScheduledTasks.Update(entity: updatedEntity).Entity;
+        ScheduledTask result = coreDataContext.ScheduledTasks.Update(entity: updatedScheduledTask).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask deletedEntity)
+    public async ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask deletedScheduledTask)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.ScheduledTasks.Remove(entity: deletedEntity);
+        coreDataContext.ScheduledTasks.Remove(entity: deletedScheduledTask);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -87,8 +102,8 @@ internal sealed class ScheduledTaskBroker(ICoreContextFactory coreContextFactory
             .ExecuteDeleteAsync();
     }
 
-    public int? SelectAppId(ScheduledTask entity)
+    public int? SelectAppId(ScheduledTask scheduledTask)
     {
-        return entity.AppId;
+        return scheduledTask.AppId;
     }
 }

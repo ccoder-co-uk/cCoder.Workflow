@@ -32,7 +32,7 @@ public partial class CalendarEntityEventServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .RaiseCalendarAddEventAsync(entity: calendar);
+            .RaiseCalendarAddEventAsync(calendar: calendar);
 
         // Then
         Exception thrown = (await action
@@ -42,5 +42,6 @@ public partial class CalendarEntityEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

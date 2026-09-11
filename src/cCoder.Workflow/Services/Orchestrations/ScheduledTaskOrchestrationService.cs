@@ -26,23 +26,23 @@ internal sealed partial class ScheduledTaskOrchestrationService(IScheduledTaskPr
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newScheduledTask]); return await ExecuteAddAsync(entity: newScheduledTask); }, isValueTask: true);
 
     private async ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask entity)
     {
-        ScheduledTask result = await processingService.AddScheduledTaskAsync(newEntity: entity);
-        await eventService.RaiseScheduledTaskAddEventAsync(entity: result);
+        ScheduledTask result = await processingService.AddScheduledTaskAsync(newScheduledTask: entity);
+        await eventService.RaiseScheduledTaskAddEventAsync(scheduledTask: result);
         return result;
     }
 
-    public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedScheduledTask]); return await ExecuteUpdateAsync(entity: updatedScheduledTask); }, isValueTask: true);
 
     private async ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask entity)
     {
-        ScheduledTask result = await processingService.UpdateScheduledTaskAsync(updatedEntity: entity);
-        await eventService.RaiseScheduledTaskUpdateEventAsync(entity: result);
+        ScheduledTask result = await processingService.UpdateScheduledTaskAsync(updatedScheduledTask: entity);
+        await eventService.RaiseScheduledTaskUpdateEventAsync(scheduledTask: result);
         return result;
     }
 
@@ -59,7 +59,7 @@ internal sealed partial class ScheduledTaskOrchestrationService(IScheduledTaskPr
             return;
         }
 
-        await eventService.RaiseScheduledTaskDeleteEventAsync(entity: entity);
+        await eventService.RaiseScheduledTaskDeleteEventAsync(scheduledTask: entity);
         await processingService.DeleteAsync(scheduledTaskId: scheduledTaskId);
     }
 
@@ -98,6 +98,6 @@ internal sealed partial class ScheduledTaskOrchestrationService(IScheduledTaskPr
                 incrementNextExecution: incrementNextExecution);
 
         await eventService.RaiseScheduledTaskExecuteEventAsync(
-            entity: scheduledTask);
+            scheduledTask: scheduledTask);
     }
 }

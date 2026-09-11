@@ -10,6 +10,7 @@ namespace cCoder.Workflow.Engine.Exposures;
 internal sealed class FlowRunner(IFlowExecutionOrchestrationService flowExecutionOrchestrationService)
     : IFlowRunner
 {
-    public Task RunAsync(WorkflowRequest request) =>
-        flowExecutionOrchestrationService.ExecuteAsync(request: request);
+    public Task RunAsync(WorkflowRequest workflowRequest) =>
+        flowExecutionOrchestrationService.ExecuteAsync(
+            workflowRequest: workflowRequest);
 }

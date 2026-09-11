@@ -29,7 +29,7 @@ public partial class ScheduledTaskServiceTests
 
         scheduledTaskBrokerMock
             .Setup(expression: broker => broker.DeleteScheduledTaskAsync(
-                deletedEntity: It.Is<ScheduledTask>(match: deleted =>
+                deletedScheduledTask: It.Is<ScheduledTask>(match: deleted =>
                     deleted.Id == scheduledTask.Id)))
             .Returns(value: ValueTask.FromResult(result: 1));
 

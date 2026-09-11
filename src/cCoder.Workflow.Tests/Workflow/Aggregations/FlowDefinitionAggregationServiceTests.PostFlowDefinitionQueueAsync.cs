@@ -55,6 +55,7 @@ public partial class FlowDefinitionAggregationServiceTests
         result.Should()
             .Be(expected: queuedId);
 
+
         authorizationBrokerMock.Verify(expression: broker => broker.GetCurrentUser(), times: Times.Once);
 
         flowDefinitionCoordinationServiceMock.Verify(
@@ -98,6 +99,7 @@ public partial class FlowDefinitionAggregationServiceTests
         // Then
         result.Should()
             .Be(expected: queuedId);
+
 
         flowDefinitionCoordinationServiceMock.Verify(
             expression: foundService => foundService.QueueAsync(

@@ -241,17 +241,17 @@ public sealed partial class ControllerFailureLoggingTests
         var loggingBrokerMock = new Mock<ILoggingBroker>();
         var calendar = new Calendar();
 
-        serviceMock.Setup(expression: service => service.AddCalendarAsync(newEntity: calendar))
+        serviceMock.Setup(expression: service => service.AddCalendarAsync(newCalendar: calendar))
             .ThrowsAsync(exception: exception);
 
-        serviceMock.Setup(expression: service => service.UpdateCalendarAsync(updatedEntity: calendar))
+        serviceMock.Setup(expression: service => service.UpdateCalendarAsync(updatedCalendar: calendar))
             .ThrowsAsync(exception: exception);
 
         var controller = new CalendarController(service: serviceMock.Object, loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult postResult = await controller.Post(newEntity: calendar);
-        IActionResult putResult = await controller.Put(key: 1, updatedEntity: calendar);
+        IActionResult postResult = await controller.Post(newCalendar: calendar);
+        IActionResult putResult = await controller.Put(key: 1, updatedCalendar: calendar);
 
         // Then
         VerifyFailures(results: [postResult, putResult], exception: exception, expectedStatusCode: expectedStatusCode, loggingBrokerMock: loggingBrokerMock);
@@ -266,17 +266,17 @@ public sealed partial class ControllerFailureLoggingTests
         var loggingBrokerMock = new Mock<ILoggingBroker>();
         var calendarEvent = new CalendarEvent();
 
-        serviceMock.Setup(expression: service => service.AddCalendarEventAsync(newEntity: calendarEvent))
+        serviceMock.Setup(expression: service => service.AddCalendarEventAsync(newCalendarEvent: calendarEvent))
             .ThrowsAsync(exception: exception);
 
-        serviceMock.Setup(expression: service => service.UpdateCalendarEventAsync(updatedEntity: calendarEvent))
+        serviceMock.Setup(expression: service => service.UpdateCalendarEventAsync(updatedCalendarEvent: calendarEvent))
             .ThrowsAsync(exception: exception);
 
         var controller = new CalendarEventController(service: serviceMock.Object, loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult postResult = await controller.Post(newEntity: calendarEvent);
-        IActionResult putResult = await controller.Put(key: 1, updatedEntity: calendarEvent);
+        IActionResult postResult = await controller.Post(newCalendarEvent: calendarEvent);
+        IActionResult putResult = await controller.Put(key: 1, updatedCalendarEvent: calendarEvent);
 
         // Then
         VerifyFailures(results: [postResult, putResult], exception: exception, expectedStatusCode: expectedStatusCode, loggingBrokerMock: loggingBrokerMock);
@@ -291,10 +291,10 @@ public sealed partial class ControllerFailureLoggingTests
         var loggingBrokerMock = new Mock<ILoggingBroker>();
         var flowDefinition = new FlowDefinition();
 
-        serviceMock.Setup(expression: service => service.AddFlowDefinitionAsync(newEntity: flowDefinition))
+        serviceMock.Setup(expression: service => service.AddFlowDefinitionAsync(newFlowDefinition: flowDefinition))
             .ThrowsAsync(exception: exception);
 
-        serviceMock.Setup(expression: service => service.UpdateFlowDefinitionAsync(updatedEntity: flowDefinition))
+        serviceMock.Setup(expression: service => service.UpdateFlowDefinitionAsync(updatedFlowDefinition: flowDefinition))
             .ThrowsAsync(exception: exception);
 
         var controller = new FlowDefinitionController(
@@ -303,8 +303,8 @@ public sealed partial class ControllerFailureLoggingTests
             loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult postResult = await controller.Post(newEntity: flowDefinition);
-        IActionResult putResult = await controller.Put(key: Guid.NewGuid(), updatedEntity: flowDefinition);
+        IActionResult postResult = await controller.Post(newFlowDefinition: flowDefinition);
+        IActionResult putResult = await controller.Put(key: Guid.NewGuid(), updatedFlowDefinition: flowDefinition);
 
         // Then
         VerifyFailures(results: [postResult, putResult], exception: exception, expectedStatusCode: expectedStatusCode, loggingBrokerMock: loggingBrokerMock);
@@ -319,17 +319,17 @@ public sealed partial class ControllerFailureLoggingTests
         var loggingBrokerMock = new Mock<ILoggingBroker>();
         var flowInstanceData = new FlowInstanceData();
 
-        serviceMock.Setup(expression: service => service.AddFlowInstanceDataAsync(newEntity: flowInstanceData))
+        serviceMock.Setup(expression: service => service.AddFlowInstanceDataAsync(newFlowInstanceData: flowInstanceData))
             .ThrowsAsync(exception: exception);
 
-        serviceMock.Setup(expression: service => service.UpdateFlowInstanceDataAsync(updatedEntity: flowInstanceData))
+        serviceMock.Setup(expression: service => service.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: flowInstanceData))
             .ThrowsAsync(exception: exception);
 
         var controller = new FlowInstanceDataController(service: serviceMock.Object, loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult postResult = await controller.Post(newEntity: flowInstanceData);
-        IActionResult putResult = await controller.Put(key: Guid.NewGuid(), updatedEntity: flowInstanceData);
+        IActionResult postResult = await controller.Post(newFlowInstanceData: flowInstanceData);
+        IActionResult putResult = await controller.Put(key: Guid.NewGuid(), updatedFlowInstanceData: flowInstanceData);
 
         // Then
         VerifyFailures(results: [postResult, putResult], exception: exception, expectedStatusCode: expectedStatusCode, loggingBrokerMock: loggingBrokerMock);
@@ -344,17 +344,17 @@ public sealed partial class ControllerFailureLoggingTests
         var loggingBrokerMock = new Mock<ILoggingBroker>();
         var scheduledTask = new ScheduledTask();
 
-        serviceMock.Setup(expression: service => service.AddScheduledTaskAsync(newEntity: scheduledTask))
+        serviceMock.Setup(expression: service => service.AddScheduledTaskAsync(newScheduledTask: scheduledTask))
             .ThrowsAsync(exception: exception);
 
-        serviceMock.Setup(expression: service => service.UpdateScheduledTaskAsync(updatedEntity: scheduledTask))
+        serviceMock.Setup(expression: service => service.UpdateScheduledTaskAsync(updatedScheduledTask: scheduledTask))
             .ThrowsAsync(exception: exception);
 
         var controller = new ScheduledTaskController(service: serviceMock.Object, loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult postResult = await controller.Post(newEntity: scheduledTask);
-        IActionResult putResult = await controller.Put(key: 1, updatedEntity: scheduledTask);
+        IActionResult postResult = await controller.Post(newScheduledTask: scheduledTask);
+        IActionResult putResult = await controller.Put(key: 1, updatedScheduledTask: scheduledTask);
 
         // Then
         VerifyFailures(results: [postResult, putResult], exception: exception, expectedStatusCode: expectedStatusCode, loggingBrokerMock: loggingBrokerMock);
@@ -369,17 +369,17 @@ public sealed partial class ControllerFailureLoggingTests
         var loggingBrokerMock = new Mock<ILoggingBroker>();
         var workflowEvent = new WorkflowEvent();
 
-        serviceMock.Setup(expression: service => service.AddWorkflowEventAsync(newEntity: workflowEvent))
+        serviceMock.Setup(expression: service => service.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent))
             .ThrowsAsync(exception: exception);
 
-        serviceMock.Setup(expression: service => service.UpdateWorkflowEventAsync(updatedEntity: workflowEvent))
+        serviceMock.Setup(expression: service => service.UpdateWorkflowEventAsync(updatedWorkflowEvent: workflowEvent))
             .ThrowsAsync(exception: exception);
 
         var controller = new WorkflowEventController(service: serviceMock.Object, loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult postResult = await controller.Post(newEntity: workflowEvent);
-        IActionResult putResult = await controller.Put(key: Guid.NewGuid(), updatedEntity: workflowEvent);
+        IActionResult postResult = await controller.Post(newWorkflowEvent: workflowEvent);
+        IActionResult putResult = await controller.Put(key: Guid.NewGuid(), updatedWorkflowEvent: workflowEvent);
 
         // Then
         VerifyFailures(results: [postResult, putResult], exception: exception, expectedStatusCode: expectedStatusCode, loggingBrokerMock: loggingBrokerMock);
@@ -470,12 +470,6 @@ public sealed partial class ControllerFailureLoggingTests
         IActionResult flowInstanceDataResult = await flowInstanceDataController.Delete(key: key);
         IActionResult scheduledTaskResult = await scheduledTaskController.Delete(key: 1);
         IActionResult workflowEventResult = await workflowEventController.Delete(key: key);
-        IActionResult calendarDeltaResult = await calendarController.Put(key: 1, updatedDelta: (Delta<Calendar>)null);
-        IActionResult calendarEventDeltaResult = await calendarEventController.Put(key: 1, updatedDelta: (Delta<CalendarEvent>)null);
-        IActionResult flowDefinitionDeltaResult = await flowDefinitionController.Put(key: key, updatedDelta: (Delta<FlowDefinition>)null);
-        IActionResult flowInstanceDataDeltaResult = await flowInstanceDataController.Put(key: key, updatedDelta: (Delta<FlowInstanceData>)null);
-        IActionResult scheduledTaskDeltaResult = await scheduledTaskController.Put(key: 1, updatedDelta: (Delta<ScheduledTask>)null);
-        IActionResult workflowEventDeltaResult = await workflowEventController.Put(key: key, updatedDelta: (Delta<WorkflowEvent>)null);
         IActionResult scheduledTaskExecutionResult = await scheduledTaskController.PostAsync(key: 1);
         IActionResult flowDefinitionExecutionResult = await flowDefinitionController.PostAsync(key: key);
 
@@ -489,12 +483,6 @@ public sealed partial class ControllerFailureLoggingTests
                 flowInstanceDataResult,
                 scheduledTaskResult,
                 workflowEventResult,
-                calendarDeltaResult,
-                calendarEventDeltaResult,
-                flowDefinitionDeltaResult,
-                flowInstanceDataDeltaResult,
-                scheduledTaskDeltaResult,
-                workflowEventDeltaResult,
                 scheduledTaskExecutionResult,
                 flowDefinitionExecutionResult
             ],
@@ -509,56 +497,22 @@ public sealed partial class ControllerFailureLoggingTests
         // Given
         var exception = new Exception();
         var loggingBrokerMock = new Mock<ILoggingBroker>();
-        var calendarManagerMock = new Mock<ICalendarManager>();
-        var calendarEventManagerMock = new Mock<ICalendarEventManager>();
         var flowDefinitionManagerMock = new Mock<IFlowDefinitionManager>();
-        var flowInstanceDataManagerMock = new Mock<IFlowInstanceDataManager>();
         var scheduledTaskManagerMock = new Mock<IScheduledTaskManager>();
-        var workflowEventManagerMock = new Mock<IWorkflowEventManager>();
-        Guid key = Guid.NewGuid();
-
-        calendarManagerMock.Setup(expression: service => service.Get(calendarId: 1))
-            .Throws(exception: exception);
-
-        calendarEventManagerMock.Setup(expression: service => service.Get(calendarEventId: 1))
-            .Throws(exception: exception);
-
-        flowDefinitionManagerMock.Setup(expression: service => service.GetFlowDefinition(flowDefinitionId: key))
-            .Throws(exception: exception);
-
-        flowInstanceDataManagerMock.Setup(expression: service => service.Get(flowInstanceDataId: key))
-            .Throws(exception: exception);
-
-        scheduledTaskManagerMock.Setup(expression: service => service.Get(scheduledTaskId: 1))
-            .Throws(exception: exception);
-
-        workflowEventManagerMock.Setup(expression: service => service.Get(workflowEventId: key))
-            .Throws(exception: exception);
 
         scheduledTaskManagerMock.Setup(expression: service => service.ExecuteAsync(
             scheduledTaskId: 1,
             incrementNextExecution: true))
             .ThrowsAsync(exception: exception);
 
-        var calendarController = new CalendarController(service: calendarManagerMock.Object, loggingBroker: loggingBrokerMock.Object);
-        var calendarEventController = new CalendarEventController(service: calendarEventManagerMock.Object, loggingBroker: loggingBrokerMock.Object);
-
         var flowDefinitionController = new FlowDefinitionController(
             service: flowDefinitionManagerMock.Object,
             authInfo: Mock.Of<ISSOAuthInfo>(),
             loggingBroker: loggingBrokerMock.Object);
 
-        var flowInstanceDataController = new FlowInstanceDataController(service: flowInstanceDataManagerMock.Object, loggingBroker: loggingBrokerMock.Object);
         var scheduledTaskController = new ScheduledTaskController(service: scheduledTaskManagerMock.Object, loggingBroker: loggingBrokerMock.Object);
-        var workflowEventController = new WorkflowEventController(service: workflowEventManagerMock.Object, loggingBroker: loggingBrokerMock.Object);
 
         // When
-        IActionResult calendarResult = await calendarController.Put(key: 1, updatedDelta: (Delta<Calendar>)null);
-        IActionResult calendarEventResult = await calendarEventController.Put(key: 1, updatedDelta: (Delta<CalendarEvent>)null);
-        IActionResult flowDefinitionResult = await flowDefinitionController.Put(key: key, updatedDelta: (Delta<FlowDefinition>)null);
-        IActionResult flowInstanceDataResult = await flowInstanceDataController.Put(key: key, updatedDelta: (Delta<FlowInstanceData>)null);
-        IActionResult scheduledTaskResult = await scheduledTaskController.Put(key: 1, updatedDelta: (Delta<ScheduledTask>)null);
-        IActionResult workflowEventResult = await workflowEventController.Put(key: key, updatedDelta: (Delta<WorkflowEvent>)null);
         IActionResult flowExecutionResult = await flowDefinitionController.PostAsync(key: Guid.NewGuid());
         IActionResult scheduledExecutionResult = await scheduledTaskController.PostAsync(key: 1);
 
@@ -566,12 +520,6 @@ public sealed partial class ControllerFailureLoggingTests
         VerifyUnhandledFailures(
             results:
             [
-                calendarResult,
-                calendarEventResult,
-                flowDefinitionResult,
-                flowInstanceDataResult,
-                scheduledTaskResult,
-                workflowEventResult,
                 flowExecutionResult,
                 scheduledExecutionResult
             ],
@@ -590,6 +538,7 @@ public sealed partial class ControllerFailureLoggingTests
                 .Which.StatusCode
                 .Should()
                 .Be(expected: StatusCodes.Status500InternalServerError);
+
         }
 
         loggingBrokerMock.Verify(expression: broker => broker.LogError(
@@ -612,6 +561,7 @@ public sealed partial class ControllerFailureLoggingTests
                 .Which.StatusCode
                 .Should()
                 .Be(expected: expectedStatusCode);
+
         }
 
         loggingBrokerMock.Verify(expression: broker => broker.LogError(
@@ -632,6 +582,7 @@ public sealed partial class ControllerFailureLoggingTests
             .Which.StatusCode
             .Should()
             .Be(expected: expectedStatusCode);
+
 
         loggingBrokerMock.Verify(expression: broker => broker.LogError(
             exception: exception,

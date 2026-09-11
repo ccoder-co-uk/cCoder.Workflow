@@ -28,7 +28,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         flowInstanceDataEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(flowInstanceData: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -37,7 +37,7 @@ public partial class FlowInstanceDataOrchestrationServiceTests
         // Then
         flowInstanceDataProcessingServiceMock.Verify(expression: x => x.Get(flowInstanceDataId: id), times: Times.Once);
         flowInstanceDataProcessingServiceMock.Verify(expression: x => x.DeleteAsync(flowInstanceDataId: id), times: Times.Once);
-        flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(entity: entity), times: Times.Once);
+        flowInstanceDataEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataDeleteEventAsync(flowInstanceData: entity), times: Times.Once);
     }
 
 }

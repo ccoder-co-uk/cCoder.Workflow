@@ -34,6 +34,7 @@ public partial class FlowInstanceDataProcessingServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -52,7 +53,7 @@ public partial class FlowInstanceDataProcessingServiceTests
 
         // When
         Func<Task> action = async () => await flowInstanceDataProcessingService
-            .AddQueuedFlowInstanceDataAsync(newEntity: item);
+            .AddQueuedFlowInstanceDataAsync(newFlowInstanceData: item);
 
         // Then
         Exception thrown = (await action
@@ -62,6 +63,7 @@ public partial class FlowInstanceDataProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -88,5 +90,6 @@ public partial class FlowInstanceDataProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

@@ -59,13 +59,13 @@ internal sealed partial class CalendarEventService(
     private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent calendarEvent)
     {
         authorizationBroker.Authorize(
-appId: calendarEventBroker.SelectAppId(entity: calendarEvent),
+appId: calendarEventBroker.SelectAppId(calendarEvent: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_create"
         );
 
         CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
-        CalendarEvent result = await calendarEventBroker.InsertCalendarEventAsync(newEntity: newCalendarEvent);
+        CalendarEvent result = await calendarEventBroker.InsertCalendarEventAsync(newCalendarEvent: newCalendarEvent);
         calendarEvent.Id = result.Id;
         calendarEvent.Name = result.Name;
         calendarEvent.Description = result.Description;
@@ -81,14 +81,14 @@ privilege: $"{nameof(CalendarEvent)}_create"
     private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent calendarEvent)
     {
         authorizationBroker.Authorize(
-appId: calendarEventBroker.SelectAppId(entity: calendarEvent),
+appId: calendarEventBroker.SelectAppId(calendarEvent: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_update"
         );
 
         CalendarEvent updateCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
         CalendarEvent result = await calendarEventBroker.UpdateCalendarEventAsync(
-updatedEntity: updateCalendarEvent
+updatedCalendarEvent: updateCalendarEvent
         );
 
         calendarEvent.Id = result.Id;
@@ -114,12 +114,12 @@ updatedEntity: updateCalendarEvent
         }
 
         authorizationBroker.Authorize(
-appId: calendarEventBroker.SelectAppId(entity: calendarEvent),
+appId: calendarEventBroker.SelectAppId(calendarEvent: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_delete"
         );
 
         _ = await calendarEventBroker.DeleteCalendarEventAsync(
-deletedEntity: CreateStorageCalendarEvent(item: calendarEvent)
+deletedCalendarEvent: CreateStorageCalendarEvent(item: calendarEvent)
         );
     }
 

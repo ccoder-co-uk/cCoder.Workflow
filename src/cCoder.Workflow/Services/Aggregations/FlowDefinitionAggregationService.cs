@@ -40,25 +40,25 @@ internal sealed partial class FlowDefinitionAggregationService(
                 .GetAll();
         });
 
-    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity) =>
+    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
         TryCatch(
             operation: async () =>
             {
-                ValidateInputs(inputs: [newEntity]);
+                ValidateInputs(inputs: [newFlowDefinition]);
 
                 return await GetFlowDefinitionOrchestrationService()
-                    .AddFlowDefinitionAsync(newEntity: newEntity);
+                    .AddFlowDefinitionAsync(newFlowDefinition: newFlowDefinition);
             },
             isValueTask: true);
 
-    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity) =>
+    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
         TryCatch(
             operation: async () =>
             {
-                ValidateInputs(inputs: [updatedEntity]);
+                ValidateInputs(inputs: [updatedFlowDefinition]);
 
                 return await GetFlowDefinitionOrchestrationService()
-                    .UpdateFlowDefinitionAsync(updatedEntity: updatedEntity);
+                    .UpdateFlowDefinitionAsync(updatedFlowDefinition: updatedFlowDefinition);
             },
             isValueTask: true);
 

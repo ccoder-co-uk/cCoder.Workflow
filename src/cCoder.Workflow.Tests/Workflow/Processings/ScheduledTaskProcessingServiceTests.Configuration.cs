@@ -20,6 +20,7 @@ public partial class ScheduledTaskProcessingServiceTests
         // Then
         actualInterval.Should()
             .Be(expected: TimeSpan.FromMinutes(minutes: 1));
+
     }
 
     [Fact]
@@ -34,5 +35,6 @@ public partial class ScheduledTaskProcessingServiceTests
         // Then
         actualInterval.Should()
             .Be(expected: TimeSpan.FromMilliseconds(milliseconds: 250));
+
     }
 }

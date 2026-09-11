@@ -49,6 +49,7 @@ public partial class WorkflowMetadataTypeServiceTests
         result.Name.Should()
             .Be(expected: "Workflow");
 
+
         result.Types.Select(selector: type => type.Name)
             .Should()
             .Contain(expected: [
@@ -85,8 +86,10 @@ public partial class WorkflowMetadataTypeServiceTests
         result.Should()
             .ContainSingle();
 
+
         result[0].Name.Should()
             .Be(expected: "System");
+
 
         result[0].Types.Select(selector: type => type.Name)
             .Should()

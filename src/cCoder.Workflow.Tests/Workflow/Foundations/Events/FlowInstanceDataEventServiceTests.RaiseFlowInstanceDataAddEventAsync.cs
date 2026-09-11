@@ -28,7 +28,7 @@ public partial class FlowInstanceDataEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowInstanceDataAddEventAsync(entity: entity);
+        await service.RaiseFlowInstanceDataAddEventAsync(flowInstanceData: entity);
 
         // Then
         actualMessage.Should()
@@ -37,11 +37,13 @@ public partial class FlowInstanceDataEventServiceTests
         actualMessage!.Data.Should()
             .BeEquivalentTo(expectation: entity);
 
+
         actualMessage.AuthInfo.Should()
             .NotBeNull();
 
         actualMessage.AuthInfo.SSOUserId.Should()
             .Be(expected: CurrentUserId);
+
 
         flowInstanceDataEventBrokerMock.Verify(
 expression: x => x.RaiseFlowInstanceDataAddEventAsync(message: It.IsAny<EventMessage<FlowInstanceData>>()),

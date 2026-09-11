@@ -10,27 +10,27 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class ScheduledTaskEventProcessingService(IScheduledTaskEventService eventService) : IScheduledTaskEventProcessingService
 {
-    public ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseScheduledTaskAddEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask scheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); await ExecuteRaiseScheduledTaskAddEventAsync(entity: scheduledTask); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseScheduledTaskAddEventAsync(ScheduledTask entity) =>
-        eventService.RaiseScheduledTaskAddEventAsync(entity: entity);
+        eventService.RaiseScheduledTaskAddEventAsync(scheduledTask: entity);
 
-    public ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseScheduledTaskUpdateEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask scheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); await ExecuteRaiseScheduledTaskUpdateEventAsync(entity: scheduledTask); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseScheduledTaskUpdateEventAsync(ScheduledTask entity) =>
-        eventService.RaiseScheduledTaskUpdateEventAsync(entity: entity);
+        eventService.RaiseScheduledTaskUpdateEventAsync(scheduledTask: entity);
 
-    public ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseScheduledTaskDeleteEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask scheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); await ExecuteRaiseScheduledTaskDeleteEventAsync(entity: scheduledTask); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseScheduledTaskDeleteEventAsync(ScheduledTask entity) =>
-        eventService.RaiseScheduledTaskDeleteEventAsync(entity: entity);
+        eventService.RaiseScheduledTaskDeleteEventAsync(scheduledTask: entity);
 
-    public ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseScheduledTaskExecuteEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask scheduledTask) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTask]); await ExecuteRaiseScheduledTaskExecuteEventAsync(entity: scheduledTask); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseScheduledTaskExecuteEventAsync(ScheduledTask entity) =>
-        eventService.RaiseScheduledTaskExecuteEventAsync(entity: entity);
+        eventService.RaiseScheduledTaskExecuteEventAsync(scheduledTask: entity);
 }

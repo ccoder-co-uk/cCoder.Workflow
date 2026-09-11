@@ -82,11 +82,3 @@ public abstract class DMSActivity : CoreActivity
         return result;
     }
 }
-
-
-
-
-
-
-
-

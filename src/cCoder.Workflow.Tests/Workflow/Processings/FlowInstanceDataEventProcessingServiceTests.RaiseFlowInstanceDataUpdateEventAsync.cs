@@ -21,14 +21,14 @@ public partial class FlowInstanceDataEventProcessingServiceTests
         FlowInstanceData entity = CreateRandomFlowInstanceData();
 
         flowInstanceDataEventServiceMock
-            .Setup(expression: x => x.RaiseFlowInstanceDataUpdateEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseFlowInstanceDataUpdateEventAsync(flowInstanceData: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowInstanceDataUpdateEventAsync(entity: entity);
+        await service.RaiseFlowInstanceDataUpdateEventAsync(flowInstanceData: entity);
 
         // Then
-        flowInstanceDataEventServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataUpdateEventAsync(entity: entity), times: Times.Once);
+        flowInstanceDataEventServiceMock.Verify(expression: x => x.RaiseFlowInstanceDataUpdateEventAsync(flowInstanceData: entity), times: Times.Once);
         flowInstanceDataEventServiceMock.VerifyNoOtherCalls();
     }
 

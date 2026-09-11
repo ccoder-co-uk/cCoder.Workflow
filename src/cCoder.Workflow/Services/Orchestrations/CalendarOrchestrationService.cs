@@ -33,23 +33,23 @@ internal sealed partial class CalendarOrchestrationService(
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<Calendar> AddCalendarAsync(Calendar newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<Calendar> AddCalendarAsync(Calendar newCalendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendar]); return await ExecuteAddAsync(entity: newCalendar); }, isValueTask: true);
 
     private async ValueTask<Calendar> ExecuteAddAsync(Calendar entity)
     {
-        Calendar result = await processingService.AddCalendarAsync(newEntity: entity);
-        await eventService.RaiseCalendarAddEventAsync(entity: result);
+        Calendar result = await processingService.AddCalendarAsync(newCalendar: entity);
+        await eventService.RaiseCalendarAddEventAsync(calendar: result);
         return result;
     }
 
-    public ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedCalendar) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendar]); return await ExecuteUpdateAsync(entity: updatedCalendar); }, isValueTask: true);
 
     private async ValueTask<Calendar> ExecuteUpdateAsync(Calendar entity)
     {
-        Calendar result = await processingService.UpdateCalendarAsync(updatedEntity: entity);
-        await eventService.RaiseCalendarUpdateEventAsync(entity: result);
+        Calendar result = await processingService.UpdateCalendarAsync(updatedCalendar: entity);
+        await eventService.RaiseCalendarUpdateEventAsync(calendar: result);
         return result;
     }
 
@@ -75,7 +75,7 @@ internal sealed partial class CalendarOrchestrationService(
         await calendarEventProcessingService.DeleteAllCalendarEventAsync(
             deletedItems: calendarEvents);
 
-        await eventService.RaiseCalendarDeleteEventAsync(entity: entity);
+        await eventService.RaiseCalendarDeleteEventAsync(calendar: entity);
         await processingService.DeleteAsync(calendarId: calendarId);
     }
 

@@ -30,10 +30,11 @@ public partial class FlowInstanceDataServiceTests
         result.Should()
             .BeEquivalentTo(expectation: flowInstanceData);
 
+
         flowInstanceDataBrokerMock.Verify(expression: x => x.SelectAllFlowInstanceData(), times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 

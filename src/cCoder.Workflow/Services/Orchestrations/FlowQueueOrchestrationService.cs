@@ -51,10 +51,10 @@ internal sealed partial class FlowQueueOrchestrationService(
             args: args);
 
         flowInstance = await flowInstanceDataProcessingService
-            .AddQueuedFlowInstanceDataAsync(newEntity: flowInstance);
+            .AddQueuedFlowInstanceDataAsync(newFlowInstanceData: flowInstance);
 
         await flowInstanceDataEventProcessingService
-            .RaiseFlowInstanceDataAddEventAsync(entity: flowInstance);
+            .RaiseFlowInstanceDataAddEventAsync(flowInstanceData: flowInstance);
 
         return flowInstance.Id;
     }

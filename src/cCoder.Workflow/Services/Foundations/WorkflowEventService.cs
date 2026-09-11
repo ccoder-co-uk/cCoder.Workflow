@@ -53,11 +53,21 @@ internal sealed partial class WorkflowEventService(
         return workflowEventBroker.SelectAllWorkflowEvents();
     }
 
+    public WorkflowEvent[] GetSubscriptions(int appId, string eventContext) =>
+        TryCatch(operation: () =>
+        {
+            ValidateSubscriptionsOnGet(inputs: [appId, eventContext]);
+
+            return workflowEventBroker.SelectWorkflowEventSubscriptions(
+                appId: appId,
+                eventContext: eventContext);
+        });
+
     public int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
         TryCatch(operation: () => { ValidateAppIdForWorkflowEventOnGet(inputs: [workflowEvent]); return ExecuteGetAppIdForWorkflowEvent(workflowEvent: workflowEvent); });
 
     private int? ExecuteGetAppIdForWorkflowEvent(WorkflowEvent workflowEvent) =>
-        workflowEventBroker.SelectAppId(entity: workflowEvent);
+        workflowEventBroker.SelectAppId(workflowEvent: workflowEvent);
 
     public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent) =>
         TryCatch(operation: async () => { ValidateWorkflowEventOnAdd(inputs: [newWorkflowEvent]); return await ExecuteAddAsync(workflowEvent: newWorkflowEvent); }, isValueTask: true);
@@ -65,7 +75,7 @@ internal sealed partial class WorkflowEventService(
     private async ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-appId: workflowEventBroker.SelectAppId(entity: workflowEvent),
+appId: workflowEventBroker.SelectAppId(workflowEvent: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_create"
         );
 
@@ -76,7 +86,7 @@ privilege: $"{nameof(WorkflowEvent)}_create"
         newWorkflowEvent.CreatedOn = now;
         newWorkflowEvent.CreatedBy = currentUserId;
 
-        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newEntity: newWorkflowEvent);
+        WorkflowEvent result = await workflowEventBroker.AddWorkflowEventAsync(newWorkflowEvent: newWorkflowEvent);
         workflowEvent.Id = result.Id;
         workflowEvent.Type = result.Type;
         workflowEvent.EventContext = result.EventContext;
@@ -93,14 +103,14 @@ privilege: $"{nameof(WorkflowEvent)}_create"
     private async ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent workflowEvent)
     {
         authorizationBroker.Authorize(
-appId: workflowEventBroker.SelectAppId(entity: workflowEvent),
+appId: workflowEventBroker.SelectAppId(workflowEvent: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_update"
         );
 
         WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(item: workflowEvent);
 
         WorkflowEvent result = await workflowEventBroker.UpdateWorkflowEventAsync(
-updatedEntity: updateWorkflowEvent
+updatedWorkflowEvent: updateWorkflowEvent
         );
 
         workflowEvent.Id = result.Id;
@@ -121,12 +131,12 @@ updatedEntity: updateWorkflowEvent
         WorkflowEvent workflowEvent = Get(workflowEventId: workflowEventId);
 
         authorizationBroker.Authorize(
-appId: workflowEventBroker.SelectAppId(entity: workflowEvent),
+appId: workflowEventBroker.SelectAppId(workflowEvent: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_delete"
         );
 
         _ = await workflowEventBroker.DeleteWorkflowEventAsync(
-deletedEntity: CreateStorageWorkflowEvent(item: workflowEvent)
+deletedWorkflowEvent: CreateStorageWorkflowEvent(item: workflowEvent)
         );
     }
 

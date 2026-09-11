@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
@@ -18,7 +19,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
@@ -47,41 +47,6 @@ public partial class ScheduledTaskController : ODataController
         {
             await service.ExecuteAsync(scheduledTaskId: key, incrementNextExecution: incrementNextExecution);
             return Ok();
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
-
-            return isExtendedMetaRequest
-                ? Ok(
-    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                        .Build()
-                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(ScheduledTask))
-                )
-                : Ok(value: typeof(ScheduledTask).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -163,7 +128,7 @@ public partial class ScheduledTaskController : ODataController
                 return NotFound();
             }
 
-            return Ok(value: SingleResult.Create(queryable: result));
+            return Ok(value: new ODataResultBroker().CreateSingleResult(queryable: result));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -194,7 +159,7 @@ public partial class ScheduledTaskController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] ScheduledTask newEntity)
+    public async Task<IActionResult> Post([FromBody] ScheduledTask newScheduledTask)
     {
         try
         {
@@ -205,7 +170,7 @@ public partial class ScheduledTaskController : ODataController
 
             return StatusCode(
                 statusCode: StatusCodes.Status201Created,
-                value: await service.AddScheduledTaskAsync(newEntity: newEntity));
+                value: await service.AddScheduledTaskAsync(newScheduledTask: newScheduledTask));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -236,7 +201,7 @@ public partial class ScheduledTaskController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] ScheduledTask updatedEntity)
+    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] ScheduledTask updatedScheduledTask)
     {
         try
         {
@@ -245,43 +210,7 @@ public partial class ScheduledTaskController : ODataController
                 return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
             }
 
-            return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: updatedEntity));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [AcceptVerbs("PATCH", "MERGE")]
-    [ActionName("Patch")]
-    public async Task<IActionResult> Put([FromRoute] int key, Delta<ScheduledTask> updatedDelta)
-    {
-        try
-        {
-            ScheduledTask originalEntity = service.Get(scheduledTaskId: key);
-
-            if (originalEntity == null)
-            {
-                return NotFound();
-            }
-
-            updatedDelta.Patch(original: originalEntity);
-            return Ok(value: await service.UpdateScheduledTaskAsync(updatedEntity: originalEntity));
+            return Ok(value: await service.UpdateScheduledTaskAsync(updatedScheduledTask: updatedScheduledTask));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

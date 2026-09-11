@@ -25,7 +25,3 @@ public class WarningActivity : LogActivity { }
 public class InfoActivity : LogActivity { }
 
 public class DebugActivity : LogActivity { }
-
-
-
-

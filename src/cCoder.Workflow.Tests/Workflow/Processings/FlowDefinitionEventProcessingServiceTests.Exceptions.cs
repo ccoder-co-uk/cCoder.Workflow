@@ -26,12 +26,12 @@ public partial class FlowDefinitionEventProcessingServiceTests
 
         flowDefinitionEventServiceMock
             .Setup(expression: foundation => foundation.RaiseFlowDefinitionAddEventAsync(
-                entity: flowDefinition))
+                flowDefinition: flowDefinition))
             .Throws(exception: exception);
 
         // When
         Func<Task> action = async () => await service
-            .RaiseFlowDefinitionAddEventAsync(entity: flowDefinition);
+            .RaiseFlowDefinitionAddEventAsync(flowDefinition: flowDefinition);
 
         // Then
         Exception thrown = (await action
@@ -41,5 +41,6 @@ public partial class FlowDefinitionEventProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

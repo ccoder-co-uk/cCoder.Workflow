@@ -50,7 +50,7 @@ public partial class ScheduledTaskServiceTests
 
         scheduledTaskBrokerMock
             .Setup(expression: broker => broker.InsertScheduledTaskAsync(
-                newEntity: It.Is<ScheduledTask>(match: added =>
+                newScheduledTask: It.Is<ScheduledTask>(match: added =>
                     added.Name == input.Name
                     && added.CreatedBy == userId
                     && added.UpdatedBy == userId)))
@@ -65,13 +65,16 @@ public partial class ScheduledTaskServiceTests
             .Should()
             .BeSameAs(expected: input);
 
+
         actual.Id
             .Should()
             .Be(expected: stored.Id);
 
+
         actual.FlowId
             .Should()
             .Be(expected: stored.FlowId);
+
 
         authorizationBrokerMock.VerifyAll();
         scheduledTaskBrokerMock.VerifyAll();
@@ -115,6 +118,7 @@ public partial class ScheduledTaskServiceTests
         await action
             .Should()
             .ThrowAsync<SecurityException>();
+
 
         authorizationBrokerMock.VerifyAll();
         scheduledTaskBrokerMock.VerifyAll();

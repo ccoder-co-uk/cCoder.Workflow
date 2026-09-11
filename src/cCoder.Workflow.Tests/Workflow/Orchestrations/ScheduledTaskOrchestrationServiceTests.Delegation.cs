@@ -46,8 +46,8 @@ public partial class ScheduledTaskOrchestrationServiceTests
         // When
         ScheduledTask actualGet = service.Get(scheduledTaskId: task.Id);
         IQueryable<ScheduledTask> actualAll = service.GetAll(ignoreFilters: true);
-        ScheduledTask actualAdd = await service.AddScheduledTaskAsync(newEntity: task);
-        ScheduledTask actualUpdate = await service.UpdateScheduledTaskAsync(updatedEntity: task);
+        ScheduledTask actualAdd = await service.AddScheduledTaskAsync(newScheduledTask: task);
+        ScheduledTask actualUpdate = await service.UpdateScheduledTaskAsync(updatedScheduledTask: task);
         await service.DeleteByAppIdAsync(appId: 7);
         IEnumerable<Result<ScheduledTask>> actualResults = await service
             .AddOrUpdateScheduledTask(items: tasks);

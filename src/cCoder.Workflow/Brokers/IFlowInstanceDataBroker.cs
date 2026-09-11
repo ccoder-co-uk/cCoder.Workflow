@@ -13,11 +13,11 @@ public interface IFlowInstanceDataBroker
 
     IQueryable<FlowInstanceData> SelectAllFlowInstanceDataIgnoringQueryFilters();
 
-    ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity);
+    ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData);
 
-    ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity);
+    ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData);
 
-    ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData deletedEntity);
+    ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData deletedFlowInstanceData);
 
-    int? SelectAppId(FlowInstanceData entity);
+    int? SelectAppId(FlowInstanceData flowInstanceData);
 }

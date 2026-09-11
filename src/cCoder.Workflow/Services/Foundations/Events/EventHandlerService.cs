@@ -159,7 +159,7 @@ handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(fl
             eventName: "package_import",
             handler: (service, packageEvent) => service.ImportPackageWorkflowPackageAsync(
                 appId: packageEvent.AppId,
-                package: ToLocalPackage(package: packageEvent.Package)));
+                workflowPackage: ToLocalPackage(package: packageEvent.Package)));
 
     void ListenToWorkflowTriggerEvents<T>(string eventStem)
     {

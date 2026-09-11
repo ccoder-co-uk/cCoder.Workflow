@@ -25,7 +25,7 @@ public abstract class SftpBaseActivity : Activity
         MemoryStream keyStream = null;
         PrivateKeyFile keyFile = null;
 
-        if(string.IsNullOrEmpty(PrivateKey))
+        if (string.IsNullOrEmpty(PrivateKey))
             auth = new(Host, Port, Username, new PasswordAuthenticationMethod(Username, Encoding.UTF8.GetBytes(Password)));
         else
         {
@@ -45,7 +45,7 @@ public abstract class SftpBaseActivity : Activity
             Log(WorkflowLogLevel.Info, $"Connected to Server @ {Host} as User {Username}");
             operation(client);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log(WorkflowLogLevel.Error, $"Error: {ex.Message}\n{ex.StackTrace}");
 

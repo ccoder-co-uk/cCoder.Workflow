@@ -32,9 +32,11 @@ internal interface IScheduledTaskProcessingService
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
-    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity);
+    ScheduledTask[] GetDueScheduledTasks(DateTimeOffset currentDateTime);
 
-    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
+    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask);
+
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask);
 
     ValueTask DeleteAsync(int scheduledTaskId);
 

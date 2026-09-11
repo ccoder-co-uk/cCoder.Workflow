@@ -30,10 +30,11 @@ public partial class FlowDefinitionServiceTests
         result.Should()
             .BeEquivalentTo(expectation: flowDefinition);
 
+
         flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitions(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

@@ -31,6 +31,7 @@ public partial class WorkflowEventOrchestrationServiceTests
         result.Should()
             .BeSameAs(expected: entities);
 
+
         workflowEventProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         workflowEventProcessingServiceMock.VerifyNoOtherCalls();
         workflowEventEventProcessingServiceMock.VerifyNoOtherCalls();

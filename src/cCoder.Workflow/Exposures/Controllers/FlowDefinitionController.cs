@@ -25,40 +25,6 @@ public partial class FlowDefinitionController(
     ISSOAuthInfo authInfo,
     ILoggingBroker loggingBroker) : ODataController
 {
-    [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
-
-            return isExtendedMetaRequest
-                ? Ok(
-    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                        .Build()
-                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(FlowDefinition))
-                )
-                : Ok(value: typeof(FlowDefinition).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
 
     [HttpGet]
     [EnableQuery(
@@ -142,7 +108,7 @@ public partial class FlowDefinitionController(
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] FlowDefinition newEntity)
+    public async Task<IActionResult> Post([FromBody] FlowDefinition newFlowDefinition)
     {
         try
         {
@@ -153,7 +119,7 @@ public partial class FlowDefinitionController(
 
             return StatusCode(
                 statusCode: StatusCodes.Status201Created,
-                value: await service.AddFlowDefinitionAsync(newEntity: newEntity));
+                value: await service.AddFlowDefinitionAsync(newFlowDefinition: newFlowDefinition));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -184,7 +150,7 @@ public partial class FlowDefinitionController(
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition updatedEntity)
+    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] FlowDefinition updatedFlowDefinition)
     {
         try
         {
@@ -193,43 +159,7 @@ public partial class FlowDefinitionController(
                 return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
             }
 
-            return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: updatedEntity));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [AcceptVerbs("PATCH", "MERGE")]
-    [ActionName("Patch")]
-    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<FlowDefinition> updatedDelta)
-    {
-        try
-        {
-            FlowDefinition originalEntity = service.GetFlowDefinition(flowDefinitionId: key);
-
-            if (originalEntity == null)
-            {
-                return NotFound();
-            }
-
-            updatedDelta.Patch(original: originalEntity);
-            return Ok(value: await service.UpdateFlowDefinitionAsync(updatedEntity: originalEntity));
+            return Ok(value: await service.UpdateFlowDefinitionAsync(updatedFlowDefinition: updatedFlowDefinition));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

@@ -13,9 +13,9 @@ internal sealed class FlowExecutionOrchestrationAdapter(
     : IFlowExecutionOrchestrationService
 {
     public Task ExecuteAsync(
-        WorkflowRequest request) =>
+        WorkflowRequest workflowRequest) =>
         workflowRequestOrchestrationService
             .ExecuteWorkflowRequestAsync(
-                workflowRequest: request)
+                workflowRequest: workflowRequest)
             .AsTask();
 }

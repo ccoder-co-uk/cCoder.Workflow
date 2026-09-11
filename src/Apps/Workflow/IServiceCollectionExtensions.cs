@@ -7,6 +7,7 @@ using cCoder.Workflow.Engine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Workflow.Exposures;
+using Workflow.Brokers.Http;
 using Workflow.Brokers.Loggings;
 using Workflow.Models;
 using Workflow.Services.Processings.WorkflowFunctions;
@@ -25,6 +26,7 @@ public static class IServiceCollectionExtensions
         configure?.Invoke(obj: appConfiguration);
 
         services.AddProcessings();
+        services.AddTransient<IHttpResponseBroker, HttpResponseBroker>();
         services.AddTransient<ILoggingBroker, LoggingBroker>();
         services.AddData(configuration: appConfiguration.CoreData);
         services.AddWorkflowEngineHostedServices();

@@ -13,8 +13,3 @@ public class ApiGetCollection<T> : ApiActivity<IEnumerable<T>>
         Result = await api.GetODataCollection<T>(Query);
     }
 }
-
-
-
-
-

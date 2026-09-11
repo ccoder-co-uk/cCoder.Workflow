@@ -28,16 +28,6 @@ public partial class CalendarEventControllerTests
     }
 
     [Fact]
-    public void ShouldReturnServerErrorWhenGetMetadataFails()
-    {
-        controller.ControllerContext = new ControllerContext();
-
-        IActionResult result = controller.GetMetadata();
-
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
-    }
-
-    [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
         calendarEventManagerMock.Setup(expression: service => service.GetAll())
@@ -56,7 +46,7 @@ public partial class CalendarEventControllerTests
         calendarEventManagerMock.Setup(expression: service => service.AddCalendarEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newEntity: item);
+        IActionResult result = await controller.Post(newCalendarEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -69,21 +59,7 @@ public partial class CalendarEventControllerTests
         calendarEventManagerMock.Setup(expression: service => service.UpdateCalendarEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: 1, updatedEntity: item);
-
-        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
-    }
-
-    [Theory]
-    [MemberData(nameof(FailureExceptions))]
-    public async Task ShouldReturnServerErrorWhenPatchFailsAsync(Exception exception, int expectedStatusCode)
-    {
-        calendarEventManagerMock.Setup(expression: service => service.Get(calendarEventId: 1))
-            .Throws(exception: exception);
-
-        IActionResult result = await controller.Put(
-            key: 1,
-            updatedDelta: new Delta<CalendarEvent>());
+        IActionResult result = await controller.Put(key: 1, updatedCalendarEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }

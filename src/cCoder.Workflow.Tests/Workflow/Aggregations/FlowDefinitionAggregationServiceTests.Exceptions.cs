@@ -55,7 +55,7 @@ public partial class FlowDefinitionAggregationServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .AddFlowDefinitionAsync(newEntity: new FlowDefinition());
+            .AddFlowDefinitionAsync(newFlowDefinition: new FlowDefinition());
 
         // Then
         Exception thrown = (await action.Should().ThrowAsync<Exception>()).Which;

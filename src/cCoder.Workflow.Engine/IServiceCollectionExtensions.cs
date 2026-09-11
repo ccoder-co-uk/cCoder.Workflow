@@ -32,6 +32,7 @@ public static class IServiceCollectionExtensions
             Brokers.Loggings.LoggingBroker>();
         services.AddTransient<RoslynScriptDependency>();
         services.AddTransient<IScriptBroker, ScriptBroker>();
+        services.AddTransient<IJsonBroker, JsonBroker>();
         services.AddTransient<
             IWorkflowHttpClientBroker,
             WorkflowHttpClientBroker>();

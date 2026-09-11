@@ -34,6 +34,7 @@ public partial class CalendarProcessingServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -60,6 +61,7 @@ public partial class CalendarProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -76,7 +78,7 @@ public partial class CalendarProcessingServiceTests
 
         // When
         Func<Task> action = async () => await processingService
-            .AddCalendarAsync(newEntity: CreateCalendar());
+            .AddCalendarAsync(newCalendar: CreateCalendar());
 
         // Then
         Exception thrown = (await action
@@ -86,5 +88,6 @@ public partial class CalendarProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

@@ -58,6 +58,7 @@ public partial class TaskRunnerOrchestrationServiceTests
 
         runCount.Should()
             .Be(expected: 2);
+
     }
 
     [Fact]

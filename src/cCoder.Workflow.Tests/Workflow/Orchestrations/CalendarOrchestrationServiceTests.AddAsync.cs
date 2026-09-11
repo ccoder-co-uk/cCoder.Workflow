@@ -24,30 +24,31 @@ public partial class CalendarOrchestrationServiceTests
 
         calendarProcessingServiceMock
             .Setup(expression: service => service.AddCalendarAsync(
-                newEntity: entity))
+                newCalendar: entity))
             .ReturnsAsync(value: entity);
 
         eventServiceMock
             .Setup(expression: service => service.RaiseCalendarAddEventAsync(
-                entity: entity))
+                calendar: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
         Calendar result = await orchestrationService
-            .AddCalendarAsync(newEntity: entity);
+            .AddCalendarAsync(newCalendar: entity);
 
         // Then
         result.Should()
             .BeSameAs(expected: entity);
 
+
         calendarProcessingServiceMock.Verify(
             expression: service => service.AddCalendarAsync(
-                newEntity: entity),
+                newCalendar: entity),
             times: Times.Once);
 
         eventServiceMock.Verify(
             expression: service => service.RaiseCalendarAddEventAsync(
-                entity: entity),
+                calendar: entity),
             times: Times.Once);
     }
 

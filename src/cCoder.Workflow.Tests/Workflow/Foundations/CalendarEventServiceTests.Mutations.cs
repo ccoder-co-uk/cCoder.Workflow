@@ -20,12 +20,13 @@ public partial class CalendarEventServiceTests
         CalendarEvent input = CreateCalendarEvent();
         CalendarEvent stored = CreateCalendarEvent();
         const int appId = 7;
+
         string privilege = isUpdate
             ? "CalendarEvent_update"
             : "CalendarEvent_create";
 
         calendarEventBrokerMock
-            .Setup(expression: broker => broker.SelectAppId(entity: input))
+            .Setup(expression: broker => broker.SelectAppId(calendarEvent: input))
             .Returns(value: appId);
 
         authorizationBrokerMock
@@ -37,7 +38,7 @@ public partial class CalendarEventServiceTests
         {
             calendarEventBrokerMock
                 .Setup(expression: broker => broker.UpdateCalendarEventAsync(
-                    updatedEntity: It.Is<CalendarEvent>(match: item =>
+                    updatedCalendarEvent: It.Is<CalendarEvent>(match: item =>
                         item.Id == input.Id)))
                 .Returns(value: ValueTask.FromResult(result: stored));
         }
@@ -45,7 +46,7 @@ public partial class CalendarEventServiceTests
         {
             calendarEventBrokerMock
                 .Setup(expression: broker => broker.InsertCalendarEventAsync(
-                    newEntity: It.Is<CalendarEvent>(match: item =>
+                    newCalendarEvent: It.Is<CalendarEvent>(match: item =>
                         item.Name == input.Name)))
                 .Returns(value: ValueTask.FromResult(result: stored));
         }
@@ -62,13 +63,16 @@ public partial class CalendarEventServiceTests
             .Should()
             .BeSameAs(expected: input);
 
+
         actual.Id
             .Should()
             .Be(expected: stored.Id);
 
+
         actual.Name
             .Should()
             .Be(expected: stored.Name);
+
 
         calendarEventBrokerMock.VerifyAll();
         authorizationBrokerMock.VerifyAll();
@@ -89,7 +93,7 @@ public partial class CalendarEventServiceTests
 
         calendarEventBrokerMock
             .Setup(expression: broker => broker.SelectAppId(
-                entity: calendarEvent))
+                calendarEvent: calendarEvent))
             .Returns(value: appId);
 
         authorizationBrokerMock
@@ -99,7 +103,7 @@ public partial class CalendarEventServiceTests
 
         calendarEventBrokerMock
             .Setup(expression: broker => broker.DeleteCalendarEventAsync(
-                deletedEntity: It.Is<CalendarEvent>(match: deleted =>
+                deletedCalendarEvent: It.Is<CalendarEvent>(match: deleted =>
                     deleted.Id == calendarEvent.Id)))
             .Returns(value: ValueTask.FromResult(result: 1));
 

@@ -28,7 +28,7 @@ public partial class ScheduledTaskEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseScheduledTaskExecuteEventAsync(entity: entity);
+        await service.RaiseScheduledTaskExecuteEventAsync(scheduledTask: entity);
 
         // Then
         actualMessage.Should()
@@ -37,11 +37,13 @@ public partial class ScheduledTaskEventServiceTests
         actualMessage!.Data.Should()
             .BeEquivalentTo(expectation: entity);
 
+
         actualMessage.AuthInfo.Should()
             .NotBeNull();
 
         actualMessage.AuthInfo.SSOUserId.Should()
             .Be(expected: CurrentUserId);
+
 
         scheduledTaskEventBrokerMock.Verify(
 expression: x => x.RaiseScheduledTaskExecuteEventAsync(message: It.IsAny<EventMessage<ScheduledTask>>()),

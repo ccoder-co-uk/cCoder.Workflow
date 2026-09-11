@@ -15,8 +15,8 @@ internal class WorkflowPackageManager(
     IWorkflowMigrationAggregationService workflowMigrationAggregationService
 ) : IWorkflowPackageManager
 {
-    public ValueTask ImportPackageAsync(int appId, WorkflowPackage package) =>
-        workflowMigrationAggregationService.ImportPackageWorkflowPackageAsync(appId: appId, package: package);
+    public ValueTask ImportPackageAsync(int appId, WorkflowPackage workflowPackage) =>
+        workflowMigrationAggregationService.ImportPackageWorkflowPackageAsync(appId: appId, workflowPackage: workflowPackage);
 
     public WorkflowPackage ExportPackage(int appId, string packageName) =>
         workflowMigrationAggregationService.ExportPackage(appId: appId, packageName: packageName);

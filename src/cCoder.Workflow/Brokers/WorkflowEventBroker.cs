@@ -19,36 +19,51 @@ internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory
             .WorflowEvents
             .IgnoreQueryFilters();
 
-    public async ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity)
+    public WorkflowEvent[] SelectWorkflowEventSubscriptions(
+        int appId,
+        string eventContext) =>
+        coreContextFactory.CreateCoreContext()
+            .WorflowEvents
+            .IgnoreQueryFilters()
+            .Where(predicate: workflowEvent =>
+                workflowEvent.Flow.AppId == appId &&
+                workflowEvent.EventContext == eventContext)
+            .Include(navigationPropertyPath: workflowEvent => workflowEvent.Flow)
+            .Include(navigationPropertyPath: workflowEvent => workflowEvent.ExecuteAsUser)
+                .ThenInclude(navigationPropertyPath: user => user.Roles)
+                    .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
+            .ToArray();
+
+    public async ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        WorkflowEvent result = (await coreDataContext.WorflowEvents.AddAsync(entity: newEntity)).Entity;
+        WorkflowEvent result = (await coreDataContext.WorflowEvents.AddAsync(entity: newWorkflowEvent)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity)
+    public async ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        WorkflowEvent result = coreDataContext.WorflowEvents.Update(entity: updatedEntity).Entity;
+        WorkflowEvent result = coreDataContext.WorflowEvents.Update(entity: updatedWorkflowEvent).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent deletedEntity)
+    public async ValueTask<int> DeleteWorkflowEventAsync(WorkflowEvent deletedWorkflowEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.WorflowEvents.Remove(entity: deletedEntity);
+        coreDataContext.WorflowEvents.Remove(entity: deletedWorkflowEvent);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public int? SelectAppId(WorkflowEvent entity)
+    public int? SelectAppId(WorkflowEvent workflowEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.FlowDefinitions
 
-            .Where(predicate: flowDefinition => flowDefinition.Id == entity.FlowId)
+            .Where(predicate: flowDefinition => flowDefinition.Id == workflowEvent.FlowId)
             .Select(selector: flowDefinition => (int?)flowDefinition.AppId)
             .FirstOrDefault();
 

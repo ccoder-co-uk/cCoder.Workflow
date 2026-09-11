@@ -26,9 +26,11 @@ public partial class FlowInstanceDataProcessingServiceTests
         flowInstanceDataServiceMock
             .Setup(expression: service => service.AddFlowInstanceDataAsync(added))
             .ReturnsAsync(value: added);
+
         flowInstanceDataServiceMock
             .Setup(expression: service => service.Get(updated.Id))
             .Returns(value: dbVersion);
+
         flowInstanceDataServiceMock
             .Setup(expression: service => service.UpdateFlowInstanceDataAsync(dbVersion))
             .ReturnsAsync(value: dbVersion);
@@ -79,7 +81,7 @@ public partial class FlowInstanceDataProcessingServiceTests
 
         // When
         Func<Task> action = async () => await flowInstanceDataProcessingService
-            .UpdateFlowInstanceDataAsync(updatedEntity: item);
+            .UpdateFlowInstanceDataAsync(updatedFlowInstanceData: item);
 
         // Then
         await action.Should().ThrowAsync<System.Security.SecurityException>();

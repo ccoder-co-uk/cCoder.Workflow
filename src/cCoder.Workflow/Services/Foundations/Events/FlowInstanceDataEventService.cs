@@ -12,32 +12,32 @@ internal sealed partial class FlowInstanceDataEventService(
     IFlowInstanceDataEventBroker flowInstanceDataEventBroker)
         : IFlowInstanceDataEventService
 {
-    public ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData entity) =>
+    public ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData flowInstanceData) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [flowInstanceData]);
 
-            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: entity);
+            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: flowInstanceData);
 
             await flowInstanceDataEventBroker.RaiseFlowInstanceDataAddEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData entity) =>
+    public ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData flowInstanceData) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [flowInstanceData]);
 
-            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: entity);
+            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: flowInstanceData);
 
             await flowInstanceDataEventBroker.RaiseFlowInstanceDataUpdateEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData entity) =>
+    public ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData flowInstanceData) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [flowInstanceData]);
 
-            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: entity);
+            EventMessage<FlowInstanceData> message = CreateFlowInstanceDataMessage(entity: flowInstanceData);
 
             await flowInstanceDataEventBroker.RaiseFlowInstanceDataDeleteEventAsync(message: message);
         }, isValueTask: true);

@@ -42,10 +42,3 @@ public class XmlXslActivity<TResult> : TransformationActivity<string, TResult>
         }
     }
 }
-
-
-
-
-
-
-

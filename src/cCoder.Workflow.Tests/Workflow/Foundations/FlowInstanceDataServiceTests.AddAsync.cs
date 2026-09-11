@@ -25,7 +25,7 @@ public partial class FlowInstanceDataServiceTests
 
         FlowInstanceData submitted = null;
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()))
+        flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_create"));
@@ -33,7 +33,7 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock
             .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-newEntity: It.Is<FlowInstanceData>(match: candidate =>
+newFlowInstanceData: It.Is<FlowInstanceData>(match: candidate =>
                         !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                     )
                 )
@@ -47,6 +47,7 @@ newEntity: It.Is<FlowInstanceData>(match: candidate =>
         // Then
         result.Should()
             .BeSameAs(expected: flowInstanceData);
+
 
         submitted.Should()
             .NotBeNull();
@@ -74,7 +75,7 @@ config: options => options.Excluding(expression: candidate => candidate.Id)
         flowInstanceDataBrokerMock.Verify(
 expression: x =>
                 x.AddFlowInstanceDataAsync(
-newEntity: It.Is<FlowInstanceData>(match: candidate =>
+newFlowInstanceData: It.Is<FlowInstanceData>(match: candidate =>
                         !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                     )
                 ),
@@ -82,7 +83,7 @@ times: Times.Once
         );
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 
@@ -102,7 +103,7 @@ times: Times.Once
         // Given
         FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
 
-        flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()))
+        flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -118,7 +119,7 @@ times: Times.Once
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowInstanceData>()),
+expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()),
 times: Times.AtMostOnce()
         );
 

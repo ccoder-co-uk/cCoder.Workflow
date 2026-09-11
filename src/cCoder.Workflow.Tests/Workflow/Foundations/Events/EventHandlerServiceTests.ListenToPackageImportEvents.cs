@@ -68,7 +68,7 @@ public sealed partial class EventHandlerServicePackageImportTests
         migrationServiceMock.Verify(
             expression: service => service.ImportPackageWorkflowPackageAsync(
                 appId: expectedAppId,
-                package: It.Is<WorkflowPackage>(match: package => package.Name == "Workflows")),
+                workflowPackage: It.Is<WorkflowPackage>(match: package => package.Name == "Workflows")),
             times: Times.Once);
 
         eventCoordinationServiceMock.Verify(

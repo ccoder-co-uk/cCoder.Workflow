@@ -29,16 +29,16 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newCalendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendarEvent]); return await ExecuteAddAsync(entity: newCalendarEvent); }, isValueTask: true);
 
     private ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent entity)
     {
         return service.AddCalendarEventAsync(newCalendarEvent: entity);
     }
 
-    public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(entity: updatedCalendarEvent); }, isValueTask: true);
 
     private ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent entity)
     {
@@ -78,8 +78,8 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
             {
                 CalendarEvent savedItem =
                     item.Id == 0
-                        ? await AddCalendarEventAsync(newEntity: item)
-                        : await UpdateCalendarEventAsync(updatedEntity: item);
+                        ? await AddCalendarEventAsync(newCalendarEvent: item)
+                        : await UpdateCalendarEventAsync(updatedCalendarEvent: item);
 
                 results.Add(item: new Result<CalendarEvent>
                 {

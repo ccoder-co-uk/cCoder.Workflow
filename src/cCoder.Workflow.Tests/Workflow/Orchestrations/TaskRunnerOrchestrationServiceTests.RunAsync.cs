@@ -21,8 +21,9 @@ public partial class TaskRunnerOrchestrationServiceTests
         ScheduledTask task = CreateDueScheduledTask();
 
         scheduledTaskProcessingServiceMock
-            .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: new[] { task }.AsQueryable());
+            .Setup(expression: service => service.GetDueScheduledTasks(
+                currentDateTime: It.IsAny<DateTimeOffset>()))
+            .Returns(value: [task]);
 
         calendarEventProcessingServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
@@ -46,7 +47,7 @@ public partial class TaskRunnerOrchestrationServiceTests
 
         scheduledTaskEventProcessingServiceMock
             .Setup(expression: service => service
-                .RaiseScheduledTaskExecuteEventAsync(entity: task))
+                .RaiseScheduledTaskExecuteEventAsync(scheduledTask: task))
             .Returns(value: ValueTask.CompletedTask);
 
         scheduledTaskProcessingServiceMock
@@ -83,8 +84,9 @@ public partial class TaskRunnerOrchestrationServiceTests
         };
 
         scheduledTaskProcessingServiceMock
-            .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: new[] { task }.AsQueryable());
+            .Setup(expression: service => service.GetDueScheduledTasks(
+                currentDateTime: It.IsAny<DateTimeOffset>()))
+            .Returns(value: [task]);
 
         calendarEventProcessingServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
@@ -177,8 +179,9 @@ public partial class TaskRunnerOrchestrationServiceTests
     private void SetupDueTask(ScheduledTask task)
     {
         scheduledTaskProcessingServiceMock
-            .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: new[] { task }.AsQueryable());
+            .Setup(expression: service => service.GetDueScheduledTasks(
+                currentDateTime: It.IsAny<DateTimeOffset>()))
+            .Returns(value: [task]);
 
         calendarEventProcessingServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))

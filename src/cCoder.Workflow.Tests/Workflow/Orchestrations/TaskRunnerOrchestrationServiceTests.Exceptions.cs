@@ -23,7 +23,8 @@ public partial class TaskRunnerOrchestrationServiceTests
     {
         // Given
         scheduledTaskProcessingServiceMock
-            .Setup(expression: service => service.GetAll(ignoreFilters: true))
+            .Setup(expression: service => service.GetDueScheduledTasks(
+                currentDateTime: It.IsAny<DateTimeOffset>()))
             .Throws(exception: exception);
 
         // When
@@ -38,5 +39,6 @@ public partial class TaskRunnerOrchestrationServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

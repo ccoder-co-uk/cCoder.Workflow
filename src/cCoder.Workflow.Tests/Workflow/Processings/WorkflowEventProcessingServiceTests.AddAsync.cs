@@ -31,11 +31,12 @@ public partial class WorkflowEventProcessingServiceTests
             .ReturnsAsync(value: workflowEvent);
 
         // When
-        WorkflowEvent result = await workflowEventProcessingService.AddWorkflowEventAsync(newEntity: workflowEvent);
+        WorkflowEvent result = await workflowEventProcessingService.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent);
 
         // Then
         result.Should()
             .BeSameAs(expected: workflowEvent);
+
 
         workflowEventServiceMock.Verify(expression: x => x.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent), times: Times.Once);
         workflowEventServiceMock.Verify(expression: x => x.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent), times: Times.Once);
@@ -59,7 +60,7 @@ public partial class WorkflowEventProcessingServiceTests
             .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> act = async () => await workflowEventProcessingService.AddWorkflowEventAsync(newEntity: workflowEvent);
+        Func<Task> act = async () => await workflowEventProcessingService.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent);
 
         // Then
         await act.Should()

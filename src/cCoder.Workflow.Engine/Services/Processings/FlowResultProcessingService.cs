@@ -5,15 +5,31 @@
 using System.Net;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Engine.Brokers;
-using Newtonsoft.Json;
 using cCoder.Workflow.Engine.Models;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class FlowResultProcessingService(
-    IWorkflowHttpClientBroker workflowHttpClientBroker)
+    IWorkflowHttpClientBroker workflowHttpClientBroker,
+    IJsonBroker jsonBroker)
     : IFlowResultProcessingService
 {
+    public T Deserialize<T>(string value) =>
+        TryCatch(operation: () =>
+        {
+            ValidateSerializationInput(input: value);
+
+            return jsonBroker.Deserialize<T>(value: value);
+        });
+
+    public string Serialize(object value) =>
+        TryCatch(operation: () =>
+        {
+            ValidateSerializationInput(input: value);
+
+            return jsonBroker.Serialize(value: value);
+        });
+
     public ValueTask SaveFlowInstanceDataAsync(
         FlowInstanceData flowInstanceData,
         string apiRoot,
@@ -28,7 +44,7 @@ internal sealed partial class FlowResultProcessingService(
                     authToken
                 ]);
 
-            string payload = JsonConvert.SerializeObject(
+            string payload = jsonBroker.SerializeForOData(
                 value: new
                 {
                     flowInstanceData.Id,
@@ -40,8 +56,7 @@ internal sealed partial class FlowResultProcessingService(
                     flowInstanceData.ContextString,
                     flowInstanceData.Start,
                     flowInstanceData.End
-                },
-                formatting: Formatting.None);
+                });
 
             WorkflowHttpResult response =
                 await workflowHttpClientBroker.PutJsonAsync(

@@ -26,8 +26,3 @@ public class ApiGet<T> : ApiActivity<T>
         Log(WorkflowLogLevel.Debug, Result.ToJson());
     }
 }
-
-
-
-
-

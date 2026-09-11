@@ -16,6 +16,8 @@ internal interface IWorkflowEventService
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
 
+    WorkflowEvent[] GetSubscriptions(int appId, string eventContext);
+
     int? GetAppIdForWorkflowEvent(WorkflowEvent workflowEvent);
 
     ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent);

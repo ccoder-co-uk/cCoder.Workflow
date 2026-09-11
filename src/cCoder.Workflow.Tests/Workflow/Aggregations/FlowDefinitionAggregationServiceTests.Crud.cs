@@ -39,12 +39,12 @@ public partial class FlowDefinitionAggregationServiceTests
 
         flowDefinitionOrchestrationServiceMock
             .Setup(expression: service => service.AddFlowDefinitionAsync(
-                newEntity: item))
+                newFlowDefinition: item))
             .Returns(value: ValueTask.FromResult(result: item));
 
         flowDefinitionOrchestrationServiceMock
             .Setup(expression: service => service.UpdateFlowDefinitionAsync(
-                updatedEntity: item))
+                updatedFlowDefinition: item))
             .Returns(value: ValueTask.FromResult(result: item));
 
         flowDefinitionOrchestrationServiceMock
@@ -57,8 +57,8 @@ public partial class FlowDefinitionAggregationServiceTests
             flowDefinitionId: item.Id);
 
         IQueryable<FlowDefinition> actualAll = service.GetAllFlowDefinitions();
-        FlowDefinition actualAdd = await service.AddFlowDefinitionAsync(newEntity: item);
-        FlowDefinition actualUpdate = await service.UpdateFlowDefinitionAsync(updatedEntity: item);
+        FlowDefinition actualAdd = await service.AddFlowDefinitionAsync(newFlowDefinition: item);
+        FlowDefinition actualUpdate = await service.UpdateFlowDefinitionAsync(updatedFlowDefinition: item);
         await service.DeleteFlowDefinitionAsync(flowDefinitionId: item.Id);
 
         // Then

@@ -32,7 +32,7 @@ public partial class FlowDefinitionEventServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .RaiseFlowDefinitionAddEventAsync(entity: flowDefinition);
+            .RaiseFlowDefinitionAddEventAsync(flowDefinition: flowDefinition);
 
         // Then
         Exception thrown = (await action
@@ -42,5 +42,6 @@ public partial class FlowDefinitionEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

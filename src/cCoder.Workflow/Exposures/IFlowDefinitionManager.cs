@@ -15,9 +15,9 @@ public interface IFlowDefinitionManager
 
     IQueryable<FlowDefinition> GetAllFlowDefinitions();
 
-    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity);
+    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition);
 
-    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity);
+    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition);
 
     ValueTask DeleteFlowDefinitionAsync(Guid flowDefinitionId);
 

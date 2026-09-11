@@ -27,5 +27,3 @@ public static class CertChainValidator
         return true;
     }
 }
-
-

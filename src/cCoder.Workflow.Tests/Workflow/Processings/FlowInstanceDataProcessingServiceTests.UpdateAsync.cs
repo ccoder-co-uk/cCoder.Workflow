@@ -47,7 +47,7 @@ public partial class FlowInstanceDataProcessingServiceTests
             .ReturnsAsync(valueFunction: (FlowInstanceData updated) => updated);
 
         // When
-        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: entity);
 
         // Then
         Assert.Equal(expected: entity.Name, actual: result.Name);
@@ -88,7 +88,7 @@ times: Times.Once
 
         // When
         FlowInstanceData actualFlowInstanceData =
-            await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
+            await flowInstanceDataProcessingService.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: entity);
 
         // Then
         Assert.Equal(expected: entity.Name, actual: actualFlowInstanceData.Name);

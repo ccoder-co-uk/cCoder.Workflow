@@ -10,16 +10,15 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Extensions;
 using cCoder.Workflow.Engine.Dependencies;
-using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class FlowInstanceProcessingService(
     IScriptBroker scriptBroker,
     IWorkflowContextBroker workflowContextBroker,
-    IWorkflowHttpClientBroker workflowHttpClientBroker)
+    IWorkflowHttpClientBroker workflowHttpClientBroker,
+    IJsonBroker jsonBroker)
     : IFlowInstanceProcessingService
 {
     public ValueTask<FlowExecution> ExecuteFlowExecutionAsync(
@@ -104,7 +103,7 @@ internal sealed partial class FlowInstanceProcessingService(
         string apiRoot,
         string authToken)
     {
-        string payload = JsonConvert.SerializeObject(
+        string payload = jsonBroker.SerializeForOData(
             value: new
             {
                 flowInstanceData.Id,
@@ -116,8 +115,7 @@ internal sealed partial class FlowInstanceProcessingService(
                 flowInstanceData.ContextString,
                 flowInstanceData.Start,
                 flowInstanceData.End
-            },
-            formatting: Formatting.None);
+            });
 
         WorkflowHttpResult response =
             await workflowHttpClientBroker.PutJsonAsync(
@@ -137,16 +135,15 @@ internal sealed partial class FlowInstanceProcessingService(
         }
     }
 
-    private static async Task<FlowInstanceData>
+    private async Task<FlowInstanceData>
         DeserializeFlowInstanceDataAsync(
             FlowExecution flowExecution,
             string rawInstance)
     {
         try
         {
-            return JsonConvert.DeserializeObject<FlowInstanceData>(
-                value: rawInstance,
-                settings: cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings())
+            return jsonBroker.Deserialize<FlowInstanceData>(
+                value: rawInstance)
                 ?? throw new InvalidOperationException(
                     "Workflow instance response was empty.");
         }
@@ -163,16 +160,15 @@ internal sealed partial class FlowInstanceProcessingService(
         }
     }
 
-    private static async Task<WorkflowContext>
+    private async Task<WorkflowContext>
         DeserializeWorkflowContextAsync(
             FlowExecution flowExecution,
             string rawContext)
     {
         try
         {
-            return JsonConvert.DeserializeObject<WorkflowContext>(
-                value: rawContext,
-                settings: cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings())
+            return jsonBroker.Deserialize<WorkflowContext>(
+                value: rawContext)
                 ?? throw new InvalidOperationException(
                     "Workflow context response was empty.");
         }
@@ -189,7 +185,7 @@ internal sealed partial class FlowInstanceProcessingService(
         }
     }
 
-    private static FlowInstanceData CompleteFlowExecution(
+    private FlowInstanceData CompleteFlowExecution(
         FlowExecution flowExecution)
     {
         foreach (Activity activity in
@@ -216,9 +212,8 @@ internal sealed partial class FlowInstanceProcessingService(
             Name = flowExecution.Name,
             Caller = flowExecution.Caller,
             FlowDefinitionId = flowExecution.FlowDefinitionId,
-            ContextString = JsonConvert.SerializeObject(
-                value: flowExecution.Context,
-                settings: cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings()),
+            ContextString = jsonBroker.Serialize(
+                value: flowExecution.Context),
             State = flowExecution.Context.ExecutionState,
             Start = flowExecution.Start,
             End = DateTimeOffset.UtcNow

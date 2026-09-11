@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
@@ -18,7 +19,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
-
 namespace cCoder.Workflow.Exposures.Controllers;
 
 public partial class WorkflowEventController : ODataController
@@ -30,41 +30,6 @@ public partial class WorkflowEventController : ODataController
     {
         this.service = service;
         this.loggingBroker = loggingBroker;
-    }
-
-    [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
-
-            return isExtendedMetaRequest
-                ? Ok(
-    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                        .Build()
-                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(WorkflowEvent))
-                )
-                : Ok(value: typeof(WorkflowEvent).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
     }
 
     [HttpGet]
@@ -127,7 +92,7 @@ public partial class WorkflowEventController : ODataController
                 return NotFound();
             }
 
-            return Ok(value: SingleResult.Create(queryable: result));
+            return Ok(value: new ODataResultBroker().CreateSingleResult(queryable: result));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -158,7 +123,7 @@ public partial class WorkflowEventController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] WorkflowEvent newEntity)
+    public async Task<IActionResult> Post([FromBody] WorkflowEvent newWorkflowEvent)
     {
         try
         {
@@ -169,7 +134,7 @@ public partial class WorkflowEventController : ODataController
 
             return StatusCode(
                 statusCode: StatusCodes.Status201Created,
-                value: await service.AddWorkflowEventAsync(newEntity: newEntity));
+                value: await service.AddWorkflowEventAsync(newWorkflowEvent: newWorkflowEvent));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -200,7 +165,7 @@ public partial class WorkflowEventController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] WorkflowEvent updatedEntity)
+    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] WorkflowEvent updatedWorkflowEvent)
     {
         try
         {
@@ -209,43 +174,7 @@ public partial class WorkflowEventController : ODataController
                 return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
             }
 
-            return Ok(value: await service.UpdateWorkflowEventAsync(updatedEntity: updatedEntity));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [AcceptVerbs("PATCH", "MERGE")]
-    [ActionName("Patch")]
-    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<WorkflowEvent> updatedDelta)
-    {
-        try
-        {
-            WorkflowEvent originalEntity = service.Get(workflowEventId: key);
-
-            if (originalEntity == null)
-            {
-                return NotFound();
-            }
-
-            updatedDelta.Patch(original: originalEntity);
-            return Ok(value: await service.UpdateWorkflowEventAsync(updatedEntity: originalEntity));
+            return Ok(value: await service.UpdateWorkflowEventAsync(updatedWorkflowEvent: updatedWorkflowEvent));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

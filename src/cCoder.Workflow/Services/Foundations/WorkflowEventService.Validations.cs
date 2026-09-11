@@ -20,6 +20,9 @@ internal sealed partial class WorkflowEventService
     private static void ValidateAllOnGet(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
 
+    private static void ValidateSubscriptionsOnGet(params object[] inputs) =>
+        ValidationRulesEngine.Validate(inputs: inputs);
+
     private static void ValidateAppIdForWorkflowEventOnGet(params object[] inputs) =>
         ValidationRulesEngine.Validate(inputs: inputs);
 }

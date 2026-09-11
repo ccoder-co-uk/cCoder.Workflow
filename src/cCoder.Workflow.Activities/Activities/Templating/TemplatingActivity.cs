@@ -88,11 +88,3 @@ public abstract class TemplatingActivity<T> : ApiActivity
         }
     }
 }
-
-
-
-
-
-
-
-

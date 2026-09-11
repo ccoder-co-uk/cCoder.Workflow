@@ -5,6 +5,7 @@
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Models.Entities;
+using cCoder.Security.Exposures;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
@@ -23,7 +24,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
     private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock;
     private readonly Mock<ILoggingBroker> loggingBrokerMock;
-    private readonly Mock<IServiceProvider> serviceProviderMock;
+    private readonly Mock<ITokenManager> tokenManagerMock;
     private readonly Mock<IWorkflowExecutionEventBroker> workflowExecutionEventBrokerMock;
     private readonly WorkflowConfiguration configuration;
     private readonly WorkflowInstanceProcessingService processingService;
@@ -36,7 +37,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         flowInstanceDataManagerMock = new(
             behavior: MockBehavior.Strict);
         loggingBrokerMock = new();
-        serviceProviderMock = new();
+        tokenManagerMock = new();
         workflowExecutionEventBrokerMock = new();
         configuration = new()
         {
@@ -55,7 +56,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         processingService = new WorkflowInstanceProcessingService(
             workflowInstanceManagementBroker: workflowInstanceManagementBrokerMock.Object,
             flowInstanceDataManager: flowInstanceDataManagerMock.Object,
-            serviceProvider: serviceProviderMock.Object,
+            tokenManager: tokenManagerMock.Object,
             workflowExecutionEventBroker: workflowExecutionEventBrokerMock.Object,
             workflowConfiguration: configuration,
             log: loggingBrokerMock.Object);

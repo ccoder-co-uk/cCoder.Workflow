@@ -29,16 +29,6 @@ public partial class WorkflowEventControllerTests
     }
 
     [Fact]
-    public void ShouldReturnServerErrorWhenGetMetadataFails()
-    {
-        controller.ControllerContext = new ControllerContext();
-
-        IActionResult result = controller.GetMetadata();
-
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
-    }
-
-    [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
         workflowEventManagerMock.Setup(expression: service => service.GetAll())
@@ -57,7 +47,7 @@ public partial class WorkflowEventControllerTests
         workflowEventManagerMock.Setup(expression: service => service.AddWorkflowEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newEntity: item);
+        IActionResult result = await controller.Post(newWorkflowEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -70,21 +60,7 @@ public partial class WorkflowEventControllerTests
         workflowEventManagerMock.Setup(expression: service => service.UpdateWorkflowEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: Guid.Empty, updatedEntity: item);
-
-        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
-    }
-
-    [Theory]
-    [MemberData(nameof(FailureExceptions))]
-    public async Task ShouldReturnServerErrorWhenPatchFailsAsync(Exception exception, int expectedStatusCode)
-    {
-        workflowEventManagerMock.Setup(expression: service => service.Get(workflowEventId: Guid.Empty))
-            .Throws(exception: exception);
-
-        IActionResult result = await controller.Put(
-            key: Guid.Empty,
-            updatedDelta: new Delta<WorkflowEvent>());
+        IActionResult result = await controller.Put(key: Guid.Empty, updatedWorkflowEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }

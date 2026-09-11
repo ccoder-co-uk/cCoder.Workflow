@@ -20,5 +20,3 @@ public class WorkflowRequest
         InstanceId = instanceId;
     }
 }
-
-
