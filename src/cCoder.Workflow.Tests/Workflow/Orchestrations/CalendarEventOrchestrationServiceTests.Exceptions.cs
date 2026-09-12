@@ -34,6 +34,7 @@ public partial class CalendarEventOrchestrationServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -45,12 +46,12 @@ public partial class CalendarEventOrchestrationServiceTests
 
         calendarEventProcessingServiceMock
             .Setup(expression: service => service.AddCalendarEventAsync(
-                newEntity: item))
+                newCalendarEvent: item))
             .Throws(exception: exception);
 
         // When
         Func<Task> action = async () => await orchestrationService
-            .AddCalendarEventAsync(newEntity: item);
+            .AddCalendarEventAsync(newCalendarEvent: item);
 
         // Then
         Exception thrown = (await action
@@ -60,6 +61,7 @@ public partial class CalendarEventOrchestrationServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -86,5 +88,6 @@ public partial class CalendarEventOrchestrationServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

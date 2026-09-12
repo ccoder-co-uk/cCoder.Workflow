@@ -31,6 +31,7 @@ public partial class CalendarEventOrchestrationServiceTests
         result.Should()
             .BeSameAs(expected: entities);
 
+
         calendarEventProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         calendarEventProcessingServiceMock.VerifyNoOtherCalls();
         calendarEventEventProcessingServiceMock.VerifyNoOtherCalls();

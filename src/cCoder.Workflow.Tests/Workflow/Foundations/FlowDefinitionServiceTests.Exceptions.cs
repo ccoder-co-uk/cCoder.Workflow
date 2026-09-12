@@ -52,6 +52,7 @@ public partial class FlowDefinitionServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -81,6 +82,7 @@ public partial class FlowDefinitionServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -107,5 +109,6 @@ public partial class FlowDefinitionServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

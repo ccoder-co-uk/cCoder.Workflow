@@ -8,5 +8,3 @@ public enum WorkflowLogLevel
     Fatal,
     Debug
 }
-
-

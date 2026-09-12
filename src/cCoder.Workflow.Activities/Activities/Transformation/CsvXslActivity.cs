@@ -43,10 +43,3 @@ public class CsvXslActivity<TResult> : TransformationActivity<string, IEnumerabl
         }
     }
 }
-
-
-
-
-
-
-

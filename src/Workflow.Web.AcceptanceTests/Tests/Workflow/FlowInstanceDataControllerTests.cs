@@ -121,22 +121,6 @@ public sealed partial class FlowInstanceDataControllerTests(WebAcceptanceFixture
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchFlowInstanceDataAsync(Guid flowInstanceDataId, object payload)
-    {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({flowInstanceDataId})")
-        {
-            Content = JsonContent.Create(inputValue: payload),
-        };
-
-        using HttpResponseMessage response = await Client.SendAsync(request: request);
-        string content = await response.Content.ReadAsStringAsync();
-
-        response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
-
-        return (int)response.StatusCode;
-    }
-
     private async Task<int> DeleteFlowInstanceDataAsync(Guid flowInstanceDataId)
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({flowInstanceDataId})");

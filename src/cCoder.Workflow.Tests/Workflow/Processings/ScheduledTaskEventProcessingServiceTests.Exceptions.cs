@@ -26,12 +26,12 @@ public partial class ScheduledTaskEventProcessingServiceTests
 
         scheduledTaskEventServiceMock
             .Setup(expression: dependency => dependency
-                .RaiseScheduledTaskAddEventAsync(entity: entity))
+                .RaiseScheduledTaskAddEventAsync(scheduledTask: entity))
             .Throws(exception: exception);
 
         // When
         Func<Task> action = async () => await service
-            .RaiseScheduledTaskAddEventAsync(entity: entity);
+            .RaiseScheduledTaskAddEventAsync(scheduledTask: entity);
 
         // Then
         Exception thrown = (await action
@@ -41,5 +41,6 @@ public partial class ScheduledTaskEventProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

@@ -16,9 +16,9 @@ public interface IScheduledTaskManager
 
     IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false);
 
-    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newEntity);
+    ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask);
 
-    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask);
 
     ValueTask DeleteAsync(int scheduledTaskId);
 

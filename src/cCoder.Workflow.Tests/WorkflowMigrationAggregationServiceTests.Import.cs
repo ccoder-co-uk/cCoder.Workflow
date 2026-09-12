@@ -95,6 +95,10 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
                 operation: WorkflowMigrationOperation.Json))
             .Returns(value: new JsonBroker());
 
+        brokerMock.Setup(expression: broker => broker.LogDebug(
+            message: "Existing Flow Definition Items:\n{ExistingFlowDefinitions}",
+            args: It.IsAny<object[]>()));
+
         brokerMock.Setup(expression: broker =>
             broker.GetOperationService<IFlowDefinitionOrchestrationService>(
                 operation: WorkflowMigrationOperation.FlowDefinition))
@@ -139,7 +143,7 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
         // When
         await service.ImportPackageWorkflowPackageAsync(
             appId: appId,
-            package: package);
+            workflowPackage: package);
 
         // Then
         flowServiceMock.VerifyAll();

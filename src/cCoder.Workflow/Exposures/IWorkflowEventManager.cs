@@ -30,9 +30,9 @@ public interface IWorkflowEventManager
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
 
-    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity);
+    ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent);
 
-    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity);
+    ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent);
 
     ValueTask DeleteAsync(Guid workflowEventId);
 

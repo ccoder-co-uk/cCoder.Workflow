@@ -75,16 +75,16 @@ internal sealed partial class FlowDefinitionProcessingService(
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowDefinition]); return await ExecuteAddAsync(entity: newFlowDefinition); }, isValueTask: true);
 
     private ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition entity)
     {
         return service.AddFlowDefinitionAsync(newFlowDefinition: entity);
     }
 
-    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedFlowDefinition]); return await ExecuteUpdateAsync(entity: updatedFlowDefinition); }, isValueTask: true);
 
     private ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition entity)
     {
@@ -130,8 +130,8 @@ internal sealed partial class FlowDefinitionProcessingService(
 
                 FlowDefinition savedItem =
                     !exists
-                        ? await AddFlowDefinitionAsync(newEntity: item)
-                        : await UpdateFlowDefinitionAsync(updatedEntity: item);
+                        ? await AddFlowDefinitionAsync(newFlowDefinition: item)
+                        : await UpdateFlowDefinitionAsync(updatedFlowDefinition: item);
 
                 results.Add(item: new Result<FlowDefinition>
                 {

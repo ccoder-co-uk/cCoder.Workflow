@@ -88,22 +88,6 @@ public sealed partial class ScheduledTaskControllerTests(WebAcceptanceFixture fi
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchScheduledTaskAsync(int scheduledTaskId, object payload)
-    {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({scheduledTaskId})")
-        {
-            Content = JsonContent.Create(inputValue: payload),
-        };
-
-        using HttpResponseMessage response = await Client.SendAsync(request: request);
-        string content = await response.Content.ReadAsStringAsync();
-
-        response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
-
-        return (int)response.StatusCode;
-    }
-
     private async Task<int> DeleteScheduledTaskAsync(int scheduledTaskId)
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({scheduledTaskId})");

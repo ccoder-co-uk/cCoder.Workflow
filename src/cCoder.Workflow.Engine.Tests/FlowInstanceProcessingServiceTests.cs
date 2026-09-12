@@ -5,7 +5,6 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Engine.Brokers;
-using cCoder.Workflow.Engine.Extensions;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Services.Processings;
 using Moq;
@@ -29,7 +28,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
         new(
             scriptBroker: scriptBrokerMock.Object,
             workflowContextBroker: workflowContextBrokerMock.Object,
-            workflowHttpClientBroker: workflowHttpClientBrokerMock.Object);
+            workflowHttpClientBroker: workflowHttpClientBrokerMock.Object,
+            jsonBroker: new JsonBroker());
 
     private void SetupStateSave(FlowExecution execution) =>
         workflowHttpClientBrokerMock
@@ -61,7 +61,7 @@ public sealed partial class FlowInstanceProcessingServiceTests
     private static string SerializeFlowInstanceData(
         FlowExecution execution,
         string contextString) =>
-        JsonConvert.SerializeObject(
+        new JsonBroker().Serialize(
             value: new FlowInstanceData
             {
                 Id = execution.Request.InstanceId,
@@ -72,6 +72,5 @@ public sealed partial class FlowInstanceProcessingServiceTests
                     Id = execution.Request.FlowId,
                     AppId = 7
                 }
-            },
-            settings: ObjectExtensions.GetJsonSettings());
+            });
 }

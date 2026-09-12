@@ -21,22 +21,23 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Given
         FlowDefinition entity = CreateRandomFlowDefinition();
 
-        flowDefinitionProcessingServiceMock.Setup(expression: x => x.AddFlowDefinitionAsync(newEntity: entity))
+        flowDefinitionProcessingServiceMock.Setup(expression: x => x.AddFlowDefinitionAsync(newFlowDefinition: entity))
             .ReturnsAsync(value: entity);
 
         flowDefinitionEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseFlowDefinitionAddEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseFlowDefinitionAddEventAsync(flowDefinition: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        FlowDefinition result = await orchestrationService.AddFlowDefinitionAsync(newEntity: entity);
+        FlowDefinition result = await orchestrationService.AddFlowDefinitionAsync(newFlowDefinition: entity);
 
         // Then
         result.Should()
             .BeSameAs(expected: entity);
 
-        flowDefinitionProcessingServiceMock.Verify(expression: x => x.AddFlowDefinitionAsync(newEntity: entity), times: Times.Once);
-        flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionAddEventAsync(entity: entity), times: Times.Once);
+
+        flowDefinitionProcessingServiceMock.Verify(expression: x => x.AddFlowDefinitionAsync(newFlowDefinition: entity), times: Times.Once);
+        flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionAddEventAsync(flowDefinition: entity), times: Times.Once);
     }
 
 }

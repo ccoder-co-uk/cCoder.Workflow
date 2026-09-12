@@ -12,32 +12,32 @@ internal sealed partial class WorkflowEventEventService(
     IWorkflowEventEventBroker workflowEventEventBroker)
         : IWorkflowEventEventService
 {
-    public ValueTask RaiseWorkflowEventAddEventAsync(WorkflowEvent entity) =>
+    public ValueTask RaiseWorkflowEventAddEventAsync(WorkflowEvent workflowEvent) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [workflowEvent]);
 
-            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: entity);
+            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: workflowEvent);
 
             await workflowEventEventBroker.RaiseWorkflowEventAddEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseWorkflowEventUpdateEventAsync(WorkflowEvent entity) =>
+    public ValueTask RaiseWorkflowEventUpdateEventAsync(WorkflowEvent workflowEvent) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [workflowEvent]);
 
-            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: entity);
+            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: workflowEvent);
 
             await workflowEventEventBroker.RaiseWorkflowEventUpdateEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseWorkflowEventDeleteEventAsync(WorkflowEvent entity) =>
+    public ValueTask RaiseWorkflowEventDeleteEventAsync(WorkflowEvent workflowEvent) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [workflowEvent]);
 
-            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: entity);
+            EventMessage<WorkflowEvent> message = CreateWorkflowEventMessage(entity: workflowEvent);
 
             await workflowEventEventBroker.RaiseWorkflowEventDeleteEventAsync(message: message);
         }, isValueTask: true);

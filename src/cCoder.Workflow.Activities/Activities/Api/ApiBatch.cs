@@ -71,11 +71,3 @@ public class BatchedResponse
     public object Headers { get; set; }
     public object Body { get; set; }
 }
-
-
-
-
-
-
-
-

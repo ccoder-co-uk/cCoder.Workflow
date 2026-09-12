@@ -28,16 +28,6 @@ public partial class CalendarControllerTests
     }
 
     [Fact]
-    public void ShouldReturnServerErrorWhenGetMetadataFails()
-    {
-        controller.ControllerContext = new ControllerContext();
-
-        IActionResult result = controller.GetMetadata();
-
-        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
-    }
-
-    [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
         calendarManagerMock.Setup(expression: service => service.GetAll())
@@ -56,7 +46,7 @@ public partial class CalendarControllerTests
         calendarManagerMock.Setup(expression: service => service.AddCalendarAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newEntity: item);
+        IActionResult result = await controller.Post(newCalendar: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -69,21 +59,7 @@ public partial class CalendarControllerTests
         calendarManagerMock.Setup(expression: service => service.UpdateCalendarAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: 1, updatedEntity: item);
-
-        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
-    }
-
-    [Theory]
-    [MemberData(nameof(FailureExceptions))]
-    public async Task ShouldReturnServerErrorWhenPatchFailsAsync(Exception exception, int expectedStatusCode)
-    {
-        calendarManagerMock.Setup(expression: service => service.Get(calendarId: 1))
-            .Throws(exception: exception);
-
-        IActionResult result = await controller.Put(
-            key: 1,
-            updatedDelta: new Delta<Calendar>());
+        IActionResult result = await controller.Put(key: 1, updatedCalendar: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }

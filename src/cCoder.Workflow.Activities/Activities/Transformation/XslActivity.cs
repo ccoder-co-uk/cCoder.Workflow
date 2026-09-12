@@ -24,7 +24,3 @@ public class XslActivity : TransformationActivity<string, string>
         Result = await reader.ReadToEndAsync();
     }
 }
-
-
-
-

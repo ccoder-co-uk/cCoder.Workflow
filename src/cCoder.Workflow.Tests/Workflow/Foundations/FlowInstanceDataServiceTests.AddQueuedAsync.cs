@@ -22,7 +22,7 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock
             .Setup(expression: x =>
                 x.AddFlowInstanceDataAsync(
-newEntity: It.Is<FlowInstanceData>(match: candidate =>
+newFlowInstanceData: It.Is<FlowInstanceData>(match: candidate =>
                         !ReferenceEquals(objA: candidate, objB: flowInstanceData)
                         && candidate.Id == flowInstanceData.Id
                         && candidate.FlowDefinitionId == flowInstanceData.FlowDefinitionId
@@ -47,6 +47,7 @@ newEntity: It.Is<FlowInstanceData>(match: candidate =>
         result.Should()
             .BeSameAs(expected: flowInstanceData);
 
+
         submitted.Should()
             .NotBeNull();
 
@@ -54,7 +55,7 @@ newEntity: It.Is<FlowInstanceData>(match: candidate =>
             .NotBeSameAs(unexpected: flowInstanceData);
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.AddFlowInstanceDataAsync(newEntity: It.IsAny<FlowInstanceData>()),
+expression: x => x.AddFlowInstanceDataAsync(newFlowInstanceData: It.IsAny<FlowInstanceData>()),
 times: Times.Once);
 
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();

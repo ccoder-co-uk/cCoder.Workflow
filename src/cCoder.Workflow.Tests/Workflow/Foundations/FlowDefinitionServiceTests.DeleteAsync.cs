@@ -28,7 +28,7 @@ public partial class FlowDefinitionServiceTests
             .Setup(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters())
             .Returns(value: new[] { flowDefinition }.AsQueryable());
 
-        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
+        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_delete"));
@@ -37,7 +37,7 @@ public partial class FlowDefinitionServiceTests
             .Setup(
 expression: x =>
                     x.DeleteFlowDefinitionAsync(
-deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
+deletedFlowDefinition: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
                     )
             )
             .ReturnsAsync(value: 1);
@@ -51,13 +51,13 @@ deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDef
         flowDefinitionBrokerMock.Verify(
 expression: x =>
                 x.DeleteFlowDefinitionAsync(
-deletedEntity: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
+deletedFlowDefinition: It.Is<FlowDefinition>(match: candidate => candidate.Id == flowDefinition.Id)
                 ),
 times: Times.Once
         );
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 
@@ -97,7 +97,7 @@ times: Times.Once
         flowDefinitionBrokerMock.Verify(expression: x => x.SelectAllFlowDefinitionsIgnoringQueryFilters(), times: Times.Once);
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

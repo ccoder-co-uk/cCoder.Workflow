@@ -16,5 +16,3 @@ public class WorkflowContext
 
     public ICollection<WorkflowLogEntry> ExecutionLog { get; set; }
 }
-
-

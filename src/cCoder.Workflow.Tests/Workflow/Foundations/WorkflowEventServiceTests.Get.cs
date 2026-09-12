@@ -29,10 +29,11 @@ public partial class WorkflowEventServiceTests
         result.Should()
             .BeEquivalentTo(expectation: workflowEvent);
 
+
         workflowEventBrokerMock.Verify(expression: x => x.SelectAllWorkflowEvents(), times: Times.Once);
 
         workflowEventBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
+expression: x => x.SelectAppId(workflowEvent: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
 

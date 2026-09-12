@@ -28,11 +28,13 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
 
         flowServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: Array.Empty<FlowDefinition>().AsQueryable());
+            .Returns(value: Array.Empty<FlowDefinition>()
+                .AsQueryable());
 
         taskServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: Array.Empty<ScheduledTask>().AsQueryable());
+            .Returns(value: Array.Empty<ScheduledTask>()
+                .AsQueryable());
 
         brokerMock
             .Setup(expression: broker => broker.GetOperationService<IJsonBroker>(
@@ -68,10 +70,12 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .ImportPackageWorkflowPackageAsync(appId: 7, package: package);
+            .ImportPackageWorkflowPackageAsync(appId: 7, workflowPackage: package);
 
         // Then
-        await action.Should().ThrowAsync<Exception>();
+        await action.Should()
+            .ThrowAsync<Exception>();
+
         flowServiceMock.VerifyAll();
         taskServiceMock.VerifyAll();
     }

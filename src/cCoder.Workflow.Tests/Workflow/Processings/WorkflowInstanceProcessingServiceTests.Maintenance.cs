@@ -24,7 +24,9 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         object[] actual = processingService.GetStats();
 
         // Then
-        actual.Should().BeSameAs(expected: expected);
+        actual.Should()
+            .BeSameAs(expected: expected);
+
         workflowInstanceManagementBrokerMock.VerifyAll();
     }
 
@@ -40,8 +42,8 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         loggingBrokerMock
             .Setup(expression: broker => broker.LogInformation(
-                "Dropped {Count} Workflow instances older than {MaxAge}.",
-                It.IsAny<object[]>()));
+                message: "Dropped {Count} Workflow instances older than {MaxAge}.",
+                args: It.IsAny<object[]>()));
 
         // When
         await processingService.RunInstanceMaintenanceAsync();
@@ -125,7 +127,9 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
                 cancellationToken: cancellation.Token);
 
         // Then
-        await action.Should().ThrowAsync<Exception>();
+        await action.Should()
+            .ThrowAsync<Exception>();
+
         workflowInstanceManagementBrokerMock.VerifyAll();
     }
 

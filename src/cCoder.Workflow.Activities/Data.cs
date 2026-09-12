@@ -1,6 +1,7 @@
 using System.Dynamic;
 using System.Text;
 using System.Xml.Linq;
+using cCoder.Workflow.Activities.Brokers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -58,14 +59,16 @@ public static class Data
     {
         StringBuilder builder = new();
         JsonSerializer.Create().Serialize(new CleanJsonWriter(new StringWriter(builder)), ParseXml(data));
-        return JsonConvert.DeserializeObject<T>(builder.ToString());
+        return JsonBroker.Deserialize<T>(value: builder.ToString());
     }
 
     public static XDocument ParseXml(string data) => XDocument.Parse(data);
 
-    public static T ParseJson<T>(string data) => JsonConvert.DeserializeObject<T>(data, ObjectExtensions.GetJSONSettings());
+    public static T ParseJson<T>(string data) =>
+        JsonBroker.Deserialize<T>(value: data);
 
-    public static object ParseJson(string data) => JsonConvert.DeserializeObject(data, ObjectExtensions.GetJSONSettings());
+    public static object ParseJson(string data) =>
+        JsonBroker.Deserialize(value: data);
 
     public static IEnumerable<T> ParseCSV<T>(string data, CSVParseConfig config)
         where T : new() => CSVParser<T>.Parse(data, config);

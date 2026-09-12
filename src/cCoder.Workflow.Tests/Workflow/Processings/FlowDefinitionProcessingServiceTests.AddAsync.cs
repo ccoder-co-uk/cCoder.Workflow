@@ -30,7 +30,7 @@ public partial class FlowDefinitionProcessingServiceTests
             .ReturnsAsync(value: flow);
 
         // When
-        FlowDefinition result = await flowDefinitionProcessingService.AddFlowDefinitionAsync(newEntity: flow);
+        FlowDefinition result = await flowDefinitionProcessingService.AddFlowDefinitionAsync(newFlowDefinition: flow);
 
         // Then
         Assert.Same(expected: flow, actual: result);

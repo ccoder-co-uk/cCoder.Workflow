@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Brokers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -12,16 +12,16 @@ public sealed class BadRequestResult : BadRequestObjectResult
 {
     public BadRequestResult(ModelStateDictionary modelState)
         : base(modelState) =>
-        Value = modelState
-            .Select(selector: item => new ModelStateError
-            {
-                Key = item.Key,
-                Value = item.Value?.RawValue,
-                Errors = item.Value?.Errors?
-                    .Select(selector: error =>
-                        $"{error.ErrorMessage} - {error.Exception?.Message}")
-                    .ToArray(),
-            })
-            .ToArray()
-            .ToJsonForOdata();
+        Value = JsonBroker.SerializeForODataValue(
+            value: modelState
+                .Select(selector: item => new ModelStateError
+                {
+                    Key = item.Key,
+                    Value = item.Value?.RawValue,
+                    Errors = item.Value?.Errors?
+                        .Select(selector: error =>
+                            $"{error.ErrorMessage} - {error.Exception?.Message}")
+                        .ToArray(),
+                })
+                .ToArray());
 }

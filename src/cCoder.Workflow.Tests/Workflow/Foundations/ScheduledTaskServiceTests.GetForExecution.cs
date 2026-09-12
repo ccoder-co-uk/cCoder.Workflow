@@ -31,6 +31,7 @@ public partial class ScheduledTaskServiceTests
             .Should()
             .BeSameAs(expected: expected);
 
+
         scheduledTaskBrokerMock.VerifyAll();
     }
 }

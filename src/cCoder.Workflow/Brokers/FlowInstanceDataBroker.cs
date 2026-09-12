@@ -21,36 +21,36 @@ internal sealed class FlowInstanceDataBroker(ICoreContextFactory coreContextFact
             .FlowInstances
             .IgnoreQueryFilters();
 
-    public async ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity)
+    public async ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowInstanceData result = (await coreDataContext.FlowInstances.AddAsync(entity: newEntity)).Entity;
+        FlowInstanceData result = (await coreDataContext.FlowInstances.AddAsync(entity: newFlowInstanceData)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity)
+    public async ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowInstanceData result = coreDataContext.FlowInstances.Update(entity: updatedEntity).Entity;
+        FlowInstanceData result = coreDataContext.FlowInstances.Update(entity: updatedFlowInstanceData).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData deletedEntity)
+    public async ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData deletedFlowInstanceData)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowInstances.Remove(entity: deletedEntity);
+        coreDataContext.FlowInstances.Remove(entity: deletedFlowInstanceData);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public int? SelectAppId(FlowInstanceData entity)
+    public int? SelectAppId(FlowInstanceData flowInstanceData)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.FlowDefinitions
 
-            .Where(predicate: flowDefinition => flowDefinition.Id == entity.FlowDefinitionId)
+            .Where(predicate: flowDefinition => flowDefinition.Id == flowInstanceData.FlowDefinitionId)
             .Select(selector: flowDefinition => (int?)flowDefinition.AppId)
             .FirstOrDefault();
 

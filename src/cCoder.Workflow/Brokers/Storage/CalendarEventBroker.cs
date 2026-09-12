@@ -20,26 +20,26 @@ internal sealed class CalendarEventBroker(ICoreContextFactory coreContextFactory
             .Events
             .IgnoreQueryFilters();
 
-    public async ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent newEntity)
+    public async ValueTask<CalendarEvent> InsertCalendarEventAsync(CalendarEvent newCalendarEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        CalendarEvent result = (await coreDataContext.Events.AddAsync(entity: newEntity)).Entity;
+        CalendarEvent result = (await coreDataContext.Events.AddAsync(entity: newCalendarEvent)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity)
+    public async ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        CalendarEvent result = coreDataContext.Events.Update(entity: updatedEntity).Entity;
+        CalendarEvent result = coreDataContext.Events.Update(entity: updatedCalendarEvent).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteCalendarEventAsync(CalendarEvent deletedEntity)
+    public async ValueTask<int> DeleteCalendarEventAsync(CalendarEvent deletedCalendarEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Events.Remove(entity: deletedEntity);
+        coreDataContext.Events.Remove(entity: deletedCalendarEvent);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -60,13 +60,13 @@ internal sealed class CalendarEventBroker(ICoreContextFactory coreContextFactory
             .ExecuteDeleteAsync();
     }
 
-    public int? SelectAppId(CalendarEvent entity)
+    public int? SelectAppId(CalendarEvent calendarEvent)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.Calendars
 
-            .Where(predicate: calendar => calendar.Id == entity.CalendarId)
+            .Where(predicate: calendar => calendar.Id == calendarEvent.CalendarId)
             .Select(selector: calendar => (int?)calendar.AppId)
             .FirstOrDefault();
 

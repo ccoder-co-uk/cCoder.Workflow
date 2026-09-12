@@ -15,37 +15,38 @@ namespace cCoder.Core.Services.Tests.Workflow.Processings;
 public partial class WorkflowEventProcessingServiceTests
 {
     [Fact]
-    public async Task ShouldFilterSubscriptionsByAppAndContextWhenGetSubscriptionsAsync()
+    public async Task ShouldDelegateSubscriptionFilteringByAppAndContextAsync()
     {
         // Given
         WorkflowEvent matchingEvent = CreateRandomWorkflowEvent();
         matchingEvent.EventContext = "page_update/home";
         matchingEvent.Flow = new FlowDefinition { AppId = 1 };
 
-        WorkflowEvent wrongContextEvent = CreateRandomWorkflowEvent();
-        wrongContextEvent.EventContext = "page_update/other";
-        wrongContextEvent.Flow = new FlowDefinition { AppId = 1 };
-
-        WorkflowEvent wrongAppEvent = CreateRandomWorkflowEvent();
-        wrongAppEvent.EventContext = "page_update/home";
-        wrongAppEvent.Flow = new FlowDefinition { AppId = 2 };
-
-        IQueryable<WorkflowEvent> entities = new[] { matchingEvent, wrongContextEvent, wrongAppEvent }.AsQueryable();
-
-        workflowEventServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
-            .Returns(value: entities);
+        workflowEventServiceMock
+            .Setup(expression: service => service.GetSubscriptions(
+                appId: 1,
+                eventContext: "page_update/home"))
+            .Returns(value: [matchingEvent]);
 
         // When
         WorkflowEvent[] result = await workflowEventProcessingService.GetSubscriptionsAsync(
-appId: 1,
-eventContext: "page_update/home");
+            appId: 1,
+            eventContext: "page_update/home");
 
         // Then
-        result.Should()
-            .ContainSingle().Which.Should()
+        result
+            .Should()
+            .ContainSingle()
+            .Which
+            .Should()
             .BeSameAs(expected: matchingEvent);
 
-        workflowEventServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
+        workflowEventServiceMock.Verify(
+            expression: service => service.GetSubscriptions(
+                appId: 1,
+                eventContext: "page_update/home"),
+            times: Times.Once);
+
         workflowEventServiceMock.VerifyNoOtherCalls();
     }
 }

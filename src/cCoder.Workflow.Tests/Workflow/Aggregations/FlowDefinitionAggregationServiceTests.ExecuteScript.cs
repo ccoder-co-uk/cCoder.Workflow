@@ -19,7 +19,7 @@ public partial class FlowDefinitionAggregationServiceTests
     public async Task ShouldExecuteScriptThroughWorkflowApiAsync()
     {
         // Given
-        using TcpListener listener = new(IPAddress.Loopback, port: 0);
+        using TcpListener listener = new(localaddr: IPAddress.Loopback, port: 0);
         listener.Start();
         int port = ((IPEndPoint)listener.LocalEndpoint).Port;
 
@@ -34,16 +34,17 @@ public partial class FlowDefinitionAggregationServiceTests
                     operation: FlowDefinitionOperation.Configuration))
             .Returns(value: configuration);
 
-        Task responseTask = Task.Run(async () =>
+        Task responseTask = Task.Run(function: async () =>
         {
             using TcpClient client = await listener.AcceptTcpClientAsync();
             using NetworkStream stream = client.GetStream();
             byte[] buffer = new byte[4096];
-            _ = await stream.ReadAsync(buffer);
-            byte[] response = Encoding.ASCII.GetBytes(
-                "HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: close\r\n\r\nok");
+            _ = await stream.ReadAsync(buffer: buffer);
 
-            await stream.WriteAsync(response);
+            byte[] response = Encoding.ASCII.GetBytes(
+                s: "HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: close\r\n\r\nok");
+
+            await stream.WriteAsync(buffer: response);
         });
 
         // When
@@ -51,7 +52,9 @@ public partial class FlowDefinitionAggregationServiceTests
         await responseTask;
 
         // Then
-        result.Should().Be(expected: "ok");
+        result.Should()
+            .Be(expected: "ok");
+
         serviceProviderBrokerMock.VerifyAll();
     }
 }

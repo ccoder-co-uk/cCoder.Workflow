@@ -26,12 +26,12 @@ public partial class FlowInstanceDataEventProcessingServiceTests
 
         flowInstanceDataEventServiceMock
             .Setup(expression: dependency => dependency
-                .RaiseFlowInstanceDataAddEventAsync(entity: entity))
+                .RaiseFlowInstanceDataAddEventAsync(flowInstanceData: entity))
             .Throws(exception: exception);
 
         // When
         Func<Task> action = async () => await service
-            .RaiseFlowInstanceDataAddEventAsync(entity: entity);
+            .RaiseFlowInstanceDataAddEventAsync(flowInstanceData: entity);
 
         // Then
         Exception thrown = (await action
@@ -41,5 +41,6 @@ public partial class FlowInstanceDataEventProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

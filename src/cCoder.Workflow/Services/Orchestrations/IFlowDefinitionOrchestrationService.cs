@@ -15,9 +15,9 @@ internal interface IFlowDefinitionOrchestrationService
 
     IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false);
 
-    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity);
+    ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition);
 
-    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity);
+    ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition);
 
     ValueTask DeleteAsync(Guid flowDefinitionId);
 

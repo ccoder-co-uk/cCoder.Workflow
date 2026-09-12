@@ -10,4 +10,6 @@ internal interface IWorkflowMigrationServiceProviderBroker
 {
     T GetOperationService<T>(WorkflowMigrationOperation operation)
         where T : notnull;
+
+    void LogDebug(string message, params object[] args);
 }

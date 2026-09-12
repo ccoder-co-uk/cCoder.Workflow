@@ -33,6 +33,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -58,7 +59,10 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             .Should()
             .ThrowAsync<Exception>()).Which;
 
-        thrown.Should().BeOfType(expectedType: expectedType);
+        thrown.Should()
+
+            .BeOfType(expectedType: expectedType);
+
     }
 
     [Fact]

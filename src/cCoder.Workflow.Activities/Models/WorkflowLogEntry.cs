@@ -22,6 +22,3 @@ public class WorkflowLogEntry
         Message = message;
     }
 }
-
-
-

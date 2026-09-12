@@ -33,6 +33,7 @@ public partial class CalendarEventServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -46,7 +47,7 @@ public partial class CalendarEventServiceTests
 
         calendarEventBrokerMock
             .Setup(expression: broker => broker.SelectAppId(
-                entity: calendarEvent))
+                calendarEvent: calendarEvent))
             .Throws(exception: exception);
 
         // When
@@ -61,6 +62,7 @@ public partial class CalendarEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -87,5 +89,6 @@ public partial class CalendarEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

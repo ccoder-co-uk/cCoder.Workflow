@@ -8,5 +8,3 @@ public enum ActivityState
     Failed,
     Skipped
 }
-
-

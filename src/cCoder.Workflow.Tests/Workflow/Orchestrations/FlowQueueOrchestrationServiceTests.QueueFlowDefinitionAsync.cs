@@ -50,7 +50,7 @@ public partial class FlowQueueOrchestrationServiceTests
 
         flowInstanceDataProcessingServiceMock
             .Setup(expression: service => service.AddQueuedFlowInstanceDataAsync(
-                newEntity: It.IsAny<FlowInstanceData>()))
+                newFlowInstanceData: It.IsAny<FlowInstanceData>()))
             .ReturnsAsync(valueFunction: (FlowInstanceData flowInstanceData) =>
             {
                 flowInstanceData.Id = queuedFlowInstanceDataId;
@@ -59,7 +59,7 @@ public partial class FlowQueueOrchestrationServiceTests
 
         flowInstanceDataEventProcessingServiceMock
             .Setup(expression: service => service.RaiseFlowInstanceDataAddEventAsync(
-                entity: It.Is<FlowInstanceData>(
+                flowInstanceData: It.Is<FlowInstanceData>(
                     match: flowInstanceData =>
                         flowInstanceData.Id == queuedFlowInstanceDataId)))
             .Returns(value: ValueTask.CompletedTask);
@@ -74,9 +74,10 @@ public partial class FlowQueueOrchestrationServiceTests
         result.Should()
             .Be(expected: queuedFlowInstanceDataId);
 
+
         flowInstanceDataProcessingServiceMock.Verify(
             expression: service => service.AddQueuedFlowInstanceDataAsync(
-                newEntity: It.Is<FlowInstanceData>(
+                newFlowInstanceData: It.Is<FlowInstanceData>(
                     match: flowInstanceData =>
                         flowInstanceData.FlowDefinitionId == flowDefinitionId
                         && flowInstanceData.Caller == asUserId

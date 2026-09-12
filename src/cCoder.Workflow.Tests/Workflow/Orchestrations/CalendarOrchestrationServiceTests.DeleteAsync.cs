@@ -42,7 +42,7 @@ public partial class CalendarOrchestrationServiceTests
 
         eventServiceMock
             .Setup(expression: service => service.RaiseCalendarDeleteEventAsync(
-                entity: entity))
+                calendar: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -52,6 +52,7 @@ public partial class CalendarOrchestrationServiceTests
         calendarProcessingServiceMock.Verify(
             expression: service => service.GetAll(ignoreFilters: true),
             times: Times.Once);
+
         calendarProcessingServiceMock.Verify(expression: x => x.DeleteAsync(calendarId: id), times: Times.Once);
         calendarEventProcessingServiceMock.VerifyAll();
         eventServiceMock.VerifyAll();

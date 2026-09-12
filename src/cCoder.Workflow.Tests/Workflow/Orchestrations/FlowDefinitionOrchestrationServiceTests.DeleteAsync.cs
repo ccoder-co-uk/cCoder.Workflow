@@ -29,7 +29,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         flowDefinitionEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -38,7 +38,7 @@ public partial class FlowDefinitionOrchestrationServiceTests
         // Then
         flowDefinitionProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         flowDefinitionProcessingServiceMock.Verify(expression: x => x.DeleteAsync(flowDefinitionId: id), times: Times.Once);
-        flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity), times: Times.Once);
+        flowDefinitionEventProcessingServiceMock.Verify(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity), times: Times.Once);
     }
 
 }

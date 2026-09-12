@@ -11,4 +11,6 @@ public interface IJsonBroker
     T ParseJson<T>(string json);
 
     string Serialize(object value);
+
+    string SerializeForOData(object value);
 }

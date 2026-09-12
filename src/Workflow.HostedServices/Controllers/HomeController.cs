@@ -21,7 +21,7 @@ public sealed class HomeController(
     {
         try
         {
-            return Content( content: homeProcessingService.GetHome(), contentType: "text/plain");
+            return Content(content: homeProcessingService.GetHome(), contentType: "text/plain");
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

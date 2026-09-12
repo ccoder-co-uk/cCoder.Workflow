@@ -51,6 +51,7 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -85,7 +86,7 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .ImportPackageWorkflowPackageAsync(appId: 1, package: package);
+            .ImportPackageWorkflowPackageAsync(appId: 1, workflowPackage: package);
 
         // Then
         Exception thrown = (await action
@@ -95,6 +96,7 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }
 #pragma warning restore STXFORMAT009

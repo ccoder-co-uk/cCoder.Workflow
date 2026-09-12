@@ -8,5 +8,5 @@ namespace cCoder.Workflow.Engine.Exposures;
 
 public interface IFlowRunner
 {
-    Task RunAsync(WorkflowRequest request);
+    Task RunAsync(WorkflowRequest workflowRequest);
 }

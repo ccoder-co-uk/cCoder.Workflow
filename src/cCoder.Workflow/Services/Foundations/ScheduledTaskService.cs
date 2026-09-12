@@ -59,6 +59,15 @@ internal sealed partial class ScheduledTaskService(
         return scheduledTaskBroker.SelectAllScheduledTasks();
     }
 
+    public ScheduledTask[] GetDueScheduledTasks(DateTimeOffset currentDateTime) =>
+        TryCatch(operation: () =>
+        {
+            ValidateDueScheduledTasksOnGet(inputs: [currentDateTime]);
+
+            return scheduledTaskBroker.SelectDueScheduledTasks(
+                currentDateTime: currentDateTime);
+        });
+
     public ValueTask<ScheduledTask> MarkExecutedAsync(int scheduledTaskId, bool incrementNextExecution) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [scheduledTaskId, incrementNextExecution]); return await ExecuteMarkExecutedAsync(scheduledTaskId: scheduledTaskId, incrementNextExecution: incrementNextExecution); }, isValueTask: true);
 
@@ -90,7 +99,7 @@ internal sealed partial class ScheduledTaskService(
         }
 
         return await scheduledTaskBroker.UpdateScheduledTaskAsync(
-            updatedEntity: scheduledTask);
+            updatedScheduledTask: scheduledTask);
     }
 
     public bool GetExecuteAsUserBelongsToApp(string executeAs, int appId) =>
@@ -120,7 +129,7 @@ internal sealed partial class ScheduledTaskService(
         newScheduledTask.LastUpdated = now;
         newScheduledTask.UpdatedBy = currentUserId;
 
-        ScheduledTask result = await scheduledTaskBroker.InsertScheduledTaskAsync(newEntity: newScheduledTask);
+        ScheduledTask result = await scheduledTaskBroker.InsertScheduledTaskAsync(newScheduledTask: newScheduledTask);
         scheduledTask.Id = result.Id;
         scheduledTask.AppId = result.AppId;
         scheduledTask.FlowId = result.FlowId;
@@ -154,7 +163,7 @@ internal sealed partial class ScheduledTaskService(
         updateScheduledTask.UpdatedBy = currentUserId;
 
         ScheduledTask result = await scheduledTaskBroker.UpdateScheduledTaskAsync(
-updatedEntity: updateScheduledTask
+updatedScheduledTask: updateScheduledTask
         );
 
         scheduledTask.Id = result.Id;
@@ -192,7 +201,7 @@ updatedEntity: updateScheduledTask
         authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_delete");
 
         _ = await scheduledTaskBroker.DeleteScheduledTaskAsync(
-deletedEntity: CreateStorageScheduledTask(item: scheduledTask)
+deletedScheduledTask: CreateStorageScheduledTask(item: scheduledTask)
         );
     }
 

@@ -26,12 +26,12 @@ public partial class CalendarEventEventProcessingServiceTests
 
         calendarEventEventServiceMock
             .Setup(expression: dependency => dependency
-                .RaiseCalendarEventAddEventAsync(entity: entity))
+                .RaiseCalendarEventAddEventAsync(calendarEvent: entity))
             .Throws(exception: exception);
 
         // When
         Func<Task> action = async () => await service
-            .RaiseCalendarEventAddEventAsync(entity: entity);
+            .RaiseCalendarEventAddEventAsync(calendarEvent: entity);
 
         // Then
         Exception thrown = (await action
@@ -41,5 +41,6 @@ public partial class CalendarEventEventProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

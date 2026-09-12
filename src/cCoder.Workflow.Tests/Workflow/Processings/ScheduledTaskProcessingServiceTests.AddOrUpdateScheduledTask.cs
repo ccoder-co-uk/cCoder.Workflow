@@ -59,9 +59,11 @@ public partial class ScheduledTaskProcessingServiceTests
             .Should()
             .Be(expected: "Added Successfully");
 
+
         results[1].Message
             .Should()
             .Be(expected: "Updated Successfully");
+
 
         scheduledTaskServiceMock.VerifyAll();
     }
@@ -92,13 +94,16 @@ public partial class ScheduledTaskProcessingServiceTests
             .Should()
             .BeFalse();
 
+
         result.Item
             .Should()
             .BeSameAs(expected: item);
 
+
         result.Message
             .Should()
             .Be(expected: "The Workflow service failed.");
+
     }
 }
 #pragma warning restore STXFORMAT008

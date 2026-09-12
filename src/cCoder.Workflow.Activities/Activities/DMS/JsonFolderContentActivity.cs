@@ -44,10 +44,3 @@ public class JsonFolderContentActivity : DMSActivity
     private string ConvertToString(byte[] raw) =>
         Encoding.UTF8.GetString(raw);
 }
-
-
-
-
-
-
-

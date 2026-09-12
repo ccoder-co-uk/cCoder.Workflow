@@ -58,14 +58,14 @@ internal sealed partial class FlowInstanceDataService(
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
-appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
+appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_create"
         );
 
         FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
-newEntity: newFlowInstanceData
+newFlowInstanceData: newFlowInstanceData
         );
 
         flowInstanceData.Id = result.Id;
@@ -88,7 +88,7 @@ newEntity: newFlowInstanceData
         FlowInstanceData queuedFlowInstanceData = CreateQueuedStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.AddFlowInstanceDataAsync(
-newEntity: queuedFlowInstanceData
+newFlowInstanceData: queuedFlowInstanceData
         );
 
         flowInstanceData.Id = result.Id;
@@ -109,14 +109,14 @@ newEntity: queuedFlowInstanceData
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
         authorizationBroker.Authorize(
-appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
+appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_update"
         );
 
         FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
         FlowInstanceData result = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
-updatedEntity: updateFlowInstanceData
+updatedFlowInstanceData: updateFlowInstanceData
         );
 
         flowInstanceData.Id = result.Id;
@@ -139,12 +139,12 @@ updatedEntity: updateFlowInstanceData
         FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
 
         authorizationBroker.Authorize(
-appId: flowInstanceDataBroker.SelectAppId(entity: flowInstanceData),
+appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_delete"
         );
 
         _ = await flowInstanceDataBroker.DeleteFlowInstanceDataAsync(
-deletedEntity: CreateStorageFlowInstanceData(item: flowInstanceData)
+deletedFlowInstanceData: CreateStorageFlowInstanceData(item: flowInstanceData)
         );
     }
 

@@ -3,13 +3,13 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Exposures;
-using cCoder.Workflow.Engine.Extensions;
 using Microsoft.Azure.Functions.Worker.Http;
-using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using Workflow.Dependencies;
+using Workflow.Brokers.Http;
 using Workflow.Brokers.Loggings;
 
 namespace Workflow.Services.Processings.WorkflowFunctions;
@@ -17,6 +17,8 @@ namespace Workflow.Services.Processings.WorkflowFunctions;
 internal sealed partial class WorkflowFunctionsProcessingService(
     IFlowRunner flowRunner,
     IWorkflowScriptExecutionService scriptExecutionService,
+    IJsonBroker jsonBroker,
+    IHttpResponseBroker httpResponseBroker,
     ILoggingBroker loggingBroker)
         : IWorkflowFunctionsProcessingService
 {
@@ -28,13 +30,12 @@ internal sealed partial class WorkflowFunctionsProcessingService(
             string json = await ReadBodyAsync(request: request);
 
             WorkflowRequest workflowRequest =
-                JsonConvert.DeserializeObject<WorkflowRequest>(
-                    value: json,
-                    settings: ObjectExtensions.GetJsonSettings())
+                jsonBroker.Deserialize<WorkflowRequest>(
+                    value: json)
                 ?? throw new InvalidOperationException(
                     message: "Workflow request payload could not be deserialized.");
 
-            await flowRunner.RunAsync(request: workflowRequest);
+            await flowRunner.RunAsync(workflowRequest: workflowRequest);
 
             return await CreateHttpResponseDataAsync(
                 request: request,
@@ -81,14 +82,17 @@ internal sealed partial class WorkflowFunctionsProcessingService(
             return Task.CompletedTask;
         });
 
-    private static async Task<HttpResponseData> CreateHttpResponseDataAsync(
+    private async Task<HttpResponseData> CreateHttpResponseDataAsync(
         HttpRequestData request,
         string content)
     {
-        HttpResponseData response = request.CreateResponse(
+        HttpResponseData response = httpResponseBroker.CreateResponse(
+            request: request,
             statusCode: HttpStatusCode.OK);
 
-        await response.WriteStringAsync(value: content);
+        await httpResponseBroker.WriteStringAsync(
+            response: response,
+            value: content);
 
         return response;
     }

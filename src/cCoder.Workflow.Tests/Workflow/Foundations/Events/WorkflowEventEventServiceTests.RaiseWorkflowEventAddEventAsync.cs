@@ -26,7 +26,7 @@ public partial class WorkflowEventEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseWorkflowEventAddEventAsync(entity: entity);
+        await service.RaiseWorkflowEventAddEventAsync(workflowEvent: entity);
 
         // Then
         actualMessage.Should()
@@ -35,11 +35,13 @@ public partial class WorkflowEventEventServiceTests
         actualMessage!.Data.Should()
             .BeEquivalentTo(expectation: entity);
 
+
         actualMessage.AuthInfo.Should()
             .NotBeNull();
 
         actualMessage.AuthInfo.SSOUserId.Should()
             .Be(expected: CurrentUserId);
+
 
         workflowEventEventBrokerMock.Verify(
 expression: x => x.RaiseWorkflowEventAddEventAsync(message: It.IsAny<EventMessage<WorkflowEvent>>()),

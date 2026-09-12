@@ -42,10 +42,3 @@ public partial class JsonXslActivity<TResult> : TransformationActivity<string, T
         }
     }
 }
-
-
-
-
-
-
-

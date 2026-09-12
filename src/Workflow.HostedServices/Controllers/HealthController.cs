@@ -22,7 +22,7 @@ public sealed class HealthController(
     {
         try
         {
-            return Content( content: healthProcessingService.GetHealth(), contentType: "text/plain");
+            return Content(content: healthProcessingService.GetHealth(), contentType: "text/plain");
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

@@ -13,10 +13,3 @@ public class XmlFileActivity : DMSActivity
         Result = cCoder.Workflow.Activities.Support.Data.ParseXml<dynamic>(await GetFileContents(api));
     }
 }
-
-
-
-
-
-
-

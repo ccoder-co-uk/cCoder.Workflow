@@ -16,10 +16,3 @@ public class CsvFileActivity : DMSActivity
         Result = cCoder.Workflow.Activities.Support.Data.ParseCSV<dynamic>(await GetFileContents(api), CSVParseConfig);
     }
 }
-
-
-
-
-
-
-

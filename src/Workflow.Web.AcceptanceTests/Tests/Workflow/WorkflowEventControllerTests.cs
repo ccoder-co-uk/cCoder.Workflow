@@ -121,22 +121,6 @@ public sealed partial class WorkflowEventControllerTests(WebAcceptanceFixture fi
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchWorkflowEventAsync(Guid workflowEventId, object payload)
-    {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({workflowEventId})")
-        {
-            Content = JsonContent.Create(inputValue: payload),
-        };
-
-        using HttpResponseMessage response = await Client.SendAsync(request: request);
-        string content = await response.Content.ReadAsStringAsync();
-
-        response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
-
-        return (int)response.StatusCode;
-    }
-
     private async Task<int> DeleteWorkflowEventAsync(Guid workflowEventId)
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({workflowEventId})");

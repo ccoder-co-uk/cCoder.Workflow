@@ -21,22 +21,23 @@ public partial class CalendarEventOrchestrationServiceTests
         // Given
         CalendarEvent entity = CreateRandomCalendarEvent();
 
-        calendarEventProcessingServiceMock.Setup(expression: x => x.UpdateCalendarEventAsync(updatedEntity: entity))
+        calendarEventProcessingServiceMock.Setup(expression: x => x.UpdateCalendarEventAsync(updatedCalendarEvent: entity))
             .ReturnsAsync(value: entity);
 
         calendarEventEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseCalendarEventUpdateEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseCalendarEventUpdateEventAsync(calendarEvent: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        CalendarEvent result = await orchestrationService.UpdateCalendarEventAsync(updatedEntity: entity);
+        CalendarEvent result = await orchestrationService.UpdateCalendarEventAsync(updatedCalendarEvent: entity);
 
         // Then
         result.Should()
             .BeSameAs(expected: entity);
 
-        calendarEventProcessingServiceMock.Verify(expression: x => x.UpdateCalendarEventAsync(updatedEntity: entity), times: Times.Once);
-        calendarEventEventProcessingServiceMock.Verify(expression: x => x.RaiseCalendarEventUpdateEventAsync(entity: entity), times: Times.Once);
+
+        calendarEventProcessingServiceMock.Verify(expression: x => x.UpdateCalendarEventAsync(updatedCalendarEvent: entity), times: Times.Once);
+        calendarEventEventProcessingServiceMock.Verify(expression: x => x.RaiseCalendarEventUpdateEventAsync(calendarEvent: entity), times: Times.Once);
     }
 
 }

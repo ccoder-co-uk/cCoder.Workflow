@@ -34,7 +34,7 @@ public sealed partial class FlowExecutionOrchestrationAdapterTests
             new(workflowRequestOrchestrationService: serviceMock.Object);
 
         // When
-        await adapter.ExecuteAsync(request: request);
+        await adapter.ExecuteAsync(workflowRequest: request);
 
         // Then
         serviceMock.VerifyAll();

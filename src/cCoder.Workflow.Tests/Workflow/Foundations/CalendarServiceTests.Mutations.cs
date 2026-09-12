@@ -19,6 +19,7 @@ public partial class CalendarServiceTests
         // Given
         Calendar input = CreateCalendar();
         Calendar stored = CreateCalendar();
+
         string privilege = isUpdate
             ? "Calendar_update"
             : "Calendar_create";
@@ -32,7 +33,7 @@ public partial class CalendarServiceTests
         {
             calendarBrokerMock
                 .Setup(expression: broker => broker.UpdateCalendarAsync(
-                    updatedEntity: It.Is<Calendar>(match: item =>
+                    updatedCalendar: It.Is<Calendar>(match: item =>
                         item.Id == input.Id)))
                 .Returns(value: ValueTask.FromResult(result: stored));
         }
@@ -40,7 +41,7 @@ public partial class CalendarServiceTests
         {
             calendarBrokerMock
                 .Setup(expression: broker => broker.InsertCalendarAsync(
-                    newEntity: It.Is<Calendar>(match: item =>
+                    newCalendar: It.Is<Calendar>(match: item =>
                         item.Name == input.Name)))
                 .Returns(value: ValueTask.FromResult(result: stored));
         }
@@ -57,13 +58,16 @@ public partial class CalendarServiceTests
             .Should()
             .BeSameAs(expected: input);
 
+
         actual.Id
             .Should()
             .Be(expected: stored.Id);
 
+
         actual.Name
             .Should()
             .Be(expected: stored.Name);
+
 
         calendarBrokerMock.VerifyAll();
         authorizationBrokerMock.VerifyAll();
@@ -88,7 +92,7 @@ public partial class CalendarServiceTests
 
         calendarBrokerMock
             .Setup(expression: broker => broker.DeleteCalendarAsync(
-                deletedEntity: It.Is<Calendar>(match: deleted =>
+                deletedCalendar: It.Is<Calendar>(match: deleted =>
                     deleted.Id == calendar.Id)))
             .Returns(value: ValueTask.FromResult(result: 1));
 

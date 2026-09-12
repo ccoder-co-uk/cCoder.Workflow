@@ -7,6 +7,169 @@
   },
   "Classes": [
     {
+      "Name": "cCoder.Workflow.Engine.Brokers.JsonBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IJsonBroker",
+          "FullName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+          "Name": "IJsonBroker",
+          "Namespace": "cCoder.Workflow.Engine.Brokers",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.Deserialize(System.String)",
+          "Name": "Deserialize",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IJsonBroker.Deserialize(System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Newtonsoft.Json.JsonConvert",
+              "MethodName": "DeserializeObject",
+              "MethodId": "Newtonsoft.Json.JsonConvert.DeserializeObject(System.String,Newtonsoft.Json.JsonSerializerSettings?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.DeserializeWithoutTypeInformation(System.String)",
+          "Name": "DeserializeWithoutTypeInformation",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IJsonBroker.DeserializeWithoutTypeInformation(System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Newtonsoft.Json.JsonConvert",
+              "MethodName": "DeserializeObject",
+              "MethodId": "Newtonsoft.Json.JsonConvert.DeserializeObject(System.String,Newtonsoft.Json.JsonSerializerSettings?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.Serialize(System.Object)",
+          "Name": "Serialize",
+          "LineNumber": 22,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IJsonBroker.Serialize(System.Object)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Newtonsoft.Json.JsonConvert",
+              "MethodName": "SerializeObject",
+              "MethodId": "Newtonsoft.Json.JsonConvert.SerializeObject(System.Object?,Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.SerializeForOData(System.Object)",
+          "Name": "SerializeForOData",
+          "LineNumber": 28,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IJsonBroker.SerializeForOData(System.Object)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Newtonsoft.Json.JsonConvert",
+              "MethodName": "SerializeObject",
+              "MethodId": "Newtonsoft.Json.JsonConvert.SerializeObject(System.Object?,Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker",
       "StandardElementType": "Broker",
       "LineNumber": 9,
@@ -1138,7 +1301,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "request",
+              "Name": "workflowRequest",
               "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
             }
           ],
@@ -1218,7 +1381,7 @@
           "LineNumber": 13,
           "Inputs": [
             {
-              "Name": "request",
+              "Name": "workflowRequest",
               "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
             }
           ],
@@ -1412,126 +1575,6 @@
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
           ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Extensions.ObjectExtensions",
-      "StandardElementType": "Exposure",
-      "LineNumber": 10,
-      "IsPublic": true,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings()",
-          "Name": "GetJsonSettings",
-          "LineNumber": 12,
-          "Inputs": [],
-          "ReturnType": "Newtonsoft.Json.JsonSerializerSettings",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "Newtonsoft.Json.JsonSerializerSettings",
-              "MethodName": ".ctor",
-              "MethodId": "Newtonsoft.Json.JsonSerializerSettings..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Newtonsoft.Json.Serialization.DefaultContractResolver",
-              "MethodName": ".ctor",
-              "MethodId": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Engine.Extensions.ObjectExtensions.ToJson(System.Object)",
-          "Name": "ToJson",
-          "LineNumber": 37,
-          "Inputs": [
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            }
-          ],
-          "ReturnType": "System.String",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "Newtonsoft.Json.JsonConvert",
-              "MethodName": "SerializeObject",
-              "MethodId": "Newtonsoft.Json.JsonConvert.SerializeObject(System.Object?,Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Extensions.ObjectExtensions",
-              "MethodName": "GetJsonSettings",
-              "MethodId": "cCoder.Workflow.Engine.Extensions.ObjectExtensions.GetJsonSettings()",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Engine.Extensions.ObjectExtensions.ToJsonForOdata(System.Object)",
-          "Name": "ToJsonForOdata",
-          "LineNumber": 40,
-          "Inputs": [
-            {
-              "Name": "value",
-              "Type": "System.Object"
-            }
-          ],
-          "ReturnType": "System.String",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "Newtonsoft.Json.JsonConvert",
-              "MethodName": "SerializeObject",
-              "MethodId": "Newtonsoft.Json.JsonConvert.SerializeObject(System.Object?,Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
           "HttpMethods": [],
           "HttpResponses": [],
           "IsHttpRequestHandler": false,
@@ -1808,7 +1851,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 13,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1829,7 +1872,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "ExecuteWorkflowRequestAsync",
-          "LineNumber": 22,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -1841,13 +1884,6 @@
             "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)"
           ],
           "Calls": [
-            {
-              "TypeName": "cCoder.Workflow.Engine.Extensions.ObjectExtensions",
-              "MethodName": "ToJson",
-              "MethodId": "cCoder.Workflow.Engine.Extensions.ObjectExtensions.ToJson(System.Object)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
             {
               "TypeName": "cCoder.Workflow.Engine.Services.Processings.IFlowCommunicationProcessingService",
               "MethodName": "ConnectWorkflowRequestAsync",
@@ -1873,6 +1909,13 @@
               "TypeName": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService",
               "MethodName": "SaveFlowInstanceDataAsync",
               "MethodId": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.SaveFlowInstanceDataAsync(FlowInstanceData,System.String,System.String)",
+              "StandardElementType": "ProcessingService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService",
+              "MethodName": "Serialize",
+              "MethodId": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.Serialize(System.Object)",
               "StandardElementType": "ProcessingService",
               "IsDependencyBoundary": false
             }
@@ -2034,7 +2077,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 19,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2055,7 +2098,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 25,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -2131,7 +2174,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2150,9 +2193,58 @@
       "Properties": [],
       "Methods": [
         {
+          "Id": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService.Deserialize(System.String)",
+          "Name": "Deserialize",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.Deserialize(System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "Deserialize",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.Deserialize(System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService.SaveFlowInstanceDataAsync(FlowInstanceData,System.String,System.String)",
           "Name": "SaveFlowInstanceDataAsync",
-          "LineNumber": 17,
+          "LineNumber": 33,
           "Inputs": [
             {
               "Name": "flowInstanceData",
@@ -2173,18 +2265,18 @@
           ],
           "Calls": [
             {
-              "TypeName": "Newtonsoft.Json.JsonConvert",
-              "MethodName": "SerializeObject",
-              "MethodId": "Newtonsoft.Json.JsonConvert.SerializeObject(System.Object?,Newtonsoft.Json.Formatting)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
               "TypeName": "System.Net.Http.HttpRequestException",
               "MethodName": ".ctor",
               "MethodId": "System.Net.Http.HttpRequestException..ctor(System.String?)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "SerializeForOData",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.SerializeForOData(System.Object)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
@@ -2221,13 +2313,62 @@
           "HasKeyParameter": false,
           "HandlesNullWithNotFound": false,
           "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService.Serialize(System.Object)",
+          "Name": "Serialize",
+          "LineNumber": 25,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.Serialize(System.Object)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "Serialize",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.Serialize(System.Object)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 16,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2248,7 +2389,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
           "Name": "ExecuteWorkflowScriptAsync",
-          "LineNumber": 23,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "payload",
@@ -2265,27 +2406,6 @@
           ],
           "Calls": [
             {
-              "TypeName": "Newtonsoft.Json.JsonConvert",
-              "MethodName": "DeserializeObject",
-              "MethodId": "Newtonsoft.Json.JsonConvert.DeserializeObject(System.String,Newtonsoft.Json.JsonSerializerSettings?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Newtonsoft.Json.JsonConvert",
-              "MethodName": "SerializeObject",
-              "MethodId": "Newtonsoft.Json.JsonConvert.SerializeObject(System.Object?,Newtonsoft.Json.JsonSerializerSettings?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Newtonsoft.Json.JsonSerializerSettings",
-              "MethodName": ".ctor",
-              "MethodId": "Newtonsoft.Json.JsonSerializerSettings..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
               "TypeName": "System.InvalidOperationException",
               "MethodName": ".ctor",
               "MethodId": "System.InvalidOperationException..ctor(System.String?)",
@@ -2298,6 +2418,20 @@
               "MethodId": "cCoder.Workflow.Activities.IScriptRunner.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "DeserializeWithoutTypeInformation",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.DeserializeWithoutTypeInformation(System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "SerializeForOData",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.SerializeForOData(System.Object)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [
@@ -2332,6 +2466,118 @@
     }
   ],
   "Interfaces": [
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IJsonBroker.Deserialize(System.String)",
+          "Name": "Deserialize",
+          "LineNumber": 9,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IJsonBroker.DeserializeWithoutTypeInformation(System.String)",
+          "Name": "DeserializeWithoutTypeInformation",
+          "LineNumber": 10,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IJsonBroker.Serialize(System.Object)",
+          "Name": "Serialize",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IJsonBroker.SerializeForOData(System.Object)",
+          "Name": "SerializeForOData",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
     {
       "Name": "cCoder.Workflow.Engine.Brokers.IScriptBroker",
       "StandardElementType": "Broker",
@@ -2855,7 +3101,7 @@
           "LineNumber": 11,
           "Inputs": [
             {
-              "Name": "request",
+              "Name": "workflowRequest",
               "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
             }
           ],
@@ -2933,7 +3179,7 @@
           "LineNumber": 11,
           "Inputs": [
             {
-              "Name": "request",
+              "Name": "workflowRequest",
               "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
             }
           ],
@@ -3150,9 +3396,34 @@
       "Properties": [],
       "Methods": [
         {
+          "Id": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.Deserialize(System.String)",
+          "Name": "Deserialize",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.SaveFlowInstanceDataAsync(FlowInstanceData,System.String,System.String)",
           "Name": "SaveFlowInstanceDataAsync",
-          "LineNumber": 11,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "flowInstanceData",
@@ -3168,6 +3439,31 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Processings.IFlowResultProcessingService.Serialize(System.Object)",
+          "Name": "Serialize",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -3301,6 +3597,10 @@
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowInstanceProcessingService",
       "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
     },
     {
@@ -3313,7 +3613,15 @@
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.FlowResultProcessingService",
       "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",

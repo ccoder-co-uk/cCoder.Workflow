@@ -23,6 +23,7 @@ public partial class ScheduledTaskProcessingServiceTests
         actual
             .Should()
             .BeTrue();
+
     }
 
     [Fact]

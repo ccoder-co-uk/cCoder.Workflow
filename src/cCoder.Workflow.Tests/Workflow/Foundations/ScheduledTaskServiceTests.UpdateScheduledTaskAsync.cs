@@ -49,7 +49,7 @@ public partial class ScheduledTaskServiceTests
 
         scheduledTaskBrokerMock
             .Setup(expression: broker => broker.UpdateScheduledTaskAsync(
-                updatedEntity: It.Is<ScheduledTask>(match: updated =>
+                updatedScheduledTask: It.Is<ScheduledTask>(match: updated =>
                     updated.Id == input.Id
                     && updated.UpdatedBy == userId)))
             .Returns(value: ValueTask.FromResult(result: stored));
@@ -63,13 +63,16 @@ public partial class ScheduledTaskServiceTests
             .Should()
             .BeSameAs(expected: input);
 
+
         actual.Id
             .Should()
             .Be(expected: stored.Id);
 
+
         actual.FlowId
             .Should()
             .Be(expected: stored.FlowId);
+
 
         authorizationBrokerMock.VerifyAll();
         scheduledTaskBrokerMock.VerifyAll();

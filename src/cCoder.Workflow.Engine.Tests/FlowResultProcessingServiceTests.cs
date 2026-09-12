@@ -16,7 +16,9 @@ public sealed partial class FlowResultProcessingServiceTests
             new(behavior: MockBehavior.Strict);
 
     private FlowResultProcessingService CreateService() =>
-        new(workflowHttpClientBroker: workflowHttpClientBrokerMock.Object);
+        new(
+            workflowHttpClientBroker: workflowHttpClientBrokerMock.Object,
+            jsonBroker: new JsonBroker());
 
     private static FlowInstanceData CreateFlowInstanceData() =>
         new()

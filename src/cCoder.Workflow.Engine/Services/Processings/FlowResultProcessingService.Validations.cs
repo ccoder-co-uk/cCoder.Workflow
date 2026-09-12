@@ -9,6 +9,16 @@ namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class FlowResultProcessingService
 {
+    private static void ValidateSerializationInput(object input)
+    {
+        if (input is null ||
+            input is string text && string.IsNullOrWhiteSpace(value: text))
+        {
+            throw new ValidationException(
+                message: "A serialization value is required.");
+        }
+    }
+
     private static void ValidateInputs(
         params object[] inputs)
     {

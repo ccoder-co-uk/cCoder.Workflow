@@ -8,5 +8,5 @@ namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
 internal interface IFlowExecutionOrchestrationService
 {
-    Task ExecuteAsync(WorkflowRequest request);
+    Task ExecuteAsync(WorkflowRequest workflowRequest);
 }

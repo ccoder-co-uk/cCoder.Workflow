@@ -6,5 +6,3 @@ public class Link
     public string Destination { get; set; }
     public string Expression { get; set; }
 }
-
-

@@ -14,21 +14,21 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class CalendarEventEventProcessingService(ICalendarEventEventService eventService) : ICalendarEventEventProcessingService
 {
-    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseCalendarEventAddEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent calendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); await ExecuteRaiseCalendarEventAddEventAsync(entity: calendarEvent); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseCalendarEventAddEventAsync(CalendarEvent entity) =>
-        eventService.RaiseCalendarEventAddEventAsync(entity: entity);
+        eventService.RaiseCalendarEventAddEventAsync(calendarEvent: entity);
 
-    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseCalendarEventUpdateEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent calendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); await ExecuteRaiseCalendarEventUpdateEventAsync(entity: calendarEvent); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseCalendarEventUpdateEventAsync(CalendarEvent entity) =>
-        eventService.RaiseCalendarEventUpdateEventAsync(entity: entity);
+        eventService.RaiseCalendarEventUpdateEventAsync(calendarEvent: entity);
 
-    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseCalendarEventDeleteEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent calendarEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [calendarEvent]); await ExecuteRaiseCalendarEventDeleteEventAsync(entity: calendarEvent); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseCalendarEventDeleteEventAsync(CalendarEvent entity) =>
-        eventService.RaiseCalendarEventDeleteEventAsync(entity: entity);
+        eventService.RaiseCalendarEventDeleteEventAsync(calendarEvent: entity);
 }

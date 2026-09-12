@@ -5,8 +5,6 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Services.Processings;
-using cCoder.Workflow.Engine.Extensions;
-using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
@@ -45,7 +43,7 @@ internal sealed partial class WorkflowRequestOrchestrationService(
                     .LogWorkflowRequestAsync(
                         workflowRequest: workflowRequest,
                         level: WorkflowLogLevel.Debug,
-                        message: ObjectExtensions.ToJson(
+                        message: flowResultProcessingService.Serialize(
                             value: workflowRequest));
 
                 flowExecution =
@@ -162,9 +160,7 @@ internal sealed partial class WorkflowRequestOrchestrationService(
         flowExecution.Result.End = DateTimeOffset.UtcNow;
 
         flowExecution.Result.ContextString =
-            JsonConvert.SerializeObject(
-                value: context,
-                settings: ObjectExtensions.GetJsonSettings());
+            flowResultProcessingService.Serialize(value: context);
 
         await flowResultProcessingService.SaveFlowInstanceDataAsync(
             flowInstanceData: flowExecution.Result,
@@ -172,7 +168,7 @@ internal sealed partial class WorkflowRequestOrchestrationService(
             authToken: workflowRequest.AuthToken);
     }
 
-    private static WorkflowContext DeserializeContext(string contextString)
+    private WorkflowContext DeserializeContext(string contextString)
     {
         if (string.IsNullOrWhiteSpace(value: contextString))
         {
@@ -181,9 +177,8 @@ internal sealed partial class WorkflowRequestOrchestrationService(
 
         try
         {
-            return JsonConvert.DeserializeObject<WorkflowContext>(
-                       value: contextString,
-                       settings: ObjectExtensions.GetJsonSettings())
+            return flowResultProcessingService.Deserialize<WorkflowContext>(
+                       value: contextString)
                    ?? new WorkflowContext { ExecutionLog = [] };
         }
         catch

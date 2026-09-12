@@ -33,6 +33,7 @@ public partial class CalendarServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -62,6 +63,7 @@ public partial class CalendarServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -88,5 +90,6 @@ public partial class CalendarServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

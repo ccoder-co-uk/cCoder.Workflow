@@ -32,7 +32,7 @@ public partial class ScheduledTaskEventServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .RaiseScheduledTaskAddEventAsync(entity: scheduledTask);
+            .RaiseScheduledTaskAddEventAsync(scheduledTask: scheduledTask);
 
         // Then
         Exception thrown = (await action
@@ -42,5 +42,6 @@ public partial class ScheduledTaskEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

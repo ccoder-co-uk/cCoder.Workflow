@@ -29,23 +29,23 @@ internal sealed partial class FlowDefinitionOrchestrationService(
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowDefinition]); return await ExecuteAddAsync(entity: newFlowDefinition); }, isValueTask: true);
 
     private async ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition entity)
     {
-        FlowDefinition result = await processingService.AddFlowDefinitionAsync(newEntity: entity);
-        await eventService.RaiseFlowDefinitionAddEventAsync(entity: result);
+        FlowDefinition result = await processingService.AddFlowDefinitionAsync(newFlowDefinition: entity);
+        await eventService.RaiseFlowDefinitionAddEventAsync(flowDefinition: result);
         return result;
     }
 
-    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedFlowDefinition]); return await ExecuteUpdateAsync(entity: updatedFlowDefinition); }, isValueTask: true);
 
     private async ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition entity)
     {
-        FlowDefinition result = await processingService.UpdateFlowDefinitionAsync(updatedEntity: entity);
-        await eventService.RaiseFlowDefinitionUpdateEventAsync(entity: result);
+        FlowDefinition result = await processingService.UpdateFlowDefinitionAsync(updatedFlowDefinition: entity);
+        await eventService.RaiseFlowDefinitionUpdateEventAsync(flowDefinition: result);
         return result;
     }
 
@@ -62,7 +62,7 @@ internal sealed partial class FlowDefinitionOrchestrationService(
             return;
         }
 
-        await eventService.RaiseFlowDefinitionDeleteEventAsync(entity: entity);
+        await eventService.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity);
         await processingService.DeleteAsync(flowDefinitionId: flowDefinitionId);
     }
 

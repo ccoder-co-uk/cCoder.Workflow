@@ -93,22 +93,6 @@ public sealed partial class CalendarEventControllerTests(WebAcceptanceFixture fi
         return (int)response.StatusCode;
     }
 
-    private async Task<int> PatchCalendarEventAsync(int calendarEventId, object payload)
-    {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}({calendarEventId})")
-        {
-            Content = JsonContent.Create(inputValue: payload),
-        };
-
-        using HttpResponseMessage response = await Client.SendAsync(request: request);
-        string content = await response.Content.ReadAsStringAsync();
-
-        response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
-
-        return (int)response.StatusCode;
-    }
-
     private async Task<int> DeleteCalendarEventAsync(int calendarEventId)
     {
         using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}({calendarEventId})");

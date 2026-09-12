@@ -25,7 +25,7 @@ public partial class WorkflowEventServiceTests
 
         WorkflowEvent submitted = null;
 
-        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(workflowEvent: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"));
@@ -33,7 +33,7 @@ public partial class WorkflowEventServiceTests
         workflowEventBrokerMock
             .Setup(expression: x =>
                 x.AddWorkflowEventAsync(
-newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
+newWorkflowEvent: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
                 )
             )
             .Callback<WorkflowEvent>(action: candidate => submitted = candidate)
@@ -45,6 +45,7 @@ newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candi
         // Then
         result.Should()
             .BeSameAs(expected: workflowEvent);
+
 
         submitted.Should()
             .NotBeNull();
@@ -132,13 +133,13 @@ predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
         workflowEventBrokerMock.Verify(
 expression: x =>
                 x.AddWorkflowEventAsync(
-newEntity: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
+newWorkflowEvent: It.Is<WorkflowEvent>(match: candidate => !ReferenceEquals(objA: candidate, objB: workflowEvent))
                 ),
 times: Times.Once
         );
 
         workflowEventBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
+expression: x => x.SelectAppId(workflowEvent: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
 
@@ -156,7 +157,7 @@ times: Times.Once
         // Given
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
 
-        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()))
+        workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(workflowEvent: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -172,7 +173,7 @@ times: Times.Once
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         workflowEventBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<WorkflowEvent>()),
+expression: x => x.SelectAppId(workflowEvent: It.IsAny<WorkflowEvent>()),
 times: Times.AtMostOnce()
         );
 

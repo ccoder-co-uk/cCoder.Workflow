@@ -12,9 +12,9 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal interface IFlowInstanceDataEventProcessingService
 {
-    ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData entity);
+    ValueTask RaiseFlowInstanceDataAddEventAsync(FlowInstanceData flowInstanceData);
 
-    ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData entity);
+    ValueTask RaiseFlowInstanceDataUpdateEventAsync(FlowInstanceData flowInstanceData);
 
-    ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData entity);
+    ValueTask RaiseFlowInstanceDataDeleteEventAsync(FlowInstanceData flowInstanceData);
 }

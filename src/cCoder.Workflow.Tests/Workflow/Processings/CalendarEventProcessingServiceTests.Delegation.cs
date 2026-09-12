@@ -16,6 +16,7 @@ public partial class CalendarEventProcessingServiceTests
     {
         // Given
         CalendarEvent task = CreateCalendarEvent();
+
         IQueryable<CalendarEvent> tasks = new[] { task }
             .AsQueryable();
 
@@ -63,12 +64,13 @@ public partial class CalendarEventProcessingServiceTests
             ignoreFilters: true);
 
         CalendarEvent actualAdded = await processingService.AddCalendarEventAsync(
-            newEntity: task);
+            newCalendarEvent: task);
 
         CalendarEvent actualUpdated = await processingService.UpdateCalendarEventAsync(
-            updatedEntity: task);
+            updatedCalendarEvent: task);
 
         await processingService.DeleteAsync(calendarEventId: task.Id);
+
         await processingService.DeleteAllForAppCalendarEventAsync(
             deletedItems: new[] { task });
 
@@ -79,17 +81,21 @@ public partial class CalendarEventProcessingServiceTests
             .Should()
             .BeSameAs(expected: task);
 
+
         actualAll
             .Should()
             .BeSameAs(expected: tasks);
+
 
         actualAdded
             .Should()
             .BeSameAs(expected: task);
 
+
         actualUpdated
             .Should()
             .BeSameAs(expected: task);
+
 
         calendarEventServiceMock.VerifyAll();
     }

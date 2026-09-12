@@ -12,9 +12,9 @@ namespace cCoder.Workflow.Services.Foundations.Events;
 
 internal interface IFlowDefinitionEventService
 {
-    ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity);
+    ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition flowDefinition);
 
-    ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity);
+    ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition flowDefinition);
 
-    ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity);
+    ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition flowDefinition);
 }

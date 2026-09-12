@@ -21,26 +21,26 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
             .FlowDefinitions
             .IgnoreQueryFilters();
 
-    public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newEntity)
+    public async ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowDefinition result = (await coreDataContext.FlowDefinitions.AddAsync(entity: newEntity)).Entity;
+        FlowDefinition result = (await coreDataContext.FlowDefinitions.AddAsync(entity: newFlowDefinition)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedEntity)
+    public async ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        FlowDefinition result = coreDataContext.FlowDefinitions.Update(entity: updatedEntity).Entity;
+        FlowDefinition result = coreDataContext.FlowDefinitions.Update(entity: updatedFlowDefinition).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition deletedEntity)
+    public async ValueTask<int> DeleteFlowDefinitionAsync(FlowDefinition deletedFlowDefinition)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.FlowDefinitions.Remove(entity: deletedEntity);
+        coreDataContext.FlowDefinitions.Remove(entity: deletedFlowDefinition);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -87,8 +87,8 @@ internal sealed class FlowDefinitionBroker(ICoreContextFactory coreContextFactor
             .ExecuteDeleteAsync();
     }
 
-    public int? SelectAppId(FlowDefinition entity)
+    public int? SelectAppId(FlowDefinition flowDefinition)
     {
-        return entity.AppId;
+        return flowDefinition.AppId;
     }
 }

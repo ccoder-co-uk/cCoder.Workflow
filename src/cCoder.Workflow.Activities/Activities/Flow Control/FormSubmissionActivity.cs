@@ -15,5 +15,3 @@ public class FormSubmissionActivity<T> : Activity
         }
     }
 }
-
-

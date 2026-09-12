@@ -21,14 +21,14 @@ public partial class WorkflowEventEventProcessingServiceTests
         WorkflowEvent entity = CreateRandomWorkflowEvent();
 
         workflowEventEventServiceMock
-            .Setup(expression: x => x.RaiseWorkflowEventAddEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseWorkflowEventAddEventAsync(workflowEvent: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseWorkflowEventAddEventAsync(entity: entity);
+        await service.RaiseWorkflowEventAddEventAsync(workflowEvent: entity);
 
         // Then
-        workflowEventEventServiceMock.Verify(expression: x => x.RaiseWorkflowEventAddEventAsync(entity: entity), times: Times.Once);
+        workflowEventEventServiceMock.Verify(expression: x => x.RaiseWorkflowEventAddEventAsync(workflowEvent: entity), times: Times.Once);
         workflowEventEventServiceMock.VerifyNoOtherCalls();
     }
 

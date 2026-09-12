@@ -33,9 +33,11 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
             .Should()
             .Be(expected: "Unknown");
 
+
         package.Items
             .Should()
             .BeEmpty();
+
 
         brokerMock.VerifyNoOtherCalls();
     }

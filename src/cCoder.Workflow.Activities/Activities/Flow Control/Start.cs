@@ -1,6 +1,6 @@
 using cCoder.Workflow.Activities.Support;
+using cCoder.Workflow.Activities.Brokers;
 using cCoder.Data.Models.CMS;
-using Newtonsoft.Json;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Activities;
 
@@ -14,7 +14,9 @@ public sealed class Start : CoreActivity
     public override async Task ExecuteAsync()
     {
         if (Data != null)
-            Log(WorkflowLogLevel.Debug, JsonConvert.SerializeObject(Data, ObjectExtensions.GetODataJsonSettings()));
+            Log(
+                WorkflowLogLevel.Debug,
+                JsonBroker.SerializeForOData(value: Data));
 
         if (Context.Variables.ContainsKey("AppId"))
         {
@@ -33,12 +35,3 @@ public sealed class Start : CoreActivity
         await base.ExecuteInternal(context);
     }
 }
-
-
-
-
-
-
-
-
-

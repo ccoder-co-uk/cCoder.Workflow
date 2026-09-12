@@ -58,9 +58,11 @@ public partial class CalendarProcessingServiceTests
             .Should()
             .Be(expected: "Added Successfully");
 
+
         results[1].Message
             .Should()
             .Be(expected: "Updated Successfully");
+
 
         calendarServiceMock.VerifyAll();
     }
@@ -91,13 +93,16 @@ public partial class CalendarProcessingServiceTests
             .Should()
             .BeFalse();
 
+
         result.Item
             .Should()
             .BeSameAs(expected: item);
 
+
         result.Message
             .Should()
             .Be(expected: "The Workflow service failed.");
+
     }
 }
 #pragma warning restore STXFORMAT008

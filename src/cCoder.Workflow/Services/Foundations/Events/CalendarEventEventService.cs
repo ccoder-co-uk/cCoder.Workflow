@@ -12,32 +12,32 @@ internal sealed partial class CalendarEventEventService(
     ICalendarEventEventBroker calendarEventEventBroker)
         : ICalendarEventEventService
 {
-    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent entity) =>
+    public ValueTask RaiseCalendarEventAddEventAsync(CalendarEvent calendarEvent) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [calendarEvent]);
 
-            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: entity);
+            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: calendarEvent);
 
             await calendarEventEventBroker.RaiseCalendarEventAddEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent entity) =>
+    public ValueTask RaiseCalendarEventUpdateEventAsync(CalendarEvent calendarEvent) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [calendarEvent]);
 
-            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: entity);
+            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: calendarEvent);
 
             await calendarEventEventBroker.RaiseCalendarEventUpdateEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent entity) =>
+    public ValueTask RaiseCalendarEventDeleteEventAsync(CalendarEvent calendarEvent) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [calendarEvent]);
 
-            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: entity);
+            EventMessage<CalendarEvent> message = CreateCalendarEventMessage(entity: calendarEvent);
 
             await calendarEventEventBroker.RaiseCalendarEventDeleteEventAsync(message: message);
         }, isValueTask: true);

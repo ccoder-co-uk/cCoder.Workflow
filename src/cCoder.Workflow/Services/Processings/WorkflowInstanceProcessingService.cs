@@ -19,7 +19,7 @@ namespace cCoder.Workflow.Services.Processings;
 internal sealed partial class WorkflowInstanceProcessingService(
     IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
     IFlowInstanceDataManager flowInstanceDataManager,
-    IServiceProvider serviceProvider,
+    ITokenManager tokenManager,
     IWorkflowExecutionEventBroker workflowExecutionEventBroker,
     WorkflowConfiguration workflowConfiguration,
     ILoggingBroker log)
@@ -199,7 +199,6 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
         try
         {
-            ITokenManager tokenManager = serviceProvider.GetRequiredService<ITokenManager>();
             Token token = await tokenManager.IssueTokenAsync(userId: dbInstance.Caller, tokenUse: TokenUse.WorkflowExecution);
 
             WorkflowRequest request = CreateWorkflowRequest(dbInstance: dbInstance, token: token);

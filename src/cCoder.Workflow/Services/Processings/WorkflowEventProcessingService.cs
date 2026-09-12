@@ -7,7 +7,6 @@ using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Foundations;
-using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.Workflow.Services.Processings;
 
@@ -103,22 +102,17 @@ internal sealed partial class WorkflowEventProcessingService(
 
     private ValueTask<WorkflowEvent[]> ExecuteGetSubscriptionsAsync(int appId, string eventContext)
     {
-        WorkflowEvent[] subscriptions = service
-            .GetAll(ignoreFilters: true)
-            .Where(predicate: item => item.Flow.AppId == appId && item.EventContext == eventContext)
-            .Include(navigationPropertyPath: item => item.Flow)
-            .Include(navigationPropertyPath: item => item.ExecuteAsUser)
-                .ThenInclude(navigationPropertyPath: user => user.Roles)
-                    .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
-            .ToArray();
+        WorkflowEvent[] subscriptions = service.GetSubscriptions(
+            appId: appId,
+            eventContext: eventContext);
 
         logger.LogDebug(message: "Found {Count} subscribers, calling ...", args: subscriptions.Length);
 
         return ValueTask.FromResult(result: subscriptions);
     }
 
-    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newWorkflowEvent]); return await ExecuteAddAsync(entity: newWorkflowEvent); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent entity)
     {
@@ -126,8 +120,8 @@ internal sealed partial class WorkflowEventProcessingService(
         return service.AddWorkflowEventAsync(newWorkflowEvent: entity);
     }
 
-    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedWorkflowEvent]); return await ExecuteUpdateAsync(entity: updatedWorkflowEvent); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent entity)
     {
@@ -156,8 +150,8 @@ internal sealed partial class WorkflowEventProcessingService(
             {
                 WorkflowEvent savedItem =
                     item.Id == Guid.Empty
-                        ? await AddWorkflowEventAsync(newEntity: item)
-                        : await UpdateWorkflowEventAsync(updatedEntity: item);
+                        ? await AddWorkflowEventAsync(newWorkflowEvent: item)
+                        : await UpdateWorkflowEventAsync(updatedWorkflowEvent: item);
 
                 results.Add(item: new Result<WorkflowEvent>
                 {

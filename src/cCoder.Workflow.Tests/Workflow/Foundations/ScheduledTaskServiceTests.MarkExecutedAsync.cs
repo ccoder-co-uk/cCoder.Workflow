@@ -28,7 +28,7 @@ public partial class ScheduledTaskServiceTests
         scheduledTaskBrokerMock
             .Setup(expression: broker =>
                 broker.UpdateScheduledTaskAsync(
-                    updatedEntity: scheduledTask))
+                    updatedScheduledTask: scheduledTask))
             .Returns(value: ValueTask.FromResult(result: scheduledTask));
 
         // When
@@ -41,8 +41,10 @@ public partial class ScheduledTaskServiceTests
         actualScheduledTask.Should()
             .BeSameAs(expected: scheduledTask);
 
+
         actualScheduledTask.LastExecuted.Should()
             .BeAfter(expected: originalLastExecuted);
+
 
         authorizationBrokerMock.VerifyNoOtherCalls();
         scheduledTaskBrokerMock.VerifyAll();
@@ -63,7 +65,7 @@ public partial class ScheduledTaskServiceTests
 
         scheduledTaskBrokerMock
             .Setup(expression: broker => broker.UpdateScheduledTaskAsync(
-                updatedEntity: scheduledTask))
+                updatedScheduledTask: scheduledTask))
             .Returns(value: ValueTask.FromResult(result: scheduledTask));
 
         // When
@@ -75,6 +77,7 @@ public partial class ScheduledTaskServiceTests
         actual.NextExecution
             .Should()
             .Be(expected: expectedNextExecution);
+
 
         scheduledTaskBrokerMock.VerifyAll();
     }
@@ -94,7 +97,7 @@ public partial class ScheduledTaskServiceTests
 
         scheduledTaskBrokerMock
             .Setup(expression: broker => broker.UpdateScheduledTaskAsync(
-                updatedEntity: scheduledTask))
+                updatedScheduledTask: scheduledTask))
             .Returns(value: ValueTask.FromResult(result: scheduledTask));
 
         // When
@@ -106,6 +109,7 @@ public partial class ScheduledTaskServiceTests
         actual.NextExecution
             .Should()
             .BeNull();
+
 
         scheduledTaskBrokerMock.VerifyAll();
     }
@@ -129,6 +133,7 @@ public partial class ScheduledTaskServiceTests
         await action
             .Should()
             .ThrowAsync<SecurityException>();
+
 
         scheduledTaskBrokerMock.VerifyAll();
     }

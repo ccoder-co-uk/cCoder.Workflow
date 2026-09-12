@@ -24,6 +24,3 @@ public class ConvertActivity<TSource, TResult> : TransformationActivity<IEnumera
     })";
     }
 }
-
-
-

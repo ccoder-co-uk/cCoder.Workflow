@@ -13,11 +13,11 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal interface IScheduledTaskEventProcessingService
 {
-    ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask entity);
+    ValueTask RaiseScheduledTaskAddEventAsync(ScheduledTask scheduledTask);
 
-    ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask entity);
+    ValueTask RaiseScheduledTaskUpdateEventAsync(ScheduledTask scheduledTask);
 
-    ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask entity);
+    ValueTask RaiseScheduledTaskDeleteEventAsync(ScheduledTask scheduledTask);
 
-    ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask entity);
+    ValueTask RaiseScheduledTaskExecuteEventAsync(ScheduledTask scheduledTask);
 }

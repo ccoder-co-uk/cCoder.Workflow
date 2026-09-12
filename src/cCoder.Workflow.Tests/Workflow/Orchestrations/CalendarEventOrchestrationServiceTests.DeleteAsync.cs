@@ -29,7 +29,7 @@ public partial class CalendarEventOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         calendarEventEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseCalendarEventDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseCalendarEventDeleteEventAsync(calendarEvent: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -39,8 +39,9 @@ public partial class CalendarEventOrchestrationServiceTests
         calendarEventProcessingServiceMock.Verify(
             expression: service => service.GetAll(ignoreFilters: true),
             times: Times.Once);
+
         calendarEventProcessingServiceMock.Verify(expression: x => x.DeleteAsync(calendarEventId: id), times: Times.Once);
-        calendarEventEventProcessingServiceMock.Verify(expression: x => x.RaiseCalendarEventDeleteEventAsync(entity: entity), times: Times.Once);
+        calendarEventEventProcessingServiceMock.Verify(expression: x => x.RaiseCalendarEventDeleteEventAsync(calendarEvent: entity), times: Times.Once);
     }
 
     [Fact]
@@ -49,7 +50,8 @@ public partial class CalendarEventOrchestrationServiceTests
         // Given
         calendarEventProcessingServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: Array.Empty<CalendarEvent>().AsQueryable());
+            .Returns(value: Array.Empty<CalendarEvent>()
+                .AsQueryable());
 
         // When
         await orchestrationService.DeleteAsync(calendarEventId: 1);

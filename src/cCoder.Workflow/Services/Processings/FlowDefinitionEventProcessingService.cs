@@ -13,21 +13,21 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class FlowDefinitionEventProcessingService(IFlowDefinitionEventService eventService) : IFlowDefinitionEventProcessingService
 {
-    public ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseFlowDefinitionAddEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseFlowDefinitionAddEventAsync(FlowDefinition flowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); await ExecuteRaiseFlowDefinitionAddEventAsync(entity: flowDefinition); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseFlowDefinitionAddEventAsync(FlowDefinition entity) =>
-        eventService.RaiseFlowDefinitionAddEventAsync(entity: entity);
+        eventService.RaiseFlowDefinitionAddEventAsync(flowDefinition: entity);
 
-    public ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseFlowDefinitionUpdateEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseFlowDefinitionUpdateEventAsync(FlowDefinition flowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); await ExecuteRaiseFlowDefinitionUpdateEventAsync(entity: flowDefinition); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseFlowDefinitionUpdateEventAsync(FlowDefinition entity) =>
-        eventService.RaiseFlowDefinitionUpdateEventAsync(entity: entity);
+        eventService.RaiseFlowDefinitionUpdateEventAsync(flowDefinition: entity);
 
-    public ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [entity]); await ExecuteRaiseFlowDefinitionDeleteEventAsync(entity: entity); }, isValueTask: true);
+    public ValueTask RaiseFlowDefinitionDeleteEventAsync(FlowDefinition flowDefinition) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [flowDefinition]); await ExecuteRaiseFlowDefinitionDeleteEventAsync(entity: flowDefinition); }, isValueTask: true);
 
     private ValueTask ExecuteRaiseFlowDefinitionDeleteEventAsync(FlowDefinition entity) =>
-        eventService.RaiseFlowDefinitionDeleteEventAsync(entity: entity);
+        eventService.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity);
 }

@@ -32,7 +32,7 @@ public partial class WorkflowEventEventServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .RaiseWorkflowEventAddEventAsync(entity: entity);
+            .RaiseWorkflowEventAddEventAsync(workflowEvent: entity);
 
         // Then
         Exception thrown = (await action
@@ -42,5 +42,6 @@ public partial class WorkflowEventEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

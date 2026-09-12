@@ -1,6 +1,6 @@
 using System.Text;
+using cCoder.Workflow.Activities.Brokers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 
 namespace cCoder.Workflow.Activities.Activities.Api;
@@ -31,22 +31,9 @@ public class AuthenticateActivity : ApiActivity
     }
 
     public static async Task<T> ReadAsAsync<T>(HttpContent content)
-        => JsonConvert.DeserializeObject<T>(await content.ReadAsStringAsync());
+        => JsonBroker.Deserialize<T>(
+            value: await content.ReadAsStringAsync());
 
     static string Json(object source)
-        => JsonConvert.SerializeObject(source, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.None,
-            Formatting = Formatting.None,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            NullValueHandling = NullValueHandling.Ignore,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            ContractResolver = new DefaultContractResolver { IgnoreSerializableAttribute = true },
-            MaxDepth = 4
-        });
+        => JsonBroker.SerializeForOData(value: source);
 }
-
-
-
-

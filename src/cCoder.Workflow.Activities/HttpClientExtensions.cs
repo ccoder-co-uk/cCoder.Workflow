@@ -55,5 +55,3 @@ public static class HttpClientExtensions
         return results;
     }
 }
-
-

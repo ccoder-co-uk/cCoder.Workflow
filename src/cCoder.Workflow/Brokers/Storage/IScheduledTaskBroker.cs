@@ -13,21 +13,23 @@ public interface IScheduledTaskBroker
 
     IQueryable<ScheduledTask> SelectAllScheduledTasksIgnoringQueryFilters();
 
+    ScheduledTask[] SelectDueScheduledTasks(DateTimeOffset currentDateTime);
+
     ScheduledTask SelectScheduledTaskForExecution(int scheduledTaskId);
 
     bool SelectExecuteAsUserBelongsToApp(string executeAs, int appId);
 
     bool SelectFlowBelongsToApp(Guid flowId, int appId);
 
-    ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask newEntity);
+    ValueTask<ScheduledTask> InsertScheduledTaskAsync(ScheduledTask newScheduledTask);
 
-    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedEntity);
+    ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask);
 
-    ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask deletedEntity);
+    ValueTask<int> DeleteScheduledTaskAsync(ScheduledTask deletedScheduledTask);
 
     ValueTask DeleteAllScheduledTasksAsync(IEnumerable<ScheduledTask> deletedItems);
 
     ValueTask DeleteAllScheduledTasksByAppIdAsync(int appId);
 
-    int? SelectAppId(ScheduledTask entity);
+    int? SelectAppId(ScheduledTask scheduledTask);
 }

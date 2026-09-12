@@ -34,6 +34,7 @@ public partial class WorkflowEventProcessingServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -50,7 +51,7 @@ public partial class WorkflowEventProcessingServiceTests
 
         // When
         Func<Task> action = async () => await workflowEventProcessingService
-            .AddWorkflowEventAsync(newEntity: item);
+            .AddWorkflowEventAsync(newWorkflowEvent: item);
 
         // Then
         Exception thrown = (await action
@@ -60,6 +61,7 @@ public partial class WorkflowEventProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -85,5 +87,6 @@ public partial class WorkflowEventProcessingServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

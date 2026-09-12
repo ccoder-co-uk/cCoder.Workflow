@@ -21,14 +21,14 @@ public partial class ScheduledTaskEventProcessingServiceTests
         ScheduledTask entity = CreateRandomScheduledTask();
 
         scheduledTaskEventServiceMock
-            .Setup(expression: x => x.RaiseScheduledTaskAddEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseScheduledTaskAddEventAsync(scheduledTask: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseScheduledTaskAddEventAsync(entity: entity);
+        await service.RaiseScheduledTaskAddEventAsync(scheduledTask: entity);
 
         // Then
-        scheduledTaskEventServiceMock.Verify(expression: x => x.RaiseScheduledTaskAddEventAsync(entity: entity), times: Times.Once);
+        scheduledTaskEventServiceMock.Verify(expression: x => x.RaiseScheduledTaskAddEventAsync(scheduledTask: entity), times: Times.Once);
         scheduledTaskEventServiceMock.VerifyNoOtherCalls();
     }
 

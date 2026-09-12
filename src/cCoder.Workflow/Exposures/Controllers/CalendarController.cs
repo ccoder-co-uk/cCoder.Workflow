@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
@@ -17,7 +18,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
@@ -58,42 +58,7 @@ public partial class CalendarController : ODataController
                 return NotFound();
             }
 
-            return Ok(value: SingleResult.Create(queryable: result));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
-
-            return isExtendedMetaRequest
-                ? Ok(
-    value: new cCoder.Workflow.Brokers.OData.WorkflowModelBroker()
-                        .Build()
-                        .EDMModel.GetExtendedMetadataForType(context: "Workflow", type: typeof(Calendar))
-                )
-                : Ok(value: typeof(Calendar).CreateMetadataContainer(isEntity: true, hasEndpoint: true));
+            return Ok(value: new ODataResultBroker().CreateSingleResult(queryable: result));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -160,7 +125,7 @@ public partial class CalendarController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] Calendar newEntity)
+    public async Task<IActionResult> Post([FromBody] Calendar newCalendar)
     {
         try
         {
@@ -171,7 +136,7 @@ public partial class CalendarController : ODataController
 
             return StatusCode(
                 statusCode: StatusCodes.Status201Created,
-                value: await service.AddCalendarAsync(newEntity: newEntity));
+                value: await service.AddCalendarAsync(newCalendar: newCalendar));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
@@ -202,7 +167,7 @@ public partial class CalendarController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] Calendar updatedEntity)
+    public async Task<IActionResult> Put([FromRoute] int key, [FromBody] Calendar updatedCalendar)
     {
         try
         {
@@ -211,43 +176,7 @@ public partial class CalendarController : ODataController
                 return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
             }
 
-            return Ok(value: await service.UpdateCalendarAsync(updatedEntity: updatedEntity));
-        }
-        catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return BadRequest(error: "The workflow request is invalid.");
-        }
-        catch (System.Security.SecurityException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [AcceptVerbs("PATCH", "MERGE")]
-    [ActionName("Patch")]
-    public async Task<IActionResult> Put([FromRoute] int key, Delta<Calendar> updatedDelta)
-    {
-        try
-        {
-            Calendar originalEntity = service.Get(calendarId: key);
-
-            if (originalEntity == null)
-            {
-                return NotFound();
-            }
-
-            updatedDelta.Patch(original: originalEntity);
-            return Ok(value: await service.UpdateCalendarAsync(updatedEntity: originalEntity));
+            return Ok(value: await service.UpdateCalendarAsync(updatedCalendar: updatedCalendar));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

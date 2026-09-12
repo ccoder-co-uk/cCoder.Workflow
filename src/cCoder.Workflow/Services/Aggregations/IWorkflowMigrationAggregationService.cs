@@ -12,7 +12,7 @@ namespace cCoder.Workflow.Services.Aggregations;
 
 internal interface IWorkflowMigrationAggregationService
 {
-    ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage package);
+    ValueTask ImportPackageWorkflowPackageAsync(int appId, WorkflowPackage workflowPackage);
 
     WorkflowPackage ExportPackage(int appId, string packageName);
 }

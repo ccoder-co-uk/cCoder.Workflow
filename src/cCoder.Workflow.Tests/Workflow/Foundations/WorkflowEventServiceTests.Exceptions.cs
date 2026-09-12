@@ -33,6 +33,7 @@ public partial class WorkflowEventServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -46,7 +47,7 @@ public partial class WorkflowEventServiceTests
 
         workflowEventBrokerMock
             .Setup(expression: broker => broker.SelectAppId(
-                entity: workflowEvent))
+                workflowEvent: workflowEvent))
             .Throws(exception: exception);
 
         // When
@@ -61,6 +62,7 @@ public partial class WorkflowEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -76,7 +78,7 @@ public partial class WorkflowEventServiceTests
 
         workflowEventBrokerMock
             .Setup(expression: broker => broker.SelectAppId(
-                entity: workflowEvent))
+                workflowEvent: workflowEvent))
             .Throws(exception: exception);
 
         // When
@@ -91,5 +93,6 @@ public partial class WorkflowEventServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

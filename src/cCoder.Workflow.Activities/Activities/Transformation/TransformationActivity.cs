@@ -9,5 +9,3 @@ public abstract class TransformationActivity<TSource, TResult> : Activity
 
     public TResult Result { get; set; }
 }
-
-

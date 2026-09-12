@@ -13,43 +13,43 @@ internal sealed partial class CalendarEntityEventService(
     ICalendarEntityEventBroker calendarEventBroker)
         : ICalendarEntityEventService
 {
-    public ValueTask RaiseCalendarAddEventAsync(Calendar entity) =>
+    public ValueTask RaiseCalendarAddEventAsync(Calendar calendar) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [calendar]);
 
             EventMessage<Calendar> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = calendarEventBroker.GetCurrentUserId() },
-                Data = entity,
+                Data = calendar,
             };
 
             await calendarEventBroker.RaiseCalendarAddEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseCalendarUpdateEventAsync(Calendar entity) =>
+    public ValueTask RaiseCalendarUpdateEventAsync(Calendar calendar) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [calendar]);
 
             EventMessage<Calendar> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = calendarEventBroker.GetCurrentUserId() },
-                Data = entity,
+                Data = calendar,
             };
 
             await calendarEventBroker.RaiseCalendarUpdateEventAsync(message: message);
         }, isValueTask: true);
 
-    public ValueTask RaiseCalendarDeleteEventAsync(Calendar entity) =>
+    public ValueTask RaiseCalendarDeleteEventAsync(Calendar calendar) =>
         TryCatch(operation: async () =>
         {
-            ValidateInputs(inputs: [entity]);
+            ValidateInputs(inputs: [calendar]);
 
             EventMessage<Calendar> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = calendarEventBroker.GetCurrentUserId() },
-                Data = entity,
+                Data = calendar,
             };
 
             await calendarEventBroker.RaiseCalendarDeleteEventAsync(message: message);

@@ -14,6 +14,3 @@ public abstract class CoreActivity : ApiActivity
         return base.ExecuteInternal(context);
     }
 }
-
-
-

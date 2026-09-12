@@ -55,6 +55,3 @@ public class MoveAllActivity : DMSActivity
         return Task.CompletedTask;
     }
 }
-
-
-

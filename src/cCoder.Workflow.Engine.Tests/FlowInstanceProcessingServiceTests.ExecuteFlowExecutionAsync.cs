@@ -7,8 +7,8 @@ using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Activities.Api;
 using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Dependencies;
-using cCoder.Workflow.Engine.Extensions;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Models.Exceptions;
 using FluentAssertions;
@@ -57,9 +57,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
             FlowDefinitionId = execution.Request.FlowId,
             Name = "Instance",
             Caller = "caller",
-            ContextString = JsonConvert.SerializeObject(
-                value: workflowContext,
-                settings: ObjectExtensions.GetJsonSettings()),
+            ContextString = new JsonBroker().Serialize(
+                value: workflowContext),
 
             FlowDefinition = new()
             {
@@ -68,9 +67,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
             }
         };
 
-        string rawInstance = JsonConvert.SerializeObject(
-            value: instanceData,
-            settings: ObjectExtensions.GetJsonSettings());
+        string rawInstance = new JsonBroker().Serialize(
+            value: instanceData);
 
         workflowHttpClientBrokerMock
             .Setup(expression: broker => broker.GetStringAsync(
@@ -294,9 +292,8 @@ public sealed partial class FlowInstanceProcessingServiceTests
 
         string rawInstance = SerializeFlowInstanceData(
             execution: execution,
-            contextString: JsonConvert.SerializeObject(
-                value: context,
-                settings: ObjectExtensions.GetJsonSettings()));
+            contextString: new JsonBroker().Serialize(
+                value: context));
 
         workflowHttpClientBrokerMock
             .Setup(expression: broker => broker.GetStringAsync(

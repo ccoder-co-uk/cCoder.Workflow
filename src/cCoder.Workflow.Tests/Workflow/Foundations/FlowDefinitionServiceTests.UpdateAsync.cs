@@ -25,13 +25,13 @@ public partial class FlowDefinitionServiceTests
 
         FlowDefinition submitted = null;
 
-        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()))
+        flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"));
 
         flowDefinitionBrokerMock
-            .Setup(expression: x => x.UpdateFlowDefinitionAsync(updatedEntity: It.IsAny<FlowDefinition>()))
+            .Setup(expression: x => x.UpdateFlowDefinitionAsync(updatedFlowDefinition: It.IsAny<FlowDefinition>()))
             .Callback<FlowDefinition>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (FlowDefinition value) => value);
 
@@ -41,6 +41,7 @@ public partial class FlowDefinitionServiceTests
         // Then
         result.Should()
             .BeSameAs(expected: flowDefinition);
+
 
         submitted.Should()
             .NotBeNull();
@@ -124,12 +125,12 @@ predicate: (FluentAssertions.Equivalency.IMemberInfo info) =>
             );
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.UpdateFlowDefinitionAsync(updatedEntity: It.IsAny<FlowDefinition>()),
+expression: x => x.UpdateFlowDefinitionAsync(updatedFlowDefinition: It.IsAny<FlowDefinition>()),
 times: Times.Once
         );
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 
@@ -160,7 +161,7 @@ times: Times.Once
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         flowDefinitionBrokerMock.Verify(
-expression: x => x.SelectAppId(entity: It.IsAny<FlowDefinition>()),
+expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()),
 times: Times.AtMostOnce()
         );
 

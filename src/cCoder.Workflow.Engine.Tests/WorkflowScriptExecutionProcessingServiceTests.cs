@@ -19,5 +19,6 @@ public sealed partial class WorkflowScriptExecutionProcessingServiceTests
     private WorkflowScriptExecutionProcessingService CreateService() =>
         new(
             scriptBroker: scriptBrokerMock.Object,
+            jsonBroker: new JsonBroker(),
             logger: loggingBrokerMock.Object);
 }

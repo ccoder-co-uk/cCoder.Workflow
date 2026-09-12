@@ -175,8 +175,3 @@ public abstract class Activity
     protected Task ExecuteScript(string code, object args) =>
         (ScriptRunner ?? Context.Script).Run(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, args, Log);
 }
-
-
-
-
-

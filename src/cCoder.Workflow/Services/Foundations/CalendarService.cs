@@ -60,7 +60,7 @@ internal sealed partial class CalendarService(
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_create");
         Calendar newCalendar = CreateStorageCalendar(item: calendar);
 
-        Calendar result = await calendarBroker.InsertCalendarAsync(newEntity: newCalendar);
+        Calendar result = await calendarBroker.InsertCalendarAsync(newCalendar: newCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;
@@ -76,7 +76,7 @@ internal sealed partial class CalendarService(
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_update");
         Calendar updateCalendar = CreateStorageCalendar(item: calendar);
 
-        Calendar result = await calendarBroker.UpdateCalendarAsync(updatedEntity: updateCalendar);
+        Calendar result = await calendarBroker.UpdateCalendarAsync(updatedCalendar: updateCalendar);
         calendar.Id = result.Id;
         calendar.AppId = result.AppId;
         calendar.Name = result.Name;
@@ -98,7 +98,7 @@ internal sealed partial class CalendarService(
         }
 
         authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_delete");
-        _ = await calendarBroker.DeleteCalendarAsync(deletedEntity: CreateStorageCalendar(item: calendar));
+        _ = await calendarBroker.DeleteCalendarAsync(deletedCalendar: CreateStorageCalendar(item: calendar));
     }
 
     public ValueTask DeleteAllForAppCalendarAsync(IEnumerable<Calendar> deletedItems) =>

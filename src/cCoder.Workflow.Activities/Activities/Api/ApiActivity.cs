@@ -53,8 +53,3 @@ public abstract class ApiActivity<T> : ApiActivity
     [JsonIgnore]
     public T Result { get; set; }
 }
-
-
-
-
-

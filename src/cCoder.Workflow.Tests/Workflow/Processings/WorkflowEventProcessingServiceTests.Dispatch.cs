@@ -19,8 +19,8 @@ public partial class WorkflowEventProcessingServiceTests
 
         loggingBrokerMock
             .Setup(expression: broker => broker.LogDebug(
-                "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-                It.IsAny<object[]>()));
+                message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+                args: It.IsAny<object[]>()));
 
         // When
         (int? AppId, string EventContext) result = workflowEventProcessingService
@@ -29,8 +29,12 @@ public partial class WorkflowEventProcessingServiceTests
                 eventName: "page_update");
 
         // Then
-        result.AppId.Should().Be(expected: 7);
-        result.EventContext.Should().Be(expected: "page_update/home");
+        result.AppId.Should()
+            .Be(expected: 7);
+
+        result.EventContext.Should()
+            .Be(expected: "page_update/home");
+
         loggingBrokerMock.VerifyAll();
     }
 
@@ -42,8 +46,8 @@ public partial class WorkflowEventProcessingServiceTests
 
         loggingBrokerMock
             .Setup(expression: broker => broker.LogDebug(
-                "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-                It.IsAny<object[]>()));
+                message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+                args: It.IsAny<object[]>()));
 
         // When
         (int? AppId, string EventContext) result = workflowEventProcessingService
@@ -53,8 +57,12 @@ public partial class WorkflowEventProcessingServiceTests
                 appIdOverride: 9);
 
         // Then
-        result.AppId.Should().Be(expected: 9);
-        result.EventContext.Should().Be(expected: "event");
+        result.AppId.Should()
+            .Be(expected: 9);
+
+        result.EventContext.Should()
+            .Be(expected: "event");
+
         loggingBrokerMock.VerifyAll();
     }
 
@@ -73,7 +81,9 @@ public partial class WorkflowEventProcessingServiceTests
             .SerializeWorkflowEventPayload(payload: payload);
 
         // Then
-        result.Should().Be(expected: "serialized");
+        result.Should()
+            .Be(expected: "serialized");
+
         jsonBrokerMock.VerifyAll();
     }
 

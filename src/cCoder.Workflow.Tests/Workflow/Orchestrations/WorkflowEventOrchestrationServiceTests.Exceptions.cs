@@ -34,6 +34,7 @@ public partial class WorkflowEventOrchestrationServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -45,12 +46,12 @@ public partial class WorkflowEventOrchestrationServiceTests
 
         workflowEventProcessingServiceMock
             .Setup(expression: service => service.AddWorkflowEventAsync(
-                newEntity: item))
+                newWorkflowEvent: item))
             .Throws(exception: exception);
 
         // When
         Func<Task> action = async () => await orchestrationService
-            .AddWorkflowEventAsync(newEntity: item);
+            .AddWorkflowEventAsync(newWorkflowEvent: item);
 
         // Then
         Exception thrown = (await action
@@ -60,6 +61,7 @@ public partial class WorkflowEventOrchestrationServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -86,5 +88,6 @@ public partial class WorkflowEventOrchestrationServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

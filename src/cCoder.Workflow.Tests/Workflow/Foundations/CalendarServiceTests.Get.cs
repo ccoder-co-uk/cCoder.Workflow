@@ -30,6 +30,7 @@ public partial class CalendarServiceTests
         actual
             .Should()
             .BeSameAs(expected: expected);
+
     }
 
     [Fact]
@@ -54,6 +55,7 @@ public partial class CalendarServiceTests
         actual
             .Should()
             .BeNull();
+
     }
 
     [Fact]
@@ -114,5 +116,6 @@ public partial class CalendarServiceTests
         actual
             .Should()
             .BeSameAs(expected: expected);
+
     }
 }

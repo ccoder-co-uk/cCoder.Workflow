@@ -32,6 +32,7 @@ public partial class WorkflowEventProcessingServiceTests
         result.Should()
             .BeSameAs(expected: entity);
 
+
         workflowEventServiceMock.Verify(expression: x => x.Get(workflowEventId: id), times: Times.Once);
         workflowEventServiceMock.VerifyNoOtherCalls();
     }

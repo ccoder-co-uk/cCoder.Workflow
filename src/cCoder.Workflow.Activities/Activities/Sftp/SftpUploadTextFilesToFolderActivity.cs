@@ -10,7 +10,7 @@ public class SftpUploadTextFilesToFolderActivity : SftpBaseActivity
 
     public override async Task ExecuteAsync() => SftpDo(client =>
     {
-        if(!client.Exists(Path))
+        if (!client.Exists(Path))
             client.CreateDirectory(Path);
 
         foreach (var item in Files)

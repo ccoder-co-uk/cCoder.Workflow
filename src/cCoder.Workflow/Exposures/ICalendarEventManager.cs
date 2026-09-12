@@ -16,9 +16,9 @@ public interface ICalendarEventManager
 
     IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false);
 
-    ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newEntity);
+    ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newCalendarEvent);
 
-    ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedEntity);
+    ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent);
 
     ValueTask DeleteAsync(int calendarEventId);
 

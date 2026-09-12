@@ -21,14 +21,14 @@ public partial class FlowDefinitionEventProcessingServiceTests
         FlowDefinition entity = CreateRandomFlowDefinition();
 
         flowDefinitionEventServiceMock
-            .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseFlowDefinitionDeleteEventAsync(entity: entity);
+        await service.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity);
 
         // Then
-        flowDefinitionEventServiceMock.Verify(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(entity: entity), times: Times.Once);
+        flowDefinitionEventServiceMock.Verify(expression: x => x.RaiseFlowDefinitionDeleteEventAsync(flowDefinition: entity), times: Times.Once);
         flowDefinitionEventServiceMock.VerifyNoOtherCalls();
     }
 

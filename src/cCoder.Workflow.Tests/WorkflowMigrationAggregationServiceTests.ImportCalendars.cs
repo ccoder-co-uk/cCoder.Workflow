@@ -65,12 +65,20 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
         };
 
         // When
-        await service.ImportPackageWorkflowPackageAsync(appId: 7, package: package);
+        await service.ImportPackageWorkflowPackageAsync(appId: 7, workflowPackage: package);
 
         // Then
-        captured.Should().ContainSingle();
-        captured.Single().Name.Should().Be(expected: "New");
-        captured.Single().AppId.Should().Be(expected: 7);
+        captured.Should()
+            .ContainSingle();
+
+        captured.Single()
+            .Name.Should()
+            .Be(expected: "New");
+
+        captured.Single()
+            .AppId.Should()
+            .Be(expected: 7);
+
         calendarServiceMock.VerifyAll();
     }
 
@@ -83,12 +91,14 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
 
         calendarServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: Array.Empty<Calendar>().AsQueryable());
+            .Returns(value: Array.Empty<Calendar>()
+                .AsQueryable());
 
         calendarServiceMock
             .Setup(expression: service => service.AddOrUpdateCalendar(
                 items: It.Is<IEnumerable<Calendar>>(
-                    match: items => items.Single().Name == "Single")))
+                    match: items => items.Single()
+                        .Name == "Single")))
             .Returns(value: ValueTask.FromResult<IEnumerable<Result<Calendar>>>(
                 result: [new() { Success = true }]));
 
@@ -112,7 +122,7 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
         };
 
         // When
-        await service.ImportPackageWorkflowPackageAsync(appId: 7, package: package);
+        await service.ImportPackageWorkflowPackageAsync(appId: 7, workflowPackage: package);
 
         // Then
         calendarServiceMock.VerifyAll();
@@ -131,7 +141,7 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
         // When
         await service.ImportPackageWorkflowPackageAsync(
             appId: 7,
-            package: new WorkflowPackage { Items = [] });
+            workflowPackage: new WorkflowPackage { Items = [] });
 
         // Then
         brokerMock.VerifyNoOtherCalls();
@@ -151,7 +161,8 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
 
         calendarServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: Array.Empty<Calendar>().AsQueryable());
+            .Returns(value: Array.Empty<Calendar>()
+                .AsQueryable());
 
         calendarServiceMock
             .Setup(expression: service => service.AddOrUpdateCalendar(
@@ -180,10 +191,12 @@ public sealed partial class WorkflowMigrationAggregationServiceTests
 
         // When
         Func<Task> action = async () => await service
-            .ImportPackageWorkflowPackageAsync(appId: 7, package: package);
+            .ImportPackageWorkflowPackageAsync(appId: 7, workflowPackage: package);
 
         // Then
-        await action.Should().ThrowAsync<Exception>();
+        await action.Should()
+            .ThrowAsync<Exception>();
+
         calendarServiceMock.VerifyAll();
     }
 }

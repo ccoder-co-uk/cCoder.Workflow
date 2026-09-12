@@ -47,9 +47,10 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
                 cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: instance);
 
-        serviceProviderMock
-            .Setup(expression: provider => provider.GetService(
-                serviceType: typeof(ITokenManager)))
+        tokenManagerMock
+            .Setup(expression: manager => manager.IssueTokenAsync(
+                userId: instance.Caller,
+                tokenUse: TokenUse.WorkflowExecution))
             .Throws(exception: exception);
 
         loggingBrokerMock
@@ -64,7 +65,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         // Then
         workflowInstanceManagementBrokerMock.VerifyAll();
-        serviceProviderMock.VerifyAll();
+        tokenManagerMock.VerifyAll();
         loggingBrokerMock.VerifyAll();
     }
 
@@ -73,18 +74,12 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     {
         // Given
         FlowInstanceData instance = CreateQueuedFlowInstanceData();
-        Mock<ITokenManager> tokenManagerMock = new();
 
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
                 flowInstanceDataId: instance.Id,
                 cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: instance);
-
-        serviceProviderMock
-            .Setup(expression: provider => provider.GetService(
-                serviceType: typeof(ITokenManager)))
-            .Returns(value: tokenManagerMock.Object);
 
         tokenManagerMock
             .Setup(expression: manager => manager.IssueTokenAsync(
@@ -94,7 +89,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         workflowExecutionEventBrokerMock
             .Setup(expression: broker => broker.RaiseWorkflowExecuteEventAsync(
-                It.Is<EventMessage<WorkflowRequest>>(message =>
+                message: It.Is<EventMessage<WorkflowRequest>>(match: message =>
                     message.AuthInfo.SSOUserId == instance.Caller
                     &&
                     message.Data.InstanceId == instance.Id
@@ -109,7 +104,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         // Then
         workflowInstanceManagementBrokerMock.VerifyAll();
-        serviceProviderMock.VerifyAll();
         tokenManagerMock.VerifyAll();
         workflowExecutionEventBrokerMock.VerifyAll();
     }
@@ -119,7 +113,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     {
         // Given
         FlowInstanceData instance = CreateQueuedFlowInstanceData();
-        Mock<ITokenManager> tokenManagerMock = new();
         Exception exception = new(message: "Service Bus publish failed");
 
         workflowInstanceManagementBrokerMock
@@ -127,11 +120,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
                 flowInstanceDataId: instance.Id,
                 cancellationToken: It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: instance);
-
-        serviceProviderMock
-            .Setup(expression: provider => provider.GetService(
-                serviceType: typeof(ITokenManager)))
-            .Returns(value: tokenManagerMock.Object);
 
         tokenManagerMock
             .Setup(expression: manager => manager.IssueTokenAsync(
@@ -141,7 +129,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         workflowExecutionEventBrokerMock
             .Setup(expression: broker => broker.RaiseWorkflowExecuteEventAsync(
-                It.IsAny<EventMessage<WorkflowRequest>>()))
+                message: It.IsAny<EventMessage<WorkflowRequest>>()))
             .ThrowsAsync(exception: exception);
 
         loggingBrokerMock
@@ -156,7 +144,6 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         // Then
         workflowInstanceManagementBrokerMock.VerifyAll();
-        serviceProviderMock.VerifyAll();
         tokenManagerMock.VerifyAll();
         workflowExecutionEventBrokerMock.VerifyAll();
         loggingBrokerMock.VerifyAll();

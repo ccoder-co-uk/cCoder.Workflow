@@ -33,6 +33,7 @@ public partial class ScheduledTaskServiceTests
             .Which
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -63,6 +64,7 @@ public partial class ScheduledTaskServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 
     [Theory]
@@ -91,5 +93,6 @@ public partial class ScheduledTaskServiceTests
         thrown
             .Should()
             .BeOfType(expectedType: expectedType);
+
     }
 }

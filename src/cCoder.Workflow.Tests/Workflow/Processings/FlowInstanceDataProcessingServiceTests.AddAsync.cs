@@ -26,11 +26,12 @@ public partial class FlowInstanceDataProcessingServiceTests
             .ReturnsAsync(value: entity);
 
         // When
-        FlowInstanceData result = await flowInstanceDataProcessingService.AddFlowInstanceDataAsync(newEntity: entity);
+        FlowInstanceData result = await flowInstanceDataProcessingService.AddFlowInstanceDataAsync(newFlowInstanceData: entity);
 
         // Then
         result.Should()
             .BeSameAs(expected: entity);
+
 
         flowInstanceDataServiceMock.Verify(expression: x => x.AddFlowInstanceDataAsync(newFlowInstanceData: entity), times: Times.Once);
         flowInstanceDataServiceMock.VerifyNoOtherCalls();

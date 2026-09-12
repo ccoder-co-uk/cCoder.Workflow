@@ -29,33 +29,33 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
         return processingService.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowInstanceData]); return await ExecuteAddAsync(entity: newFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData entity)
     {
-        FlowInstanceData result = await processingService.AddFlowInstanceDataAsync(newEntity: entity);
-        await eventService.RaiseFlowInstanceDataAddEventAsync(entity: result);
+        FlowInstanceData result = await processingService.AddFlowInstanceDataAsync(newFlowInstanceData: entity);
+        await eventService.RaiseFlowInstanceDataAddEventAsync(flowInstanceData: result);
         return result;
     }
 
-    public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newEntity]); return await ExecuteAddQueuedAsync(entity: newEntity); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowInstanceData]); return await ExecuteAddQueuedAsync(entity: newFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData entity)
     {
-        FlowInstanceData result = await processingService.AddQueuedFlowInstanceDataAsync(newEntity: entity);
-        await eventService.RaiseFlowInstanceDataAddEventAsync(entity: result);
+        FlowInstanceData result = await processingService.AddQueuedFlowInstanceDataAsync(newFlowInstanceData: entity);
+        await eventService.RaiseFlowInstanceDataAddEventAsync(flowInstanceData: result);
         return result;
     }
 
-    public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedEntity) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedEntity]); return await ExecuteUpdateAsync(entity: updatedEntity); }, isValueTask: true);
+    public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData) =>
+        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedFlowInstanceData]); return await ExecuteUpdateAsync(entity: updatedFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData entity)
     {
-        FlowInstanceData result = await processingService.UpdateFlowInstanceDataAsync(updatedEntity: entity);
-        await eventService.RaiseFlowInstanceDataUpdateEventAsync(entity: result);
+        FlowInstanceData result = await processingService.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: entity);
+        await eventService.RaiseFlowInstanceDataUpdateEventAsync(flowInstanceData: result);
         return result;
     }
 
@@ -65,7 +65,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     private async ValueTask ExecuteDeleteAsync(Guid flowInstanceDataId)
     {
         FlowInstanceData entity = processingService.Get(flowInstanceDataId: flowInstanceDataId);
-        await eventService.RaiseFlowInstanceDataDeleteEventAsync(entity: entity);
+        await eventService.RaiseFlowInstanceDataDeleteEventAsync(flowInstanceData: entity);
         await processingService.DeleteAsync(flowInstanceDataId: flowInstanceDataId);
     }
 
