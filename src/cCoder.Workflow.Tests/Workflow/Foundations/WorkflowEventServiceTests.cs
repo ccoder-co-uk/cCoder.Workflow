@@ -20,17 +20,21 @@ public partial class WorkflowEventServiceTests
 {
     private readonly Mock<IWorkflowEventBroker> workflowEventBrokerMock;
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
+    private readonly Mock<IJsonBroker> jsonBrokerMock;
+    private readonly Mock<ILoggingBroker> loggingBrokerMock;
     private readonly WorkflowEventService workflowEventService;
 
     public WorkflowEventServiceTests()
     {
         workflowEventBrokerMock = new Mock<IWorkflowEventBroker>(behavior: MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+        jsonBrokerMock = new Mock<IJsonBroker>(behavior: MockBehavior.Strict);
+        loggingBrokerMock = new Mock<ILoggingBroker>(behavior: MockBehavior.Strict);
         workflowEventService = new WorkflowEventService(
             workflowEventBroker: workflowEventBrokerMock.Object,
             authorizationBroker: authorizationBrokerMock.Object,
-            jsonBroker: new Mock<IJsonBroker>().Object,
-            loggingBroker: new Mock<ILoggingBroker>().Object
+            jsonBroker: jsonBrokerMock.Object,
+            loggingBroker: loggingBrokerMock.Object
         );
     }
 
