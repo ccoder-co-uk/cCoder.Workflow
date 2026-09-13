@@ -25,4 +25,14 @@ internal interface IWorkflowEventService
     ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent);
 
     ValueTask DeleteAsync(Guid workflowEventId);
+
+    (int? AppId, string EventContext) PrepareDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null);
+
+    string SerializePayload(object payload);
+    bool LogWorkflowEventSubscriptionsFound(int count);
+    bool LogWorkflowEventQueueFailure(WorkflowEvent workflowEvent, Exception exception);
+    bool AuthorizeWorkflowEvent(WorkflowEvent workflowEvent);
 }

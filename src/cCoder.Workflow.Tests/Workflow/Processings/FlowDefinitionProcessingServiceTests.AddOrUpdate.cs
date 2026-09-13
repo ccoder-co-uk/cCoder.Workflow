@@ -21,15 +21,10 @@ public partial class FlowDefinitionProcessingServiceTests
         added.Id = Guid.Empty;
         FlowDefinition updated = CreateRandomFlowDefinition();
 
-        jsonBrokerMock
-            .Setup(expression: broker => broker.Serialize(
-                value: It.IsAny<object>()))
-            .Returns(value: "[]");
-
-        loggingBrokerMock
-            .Setup(expression: broker => broker.LogDebug(
-                message: "AddOrUpdate:\n[]",
-                args: It.IsAny<object[]>()));
+        flowDefinitionServiceMock
+            .Setup(expression: service => service.LogFlowDefinitionAddOrUpdate(
+                flowDefinitions: It.IsAny<IEnumerable<FlowDefinition>>()))
+            .Returns(value: true);
 
         flowDefinitionServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
@@ -55,8 +50,6 @@ public partial class FlowDefinitionProcessingServiceTests
         results[0].Message.Should().Be(expected: "Added Successfully");
         results[1].Message.Should().Be(expected: "Updated Successfully");
         flowDefinitionServiceMock.VerifyAll();
-        jsonBrokerMock.VerifyAll();
-        loggingBrokerMock.VerifyAll();
     }
 
     [Fact]
@@ -66,10 +59,10 @@ public partial class FlowDefinitionProcessingServiceTests
         FlowDefinition item = CreateRandomFlowDefinition();
         item.Id = Guid.Empty;
 
-        jsonBrokerMock
-            .Setup(expression: broker => broker.Serialize(
-                value: It.IsAny<object>()))
-            .Returns(value: "[]");
+        flowDefinitionServiceMock
+            .Setup(expression: service => service.LogFlowDefinitionAddOrUpdate(
+                flowDefinitions: It.IsAny<IEnumerable<FlowDefinition>>()))
+            .Returns(value: true);
 
         flowDefinitionServiceMock
             .Setup(expression: service => service.AddFlowDefinitionAsync(

@@ -12,17 +12,19 @@
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
-      "BaseType": {
-        "Id": "Workflow.Web:ISession",
-        "FullName": "ISession",
-        "Name": "ISession",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.Web",
-        "Kind": "Class",
-        "IsInCurrentProject": true,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [],
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Microsoft.AspNetCore.Http.Features:Microsoft.AspNetCore.Http.ISession",
+          "FullName": "Microsoft.AspNetCore.Http.ISession",
+          "Name": "ISession",
+          "Namespace": "Microsoft.AspNetCore.Http",
+          "AssemblyName": "Microsoft.AspNetCore.Http.Features",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
       "Properties": [
         {
           "Name": "Id",
@@ -48,7 +50,9 @@
           "LineNumber": 27,
           "Inputs": [],
           "ReturnType": "System.Void",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.Clear()"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -73,7 +77,9 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.CommitAsync(System.Threading.CancellationToken)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -98,7 +104,9 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.LoadAsync(System.Threading.CancellationToken)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -123,7 +131,9 @@
             }
           ],
           "ReturnType": "System.Void",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.Remove(System.String)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -152,7 +162,9 @@
             }
           ],
           "ReturnType": "System.Void",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.Set(System.String,System.Byte[])"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -181,7 +193,9 @@
             }
           ],
           "ReturnType": "System.Boolean",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.TryGetValue(System.String,System.Byte[]?)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -203,21 +217,23 @@
       "LineNumber": 10,
       "IsPublic": true,
       "Kind": "Class",
-      "BaseType": {
-        "Id": "Workflow.Web:ISessionFeature",
-        "FullName": "ISessionFeature",
-        "Name": "ISessionFeature",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.Web",
-        "Kind": "Class",
-        "IsInCurrentProject": true,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [],
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Microsoft.AspNetCore.Http.Features:Microsoft.AspNetCore.Http.Features.ISessionFeature",
+          "FullName": "Microsoft.AspNetCore.Http.Features.ISessionFeature",
+          "Name": "ISessionFeature",
+          "Namespace": "Microsoft.AspNetCore.Http.Features",
+          "AssemblyName": "Microsoft.AspNetCore.Http.Features",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
       "Properties": [
         {
           "Name": "Session",
-          "Type": "ISession"
+          "Type": "Microsoft.AspNetCore.Http.ISession"
         }
       ],
       "Methods": []
@@ -302,19 +318,86 @@
       ]
     },
     {
+      "Name": "Workflow.Web.Brokers.CoreUserBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Brokers.ICoreUserBroker",
+          "FullName": "Workflow.Web.Brokers.ICoreUserBroker",
+          "Name": "ICoreUserBroker",
+          "Namespace": "Workflow.Web.Brokers",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Brokers.CoreUserBroker.SelectUser()",
+          "Name": "SelectUser",
+          "LineNumber": 16,
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User",
+          "Implements": [
+            "Workflow.Web.Brokers.ICoreUserBroker.SelectUser()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Data.Models.Security.User",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.Security.User..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory",
+              "MethodName": "CreateDbContext",
+              "MethodId": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory.CreateDbContext(System.Boolean)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.SecurityDbContext",
+              "MethodName": "GetCurrentUser",
+              "MethodId": "cCoder.Security.Data.EF.SecurityDbContext.GetCurrentUser()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "Workflow.Web.Controllers.CoreAppController",
       "StandardElementType": "HttpExposure",
       "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
-        "Id": "Workflow.Web:ControllerBase",
-        "FullName": "ControllerBase",
+        "Id": "Microsoft.AspNetCore.Mvc.Core:Microsoft.AspNetCore.Mvc.ControllerBase",
+        "FullName": "Microsoft.AspNetCore.Mvc.ControllerBase",
         "Name": "ControllerBase",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.Web",
+        "Namespace": "Microsoft.AspNetCore.Mvc",
+        "AssemblyName": "Microsoft.AspNetCore.Mvc.Core",
         "Kind": "Class",
-        "IsInCurrentProject": true,
+        "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
       "Interfaces": [],
@@ -330,9 +413,37 @@
               "Type": "System.Int32"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
+          "ReturnType": "System.Threading.Tasks.Task\u003CMicrosoft.AspNetCore.Mvc.IActionResult\u003E",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "BadRequest",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.BadRequest(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "NotFound",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.NotFound()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "Ok",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.Ok(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "StatusCode",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.StatusCode(System.Int32)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "Workflow.Web.Exposures.ICoreAppManager",
               "MethodName": "GetAppAsync",
@@ -349,7 +460,6 @@
             }
           ],
           "PossibleExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
@@ -385,6 +495,16 @@
               "LogsException": true
             },
             {
+              "StatusCode": 403,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Security.SecurityException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
+            },
+            {
               "StatusCode": 404,
               "ResultMethod": "NotFound",
               "ExceptionType": "",
@@ -393,6 +513,16 @@
               "HasBody": false,
               "ExposesExceptionDetails": false,
               "LogsException": false
+            },
+            {
+              "StatusCode": 500,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Exception",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -411,13 +541,13 @@
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
-        "Id": "Workflow.Web:ControllerBase",
-        "FullName": "ControllerBase",
+        "Id": "Microsoft.AspNetCore.Mvc.Core:Microsoft.AspNetCore.Mvc.ControllerBase",
+        "FullName": "Microsoft.AspNetCore.Mvc.ControllerBase",
         "Name": "ControllerBase",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.Web",
+        "Namespace": "Microsoft.AspNetCore.Mvc",
+        "AssemblyName": "Microsoft.AspNetCore.Mvc.Core",
         "Kind": "Class",
-        "IsInCurrentProject": true,
+        "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
       "Interfaces": [],
@@ -428,9 +558,30 @@
           "Name": "Get",
           "LineNumber": 21,
           "Inputs": [],
-          "ReturnType": "IActionResult",
+          "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "BadRequest",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.BadRequest(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "Ok",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.Ok(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "StatusCode",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.StatusCode(System.Int32)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "Workflow.Web.Exposures.ICoreUserManager",
               "MethodName": "GetUser",
@@ -480,6 +631,26 @@
               "HasBody": true,
               "ExposesExceptionDetails": false,
               "LogsException": true
+            },
+            {
+              "StatusCode": 403,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Security.SecurityException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
+            },
+            {
+              "StatusCode": 500,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Exception",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -498,13 +669,13 @@
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
-        "Id": "Workflow.Web:ControllerBase",
-        "FullName": "ControllerBase",
+        "Id": "Microsoft.AspNetCore.Mvc.Core:Microsoft.AspNetCore.Mvc.ControllerBase",
+        "FullName": "Microsoft.AspNetCore.Mvc.ControllerBase",
         "Name": "ControllerBase",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.Web",
+        "Namespace": "Microsoft.AspNetCore.Mvc",
+        "AssemblyName": "Microsoft.AspNetCore.Mvc.Core",
         "Kind": "Class",
-        "IsInCurrentProject": true,
+        "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
       "Interfaces": [],
@@ -515,9 +686,30 @@
           "Name": "Get",
           "LineNumber": 21,
           "Inputs": [],
-          "ReturnType": "IActionResult",
+          "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "BadRequest",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.BadRequest(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "Content",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.Content(System.String,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "StatusCode",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.StatusCode(System.Int32)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "Workflow.Web.Exposures.IHealthManager",
               "MethodName": "GetHealth",
@@ -557,6 +749,26 @@
               "HasBody": true,
               "ExposesExceptionDetails": false,
               "LogsException": true
+            },
+            {
+              "StatusCode": 403,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Security.SecurityException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
+            },
+            {
+              "StatusCode": 500,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Exception",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -582,7 +794,7 @@
     {
       "Name": "Workflow.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 19,
+      "LineNumber": 20,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -590,30 +802,79 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.Web.IServiceCollectionExtensions.AddWeb(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.Web.Models.AppConfiguration\u003E)",
+          "Id": "Workflow.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.Web.Models.AppConfiguration\u003E)",
           "Name": "AddWeb",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "services",
-              "Type": "IServiceCollection"
+              "Type": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
             },
             {
               "Name": "configuration",
-              "Type": "IConfiguration"
+              "Type": "Microsoft.Extensions.Configuration.IConfiguration"
             },
             {
               "Name": "configure",
               "Type": "System.Action\u003CWorkflow.Web.Models.AppConfiguration\u003E"
             }
           ],
-          "ReturnType": "IServiceCollection",
+          "ReturnType": "Microsoft.Extensions.DependencyInjection.IServiceCollection",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Configuration.ConfigurationBinder",
+              "MethodName": "Bind",
+              "MethodId": "Microsoft.Extensions.Configuration.ConfigurationBinder.Bind(Microsoft.Extensions.Configuration.IConfiguration,System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "System.Action\u003CT\u003E",
               "MethodName": "Invoke",
               "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.IServiceCollectionExtensions",
+              "MethodName": "AddData",
+              "MethodId": "cCoder.Data.IServiceCollectionExtensions.AddData(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Data.Models.DataConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Eventing.Http.IServiceCollectionExtensions",
+              "MethodName": "AddHttpEventingWeb",
+              "MethodId": "cCoder.Eventing.Http.IServiceCollectionExtensions.AddHttpEventingWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action\u003CcCoder.Eventing.Http.Models.HttpEventingOptions\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Eventing.IServiceCollectionExtensions",
+              "MethodName": "AddEventingWeb",
+              "MethodId": "cCoder.Eventing.IServiceCollectionExtensions.AddEventingWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Eventing.Models.EventingConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.IServiceCollectionExtensions",
+              "MethodName": "AddSecurityData",
+              "MethodId": "cCoder.Security.Data.EF.IServiceCollectionExtensions.AddSecurityData(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Security.Models.SecurityDataConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.IServiceCollectionExtensions",
+              "MethodName": "AddSecurityWeb",
+              "MethodId": "cCoder.Security.IServiceCollectionExtensions.AddSecurityWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Security.Models.SecurityConfiguration,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.IServiceCollectionExtensions",
+              "MethodName": "AddWorkflowWeb",
+              "MethodId": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Workflow.Models.WorkflowConfiguration,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -686,7 +947,36 @@
           ],
           "ReturnType": "System.Void",
           "Implements": [],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplication",
+              "MethodName": "CreateBuilder",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(System.String[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplication",
+              "MethodName": "Run",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplication.Run(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplicationBuilder",
+              "MethodName": "Build",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Workflow.Web.IServiceCollectionExtensions",
+              "MethodName": "AddWeb",
+              "MethodId": "Workflow.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.Web.Models.AppConfiguration\u003E)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
           "ThrowsExceptionTypes": [],
@@ -702,28 +992,28 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Services.Processings.CoreAppProcessingService",
-      "StandardElementType": "ProcessingService",
+      "Name": "Workflow.Web.Services.Foundations.CoreAppService",
+      "StandardElementType": "FoundationService",
       "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "Workflow.Web:Workflow.Web.Services.Processings.ICoreAppProcessingService",
-          "FullName": "Workflow.Web.Services.Processings.ICoreAppProcessingService",
-          "Name": "ICoreAppProcessingService",
-          "Namespace": "Workflow.Web.Services.Processings",
+          "Id": "Workflow.Web:Workflow.Web.Services.Foundations.ICoreAppService",
+          "FullName": "Workflow.Web.Services.Foundations.ICoreAppService",
+          "Name": "ICoreAppService",
+          "Namespace": "Workflow.Web.Services.Foundations",
           "AssemblyName": "Workflow.Web",
           "Kind": "Interface",
           "IsInCurrentProject": true,
-          "StandardElementType": "ProcessingService"
+          "StandardElementType": "FoundationService"
         }
       ],
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.Web.Services.Processings.CoreAppProcessingService.GetAppAsync(System.Int32)",
+          "Id": "Workflow.Web.Services.Foundations.CoreAppService.GetAppAsync(System.Int32)",
           "Name": "GetAppAsync",
           "LineNumber": 14,
           "Inputs": [
@@ -746,13 +1036,11 @@
             }
           ],
           "PossibleExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
           ],
           "IncomingExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
@@ -774,30 +1062,30 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Services.Processings.CoreUserProcessingService",
-      "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "Name": "Workflow.Web.Services.Foundations.CoreUserService",
+      "StandardElementType": "FoundationService",
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "Workflow.Web:Workflow.Web.Services.Processings.ICoreUserProcessingService",
-          "FullName": "Workflow.Web.Services.Processings.ICoreUserProcessingService",
-          "Name": "ICoreUserProcessingService",
-          "Namespace": "Workflow.Web.Services.Processings",
+          "Id": "Workflow.Web:Workflow.Web.Services.Foundations.ICoreUserService",
+          "FullName": "Workflow.Web.Services.Foundations.ICoreUserService",
+          "Name": "ICoreUserService",
+          "Namespace": "Workflow.Web.Services.Foundations",
           "AssemblyName": "Workflow.Web",
           "Kind": "Interface",
           "IsInCurrentProject": true,
-          "StandardElementType": "ProcessingService"
+          "StandardElementType": "FoundationService"
         }
       ],
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.Web.Services.Processings.CoreUserProcessingService.GetUser()",
+          "Id": "Workflow.Web.Services.Foundations.CoreUserService.GetUser()",
           "Name": "GetUser",
-          "LineNumber": 16,
+          "LineNumber": 14,
           "Inputs": [],
           "ReturnType": "cCoder.Data.Models.Security.User",
           "Implements": [
@@ -805,25 +1093,11 @@
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Data.Models.Security.User",
-              "MethodName": ".ctor",
-              "MethodId": "cCoder.Data.Models.Security.User..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory",
-              "MethodName": "CreateDbContext",
-              "MethodId": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory.CreateDbContext(System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Security.Data.EF.SecurityDbContext",
-              "MethodName": "GetCurrentUser",
-              "MethodId": "cCoder.Security.Data.EF.SecurityDbContext.GetCurrentUser()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
+              "TypeName": "Workflow.Web.Brokers.ICoreUserBroker",
+              "MethodName": "SelectUser",
+              "MethodId": "Workflow.Web.Brokers.ICoreUserBroker.SelectUser()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [
@@ -960,6 +1234,38 @@
       ]
     },
     {
+      "Name": "Workflow.Web.Brokers.ICoreUserBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Brokers.ICoreUserBroker.SelectUser()",
+          "Name": "SelectUser",
+          "LineNumber": 11,
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "Workflow.Web.Exposures.ICoreAppManager",
       "StandardElementType": "Exposure",
       "LineNumber": 9,
@@ -1061,8 +1367,8 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Services.Processings.ICoreAppProcessingService",
-      "StandardElementType": "ProcessingService",
+      "Name": "Workflow.Web.Services.Foundations.ICoreAppService",
+      "StandardElementType": "FoundationService",
       "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
@@ -1083,8 +1389,8 @@
       "Methods": []
     },
     {
-      "Name": "Workflow.Web.Services.Processings.ICoreUserProcessingService",
-      "StandardElementType": "ProcessingService",
+      "Name": "Workflow.Web.Services.Foundations.ICoreUserService",
+      "StandardElementType": "FoundationService",
       "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
@@ -1133,8 +1439,12 @@
       "ToType": "cCoder.Data.ICoreContextFactory"
     },
     {
+      "FromType": "Workflow.Web.Brokers.CoreUserBroker",
+      "ToType": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory"
+    },
+    {
       "FromType": "Workflow.Web.Controllers.CoreAppController",
-      "ToType": "Workflow.Web.Services.Processings.CoreAppProcessingService"
+      "ToType": "Workflow.Web.Services.Foundations.CoreAppService"
     },
     {
       "FromType": "Workflow.Web.Controllers.CoreAppController",
@@ -1142,7 +1452,7 @@
     },
     {
       "FromType": "Workflow.Web.Controllers.CoreUserController",
-      "ToType": "Workflow.Web.Services.Processings.CoreUserProcessingService"
+      "ToType": "Workflow.Web.Services.Foundations.CoreUserService"
     },
     {
       "FromType": "Workflow.Web.Controllers.CoreUserController",
@@ -1157,35 +1467,13 @@
       "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
     },
     {
-      "FromType": "Workflow.Web.Services.Processings.CoreAppProcessingService",
+      "FromType": "Workflow.Web.Services.Foundations.CoreAppService",
       "ToType": "Workflow.Web.Brokers.CoreAppBroker"
     },
     {
-      "FromType": "Workflow.Web.Services.Processings.CoreUserProcessingService",
-      "ToType": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory"
+      "FromType": "Workflow.Web.Services.Foundations.CoreUserService",
+      "ToType": "Workflow.Web.Brokers.CoreUserBroker"
     }
   ],
-  "AnalysisItems": [
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.CoreAppController",
-      "LineNumber": 21
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.CoreUserController",
-      "LineNumber": 21
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Controllers.HealthController",
-      "LineNumber": 21
-    }
-  ]
+  "AnalysisItems": []
 }

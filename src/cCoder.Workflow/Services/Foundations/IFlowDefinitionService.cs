@@ -25,4 +25,10 @@ internal interface IFlowDefinitionService
     ValueTask DeleteWithInstancesAsync(Guid flowDefinitionId);
 
     ValueTask DeleteWithInstancesByAppIdAsync(int appId);
+
+    bool AuthorizeExecution(string userId, int? appId);
+    object ParseDefinition(string definitionJson);
+    object ParseData(string args);
+    string SerializeContext(object context);
+    bool LogFlowDefinitionAddOrUpdate(IEnumerable<FlowDefinition> flowDefinitions);
 }

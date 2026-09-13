@@ -4,6 +4,8 @@
 
 using System.Security;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.Loggings;
+using cCoder.Workflow.Activities.Models;
 using cCoder.Data.Models.Workflow;
 
 
@@ -11,9 +13,59 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class FlowDefinitionService(
     IFlowDefinitionBroker flowDefinitionBroker,
-    IAuthorizationBroker authorizationBroker
+    IAuthorizationBroker authorizationBroker,
+    IJsonBroker jsonBroker,
+    ILoggingBroker loggingBroker
 ) : IFlowDefinitionService
 {
+    public bool AuthorizeExecution(string userId, int? appId) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [userId, appId]);
+
+            authorizationBroker.Authorize(
+                userId: userId,
+                appId: appId,
+                privilege: "flowdefinition_execute");
+
+            return true;
+        });
+
+    public object ParseDefinition(string definitionJson) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [definitionJson]);
+            return jsonBroker.ParseJson<Flow>(json: definitionJson);
+        });
+
+    public object ParseData(string args) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [args]);
+            return jsonBroker.ParseJson(json: args);
+        });
+
+    public string SerializeContext(object context) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [context]);
+            return jsonBroker.Serialize(value: context);
+        });
+
+    public bool LogFlowDefinitionAddOrUpdate(
+        IEnumerable<FlowDefinition> flowDefinitions) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [flowDefinitions]);
+
+            loggingBroker.LogDebug(
+                message: "AddOrUpdate:\n" + jsonBroker.Serialize(
+                    value: flowDefinitions.Select(
+                        selector: item => new { item.Id, item.Name })));
+
+            return true;
+        });
+
     public FlowDefinition Get(Guid flowDefinitionId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowDefinitionId]); return ExecuteGet(flowDefinitionId: flowDefinitionId); });
 

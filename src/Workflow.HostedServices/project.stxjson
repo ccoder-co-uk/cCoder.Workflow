@@ -13,13 +13,13 @@
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
-        "Id": "Workflow.HostedServices:ControllerBase",
-        "FullName": "ControllerBase",
+        "Id": "Microsoft.AspNetCore.Mvc.Core:Microsoft.AspNetCore.Mvc.ControllerBase",
+        "FullName": "Microsoft.AspNetCore.Mvc.ControllerBase",
         "Name": "ControllerBase",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.HostedServices",
+        "Namespace": "Microsoft.AspNetCore.Mvc",
+        "AssemblyName": "Microsoft.AspNetCore.Mvc.Core",
         "Kind": "Class",
-        "IsInCurrentProject": true,
+        "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
       "Interfaces": [],
@@ -30,9 +30,30 @@
           "Name": "Get",
           "LineNumber": 21,
           "Inputs": [],
-          "ReturnType": "IActionResult",
+          "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "BadRequest",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.BadRequest(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "Content",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.Content(System.String,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "StatusCode",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.StatusCode(System.Int32)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "Workflow.HostedServices.Exposures.IHealthManager",
               "MethodName": "GetHealth",
@@ -72,6 +93,26 @@
               "HasBody": true,
               "ExposesExceptionDetails": false,
               "LogsException": true
+            },
+            {
+              "StatusCode": 403,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Security.SecurityException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
+            },
+            {
+              "StatusCode": 500,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Exception",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -90,13 +131,13 @@
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
-        "Id": "Workflow.HostedServices:ControllerBase",
-        "FullName": "ControllerBase",
+        "Id": "Microsoft.AspNetCore.Mvc.Core:Microsoft.AspNetCore.Mvc.ControllerBase",
+        "FullName": "Microsoft.AspNetCore.Mvc.ControllerBase",
         "Name": "ControllerBase",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "Workflow.HostedServices",
+        "Namespace": "Microsoft.AspNetCore.Mvc",
+        "AssemblyName": "Microsoft.AspNetCore.Mvc.Core",
         "Kind": "Class",
-        "IsInCurrentProject": true,
+        "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
       "Interfaces": [],
@@ -107,9 +148,30 @@
           "Name": "Get",
           "LineNumber": 20,
           "Inputs": [],
-          "ReturnType": "IActionResult",
+          "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "BadRequest",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.BadRequest(System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "Content",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.Content(System.String,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Mvc.ControllerBase",
+              "MethodName": "StatusCode",
+              "MethodId": "Microsoft.AspNetCore.Mvc.ControllerBase.StatusCode(System.Int32)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "Workflow.HostedServices.Exposures.IHomeManager",
               "MethodName": "GetHome",
@@ -149,6 +211,26 @@
               "HasBody": true,
               "ExposesExceptionDetails": false,
               "LogsException": true
+            },
+            {
+              "StatusCode": 403,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Security.SecurityException",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
+            },
+            {
+              "StatusCode": 500,
+              "ResultMethod": "StatusCode",
+              "ExceptionType": "System.Exception",
+              "IsExceptionPath": true,
+              "IsNullPath": false,
+              "HasBody": false,
+              "ExposesExceptionDetails": false,
+              "LogsException": true
             }
           ],
           "IsHttpRequestHandler": true,
@@ -182,30 +264,79 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(IServiceCollection,IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
+          "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
           "Name": "AddHostedServices",
           "LineNumber": 20,
           "Inputs": [
             {
               "Name": "services",
-              "Type": "IServiceCollection"
+              "Type": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
             },
             {
               "Name": "configuration",
-              "Type": "IConfiguration"
+              "Type": "Microsoft.Extensions.Configuration.IConfiguration"
             },
             {
               "Name": "configure",
               "Type": "System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E"
             }
           ],
-          "ReturnType": "IServiceCollection",
+          "ReturnType": "Microsoft.Extensions.DependencyInjection.IServiceCollection",
           "Implements": [],
           "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Configuration.ConfigurationBinder",
+              "MethodName": "Bind",
+              "MethodId": "Microsoft.Extensions.Configuration.ConfigurationBinder.Bind(Microsoft.Extensions.Configuration.IConfiguration,System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
             {
               "TypeName": "System.Action\u003CT\u003E",
               "MethodName": "Invoke",
               "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.IServiceCollectionExtensions",
+              "MethodName": "AddData",
+              "MethodId": "cCoder.Data.IServiceCollectionExtensions.AddData(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Data.Models.DataConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Eventing.Http.IServiceCollectionExtensions",
+              "MethodName": "AddHttpEventingHostedServices",
+              "MethodId": "cCoder.Eventing.Http.IServiceCollectionExtensions.AddHttpEventingHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action\u003CcCoder.Eventing.Http.Models.HttpEventingOptions\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Eventing.IServiceCollectionExtensions",
+              "MethodName": "AddEventingHostedServices",
+              "MethodId": "cCoder.Eventing.IServiceCollectionExtensions.AddEventingHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Eventing.Models.EventingConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.IServiceCollectionExtensions",
+              "MethodName": "AddSecurityData",
+              "MethodId": "cCoder.Security.Data.EF.IServiceCollectionExtensions.AddSecurityData(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Security.Models.SecurityDataConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.IServiceCollectionExtensions",
+              "MethodName": "AddSecurityHostedServices",
+              "MethodId": "cCoder.Security.IServiceCollectionExtensions.AddSecurityHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Security.Models.SecurityConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.IServiceCollectionExtensions",
+              "MethodName": "AddWorkflowHostedServices",
+              "MethodId": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Workflow.Models.WorkflowConfiguration)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -278,7 +409,50 @@
           ],
           "ReturnType": "System.Void",
           "Implements": [],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions",
+              "MethodName": "MapControllers",
+              "MethodId": "Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers(Microsoft.AspNetCore.Routing.IEndpointRouteBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplication",
+              "MethodName": "CreateBuilder",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(System.String[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplication",
+              "MethodName": "Run",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplication.Run(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplicationBuilder",
+              "MethodName": "Build",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Workflow.HostedServices.IServiceCollectionExtensions",
+              "MethodName": "AddHostedServices",
+              "MethodId": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.WebApplicationExtensions",
+              "MethodName": "StartWorkflowHostedServices",
+              "MethodId": "cCoder.Workflow.WebApplicationExtensions.StartWorkflowHostedServices(Microsoft.AspNetCore.Builder.WebApplication)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
           "PossibleExceptionTypes": [
             "System.InvalidOperationException"
           ],
@@ -554,20 +728,5 @@
       "ToType": "cCoder.Workflow.Models.WorkflowConfiguration"
     }
   ],
-  "AnalysisItems": [
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "Workflow.HostedServices.Controllers.HealthController",
-      "LineNumber": 21
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "Workflow.HostedServices.Controllers.HomeController",
-      "LineNumber": 20
-    }
-  ]
+  "AnalysisItems": []
 }

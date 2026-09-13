@@ -27,10 +27,10 @@ using cCoder.Workflow.Dependencies.HostedServices;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
-using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Foundations.Events;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Services.Foundations;
 using cCoder.Eventing;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
@@ -207,6 +207,8 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IWorkflowAppExposure, WorkflowAppExposure>();
         services.AddTransient<IWorkflowPackageManager, WorkflowPackageManager>();
+        services.AddTransient<IFlowDefinitionEventHandler, FlowDefinitionEventHandler>();
+        services.AddTransient<IWorkflowEventHandler, WorkflowEventHandler>();
         services.AddTransient<IWorkflowEventHandlers, WorkflowEventHandlers>();
     }
 
@@ -223,6 +225,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
         services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();
+        services.AddTransient<IWorkflowInstanceService, WorkflowInstanceService>();
         services.AddTransient<IFlowDefinitionEventService, FlowDefinitionEventService>();
         services.AddTransient<IFlowInstanceDataEventService, FlowInstanceDataEventService>();
         services.AddTransient<IScheduledTaskEventService, ScheduledTaskEventService>();

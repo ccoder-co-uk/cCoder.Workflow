@@ -4,7 +4,6 @@
 
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Workflow.Services.Processings.WorkflowFunctions;
 
 namespace Workflow.Exposures;
 

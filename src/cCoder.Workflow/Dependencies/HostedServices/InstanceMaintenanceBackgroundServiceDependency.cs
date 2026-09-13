@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Exposures;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -15,8 +15,8 @@ internal sealed class InstanceMaintenanceBackgroundServiceDependency(IServiceSco
     {
         using IServiceScope scope = serviceScopeFactory.CreateScope();
 
-        IWorkflowInstanceProcessingService workflowInstanceProcessingService =
-            scope.ServiceProvider.GetRequiredService<IWorkflowInstanceProcessingService>();
+        IWorkflowInstanceManager workflowInstanceProcessingService =
+            scope.ServiceProvider.GetRequiredService<IWorkflowInstanceManager>();
 
         await workflowInstanceProcessingService.RunInstanceMaintenanceContinuouslyAsync(cancellationToken: stoppingToken);
     }

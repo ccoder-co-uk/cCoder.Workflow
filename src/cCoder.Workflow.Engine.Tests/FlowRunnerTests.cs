@@ -11,11 +11,11 @@ namespace cCoder.Workflow.Engine.Tests;
 
 public sealed partial class FlowRunnerTests
 {
-    private readonly Mock<IFlowExecutionOrchestrationService> flowExecutionOrchestrationServiceMock = new();
+    private readonly Mock<IWorkflowRequestOrchestrationService> workflowRequestOrchestrationServiceMock = new();
     private readonly FlowRunner flowRunner;
 
     public FlowRunnerTests() =>
-        flowRunner = new FlowRunner(flowExecutionOrchestrationServiceMock.Object);
+        flowRunner = new FlowRunner(workflowRequestOrchestrationServiceMock.Object);
 
     private static WorkflowRequest CreateWorkflowRequest() =>
         new()

@@ -13,10 +13,7 @@ using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Workflow.Models;
-using cCoder.Workflow.Services.Aggregations;
-using cCoder.Workflow.Services.Coordinations;
-using cCoder.Workflow.Services.Orchestrations;
-using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Exposures;
 using DataFile = cCoder.Data.Models.DMS.File;
 using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
@@ -111,22 +108,22 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     }
 
     void ListenToAppAddEvents() =>
-        eventHubBroker.ListenToEvent<App, IAppCoordinationService>(
+        eventHubBroker.ListenToEvent<App, IWorkflowAppManager>(
 eventName: "app_add",
 handler: (service, app) => service.AddAppAsync(newApp: app));
 
     void ListenToAppUpdateEvents() =>
-        eventHubBroker.ListenToEvent<App, IAppCoordinationService>(
+        eventHubBroker.ListenToEvent<App, IWorkflowAppManager>(
 eventName: "app_update",
 handler: (service, app) => service.UpdateAppAsync(updatedApp: app));
 
     void ListenToAppDeleteEvents() =>
-        eventHubBroker.ListenToEvent<App, IAppCoordinationService>(
+        eventHubBroker.ListenToEvent<App, IWorkflowAppManager>(
 eventName: "app_delete",
 handler: (service, app) => service.DeleteAsync(appId: app.Id));
 
     void ListenToCalendarAddEvents() =>
-        eventHubBroker.ListenToEvent<Calendar, ICalendarEventOrchestrationService>(
+        eventHubBroker.ListenToEvent<Calendar, ICalendarEventManager>(
 eventName: "calendar_add",
 handler: async (service, calendar) =>
         {
@@ -135,7 +132,7 @@ handler: async (service, calendar) =>
         });
 
     void ListenToCalendarUpdateEvents() =>
-        eventHubBroker.ListenToEvent<Calendar, ICalendarEventOrchestrationService>(
+        eventHubBroker.ListenToEvent<Calendar, ICalendarEventManager>(
 eventName: "calendar_update",
 handler: async (service, calendar) =>
         {
@@ -144,20 +141,20 @@ handler: async (service, calendar) =>
         });
 
     void ListenToCalendarDeleteEvents() =>
-        eventHubBroker.ListenToEvent<Calendar, ICalendarEventOrchestrationService>(
+        eventHubBroker.ListenToEvent<Calendar, ICalendarEventManager>(
 eventName: "calendar_delete",
 handler: (service, calendar) => service.DeleteAllCalendarEventAsync(
             deletedItems: calendar.Events ?? []));
 
     void ListenToFlowDefinitionDeleteEvents() =>
-        eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionCoordinationService>(
+        eventHubBroker.ListenToEvent<FlowDefinition, IFlowDefinitionEventHandler>(
 eventName: "flow_definition_delete",
 handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(flowDefinition: flowDefinition));
 
     void ListenToPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<WorkflowPackageEvent, IWorkflowMigrationAggregationService>(
+        eventHubBroker.ListenToEvent<WorkflowPackageEvent, IWorkflowPackageManager>(
             eventName: "package_import",
-            handler: (service, packageEvent) => service.ImportPackageWorkflowPackageAsync(
+            handler: (service, packageEvent) => service.ImportPackageAsync(
                 appId: packageEvent.AppId,
                 workflowPackage: ToLocalPackage(package: packageEvent.Package)));
 
@@ -169,21 +166,21 @@ handler: (service, flowDefinition) => service.HandleFlowDefinitionDeleteAsync(fl
     }
 
     void ListenToWorkflowTriggerEvent<T>(string eventName) =>
-        eventHubBroker.ListenToEvent<T, IWorkflowEventCoordinationService>(
+        eventHubBroker.ListenToEvent<T, IWorkflowEventHandler>(
 eventName: eventName,
 handler: (service, payload) => new ValueTask(service.RaiseEvents(payload: payload, eventName: eventName)));
 
     void ListenToWorkflowPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<WorkflowPackageEvent, IWorkflowEventCoordinationService>(
+        eventHubBroker.ListenToEvent<WorkflowPackageEvent, IWorkflowEventHandler>(
 eventName: "package_import",
 handler: (service, packageEvent) => new ValueTask(service.RaiseEvents(payload: packageEvent.Package, eventName: "package_import", appIdOverride: packageEvent.AppId)));
 
     void ListenToScheduledTaskExecuteEventsInternal() =>
-        eventHubBroker.ListenToEvent<ScheduledTask, IFlowDefinitionCoordinationService>(
+        eventHubBroker.ListenToEvent<ScheduledTask, IFlowDefinitionManager>(
 eventName: "scheduled_task_execute",
 handler: async (service, task) =>
             {
-                _ = await service.QueueAsync(flowDefinitionId: task.FlowId, asUserId: task.ExecuteAs, args: task.ExecutionArgs);
+                _ = await service.QueueFlowDefinitionAsync(flowDefinitionId: task.FlowId, asUserId: task.ExecuteAs, args: task.ExecutionArgs);
             });
 
     void ListenToQueuedFlowInstanceExecuteEventsInternal()
@@ -193,7 +190,7 @@ handler: async (service, task) =>
     }
 
     void ListenToQueuedFlowInstanceExecuteEvent(string eventName) =>
-        eventHubBroker.ListenToEvent<FlowInstanceData, IWorkflowInstanceProcessingService>(
+        eventHubBroker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManager>(
 eventName: eventName,
 handler: async (service, instance) =>
             {

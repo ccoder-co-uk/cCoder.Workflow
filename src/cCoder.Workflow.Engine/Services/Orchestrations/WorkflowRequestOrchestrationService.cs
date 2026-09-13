@@ -4,16 +4,16 @@
 
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
 internal sealed partial class WorkflowRequestOrchestrationService(
-    IFlowCommunicationProcessingService
+    IFlowCommunicationService
         flowCommunicationProcessingService,
-    IFlowInstanceProcessingService
+    IFlowInstanceService
         flowInstanceProcessingService,
-    IFlowResultProcessingService
+    IFlowResultService
         flowResultProcessingService)
     : IWorkflowRequestOrchestrationService
 {

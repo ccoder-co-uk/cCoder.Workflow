@@ -13,6 +13,8 @@ using Moq;
 using System.Text.Json;
 using Xunit;
 
+using cCoder.Workflow.Exposures;
+
 namespace cCoder.Core.Services.Tests.Workflow.Foundations.Events;
 
 public sealed partial class EventHandlerServicePackageImportTests
@@ -22,10 +24,10 @@ public sealed partial class EventHandlerServicePackageImportTests
     {
         // Given
         Mock<IEventHubBroker> eventHubBrokerMock = new(behavior: MockBehavior.Loose);
-        Mock<IWorkflowMigrationAggregationService> migrationServiceMock = new();
-        Mock<IWorkflowEventCoordinationService> eventCoordinationServiceMock = new();
-        Func<IWorkflowMigrationAggregationService, WorkflowPackageEvent, ValueTask> migrationHandler = null;
-        Func<IWorkflowEventCoordinationService, WorkflowPackageEvent, ValueTask> eventHandler = null;
+        Mock<IWorkflowPackageManager> migrationServiceMock = new();
+        Mock<IWorkflowEventHandler> eventCoordinationServiceMock = new();
+        Func<IWorkflowPackageManager, WorkflowPackageEvent, ValueTask> migrationHandler = null;
+        Func<IWorkflowEventHandler, WorkflowPackageEvent, ValueTask> eventHandler = null;
         const int expectedAppId = 89;
 
         Package expectedPackage = new() { Name = "Workflows" };
@@ -41,18 +43,18 @@ public sealed partial class EventHandlerServicePackageImportTests
 
         eventHubBrokerMock.Setup(expression: broker => broker.ListenToEvent<
                 WorkflowPackageEvent,
-                IWorkflowMigrationAggregationService>(
+                IWorkflowPackageManager>(
                     eventName: "package_import",
-                    handler: It.IsAny<Func<IWorkflowMigrationAggregationService, WorkflowPackageEvent, ValueTask>>()))
-            .Callback<string, Func<IWorkflowMigrationAggregationService, WorkflowPackageEvent, ValueTask>>(
+                    handler: It.IsAny<Func<IWorkflowPackageManager, WorkflowPackageEvent, ValueTask>>()))
+            .Callback<string, Func<IWorkflowPackageManager, WorkflowPackageEvent, ValueTask>>(
                 action: (_, handler) => migrationHandler = handler);
 
         eventHubBrokerMock.Setup(expression: broker => broker.ListenToEvent<
                 WorkflowPackageEvent,
-                IWorkflowEventCoordinationService>(
+                IWorkflowEventHandler>(
                     eventName: "package_import",
-                    handler: It.IsAny<Func<IWorkflowEventCoordinationService, WorkflowPackageEvent, ValueTask>>()))
-            .Callback<string, Func<IWorkflowEventCoordinationService, WorkflowPackageEvent, ValueTask>>(
+                    handler: It.IsAny<Func<IWorkflowEventHandler, WorkflowPackageEvent, ValueTask>>()))
+            .Callback<string, Func<IWorkflowEventHandler, WorkflowPackageEvent, ValueTask>>(
                 action: (_, handler) => eventHandler = handler);
 
         EventHandlerService service = new(eventHubBroker: eventHubBrokerMock.Object);
@@ -66,7 +68,7 @@ public sealed partial class EventHandlerServicePackageImportTests
 
         // Then
         migrationServiceMock.Verify(
-            expression: service => service.ImportPackageWorkflowPackageAsync(
+            expression: service => service.ImportPackageAsync(
                 appId: expectedAppId,
                 workflowPackage: It.Is<WorkflowPackage>(match: package => package.Name == "Workflows")),
             times: Times.Once);

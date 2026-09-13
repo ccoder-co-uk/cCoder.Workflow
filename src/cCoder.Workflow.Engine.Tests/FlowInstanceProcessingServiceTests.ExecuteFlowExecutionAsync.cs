@@ -18,7 +18,7 @@ using Xunit;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowInstanceProcessingServiceTests
+public sealed partial class FlowInstanceServiceTests
 {
     [Fact]
     public async Task ShouldExecuteFlowExecutionAsync()

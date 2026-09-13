@@ -13,6 +13,7 @@ using Workflow.Web.Brokers;
 using Workflow.Web.Extensions;
 using Workflow.Web.Models;
 using Workflow.Web.Services.Processings;
+using Workflow.Web.Services.Foundations;
 
 namespace Workflow.Web;
 
@@ -51,10 +52,11 @@ public static class IServiceCollectionExtensions
     private static void AddProcessings(this IServiceCollection services)
     {
         services.AddScoped<ICoreAppBroker, CoreAppBroker>();
-        services.AddScoped<ICoreAppProcessingService, CoreAppProcessingService>();
-        services.AddScoped<ICoreAppManager, CoreAppProcessingService>();
-        services.AddScoped<ICoreUserProcessingService, CoreUserProcessingService>();
-        services.AddScoped<ICoreUserManager, CoreUserProcessingService>();
+        services.AddScoped<ICoreUserBroker, CoreUserBroker>();
+        services.AddScoped<ICoreAppService, CoreAppService>();
+        services.AddScoped<ICoreAppManager, CoreAppService>();
+        services.AddScoped<ICoreUserService, CoreUserService>();
+        services.AddScoped<ICoreUserManager, CoreUserService>();
         services.AddSingleton<IHealthProcessingService, HealthProcessingService>();
         services.AddSingleton<IHealthManager, HealthProcessingService>();
     }
