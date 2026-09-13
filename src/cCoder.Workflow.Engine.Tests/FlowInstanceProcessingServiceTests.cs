@@ -6,13 +6,13 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Moq;
 using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowInstanceProcessingServiceTests
+public sealed partial class FlowInstanceServiceTests
 {
     private readonly Mock<IScriptBroker> scriptBrokerMock =
         new(behavior: MockBehavior.Strict);
@@ -24,7 +24,7 @@ public sealed partial class FlowInstanceProcessingServiceTests
         workflowHttpClientBrokerMock =
             new(behavior: MockBehavior.Strict);
 
-    private FlowInstanceProcessingService CreateService() =>
+    private FlowInstanceService CreateService() =>
         new(
             scriptBroker: scriptBrokerMock.Object,
             workflowContextBroker: workflowContextBrokerMock.Object,

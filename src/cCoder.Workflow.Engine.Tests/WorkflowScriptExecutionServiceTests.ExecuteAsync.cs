@@ -19,7 +19,7 @@ public sealed partial class WorkflowScriptExecutionServiceTests
 
         processingServiceMock
             .Setup(expression: service => service.ExecuteWorkflowScriptAsync(payload: payload, useDetails: true))
-            .Returns(new ValueTask<string>(expectedResult));
+            .Returns(value: new ValueTask<string>(result: expectedResult));
 
         // When
         string actualResult = await workflowScriptExecutionService.ExecuteAsync(payload: payload, useDetails: true);

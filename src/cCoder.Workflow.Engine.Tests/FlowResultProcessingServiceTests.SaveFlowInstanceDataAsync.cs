@@ -11,7 +11,7 @@ using Xunit;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowResultProcessingServiceTests
+public sealed partial class FlowResultServiceTests
 {
     [Fact]
     public async Task ShouldSaveFlowInstanceDataAsync()

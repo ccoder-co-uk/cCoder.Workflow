@@ -15,6 +15,8 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
+using cCoder.Workflow.Exposures;
+
 namespace cCoder.Core.Services.Tests.Workflow.Foundations.Events;
 
 public sealed partial class EventHandlerServiceExceptionTests
@@ -38,9 +40,9 @@ public sealed partial class EventHandlerServiceExceptionTests
         var eventHubBrokerMock = new Mock<IEventHubBroker>();
 
         eventHubBrokerMock.Setup(expression: broker =>
-                broker.ListenToEvent<ScheduledTask, IFlowDefinitionCoordinationService>(
+                broker.ListenToEvent<ScheduledTask, IFlowDefinitionManager>(
                     "scheduled_task_execute",
-                    It.IsAny<Func<IFlowDefinitionCoordinationService, ScheduledTask, ValueTask>>()))
+                    It.IsAny<Func<IFlowDefinitionManager, ScheduledTask, ValueTask>>()))
             .Throws(exception: dependencyException);
 
         var service = new EventHandlerService(eventHubBroker: eventHubBrokerMock.Object);

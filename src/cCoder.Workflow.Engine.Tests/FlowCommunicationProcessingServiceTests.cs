@@ -5,12 +5,12 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Brokers.Loggings;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Moq;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowCommunicationProcessingServiceTests
+public sealed partial class FlowCommunicationServiceTests
 {
     private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
 
@@ -18,7 +18,7 @@ public sealed partial class FlowCommunicationProcessingServiceTests
         workflowHubConnectionBrokerMock =
             new(behavior: MockBehavior.Strict);
 
-    private FlowCommunicationProcessingService CreateService() =>
+    private FlowCommunicationService CreateService() =>
         new(
             logger: loggingBrokerMock.Object,
             workflowHubConnectionBroker:

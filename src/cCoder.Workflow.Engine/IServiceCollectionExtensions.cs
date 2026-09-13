@@ -6,7 +6,7 @@ using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Dependencies;
 using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Services.Orchestrations;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace cCoder.Workflow.Engine;
@@ -19,7 +19,7 @@ public static class IServiceCollectionExtensions
         services.AddLogging();
         services.AddBrokers();
         services.AddOrchestrations();
-        services.AddProcessings();
+        services.AddFoundations();
 
         return services;
     }
@@ -56,20 +56,20 @@ public static class IServiceCollectionExtensions
             WorkflowRequestOrchestrationService>();
     }
 
-    private static void AddProcessings(
+    private static void AddFoundations(
         this IServiceCollection services)
     {
         services.AddTransient<
-            IWorkflowScriptExecutionProcessingService,
-            WorkflowScriptExecutionProcessingService>();
+            IWorkflowScriptExecutionFoundationService,
+            WorkflowScriptExecutionFoundationService>();
         services.AddTransient<
-            IFlowCommunicationProcessingService,
-            FlowCommunicationProcessingService>();
+            IFlowCommunicationService,
+            FlowCommunicationService>();
         services.AddTransient<
-            IFlowInstanceProcessingService,
-            FlowInstanceProcessingService>();
+            IFlowInstanceService,
+            FlowInstanceService>();
         services.AddTransient<
-            IFlowResultProcessingService,
-            FlowResultProcessingService>();
+            IFlowResultService,
+            FlowResultService>();
     }
 }

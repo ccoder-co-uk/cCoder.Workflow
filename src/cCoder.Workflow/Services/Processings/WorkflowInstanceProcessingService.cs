@@ -2,27 +2,16 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.Workflow;
-using cCoder.Eventing.Models;
-using cCoder.Security.Exposures;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
-using cCoder.Workflow.Brokers;
-using cCoder.Workflow.Brokers.Events;
-using cCoder.Workflow.Dependencies;
-using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
+using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class WorkflowInstanceProcessingService(
-    IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
-    IFlowInstanceDataManager flowInstanceDataManager,
-    ITokenManager tokenManager,
-    IWorkflowExecutionEventBroker workflowExecutionEventBroker,
-    WorkflowConfiguration workflowConfiguration,
-    ILoggingBroker log)
+    IWorkflowInstanceService workflowInstanceService)
     : IWorkflowInstanceProcessingService
 {
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
@@ -30,7 +19,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
         {
             ValidateInputs(inputs: [ignoreFilters]);
 
-            return flowInstanceDataManager.GetAll(ignoreFilters: ignoreFilters);
+            return workflowInstanceService.GetAll(ignoreFilters: ignoreFilters);
         });
 
     public Task RunAsync(CancellationToken cancellationToken = default) =>
@@ -45,12 +34,8 @@ internal sealed partial class WorkflowInstanceProcessingService(
         }
         catch (Exception ex)
         {
-            log.LogError(exception: ex, message: ex.Message);
-
-            if (ex.InnerException != null)
-            {
-                log.LogError(exception: ex.InnerException, message: ex.InnerException.Message);
-            }
+            _ = workflowInstanceService.LogError(
+                exception: ex.InnerException ?? ex);
         }
     }
 
@@ -59,14 +44,14 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private object[] ExecuteGetStats()
             =>
-        workflowInstanceManagementBroker.GetFailedExecutionStats();
+        workflowInstanceService.GetFailedExecutionStats();
 
     public Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunInstanceMaintenanceContinuouslyAsync(cancellationToken: cancellationToken); });
 
     private async Task ExecuteRunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
     {
-        if (workflowConfiguration.IsMigrating)
+        if (workflowInstanceService.IsMigrating())
         {
             return;
         }
@@ -92,12 +77,8 @@ internal sealed partial class WorkflowInstanceProcessingService(
         }
         catch (Exception ex)
         {
-            log.LogError(exception: ex, message: ex.Message);
-
-            if (ex.InnerException != null)
-            {
-                log.LogError(exception: ex.InnerException, message: ex.InnerException.Message);
-            }
+            _ = workflowInstanceService.LogError(
+                exception: ex.InnerException ?? ex);
         }
     }
 
@@ -106,7 +87,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private async Task ExecuteRunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(CancellationToken cancellationToken = default)
     {
-        if (workflowConfiguration.IsMigrating)
+        if (workflowInstanceService.IsMigrating())
         {
             return;
         }
@@ -132,18 +113,15 @@ internal sealed partial class WorkflowInstanceProcessingService(
         }
         catch (Exception ex)
         {
-            log.LogError(exception: ex, message: ex.Message);
-
-            if (ex.InnerException != null)
-            {
-                log.LogError(exception: ex.InnerException, message: ex.InnerException.Message);
-            }
+            _ = workflowInstanceService.LogError(
+                exception: ex.InnerException ?? ex);
         }
     }
 
     private async ValueTask ExecuteQueuedInstancesAsync(CancellationToken cancellationToken)
     {
-        FlowInstanceData[] queuedInstances = workflowInstanceManagementBroker.GetQueuedInstances();
+        FlowInstanceData[] queuedInstances =
+            workflowInstanceService.GetQueuedFlowInstanceData();
 
         foreach (FlowInstanceData queuedInstance in queuedInstances)
         {
@@ -161,34 +139,24 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private async ValueTask DropOldInstancesAsync(CancellationToken cancellationToken)
     {
-        int dropCount = await workflowInstanceManagementBroker
-            .FlushOldInstancesAsync(cutoff: DateTimeOffset.UtcNow.Subtract(value: GetInstanceMaintenanceMaxAge()), cancellationToken: cancellationToken);
+        int dropCount = await workflowInstanceService
+            .DeleteOldFlowInstanceDataAsync(
+                cutoff: DateTimeOffset.UtcNow.Subtract(
+                    value: GetInstanceMaintenanceMaxAge()),
+                cancellationToken: cancellationToken);
 
         if (dropCount > 0)
         {
-            log.LogInformation(
-                message: "Dropped {Count} Workflow instances older than {MaxAge}.",
-                args: [dropCount, GetInstanceMaintenanceMaxAge()]);
-        }
-    }
-
-    private async ValueTask RequeueHungExecutingInstancesAsync(CancellationToken cancellationToken)
-    {
-        int requeueCount = await workflowInstanceManagementBroker
-            .RequeueHungExecutingInstancesAsync(cutoff: DateTimeOffset.UtcNow.Subtract(value: GetExecutingInstanceTimeout()), cancellationToken: cancellationToken);
-
-        if (requeueCount > 0)
-        {
-            log.LogWarning(
-                message: "Requeued {Count} Workflow instances that were still executing after {Timeout}.",
-                args: [requeueCount, GetExecutingInstanceTimeout()]);
+            _ = workflowInstanceService.LogDroppedFlowInstanceData(
+                count: dropCount,
+                maxAge: GetInstanceMaintenanceMaxAge());
         }
     }
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
-        FlowInstanceData dbInstance = await workflowInstanceManagementBroker
-            .SelectClaimedInstanceAsync(
+        FlowInstanceData dbInstance = await workflowInstanceService
+            .GetClaimedFlowInstanceDataAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: cancellationToken);
 
@@ -199,23 +167,14 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
         try
         {
-            Token token = await tokenManager.IssueTokenAsync(userId: dbInstance.Caller, tokenUse: TokenUse.WorkflowExecution);
-
-            WorkflowRequest request = CreateWorkflowRequest(dbInstance: dbInstance, token: token);
-
-            await workflowExecutionEventBroker.RaiseWorkflowExecuteEventAsync(
-                message: new EventMessage<WorkflowRequest>
-                {
-                    AuthInfo = new EventAuthInfo
-                    {
-                        SSOUserId = dbInstance.Caller
-                    },
-                    Data = request
-                });
+            await workflowInstanceService.RaiseFlowInstanceDataWorkflowExecutionAsync(
+                flowInstanceData: dbInstance);
         }
         catch (Exception exception)
         {
-            log.LogError(exception: exception, message: "Flow instance {InstanceId} execution failed.", args: dbInstance.Id);
+            _ = workflowInstanceService.LogFlowInstanceDataExecutionFailure(
+                flowInstanceDataId: dbInstance.Id,
+                exception: exception.InnerException ?? exception);
         }
     }
 
@@ -230,23 +189,18 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private string CreateApiRoot(string domain)
     {
-        int sslPort = workflowConfiguration.SslPort;
+        int sslPort = workflowInstanceService.GetSslPort();
         string port = sslPort is > 0 and not 443 ? $":{sslPort}" : string.Empty;
 
         return $"https://{domain}{port}/Api/";
     }
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
-        TimeSpan.FromDays(
-            value: workflowConfiguration.InstanceMaintenance.MaxAgeDays);
+        workflowInstanceService.GetInstanceMaintenanceMaxAge();
 
     private TimeSpan GetExecutingInstanceTimeout() =>
-        TimeSpan.FromMinutes(
-            value: workflowConfiguration.QueueInstanceManagement
-                .ExecutingTimeoutMinutes);
+        workflowInstanceService.GetExecutingInstanceTimeout();
 
     private TimeSpan GetQueuePollingInterval() =>
-        TimeSpan.FromMilliseconds(
-            milliseconds: workflowConfiguration.QueueInstanceManagement
-                .PollingIntervalMilliseconds);
+        workflowInstanceService.GetQueuePollingInterval();
 }

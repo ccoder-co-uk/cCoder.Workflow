@@ -7,22 +7,22 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Services.Orchestrations;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Moq;
 
 namespace cCoder.Workflow.Engine.Tests;
 
 public sealed partial class WorkflowRequestOrchestrationServiceTests
 {
-    private readonly Mock<IFlowCommunicationProcessingService>
+    private readonly Mock<IFlowCommunicationService>
         flowCommunicationProcessingServiceMock =
             new(behavior: MockBehavior.Strict);
 
-    private readonly Mock<IFlowInstanceProcessingService>
+    private readonly Mock<IFlowInstanceService>
         flowInstanceProcessingServiceMock =
             new(behavior: MockBehavior.Strict);
 
-    private readonly Mock<IFlowResultProcessingService>
+    private readonly Mock<IFlowResultService>
         flowResultProcessingServiceMock =
             new(behavior: MockBehavior.Strict);
 

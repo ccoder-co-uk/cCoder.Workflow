@@ -13,7 +13,7 @@ using Xunit;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class WorkflowScriptExecutionProcessingServiceTests
+public sealed partial class WorkflowScriptExecutionFoundationServiceTests
 {
     [Fact]
     public async Task ShouldExecuteWorkflowScriptAsync()

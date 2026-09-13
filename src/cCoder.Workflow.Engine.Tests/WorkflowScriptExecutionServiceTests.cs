@@ -3,16 +3,17 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Engine.Exposures;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Moq;
 
 namespace cCoder.Workflow.Engine.Tests;
 
 public sealed partial class WorkflowScriptExecutionServiceTests
 {
-    private readonly Mock<IWorkflowScriptExecutionProcessingService> processingServiceMock = new();
+    private readonly Mock<IWorkflowScriptExecutionFoundationService> processingServiceMock = new();
     private readonly WorkflowScriptExecutionService workflowScriptExecutionService;
 
     public WorkflowScriptExecutionServiceTests() =>
-        workflowScriptExecutionService = new WorkflowScriptExecutionService(processingServiceMock.Object);
+        workflowScriptExecutionService = new WorkflowScriptExecutionService(
+            workflowScriptExecutionProcessingService: processingServiceMock.Object);
 }

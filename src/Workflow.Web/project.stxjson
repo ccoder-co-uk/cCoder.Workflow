@@ -318,6 +318,73 @@
       ]
     },
     {
+      "Name": "Workflow.Web.Brokers.CoreUserBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.Web:Workflow.Web.Brokers.ICoreUserBroker",
+          "FullName": "Workflow.Web.Brokers.ICoreUserBroker",
+          "Name": "ICoreUserBroker",
+          "Namespace": "Workflow.Web.Brokers",
+          "AssemblyName": "Workflow.Web",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Brokers.CoreUserBroker.SelectUser()",
+          "Name": "SelectUser",
+          "LineNumber": 16,
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User",
+          "Implements": [
+            "Workflow.Web.Brokers.ICoreUserBroker.SelectUser()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Data.Models.Security.User",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.Security.User..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory",
+              "MethodName": "CreateDbContext",
+              "MethodId": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory.CreateDbContext(System.Boolean)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.SecurityDbContext",
+              "MethodName": "GetCurrentUser",
+              "MethodId": "cCoder.Security.Data.EF.SecurityDbContext.GetCurrentUser()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "Workflow.Web.Controllers.CoreAppController",
       "StandardElementType": "HttpExposure",
       "LineNumber": 14,
@@ -393,7 +460,6 @@
             }
           ],
           "PossibleExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
@@ -728,7 +794,7 @@
     {
       "Name": "Workflow.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 19,
+      "LineNumber": 20,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -738,7 +804,7 @@
         {
           "Id": "Workflow.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.Web.Models.AppConfiguration\u003E)",
           "Name": "AddWeb",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "services",
@@ -926,28 +992,28 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Services.Processings.CoreAppProcessingService",
-      "StandardElementType": "ProcessingService",
+      "Name": "Workflow.Web.Services.Foundations.CoreAppService",
+      "StandardElementType": "FoundationService",
       "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "Workflow.Web:Workflow.Web.Services.Processings.ICoreAppProcessingService",
-          "FullName": "Workflow.Web.Services.Processings.ICoreAppProcessingService",
-          "Name": "ICoreAppProcessingService",
-          "Namespace": "Workflow.Web.Services.Processings",
+          "Id": "Workflow.Web:Workflow.Web.Services.Foundations.ICoreAppService",
+          "FullName": "Workflow.Web.Services.Foundations.ICoreAppService",
+          "Name": "ICoreAppService",
+          "Namespace": "Workflow.Web.Services.Foundations",
           "AssemblyName": "Workflow.Web",
           "Kind": "Interface",
           "IsInCurrentProject": true,
-          "StandardElementType": "ProcessingService"
+          "StandardElementType": "FoundationService"
         }
       ],
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.Web.Services.Processings.CoreAppProcessingService.GetAppAsync(System.Int32)",
+          "Id": "Workflow.Web.Services.Foundations.CoreAppService.GetAppAsync(System.Int32)",
           "Name": "GetAppAsync",
           "LineNumber": 14,
           "Inputs": [
@@ -970,13 +1036,11 @@
             }
           ],
           "PossibleExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
           ],
           "IncomingExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
@@ -998,30 +1062,30 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Services.Processings.CoreUserProcessingService",
-      "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "Name": "Workflow.Web.Services.Foundations.CoreUserService",
+      "StandardElementType": "FoundationService",
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "Workflow.Web:Workflow.Web.Services.Processings.ICoreUserProcessingService",
-          "FullName": "Workflow.Web.Services.Processings.ICoreUserProcessingService",
-          "Name": "ICoreUserProcessingService",
-          "Namespace": "Workflow.Web.Services.Processings",
+          "Id": "Workflow.Web:Workflow.Web.Services.Foundations.ICoreUserService",
+          "FullName": "Workflow.Web.Services.Foundations.ICoreUserService",
+          "Name": "ICoreUserService",
+          "Namespace": "Workflow.Web.Services.Foundations",
           "AssemblyName": "Workflow.Web",
           "Kind": "Interface",
           "IsInCurrentProject": true,
-          "StandardElementType": "ProcessingService"
+          "StandardElementType": "FoundationService"
         }
       ],
       "Properties": [],
       "Methods": [
         {
-          "Id": "Workflow.Web.Services.Processings.CoreUserProcessingService.GetUser()",
+          "Id": "Workflow.Web.Services.Foundations.CoreUserService.GetUser()",
           "Name": "GetUser",
-          "LineNumber": 16,
+          "LineNumber": 14,
           "Inputs": [],
           "ReturnType": "cCoder.Data.Models.Security.User",
           "Implements": [
@@ -1029,25 +1093,11 @@
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Data.Models.Security.User",
-              "MethodName": ".ctor",
-              "MethodId": "cCoder.Data.Models.Security.User..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory",
-              "MethodName": "CreateDbContext",
-              "MethodId": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory.CreateDbContext(System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Security.Data.EF.SecurityDbContext",
-              "MethodName": "GetCurrentUser",
-              "MethodId": "cCoder.Security.Data.EF.SecurityDbContext.GetCurrentUser()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
+              "TypeName": "Workflow.Web.Brokers.ICoreUserBroker",
+              "MethodName": "SelectUser",
+              "MethodId": "Workflow.Web.Brokers.ICoreUserBroker.SelectUser()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [
@@ -1184,6 +1234,38 @@
       ]
     },
     {
+      "Name": "Workflow.Web.Brokers.ICoreUserBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.Web.Brokers.ICoreUserBroker.SelectUser()",
+          "Name": "SelectUser",
+          "LineNumber": 11,
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "Workflow.Web.Exposures.ICoreAppManager",
       "StandardElementType": "Exposure",
       "LineNumber": 9,
@@ -1285,8 +1367,8 @@
       ]
     },
     {
-      "Name": "Workflow.Web.Services.Processings.ICoreAppProcessingService",
-      "StandardElementType": "ProcessingService",
+      "Name": "Workflow.Web.Services.Foundations.ICoreAppService",
+      "StandardElementType": "FoundationService",
       "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
@@ -1307,8 +1389,8 @@
       "Methods": []
     },
     {
-      "Name": "Workflow.Web.Services.Processings.ICoreUserProcessingService",
-      "StandardElementType": "ProcessingService",
+      "Name": "Workflow.Web.Services.Foundations.ICoreUserService",
+      "StandardElementType": "FoundationService",
       "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
@@ -1357,8 +1439,12 @@
       "ToType": "cCoder.Data.ICoreContextFactory"
     },
     {
+      "FromType": "Workflow.Web.Brokers.CoreUserBroker",
+      "ToType": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory"
+    },
+    {
       "FromType": "Workflow.Web.Controllers.CoreAppController",
-      "ToType": "Workflow.Web.Services.Processings.CoreAppProcessingService"
+      "ToType": "Workflow.Web.Services.Foundations.CoreAppService"
     },
     {
       "FromType": "Workflow.Web.Controllers.CoreAppController",
@@ -1366,7 +1452,7 @@
     },
     {
       "FromType": "Workflow.Web.Controllers.CoreUserController",
-      "ToType": "Workflow.Web.Services.Processings.CoreUserProcessingService"
+      "ToType": "Workflow.Web.Services.Foundations.CoreUserService"
     },
     {
       "FromType": "Workflow.Web.Controllers.CoreUserController",
@@ -1381,28 +1467,13 @@
       "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
     },
     {
-      "FromType": "Workflow.Web.Services.Processings.CoreAppProcessingService",
+      "FromType": "Workflow.Web.Services.Foundations.CoreAppService",
       "ToType": "Workflow.Web.Brokers.CoreAppBroker"
     },
     {
-      "FromType": "Workflow.Web.Services.Processings.CoreUserProcessingService",
-      "ToType": "cCoder.Security.Data.EF.Interfaces.ISecurityDbContextFactory"
+      "FromType": "Workflow.Web.Services.Foundations.CoreUserService",
+      "ToType": "Workflow.Web.Brokers.CoreUserBroker"
     }
   ],
-  "AnalysisItems": [
-    {
-      "Code": "STXP001",
-      "Description": "A processing service may use only one foundation service and must not bypass its layer boundary.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Services.Processings.CoreAppProcessingService",
-      "LineNumber": 10
-    },
-    {
-      "Code": "STXD001",
-      "Description": "Dependency elements and event hubs may only be consumed by brokers or other dependencies.",
-      "Severity": "Warning",
-      "Type": "Workflow.Web.Services.Processings.CoreUserProcessingService",
-      "LineNumber": 12
-    }
-  ]
+  "AnalysisItems": []
 }

@@ -10,7 +10,7 @@ using Workflow.Exposures;
 using Workflow.Brokers.Http;
 using Workflow.Brokers.Loggings;
 using Workflow.Models;
-using Workflow.Services.Processings.WorkflowFunctions;
+using Workflow.Services.Foundations.WorkflowFunctions;
 
 namespace Workflow;
 
@@ -38,11 +38,11 @@ public static class IServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddTransient<
-            IWorkflowFunctionsProcessingService,
-            WorkflowFunctionsProcessingService>();
+            IWorkflowFunctionsService,
+            WorkflowFunctionsService>();
 
         services.AddTransient<
             IWorkflowFunctionsManager,
-            WorkflowFunctionsProcessingService>();
+            WorkflowFunctionsService>();
     }
 }

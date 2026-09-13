@@ -5,6 +5,7 @@
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
@@ -25,8 +26,10 @@ public partial class FlowDefinitionServiceTests
         flowDefinitionBrokerMock = new Mock<IFlowDefinitionBroker>(behavior: MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         flowDefinitionService = new FlowDefinitionService(
-            flowDefinitionBrokerMock.Object,
-            authorizationBrokerMock.Object
+            flowDefinitionBroker: flowDefinitionBrokerMock.Object,
+            authorizationBroker: authorizationBrokerMock.Object,
+            jsonBroker: new Mock<IJsonBroker>().Object,
+            loggingBroker: new Mock<ILoggingBroker>().Object
         );
     }
 
