@@ -1066,5 +1066,41 @@
       "ToType": "cCoder.Workflow.Engine.Exposures.IWorkflowScriptExecutionService"
     }
   ],
-  "AnalysisItems": []
+  "AnalysisItems": [
+    {
+      "Code": "STX0004",
+      "Description": "An architectural element must not depend on another element at the same layer.",
+      "Severity": "Warning",
+      "Type": "Workflow.Exposures.Execute",
+      "LineNumber": 11
+    },
+    {
+      "Code": "STX0004",
+      "Description": "An architectural element must not depend on another element at the same layer.",
+      "Severity": "Warning",
+      "Type": "Workflow.Exposures.ExecuteFromServiceBus",
+      "LineNumber": 9
+    },
+    {
+      "Code": "STX0004",
+      "Description": "An architectural element must not depend on another element at the same layer.",
+      "Severity": "Warning",
+      "Type": "Workflow.Exposures.ExecuteScript",
+      "LineNumber": 12
+    },
+    {
+      "Code": "STX0004",
+      "Description": "An architectural element must not depend on another element at the same layer.",
+      "Severity": "Warning",
+      "Type": "Workflow.Exposures.Health",
+      "LineNumber": 11
+    },
+    {
+      "Code": "STXP001",
+      "Description": "A processing service may use only one foundation service and must not bypass its layer boundary.",
+      "Severity": "Warning",
+      "Type": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService",
+      "LineNumber": 17
+    }
+  ]
 }

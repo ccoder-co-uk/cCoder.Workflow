@@ -52,12 +52,6 @@ public static class IServiceCollectionExtensions
             IWorkflowScriptExecutionService,
             WorkflowScriptExecutionService>();
         services.AddTransient<
-            IFlowExecutionOrchestrationService,
-            FlowExecutionOrchestrationAdapter>();
-        services.AddTransient<
-            IWorkflowScriptExecutionOrchestrationService,
-            WorkflowScriptExecutionOrchestrationAdapter>();
-        services.AddTransient<
             IWorkflowRequestOrchestrationService,
             WorkflowRequestOrchestrationService>();
     }

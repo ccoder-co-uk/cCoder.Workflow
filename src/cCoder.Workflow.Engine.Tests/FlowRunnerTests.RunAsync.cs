@@ -20,6 +20,8 @@ public sealed partial class FlowRunnerTests
         await flowRunner.RunAsync(workflowRequest: request);
 
         // Then
-        flowExecutionOrchestrationServiceMock.Verify(expression: service => service.ExecuteAsync(workflowRequest: request), times: Times.Once);
+        workflowRequestOrchestrationServiceMock.Verify(
+            expression: service => service.ExecuteWorkflowRequestAsync(workflowRequest: request),
+            times: Times.Once);
     }
 }
