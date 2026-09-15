@@ -44,7 +44,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     {
         // Given
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
                 flowInstanceDataId: It.IsAny<Guid>(),
                 cancellationToken: It.IsAny<CancellationToken>()))
             .Throws(exception: exception);

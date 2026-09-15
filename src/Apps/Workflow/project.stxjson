@@ -1026,10 +1026,6 @@
   ],
   "Links": [
     {
-      "FromType": "Workflow.Brokers.Loggings.LoggingBroker",
-      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CWorkflow.Brokers.Loggings.LoggingBroker\u003E"
-    },
-    {
       "FromType": "Workflow.Exposures.Execute",
       "ToType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService"
     },
@@ -1052,18 +1048,6 @@
     {
       "FromType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService",
       "ToType": "Workflow.Brokers.Loggings.LoggingBroker"
-    },
-    {
-      "FromType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService",
-      "ToType": "cCoder.Workflow.Engine.Brokers.IJsonBroker"
-    },
-    {
-      "FromType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService",
-      "ToType": "cCoder.Workflow.Engine.Exposures.IFlowRunner"
-    },
-    {
-      "FromType": "Workflow.Services.Processings.WorkflowFunctions.WorkflowFunctionsProcessingService",
-      "ToType": "cCoder.Workflow.Engine.Exposures.IWorkflowScriptExecutionService"
     }
   ],
   "AnalysisItems": []

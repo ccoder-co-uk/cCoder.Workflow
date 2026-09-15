@@ -8340,7 +8340,7 @@
     },
     {
       "Name": "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-      "StandardElementType": "Model",
+      "StandardElementType": "Dependency",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -8360,7 +8360,7 @@
     },
     {
       "Name": "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-      "StandardElementType": "Model",
+      "StandardElementType": "Dependency",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -8380,7 +8380,7 @@
     },
     {
       "Name": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
-      "StandardElementType": "Model",
+      "StandardElementType": "Dependency",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -29670,118 +29670,6 @@
   ],
   "Links": [
     {
-      "FromType": "cCoder.Data.Brokers.WorkflowEventBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.AuthorizationBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.CalendarEntityEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.EventHubBroker",
-      "ToType": "IEventHub"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.FlowInstanceDataEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.ScheduledTaskEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.WorkflowEventEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Events.WorkflowExecutionEventBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker",
-      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Brokers.Loggings.LoggingBroker\u003E"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.OData.ODataModelBroker",
-      "ToType": "ODataConventionModelBuilder"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
-      "ToType": "ODataConventionModelBuilder"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.ServiceProviders.WorkflowMigrationServiceProviderBroker",
-      "ToType": "System.IServiceProvider"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
-      "ToType": "ICoreContextFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.HostedServices.InstanceMaintenanceBackgroundServiceDependency",
-      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.HostedServices.QueueInstanceBackgroundServiceDependency",
-      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.HostedServices.ScheduledTaskRunnerBackgroundServiceDependency",
-      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.Hubs.WorkflowHubDependency",
-      "ToType": "ILogger\u003CcCoder.Workflow.Dependencies.Hubs.WorkflowHubDependency\u003E"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.OData.CompositePropertyInfo",
-      "ToType": "System.Type"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
-      "ToType": "System.String"
-    },
-    {
-      "FromType": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
-      "ToType": "System.TimeSpan?"
-    },
-    {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
@@ -29796,10 +29684,6 @@
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
-      "ToType": "ISSOAuthInfo"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
@@ -29852,22 +29736,6 @@
     {
       "FromType": "cCoder.Workflow.Exposures.WorkflowPackageManager",
       "ToType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-      "ToType": "System.Exception"
-    },
-    {
-      "FromType": "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-      "ToType": "System.Exception"
-    },
-    {
-      "FromType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
-      "ToType": "System.Exception"
-    },
-    {
-      "FromType": "cCoder.Workflow.Models.OData.BadRequestResult",
-      "ToType": "ModelStateDictionary"
     },
     {
       "FromType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
@@ -30136,10 +30004,6 @@
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
-      "ToType": "ITokenManager"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
