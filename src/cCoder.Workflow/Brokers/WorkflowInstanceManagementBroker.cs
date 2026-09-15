@@ -112,7 +112,7 @@ cancellationToken: cancellationToken);
             .Where(predicate: instance => instance.State == "Queued")
             .ExecuteUpdateAsync(
 setPropertyCalls: setters => setters
-                    .SetProperty(propertyExpression: instance => instance.State, valueExpression: "Executing")
+                    .SetProperty(propertyExpression: instance => instance.State, valueExpression: "AwaitingExecution")
                     .SetProperty(propertyExpression: instance => instance.Start, valueExpression: claimedAt)
                     .SetProperty(propertyExpression: instance => instance.End, valueExpression: (DateTimeOffset?)null),
 cancellationToken: cancellationToken);
