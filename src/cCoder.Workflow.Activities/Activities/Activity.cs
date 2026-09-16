@@ -17,11 +17,11 @@ public abstract class Activity
     public static readonly string[] ScriptImports =
     [
         "cCoder.Workflow.Activities",
-        "cCoder.Workflow.Activities.Api",
-        "cCoder.Workflow.Activities.DMS",
+        "cCoder.Workflow.Activities.Activities.Api",
+        "cCoder.Workflow.Activities.Activities.DMS",
         "cCoder.Workflow.Activities.Activities.Sftp",
-        "cCoder.Workflow.Activities.Templating",
-        "cCoder.Workflow.Activities.Transformation",
+        "cCoder.Workflow.Activities.Activities.Templating",
+        "cCoder.Workflow.Activities.Activities.Transformation",
         "B2B.Objects",
         "B2B.Objects.DTOs",
         "B2B.Objects.Entities",
