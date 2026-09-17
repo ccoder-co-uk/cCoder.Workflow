@@ -14,7 +14,7 @@ public abstract class Activity
 {
     public static IDictionary<Activity, Action<Activity, IDictionary<string, object>, Flow>> CompiledLinkCache { get; set; }
 
-    public static readonly string[] ScriptImports =
+    public static IReadOnlyList<string> ScriptImports { get; set; } =
     [
         "cCoder.Workflow.Activities",
         "cCoder.Workflow.Activities.Activities.Api",
@@ -22,29 +22,18 @@ public abstract class Activity
         "cCoder.Workflow.Activities.Activities.Sftp",
         "cCoder.Workflow.Activities.Activities.Templating",
         "cCoder.Workflow.Activities.Activities.Transformation",
-        "B2B.Objects",
-        "B2B.Objects.DTOs",
-        "B2B.Objects.Entities",
-        "B2B.Objects.Entities.Masterdata",
-        "B2B.Objects.Entities.Transactions",
-        "B2B.Objects.Entities.Funding",
-        "B2B.Objects.Entities.Funding.Offer",
-        "B2B.Objects.Entities.Payments",
-        "B2B.Objects.Workflow.Activities",
-        "cCoder.Core.Objects",
-        "cCoder.Core.Objects.Dtos",
-        "cCoder.Core.Objects.Dtos.Workflow",
-        "cCoder.Core.Objects.Extensions",
-        "cCoder.Core.Objects.Entities",
-        "cCoder.Core.Objects.Entities.CMS",
-        "cCoder.Core.Objects.Entities.DMS",
-        "cCoder.Core.Objects.Entities.Security",
-        "cCoder.Core.Objects.Entities.Planning",
-        "cCoder.Core.Objects.Workflow.Activities",
-        "cCoder.Core.Objects.Workflow.Activities.Api",
-        "cCoder.Core.Objects.Workflow.Activities.DMS",
-        "cCoder.Core.Objects.Workflow.Activities.Templating",
-        "cCoder.Core.Objects.Workflow.Activities.Transformation",
+        "cCoder.Data",
+        "cCoder.Data.Extensions",
+        "cCoder.Data.Models",
+        "cCoder.Data.Models.CMS",
+        "cCoder.Data.Models.DMS",
+        "cCoder.Data.Models.Logging",
+        "cCoder.Data.Models.Mail",
+        "cCoder.Data.Models.Packaging",
+        "cCoder.Data.Models.Planning",
+        "cCoder.Data.Models.Security",
+        "cCoder.Data.Models.Workflow",
+        "cCoder.Workflow.Activities.Models",
         "Newtonsoft.Json",
         "Newtonsoft.Json.Linq",
         "System",
@@ -167,11 +156,11 @@ public abstract class Activity
     }
 
     protected Task<TFunc> BuildScript<TFunc>(string code) =>
-        (ScriptRunner ?? Context.Script).BuildScript<TFunc>(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, Log);
+        (ScriptRunner ?? Context.Script).BuildScript<TFunc>(code, (string[])Context?.Variables["Imports"] ?? ScriptImports.ToArray(), Log);
 
     protected Task<T> ExecuteScript<T>(string code, object args) =>
-        (ScriptRunner ?? Context.Script).Run<T>(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, args, Log);
+        (ScriptRunner ?? Context.Script).Run<T>(code, (string[])Context?.Variables["Imports"] ?? ScriptImports.ToArray(), args, Log);
 
     protected Task ExecuteScript(string code, object args) =>
-        (ScriptRunner ?? Context.Script).Run(code, (string[])Context?.Variables["Imports"] ?? ScriptImports, args, Log);
+        (ScriptRunner ?? Context.Script).Run(code, (string[])Context?.Variables["Imports"] ?? ScriptImports.ToArray(), args, Log);
 }

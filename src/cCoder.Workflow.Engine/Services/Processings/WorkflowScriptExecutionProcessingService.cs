@@ -17,8 +17,6 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
     cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger)
     : IWorkflowScriptExecutionProcessingService
 {
-    private static readonly string[] Imports = Activity.ScriptImports;
-
     public ValueTask<string> ExecuteWorkflowScriptAsync(
         string payload,
         bool useDetails) =>
@@ -36,14 +34,14 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
 
                 return await scriptBroker.Run<string>(
                     code: details.Script,
-                    imports: Imports,
+                    imports: Activity.ScriptImports.ToArray(),
                     args: details.Model,
                     log: Log);
             }
 
             object result = await scriptBroker.Run<object>(
                 code: payload,
-                imports: Imports,
+                imports: Activity.ScriptImports.ToArray(),
                 log: Log);
 
             return jsonBroker.SerializeForOData(value: result);
