@@ -3,10 +3,11 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow;
-using cCoder.Workflow.Exposures.EventHandlers;
+using cCoder.Eventing;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests;
@@ -14,47 +15,14 @@ namespace cCoder.Core.Services.Tests;
 public sealed partial class WebApplicationExtensionsTests
 {
     [Fact]
-    public async Task StartWorkflowHostedServices_ShouldOnlyRegisterHandlersOnceWhenCalledMultipleTimes()
-    {
-        // Given
-        WebApplicationBuilder builder = WebApplication.CreateBuilder();
-        TestWorkflowEventHandlers handlers = new();
-        builder.Services.AddLogging();
-        builder.Services.AddSingleton<IWorkflowEventHandlers>(implementationInstance: handlers);
-        builder.Services.AddSingleton<cCoder.Data.Exposures.IMetadataTypeCache, TestMetadataTypeCache>();
-
-        builder.Services.AddSingleton<cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService>(
-            implementationInstance: new MockWorkflowMetadataTypeService());
-
-        await using WebApplication app = builder.Build();
-
-        // When
-        app.StartWorkflowHostedServices();
-        app.StartWorkflowHostedServices();
-
-        // Then
-        handlers.ListenToAllEventsCallCount.Should()
-            .Be(expected: 1);
-
-
-        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should()
-            .Be(expected: 1);
-
-
-        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should()
-            .Be(expected: 1);
-
-    }
-
-    [Fact]
     public async Task StartWorkflowWeb_ShouldNotRegisterEventOrEngineExecutionHandlers()
     {
         // Given
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
-        TestWorkflowEventHandlers handlers = new();
+        Mock<IEventHub> eventHubMock = new();
         builder.Services.AddLogging();
         builder.Services.AddSignalR();
-        builder.Services.AddSingleton<IWorkflowEventHandlers>(implementationInstance: handlers);
+        builder.Services.AddSingleton<IEventHub>(implementationInstance: eventHubMock.Object);
         builder.Services.AddSingleton<cCoder.Data.Exposures.IMetadataTypeCache, TestMetadataTypeCache>();
 
         builder.Services.AddSingleton<cCoder.Workflow.Services.Foundations.IWorkflowMetadataTypeService>(
@@ -66,35 +34,8 @@ implementationInstance: new MockWorkflowMetadataTypeService());
         app.StartWorkflowWeb();
 
         // Then
-        handlers.ListenToAllEventsCallCount.Should()
-            .Be(expected: 0);
-
-
-        handlers.ListenToScheduledTaskExecuteEventsCallCount.Should()
-            .Be(expected: 0);
-
-
-        handlers.ListenToQueuedFlowInstanceExecuteEventsCallCount.Should()
-            .Be(expected: 0);
-
-    }
-
-    private sealed class TestWorkflowEventHandlers : IWorkflowEventHandlers
-    {
-        public int ListenToAllEventsCallCount { get; private set; }
-
-        public int ListenToScheduledTaskExecuteEventsCallCount { get; private set; }
-
-        public int ListenToQueuedFlowInstanceExecuteEventsCallCount { get; private set; }
-
-        public void ListenToAllEvents() =>
-            ListenToAllEventsCallCount++;
-
-        public void ListenToScheduledTaskExecuteEvents() =>
-            ListenToScheduledTaskExecuteEventsCallCount++;
-
-        public void ListenToQueuedFlowInstanceExecuteEvents() =>
-            ListenToQueuedFlowInstanceExecuteEventsCallCount++;
+        eventHubMock.Invocations.Should()
+            .BeEmpty();
     }
 
     private sealed class TestMetadataTypeCache : cCoder.Data.Exposures.IMetadataTypeCache
