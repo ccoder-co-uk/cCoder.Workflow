@@ -6,7 +6,6 @@ using cCoder.Data;
 using cCoder.Workflow.Engine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Workflow.Exposures;
 using Workflow.Brokers.Http;
 using Workflow.Brokers.Loggings;
 using Workflow.Models;
@@ -41,8 +40,5 @@ public static class IServiceCollectionExtensions
             IWorkflowFunctionsService,
             WorkflowFunctionsService>();
 
-        services.AddTransient<
-            IWorkflowFunctionsManager,
-            WorkflowFunctionsService>();
     }
 }
