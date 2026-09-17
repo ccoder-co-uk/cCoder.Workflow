@@ -8,6 +8,8 @@ using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
+using cCoder.Workflow.Brokers.Loggings;
+using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 using FizzWare.NBuilder;
 using Moq;
 
@@ -18,15 +20,21 @@ public partial class WorkflowEventServiceTests
 {
     private readonly Mock<IWorkflowEventBroker> workflowEventBrokerMock;
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
+    private readonly Mock<IJsonBroker> jsonBrokerMock;
+    private readonly Mock<ILoggingBroker> loggingBrokerMock;
     private readonly WorkflowEventService workflowEventService;
 
     public WorkflowEventServiceTests()
     {
         workflowEventBrokerMock = new Mock<IWorkflowEventBroker>(behavior: MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+        jsonBrokerMock = new Mock<IJsonBroker>(behavior: MockBehavior.Strict);
+        loggingBrokerMock = new Mock<ILoggingBroker>(behavior: MockBehavior.Strict);
         workflowEventService = new WorkflowEventService(
-            workflowEventBrokerMock.Object,
-            authorizationBrokerMock.Object
+            workflowEventBroker: workflowEventBrokerMock.Object,
+            authorizationBroker: authorizationBrokerMock.Object,
+            jsonBroker: jsonBrokerMock.Object,
+            loggingBroker: loggingBrokerMock.Object
         );
     }
 

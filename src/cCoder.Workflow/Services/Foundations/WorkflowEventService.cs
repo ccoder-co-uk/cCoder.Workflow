@@ -5,6 +5,7 @@
 using System.Security;
 using cCoder.Data.Brokers;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.Workflow;
 
 
@@ -12,9 +13,89 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class WorkflowEventService(
     IWorkflowEventBroker workflowEventBroker,
-    IAuthorizationBroker authorizationBroker
+    IAuthorizationBroker authorizationBroker,
+    IJsonBroker jsonBroker,
+    ILoggingBroker loggingBroker
 ) : IWorkflowEventService
 {
+    public (int? AppId, string EventContext) PrepareDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [payload, eventName, appIdOverride]);
+            int? appId = appIdOverride ?? GetIntProperty(payload: payload, propertyName: "AppId");
+            string context = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
+            string eventContext = $"{eventName}{context}";
+
+            loggingBroker.LogDebug(
+                message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+                args: [appId, eventContext]);
+
+            return (appId, eventContext);
+        });
+
+    public string SerializePayload(object payload) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [payload]);
+            return jsonBroker.Serialize(value: payload);
+        });
+
+    public bool LogWorkflowEventSubscriptionsFound(int count) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [count]);
+
+            loggingBroker.LogDebug(
+                message: "Found {Count} subscribers, calling ...",
+                args: count);
+
+            return true;
+        });
+
+    public bool LogWorkflowEventQueueFailure(
+        WorkflowEvent workflowEvent,
+        Exception exception) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [workflowEvent, exception]);
+
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Failed to queue a new workflow instance for subscription {SubscriptionId}, flow {FlowId}.",
+                args: [workflowEvent.Id, workflowEvent.FlowId]);
+
+            return true;
+        });
+
+    public bool AuthorizeWorkflowEvent(WorkflowEvent workflowEvent) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [workflowEvent]);
+
+            int? appId = ExecuteGetAppIdForWorkflowEvent(
+                workflowEvent: workflowEvent);
+
+            authorizationBroker.Authorize(
+                userId: workflowEvent.ExecuteAs,
+                appId: appId,
+                privilege: "app_admin");
+
+            return true;
+        });
+
+    private static int? GetIntProperty(object payload, string propertyName) =>
+        payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload) as int?
+        ?? (payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload) is int value ? value : null);
+
+    private static string GetStringProperty(object payload, string propertyName) =>
+        payload.GetType()
+            .GetProperty(name: propertyName)?.GetValue(obj: payload)?.ToString();
+
     public WorkflowEvent Get(Guid workflowEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
 

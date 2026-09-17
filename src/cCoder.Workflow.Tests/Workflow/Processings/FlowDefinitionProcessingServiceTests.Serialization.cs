@@ -15,11 +15,11 @@ public partial class FlowDefinitionProcessingServiceTests
     public void ShouldAuthorizeFlowDefinitionExecution()
     {
         // Given
-        authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+        flowDefinitionServiceMock
+            .Setup(expression: service => service.AuthorizeExecution(
                 userId: "user",
-                appId: 7,
-                privilege: "flowdefinition_execute"));
+                appId: 7))
+            .Returns(value: true);
 
         // When
         bool result = flowDefinitionProcessingService
@@ -29,7 +29,7 @@ public partial class FlowDefinitionProcessingServiceTests
         result.Should()
             .BeTrue();
 
-        authorizationBrokerMock.VerifyAll();
+        flowDefinitionServiceMock.VerifyAll();
     }
 
     [Fact]
@@ -38,8 +38,9 @@ public partial class FlowDefinitionProcessingServiceTests
         // Given
         Flow expected = new();
 
-        jsonBrokerMock
-            .Setup(expression: broker => broker.ParseJson<Flow>(json: "{}"))
+        flowDefinitionServiceMock
+            .Setup(expression: service => service.ParseDefinition(
+                definitionJson: "{}"))
             .Returns(value: expected);
 
         // When
@@ -50,7 +51,7 @@ public partial class FlowDefinitionProcessingServiceTests
         actual.Should()
             .BeSameAs(expected: expected);
 
-        jsonBrokerMock.VerifyAll();
+        flowDefinitionServiceMock.VerifyAll();
     }
 
     [Fact]
@@ -59,8 +60,8 @@ public partial class FlowDefinitionProcessingServiceTests
         // Given
         object expected = new();
 
-        jsonBrokerMock
-            .Setup(expression: broker => broker.ParseJson(json: "{}"))
+        flowDefinitionServiceMock
+            .Setup(expression: service => service.ParseData(args: "{}"))
             .Returns(value: expected);
 
         // When
@@ -71,7 +72,7 @@ public partial class FlowDefinitionProcessingServiceTests
         actual.Should()
             .BeSameAs(expected: expected);
 
-        jsonBrokerMock.VerifyAll();
+        flowDefinitionServiceMock.VerifyAll();
     }
 
     [Fact]
@@ -80,8 +81,9 @@ public partial class FlowDefinitionProcessingServiceTests
         // Given
         object context = new();
 
-        jsonBrokerMock
-            .Setup(expression: broker => broker.Serialize(value: context))
+        flowDefinitionServiceMock
+            .Setup(expression: service => service.SerializeContext(
+                context: context))
             .Returns(value: "serialized");
 
         // When
@@ -92,6 +94,6 @@ public partial class FlowDefinitionProcessingServiceTests
         actual.Should()
             .Be(expected: "serialized");
 
-        jsonBrokerMock.VerifyAll();
+        flowDefinitionServiceMock.VerifyAll();
     }
 }

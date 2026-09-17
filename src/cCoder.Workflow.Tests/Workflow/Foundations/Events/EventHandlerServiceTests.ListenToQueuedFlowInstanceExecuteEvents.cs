@@ -9,6 +9,8 @@ using cCoder.Workflow.Services.Processings;
 using Moq;
 using Xunit;
 
+using cCoder.Workflow.Exposures;
+
 namespace cCoder.Core.Services.Tests.Workflow.Foundations.Events;
 
 public sealed partial class EventHandlerServiceQueuedFlowInstanceTests
@@ -18,25 +20,25 @@ public sealed partial class EventHandlerServiceQueuedFlowInstanceTests
     {
         // Given
         Mock<IEventHubBroker> eventHubBrokerMock = new(MockBehavior.Strict);
-        Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask> addHandler = null;
-        Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask> updateHandler = null;
+        Func<IWorkflowInstanceManager, FlowInstanceData, ValueTask> addHandler = null;
+        Func<IWorkflowInstanceManager, FlowInstanceData, ValueTask> updateHandler = null;
 
         eventHubBrokerMock
-            .Setup(expression: broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceProcessingService>(
+            .Setup(expression: broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManager>(
 eventName: "flow_instance_data_add",
-handler: It.IsAny<Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask>>()))
-            .Callback<string, Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask>>(
+handler: It.IsAny<Func<IWorkflowInstanceManager, FlowInstanceData, ValueTask>>()))
+            .Callback<string, Func<IWorkflowInstanceManager, FlowInstanceData, ValueTask>>(
 action: (_, handler) => addHandler = handler);
 
         eventHubBrokerMock
-            .Setup(expression: broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceProcessingService>(
+            .Setup(expression: broker => broker.ListenToEvent<FlowInstanceData, IWorkflowInstanceManager>(
 eventName: "flow_instance_data_update",
-handler: It.IsAny<Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask>>()))
-            .Callback<string, Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask>>(
+handler: It.IsAny<Func<IWorkflowInstanceManager, FlowInstanceData, ValueTask>>()))
+            .Callback<string, Func<IWorkflowInstanceManager, FlowInstanceData, ValueTask>>(
 action: (_, handler) => updateHandler = handler);
 
         EventHandlerService service = new(eventHubBrokerMock.Object);
-        Mock<IWorkflowInstanceProcessingService> processingServiceMock = new(MockBehavior.Strict);
+        Mock<IWorkflowInstanceManager> processingServiceMock = new(MockBehavior.Strict);
         FlowInstanceData queuedAddInstance = new() { Id = Guid.NewGuid(), State = "Queued" };
         FlowInstanceData queuedUpdateInstance = new() { Id = Guid.NewGuid(), State = "Queued" };
         FlowInstanceData executingInstance = new() { Id = Guid.NewGuid(), State = "Executing" };

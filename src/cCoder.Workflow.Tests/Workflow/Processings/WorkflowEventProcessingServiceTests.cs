@@ -28,10 +28,7 @@ public partial class WorkflowEventProcessingServiceTests
     public WorkflowEventProcessingServiceTests()
     {
         workflowEventProcessingService = new WorkflowEventProcessingService(
-            workflowEventServiceMock.Object,
-            authorizationBrokerMock.Object,
-            jsonBrokerMock.Object,
-            loggingBrokerMock.Object);
+            service: workflowEventServiceMock.Object);
     }
 
     private static WorkflowEvent CreateRandomWorkflowEvent() =>

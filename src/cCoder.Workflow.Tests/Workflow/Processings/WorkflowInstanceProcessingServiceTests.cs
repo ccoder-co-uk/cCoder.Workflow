@@ -13,6 +13,7 @@ using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Services.Foundations;
 using Moq;
 using Xunit;
 
@@ -53,13 +54,17 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             }
         };
 
-        processingService = new WorkflowInstanceProcessingService(
+        IWorkflowInstanceService workflowInstanceService =
+            new WorkflowInstanceService(
             workflowInstanceManagementBroker: workflowInstanceManagementBrokerMock.Object,
             flowInstanceDataManager: flowInstanceDataManagerMock.Object,
             tokenManager: tokenManagerMock.Object,
             workflowExecutionEventBroker: workflowExecutionEventBrokerMock.Object,
             workflowConfiguration: configuration,
-            log: loggingBrokerMock.Object);
+            loggingBroker: loggingBrokerMock.Object);
+
+        processingService = new WorkflowInstanceProcessingService(
+            workflowInstanceService: workflowInstanceService);
     }
 
     [Theory]

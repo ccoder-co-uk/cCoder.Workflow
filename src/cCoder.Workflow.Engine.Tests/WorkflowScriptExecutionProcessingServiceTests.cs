@@ -4,19 +4,19 @@
 
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Brokers.Loggings;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Moq;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class WorkflowScriptExecutionProcessingServiceTests
+public sealed partial class WorkflowScriptExecutionFoundationServiceTests
 {
     private readonly Mock<IScriptBroker> scriptBrokerMock =
         new(behavior: MockBehavior.Strict);
 
     private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
 
-    private WorkflowScriptExecutionProcessingService CreateService() =>
+    private WorkflowScriptExecutionFoundationService CreateService() =>
         new(
             scriptBroker: scriptBrokerMock.Object,
             jsonBroker: new JsonBroker(),

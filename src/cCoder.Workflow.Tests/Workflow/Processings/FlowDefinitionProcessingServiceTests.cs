@@ -28,10 +28,7 @@ public partial class FlowDefinitionProcessingServiceTests
     public FlowDefinitionProcessingServiceTests()
     {
         flowDefinitionProcessingService = new FlowDefinitionProcessingService(
-            flowDefinitionServiceMock.Object,
-            authorizationBrokerMock.Object,
-            jsonBrokerMock.Object,
-            loggingBrokerMock.Object
+            service: flowDefinitionServiceMock.Object
         );
     }
 

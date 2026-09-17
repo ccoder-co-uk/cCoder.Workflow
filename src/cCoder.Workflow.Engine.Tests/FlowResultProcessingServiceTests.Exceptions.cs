@@ -10,7 +10,7 @@ using Xunit;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowResultProcessingServiceTests
+public sealed partial class FlowResultServiceTests
 {
     [Theory]
     [MemberData(

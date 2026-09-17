@@ -8,7 +8,7 @@ using Xunit;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowCommunicationProcessingServiceTests
+public sealed partial class FlowCommunicationServiceTests
 {
     [Fact]
     public async Task ShouldConnectWorkflowRequestAsync()

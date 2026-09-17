@@ -2,8 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
-using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Models;
@@ -15,48 +13,35 @@ using cCoder.Workflow.Services.Foundations;
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class FlowDefinitionProcessingService(
-    IFlowDefinitionService service,
-    IAuthorizationBroker authorizationBroker,
-    IJsonBroker jsonBroker,
-    ILoggingBroker log)
+    IFlowDefinitionService service)
     : IFlowDefinitionProcessingService
 {
     public bool AuthorizeFlowDefinitionExecution(string userId, int? appId) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [userId, appId]);
-            return ExecuteAuthorizeFlowDefinitionExecution(userId: userId, appId: appId);
+            return service.AuthorizeExecution(userId: userId, appId: appId);
         });
-
-    private bool ExecuteAuthorizeFlowDefinitionExecution(string userId, int? appId)
-    {
-        authorizationBroker.Authorize(
-            userId: userId,
-            appId: appId,
-            privilege: "flowdefinition_execute");
-
-        return true;
-    }
 
     public object ParseFlowDefinition(string definitionJson) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [definitionJson]);
-            return jsonBroker.ParseJson<Flow>(json: definitionJson);
+            return service.ParseDefinition(definitionJson: definitionJson);
         });
 
     public object ParseFlowDefinitionData(string args) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [args]);
-            return jsonBroker.ParseJson(json: args);
+            return service.ParseData(args: args);
         });
 
     public string SerializeFlowDefinitionContext(object context) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [context]);
-            return jsonBroker.Serialize(value: context);
+            return service.SerializeContext(context: context);
         });
 
     public FlowDefinition Get(Guid flowDefinitionId) =>
@@ -112,11 +97,7 @@ internal sealed partial class FlowDefinitionProcessingService(
     {
         FlowDefinition[] itemArray = items.ToArray();
 
-        log.LogDebug(
-            message: "AddOrUpdate:\n"
-                + jsonBroker.Serialize(
-                    value: itemArray.Select(
-                        selector: item => new { item.Id, item.Name })));
+        _ = service.LogFlowDefinitionAddOrUpdate(flowDefinitions: itemArray);
 
         List<Result<FlowDefinition>> results = new List<Result<FlowDefinition>>();
 
