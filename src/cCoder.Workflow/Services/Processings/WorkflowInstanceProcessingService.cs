@@ -155,12 +155,22 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
+        int claimedCount = await workflowInstanceService
+            .ClaimQueuedFlowInstanceDataAsync(
+                flowInstanceDataId: instanceId,
+                cancellationToken: cancellationToken);
+
+        if (claimedCount == 0)
+        {
+            return;
+        }
+
         FlowInstanceData dbInstance = await workflowInstanceService
             .GetClaimedFlowInstanceDataAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: cancellationToken);
 
-        if (dbInstance is null || dbInstance.State != "Queued")
+        if (dbInstance is null || dbInstance.State != "AwaitingExecution")
         {
             return;
         }

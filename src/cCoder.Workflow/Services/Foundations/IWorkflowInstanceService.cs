@@ -13,6 +13,7 @@ internal interface IWorkflowInstanceService
     bool IsMigrating();
     FlowInstanceData[] GetQueuedFlowInstanceData();
     ValueTask<int> DeleteOldFlowInstanceDataAsync(DateTimeOffset cutoff, CancellationToken cancellationToken);
+    ValueTask<int> ClaimQueuedFlowInstanceDataAsync(Guid flowInstanceDataId, CancellationToken cancellationToken);
     ValueTask<FlowInstanceData> GetClaimedFlowInstanceDataAsync(Guid flowInstanceDataId, CancellationToken cancellationToken);
     ValueTask RaiseFlowInstanceDataWorkflowExecutionAsync(FlowInstanceData flowInstanceData);
     bool LogError(Exception exception);

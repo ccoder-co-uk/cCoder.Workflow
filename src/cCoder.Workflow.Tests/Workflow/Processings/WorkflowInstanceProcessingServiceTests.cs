@@ -171,7 +171,7 @@ times: Times.Once);
     }
 
     [Fact]
-    public async Task RunQueueInstanceBackgroundServiceDependencyAsync_ShouldLoadQueuedInstancesWithoutClaiming()
+    public async Task RunQueueInstanceBackgroundServiceDependencyAsync_ShouldClaimQueuedInstancesBeforeLoading()
     {
         // Given
         FlowInstanceData queuedInstance = CreateQueuedFlowInstanceData();
@@ -179,6 +179,12 @@ times: Times.Once);
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.GetQueuedInstances())
             .Returns(value: [queuedInstance]);
+
+        workflowInstanceManagementBrokerMock
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+                flowInstanceDataId: queuedInstance.Id,
+                cancellationToken: It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: 1);
 
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
@@ -193,6 +199,12 @@ times: Times.Once);
         workflowInstanceManagementBrokerMock.Verify(
 expression: broker => broker.GetQueuedInstances(),
 times: Times.Once);
+
+        workflowInstanceManagementBrokerMock.Verify(
+            expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+                flowInstanceDataId: queuedInstance.Id,
+                cancellationToken: It.IsAny<CancellationToken>()),
+            times: Times.Once);
 
         workflowInstanceManagementBrokerMock.Verify(
             expression: broker => broker.SelectClaimedInstanceAsync(
@@ -210,17 +222,17 @@ times: Times.Once);
         Guid instanceId = Guid.NewGuid();
 
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (FlowInstanceData)null);
+            .ReturnsAsync(value: 0);
 
         // When
         await processingService.ExecuteWaitingQueuedInstanceByIdAsync(flowInstanceDataId: instanceId);
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
-            expression: broker => broker.SelectClaimedInstanceAsync(
+            expression: broker => broker.UpdateQueuedInstanceClaimAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: It.IsAny<CancellationToken>()),
             times: Times.Once);
@@ -232,7 +244,13 @@ times: Times.Once);
     public async Task ExecuteWaitingQueuedInstanceByIdAsync_ShouldLogWhenDispatchThrows()
     {
         // Given
-        FlowInstanceData queuedInstance = CreateQueuedFlowInstanceData();
+        FlowInstanceData queuedInstance = CreateAwaitingExecutionFlowInstanceData();
+
+        workflowInstanceManagementBrokerMock
+            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+                flowInstanceDataId: queuedInstance.Id,
+                cancellationToken: It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: 1);
 
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
@@ -245,7 +263,13 @@ cancellationToken: It.IsAny<CancellationToken>()))
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
-expression: broker => broker.SelectClaimedInstanceAsync(
+            expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+                flowInstanceDataId: queuedInstance.Id,
+                cancellationToken: It.IsAny<CancellationToken>()),
+            times: Times.Once);
+
+        workflowInstanceManagementBrokerMock.Verify(
+            expression: broker => broker.SelectClaimedInstanceAsync(
 flowInstanceDataId: queuedInstance.Id,
 cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
@@ -267,5 +291,12 @@ times: Times.Once);
                 App = new App { Domain = "tenant.test" },
             },
         };
+
+    private static FlowInstanceData CreateAwaitingExecutionFlowInstanceData()
+    {
+        FlowInstanceData instance = CreateQueuedFlowInstanceData();
+        instance.State = "AwaitingExecution";
+        return instance;
+    }
 }
 #pragma warning restore STXFORMAT005, STXFORMAT008, STXFORMAT009

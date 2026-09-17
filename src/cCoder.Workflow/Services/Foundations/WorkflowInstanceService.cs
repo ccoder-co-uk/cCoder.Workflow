@@ -79,6 +79,21 @@ internal sealed partial class WorkflowInstanceService(
             },
             isValueTask: true);
 
+    public ValueTask<int> ClaimQueuedFlowInstanceDataAsync(
+        Guid flowInstanceDataId,
+        CancellationToken cancellationToken) =>
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [flowInstanceDataId, cancellationToken]);
+
+                return await workflowInstanceManagementBroker
+                    .UpdateQueuedInstanceClaimAsync(
+                        flowInstanceDataId: flowInstanceDataId,
+                        cancellationToken: cancellationToken);
+            },
+            isValueTask: true);
+
     public ValueTask RaiseFlowInstanceDataWorkflowExecutionAsync(
         FlowInstanceData flowInstanceData) =>
         TryCatch(
