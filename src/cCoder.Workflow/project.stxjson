@@ -792,60 +792,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Brokers.Events.EventHubBroker",
-      "StandardElementType": "Broker",
-      "LineNumber": 10,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "cCoder.Workflow:cCoder.Workflow.Brokers.Events.IEventHubBroker",
-          "FullName": "cCoder.Workflow.Brokers.Events.IEventHubBroker",
-          "Name": "IEventHubBroker",
-          "Namespace": "cCoder.Workflow.Brokers.Events",
-          "AssemblyName": "cCoder.Workflow",
-          "Kind": "Interface",
-          "IsInCurrentProject": true,
-          "StandardElementType": "Broker"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Brokers.Events.EventHubBroker.ListenToEvent(System.String,System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E)",
-          "Name": "ListenToEvent",
-          "LineNumber": 12,
-          "Inputs": [
-            {
-              "Name": "eventName",
-              "Type": "System.String"
-            },
-            {
-              "Name": "handler",
-              "Type": "System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E"
-            }
-          ],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Brokers.Events.IEventHubBroker.ListenToEvent(System.String,System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E)"
-          ],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker",
       "StandardElementType": "Broker",
       "LineNumber": 14,
@@ -7352,163 +7298,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers",
-      "StandardElementType": "Exposure",
-      "LineNumber": 10,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "cCoder.Workflow:cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers",
-          "FullName": "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers",
-          "Name": "IWorkflowEventHandlers",
-          "Namespace": "cCoder.Workflow.Exposures.EventHandlers",
-          "AssemblyName": "cCoder.Workflow",
-          "Kind": "Interface",
-          "IsInCurrentProject": true,
-          "StandardElementType": "Exposure"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers.ListenToAllEvents()",
-          "Name": "ListenToAllEvents",
-          "LineNumber": 13,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers.ListenToAllEvents()"
-          ],
-          "Calls": [
-            {
-              "TypeName": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService",
-              "MethodName": "ListenToAllEvents",
-              "MethodId": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToAllEvents()",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "System.InvalidOperationException",
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers.ListenToQueuedFlowInstanceExecuteEvents()",
-          "Name": "ListenToQueuedFlowInstanceExecuteEvents",
-          "LineNumber": 19,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers.ListenToQueuedFlowInstanceExecuteEvents()"
-          ],
-          "Calls": [
-            {
-              "TypeName": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService",
-              "MethodName": "ListenToQueuedFlowInstanceExecuteEvents",
-              "MethodId": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToQueuedFlowInstanceExecuteEvents()",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers.ListenToScheduledTaskExecuteEvents()",
-          "Name": "ListenToScheduledTaskExecuteEvents",
-          "LineNumber": 16,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers.ListenToScheduledTaskExecuteEvents()"
-          ],
-          "Calls": [
-            {
-              "TypeName": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService",
-              "MethodName": "ListenToScheduledTaskExecuteEvents",
-              "MethodId": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToScheduledTaskExecuteEvents()",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "System.InvalidOperationException",
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Exposures.WorkflowAppExposure",
       "StandardElementType": "Exposure",
       "LineNumber": 13,
@@ -8014,6 +7803,88 @@
       ]
     },
     {
+      "Name": "cCoder.Workflow.IEventHubExtensions",
+      "StandardElementType": "Exposure",
+      "LineNumber": 26,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.IEventHubExtensions.ListenToWorkflowEvents(IEventHub)",
+          "Name": "ListenToWorkflowEvents",
+          "LineNumber": 31,
+          "Inputs": [
+            {
+              "Name": "eventHub",
+              "Type": "IEventHub"
+            }
+          ],
+          "ReturnType": "IEventHub",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "System.ArgumentNullException",
+              "MethodName": "ThrowIfNull",
+              "MethodId": "System.ArgumentNullException.ThrowIfNull(System.Object?,System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Object",
+              "MethodName": ".ctor",
+              "MethodId": "System.Object..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Runtime.CompilerServices.ConditionalWeakTable\u003CTKey, TValue\u003E",
+              "MethodName": "Add",
+              "MethodId": "System.Runtime.CompilerServices.ConditionalWeakTable\u003CTKey, TValue\u003E.Add(TKey,TValue)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Runtime.CompilerServices.ConditionalWeakTable\u003CTKey, TValue\u003E",
+              "MethodName": "TryGetValue",
+              "MethodId": "System.Runtime.CompilerServices.ConditionalWeakTable\u003CTKey, TValue\u003E.TryGetValue(TKey,TValue)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.InvalidOperationException",
+            "System.Security.SecurityException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.Security.SecurityException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "System.Security.SecurityException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.IServiceCollectionExtensions",
       "StandardElementType": "App",
       "LineNumber": 17,
@@ -8026,7 +7897,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E)",
           "Name": "AddWorkflowHostedServices",
-          "LineNumber": 84,
+          "LineNumber": 83,
           "Inputs": [
             {
               "Name": "services",
@@ -8070,7 +7941,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowHostedServices(IServiceCollection,cCoder.Workflow.Models.WorkflowConfiguration)",
           "Name": "AddWorkflowHostedServices",
-          "LineNumber": 93,
+          "LineNumber": 92,
           "Inputs": [
             {
               "Name": "services",
@@ -8107,7 +7978,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowWeb(IServiceCollection,System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E,ODataConventionModelBuilder)",
           "Name": "AddWorkflowWeb",
-          "LineNumber": 50,
+          "LineNumber": 49,
           "Inputs": [
             {
               "Name": "services",
@@ -8155,7 +8026,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowWeb(IServiceCollection,cCoder.Workflow.Models.WorkflowConfiguration,ODataConventionModelBuilder)",
           "Name": "AddWorkflowWeb",
-          "LineNumber": 60,
+          "LineNumber": 59,
           "Inputs": [
             {
               "Name": "services",
@@ -8340,7 +8211,7 @@
     },
     {
       "Name": "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -8360,7 +8231,7 @@
     },
     {
       "Name": "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -8380,7 +8251,7 @@
     },
     {
       "Name": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
@@ -10750,139 +10621,6 @@
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
           ],
           "ThrowsExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "StandardElementType": "FoundationService",
-      "LineNumber": 25,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "cCoder.Workflow:cCoder.Workflow.Services.Foundations.Events.IEventHandlerService",
-          "FullName": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService",
-          "Name": "IEventHandlerService",
-          "Namespace": "cCoder.Workflow.Services.Foundations.Events",
-          "AssemblyName": "cCoder.Workflow",
-          "Kind": "Interface",
-          "IsInCurrentProject": true,
-          "StandardElementType": "FoundationService"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService.ListenToAllEvents()",
-          "Name": "ListenToAllEvents",
-          "LineNumber": 27,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToAllEvents()"
-          ],
-          "Calls": [],
-          "PossibleExceptionTypes": [
-            "System.InvalidOperationException",
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService.ListenToQueuedFlowInstanceExecuteEvents()",
-          "Name": "ListenToQueuedFlowInstanceExecuteEvents",
-          "LineNumber": 45,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToQueuedFlowInstanceExecuteEvents()"
-          ],
-          "Calls": [],
-          "PossibleExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService.ListenToScheduledTaskExecuteEvents()",
-          "Name": "ListenToScheduledTaskExecuteEvents",
-          "LineNumber": 39,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToScheduledTaskExecuteEvents()"
-          ],
-          "Calls": [],
-          "PossibleExceptionTypes": [
-            "System.InvalidOperationException",
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "System.Security.SecurityException",
             "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
             "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
             "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
@@ -19796,7 +19534,7 @@
     {
       "Name": "cCoder.Workflow.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 16,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -19806,7 +19544,7 @@
         {
           "Id": "cCoder.Workflow.WebApplicationExtensions.StartWorkflowHostedServices(WebApplication)",
           "Name": "StartWorkflowHostedServices",
-          "LineNumber": 25,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "app",
@@ -19816,25 +19554,9 @@
           "ReturnType": "WebApplication",
           "Implements": [],
           "Calls": [],
-          "PossibleExceptionTypes": [
-            "System.InvalidOperationException",
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
-            "cCoder.Workflow.Models.Exceptions.WorkflowValidationException"
-          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
           "HttpMethods": [],
           "HttpResponses": [],
           "IsHttpRequestHandler": false,
@@ -19847,7 +19569,7 @@
         {
           "Id": "cCoder.Workflow.WebApplicationExtensions.StartWorkflowWeb(WebApplication,ILogger)",
           "Name": "StartWorkflowWeb",
-          "LineNumber": 22,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "app",
@@ -20256,47 +19978,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Brokers.Events.IEventHubBroker",
-      "StandardElementType": "Broker",
-      "LineNumber": 7,
-      "IsPublic": true,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Brokers.Events.IEventHubBroker.ListenToEvent(System.String,System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E)",
-          "Name": "ListenToEvent",
-          "LineNumber": 9,
-          "Inputs": [
-            {
-              "Name": "eventName",
-              "Type": "System.String"
-            },
-            {
-              "Name": "handler",
-              "Type": "System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E"
-            }
-          ],
-          "ReturnType": "System.Void",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -22871,78 +22552,6 @@
       "Methods": []
     },
     {
-      "Name": "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers",
-      "StandardElementType": "Exposure",
-      "LineNumber": 7,
-      "IsPublic": true,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers.ListenToAllEvents()",
-          "Name": "ListenToAllEvents",
-          "LineNumber": 9,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers.ListenToQueuedFlowInstanceExecuteEvents()",
-          "Name": "ListenToQueuedFlowInstanceExecuteEvents",
-          "LineNumber": 13,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Exposures.EventHandlers.IWorkflowEventHandlers.ListenToScheduledTaskExecuteEvents()",
-          "Name": "ListenToScheduledTaskExecuteEvents",
-          "LineNumber": 11,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Exposures.ICalendarEventManager",
       "StandardElementType": "Exposure",
       "LineNumber": 13,
@@ -25217,78 +24826,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService",
-      "StandardElementType": "FoundationService",
-      "LineNumber": 7,
-      "IsPublic": false,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToAllEvents()",
-          "Name": "ListenToAllEvents",
-          "LineNumber": 9,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToQueuedFlowInstanceExecuteEvents()",
-          "Name": "ListenToQueuedFlowInstanceExecuteEvents",
-          "LineNumber": 13,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Services.Foundations.Events.IEventHandlerService.ListenToScheduledTaskExecuteEvents()",
-          "Name": "ListenToScheduledTaskExecuteEvents",
-          "LineNumber": 11,
-          "Inputs": [],
-          "ReturnType": "System.Void",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -29670,6 +29207,114 @@
   ],
   "Links": [
     {
+      "FromType": "cCoder.Data.Brokers.WorkflowEventBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.AuthorizationBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.CalendarEntityEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.FlowDefinitionEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.FlowInstanceDataEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.ScheduledTaskEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.WorkflowEventEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Events.WorkflowExecutionEventBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.FlowDefinitionBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.FlowInstanceDataBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker",
+      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Brokers.Loggings.LoggingBroker\u003E"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.OData.ODataModelBroker",
+      "ToType": "ODataConventionModelBuilder"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.OData.WorkflowModelBroker",
+      "ToType": "ODataConventionModelBuilder"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.ServiceProviders.FlowDefinitionServiceProviderBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.ServiceProviders.WorkflowMigrationServiceProviderBroker",
+      "ToType": "System.IServiceProvider"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Storage.CalendarBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Storage.CalendarEventBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.Storage.ScheduledTaskBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Brokers.WorkflowInstanceManagementBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.HostedServices.InstanceMaintenanceBackgroundServiceDependency",
+      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.HostedServices.QueueInstanceBackgroundServiceDependency",
+      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.HostedServices.ScheduledTaskRunnerBackgroundServiceDependency",
+      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.Hubs.WorkflowHubDependency",
+      "ToType": "ILogger\u003CcCoder.Workflow.Dependencies.Hubs.WorkflowHubDependency\u003E"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.OData.CompositePropertyInfo",
+      "ToType": "System.Type"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
+      "ToType": "System.String"
+    },
+    {
+      "FromType": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
+      "ToType": "System.TimeSpan?"
+    },
+    {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarController",
       "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
@@ -29684,6 +29329,10 @@
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.CalendarEventController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.CalendarEventOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
+      "ToType": "ISSOAuthInfo"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowDefinitionController",
@@ -29726,16 +29375,28 @@
       "ToType": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService"
     },
     {
-      "FromType": "cCoder.Workflow.Exposures.EventHandlers.WorkflowEventHandlers",
-      "ToType": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService"
-    },
-    {
       "FromType": "cCoder.Workflow.Exposures.WorkflowAppExposure",
       "ToType": "cCoder.Workflow.Services.Coordinations.AppCoordinationService"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.WorkflowPackageManager",
       "ToType": "cCoder.Workflow.Services.Aggregations.WorkflowMigrationAggregationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Models.Exceptions.WorkflowDependencyException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.Workflow.Models.Exceptions.WorkflowServiceException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.Workflow.Models.Exceptions.WorkflowValidationException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.Workflow.Models.OData.BadRequestResult",
+      "ToType": "ModelStateDictionary"
     },
     {
       "FromType": "cCoder.Workflow.Services.Aggregations.FlowDefinitionAggregationService",
@@ -29796,10 +29457,6 @@
     {
       "FromType": "cCoder.Workflow.Services.Foundations.Events.CalendarEventEventService",
       "ToType": "cCoder.Workflow.Brokers.Events.CalendarEventEventBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Services.Foundations.Events.EventHandlerService",
-      "ToType": "cCoder.Workflow.Brokers.Events.EventHubBroker"
     },
     {
       "FromType": "cCoder.Workflow.Services.Foundations.Events.FlowDefinitionEventService",
@@ -30004,6 +29661,10 @@
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowEventProcessingService",
       "ToType": "cCoder.Workflow.Services.Foundations.WorkflowEventService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
+      "ToType": "ITokenManager"
     },
     {
       "FromType": "cCoder.Workflow.Services.Processings.WorkflowInstanceProcessingService",
