@@ -11,7 +11,7 @@ using cCoder.Workflow.Engine.Services.Foundations;
 using cCoder.Workflow.Engine.Models;
 using Newtonsoft.Json;
 
-namespace cCoder.Workflow.Engine.Dependencies;
+namespace cCoder.Workflow.Engine.Models;
 
 public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
 {

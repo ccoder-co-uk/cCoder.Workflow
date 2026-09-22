@@ -2,12 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.CodeAnalysis.Exposures;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace cCoder.Workflow.Brokers;
 
-internal class JsonBroker : IJsonBroker
+internal class JsonBroker : IJsonBroker, IUtilityBroker
 {
     public object ParseJson(string json) =>
         JsonConvert.DeserializeObject(
