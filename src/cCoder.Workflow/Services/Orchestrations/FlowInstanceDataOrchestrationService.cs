@@ -22,7 +22,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     }
 
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<FlowInstanceData> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -30,7 +30,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     }
 
     public ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowInstanceData]); return await ExecuteAddAsync(entity: newFlowInstanceData); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateFlowInstanceDataOnAdd(inputs: [newFlowInstanceData]); return await ExecuteAddAsync(entity: newFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData entity)
     {
@@ -40,7 +40,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     }
 
     public ValueTask<FlowInstanceData> AddQueuedFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowInstanceData]); return await ExecuteAddQueuedAsync(entity: newFlowInstanceData); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateQueuedFlowInstanceDataOnAdd(inputs: [newFlowInstanceData]); return await ExecuteAddQueuedAsync(entity: newFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteAddQueuedAsync(FlowInstanceData entity)
     {
@@ -50,7 +50,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     }
 
     public ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedFlowInstanceData]); return await ExecuteUpdateAsync(entity: updatedFlowInstanceData); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateFlowInstanceDataOnUpdate(inputs: [updatedFlowInstanceData]); return await ExecuteUpdateAsync(entity: updatedFlowInstanceData); }, isValueTask: true);
 
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData entity)
     {
@@ -70,7 +70,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     }
 
     public ValueTask<IEnumerable<Result<FlowInstanceData>>> AddOrUpdateFlowInstanceData(IEnumerable<FlowInstanceData> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateFlowInstanceDataOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private ValueTask<IEnumerable<Result<FlowInstanceData>>> ExecuteAddOrUpdate(IEnumerable<FlowInstanceData> items)
     {
@@ -78,7 +78,7 @@ internal sealed partial class FlowInstanceDataOrchestrationService(
     }
 
     public ValueTask DeleteAllFlowInstanceDataAsync(IEnumerable<FlowInstanceData> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllFlowInstanceDataOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllAsync(IEnumerable<FlowInstanceData> items)
     {

@@ -26,7 +26,7 @@ internal sealed partial class FlowDefinitionAggregationService(
     public FlowDefinition GetFlowDefinition(Guid flowDefinitionId) =>
         TryCatch(operation: () =>
         {
-            ValidateInputs(inputs: [flowDefinitionId]);
+            ValidateFlowDefinitionOnGet(inputs: [flowDefinitionId]);
 
             return GetFlowDefinitionOrchestrationService()
                 .Get(flowDefinitionId: flowDefinitionId);
@@ -44,7 +44,7 @@ internal sealed partial class FlowDefinitionAggregationService(
         TryCatch(
             operation: async () =>
             {
-                ValidateInputs(inputs: [newFlowDefinition]);
+                ValidateFlowDefinitionOnAdd(inputs: [newFlowDefinition]);
 
                 return await GetFlowDefinitionOrchestrationService()
                     .AddFlowDefinitionAsync(newFlowDefinition: newFlowDefinition);
@@ -55,7 +55,7 @@ internal sealed partial class FlowDefinitionAggregationService(
         TryCatch(
             operation: async () =>
             {
-                ValidateInputs(inputs: [updatedFlowDefinition]);
+                ValidateFlowDefinitionOnUpdate(inputs: [updatedFlowDefinition]);
 
                 return await GetFlowDefinitionOrchestrationService()
                     .UpdateFlowDefinitionAsync(updatedFlowDefinition: updatedFlowDefinition);
@@ -66,7 +66,7 @@ internal sealed partial class FlowDefinitionAggregationService(
         TryCatch(
             operation: async () =>
             {
-                ValidateInputs(inputs: [flowDefinitionId]);
+                ValidateFlowDefinitionOnDelete(inputs: [flowDefinitionId]);
 
                 await GetFlowDefinitionOrchestrationService()
                     .DeleteAsync(flowDefinitionId: flowDefinitionId);

@@ -22,7 +22,7 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
     }
 
     public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<CalendarEvent> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -30,7 +30,7 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
     }
 
     public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newCalendarEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendarEvent]); return await ExecuteAddAsync(entity: newCalendarEvent); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateCalendarEventOnAdd(inputs: [newCalendarEvent]); return await ExecuteAddAsync(entity: newCalendarEvent); }, isValueTask: true);
 
     private ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent entity)
     {
@@ -38,7 +38,7 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
     }
 
     public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(entity: updatedCalendarEvent); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateCalendarEventOnUpdate(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(entity: updatedCalendarEvent); }, isValueTask: true);
 
     private ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent entity)
     {
@@ -54,19 +54,19 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
     }
 
     public ValueTask DeleteAllForAppCalendarEventAsync(IEnumerable<CalendarEvent> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllForAppAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllForAppCalendarEventOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllForAppAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllForAppAsync(IEnumerable<CalendarEvent> items) =>
         service.DeleteAllForAppCalendarEventAsync(deletedItems: items);
 
     public ValueTask DeleteAllByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteAllByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllByAppIdAsync(int appId) =>
         service.DeleteAllByAppIdAsync(appId: appId);
 
     public ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdateCalendarEvent(IEnumerable<CalendarEvent> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateCalendarEventOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private async ValueTask<IEnumerable<Result<CalendarEvent>>> ExecuteAddOrUpdate(IEnumerable<CalendarEvent> items)
     {
@@ -103,7 +103,7 @@ internal sealed partial class CalendarEventProcessingService(ICalendarEventServi
     }
 
     public ValueTask DeleteAllCalendarEventAsync(IEnumerable<CalendarEvent> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllCalendarEventOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteAllAsync(IEnumerable<CalendarEvent> items)
     {

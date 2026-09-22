@@ -2,12 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Dependencies;
-
 namespace cCoder.Workflow.Services.Foundations.Events;
 
 internal sealed partial class FlowInstanceDataEventService
 {
     private static void ValidateInputs(object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
+
+    private static void Validate(params object[] inputs) =>
+        _ = inputs;
 }

@@ -26,7 +26,7 @@ internal sealed partial class CalendarOrchestrationService(
     }
 
     public IQueryable<Calendar> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<Calendar> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -34,7 +34,7 @@ internal sealed partial class CalendarOrchestrationService(
     }
 
     public ValueTask<Calendar> AddCalendarAsync(Calendar newCalendar) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendar]); return await ExecuteAddAsync(entity: newCalendar); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateCalendarOnAdd(inputs: [newCalendar]); return await ExecuteAddAsync(entity: newCalendar); }, isValueTask: true);
 
     private async ValueTask<Calendar> ExecuteAddAsync(Calendar entity)
     {
@@ -44,7 +44,7 @@ internal sealed partial class CalendarOrchestrationService(
     }
 
     public ValueTask<Calendar> UpdateCalendarAsync(Calendar updatedCalendar) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendar]); return await ExecuteUpdateAsync(entity: updatedCalendar); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateCalendarOnUpdate(inputs: [updatedCalendar]); return await ExecuteUpdateAsync(entity: updatedCalendar); }, isValueTask: true);
 
     private async ValueTask<Calendar> ExecuteUpdateAsync(Calendar entity)
     {
@@ -80,7 +80,7 @@ internal sealed partial class CalendarOrchestrationService(
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteByAppIdAsync(int appId)
     {
@@ -89,7 +89,7 @@ internal sealed partial class CalendarOrchestrationService(
     }
 
     public ValueTask<IEnumerable<Result<Calendar>>> AddOrUpdateCalendar(IEnumerable<Calendar> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateCalendarOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private ValueTask<IEnumerable<Result<Calendar>>> ExecuteAddOrUpdate(IEnumerable<Calendar> items)
     {
@@ -97,7 +97,7 @@ internal sealed partial class CalendarOrchestrationService(
     }
 
     public ValueTask DeleteAllCalendarAsync(IEnumerable<Calendar> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllCalendarOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllAsync(IEnumerable<Calendar> items)
     {

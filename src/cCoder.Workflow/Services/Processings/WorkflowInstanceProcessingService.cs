@@ -17,7 +17,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () =>
         {
-            ValidateInputs(inputs: [ignoreFilters]);
+            ValidateAllOnGet(inputs: [ignoreFilters]);
 
             return workflowInstanceService.GetAll(ignoreFilters: ignoreFilters);
         });

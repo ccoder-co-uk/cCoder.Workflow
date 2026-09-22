@@ -2,12 +2,31 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Dependencies;
-
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class ScheduledTaskOrchestrationService
 {
     private static void ValidateInputs(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
+
+    private static void ValidateAllOnGet(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateScheduledTaskOnAdd(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateScheduledTaskOnUpdate(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateByAppIdOnDelete(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateOrUpdateScheduledTaskOnAdd(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateAllScheduledTaskOnDelete(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void Validate(params object[] inputs) =>
+        _ = inputs;
 }

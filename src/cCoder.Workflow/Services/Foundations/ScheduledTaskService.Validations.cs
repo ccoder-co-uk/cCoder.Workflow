@@ -11,34 +11,34 @@ namespace cCoder.Workflow.Services.Foundations;
 internal sealed partial class ScheduledTaskService
 {
     private static void ValidateInputs(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateScheduledTaskOnAdd(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateScheduledTaskOnUpdate(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateForExecutionOnGet(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateAllOnGet(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateDueScheduledTasksOnGet(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateAllForAppScheduledTaskOnDelete(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateAllByAppIdOnDelete(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateExecuteAsUserBelongsToAppOnGet(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private static void ValidateFlowBelongsToAppOnGet(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
 
     private void ValidateScheduledTaskAccess(ScheduledTask scheduledTask)
     {
@@ -61,4 +61,6 @@ internal sealed partial class ScheduledTaskService
         }
     }
 
+    private static void Validate(params object[] inputs) =>
+        _ = inputs;
 }

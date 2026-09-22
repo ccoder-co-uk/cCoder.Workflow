@@ -2,12 +2,31 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Dependencies;
-
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class FlowDefinitionOrchestrationService
 {
     private static void ValidateInputs(params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
+
+    private static void ValidateAllOnGet(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateFlowDefinitionOnAdd(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateFlowDefinitionOnUpdate(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateByAppIdOnDelete(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateOrUpdateFlowDefinitionOnAdd(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidateAllFlowDefinitionOnDelete(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void Validate(params object[] inputs) =>
+        _ = inputs;
 }

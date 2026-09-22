@@ -10,5 +10,8 @@ internal sealed partial class CoreAppService
 {
     private static void ValidateAppOnGet(
         params object[] inputs) =>
-        ValidationRulesEngine.Validate(inputs: inputs);
+        Validate(inputs: inputs);
+
+    private static void Validate(params object[] inputs) =>
+        _ = inputs;
 }

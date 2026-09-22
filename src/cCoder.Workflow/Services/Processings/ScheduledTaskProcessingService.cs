@@ -33,7 +33,7 @@ internal sealed partial class ScheduledTaskProcessingService(
     public ScheduledTask[] GetDueScheduledTasks(DateTimeOffset currentDateTime) =>
         TryCatch(operation: () =>
         {
-            ValidateInputs(inputs: [currentDateTime]);
+            ValidateDueScheduledTasksOnGet(inputs: [currentDateTime]);
             return service.GetDueScheduledTasks(currentDateTime: currentDateTime);
         });
 
@@ -117,7 +117,7 @@ internal sealed partial class ScheduledTaskProcessingService(
     }
 
     public IQueryable<ScheduledTask> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<ScheduledTask> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -137,13 +137,13 @@ internal sealed partial class ScheduledTaskProcessingService(
             incrementNextExecution: incrementNextExecution);
 
     public ValueTask<ScheduledTask> AddScheduledTaskAsync(ScheduledTask newScheduledTask) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newScheduledTask]); return await ExecuteAddAsync(entity: newScheduledTask); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateScheduledTaskOnAdd(inputs: [newScheduledTask]); return await ExecuteAddAsync(entity: newScheduledTask); }, isValueTask: true);
 
     private ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask entity) =>
         service.AddScheduledTaskAsync(newScheduledTask: entity);
 
     public ValueTask<ScheduledTask> UpdateScheduledTaskAsync(ScheduledTask updatedScheduledTask) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedScheduledTask]); return await ExecuteUpdateAsync(entity: updatedScheduledTask); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateScheduledTaskOnUpdate(inputs: [updatedScheduledTask]); return await ExecuteUpdateAsync(entity: updatedScheduledTask); }, isValueTask: true);
 
     private ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask entity) =>
         service.UpdateScheduledTaskAsync(updatedScheduledTask: entity);
@@ -157,13 +157,13 @@ internal sealed partial class ScheduledTaskProcessingService(
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteByAppIdAsync(int appId) =>
         service.DeleteAllByAppIdAsync(appId: appId);
 
     public ValueTask<IEnumerable<Result<ScheduledTask>>> AddOrUpdateScheduledTask(IEnumerable<ScheduledTask> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateScheduledTaskOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private async ValueTask<IEnumerable<Result<ScheduledTask>>> ExecuteAddOrUpdate(IEnumerable<ScheduledTask> items)
     {
@@ -204,7 +204,7 @@ internal sealed partial class ScheduledTaskProcessingService(
     }
 
     public ValueTask DeleteAllScheduledTaskAsync(IEnumerable<ScheduledTask> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllScheduledTaskOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteAllAsync(IEnumerable<ScheduledTask> items)
     {
