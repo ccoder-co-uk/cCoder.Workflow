@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------
 
 using cCoder.Eventing;
-using cCoder.Workflow.Exposures.EventHandlers;
 using cCoder.Workflow.Dependencies.HostedServices;
 using cCoder.Workflow.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,11 +77,9 @@ filter: descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceProcessi
 
         // When
         IServiceProvider serviceProvider = services.BuildServiceProvider();
-        IWorkflowEventHandlers handlers = serviceProvider.GetRequiredService<IWorkflowEventHandlers>();
+        IEventHub eventHub = serviceProvider.GetRequiredService<IEventHub>();
 
         // Then
-        handlers.ListenToAllEvents();
-        handlers.ListenToScheduledTaskExecuteEvents();
-        handlers.ListenToQueuedFlowInstanceExecuteEvents();
+        eventHub.ListenToWorkflowEvents();
     }
 }

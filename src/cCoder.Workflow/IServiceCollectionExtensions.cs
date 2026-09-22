@@ -22,7 +22,6 @@ using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.Controllers;
-using cCoder.Workflow.Exposures.EventHandlers;
 using cCoder.Workflow.Dependencies.HostedServices;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
@@ -71,7 +70,7 @@ public static partial class IServiceCollectionExtensions
         services.AddProcessings();
         services.AddOrchestrations();
         services.AddCoordinations();
-        services.AddEventHandlers();
+        services.AddExposures();
         services.AddWebExposures();
         services.AddConfiguredWorkflowApi(
             configuration: configuration,
@@ -103,7 +102,7 @@ public static partial class IServiceCollectionExtensions
         services.AddProcessings();
         services.AddOrchestrations();
         services.AddCoordinations();
-        services.AddEventHandlers();
+        services.AddExposures();
         services.AddHostedServiceExposures();
     }
 
@@ -179,7 +178,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
         services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
-        services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
         services.AddTransient<IFlowInstanceDataEventBroker, FlowInstanceDataEventBroker>();
         services.AddTransient<IWorkflowExecutionEventBroker, WorkflowExecutionEventBroker>();
@@ -203,18 +201,14 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IFlowDefinitionCoordinationService, FlowDefinitionCoordinationService>();
     }
 
-    private static void AddEventHandlers(this IServiceCollection services)
+    private static void AddExposures(this IServiceCollection services)
     {
         services.AddTransient<IWorkflowAppExposure, WorkflowAppExposure>();
         services.AddTransient<IWorkflowPackageManager, WorkflowPackageManager>();
-        services.AddTransient<IFlowDefinitionEventHandler, FlowDefinitionEventHandler>();
-        services.AddTransient<IWorkflowEventHandler, WorkflowEventHandler>();
-        services.AddTransient<IWorkflowEventHandlers, WorkflowEventHandlers>();
     }
 
     private static void AddFoundations(this IServiceCollection services)
     {
-        services.AddTransient<Services.Foundations.Events.IEventHandlerService, Services.Foundations.Events.EventHandlerService>();
         services.AddTransient<ICalendarService, CalendarService>();
         services.AddTransient<ICalendarEventService, CalendarEventService>();
         services.AddTransient<IFlowDefinitionService, FlowDefinitionService>();

@@ -28,6 +28,8 @@ public class Program
 
         WebApplication app = builder.Build();
         app.MapControllers();
+        app.Services.GetRequiredService<IEventHub>()
+            .ListenToWorkflowEvents();
         app.StartWorkflowHostedServices();
         app.Run();
     }

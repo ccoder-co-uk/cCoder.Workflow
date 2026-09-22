@@ -22,7 +22,7 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
         ExecutionLog = new List<WorkflowLogEntry>();
         Variables = new Dictionary<string, object>
         {
-            ["Imports"] = Activity.ScriptImports
+            ["Imports"] = Activity.ScriptImports.ToArray()
         };
     }
 
