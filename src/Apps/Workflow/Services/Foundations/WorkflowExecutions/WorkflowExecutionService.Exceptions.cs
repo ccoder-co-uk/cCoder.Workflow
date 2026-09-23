@@ -5,44 +5,10 @@
 using cCoder.Workflow.Engine.Models.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace Workflow.Services.Foundations.WorkflowFunctions;
+namespace Workflow.Services.Foundations.WorkflowExecutions;
 
-internal sealed partial class WorkflowFunctionsService
+internal sealed partial class WorkflowExecutionService
 {
-    private static async Task<TResult> TryCatch<TResult>(
-        Func<Task<TResult>> operation)
-    {
-        try
-        {
-            return await operation();
-        }
-        catch (WorkflowEngineValidationException innerException)
-        {
-            throw new WorkflowEngineValidationException(
-                innerException: innerException);
-        }
-        catch (WorkflowEngineDependencyException innerException)
-        {
-            throw new WorkflowEngineDependencyException(
-                innerException: innerException);
-        }
-        catch (ValidationException innerException)
-        {
-            throw new WorkflowEngineValidationException(
-                innerException: innerException);
-        }
-        catch (InvalidOperationException innerException)
-        {
-            throw new WorkflowEngineDependencyException(
-                innerException: innerException);
-        }
-        catch (Exception innerException)
-        {
-            throw new WorkflowEngineServiceException(
-                innerException: innerException);
-        }
-    }
-
     private static async Task TryCatch(Func<Task> operation)
     {
         try

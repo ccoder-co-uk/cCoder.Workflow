@@ -2,9 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Data.Models.Security;
 using Microsoft.AspNetCore.Mvc;
+using Workflow.Web.Brokers.Loggings;
 using Workflow.Web.Services.Processings;
 
 using Workflow.Web.Exposures;
@@ -15,7 +16,8 @@ namespace Workflow.Web.Controllers;
 public sealed class CoreUserController(
     ICoreUserManager coreUserProcessingService,
     ILoggingBroker loggingBroker)
-    : ControllerBase
+    : ControllerBase,
+      ICompositionExposure
 {
     [HttpGet("/Api/AppSecurity/User/Me()")]
     public IActionResult Get()

@@ -4,9 +4,9 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Workflow.Services.Foundations.WorkflowFunctions;
+namespace Workflow.Services.Orchestrations.WorkflowFunctions;
 
-internal sealed partial class WorkflowFunctionsService
+internal sealed partial class WorkflowFunctionsOrchestrationService
 {
     private static void ValidateInputs(params object[] inputs)
     {

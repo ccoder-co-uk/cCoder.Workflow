@@ -10,6 +10,7 @@ using cCoder.Security.Data.EF;
 using cCoder.Workflow;
 using Workflow.Web.Exposures;
 using Workflow.Web.Brokers;
+using Workflow.Web.Brokers.Loggings;
 using Workflow.Web.Extensions;
 using Workflow.Web.Models;
 using Workflow.Web.Services.Processings;
@@ -31,6 +32,7 @@ public static class IServiceCollectionExtensions
         configure?.Invoke(obj: appConfiguration);
 
         services.AddProcessings();
+        services.AddSingleton<ILoggingBroker, LoggingBroker>();
         services.AddExposures();
         services.AddData(configuration: appConfiguration.CoreData);
         services.AddEventingWeb(configuration: appConfiguration.Eventing);

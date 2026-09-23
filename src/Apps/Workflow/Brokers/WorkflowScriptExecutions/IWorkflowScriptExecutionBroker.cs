@@ -2,8 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace Workflow.Dependencies;
+namespace Workflow.Brokers.WorkflowScriptExecutions;
 
-internal sealed class WorkflowFunctionStreamDependency : MemoryStream
+internal interface IWorkflowScriptExecutionBroker
 {
+    Task<string> ExecuteScriptAsync(string payload, bool useDetails);
 }

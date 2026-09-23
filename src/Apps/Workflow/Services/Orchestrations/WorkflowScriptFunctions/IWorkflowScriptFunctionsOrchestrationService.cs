@@ -4,17 +4,11 @@
 
 using Microsoft.Azure.Functions.Worker.Http;
 
-namespace Workflow.Services.Foundations.WorkflowFunctions;
+namespace Workflow.Services.Orchestrations.WorkflowScriptFunctions;
 
-internal interface IWorkflowFunctionsService
+internal interface IWorkflowScriptFunctionsOrchestrationService
 {
-    Task<HttpResponseData> ProcessExecuteAsync(HttpRequestData request);
-
     Task<HttpResponseData> ProcessExecuteScriptAsync(
         HttpRequestData request,
         bool useDetails);
-
-    Task<HttpResponseData> ProcessHealthAsync(HttpRequestData request);
-
-    Task ProcessServiceBusMessageAsync(string message);
 }

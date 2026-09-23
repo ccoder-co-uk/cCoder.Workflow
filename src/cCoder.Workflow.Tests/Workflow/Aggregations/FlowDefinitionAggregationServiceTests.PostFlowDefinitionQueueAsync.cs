@@ -17,6 +17,7 @@ public partial class FlowDefinitionAggregationServiceTests
         // Given
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
+
         flowDefinitionCoordinationServiceMock
             .Setup(expression: service => service.QueueAsync(
                 flowDefinitionId: flowId,
@@ -31,9 +32,9 @@ public partial class FlowDefinitionAggregationServiceTests
             args: "{}");
 
         // Then
-        result.Should()
+        result
+            .Should()
             .Be(expected: queuedId);
-
 
         flowDefinitionCoordinationServiceMock.Verify(
             expression: foundService => foundService.QueueAsync(

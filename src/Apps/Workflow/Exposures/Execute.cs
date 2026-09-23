@@ -4,19 +4,24 @@
 
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Workflow.Services.Foundations.WorkflowFunctions;
+using Workflow.Services.Orchestrations.WorkflowFunctions;
 
 namespace Workflow.Exposures;
 
 internal sealed class Execute
 {
-    private readonly IWorkflowFunctionsService workflowFunctionsService;
+    private readonly IWorkflowFunctionsOrchestrationService
+        workflowFunctionsOrchestrationService;
 
-    public Execute(IWorkflowFunctionsService workflowFunctionsService) =>
-        this.workflowFunctionsService = workflowFunctionsService;
+    public Execute(
+        IWorkflowFunctionsOrchestrationService
+            workflowFunctionsOrchestrationService) =>
+        this.workflowFunctionsOrchestrationService =
+            workflowFunctionsOrchestrationService;
 
     [Function(nameof(Execute))]
     public Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData request) =>
-        workflowFunctionsService.ProcessExecuteAsync(request: request);
+        workflowFunctionsOrchestrationService.ProcessExecuteAsync(
+            request: request);
 }

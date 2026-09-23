@@ -40,7 +40,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        CalendarController controller = CreateController(serviceMock, loggingBrokerMock);
+        CalendarController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -60,7 +62,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        CalendarController controller = CreateController(serviceMock, loggingBrokerMock);
+        CalendarController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.Get(key: 1);
@@ -80,7 +84,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        CalendarEventController controller = CreateController(serviceMock, loggingBrokerMock);
+        CalendarEventController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -100,7 +106,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        CalendarEventController controller = CreateController(serviceMock, loggingBrokerMock);
+        CalendarEventController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.Get(key: 1);
@@ -143,7 +151,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        FlowInstanceDataController controller = CreateController(serviceMock, loggingBrokerMock);
+        FlowInstanceDataController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -163,7 +173,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        ScheduledTaskController controller = CreateController(serviceMock, loggingBrokerMock);
+        ScheduledTaskController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -183,7 +195,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.GetAll(ignoreFilters: false))
             .Throws(exception: exception);
 
-        WorkflowEventController controller = CreateController(serviceMock, loggingBrokerMock);
+        WorkflowEventController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -247,7 +261,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.UpdateCalendarAsync(updatedCalendar: calendar))
             .ThrowsAsync(exception: exception);
 
-        CalendarController controller = CreateController(serviceMock, loggingBrokerMock);
+        CalendarController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult postResult = await controller.Post(newCalendar: calendar);
@@ -272,7 +288,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.UpdateCalendarEventAsync(updatedCalendarEvent: calendarEvent))
             .ThrowsAsync(exception: exception);
 
-        CalendarEventController controller = CreateController(serviceMock, loggingBrokerMock);
+        CalendarEventController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult postResult = await controller.Post(newCalendarEvent: calendarEvent);
@@ -325,7 +343,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: flowInstanceData))
             .ThrowsAsync(exception: exception);
 
-        FlowInstanceDataController controller = CreateController(serviceMock, loggingBrokerMock);
+        FlowInstanceDataController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult postResult = await controller.Post(newFlowInstanceData: flowInstanceData);
@@ -350,7 +370,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.UpdateScheduledTaskAsync(updatedScheduledTask: scheduledTask))
             .ThrowsAsync(exception: exception);
 
-        ScheduledTaskController controller = CreateController(serviceMock, loggingBrokerMock);
+        ScheduledTaskController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult postResult = await controller.Post(newScheduledTask: scheduledTask);
@@ -375,7 +397,9 @@ public sealed partial class ControllerFailureLoggingTests
         serviceMock.Setup(expression: service => service.UpdateWorkflowEventAsync(updatedWorkflowEvent: workflowEvent))
             .ThrowsAsync(exception: exception);
 
-        WorkflowEventController controller = CreateController(serviceMock, loggingBrokerMock);
+        WorkflowEventController controller = CreateController(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult postResult = await controller.Post(newWorkflowEvent: workflowEvent);
@@ -427,7 +451,7 @@ public sealed partial class ControllerFailureLoggingTests
             .ThrowsAsync(exception: exception);
 
         flowDefinitionManagerMock.Setup(expression: service => service.ReadRequestBodyAsync(
-                It.IsAny<Stream>()))
+                stream: It.IsAny<Stream>()))
             .ReturnsAsync(value: string.Empty);
 
         flowDefinitionManagerMock.Setup(expression: service => service.QueueFlowDefinitionAsync(
@@ -450,8 +474,13 @@ public sealed partial class ControllerFailureLoggingTests
         workflowEventManagerMock.Setup(expression: service => service.DeleteAsync(workflowEventId: key))
             .ThrowsAsync(exception: exception);
 
-        CalendarController calendarController = CreateController(calendarManagerMock, loggingBrokerMock);
-        CalendarEventController calendarEventController = CreateController(calendarEventManagerMock, loggingBrokerMock);
+        CalendarController calendarController = CreateController(
+            serviceMock: calendarManagerMock,
+            loggingBrokerMock: loggingBrokerMock);
+
+        CalendarEventController calendarEventController = CreateController(
+            serviceMock: calendarEventManagerMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         var flowDefinitionController = new FlowDefinitionController(
             service: flowDefinitionManagerMock.Object,
@@ -463,9 +492,17 @@ public sealed partial class ControllerFailureLoggingTests
             HttpContext = new DefaultHttpContext()
         };
 
-        FlowInstanceDataController flowInstanceDataController = CreateController(flowInstanceDataManagerMock, loggingBrokerMock);
-        ScheduledTaskController scheduledTaskController = CreateController(scheduledTaskManagerMock, loggingBrokerMock);
-        WorkflowEventController workflowEventController = CreateController(workflowEventManagerMock, loggingBrokerMock);
+        FlowInstanceDataController flowInstanceDataController = CreateController(
+            serviceMock: flowInstanceDataManagerMock,
+            loggingBrokerMock: loggingBrokerMock);
+
+        ScheduledTaskController scheduledTaskController = CreateController(
+            serviceMock: scheduledTaskManagerMock,
+            loggingBrokerMock: loggingBrokerMock);
+
+        WorkflowEventController workflowEventController = CreateController(
+            serviceMock: workflowEventManagerMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult calendarResult = await calendarController.Delete(key: 1);
@@ -514,7 +551,9 @@ public sealed partial class ControllerFailureLoggingTests
             authInfo: Mock.Of<ISSOAuthInfo>(),
             loggingBroker: loggingBrokerMock.Object);
 
-        ScheduledTaskController scheduledTaskController = CreateController(scheduledTaskManagerMock, loggingBrokerMock);
+        ScheduledTaskController scheduledTaskController = CreateController(
+            serviceMock: scheduledTaskManagerMock,
+            loggingBrokerMock: loggingBrokerMock);
 
         // When
         IActionResult flowExecutionResult = await flowDefinitionController.PostAsync(key: Guid.NewGuid());
@@ -534,7 +573,10 @@ public sealed partial class ControllerFailureLoggingTests
         Mock<ICalendarManager> serviceMock,
         Mock<ILoggingBroker> loggingBrokerMock)
     {
-        ForwardLogging(serviceMock, loggingBrokerMock);
+        ForwardLogging(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
+
         return new CalendarController(service: serviceMock.Object);
     }
 
@@ -542,7 +584,10 @@ public sealed partial class ControllerFailureLoggingTests
         Mock<ICalendarEventManager> serviceMock,
         Mock<ILoggingBroker> loggingBrokerMock)
     {
-        ForwardLogging(serviceMock, loggingBrokerMock);
+        ForwardLogging(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
+
         return new CalendarEventController(service: serviceMock.Object);
     }
 
@@ -550,7 +595,10 @@ public sealed partial class ControllerFailureLoggingTests
         Mock<IFlowInstanceDataManager> serviceMock,
         Mock<ILoggingBroker> loggingBrokerMock)
     {
-        ForwardLogging(serviceMock, loggingBrokerMock);
+        ForwardLogging(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
+
         return new FlowInstanceDataController(service: serviceMock.Object);
     }
 
@@ -558,7 +606,10 @@ public sealed partial class ControllerFailureLoggingTests
         Mock<IScheduledTaskManager> serviceMock,
         Mock<ILoggingBroker> loggingBrokerMock)
     {
-        ForwardLogging(serviceMock, loggingBrokerMock);
+        ForwardLogging(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
+
         return new ScheduledTaskController(service: serviceMock.Object);
     }
 
@@ -566,24 +617,72 @@ public sealed partial class ControllerFailureLoggingTests
         Mock<IWorkflowEventManager> serviceMock,
         Mock<ILoggingBroker> loggingBrokerMock)
     {
-        ForwardLogging(serviceMock, loggingBrokerMock);
+        ForwardLogging(
+            serviceMock: serviceMock,
+            loggingBrokerMock: loggingBrokerMock);
+
         return new WorkflowEventController(service: serviceMock.Object);
     }
 
-    private static void ForwardLogging<TManager>(
-        Mock<TManager> serviceMock,
-        Mock<ILoggingBroker> loggingBrokerMock)
-        where TManager : class, IControllerErrorLogger
-    {
+    private static void ForwardLogging(
+        Mock<ICalendarManager> serviceMock,
+        Mock<ILoggingBroker> loggingBrokerMock) =>
         serviceMock
             .Setup(expression: service => service.LogError(
-                It.IsAny<Exception>(),
-                It.IsAny<string>()))
-            .Callback((Exception exception, string message) =>
+                exception: It.IsAny<Exception>(),
+                message: It.IsAny<string>()))
+            .Callback(callback: (Exception exception, string message) =>
                 loggingBrokerMock.Object.LogError(
                     exception: exception,
                     message: message));
-    }
+
+    private static void ForwardLogging(
+        Mock<ICalendarEventManager> serviceMock,
+        Mock<ILoggingBroker> loggingBrokerMock) =>
+        serviceMock
+            .Setup(expression: service => service.LogError(
+                exception: It.IsAny<Exception>(),
+                message: It.IsAny<string>()))
+            .Callback(callback: (Exception exception, string message) =>
+                loggingBrokerMock.Object.LogError(
+                    exception: exception,
+                    message: message));
+
+    private static void ForwardLogging(
+        Mock<IFlowInstanceDataManager> serviceMock,
+        Mock<ILoggingBroker> loggingBrokerMock) =>
+        serviceMock
+            .Setup(expression: service => service.LogError(
+                exception: It.IsAny<Exception>(),
+                message: It.IsAny<string>()))
+            .Callback(callback: (Exception exception, string message) =>
+                loggingBrokerMock.Object.LogError(
+                    exception: exception,
+                    message: message));
+
+    private static void ForwardLogging(
+        Mock<IScheduledTaskManager> serviceMock,
+        Mock<ILoggingBroker> loggingBrokerMock) =>
+        serviceMock
+            .Setup(expression: service => service.LogError(
+                exception: It.IsAny<Exception>(),
+                message: It.IsAny<string>()))
+            .Callback(callback: (Exception exception, string message) =>
+                loggingBrokerMock.Object.LogError(
+                    exception: exception,
+                    message: message));
+
+    private static void ForwardLogging(
+        Mock<IWorkflowEventManager> serviceMock,
+        Mock<ILoggingBroker> loggingBrokerMock) =>
+        serviceMock
+            .Setup(expression: service => service.LogError(
+                exception: It.IsAny<Exception>(),
+                message: It.IsAny<string>()))
+            .Callback(callback: (Exception exception, string message) =>
+                loggingBrokerMock.Object.LogError(
+                    exception: exception,
+                    message: message));
 
     private static void VerifyUnhandledFailures(
         IActionResult[] results,

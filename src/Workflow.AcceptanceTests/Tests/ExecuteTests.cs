@@ -7,18 +7,20 @@ using Moq;
 using Newtonsoft.Json;
 using Workflow.AcceptanceTests.Infrastructure;
 using Workflow.Exposures;
-using Workflow.Services.Foundations.WorkflowFunctions;
+using Workflow.Services.Orchestrations.WorkflowFunctions;
 
 namespace Workflow.AcceptanceTests.Tests;
 
 public sealed partial class ExecuteTests
 {
-    private readonly Mock<IWorkflowFunctionsService> processingServiceMock = new();
+    private readonly Mock<IWorkflowFunctionsOrchestrationService>
+        processingServiceMock = new();
     private readonly Execute function;
 
     public ExecuteTests() =>
         function = new Execute(
-            workflowFunctionsService: processingServiceMock.Object);
+            workflowFunctionsOrchestrationService:
+                processingServiceMock.Object);
 
     private static TestHttpRequestData CreateRequest(WorkflowRequest request) =>
         new(JsonConvert.SerializeObject(value: request));

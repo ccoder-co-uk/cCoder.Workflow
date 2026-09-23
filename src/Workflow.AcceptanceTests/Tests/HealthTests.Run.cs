@@ -27,7 +27,9 @@ public sealed partial class HealthTests
 
         processingServiceMock
             .Setup(expression: service =>
-                service.ProcessHealthAsync(request: request))
+                service.CreateHttpResponseDataAsync(
+                    request: request,
+                    content: "OK"))
             .ReturnsAsync(value: expectedResponse);
 
         // When
@@ -42,7 +44,9 @@ public sealed partial class HealthTests
             .Be(expected: "OK");
 
         processingServiceMock.Verify(expression: service =>
-            service.ProcessHealthAsync(request: request),
+            service.CreateHttpResponseDataAsync(
+                request: request,
+                content: "OK"),
             times: Times.Once);
     }
 }

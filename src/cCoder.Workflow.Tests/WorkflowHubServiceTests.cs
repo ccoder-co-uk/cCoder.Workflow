@@ -10,14 +10,18 @@ using Xunit;
 
 namespace cCoder.Workflow.Tests;
 
-public sealed class WorkflowHubServiceTests
+public sealed partial class WorkflowHubServiceTests
 {
     [Fact]
     public async Task WorkflowHubMessage_WhenClientJoins_IsReplayed()
     {
         // Given
-        string connectionId = Guid.NewGuid().ToString();
-        string thread = Guid.NewGuid().ToString();
+        string connectionId = Guid.NewGuid()
+            .ToString();
+
+        string thread = Guid.NewGuid()
+            .ToString();
+
         const string level = "info";
         const string message = "message";
 
@@ -29,53 +33,53 @@ public sealed class WorkflowHubServiceTests
 
         loggingBrokerMock
             .Setup(expression: broker => broker.LogInformation(
-                It.IsAny<string>(),
-                It.IsAny<object[]>()));
+                message: It.IsAny<string>(),
+                args: It.IsAny<object[]>()));
 
         loggingBrokerMock
             .Setup(expression: broker => broker.LogDebug(
-                It.IsAny<string>(),
-                It.IsAny<object[]>()));
+                message: It.IsAny<string>(),
+                args: It.IsAny<object[]>()));
 
         workflowHubBrokerMock
             .Setup(expression: broker =>
                 broker.SendWorkflowHubGroupMessageAsync(
-                    level,
-                    message,
-                    thread))
+                    level: level,
+                    message: message,
+                    thread: thread))
             .Returns(value: Task.CompletedTask);
 
         workflowHubBrokerMock
             .Setup(expression: broker =>
                 broker.AddConnectionToWorkflowHubGroupAsync(
-                    connectionId,
-                    thread))
+                    connectionId: connectionId,
+                    thread: thread))
             .Returns(value: Task.CompletedTask);
 
         workflowHubBrokerMock
             .Setup(expression: broker =>
                 broker.SendWorkflowHubCallerMessageAsync(
-                    connectionId,
-                    "info",
-                    "Connected to instance " + thread,
-                    thread))
+                    connectionId: connectionId,
+                    level: "info",
+                    message: "Connected to instance " + thread,
+                    thread: thread))
             .Returns(value: Task.CompletedTask);
 
         workflowHubBrokerMock
             .Setup(expression: broker =>
                 broker.SendWorkflowHubGroupMessageAsync(
-                    "info",
-                    "User Joined",
-                    thread))
+                    level: "info",
+                    message: "User Joined",
+                    thread: thread))
             .Returns(value: Task.CompletedTask);
 
         workflowHubBrokerMock
             .Setup(expression: broker =>
                 broker.SendWorkflowHubCallerMessageAsync(
-                    connectionId,
-                    level,
-                    message,
-                    thread))
+                    connectionId: connectionId,
+                    level: level,
+                    message: message,
+                    thread: thread))
             .Returns(value: Task.CompletedTask);
 
         WorkflowHubService service = new(

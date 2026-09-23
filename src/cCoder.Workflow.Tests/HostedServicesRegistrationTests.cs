@@ -3,8 +3,10 @@
 // ---------------------------------------------------------------
 
 using cCoder.Eventing;
+using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Exposures.HostedServices;
 using cCoder.Workflow.Services.Aggregations;
+using cCoder.Workflow.Services.Foundations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -14,6 +16,29 @@ namespace cCoder.Workflow.Tests;
 
 public partial class HostedServicesRegistrationTests
 {
+    [Fact]
+    public void AddWorkflowWeb_RegistersWorkflowConfigurationDependenciesAsSingletons()
+    {
+        // Given
+        IServiceCollection services = new ServiceCollection();
+
+        // When
+        services.AddWorkflowWeb();
+
+        // Then
+        Assert.Contains(
+            collection: services,
+            filter: descriptor =>
+                descriptor.ServiceType == typeof(IWorkflowConfigurationBroker)
+                && descriptor.Lifetime == ServiceLifetime.Singleton);
+
+        Assert.Contains(
+            collection: services,
+            filter: descriptor =>
+                descriptor.ServiceType == typeof(IWorkflowConfigurationService)
+                && descriptor.Lifetime == ServiceLifetime.Singleton);
+    }
+
     [Fact]
     public void AddWorkflowWeb_DoesNotRegisterHostedServiceExposures()
     {

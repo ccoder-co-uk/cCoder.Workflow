@@ -94,7 +94,8 @@ public partial class FlowQueueOrchestrationServiceTests
     public async Task QueueFlowDefinitionAsync_WhenCallerIsMissing_ShouldUseCurrentUser()
     {
         // Given
-        string currentUserId = Guid.NewGuid().ToString(format: "N");
+        string currentUserId = Guid.NewGuid()
+            .ToString(format: "N");
 
         authorizationBrokerMock
             .Setup(expression: broker => broker.GetCurrentUser())

@@ -174,7 +174,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IStreamBroker, StreamBroker>();
         services.AddTransient<IODataResultBroker, ODataResultBroker>();
         services.AddTransient<IWorkflowHttpClientBroker, WorkflowHttpClientBroker>();
-        services.AddTransient<IWorkflowConfigurationBroker, WorkflowConfigurationBroker>();
+        services.AddSingleton<IWorkflowConfigurationBroker, WorkflowConfigurationBroker>();
         services.AddTransient<IWorkflowTokenBroker, WorkflowTokenBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
@@ -219,7 +219,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowMetadataTypeManager, WorkflowMetadataTypeService>();
         services.AddTransient<IWorkflowRequestBodyService, WorkflowRequestBodyService>();
         services.AddTransient<IWorkflowScriptExecutionService, WorkflowScriptExecutionService>();
-        services.AddTransient<IWorkflowConfigurationService, WorkflowConfigurationService>();
+        services.AddSingleton<IWorkflowConfigurationService, WorkflowConfigurationService>();
         services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
         services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();

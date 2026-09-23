@@ -5,9 +5,8 @@
 using cCoder.Data;
 using cCoder.Data.Models;
 using cCoder.Security.Data.EF;
-using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Workflow.Dependencies.HostedServices;
+using cCoder.Security.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -53,30 +52,19 @@ initialData: [
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<DataConfiguration>();
             services.RemoveAll<ISecurityDbContextFactory>();
-            services.RemoveAll<IInstanceMaintenanceBackgroundServiceDependency>();
-            services.RemoveAll<IQueueInstanceBackgroundServiceDependency>();
-            services.RemoveAll<IScheduledTaskRunnerBackgroundServiceDependency>();
 
-            ServiceDescriptor[] hostedWorkflowServices = services
-                .Where(predicate: descriptor =>
-                    descriptor.ServiceType == typeof(IHostedService)
-                    && descriptor.ImplementationFactory is not null)
-                .ToArray();
-
-            foreach (ServiceDescriptor descriptor in hostedWorkflowServices)
-            {
-                services.Remove(item: descriptor);
-            }
-
-            services.AddSingleton<ISecurityDbContextFactory>(
-                implementationFactory: _ =>
-                    new MSSQLSecurityDbContextFactory(
-                        connectionString: settings.SsoConnectionString));
+            services.RemoveAll<IHostedService>();
 
             services.AddData(
                 configuration: new DataConfiguration
                 {
                     ConnectionString = settings.CoreConnectionString
+                });
+
+            services.AddSecurityData(
+                configuration: new SecurityDataConfiguration
+                {
+                    ConnectionString = settings.SsoConnectionString
                 });
         });
     }

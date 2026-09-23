@@ -13,7 +13,6 @@ using cCoder.Data.Models;
 using cCoder.Eventing;
 using cCoder.Security;
 using cCoder.Security.Data.EF;
-using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Models;
 using cCoder.Security.Models.Configurations;
@@ -250,14 +249,11 @@ environmentVariables: webEnvironment,
                 RootPath = string.Empty
             });
 
-        services.AddScoped<ISecurityDbContextFactory>(
-            implementationFactory: provider =>
-                new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
-                {
-                    GetAuthInfo = ignoreAuthInfo => ignoreAuthInfo
-                        ? new SSOAuthInfo { SSOUserId = "admin" }
-                        : provider.GetService<ISSOAuthInfo>()
-                });
+        services.AddSecurityData(
+            configuration: new SecurityDataConfiguration
+            {
+                ConnectionString = settings.SsoConnectionString
+            });
 
         services.AddData(
             configuration: new DataConfiguration

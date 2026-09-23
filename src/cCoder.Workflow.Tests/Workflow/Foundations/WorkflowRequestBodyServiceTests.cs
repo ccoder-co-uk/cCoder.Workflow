@@ -10,19 +10,26 @@ using Xunit;
 
 namespace cCoder.Workflow.Tests.Workflow.Foundations;
 
-public sealed class WorkflowRequestBodyServiceTests
+public sealed partial class WorkflowRequestBodyServiceTests
 {
     [Fact]
     public async Task ReadTextAsync_WhenStreamContainsText_ReturnsExactText()
     {
+        // Given
         const string expected = "workflow request body";
+
         byte[] bytes = Encoding.UTF8.GetBytes(s: expected);
         using MemoryStream stream = new(buffer: bytes);
+
         WorkflowRequestBodyService service = new(
             streamBroker: new StreamBroker());
 
+        // When
         string actual = await service.ReadTextAsync(stream: stream);
 
-        actual.Should().Be(expected: expected);
+        // Then
+        actual
+            .Should()
+            .Be(expected: expected);
     }
 }

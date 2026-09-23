@@ -9,6 +9,7 @@ using cCoder.Security;
 using cCoder.Security.Data.EF;
 using cCoder.Workflow;
 using Workflow.HostedServices.Exposures;
+using Workflow.HostedServices.Brokers.Loggings;
 using Workflow.HostedServices.Extensions;
 using Workflow.HostedServices.Models;
 using Workflow.HostedServices.Services.Processings;
@@ -29,6 +30,7 @@ public static class IServiceCollectionExtensions
         configure?.Invoke(obj: appConfiguration);
 
         services.AddProcessings();
+        services.AddSingleton<ILoggingBroker, LoggingBroker>();
         services.AddExposures();
         services.AddData(configuration: appConfiguration.CoreData);
         services.AddEventingHostedServices(
