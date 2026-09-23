@@ -5,7 +5,7 @@
 using System;
 using System.Text.Json;
 using cCoder.Data.Exposures;
-using cCoder.Workflow.Dependencies.Hubs;
+using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Services.Foundations;
 
 
@@ -28,7 +28,7 @@ public static partial class WebApplicationExtensions
     {
         log?.LogInformation(message: "Initialising Workflow");
         PopulateMetadataTypeCache(app: app);
-        app.MapHub<WorkflowHubDependency>(pattern: "/Api/Hubs/Workflow");
+        app.MapHub<WorkflowHub>(pattern: "/Api/Hubs/Workflow");
         return app;
     }
 

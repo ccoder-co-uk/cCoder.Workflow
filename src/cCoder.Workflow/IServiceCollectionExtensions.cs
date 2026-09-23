@@ -166,6 +166,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
         services.AddTransient<IServiceScopeBroker, ServiceScopeBroker>();
+        services.AddTransient<IWorkflowHubBroker, WorkflowHubBroker>();
         services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
@@ -199,6 +200,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddFoundations(this IServiceCollection services)
     {
+        services.AddTransient<IWorkflowHubService, WorkflowHubService>();
         services.AddTransient<ICalendarService, CalendarService>();
         services.AddTransient<ICalendarEventService, CalendarEventService>();
         services.AddTransient<IFlowDefinitionService, FlowDefinitionService>();

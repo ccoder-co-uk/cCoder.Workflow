@@ -4,6 +4,7 @@
 
 using cCoder.Data;
 using cCoder.Data.Models.Security;
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ namespace cCoder.Workflow.Brokers;
 
 internal class AuthorizationBroker(
     ICoreContextFactory coreContextFactory)
-    : IAuthorizationBroker
+    : IAuthorizationBroker, IUtilityBroker
 {
     public User GetCurrentUser()
     {
