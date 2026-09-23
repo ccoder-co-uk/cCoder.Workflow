@@ -4,26 +4,36 @@
 
 using System.Reflection;
 using cCoder.Workflow.Activities.Models;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
+using cCoder.Workflow.Engine.Brokers;
+using cCoder.Workflow.Engine.Brokers.Loggings;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.Extensions.Logging;
 
-namespace cCoder.Workflow.Engine.Dependencies;
+namespace cCoder.Workflow.Engine.Services.Foundations;
 
-internal sealed class RoslynScriptDependency
-    : IRoslynScriptDependency
+internal sealed partial class ScriptService(
+    IRoslynScriptBroker roslynScriptBroker,
+    ILoggingBroker loggingBroker)
+    : IScriptService
 {
-    private readonly ILogger<RoslynScriptDependency> logger;
-    private readonly Assembly[] references;
+    private readonly Assembly[] references = LoadReferences(
+        roslynScriptBroker: roslynScriptBroker,
+        loggingBroker: loggingBroker);
 
-    public RoslynScriptDependency(
-        ILogger<RoslynScriptDependency> logger)
-    {
-        this.logger = logger;
-        references = LoadReferences();
-    }
+    public Task<T> BuildScript<T>(
+        string code,
+        string[] imports,
+        Action<WorkflowLogLevel, string> log) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [code, imports, log]);
 
-    public async Task<T> BuildScriptAsync<T>(
+            return await ExecuteBuildScriptAsync<T>(
+                code: code,
+                imports: imports,
+                log: log);
+        });
+
+    private async Task<T> ExecuteBuildScriptAsync<T>(
         string code,
         string[] imports,
         Action<WorkflowLogLevel, string> log)
@@ -32,7 +42,7 @@ internal sealed class RoslynScriptDependency
         {
             ScriptOptions options = BuildScriptOptions(imports: imports);
 
-            return await CSharpScript.EvaluateAsync<T>(
+            return await roslynScriptBroker.EvaluateAsync<T>(
                 code: code,
                 options: options);
         }
@@ -57,7 +67,23 @@ internal sealed class RoslynScriptDependency
         }
     }
 
-    public async Task<T> RunScriptAsync<T>(
+    public Task<T> Run<T>(
+        string code,
+        string[] imports,
+        object args,
+        Action<WorkflowLogLevel, string> log) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [code, imports, args, log]);
+
+            return await ExecuteRunScriptAsync<T>(
+                code: code,
+                imports: imports,
+                args: args,
+                log: log);
+        });
+
+    private async Task<T> ExecuteRunScriptAsync<T>(
         string code,
         string[] imports,
         object args,
@@ -68,9 +94,9 @@ internal sealed class RoslynScriptDependency
             IEnumerable<Assembly> requiredReferences =
                 ResolveReferences(imports: imports);
 
-            ScriptOptions options = ScriptOptions.Default
-                .AddReferences(references: requiredReferences)
-                .WithImports(imports: imports);
+            ScriptOptions options = roslynScriptBroker.BuildOptions(
+                references: requiredReferences,
+                imports: imports);
 
             if (log is not null)
             {
@@ -91,7 +117,7 @@ internal sealed class RoslynScriptDependency
                     arg2: details);
             }
 
-            return (T)await CSharpScript.EvaluateAsync(
+            return await roslynScriptBroker.EvaluateAsync<T>(
                 code: code,
                 options: options,
                 globals: args,
@@ -135,23 +161,42 @@ internal sealed class RoslynScriptDependency
         }
     }
 
-    private Assembly[] LoadReferences()
+    public Task Run(
+        string code,
+        string[] imports,
+        object args,
+        Action<WorkflowLogLevel, string> log) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [code, imports, args, log]);
+
+            _ = await ExecuteRunScriptAsync<bool>(
+                code: $"{code};return true;",
+                imports: imports,
+                args: args,
+                log: log);
+        });
+
+    private static Assembly[] LoadReferences(
+        IRoslynScriptBroker roslynScriptBroker,
+        ILoggingBroker loggingBroker)
     {
         try
         {
-            List<Assembly> loadedAssemblies = AppDomain.CurrentDomain
-                .GetAssemblies()
+            List<Assembly> loadedAssemblies = roslynScriptBroker
+                .GetCurrentAssemblies()
                 .Where(predicate: assembly => !assembly.IsDynamic)
                 .ToList();
 
-            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            Assembly currentAssembly =
+                roslynScriptBroker.GetExecutingAssembly();
 
             string binDirectory = currentAssembly.Location.Replace(
                 oldValue: currentAssembly.ManifestModule.Name,
                 newValue: string.Empty,
                 comparisonType: StringComparison.Ordinal);
 
-            string[] assembliesToLoad = Directory.GetFiles(
+            string[] assembliesToLoad = roslynScriptBroker.GetFiles(
                 path: binDirectory,
                 searchPattern: "*.dll")
                 .Where(predicate: path => loadedAssemblies.All(
@@ -167,6 +212,8 @@ internal sealed class RoslynScriptDependency
             foreach (string assemblyPath in assembliesToLoad)
             {
                 SafelyLoadAssembly(
+                    roslynScriptBroker: roslynScriptBroker,
+                    loggingBroker: loggingBroker,
                     loadedAssemblies: loadedAssemblies,
                     assemblyPath: assemblyPath);
             }
@@ -175,12 +222,12 @@ internal sealed class RoslynScriptDependency
         }
         catch (Exception exception)
         {
-            logger.LogWarning(
+            loggingBroker.LogWarning(
                 message: "Script runner may be missing references but will continue: {Message}",
-                exception.Message);
+                args: [exception.Message]);
 
-            return AppDomain.CurrentDomain
-                .GetAssemblies()
+            return roslynScriptBroker
+                .GetCurrentAssemblies()
                 .Where(predicate: assembly => !assembly.IsDynamic)
                 .ToArray();
         }
@@ -188,10 +235,9 @@ internal sealed class RoslynScriptDependency
 
     private ScriptOptions BuildScriptOptions(
         string[] imports) =>
-        ScriptOptions.Default
-            .AddReferences(
-                references: ResolveReferences(imports: imports))
-            .WithImports(imports: imports);
+        roslynScriptBroker.BuildOptions(
+            references: ResolveReferences(imports: imports),
+            imports: imports);
 
     private IEnumerable<Assembly> ResolveReferences(
         string[] imports) =>
@@ -199,7 +245,8 @@ internal sealed class RoslynScriptDependency
         {
             try
             {
-                return reference.GetExportedTypes()
+                return roslynScriptBroker.GetExportedTypes(
+                    assembly: reference)
                     .Any(predicate: type =>
                         imports.Contains(value: type.Namespace));
             }
@@ -209,25 +256,28 @@ internal sealed class RoslynScriptDependency
             }
         });
 
-    private void SafelyLoadAssembly(
+    private static void SafelyLoadAssembly(
+        IRoslynScriptBroker roslynScriptBroker,
+        ILoggingBroker loggingBroker,
         ICollection<Assembly> loadedAssemblies,
         string assemblyPath)
     {
         try
         {
-            Assembly assembly = Assembly.LoadFile(path: assemblyPath);
+            Assembly assembly = roslynScriptBroker.LoadFile(
+                path: assemblyPath);
+
             loadedAssemblies.Add(item: assembly);
 
-            logger.LogDebug(
+            loggingBroker.LogDebug(
                 message: "Loaded assembly: {AssemblyName}",
-                assembly.FullName);
+                args: [assembly.FullName]);
         }
         catch (Exception exception)
         {
-            logger.LogWarning(
+            loggingBroker.LogWarning(
                 message: "Unable to load assembly {AssemblyPath}: {Message}",
-                assemblyPath,
-                exception.Message);
+                args: [assemblyPath, exception.Message]);
         }
     }
 }

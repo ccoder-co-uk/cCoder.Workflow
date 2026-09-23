@@ -14,7 +14,7 @@ namespace cCoder.Workflow.Engine.Tests;
 
 public sealed partial class FlowInstanceServiceTests
 {
-    private readonly Mock<IScriptBroker> scriptBrokerMock =
+    private readonly Mock<IScriptService> scriptBrokerMock =
         new(behavior: MockBehavior.Strict);
 
     private readonly Mock<IWorkflowContextBroker> workflowContextBrokerMock =
@@ -26,10 +26,11 @@ public sealed partial class FlowInstanceServiceTests
 
     private FlowInstanceService CreateService() =>
         new(
-            scriptBroker: scriptBrokerMock.Object,
+            scriptService: scriptBrokerMock.Object,
             workflowContextBroker: workflowContextBrokerMock.Object,
             workflowHttpClientBroker: workflowHttpClientBrokerMock.Object,
-            jsonBroker: new JsonBroker());
+            jsonBroker: new JsonBroker(),
+            reflectionBroker: new ReflectionBroker());
 
     private void SetupStateSave(FlowExecution execution) =>
         workflowHttpClientBrokerMock

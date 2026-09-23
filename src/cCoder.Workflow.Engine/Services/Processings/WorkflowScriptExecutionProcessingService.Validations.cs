@@ -4,9 +4,9 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace cCoder.Workflow.Engine.Services.Foundations;
+namespace cCoder.Workflow.Engine.Services.Processings;
 
-internal sealed partial class WorkflowScriptExecutionFoundationService
+internal sealed partial class WorkflowScriptExecutionProcessingService
 {
     private static void ValidateInputs(
         params object[] inputs)

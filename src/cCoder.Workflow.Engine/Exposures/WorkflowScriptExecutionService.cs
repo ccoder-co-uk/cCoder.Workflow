@@ -2,12 +2,12 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Engine.Services.Foundations;
+using cCoder.Workflow.Engine.Services.Processings;
 
 namespace cCoder.Workflow.Engine.Exposures;
 
 internal sealed class WorkflowScriptExecutionService(
-    IWorkflowScriptExecutionFoundationService
+    IWorkflowScriptExecutionProcessingService
         workflowScriptExecutionProcessingService)
     : IWorkflowScriptExecutionService
 {

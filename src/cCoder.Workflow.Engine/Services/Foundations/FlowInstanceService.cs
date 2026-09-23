@@ -14,7 +14,7 @@ using cCoder.Workflow.Engine.Models.Exceptions;
 namespace cCoder.Workflow.Engine.Services.Foundations;
 
 internal sealed partial class FlowInstanceService(
-    IScriptBroker scriptBroker,
+    IScriptService scriptService,
     IWorkflowContextBroker workflowContextBroker,
     IWorkflowHttpClientBroker workflowHttpClientBroker,
     IJsonBroker jsonBroker,
@@ -29,7 +29,7 @@ internal sealed partial class FlowInstanceService(
 
             WorkflowRequest request = flowExecution.Request;
             flowExecution.Start = DateTimeOffset.UtcNow;
-            flowExecution.Script = scriptBroker;
+            flowExecution.Script = scriptService;
 
             string rawInstance = await workflowHttpClientBroker.GetStringAsync(
                 apiRoot: request.Api,

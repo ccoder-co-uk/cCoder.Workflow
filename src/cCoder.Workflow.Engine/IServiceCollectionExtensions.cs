@@ -3,10 +3,10 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Engine.Brokers;
-using cCoder.Workflow.Engine.Dependencies;
 using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Services.Orchestrations;
 using cCoder.Workflow.Engine.Services.Foundations;
+using cCoder.Workflow.Engine.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace cCoder.Workflow.Engine;
@@ -30,8 +30,7 @@ public static class IServiceCollectionExtensions
         services.AddTransient<
             Brokers.Loggings.ILoggingBroker,
             Brokers.Loggings.LoggingBroker>();
-        services.AddTransient<RoslynScriptDependency>();
-        services.AddTransient<IScriptBroker, ScriptBroker>();
+        services.AddTransient<IRoslynScriptBroker, RoslynScriptBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
         services.AddTransient<IReflectionBroker, ReflectionBroker>();
         services.AddTransient<
@@ -61,8 +60,9 @@ public static class IServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddTransient<
-            IWorkflowScriptExecutionFoundationService,
-            WorkflowScriptExecutionFoundationService>();
+            IWorkflowScriptExecutionProcessingService,
+            WorkflowScriptExecutionProcessingService>();
+        services.AddTransient<IScriptService, ScriptService>();
         services.AddTransient<
             IFlowCommunicationService,
             FlowCommunicationService>();

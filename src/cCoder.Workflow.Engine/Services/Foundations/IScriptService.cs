@@ -3,8 +3,9 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Activities;
-namespace cCoder.Workflow.Engine.Brokers;
 
-internal interface IScriptBroker : IScriptRunner
+namespace cCoder.Workflow.Engine.Services.Foundations;
+
+internal interface IScriptService : IScriptRunner
 {
 }
