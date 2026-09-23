@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.CodeAnalysis.Exposures;
 using System.Text;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Extensions.OData;
@@ -23,7 +24,7 @@ namespace cCoder.Workflow.Exposures.Controllers;
 public partial class FlowDefinitionController(
     IFlowDefinitionManager service,
     ISSOAuthInfo authInfo,
-    ILoggingBroker loggingBroker) : ODataController
+    ILoggingBroker loggingBroker) : ODataController, ICompositionExposure
 {
 
     [HttpGet]

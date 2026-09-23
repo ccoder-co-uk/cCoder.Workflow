@@ -15,16 +15,17 @@ using Microsoft.OData.ModelBuilder;
 namespace cCoder.Workflow.Brokers.OData;
 
 internal sealed class WorkflowModelBroker
-    : ODataModelBroker,
-      IWorkflowModelBroker
+    : IWorkflowModelBroker
 {
+    private readonly ODataConventionModelBuilder builder;
+
     public WorkflowModelBroker(
         ODataConventionModelBuilder builder = null)
-        : base(builder)
     {
+        this.builder = builder ?? new ODataConventionModelBuilder();
     }
 
-    public override ODataModel Build()
+    public ODataModel Build()
     {
         return new ODataModel
         {
@@ -42,44 +43,48 @@ internal sealed class WorkflowModelBroker
     private IEdmModel BuildEdmModel()
     {
         ConfigureModel();
-        return base.builder.GetEdmModel();
+        return builder.GetEdmModel();
     }
 
     private void ConfigureModel()
     {
-        AddCommonComplextypes();
+        builder.ComplexType<MetadataContainerSet>();
+        builder.ComplexType<MetadataContainer>();
+        builder.ComplexType<PropertyContainer>();
+        builder.ComplexType<AuditResultsByUser>();
+        builder.ComplexType<AuditResultByProperty>();
 
-        base.builder.EntityType<App>()
+        builder.EntityType<App>()
             .Ignore(propertyExpression: i => i.Config);
 
-        base.builder.EntityType<FlowInstanceData>()
+        builder.EntityType<FlowInstanceData>()
             .Ignore(propertyExpression: i => i.ContextJson);
 
-        AddSet<Calendar, int>();
-        AddSet<CalendarEvent, int>();
-        AddSet<WorkflowEvent, Guid>();
-        AddSet<FlowDefinition, Guid>();
-        AddSet<FlowInstanceData, Guid>();
-        AddSet<ScheduledTask, int>();
-        base.builder.Namespace = "";
+        builder.EntitySet<Calendar>(name: nameof(Calendar));
+        builder.EntitySet<CalendarEvent>(name: nameof(CalendarEvent));
+        builder.EntitySet<WorkflowEvent>(name: nameof(WorkflowEvent));
+        builder.EntitySet<FlowDefinition>(name: nameof(FlowDefinition));
+        builder.EntitySet<FlowInstanceData>(name: nameof(FlowInstanceData));
+        builder.EntitySet<ScheduledTask>(name: nameof(ScheduledTask));
+        builder.Namespace = "";
 
-        base.builder.EntityType<FlowDefinition>().Collection.Function(name: "KnownActivityTypes")
+        builder.EntityType<FlowDefinition>().Collection.Function(name: "KnownActivityTypes")
             .Returns<MetadataContainerSet>();
 
-        base.builder.EntityType<FlowDefinition>().Collection.Function(name: "KnownSystemTypes")
+        builder.EntityType<FlowDefinition>().Collection.Function(name: "KnownSystemTypes")
             .Returns<MetadataContainerSet[]>();
 
-        base.builder.EntityType<FlowInstanceData>()
+        builder.EntityType<FlowInstanceData>()
             .Action(name: "Raw");
 
-        base.builder.EntityType<ScheduledTask>()
+        builder.EntityType<ScheduledTask>()
             .Action(name: "Execute");
 
-        base.builder.EntityType<FlowDefinition>()
+        builder.EntityType<FlowDefinition>()
             .Action(name: "Execute")
             .Returns<Guid>();
 
-        base.builder.EntityType<FlowDefinition>().Collection.Action(name: "ExecuteScript")
+        builder.EntityType<FlowDefinition>().Collection.Action(name: "ExecuteScript")
             .Returns<string>();
     }
 }

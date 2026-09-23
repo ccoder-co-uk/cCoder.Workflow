@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
@@ -22,7 +23,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class ScheduledTaskController : ODataController
+public partial class ScheduledTaskController : ODataController, ICompositionExposure
 {
     private readonly ILoggingBroker loggingBroker;
     private readonly IScheduledTaskManager service;
