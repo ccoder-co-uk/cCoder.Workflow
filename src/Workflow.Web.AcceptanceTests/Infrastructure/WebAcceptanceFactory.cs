@@ -6,9 +6,9 @@ using cCoder.Data;
 using cCoder.Data.Models;
 using cCoder.Eventing.Models;
 using cCoder.Security.Data.EF;
-using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Models;
+using cCoder.Security.Models.Configurations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -54,13 +54,15 @@ initialData: [
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<DataConfiguration>();
             services.RemoveAll<EventProvider>();
+            services.RemoveAll<EventProvider<cCoder.Data.Models.Workflow.FlowInstanceData>>();
             services.RemoveAll<ISecurityDbContextFactory>();
+            services.RemoveAll<SecurityDataConfiguration>();
 
-            services.AddSingleton<ISecurityDbContextFactory>(
-                implementationFactory: _ =>
-                    new MSSQLSecurityDbContextFactory(
-                        connectionString: settings.SsoConnectionString)
-            );
+            services.AddSecurityData(
+                configuration: new SecurityDataConfiguration
+                {
+                    ConnectionString = settings.SsoConnectionString
+                });
 
             services.AddData(
                 configuration: new DataConfiguration
