@@ -167,6 +167,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
         services.AddTransient<IServiceScopeBroker, ServiceScopeBroker>();
         services.AddTransient<IWorkflowHubBroker, WorkflowHubBroker>();
+        services.AddTransient<IReflectionBroker, ReflectionBroker>();
         services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();

@@ -15,6 +15,7 @@ internal sealed partial class WorkflowEventService(
     IWorkflowEventBroker workflowEventBroker,
     IAuthorizationBroker authorizationBroker,
     IJsonBroker jsonBroker,
+    IReflectionBroker reflectionBroker,
     ILoggingBroker loggingBroker
 ) : IWorkflowEventService
 {
@@ -86,15 +87,21 @@ internal sealed partial class WorkflowEventService(
             return true;
         });
 
-    private static int? GetIntProperty(object payload, string propertyName) =>
-        payload.GetType()
-            .GetProperty(name: propertyName)?.GetValue(obj: payload) as int?
-        ?? (payload.GetType()
-            .GetProperty(name: propertyName)?.GetValue(obj: payload) is int value ? value : null);
+    private int? GetIntProperty(object payload, string propertyName) =>
+        reflectionBroker.GetPropertyValue(
+            instance: payload,
+            propertyName: propertyName) as int?
+        ?? (reflectionBroker.GetPropertyValue(
+            instance: payload,
+            propertyName: propertyName) is int value
+                ? value
+                : null);
 
-    private static string GetStringProperty(object payload, string propertyName) =>
-        payload.GetType()
-            .GetProperty(name: propertyName)?.GetValue(obj: payload)?.ToString();
+    private string GetStringProperty(object payload, string propertyName) =>
+        reflectionBroker.GetPropertyValue(
+            instance: payload,
+            propertyName: propertyName)?
+            .ToString();
 
     public WorkflowEvent Get(Guid workflowEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });

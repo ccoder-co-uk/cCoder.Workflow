@@ -8,6 +8,7 @@ using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
+using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Loggings;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 using FizzWare.NBuilder;
@@ -34,6 +35,7 @@ public partial class WorkflowEventServiceTests
             workflowEventBroker: workflowEventBrokerMock.Object,
             authorizationBroker: authorizationBrokerMock.Object,
             jsonBroker: jsonBrokerMock.Object,
+            reflectionBroker: new ReflectionBroker(),
             loggingBroker: loggingBrokerMock.Object
         );
     }
