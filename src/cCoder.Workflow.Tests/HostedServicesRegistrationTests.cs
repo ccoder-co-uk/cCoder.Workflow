@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Eventing;
-using cCoder.Workflow.Dependencies.HostedServices;
+using cCoder.Workflow.Exposures.HostedServices;
 using cCoder.Workflow.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,23 +42,23 @@ filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
         // Then
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IInstanceMaintenanceBackgroundServiceDependency)
-                && descriptor.ImplementationType == typeof(InstanceMaintenanceBackgroundServiceDependency));
+filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
+                && descriptor.ImplementationType == typeof(InstanceMaintenanceBackgroundService));
 
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IQueueInstanceBackgroundServiceDependency)
-                && descriptor.ImplementationType == typeof(QueueInstanceBackgroundServiceDependency));
+filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
+                && descriptor.ImplementationType == typeof(QueueInstanceBackgroundService));
 
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IScheduledTaskRunnerBackgroundServiceDependency)
-                && descriptor.ImplementationType == typeof(ScheduledTaskRunnerBackgroundServiceDependency));
+filter: descriptor => descriptor.ServiceType == typeof(IHostedService)
+                && descriptor.ImplementationType == typeof(ScheduledTaskRunnerBackgroundService));
 
         Assert.Equal(
 expected: 3,
 actual: services.Count(predicate: descriptor => descriptor.ServiceType == typeof(IHostedService)
-                && descriptor.ImplementationFactory is not null));
+                && descriptor.ImplementationType is not null));
 
         Assert.Contains(
 collection: services,

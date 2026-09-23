@@ -22,7 +22,7 @@ using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.Controllers;
-using cCoder.Workflow.Dependencies.HostedServices;
+using cCoder.Workflow.Exposures.HostedServices;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
@@ -116,20 +116,9 @@ public static partial class IServiceCollectionExtensions
     private static void AddHostedServiceExposures(
         this IServiceCollection services)
     {
-        services.AddSingleton<IInstanceMaintenanceBackgroundServiceDependency, InstanceMaintenanceBackgroundServiceDependency>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IInstanceMaintenanceBackgroundServiceDependency>());
-
-        services.AddSingleton<IQueueInstanceBackgroundServiceDependency, QueueInstanceBackgroundServiceDependency>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IQueueInstanceBackgroundServiceDependency>());
-
-        services.AddSingleton<IScheduledTaskRunnerBackgroundServiceDependency, ScheduledTaskRunnerBackgroundServiceDependency>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IScheduledTaskRunnerBackgroundServiceDependency>());
+        services.AddHostedService<InstanceMaintenanceBackgroundService>();
+        services.AddHostedService<QueueInstanceBackgroundService>();
+        services.AddHostedService<ScheduledTaskRunnerBackgroundService>();
     }
 
     private static void AddEventingTypes(this IServiceCollection services)
@@ -176,6 +165,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddBrokers(this IServiceCollection services)
     {
         services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
+        services.AddTransient<IServiceScopeBroker, ServiceScopeBroker>();
         services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
