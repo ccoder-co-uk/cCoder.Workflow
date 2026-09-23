@@ -9,11 +9,21 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.JsonBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "FullName": "cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "Name": "IUtilityBroker",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IJsonBroker",
           "FullName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
@@ -30,7 +40,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.Deserialize(System.String)",
           "Name": "Deserialize",
-          "LineNumber": 12,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "value",
@@ -65,7 +75,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.DeserializeWithoutTypeInformation(System.String)",
           "Name": "DeserializeWithoutTypeInformation",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "value",
@@ -100,7 +110,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.Serialize(System.Object)",
           "Name": "Serialize",
-          "LineNumber": 22,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "value",
@@ -135,7 +145,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.JsonBroker.SerializeForOData(System.Object)",
           "Name": "SerializeForOData",
-          "LineNumber": 28,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "value",
@@ -172,11 +182,21 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "FullName": "cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "Name": "IUtilityBroker",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker",
           "FullName": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker",
@@ -193,7 +213,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogDebug(System.String,System.Object[])",
           "Name": "LogDebug",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "message",
@@ -232,7 +252,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 23,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "exception",
@@ -275,7 +295,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogError(System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "message",
@@ -314,7 +334,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogInformation(System.String,System.Object[])",
           "Name": "LogInformation",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -353,7 +373,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogWarning(System.String,System.Object[])",
           "Name": "LogWarning",
-          "LineNumber": 17,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "message",
@@ -392,7 +412,7 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
+      "Name": "cCoder.Workflow.Engine.Brokers.ReflectionBroker",
       "StandardElementType": "Broker",
       "LineNumber": 10,
       "IsPublic": false,
@@ -400,9 +420,19 @@
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IScriptBroker",
-          "FullName": "cCoder.Workflow.Engine.Brokers.IScriptBroker",
-          "Name": "IScriptBroker",
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "FullName": "cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "Name": "IUtilityBroker",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IReflectionBroker",
+          "FullName": "cCoder.Workflow.Engine.Brokers.IReflectionBroker",
+          "Name": "IReflectionBroker",
           "Namespace": "cCoder.Workflow.Engine.Brokers",
           "AssemblyName": "cCoder.Workflow.Engine",
           "Kind": "Interface",
@@ -413,34 +443,80 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Brokers.ScriptBroker.BuildScript(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "BuildScript",
+          "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.GetGenericTypeArguments(System.Type)",
+          "Name": "GetGenericTypeArguments",
+          "LineNumber": 30,
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.Type[]",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IReflectionBroker.GetGenericTypeArguments(System.Type)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.GetTypeName(System.Type)",
+          "Name": "GetTypeName",
+          "LineNumber": 27,
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IReflectionBroker.GetTypeName(System.Type)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.HasAttribute(System.Reflection.PropertyInfo)",
+          "Name": "HasAttribute",
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "code",
-              "Type": "System.String"
-            },
-            {
-              "Name": "imports",
-              "Type": "System.String[]"
-            },
-            {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+              "Name": "property",
+              "Type": "System.Reflection.PropertyInfo"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
+          "ReturnType": "System.Boolean",
           "Implements": [
-            "cCoder.Workflow.Activities.IScriptRunner.BuildScript(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
+            "cCoder.Workflow.Engine.Brokers.IReflectionBroker.HasAttribute(System.Reflection.PropertyInfo)"
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
-              "MethodName": "BuildScriptAsync",
-              "MethodId": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.BuildScriptAsync(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
+              "TypeName": "System.Reflection.CustomAttributeExtensions",
+              "MethodName": "GetCustomAttribute",
+              "MethodId": "System.Reflection.CustomAttributeExtensions.GetCustomAttribute(System.Reflection.MemberInfo)",
               "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [],
@@ -456,38 +532,130 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Workflow.Engine.Brokers.ScriptBroker.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "Run",
-          "LineNumber": 23,
+          "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.IsGenericType(System.Type)",
+          "Name": "IsGenericType",
+          "LineNumber": 24,
           "Inputs": [
             {
-              "Name": "code",
-              "Type": "System.String"
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.Boolean",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IReflectionBroker.IsGenericType(System.Type)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.SetValue(System.Reflection.PropertyInfo,System.Object,System.Object)",
+          "Name": "SetValue",
+          "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "property",
+              "Type": "System.Reflection.PropertyInfo"
+            },
+            {
+              "Name": "instance",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IReflectionBroker.SetValue(System.Reflection.PropertyInfo,System.Object,System.Object)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Reflection.PropertyInfo",
+              "MethodName": "SetValue",
+              "MethodId": "System.Reflection.PropertyInfo.SetValue(System.Object?,System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker",
+          "FullName": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker",
+          "Name": "IRoslynScriptBroker",
+          "Namespace": "cCoder.Workflow.Engine.Brokers",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.BuildOptions(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E,System.String[])",
+          "Name": "BuildOptions",
+          "LineNumber": 30,
+          "Inputs": [
+            {
+              "Name": "references",
+              "Type": "System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E"
             },
             {
               "Name": "imports",
               "Type": "System.String[]"
-            },
-            {
-              "Name": "args",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
+          "ReturnType": "Microsoft.CodeAnalysis.Scripting.ScriptOptions",
           "Implements": [
-            "cCoder.Workflow.Activities.IScriptRunner.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.BuildOptions(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E,System.String[])"
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
-              "MethodName": "RunScriptAsync",
-              "MethodId": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
+              "TypeName": "Microsoft.CodeAnalysis.Scripting.ScriptOptions",
+              "MethodName": "AddReferences",
+              "MethodId": "Microsoft.CodeAnalysis.Scripting.ScriptOptions.AddReferences(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E)",
               "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.CodeAnalysis.Scripting.ScriptOptions",
+              "MethodName": "WithImports",
+              "MethodId": "Microsoft.CodeAnalysis.Scripting.ScriptOptions.WithImports(System.String[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [],
@@ -503,38 +671,207 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Workflow.Engine.Brokers.ScriptBroker.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "Run",
-          "LineNumber": 34,
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type)",
+          "Name": "EvaluateAsync",
+          "LineNumber": 37,
           "Inputs": [
             {
               "Name": "code",
               "Type": "System.String"
             },
             {
-              "Name": "imports",
-              "Type": "System.String[]"
+              "Name": "options",
+              "Type": "Microsoft.CodeAnalysis.Scripting.ScriptOptions"
             },
             {
-              "Name": "args",
+              "Name": "globals",
               "Type": "System.Object"
             },
             {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+              "Name": "globalsType",
+              "Type": "System.Type"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task",
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
           "Implements": [
-            "cCoder.Workflow.Activities.IScriptRunner.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type)"
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
-              "MethodName": "RunScriptAsync",
-              "MethodId": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
+              "TypeName": "Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript",
+              "MethodName": "EvaluateAsync",
+              "MethodId": "Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type,System.Threading.CancellationToken)",
               "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetCurrentAssemblies()",
+          "Name": "GetCurrentAssemblies",
+          "LineNumber": 13,
+          "Inputs": [],
+          "ReturnType": "System.Reflection.Assembly[]",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetCurrentAssemblies()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.AppDomain",
+              "MethodName": "GetAssemblies",
+              "MethodId": "System.AppDomain.GetAssemblies()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetExecutingAssembly()",
+          "Name": "GetExecutingAssembly",
+          "LineNumber": 16,
+          "Inputs": [],
+          "ReturnType": "System.Reflection.Assembly",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetExecutingAssembly()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Reflection.Assembly",
+              "MethodName": "GetExecutingAssembly",
+              "MethodId": "System.Reflection.Assembly.GetExecutingAssembly()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetExportedTypes(System.Reflection.Assembly)",
+          "Name": "GetExportedTypes",
+          "LineNumber": 27,
+          "Inputs": [
+            {
+              "Name": "assembly",
+              "Type": "System.Reflection.Assembly"
+            }
+          ],
+          "ReturnType": "System.Type[]",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetExportedTypes(System.Reflection.Assembly)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Reflection.Assembly",
+              "MethodName": "GetExportedTypes",
+              "MethodId": "System.Reflection.Assembly.GetExportedTypes()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetFiles(System.String,System.String)",
+          "Name": "GetFiles",
+          "LineNumber": 19,
+          "Inputs": [
+            {
+              "Name": "path",
+              "Type": "System.String"
+            },
+            {
+              "Name": "searchPattern",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.String[]",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetFiles(System.String,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.IO.Directory",
+              "MethodName": "GetFiles",
+              "MethodId": "System.IO.Directory.GetFiles(System.String,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.LoadFile(System.String)",
+          "Name": "LoadFile",
+          "LineNumber": 24,
+          "Inputs": [
+            {
+              "Name": "path",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Reflection.Assembly",
+          "Implements": [
+            "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.LoadFile(System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Reflection.Assembly",
+              "MethodName": "LoadFile",
+              "MethodId": "System.Reflection.Assembly.LoadFile(System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [],
@@ -554,7 +891,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -575,14 +912,14 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "CreateWorkflowExecutionContext",
-          "LineNumber": 13,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "flowExecution",
               "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
             }
           ],
-          "ReturnType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+          "ReturnType": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
           "Implements": [
             "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)"
           ],
@@ -600,13 +937,13 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext,System.String,System.String)",
+          "Id": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Models.WorkflowExecutionContext,System.String,System.String)",
           "Name": "ExecuteWorkflowExecutionContextAsync",
-          "LineNumber": 17,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "workflowExecutionContext",
-              "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+              "Type": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext"
             },
             {
               "Name": "apiRoot",
@@ -619,13 +956,13 @@
           ],
           "ReturnType": "System.Threading.Tasks.Task",
           "Implements": [
-            "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext,System.String,System.String)"
+            "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Models.WorkflowExecutionContext,System.String,System.String)"
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+              "TypeName": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
               "MethodName": "ExecuteAsync",
-              "MethodId": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext.ExecuteAsync(System.String,System.String)",
+              "MethodId": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext.ExecuteAsync(System.String,System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
@@ -687,15 +1024,7 @@
           "Implements": [
             "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)"
           ],
-          "Calls": [
-            {
-              "TypeName": "System.Net.Http.HttpClient",
-              "MethodName": "GetStringAsync",
-              "MethodId": "System.Net.Http.HttpClient.GetStringAsync(System.String?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
+          "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
           "ThrowsExceptionTypes": [],
@@ -865,360 +1194,40 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
+      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
       "StandardElementType": "Dependency",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency",
-          "FullName": "cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency",
-          "Name": "IRoslynScriptDependency",
-          "Namespace": "cCoder.Workflow.Engine.Dependencies",
-          "AssemblyName": "cCoder.Workflow.Engine",
-          "Kind": "Interface",
-          "IsInCurrentProject": true,
-          "StandardElementType": "Unknown"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.BuildScriptAsync(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "BuildScriptAsync",
-          "LineNumber": 26,
-          "Inputs": [
-            {
-              "Name": "code",
-              "Type": "System.String"
-            },
-            {
-              "Name": "imports",
-              "Type": "System.String[]"
-            },
-            {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
-          "Implements": [
-            "cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency.BuildScriptAsync(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
-          ],
-          "Calls": [
-            {
-              "TypeName": "Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript",
-              "MethodName": "EvaluateAsync",
-              "MethodId": "Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type,System.Threading.CancellationToken)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Action\u003CT1, T2\u003E",
-              "MethodName": "Invoke",
-              "MethodId": "System.Action\u003CT1, T2\u003E.Invoke(T1,T2)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        },
-        {
-          "Id": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "RunScriptAsync",
-          "LineNumber": 60,
-          "Inputs": [
-            {
-              "Name": "code",
-              "Type": "System.String"
-            },
-            {
-              "Name": "imports",
-              "Type": "System.String[]"
-            },
-            {
-              "Name": "args",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
-          "Implements": [
-            "cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
-          ],
-          "Calls": [
-            {
-              "TypeName": "Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript",
-              "MethodName": "EvaluateAsync",
-              "MethodId": "Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type,System.Threading.CancellationToken)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Microsoft.CodeAnalysis.Scripting.ScriptOptions",
-              "MethodName": "AddReferences",
-              "MethodId": "Microsoft.CodeAnalysis.Scripting.ScriptOptions.AddReferences(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Microsoft.CodeAnalysis.Scripting.ScriptOptions",
-              "MethodName": "WithImports",
-              "MethodId": "Microsoft.CodeAnalysis.Scripting.ScriptOptions.WithImports(System.String[])",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Action\u003CT1, T2\u003E",
-              "MethodName": "Invoke",
-              "MethodId": "System.Action\u003CT1, T2\u003E.Invoke(T1,T2)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Collections.Generic.List\u003CT\u003E",
-              "MethodName": "Add",
-              "MethodId": "System.Collections.Generic.List\u003CT\u003E.Add(T)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "Select",
-              "MethodId": "System.Linq.Enumerable.Select(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, TResult\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Object",
-              "MethodName": "GetType",
-              "MethodId": "System.Object.GetType()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.String",
-              "MethodName": "Join",
-              "MethodId": "System.String.Join(System.String?,System.Collections.Generic.IEnumerable\u003CSystem.String?\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.String",
-              "MethodName": "Join",
-              "MethodId": "System.String.Join(System.String?,System.Collections.Generic.IEnumerable\u003CT\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.String",
-              "MethodName": "Join",
-              "MethodId": "System.String.Join(System.String?,System.String?[])",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
-      "StandardElementType": "Dependency",
-      "LineNumber": 16,
-      "IsPublic": true,
-      "Kind": "Class",
-      "BaseType": {
-        "Id": "cCoder.Workflow.Activities:cCoder.Workflow.Activities.Models.WorkflowContext",
-        "FullName": "cCoder.Workflow.Activities.Models.WorkflowContext",
-        "Name": "WorkflowContext",
-        "Namespace": "cCoder.Workflow.Activities.Models",
-        "AssemblyName": "cCoder.Workflow.Activities",
-        "Kind": "Class",
-        "IsInCurrentProject": false,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [
-        {
-          "Id": "cCoder.Workflow.Activities:cCoder.Workflow.Activities.IWorkflowContext",
-          "FullName": "cCoder.Workflow.Activities.IWorkflowContext",
-          "Name": "IWorkflowContext",
-          "Namespace": "cCoder.Workflow.Activities",
-          "AssemblyName": "cCoder.Workflow.Activities",
+          "Id": "System.Private.CoreLib:System.IDisposable",
+          "FullName": "System.IDisposable",
+          "Name": "IDisposable",
+          "Namespace": "System",
+          "AssemblyName": "System.Private.CoreLib",
           "Kind": "Interface",
           "IsInCurrentProject": false,
           "StandardElementType": "Dependency"
         }
       ],
-      "Properties": [
-        {
-          "Name": "Script",
-          "Type": "cCoder.Workflow.Activities.IScriptRunner"
-        }
-      ],
+      "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext.ExecuteAsync(System.String,System.String)",
-          "Name": "ExecuteAsync",
-          "LineNumber": 41,
-          "Inputs": [
-            {
-              "Name": "apiRoot",
-              "Type": "System.String"
-            },
-            {
-              "Name": "authToken",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "System.Collections.Generic.IDictionary\u003CTKey, TValue\u003E",
-              "MethodName": "TryGetValue",
-              "MethodId": "System.Collections.Generic.IDictionary\u003CTKey, TValue\u003E.TryGetValue(TKey,TValue)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Guid",
-              "MethodName": "ToString",
-              "MethodId": "System.Guid.ToString()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "First",
-              "MethodId": "System.Linq.Enumerable.First(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "OfType",
-              "MethodId": "System.Linq.Enumerable.OfType(System.Collections.IEnumerable)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Net.Http.Headers.AuthenticationHeaderValue",
-              "MethodName": ".ctor",
-              "MethodId": "System.Net.Http.Headers.AuthenticationHeaderValue..ctor(System.String,System.String?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Workflow.Activities.Start",
-              "MethodName": "ExecuteInternal",
-              "MethodId": "cCoder.Workflow.Activities.Start.ExecuteInternal(cCoder.Workflow.Activities.IWorkflowContext)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Workflow.Activities.Support.HttpClientExtensions",
-              "MethodName": "GetAsync",
-              "MethodId": "cCoder.Workflow.Activities.Support.HttpClientExtensions.GetAsync(System.Net.Http.HttpClient,System.String)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
-              "MethodName": "Log",
-              "MethodId": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        },
-        {
-          "Id": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
-          "Name": "Log",
-          "LineNumber": 92,
-          "Inputs": [
-            {
-              "Name": "level",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
-            },
-            {
-              "Name": "message",
-              "Type": "System.String"
-            }
-          ],
+          "Id": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency.Dispose()",
+          "Name": "Dispose",
+          "LineNumber": 61,
+          "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
-            "cCoder.Workflow.Activities.IWorkflowContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)"
+            "System.IDisposable.Dispose()"
           ],
           "Calls": [
             {
-              "TypeName": "System.Collections.Generic.ICollection\u003CT\u003E",
-              "MethodName": "Add",
-              "MethodId": "System.Collections.Generic.ICollection\u003CT\u003E.Add(T)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Runtime.CompilerServices.TaskAwaiter",
-              "MethodName": "GetResult",
-              "MethodId": "System.Runtime.CompilerServices.TaskAwaiter.GetResult()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Threading.Tasks.Task",
-              "MethodName": "GetAwaiter",
-              "MethodId": "System.Threading.Tasks.Task.GetAwaiter()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Workflow.Activities.LogEvent",
-              "MethodName": "Invoke",
-              "MethodId": "cCoder.Workflow.Activities.LogEvent.Invoke(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Workflow.Activities.Models.WorkflowLogEntry",
-              "MethodName": ".ctor",
-              "MethodId": "cCoder.Workflow.Activities.Models.WorkflowLogEntry..ctor(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "TypeName": "System.Net.Http.HttpMessageInvoker",
+              "MethodName": "Dispose",
+              "MethodId": "System.Net.Http.HttpMessageInvoker.Dispose()",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -1236,26 +1245,6 @@
           "HasTryCatch": false
         }
       ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
-      "StandardElementType": "Dependency",
-      "LineNumber": 12,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": {
-        "Id": "System.Net.Http:System.Net.Http.HttpClient",
-        "FullName": "System.Net.Http.HttpClient",
-        "Name": "HttpClient",
-        "Namespace": "System.Net.Http",
-        "AssemblyName": "System.Net.Http",
-        "Kind": "Class",
-        "IsInCurrentProject": false,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": []
     },
     {
       "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
@@ -1354,17 +1343,16 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService",
+              "TypeName": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService",
               "MethodName": "ExecuteWorkflowRequestAsync",
-              "MethodId": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
-              "StandardElementType": "OrchestrationService",
+              "MethodId": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
+              "StandardElementType": "CoordinationService",
               "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
             "System.InvalidOperationException",
-            "System.Net.Http.HttpRequestException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
@@ -1438,10 +1426,10 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService",
+              "TypeName": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService",
               "MethodName": "ExecuteWorkflowScriptAsync",
-              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
-              "StandardElementType": "FoundationService",
+              "MethodId": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
+              "StandardElementType": "ProcessingService",
               "IsDependencyBoundary": false
             }
           ],
@@ -1542,7 +1530,7 @@
     {
       "Name": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 14,
+      "LineNumber": 15,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -1552,7 +1540,7 @@
         {
           "Id": "cCoder.Workflow.Engine.IServiceCollectionExtensions.AddWorkflowEngineHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)",
           "Name": "AddWorkflowEngineHostedServices",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "services",
@@ -1667,7 +1655,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Models.FlowExecution",
       "StandardElementType": "Model",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -1683,7 +1671,7 @@
         },
         {
           "Name": "Context",
-          "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+          "Type": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext"
         },
         {
           "Name": "Flow",
@@ -1725,6 +1713,196 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
+      "StandardElementType": "Dependency",
+      "LineNumber": 16,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "cCoder.Workflow.Activities:cCoder.Workflow.Activities.Models.WorkflowContext",
+        "FullName": "cCoder.Workflow.Activities.Models.WorkflowContext",
+        "Name": "WorkflowContext",
+        "Namespace": "cCoder.Workflow.Activities.Models",
+        "AssemblyName": "cCoder.Workflow.Activities",
+        "Kind": "Class",
+        "IsInCurrentProject": false,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Activities:cCoder.Workflow.Activities.IWorkflowContext",
+          "FullName": "cCoder.Workflow.Activities.IWorkflowContext",
+          "Name": "IWorkflowContext",
+          "Namespace": "cCoder.Workflow.Activities",
+          "AssemblyName": "cCoder.Workflow.Activities",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
+      "Properties": [
+        {
+          "Name": "Script",
+          "Type": "cCoder.Workflow.Activities.IScriptRunner"
+        }
+      ],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext.ExecuteAsync(System.String,System.String)",
+          "Name": "ExecuteAsync",
+          "LineNumber": 41,
+          "Inputs": [
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "System.Collections.Generic.IDictionary\u003CTKey, TValue\u003E",
+              "MethodName": "TryGetValue",
+              "MethodId": "System.Collections.Generic.IDictionary\u003CTKey, TValue\u003E.TryGetValue(TKey,TValue)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Guid",
+              "MethodName": "ToString",
+              "MethodId": "System.Guid.ToString()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "First",
+              "MethodId": "System.Linq.Enumerable.First(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "OfType",
+              "MethodId": "System.Linq.Enumerable.OfType(System.Collections.IEnumerable)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Net.Http.Headers.AuthenticationHeaderValue",
+              "MethodName": ".ctor",
+              "MethodId": "System.Net.Http.Headers.AuthenticationHeaderValue..ctor(System.String,System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Activities.Start",
+              "MethodName": "ExecuteInternal",
+              "MethodId": "cCoder.Workflow.Activities.Start.ExecuteInternal(cCoder.Workflow.Activities.IWorkflowContext)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Activities.Support.HttpClientExtensions",
+              "MethodName": "GetAsync",
+              "MethodId": "cCoder.Workflow.Activities.Support.HttpClientExtensions.GetAsync(System.Net.Http.HttpClient,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
+              "MethodName": "Log",
+              "MethodId": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+          "Name": "Log",
+          "LineNumber": 92,
+          "Inputs": [
+            {
+              "Name": "level",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowLogLevel"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "cCoder.Workflow.Activities.IWorkflowContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Collections.Generic.ICollection\u003CT\u003E",
+              "MethodName": "Add",
+              "MethodId": "System.Collections.Generic.ICollection\u003CT\u003E.Add(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Runtime.CompilerServices.TaskAwaiter",
+              "MethodName": "GetResult",
+              "MethodId": "System.Runtime.CompilerServices.TaskAwaiter.GetResult()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Threading.Tasks.Task",
+              "MethodName": "GetAwaiter",
+              "MethodId": "System.Threading.Tasks.Task.GetAwaiter()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Activities.LogEvent",
+              "MethodName": "Invoke",
+              "MethodId": "cCoder.Workflow.Activities.LogEvent.Invoke(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Activities.Models.WorkflowLogEntry",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Workflow.Activities.Models.WorkflowLogEntry..ctor(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.Workflow.Engine.Models.WorkflowHttpResult",
       "StandardElementType": "Model",
       "LineNumber": 7,
@@ -1734,6 +1912,107 @@
       "Interfaces": [],
       "Properties": [],
       "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService",
+          "FullName": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService",
+          "Name": "IWorkflowRequestCoordinationService",
+          "Namespace": "cCoder.Workflow.Engine.Services.Coordinations",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "CoordinationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
+          "Name": "ExecuteWorkflowRequestAsync",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService",
+              "MethodName": "ExecuteFlowExecutionAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+              "MethodName": "FinishFlowExecutionAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.FinishFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+              "MethodName": "RecordFlowExecutionFailureAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.RecordFlowExecutionFailureAsync(cCoder.Workflow.Engine.Models.FlowExecution,System.Exception)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+              "MethodName": "SaveFlowExecutionAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.SaveFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+              "MethodName": "StartFlowExecutionAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.StartFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "System.InvalidOperationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
+        }
+      ]
     },
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.FlowCommunicationService",
@@ -1860,17 +2139,17 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService",
+      "Name": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 17,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService",
-          "FullName": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService",
-          "Name": "IFlowInstanceService",
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService",
+          "FullName": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService",
+          "Name": "IFlowInstanceDataService",
           "Namespace": "cCoder.Workflow.Engine.Services.Foundations",
           "AssemblyName": "cCoder.Workflow.Engine",
           "Kind": "Interface",
@@ -1881,18 +2160,26 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
-          "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 24,
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService.GetFlowInstanceDataAsync(System.String,System.String,System.Guid)",
+          "Name": "GetFlowInstanceDataAsync",
+          "LineNumber": 17,
           "Inputs": [
             {
-              "Name": "flowExecution",
-              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            },
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E",
+          "ReturnType": "System.Threading.Tasks.Task\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E",
           "Implements": [
-            "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)"
+            "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.GetFlowInstanceDataAsync(System.String,System.String,System.Guid)"
           ],
           "Calls": [
             {
@@ -1903,16 +2190,9 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
-              "MethodName": "CreateWorkflowExecutionContext",
-              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
-              "MethodName": "ExecuteWorkflowExecutionContextAsync",
-              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext,System.String,System.String)",
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "Deserialize",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.Deserialize(System.String)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
@@ -1927,7 +2207,6 @@
           "PossibleExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
             "System.InvalidOperationException",
-            "System.Net.Http.HttpRequestException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
@@ -1935,7 +2214,70 @@
           "IncomingExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
             "System.InvalidOperationException",
-            "System.Net.Http.HttpRequestException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
+          "Name": "SaveFlowInstanceDataAsync",
+          "LineNumber": 39,
+          "Inputs": [
+            {
+              "Name": "flowInstanceData",
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
+            },
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
+              "MethodName": "SerializeForOData",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.SerializeForOData(System.Object)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
+              "MethodName": "PutJsonAsync",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
@@ -2050,13 +2392,6 @@
           ],
           "Calls": [
             {
-              "TypeName": "System.Net.Http.HttpRequestException",
-              "MethodName": ".ctor",
-              "MethodId": "System.Net.Http.HttpRequestException..ctor(System.String?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
               "TypeName": "cCoder.Workflow.Engine.Brokers.IJsonBroker",
               "MethodName": "SerializeForOData",
               "MethodId": "cCoder.Workflow.Engine.Brokers.IJsonBroker.SerializeForOData(System.Object)",
@@ -2073,14 +2408,12 @@
           ],
           "PossibleExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
-            "System.Net.Http.HttpRequestException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
           ],
           "IncomingExceptionTypes": [
             "System.ComponentModel.DataAnnotations.ValidationException",
-            "System.Net.Http.HttpRequestException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
             "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
@@ -2151,17 +2484,17 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Services.Foundations.WorkflowScriptExecutionFoundationService",
+      "Name": "cCoder.Workflow.Engine.Services.Foundations.ScriptService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 14,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
         {
-          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService",
-          "FullName": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService",
-          "Name": "IWorkflowScriptExecutionFoundationService",
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Foundations.IScriptService",
+          "FullName": "cCoder.Workflow.Engine.Services.Foundations.IScriptService",
+          "Name": "IScriptService",
           "Namespace": "cCoder.Workflow.Engine.Services.Foundations",
           "AssemblyName": "cCoder.Workflow.Engine",
           "Kind": "Interface",
@@ -2172,9 +2505,590 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Services.Foundations.WorkflowScriptExecutionFoundationService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
-          "Name": "ExecuteWorkflowScriptAsync",
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.ScriptService.BuildScript(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
+          "Name": "BuildScript",
           "LineNumber": 22,
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
+          "Implements": [
+            "cCoder.Workflow.Activities.IScriptRunner.BuildScript(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.ScriptService.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
+          "Name": "Run",
+          "LineNumber": 70,
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
+          "Implements": [
+            "cCoder.Workflow.Activities.IScriptRunner.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.ScriptService.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
+          "Name": "Run",
+          "LineNumber": 164,
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            },
+            {
+              "Name": "args",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "log",
+              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [
+            "cCoder.Workflow.Activities.IScriptRunner.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService",
+      "StandardElementType": "FoundationService",
+      "LineNumber": 16,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService",
+          "FullName": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService",
+          "Name": "IWorkflowRuntimeService",
+          "Namespace": "cCoder.Workflow.Engine.Services.Foundations",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "FoundationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "ExecuteFlowExecutionAsync",
+          "LineNumber": 22,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.InvalidOperationException",
+              "MethodName": ".ctor",
+              "MethodId": "System.InvalidOperationException..ctor(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
+              "MethodName": "CreateWorkflowExecutionContext",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
+              "MethodName": "ExecuteWorkflowExecutionContextAsync",
+              "MethodId": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Models.WorkflowExecutionContext,System.String,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "System.InvalidOperationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "System.InvalidOperationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService",
+          "FullName": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService",
+          "Name": "IFlowExecutionOrchestrationService",
+          "Namespace": "cCoder.Workflow.Engine.Services.Orchestrations",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "OrchestrationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "ExecuteFlowExecutionAsync",
+          "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService",
+              "MethodName": "SaveFlowInstanceDataAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService",
+              "MethodName": "ExecuteFlowExecutionAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "System.InvalidOperationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+          "FullName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+          "Name": "IWorkflowLifecycleOrchestrationService",
+          "Namespace": "cCoder.Workflow.Engine.Services.Orchestrations",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "OrchestrationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.FinishFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "FinishFlowExecutionAsync",
+          "LineNumber": 91,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.FinishFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
+              "MethodName": "LogWorkflowRequestAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.LogWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest,cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.RecordFlowExecutionFailureAsync(cCoder.Workflow.Engine.Models.FlowExecution,System.Exception)",
+          "Name": "RecordFlowExecutionFailureAsync",
+          "LineNumber": 56,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            },
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.RecordFlowExecutionFailureAsync(cCoder.Workflow.Engine.Models.FlowExecution,System.Exception)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
+              "MethodName": "LogWorkflowRequestAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.LogWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest,cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": true
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.SaveFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "SaveFlowExecutionAsync",
+          "LineNumber": 44,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.SaveFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService",
+              "MethodName": "SaveFlowInstanceDataAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.StartFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "StartFlowExecutionAsync",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.StartFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Threading.Tasks.ValueTask",
+              "MethodName": "AsTask",
+              "MethodId": "System.Threading.Tasks.ValueTask.AsTask()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
+              "MethodName": "ConnectWorkflowRequestAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.ConnectWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
+              "MethodName": "LogWorkflowRequestAsync",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.LogWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest,cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService",
+              "MethodName": "Serialize",
+              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.Serialize(System.Object)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ComponentModel.DataAnnotations.ValidationException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 15,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService",
+          "FullName": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService",
+          "Name": "IWorkflowScriptExecutionProcessingService",
+          "Namespace": "cCoder.Workflow.Engine.Services.Processings",
+          "AssemblyName": "cCoder.Workflow.Engine",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
+          "Name": "ExecuteWorkflowScriptAsync",
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "payload",
@@ -2187,13 +3101,20 @@
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E",
           "Implements": [
-            "cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)"
+            "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)"
           ],
           "Calls": [
             {
               "TypeName": "System.InvalidOperationException",
               "MethodName": ".ctor",
               "MethodId": "System.InvalidOperationException..ctor(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToArray",
+              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
@@ -2246,108 +3167,6 @@
           "HasKeyParameter": false,
           "HandlesNullWithNotFound": false,
           "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "LineNumber": 11,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService",
-          "FullName": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService",
-          "Name": "IWorkflowRequestOrchestrationService",
-          "Namespace": "cCoder.Workflow.Engine.Services.Orchestrations",
-          "AssemblyName": "cCoder.Workflow.Engine",
-          "Kind": "Interface",
-          "IsInCurrentProject": true,
-          "StandardElementType": "OrchestrationService"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
-          "Name": "ExecuteWorkflowRequestAsync",
-          "LineNumber": 20,
-          "Inputs": [
-            {
-              "Name": "workflowRequest",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask",
-          "Implements": [
-            "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)"
-          ],
-          "Calls": [
-            {
-              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
-              "MethodName": "ConnectWorkflowRequestAsync",
-              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.ConnectWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
-              "MethodName": "LogWorkflowRequestAsync",
-              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.LogWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest,cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService",
-              "MethodName": "ExecuteFlowExecutionAsync",
-              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService",
-              "MethodName": "SaveFlowInstanceDataAsync",
-              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService",
-              "MethodName": "Serialize",
-              "MethodId": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.Serialize(System.Object)",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
-            "System.InvalidOperationException",
-            "System.Net.Http.HttpRequestException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "System.ComponentModel.DataAnnotations.ValidationException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
-            "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
         }
       ]
     }
@@ -2466,31 +3285,9 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Brokers.IScriptBroker",
+      "Name": "cCoder.Workflow.Engine.Brokers.IReflectionBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 8,
-      "IsPublic": false,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "cCoder.Workflow.Activities:cCoder.Workflow.Activities.IScriptRunner",
-          "FullName": "cCoder.Workflow.Activities.IScriptRunner",
-          "Name": "IScriptRunner",
-          "Namespace": "cCoder.Workflow.Activities",
-          "AssemblyName": "cCoder.Workflow.Activities",
-          "Kind": "Interface",
-          "IsInCurrentProject": false,
-          "StandardElementType": "Dependency"
-        }
-      ],
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
-      "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -2498,16 +3295,16 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
-          "Name": "CreateWorkflowExecutionContext",
-          "LineNumber": 12,
+          "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.GetGenericTypeArguments(System.Type)",
+          "Name": "GetGenericTypeArguments",
+          "LineNumber": 23,
           "Inputs": [
             {
-              "Name": "flowExecution",
-              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+              "Name": "type",
+              "Type": "System.Type"
             }
           ],
-          "ReturnType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
+          "ReturnType": "System.Type[]",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -2523,13 +3320,355 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext,System.String,System.String)",
+          "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.GetTypeName(System.Type)",
+          "Name": "GetTypeName",
+          "LineNumber": 21,
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.HasAttribute(System.Reflection.PropertyInfo)",
+          "Name": "HasAttribute",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "property",
+              "Type": "System.Reflection.PropertyInfo"
+            }
+          ],
+          "ReturnType": "System.Boolean",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.IsGenericType(System.Type)",
+          "Name": "IsGenericType",
+          "LineNumber": 19,
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.Boolean",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.SetValue(System.Reflection.PropertyInfo,System.Object,System.Object)",
+          "Name": "SetValue",
+          "LineNumber": 14,
+          "Inputs": [
+            {
+              "Name": "property",
+              "Type": "System.Reflection.PropertyInfo"
+            },
+            {
+              "Name": "instance",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.BuildOptions(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E,System.String[])",
+          "Name": "BuildOptions",
+          "LineNumber": 22,
+          "Inputs": [
+            {
+              "Name": "references",
+              "Type": "System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E"
+            },
+            {
+              "Name": "imports",
+              "Type": "System.String[]"
+            }
+          ],
+          "ReturnType": "Microsoft.CodeAnalysis.Scripting.ScriptOptions",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type)",
+          "Name": "EvaluateAsync",
+          "LineNumber": 26,
+          "Inputs": [
+            {
+              "Name": "code",
+              "Type": "System.String"
+            },
+            {
+              "Name": "options",
+              "Type": "Microsoft.CodeAnalysis.Scripting.ScriptOptions"
+            },
+            {
+              "Name": "globals",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "globalsType",
+              "Type": "System.Type"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetCurrentAssemblies()",
+          "Name": "GetCurrentAssemblies",
+          "LineNumber": 12,
+          "Inputs": [],
+          "ReturnType": "System.Reflection.Assembly[]",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetExecutingAssembly()",
+          "Name": "GetExecutingAssembly",
+          "LineNumber": 14,
+          "Inputs": [],
+          "ReturnType": "System.Reflection.Assembly",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetExportedTypes(System.Reflection.Assembly)",
+          "Name": "GetExportedTypes",
+          "LineNumber": 20,
+          "Inputs": [
+            {
+              "Name": "assembly",
+              "Type": "System.Reflection.Assembly"
+            }
+          ],
+          "ReturnType": "System.Type[]",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetFiles(System.String,System.String)",
+          "Name": "GetFiles",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "path",
+              "Type": "System.String"
+            },
+            {
+              "Name": "searchPattern",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.String[]",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.LoadFile(System.String)",
+          "Name": "LoadFile",
+          "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "path",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Reflection.Assembly",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "CreateWorkflowExecutionContext",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Models.WorkflowExecutionContext,System.String,System.String)",
           "Name": "ExecuteWorkflowExecutionContextAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "workflowExecutionContext",
-              "Type": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext"
+              "Type": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext"
             },
             {
               "Name": "apiRoot",
@@ -2891,88 +4030,6 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency",
-      "StandardElementType": "Unknown",
-      "LineNumber": 9,
-      "IsPublic": false,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency.BuildScriptAsync(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "BuildScriptAsync",
-          "LineNumber": 11,
-          "Inputs": [
-            {
-              "Name": "code",
-              "Type": "System.String"
-            },
-            {
-              "Name": "imports",
-              "Type": "System.String[]"
-            },
-            {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Engine.Dependencies.IRoslynScriptDependency.RunScriptAsync(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
-          "Name": "RunScriptAsync",
-          "LineNumber": 16,
-          "Inputs": [
-            {
-              "Name": "code",
-              "Type": "System.String"
-            },
-            {
-              "Name": "imports",
-              "Type": "System.String[]"
-            },
-            {
-              "Name": "args",
-              "Type": "System.Object"
-            },
-            {
-              "Name": "log",
-              "Type": "System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CT\u003E",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.Workflow.Engine.Exposures.IFlowRunner",
       "StandardElementType": "Exposure",
       "LineNumber": 9,
@@ -3034,6 +4091,43 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task\u003CSystem.String\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService",
+      "StandardElementType": "CoordinationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
+          "Name": "ExecuteWorkflowRequestAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "workflowRequest",
+              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -3121,7 +4215,7 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService",
+      "Name": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService",
       "StandardElementType": "FoundationService",
       "LineNumber": 9,
       "IsPublic": false,
@@ -3131,16 +4225,57 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
-          "Name": "ExecuteFlowExecutionAsync",
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.GetFlowInstanceDataAsync(System.String,System.String,System.Guid)",
+          "Name": "GetFlowInstanceDataAsync",
           "LineNumber": 11,
           "Inputs": [
             {
-              "Name": "flowExecution",
-              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            },
+            {
+              "Name": "flowInstanceDataId",
+              "Type": "System.Guid"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E",
+          "ReturnType": "System.Threading.Tasks.Task\u003CcCoder.Data.Models.Workflow.FlowInstanceData\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
+          "Name": "SaveFlowInstanceDataAsync",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "flowInstanceData",
+              "Type": "cCoder.Data.Models.Workflow.FlowInstanceData"
+            },
+            {
+              "Name": "apiRoot",
+              "Type": "System.String"
+            },
+            {
+              "Name": "authToken",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -3253,8 +4388,220 @@
       ]
     },
     {
-      "Name": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService",
+      "Name": "cCoder.Workflow.Engine.Services.Foundations.IScriptService",
       "StandardElementType": "FoundationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.Workflow.Activities:cCoder.Workflow.Activities.IScriptRunner",
+          "FullName": "cCoder.Workflow.Activities.IScriptRunner",
+          "Name": "IScriptRunner",
+          "Namespace": "cCoder.Workflow.Activities",
+          "AssemblyName": "cCoder.Workflow.Activities",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService",
+      "StandardElementType": "FoundationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "ExecuteFlowExecutionAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "ExecuteFlowExecutionAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Workflow.Engine.Models.FlowExecution\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.FinishFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "FinishFlowExecutionAsync",
+          "LineNumber": 19,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.RecordFlowExecutionFailureAsync(cCoder.Workflow.Engine.Models.FlowExecution,System.Exception)",
+          "Name": "RecordFlowExecutionFailureAsync",
+          "LineNumber": 15,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            },
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.SaveFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "SaveFlowExecutionAsync",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.StartFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
+          "Name": "StartFlowExecutionAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "flowExecution",
+              "Type": "cCoder.Workflow.Engine.Models.FlowExecution"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService",
+      "StandardElementType": "ProcessingService",
       "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Interface",
@@ -3263,7 +4610,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowScriptExecutionFoundationService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
+          "Id": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
           "Name": "ExecuteWorkflowScriptAsync",
           "LineNumber": 9,
           "Inputs": [
@@ -3292,61 +4639,12 @@
           "HasTryCatch": false
         }
       ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService",
-      "StandardElementType": "OrchestrationService",
-      "LineNumber": 9,
-      "IsPublic": false,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowRequestOrchestrationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
-          "Name": "ExecuteWorkflowRequestAsync",
-          "LineNumber": 11,
-          "Inputs": [
-            {
-              "Name": "workflowRequest",
-              "Type": "cCoder.Workflow.Activities.Models.WorkflowRequest"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
     }
   ],
   "Links": [
     {
       "FromType": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker",
       "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker\u003E"
-    },
-    {
-      "FromType": "cCoder.Workflow.Engine.Brokers.ScriptBroker",
-      "ToType": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency"
-    },
-    {
-      "FromType": "cCoder.Workflow.Engine.Dependencies.RoslynScriptDependency",
-      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Engine.Dependencies.RoslynScriptDependency\u003E"
-    },
-    {
-      "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowExecutionContext",
-      "ToType": "cCoder.Workflow.Engine.Models.FlowExecution"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
@@ -3358,11 +4656,11 @@
     },
     {
       "FromType": "cCoder.Workflow.Engine.Exposures.FlowRunner",
-      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService"
+      "ToType": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
-      "ToType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowScriptExecutionFoundationService"
+      "ToType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
@@ -3373,8 +4671,24 @@
       "ToType": "System.Exception"
     },
     {
+      "FromType": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
+      "ToType": "System.String"
+    },
+    {
       "FromType": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException",
       "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
+      "ToType": "cCoder.Workflow.Engine.Models.FlowExecution"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowCommunicationService",
@@ -3385,19 +4699,11 @@
       "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService",
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService",
       "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService",
-      "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService",
-      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService",
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService",
       "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker"
     },
     {
@@ -3409,28 +4715,56 @@
       "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowScriptExecutionFoundationService",
-      "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
-    },
-    {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowScriptExecutionFoundationService",
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.ScriptService",
       "ToType": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowScriptExecutionFoundationService",
-      "ToType": "cCoder.Workflow.Engine.Brokers.ScriptBroker"
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.ScriptService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.ReflectionBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Foundations.ScriptService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService",
       "ToType": "cCoder.Workflow.Engine.Services.Foundations.FlowCommunicationService"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
-      "ToType": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceService"
+      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService",
+      "ToType": "cCoder.Workflow.Engine.Services.Foundations.FlowResultService"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowRequestOrchestrationService",
-      "ToType": "cCoder.Workflow.Engine.Services.Foundations.FlowResultService"
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker"
+    },
+    {
+      "FromType": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
+      "ToType": "cCoder.Workflow.Engine.Services.Foundations.ScriptService"
     }
   ],
   "AnalysisItems": []

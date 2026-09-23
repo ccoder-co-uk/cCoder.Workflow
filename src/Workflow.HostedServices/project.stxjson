@@ -7,9 +7,81 @@
   },
   "Classes": [
     {
+      "Name": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Workflow.HostedServices:Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+          "FullName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+          "Name": "ILoggingBroker",
+          "Namespace": "Workflow.HostedServices.Brokers.Loggings",
+          "AssemblyName": "Workflow.HostedServices",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        },
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "FullName": "cCoder.CodeAnalysis.Exposures.IUtilityBroker",
+          "Name": "IUtilityBroker",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String)",
+          "Name": "LogError",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogError",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogError(Microsoft.Extensions.Logging.ILogger,System.Exception?,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "Workflow.HostedServices.Controllers.HealthController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -22,13 +94,24 @@
         "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
-      "Interfaces": [],
+      "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
           "Id": "Workflow.HostedServices.Controllers.HealthController.Get()",
           "Name": "Get",
-          "LineNumber": 21,
+          "LineNumber": 23,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -55,18 +138,18 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "Workflow.HostedServices.Exposures.IHealthManager",
               "MethodName": "GetHealth",
               "MethodId": "Workflow.HostedServices.Exposures.IHealthManager.GetHealth()",
               "StandardElementType": "Exposure",
               "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [
@@ -127,7 +210,7 @@
     {
       "Name": "Workflow.HostedServices.Controllers.HomeController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -140,13 +223,24 @@
         "IsInCurrentProject": false,
         "StandardElementType": "Dependency"
       },
-      "Interfaces": [],
+      "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
       "Properties": [],
       "Methods": [
         {
           "Id": "Workflow.HostedServices.Controllers.HomeController.Get()",
           "Name": "Get",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -173,18 +267,18 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogError",
+              "MethodId": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "Workflow.HostedServices.Exposures.IHomeManager",
               "MethodName": "GetHome",
               "MethodId": "Workflow.HostedServices.Exposures.IHomeManager.GetHome()",
               "StandardElementType": "Exposure",
               "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [
@@ -256,7 +350,7 @@
     {
       "Name": "Workflow.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 18,
+      "LineNumber": 19,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -266,7 +360,7 @@
         {
           "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
           "Name": "AddHostedServices",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "services",
@@ -288,6 +382,13 @@
               "TypeName": "Microsoft.Extensions.Configuration.ConfigurationBinder",
               "MethodName": "Bind",
               "MethodId": "Microsoft.Extensions.Configuration.ConfigurationBinder.Bind(Microsoft.Extensions.Configuration.IConfiguration,System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions",
+              "MethodName": "AddSingleton",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(Microsoft.Extensions.DependencyInjection.IServiceCollection)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
@@ -439,11 +540,25 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
+              "MethodName": "GetRequiredService",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "Workflow.HostedServices.IServiceCollectionExtensions",
               "MethodName": "AddHostedServices",
               "MethodId": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
               "StandardElementType": "App",
               "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.IEventHubExtensions",
+              "MethodName": "ListenToWorkflowEvents",
+              "MethodId": "cCoder.Workflow.IEventHubExtensions.ListenToWorkflowEvents(cCoder.Eventing.IEventHub)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             },
             {
               "TypeName": "cCoder.Workflow.WebApplicationExtensions",
@@ -598,6 +713,47 @@
   ],
   "Interfaces": [
     {
+      "Name": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
+          "Name": "LogError",
+          "LineNumber": 9,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "Workflow.HostedServices.Exposures.IHealthManager",
       "StandardElementType": "Exposure",
       "LineNumber": 7,
@@ -708,20 +864,24 @@
   ],
   "Links": [
     {
+      "FromType": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker",
+      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CWorkflow.HostedServices.Brokers.Loggings.LoggingBroker\u003E"
+    },
+    {
+      "FromType": "Workflow.HostedServices.Controllers.HealthController",
+      "ToType": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker"
+    },
+    {
       "FromType": "Workflow.HostedServices.Controllers.HealthController",
       "ToType": "Workflow.HostedServices.Services.Processings.HealthProcessingService"
     },
     {
-      "FromType": "Workflow.HostedServices.Controllers.HealthController",
-      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
+      "FromType": "Workflow.HostedServices.Controllers.HomeController",
+      "ToType": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "Workflow.HostedServices.Controllers.HomeController",
       "ToType": "Workflow.HostedServices.Services.Processings.HomeProcessingService"
-    },
-    {
-      "FromType": "Workflow.HostedServices.Controllers.HomeController",
-      "ToType": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker"
     },
     {
       "FromType": "Workflow.HostedServices.Services.Processings.HomeProcessingService",
