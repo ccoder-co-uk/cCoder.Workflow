@@ -3,53 +3,61 @@
 // ---------------------------------------------------------------
 
 using System.Net;
-using cCoder.Workflow.Activities.Support;
-using cCoder.Workflow.Engine.Models;
+using System.Net.Http.Headers;
 using System.Text;
+using cCoder.Workflow.Activities.Support;
 
 namespace cCoder.Workflow.Engine.Dependencies;
 
-internal sealed class WorkflowHttpClientDependency : HttpClient
+internal sealed class WorkflowHttpClientDependency : IDisposable
 {
+    private readonly HttpClient client;
+
     internal WorkflowHttpClientDependency(
         string apiRoot,
         string authToken = null)
-        : base(handler: new HttpClientHandler
+    {
+        client = new HttpClient(handler: new HttpClientHandler
         {
             AutomaticDecompression =
                 DecompressionMethods.GZip | DecompressionMethods.Deflate,
             ServerCertificateCustomValidationCallback =
                 CertChainValidator.ValidateCertChain
         })
-    {
-        BaseAddress = new Uri(apiRoot);
+        {
+            BaseAddress = new Uri(apiRoot)
+        };
 
         if (!string.IsNullOrWhiteSpace(value: authToken))
         {
-            DefaultRequestHeaders.Authorization =
-                new(
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(
                     scheme: "Bearer",
                     parameter: authToken);
         }
     }
 
-    internal async ValueTask<WorkflowHttpResult> PutJsonAsync(
+    internal ValueTask<string> GetStringAsync(string requestUri) =>
+        new(client.GetStringAsync(requestUri: requestUri));
+
+    internal async ValueTask<(bool IsSuccess, int StatusCode, string Status, string Body)> PutJsonAsync(
         string requestUri,
         string payload)
     {
-        using HttpResponseMessage response = await PutAsync(
+        using HttpResponseMessage response = await client.PutAsync(
             requestUri: requestUri,
             content: new StringContent(
                 content: payload,
                 encoding: Encoding.UTF8,
                 mediaType: "application/json"));
 
-        return new WorkflowHttpResult
-        {
-            IsSuccess = response.IsSuccessStatusCode,
-            StatusCode = (int)response.StatusCode,
-            Status = response.StatusCode.ToString(),
-            Body = await response.Content.ReadAsStringAsync()
-        };
+        return (
+            IsSuccess: response.IsSuccessStatusCode,
+            StatusCode: (int)response.StatusCode,
+            Status: response.StatusCode.ToString(),
+            Body: await response.Content.ReadAsStringAsync());
     }
+
+    public void Dispose() =>
+        client.Dispose();
 }
