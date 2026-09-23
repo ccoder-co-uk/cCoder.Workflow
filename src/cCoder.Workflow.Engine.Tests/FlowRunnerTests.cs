@@ -4,14 +4,14 @@
 
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Exposures;
-using cCoder.Workflow.Engine.Services.Orchestrations;
+using cCoder.Workflow.Engine.Services.Coordinations;
 using Moq;
 
 namespace cCoder.Workflow.Engine.Tests;
 
 public sealed partial class FlowRunnerTests
 {
-    private readonly Mock<IWorkflowRequestOrchestrationService> workflowRequestOrchestrationServiceMock = new();
+    private readonly Mock<IWorkflowRequestCoordinationService> workflowRequestOrchestrationServiceMock = new();
     private readonly FlowRunner flowRunner;
 
     public FlowRunnerTests() =>

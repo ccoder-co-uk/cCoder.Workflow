@@ -48,9 +48,10 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
         // Given
         WorkflowRequest request = CreateWorkflowRequest();
 
-        flowCommunicationProcessingServiceMock
+        workflowLifecycleOrchestrationServiceMock
             .Setup(expression: service => service
-                .ConnectWorkflowRequestAsync(workflowRequest: request))
+                .StartFlowExecutionAsync(
+                    flowExecution: It.IsAny<cCoder.Workflow.Engine.Models.FlowExecution>()))
             .Throws(exception: exception);
 
         var service = CreateService();

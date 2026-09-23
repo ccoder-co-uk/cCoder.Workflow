@@ -5,16 +5,16 @@
 using cCoder.Workflow.Engine.Models.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace cCoder.Workflow.Engine.Services.Orchestrations;
+namespace cCoder.Workflow.Engine.Services.Foundations;
 
-internal sealed partial class WorkflowRequestOrchestrationService
+internal sealed partial class WorkflowRuntimeService
 {
-    private static async ValueTask TryCatch(
-        Func<ValueTask> operation)
+    private static async ValueTask<TResult> TryCatch<TResult>(
+        Func<ValueTask<TResult>> operation)
     {
         try
         {
-            await operation();
+            return await operation();
         }
         catch (WorkflowEngineValidationException innerException)
         {

@@ -5,12 +5,11 @@
 using cCoder.Workflow.Engine.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace cCoder.Workflow.Engine.Services.Foundations;
+namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
-internal sealed partial class FlowInstanceService
+internal sealed partial class FlowExecutionOrchestrationService
 {
-    private static void ValidateInputs(
-        params object[] inputs)
+    private static void ValidateInputs(params object[] inputs)
     {
         if (inputs.FirstOrDefault() is not FlowExecution flowExecution
             || flowExecution.Request is null)

@@ -15,4 +15,10 @@ internal interface IReflectionBroker
         PropertyInfo property,
         object instance,
         object value);
+
+    bool IsGenericType(Type type);
+
+    string GetTypeName(Type type);
+
+    Type[] GetGenericTypeArguments(Type type);
 }

@@ -20,4 +20,13 @@ internal sealed class ReflectionBroker
         object instance,
         object value) =>
         property.SetValue(obj: instance, value: value);
+
+    public bool IsGenericType(Type type) =>
+        type.IsGenericType;
+
+    public string GetTypeName(Type type) =>
+        type.Name;
+
+    public Type[] GetGenericTypeArguments(Type type) =>
+        type.GenericTypeArguments;
 }

@@ -7,40 +7,27 @@
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Models;
 using cCoder.Workflow.Engine.Services.Orchestrations;
-using cCoder.Workflow.Engine.Services.Foundations;
+using cCoder.Workflow.Engine.Services.Coordinations;
 using Moq;
 
 namespace cCoder.Workflow.Engine.Tests;
 
 public sealed partial class WorkflowRequestOrchestrationServiceTests
 {
-    private readonly Mock<IFlowCommunicationService>
-        flowCommunicationProcessingServiceMock =
-            new(behavior: MockBehavior.Strict);
-
-    private readonly Mock<IFlowInstanceService>
+    private readonly Mock<IFlowExecutionOrchestrationService>
         flowInstanceProcessingServiceMock =
             new(behavior: MockBehavior.Strict);
 
-    private readonly Mock<IFlowResultService>
-        flowResultProcessingServiceMock =
+    private readonly Mock<IWorkflowLifecycleOrchestrationService>
+        workflowLifecycleOrchestrationServiceMock =
             new(behavior: MockBehavior.Strict);
 
-    private WorkflowRequestOrchestrationService CreateService()
-    {
-        flowResultProcessingServiceMock
-            .Setup(expression: service => service.Serialize(
-                It.IsAny<object>()))
-            .Returns(value: "{}");
-
-        return new WorkflowRequestOrchestrationService(
-            flowCommunicationProcessingService:
-                flowCommunicationProcessingServiceMock.Object,
-            flowInstanceProcessingService:
+    private WorkflowRequestCoordinationService CreateService() =>
+        new(
+            flowExecutionOrchestrationService:
                 flowInstanceProcessingServiceMock.Object,
-            flowResultProcessingService:
-                flowResultProcessingServiceMock.Object);
-    }
+            workflowLifecycleOrchestrationService:
+                workflowLifecycleOrchestrationServiceMock.Object);
 
     private static WorkflowRequest CreateWorkflowRequest() =>
         new(

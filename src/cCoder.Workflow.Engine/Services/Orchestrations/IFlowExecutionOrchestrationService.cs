@@ -2,12 +2,12 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Engine.Models;
 
 namespace cCoder.Workflow.Engine.Services.Orchestrations;
 
-internal interface IWorkflowRequestOrchestrationService
+internal interface IFlowExecutionOrchestrationService
 {
-    ValueTask ExecuteWorkflowRequestAsync(
-        WorkflowRequest workflowRequest);
+    ValueTask<FlowExecution> ExecuteFlowExecutionAsync(
+        FlowExecution flowExecution);
 }

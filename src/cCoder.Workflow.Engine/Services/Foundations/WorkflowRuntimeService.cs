@@ -13,13 +13,11 @@ using cCoder.Workflow.Engine.Models.Exceptions;
 
 namespace cCoder.Workflow.Engine.Services.Foundations;
 
-internal sealed partial class FlowInstanceService(
-    IScriptService scriptService,
+internal sealed partial class WorkflowRuntimeService(
     IWorkflowContextBroker workflowContextBroker,
-    IWorkflowHttpClientBroker workflowHttpClientBroker,
     IJsonBroker jsonBroker,
     IReflectionBroker reflectionBroker)
-    : IFlowInstanceService
+    : IWorkflowRuntimeService
 {
     public ValueTask<FlowExecution> ExecuteFlowExecutionAsync(
         FlowExecution flowExecution) =>
@@ -27,40 +25,10 @@ internal sealed partial class FlowInstanceService(
         {
             ValidateInputs(inputs: [flowExecution]);
 
-            WorkflowRequest request = flowExecution.Request;
-            flowExecution.Start = DateTimeOffset.UtcNow;
-            flowExecution.Script = scriptService;
-
-            string rawInstance = await workflowHttpClientBroker.GetStringAsync(
-                apiRoot: request.Api,
-                authToken: request.AuthToken,
-                requestUri:
-                    $"Workflow/FlowInstanceData({request.InstanceId})"
-                    + "?$expand=FlowDefinition($expand=App)");
-
-            FlowInstanceData instanceData =
-                await DeserializeFlowInstanceDataAsync(
-                    flowExecution: flowExecution,
-                    rawInstance: rawInstance);
-
-            PopulateFlowExecution(
-                flowExecution: flowExecution,
-                instanceData: instanceData);
-
-            instanceData.State = "Executing";
-            instanceData.Start = flowExecution.Start;
-            instanceData.End = null;
-            flowExecution.Result = instanceData;
-
-            await SaveFlowInstanceDataAsync(
-                flowInstanceData: instanceData,
-                apiRoot: request.Api,
-                authToken: request.AuthToken);
-
             WorkflowContext dataContext =
                 await DeserializeWorkflowContextAsync(
                     flowExecution: flowExecution,
-                    rawContext: instanceData.ContextString);
+                    rawContext: flowExecution.Result.ContextString);
 
             flowExecution.Flow = dataContext.Flow
                 ?? throw new InvalidOperationException(
@@ -76,89 +44,14 @@ internal sealed partial class FlowInstanceService(
             await workflowContextBroker
                 .ExecuteWorkflowExecutionContextAsync(
                     workflowExecutionContext: flowExecution.Context,
-                    apiRoot: request.Api,
-                    authToken: request.AuthToken);
+                    apiRoot: flowExecution.Request.Api,
+                    authToken: flowExecution.Request.AuthToken);
 
             flowExecution.Result = CompleteFlowExecution(
                 flowExecution: flowExecution);
 
             return flowExecution;
         });
-
-    private static void PopulateFlowExecution(
-        FlowExecution flowExecution,
-        FlowInstanceData instanceData)
-    {
-        flowExecution.AppId = instanceData.FlowDefinition.AppId;
-        flowExecution.Id = instanceData.Id;
-        flowExecution.Name = instanceData.Name;
-        flowExecution.Caller = instanceData.Caller;
-
-        flowExecution.FlowDefinitionId =
-            instanceData.FlowDefinitionId;
-    }
-
-    private async ValueTask SaveFlowInstanceDataAsync(
-        FlowInstanceData flowInstanceData,
-        string apiRoot,
-        string authToken)
-    {
-        string payload = jsonBroker.SerializeForOData(
-            value: new
-            {
-                flowInstanceData.Id,
-                flowInstanceData.FlowDefinitionId,
-                flowInstanceData.Name,
-                flowInstanceData.State,
-                flowInstanceData.ReportingComponentName,
-                flowInstanceData.Caller,
-                flowInstanceData.ContextString,
-                flowInstanceData.Start,
-                flowInstanceData.End
-            });
-
-        WorkflowHttpResult response =
-            await workflowHttpClientBroker.PutJsonAsync(
-                apiRoot: apiRoot,
-                authToken: authToken,
-                requestUri:
-                    $"Workflow/FlowInstanceData({flowInstanceData.Id})",
-                payload: payload);
-
-        if (!response.IsSuccess)
-        {
-            throw new WorkflowEngineServiceException(
-                $"Workflow state save failed with status "
-                + $"{response.StatusCode} ({response.Status})."
-                + Environment.NewLine
-                + response.Body);
-        }
-    }
-
-    private async Task<FlowInstanceData>
-        DeserializeFlowInstanceDataAsync(
-            FlowExecution flowExecution,
-            string rawInstance)
-    {
-        try
-        {
-            return jsonBroker.Deserialize<FlowInstanceData>(
-                value: rawInstance)
-                ?? throw new InvalidOperationException(
-                    "Workflow instance response was empty.");
-        }
-        catch
-        {
-            await LogFlowExecutionAsync(
-                flowExecution: flowExecution,
-                level: WorkflowLogLevel.Error,
-                message:
-                    $"Failed to deserialize flow instance:"
-                    + $"{Environment.NewLine}{rawInstance}");
-
-            throw;
-        }
-    }
 
     private async Task<WorkflowContext>
         DeserializeWorkflowContextAsync(
@@ -221,7 +114,7 @@ internal sealed partial class FlowInstanceService(
         };
     }
 
-    private static async Task StitchFlowExecutionAsync(
+    private async Task StitchFlowExecutionAsync(
         FlowExecution flowExecution)
     {
         foreach (Activity activity in flowExecution.Flow.Activities)
@@ -294,7 +187,7 @@ internal sealed partial class FlowInstanceService(
         }
     }
 
-    private static string BuildActivityAssignment(
+    private string BuildActivityAssignment(
         Activity activity,
         Flow flow)
     {
@@ -306,13 +199,11 @@ internal sealed partial class FlowInstanceService(
                         found.Source == source.Ref
                         && found.Destination == activity.Ref);
 
-                string sourceType =
-                    cCoder.Workflow.Engine.Extensions.TypeExtensions.GetCSharpTypeName(
-                        type: source.GetType());
+                string sourceType = GetCSharpTypeName(
+                    type: source.GetType());
 
-                string destinationType =
-                    cCoder.Workflow.Engine.Extensions.TypeExtensions.GetCSharpTypeName(
-                        type: activity.GetType());
+                string destinationType = GetCSharpTypeName(
+                    type: activity.GetType());
 
                 return string.IsNullOrWhiteSpace(
                     value: link.Expression)
@@ -359,5 +250,26 @@ internal sealed partial class FlowInstanceService(
         flowExecution.Log(
             level: level,
             message: message);
+
+    private string GetCSharpTypeName(Type type)
+    {
+        if (!reflectionBroker.IsGenericType(type: type))
+        {
+            return reflectionBroker.GetTypeName(type: type);
+        }
+
+        IEnumerable<string> genericNames = reflectionBroker
+            .GetGenericTypeArguments(type: type)
+            .Select(selector: GetCSharpTypeName);
+
+        string typeName = reflectionBroker.GetTypeName(type: type);
+
+        return ($"{typeName.Split(separator: '`')[0]}"
+            + $"<{string.Join(separator: ",", values: genericNames)}>")
+            .Replace(
+                oldValue: "System.Object",
+                newValue: "dynamic",
+                comparisonType: StringComparison.Ordinal);
+    }
 
 }
