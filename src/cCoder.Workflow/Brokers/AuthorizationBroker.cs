@@ -5,8 +5,8 @@
 using cCoder.Data;
 using cCoder.Data.Models.Security;
 using cCoder.CodeAnalysis.Exposures;
-using cCoder.Workflow.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Security;
 
 namespace cCoder.Workflow.Brokers;
 
@@ -30,7 +30,7 @@ internal class AuthorizationBroker(
     {
         User user = GetCurrentUser();
 
-        return user?.HasAppAdminPrivilege(appId: appId) ?? false;
+        return user?.IsAdminOfApp(appId: appId) ?? false;
     }
 
     public bool IsAdminOfApp(int appId, string userName)
@@ -41,14 +41,15 @@ internal class AuthorizationBroker(
             .Include(navigationPropertyPath: foundUser => foundUser.Roles)
             .FirstOrDefault(predicate: foundUser => foundUser.Id == userName);
 
-        return user?.HasAppAdminPrivilege(appId: appId) ?? false;
+        return user?.IsAdminOfApp(appId: appId) ?? false;
     }
 
     public void Authorize(int? appId, string privilege)
     {
         User user = GetCurrentUser();
 
-        user.Authorize(
+        EnsureAuthorized(
+            user: user,
             appId: appId,
             privilege: privilege);
     }
@@ -58,8 +59,8 @@ internal class AuthorizationBroker(
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         User user = LoadUserWithRoles(coreDataContext: coreDataContext, userId: userId);
 
-        user.Authorize(
-            userId: userId,
+        EnsureAuthorized(
+            user: user,
             appId: appId,
             privilege: privilege);
     }
@@ -90,4 +91,17 @@ resultSelector: (_, role) => role.AppId)
             .Include(navigationPropertyPath: foundUser => foundUser.Roles)
                 .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
             .FirstOrDefault(predicate: foundUser => foundUser.Id == userId);
+
+    private static void EnsureAuthorized(
+        User user,
+        int? appId,
+        string privilege)
+    {
+        if (user?.Can(
+            appId: appId,
+            operation: privilege) != true)
+        {
+            throw new SecurityException(message: "Access Denied!");
+        }
+    }
 }
