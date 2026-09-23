@@ -2,159 +2,73 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Extensions.OData;
-using cCoder.Workflow.Models.OData;
-using cCoder.Workflow.Brokers;
-using cCoder.Workflow.Brokers.ServiceProviders;
-using cCoder.Workflow.Dependencies.ServiceProviders;
-using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Coordinations;
-using cCoder.Workflow.Services.Foundations;
-using cCoder.Workflow.Services.Orchestrations;
 
 namespace cCoder.Workflow.Services.Aggregations;
 
 internal sealed partial class FlowDefinitionAggregationService(
-    IFlowDefinitionServiceProviderBroker serviceProviderBroker)
+    IFlowDefinitionCoordinationService queueCoordinationService,
+    IFlowDefinitionManagementCoordinationService managementCoordinationService)
     : IFlowDefinitionAggregationService
 {
     public FlowDefinition GetFlowDefinition(Guid flowDefinitionId) =>
         TryCatch(operation: () =>
         {
             ValidateFlowDefinitionOnGet(inputs: [flowDefinitionId]);
-
-            return GetFlowDefinitionOrchestrationService()
-                .Get(flowDefinitionId: flowDefinitionId);
+            return managementCoordinationService.GetFlowDefinition(flowDefinitionId: flowDefinitionId);
         });
 
     public IQueryable<FlowDefinition> GetAllFlowDefinitions() =>
         TryCatch(operation: () =>
         {
-
-            return GetFlowDefinitionOrchestrationService()
-                .GetAll();
+            ValidateAllFlowDefinitionsOnGet(inputs: [false]);
+            return managementCoordinationService.GetAllFlowDefinitions();
         });
 
     public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
-        TryCatch(
-            operation: async () =>
-            {
-                ValidateFlowDefinitionOnAdd(inputs: [newFlowDefinition]);
-
-                return await GetFlowDefinitionOrchestrationService()
-                    .AddFlowDefinitionAsync(newFlowDefinition: newFlowDefinition);
-            },
-            isValueTask: true);
+        TryCatch(operation: async () =>
+        {
+            ValidateFlowDefinitionOnAdd(inputs: [newFlowDefinition]);
+            return await managementCoordinationService.AddFlowDefinitionAsync(newFlowDefinition: newFlowDefinition);
+        }, isValueTask: true);
 
     public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
-        TryCatch(
-            operation: async () =>
-            {
-                ValidateFlowDefinitionOnUpdate(inputs: [updatedFlowDefinition]);
-
-                return await GetFlowDefinitionOrchestrationService()
-                    .UpdateFlowDefinitionAsync(updatedFlowDefinition: updatedFlowDefinition);
-            },
-            isValueTask: true);
+        TryCatch(operation: async () =>
+        {
+            ValidateFlowDefinitionOnUpdate(inputs: [updatedFlowDefinition]);
+            return await managementCoordinationService.UpdateFlowDefinitionAsync(updatedFlowDefinition: updatedFlowDefinition);
+        }, isValueTask: true);
 
     public ValueTask DeleteFlowDefinitionAsync(Guid flowDefinitionId) =>
-        TryCatch(
-            operation: async () =>
-            {
-                ValidateFlowDefinitionOnDelete(inputs: [flowDefinitionId]);
-
-                await GetFlowDefinitionOrchestrationService()
-                    .DeleteAsync(flowDefinitionId: flowDefinitionId);
-            },
-            isValueTask: true);
+        TryCatch(operation: async () =>
+        {
+            ValidateFlowDefinitionOnDelete(inputs: [flowDefinitionId]);
+            await managementCoordinationService.DeleteFlowDefinitionAsync(flowDefinitionId: flowDefinitionId);
+        }, isValueTask: true);
 
     public ValueTask<Guid> QueueFlowDefinitionAsync(Guid flowDefinitionId, string asUserId, string args) =>
-        TryCatch(
-            operation: async () =>
-            {
-                ValidateInputs(inputs: [flowDefinitionId, asUserId, args]);
+        TryCatch(operation: async () =>
+        {
+            ValidateFlowDefinitionOnQueue(inputs: [flowDefinitionId, asUserId, args]);
 
-                return await ExecuteQueueFlowDefinitionAsync(
-                    flowDefinitionId: flowDefinitionId,
-                    asUserId: asUserId,
-                    args: args);
-            },
-            isValueTask: true);
-
-    private ValueTask<Guid> ExecuteQueueFlowDefinitionAsync(
-        Guid flowDefinitionId,
-        string asUserId,
-        string args)
-    {
-        string callerId = ResolveCallerId(asUserId: asUserId);
-
-        return GetFlowDefinitionCoordinationService()
-            .QueueAsync(
+            return await queueCoordinationService.QueueAsync(
                 flowDefinitionId: flowDefinitionId,
-                asUserId: callerId,
+                asUserId: asUserId,
                 args: args);
-    }
+        }, isValueTask: true);
 
     public ValueTask<string> ExecuteScriptAsync(string script) =>
-        TryCatch(
-            operation: async () =>
-            {
-                ValidateInputs(inputs: [script]);
-                return await ExecuteScriptRequestAsync(script: script);
-            },
-            isValueTask: true);
+        TryCatch(operation: async () =>
+        {
+            ValidateScriptOnExecute(inputs: [script]);
+            return await managementCoordinationService.ExecuteScriptAsync(script: script);
+        }, isValueTask: true);
 
     public ValueTask<string> ReadRequestBodyAsync(Stream stream) =>
-        TryCatch(
-            operation: async () =>
-            {
-                ValidateInputs(inputs: [stream]);
-
-                return await GetWorkflowRequestBodyService()
-                    .ReadTextAsync(stream: stream);
-            },
-            isValueTask: true);
-
-    private ValueTask<string> ExecuteScriptRequestAsync(string script) =>
-        GetWorkflowScriptExecutionService()
-            .ExecuteAsync(
-                serviceUrl: GetConfiguration().ServiceUrl,
-                script: script);
-
-    private string ResolveCallerId(string asUserId)
-    {
-        if (!string.IsNullOrWhiteSpace(value: asUserId) && !string.Equals(a: asUserId, b: "Guest", comparisonType: StringComparison.Ordinal))
+        TryCatch(operation: async () =>
         {
-            return asUserId;
-        }
-
-        return GetAuthorizationBroker()
-            .GetCurrentUser()?.Id ?? "Guest";
-    }
-
-    private IFlowDefinitionOrchestrationService GetFlowDefinitionOrchestrationService() =>
-        serviceProviderBroker.GetOperationService<IFlowDefinitionOrchestrationService>(
-            operation: FlowDefinitionOperation.Crud);
-
-    private IFlowDefinitionCoordinationService GetFlowDefinitionCoordinationService() =>
-        serviceProviderBroker.GetOperationService<IFlowDefinitionCoordinationService>(
-            operation: FlowDefinitionOperation.Queue);
-
-    private IAuthorizationBroker GetAuthorizationBroker() =>
-        serviceProviderBroker.GetOperationService<IAuthorizationBroker>(
-            operation: FlowDefinitionOperation.Authorization);
-
-    private WorkflowConfiguration GetConfiguration() =>
-        serviceProviderBroker.GetOperationService<WorkflowConfiguration>(
-            operation: FlowDefinitionOperation.Configuration);
-
-    private IWorkflowRequestBodyService GetWorkflowRequestBodyService() =>
-        serviceProviderBroker.GetOperationService<IWorkflowRequestBodyService>(
-            operation: FlowDefinitionOperation.RequestBody);
-
-    private IWorkflowScriptExecutionService GetWorkflowScriptExecutionService() =>
-        serviceProviderBroker.GetOperationService<IWorkflowScriptExecutionService>(
-            operation: FlowDefinitionOperation.ScriptExecution);
+            ValidateRequestBodyOnRead(inputs: [stream]);
+            return await managementCoordinationService.ReadRequestBodyAsync(stream: stream);
+        }, isValueTask: true);
 }

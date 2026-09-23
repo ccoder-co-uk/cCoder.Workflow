@@ -174,7 +174,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IStreamBroker, StreamBroker>();
         services.AddTransient<IODataResultBroker, ODataResultBroker>();
         services.AddTransient<IWorkflowHttpClientBroker, WorkflowHttpClientBroker>();
-        services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
+        services.AddTransient<IWorkflowConfigurationBroker, WorkflowConfigurationBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
         services.AddTransient<IFlowInstanceDataEventBroker, FlowInstanceDataEventBroker>();
@@ -197,6 +197,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddCoordinations(this IServiceCollection services)
     {
         services.AddTransient<IFlowDefinitionCoordinationService, FlowDefinitionCoordinationService>();
+        services.AddTransient<IFlowDefinitionManagementCoordinationService, FlowDefinitionManagementCoordinationService>();
     }
 
     private static void AddExposures(this IServiceCollection services)
@@ -217,6 +218,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowMetadataTypeManager, WorkflowMetadataTypeService>();
         services.AddTransient<IWorkflowRequestBodyService, WorkflowRequestBodyService>();
         services.AddTransient<IWorkflowScriptExecutionService, WorkflowScriptExecutionService>();
+        services.AddTransient<IWorkflowConfigurationService, WorkflowConfigurationService>();
         services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
         services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();
@@ -239,6 +241,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowMigrationAggregationService, WorkflowMigrationAggregationService>();
         services.AddTransient<IFlowDefinitionOrchestrationService, FlowDefinitionOrchestrationService>();
         services.AddTransient<IFlowQueueOrchestrationService, FlowQueueOrchestrationService>();
+        services.AddTransient<IWorkflowInteractionOrchestrationService, WorkflowInteractionOrchestrationService>();
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IFlowInstanceDataManager, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IScheduledTaskOrchestrationService, ScheduledTaskOrchestrationService>();
@@ -248,36 +251,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowInstanceManager, WorkflowInstanceProcessingService>();
         services.AddTransient<IWorkflowEventOrchestrationService, WorkflowEventOrchestrationService>();
         services.AddTransient<IWorkflowEventManager, WorkflowEventOrchestrationService>();
-
-        services.AddKeyedTransient<IFlowDefinitionOrchestrationService>(
-            serviceKey: FlowDefinitionOperation.Crud,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IFlowDefinitionOrchestrationService>());
-
-        services.AddKeyedTransient<IFlowDefinitionCoordinationService>(
-            serviceKey: FlowDefinitionOperation.Queue,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IFlowDefinitionCoordinationService>());
-
-        services.AddKeyedTransient<IAuthorizationBroker>(
-            serviceKey: FlowDefinitionOperation.Authorization,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IAuthorizationBroker>());
-
-        services.AddKeyedTransient<WorkflowConfiguration>(
-            serviceKey: FlowDefinitionOperation.Configuration,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<WorkflowConfiguration>());
-
-        services.AddKeyedTransient<IWorkflowRequestBodyService>(
-            serviceKey: FlowDefinitionOperation.RequestBody,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IWorkflowRequestBodyService>());
-
-        services.AddKeyedTransient<IWorkflowScriptExecutionService>(
-            serviceKey: FlowDefinitionOperation.ScriptExecution,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IWorkflowScriptExecutionService>());
 
         services.AddKeyedTransient<IAuthorizationBroker>(
             serviceKey: WorkflowMigrationOperation.Authorization,

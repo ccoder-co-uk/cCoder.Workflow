@@ -3,8 +3,6 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Dependencies.ServiceProviders;
-using cCoder.Workflow.Services.Orchestrations;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -25,10 +23,9 @@ public partial class FlowDefinitionAggregationServiceTests
         Type expectedType)
     {
         // Given
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionOrchestrationService>(
-                    operation: FlowDefinitionOperation.Crud))
+        flowDefinitionManagementCoordinationServiceMock
+            .Setup(expression: service => service.GetFlowDefinition(
+                flowDefinitionId: It.IsAny<Guid>()))
             .Throws(exception: exception);
 
         // When
@@ -47,10 +44,9 @@ public partial class FlowDefinitionAggregationServiceTests
         Type expectedType)
     {
         // Given
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionOrchestrationService>(
-                    operation: FlowDefinitionOperation.Crud))
+        flowDefinitionManagementCoordinationServiceMock
+            .Setup(expression: service => service.AddFlowDefinitionAsync(
+                newFlowDefinition: It.IsAny<FlowDefinition>()))
             .Throws(exception: exception);
 
         // When
@@ -69,10 +65,9 @@ public partial class FlowDefinitionAggregationServiceTests
         Type expectedType)
     {
         // Given
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionOrchestrationService>(
-                    operation: FlowDefinitionOperation.Crud))
+        flowDefinitionManagementCoordinationServiceMock
+            .Setup(expression: service => service.DeleteFlowDefinitionAsync(
+                flowDefinitionId: It.IsAny<Guid>()))
             .Throws(exception: exception);
 
         // When

@@ -2,14 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.Workflow.Services.Aggregations;
+namespace cCoder.Workflow.Services.Coordinations;
 
-internal sealed partial class FlowDefinitionAggregationService
+internal sealed partial class FlowDefinitionManagementCoordinationService
 {
     private static void ValidateFlowDefinitionOnGet(params object[] inputs) =>
-        Validate(inputs: inputs);
-
-    private static void ValidateAllFlowDefinitionsOnGet(params object[] inputs) =>
         Validate(inputs: inputs);
 
     private static void ValidateFlowDefinitionOnAdd(params object[] inputs) =>
@@ -19,9 +16,6 @@ internal sealed partial class FlowDefinitionAggregationService
         Validate(inputs: inputs);
 
     private static void ValidateFlowDefinitionOnDelete(params object[] inputs) =>
-        Validate(inputs: inputs);
-
-    private static void ValidateFlowDefinitionOnQueue(params object[] inputs) =>
         Validate(inputs: inputs);
 
     private static void ValidateScriptOnExecute(params object[] inputs) =>

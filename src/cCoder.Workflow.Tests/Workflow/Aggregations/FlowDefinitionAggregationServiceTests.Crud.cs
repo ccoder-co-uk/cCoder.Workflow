@@ -3,8 +3,6 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Dependencies.ServiceProviders;
-using cCoder.Workflow.Services.Orchestrations;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -21,34 +19,27 @@ public partial class FlowDefinitionAggregationServiceTests
         FlowDefinition item = new() { Id = Guid.NewGuid() };
         IQueryable<FlowDefinition> items = new[] { item }.AsQueryable();
 
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionOrchestrationService>(
-                    operation: FlowDefinitionOperation.Crud))
-            .Returns(value: flowDefinitionOrchestrationServiceMock.Object);
-
-        flowDefinitionOrchestrationServiceMock
-            .Setup(expression: service => service.Get(
+        flowDefinitionManagementCoordinationServiceMock
+            .Setup(expression: service => service.GetFlowDefinition(
                 flowDefinitionId: item.Id))
             .Returns(value: item);
 
-        flowDefinitionOrchestrationServiceMock
-            .Setup(expression: service => service.GetAll(
-                ignoreFilters: false))
+        flowDefinitionManagementCoordinationServiceMock
+            .Setup(expression: service => service.GetAllFlowDefinitions())
             .Returns(value: items);
 
-        flowDefinitionOrchestrationServiceMock
+        flowDefinitionManagementCoordinationServiceMock
             .Setup(expression: service => service.AddFlowDefinitionAsync(
                 newFlowDefinition: item))
             .Returns(value: ValueTask.FromResult(result: item));
 
-        flowDefinitionOrchestrationServiceMock
+        flowDefinitionManagementCoordinationServiceMock
             .Setup(expression: service => service.UpdateFlowDefinitionAsync(
                 updatedFlowDefinition: item))
             .Returns(value: ValueTask.FromResult(result: item));
 
-        flowDefinitionOrchestrationServiceMock
-            .Setup(expression: service => service.DeleteAsync(
+        flowDefinitionManagementCoordinationServiceMock
+            .Setup(expression: service => service.DeleteFlowDefinitionAsync(
                 flowDefinitionId: item.Id))
             .Returns(value: ValueTask.CompletedTask);
 
@@ -66,7 +57,7 @@ public partial class FlowDefinitionAggregationServiceTests
         actualAll.Should().BeSameAs(expected: items);
         actualAdd.Should().BeSameAs(expected: item);
         actualUpdate.Should().BeSameAs(expected: item);
-        flowDefinitionOrchestrationServiceMock.VerifyAll();
+        flowDefinitionManagementCoordinationServiceMock.VerifyAll();
     }
 }
 #pragma warning restore STXFORMAT005, STXFORMAT008, STXFORMAT009
