@@ -4,7 +4,7 @@
 
 using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Brokers;
-using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Services.Aggregations;
 using Microsoft.Extensions.Hosting;
 
 namespace cCoder.Workflow.Exposures.HostedServices;
@@ -16,7 +16,7 @@ internal sealed class InstanceMaintenanceBackgroundService(
     protected override Task ExecuteAsync(
         CancellationToken stoppingToken) =>
         serviceScopeBroker
-            .RunScopedAsync<IWorkflowInstanceProcessingService>(
+            .RunScopedAsync<IWorkflowInstanceAggregationService>(
             operation: manager =>
                 manager.RunInstanceMaintenanceContinuouslyAsync(
                     cancellationToken: stoppingToken));

@@ -12,4 +12,21 @@ internal sealed class WorkflowConfigurationBroker(
 {
     public string GetServiceUrl() =>
         configuration.ServiceUrl;
+
+    public int GetSslPort() =>
+        configuration.SslPort;
+
+    public bool IsMigrating() =>
+        configuration.IsMigrating;
+
+    public TimeSpan GetInstanceMaintenanceMaxAge() =>
+        TimeSpan.FromDays(value: configuration.InstanceMaintenance.MaxAgeDays);
+
+    public TimeSpan GetExecutingInstanceTimeout() =>
+        TimeSpan.FromMinutes(
+            value: configuration.QueueInstanceManagement.ExecutingTimeoutMinutes);
+
+    public TimeSpan GetQueuePollingInterval() =>
+        TimeSpan.FromMilliseconds(
+            milliseconds: configuration.QueueInstanceManagement.PollingIntervalMilliseconds);
 }

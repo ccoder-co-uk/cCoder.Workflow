@@ -4,7 +4,7 @@
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal sealed partial class WorkflowInstanceService
+internal sealed partial class WorkflowInstanceManagementService
 {
     private static void ValidateInputs(params object[] inputs) =>
         Validate(inputs: inputs);

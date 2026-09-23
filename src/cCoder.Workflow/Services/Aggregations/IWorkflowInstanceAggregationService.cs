@@ -4,6 +4,6 @@
 
 using cCoder.Workflow.Exposures;
 
-namespace cCoder.Workflow.Services.Processings;
+namespace cCoder.Workflow.Services.Aggregations;
 
-internal interface IWorkflowInstanceProcessingService : IWorkflowInstanceManager { }
+internal interface IWorkflowInstanceAggregationService : IWorkflowInstanceManager { }

@@ -4,7 +4,7 @@
 
 using cCoder.Eventing;
 using cCoder.Workflow.Exposures.HostedServices;
-using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Services.Aggregations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -62,8 +62,8 @@ actual: services.Count(predicate: descriptor => descriptor.ServiceType == typeof
 
         Assert.Contains(
 collection: services,
-filter: descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceProcessingService)
-                && descriptor.ImplementationType?.Name == "WorkflowInstanceProcessingService");
+filter: descriptor => descriptor.ServiceType == typeof(IWorkflowInstanceAggregationService)
+                && descriptor.ImplementationType?.Name == "WorkflowInstanceAggregationService");
     }
 
     [Fact]

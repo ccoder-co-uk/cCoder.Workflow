@@ -3,23 +3,30 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
+using cCoder.Eventing.Models;
 using cCoder.Security.Models.Entities;
 using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Foundations;
 
-namespace cCoder.Workflow.Services.Processings;
+namespace cCoder.Workflow.Services.Aggregations;
 
-internal sealed partial class WorkflowInstanceProcessingService(
-    IWorkflowInstanceService workflowInstanceService)
-    : IWorkflowInstanceProcessingService
+internal sealed partial class WorkflowInstanceAggregationService(
+    IWorkflowInstanceManagementService workflowInstanceManagementService,
+    IFlowInstanceDataService flowInstanceDataService,
+    IWorkflowTokenService workflowTokenService,
+    IWorkflowExecutionEventService workflowExecutionEventService,
+    IWorkflowConfigurationService workflowConfigurationService,
+    ILoggingBroker loggingBroker)
+    : IWorkflowInstanceAggregationService
 {
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () =>
         {
             ValidateAllOnGet(inputs: [ignoreFilters]);
 
-            return workflowInstanceService.GetAll(ignoreFilters: ignoreFilters);
+            return flowInstanceDataService.GetAll(ignoreFilters: ignoreFilters);
         });
 
     public Task RunAsync(CancellationToken cancellationToken = default) =>
@@ -34,8 +41,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
         }
         catch (Exception ex)
         {
-            _ = workflowInstanceService.LogError(
-                exception: ex.InnerException ?? ex);
+            LogError(exception: ex.InnerException ?? ex);
         }
     }
 
@@ -44,14 +50,14 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private object[] ExecuteGetStats()
             =>
-        workflowInstanceService.GetFailedExecutionStats();
+        workflowInstanceManagementService.GetFailedExecutionStats();
 
     public Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default) =>
         TryCatch(operation: async () => { ValidateInputs(inputs: [cancellationToken]); await ExecuteRunInstanceMaintenanceContinuouslyAsync(cancellationToken: cancellationToken); });
 
     private async Task ExecuteRunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default)
     {
-        if (workflowInstanceService.IsMigrating())
+        if (workflowConfigurationService.IsMigrating())
         {
             return;
         }
@@ -77,8 +83,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
         }
         catch (Exception ex)
         {
-            _ = workflowInstanceService.LogError(
-                exception: ex.InnerException ?? ex);
+            LogError(exception: ex.InnerException ?? ex);
         }
     }
 
@@ -87,7 +92,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private async Task ExecuteRunQueueInstanceBackgroundServiceDependencyContinuouslyAsync(CancellationToken cancellationToken = default)
     {
-        if (workflowInstanceService.IsMigrating())
+        if (workflowConfigurationService.IsMigrating())
         {
             return;
         }
@@ -113,15 +118,14 @@ internal sealed partial class WorkflowInstanceProcessingService(
         }
         catch (Exception ex)
         {
-            _ = workflowInstanceService.LogError(
-                exception: ex.InnerException ?? ex);
+            LogError(exception: ex.InnerException ?? ex);
         }
     }
 
     private async ValueTask ExecuteQueuedInstancesAsync(CancellationToken cancellationToken)
     {
         FlowInstanceData[] queuedInstances =
-            workflowInstanceService.GetQueuedFlowInstanceData();
+            workflowInstanceManagementService.GetQueuedFlowInstanceData();
 
         foreach (FlowInstanceData queuedInstance in queuedInstances)
         {
@@ -139,7 +143,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private async ValueTask DropOldInstancesAsync(CancellationToken cancellationToken)
     {
-        int dropCount = await workflowInstanceService
+        int dropCount = await workflowInstanceManagementService
             .DeleteOldFlowInstanceDataAsync(
                 cutoff: DateTimeOffset.UtcNow.Subtract(
                     value: GetInstanceMaintenanceMaxAge()),
@@ -147,15 +151,15 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
         if (dropCount > 0)
         {
-            _ = workflowInstanceService.LogDroppedFlowInstanceData(
-                count: dropCount,
-                maxAge: GetInstanceMaintenanceMaxAge());
+            loggingBroker.LogInformation(
+                message: "Dropped {Count} Workflow instances older than {MaxAge}.",
+                args: [dropCount, GetInstanceMaintenanceMaxAge()]);
         }
     }
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
-        int claimedCount = await workflowInstanceService
+        int claimedCount = await workflowInstanceManagementService
             .ClaimQueuedFlowInstanceDataAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: cancellationToken);
@@ -165,7 +169,7 @@ internal sealed partial class WorkflowInstanceProcessingService(
             return;
         }
 
-        FlowInstanceData dbInstance = await workflowInstanceService
+        FlowInstanceData dbInstance = await workflowInstanceManagementService
             .GetClaimedFlowInstanceDataAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: cancellationToken);
@@ -177,14 +181,26 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
         try
         {
-            await workflowInstanceService.RaiseFlowInstanceDataWorkflowExecutionAsync(
-                flowInstanceData: dbInstance);
+            Token token = await workflowTokenService.IssueWorkflowExecutionTokenAsync(
+                userId: dbInstance.Caller);
+
+            WorkflowRequest request = CreateWorkflowRequest(
+                dbInstance: dbInstance,
+                token: token);
+
+            await workflowExecutionEventService.RaiseWorkflowRequestEventMessageAsync(
+                message: new EventMessage<WorkflowRequest>
+                {
+                    AuthInfo = new EventAuthInfo { SSOUserId = dbInstance.Caller },
+                    Data = request
+                });
         }
         catch (Exception exception)
         {
-            _ = workflowInstanceService.LogFlowInstanceDataExecutionFailure(
-                flowInstanceDataId: dbInstance.Id,
-                exception: exception.InnerException ?? exception);
+            loggingBroker.LogError(
+                exception: exception.InnerException ?? exception,
+                message: "Flow instance {InstanceId} execution failed.",
+                args: dbInstance.Id);
         }
     }
 
@@ -199,18 +215,30 @@ internal sealed partial class WorkflowInstanceProcessingService(
 
     private string CreateApiRoot(string domain)
     {
-        int sslPort = workflowInstanceService.GetSslPort();
+        int sslPort = workflowConfigurationService.GetSslPort();
         string port = sslPort is > 0 and not 443 ? $":{sslPort}" : string.Empty;
 
         return $"https://{domain}{port}/Api/";
     }
 
     private TimeSpan GetInstanceMaintenanceMaxAge() =>
-        workflowInstanceService.GetInstanceMaintenanceMaxAge();
+        workflowConfigurationService.GetInstanceMaintenanceMaxAge();
 
     private TimeSpan GetExecutingInstanceTimeout() =>
-        workflowInstanceService.GetExecutingInstanceTimeout();
+        workflowConfigurationService.GetExecutingInstanceTimeout();
 
     private TimeSpan GetQueuePollingInterval() =>
-        workflowInstanceService.GetQueuePollingInterval();
+        workflowConfigurationService.GetQueuePollingInterval();
+
+    private void LogError(Exception exception)
+    {
+        loggingBroker.LogError(exception: exception, message: exception.Message);
+
+        if (exception.InnerException is not null)
+        {
+            loggingBroker.LogError(
+                exception: exception.InnerException,
+                message: exception.InnerException.Message);
+        }
+    }
 }

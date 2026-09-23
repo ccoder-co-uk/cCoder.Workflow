@@ -216,7 +216,7 @@ public static partial class IEventHubExtensions
         string eventName) =>
         eventHub.ListenToEvent(
             name: eventName,
-            handler: async (IWorkflowInstanceProcessingService service,
+            handler: async (IWorkflowInstanceAggregationService service,
                 FlowInstanceData instance) =>
             {
                 if (string.Equals(

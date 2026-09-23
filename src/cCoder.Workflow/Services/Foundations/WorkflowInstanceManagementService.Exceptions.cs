@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal sealed partial class WorkflowInstanceService
+internal sealed partial class WorkflowInstanceManagementService
 {
     private static TResult TryCatch<TResult>(Func<TResult> operation)
     {

@@ -2,14 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.Workflow.Services.Processings;
+namespace cCoder.Workflow.Services.Foundations;
 
-internal sealed partial class WorkflowInstanceProcessingService
+internal sealed partial class WorkflowTokenService
 {
-    private static void ValidateInputs(params object[] inputs) =>
-        Validate(inputs: inputs);
-
-    private static void ValidateAllOnGet(params object[] inputs) =>
+    private static void ValidateWorkflowExecutionTokenOnIssue(params object[] inputs) =>
         Validate(inputs: inputs);
 
     private static void Validate(params object[] inputs) =>

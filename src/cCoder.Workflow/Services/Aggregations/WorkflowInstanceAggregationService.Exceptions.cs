@@ -5,9 +5,9 @@
 using cCoder.Workflow.Models.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace cCoder.Workflow.Services.Processings;
+namespace cCoder.Workflow.Services.Aggregations;
 
-internal sealed partial class WorkflowInstanceProcessingService
+internal sealed partial class WorkflowInstanceAggregationService
 {
     private static TResult TryCatch<TResult>(Func<TResult> operation)
     {

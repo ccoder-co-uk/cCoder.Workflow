@@ -19,8 +19,8 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public void ShouldMapGetAllFailure(Exception exception, Type expectedType)
     {
         // Given
-        flowInstanceDataManagerMock
-            .Setup(expression: manager => manager.GetAll(ignoreFilters: false))
+        flowInstanceDataBrokerMock
+            .Setup(expression: broker => broker.SelectAllFlowInstanceData())
             .Throws(exception: exception);
 
         // When
