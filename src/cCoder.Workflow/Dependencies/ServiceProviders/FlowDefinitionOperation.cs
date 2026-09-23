@@ -10,5 +10,6 @@ internal enum FlowDefinitionOperation
     Queue,
     Metadata,
     Authorization,
-    Configuration
+    Configuration,
+    RequestBody
 }

@@ -4,8 +4,6 @@
 
 using cCoder.Workflow.Brokers.Loggings;
 using cCoder.CodeAnalysis.Exposures;
-using System.Text;
-using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
@@ -216,7 +214,9 @@ public partial class FlowDefinitionController(
     {
         try
         {
-            string requestBody = await ReadRequestBodyAsync();
+            string requestBody = await service.ReadRequestBodyAsync(
+                stream: Request.Body);
+
             string asUserId = authInfo.SSOUserId;
             return Ok(value: await service.QueueFlowDefinitionAsync(flowDefinitionId: key, asUserId: asUserId, args: requestBody));
         }
@@ -246,7 +246,9 @@ public partial class FlowDefinitionController(
     {
         try
         {
-            string script = await ReadRequestBodyAsync();
+            string script = await service.ReadRequestBodyAsync(
+                stream: Request.Body);
+
             return Ok(value: await service.ExecuteScriptAsync(script: script));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
@@ -269,10 +271,4 @@ public partial class FlowDefinitionController(
         }
     }
 
-    private async ValueTask<string> ReadRequestBodyAsync()
-    {
-        using WorkflowStreamDependency content = new();
-        await Request.Body.CopyToAsync(destination: content);
-        return Encoding.UTF8.GetString(bytes: content.ToArray());
-    }
 }

@@ -426,6 +426,10 @@ public sealed partial class ControllerFailureLoggingTests
         flowDefinitionManagerMock.Setup(expression: service => service.DeleteFlowDefinitionAsync(flowDefinitionId: key))
             .ThrowsAsync(exception: exception);
 
+        flowDefinitionManagerMock.Setup(expression: service => service.ReadRequestBodyAsync(
+                It.IsAny<Stream>()))
+            .ReturnsAsync(value: string.Empty);
+
         flowDefinitionManagerMock.Setup(expression: service => service.QueueFlowDefinitionAsync(
             flowDefinitionId: key,
             asUserId: null,

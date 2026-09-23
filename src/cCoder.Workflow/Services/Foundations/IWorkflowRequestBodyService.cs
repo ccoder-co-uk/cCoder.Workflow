@@ -2,8 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.Workflow.Dependencies;
+namespace cCoder.Workflow.Services.Foundations;
 
-internal sealed class WorkflowStreamDependency : MemoryStream
+internal interface IWorkflowRequestBodyService
 {
+    ValueTask<string> ReadTextAsync(Stream stream);
 }

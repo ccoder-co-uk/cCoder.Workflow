@@ -109,6 +109,17 @@ internal sealed partial class FlowDefinitionAggregationService(
             },
             isValueTask: true);
 
+    public ValueTask<string> ReadRequestBodyAsync(Stream stream) =>
+        TryCatch(
+            operation: async () =>
+            {
+                ValidateInputs(inputs: [stream]);
+
+                return await GetWorkflowRequestBodyService()
+                    .ReadTextAsync(stream: stream);
+            },
+            isValueTask: true);
+
     private async ValueTask<string> ExecuteScriptRequestAsync(string script)
     {
         using WorkflowHttpClientDependency api = new(
@@ -146,4 +157,8 @@ internal sealed partial class FlowDefinitionAggregationService(
     private WorkflowConfiguration GetConfiguration() =>
         serviceProviderBroker.GetOperationService<WorkflowConfiguration>(
             operation: FlowDefinitionOperation.Configuration);
+
+    private IWorkflowRequestBodyService GetWorkflowRequestBodyService() =>
+        serviceProviderBroker.GetOperationService<IWorkflowRequestBodyService>(
+            operation: FlowDefinitionOperation.RequestBody);
 }

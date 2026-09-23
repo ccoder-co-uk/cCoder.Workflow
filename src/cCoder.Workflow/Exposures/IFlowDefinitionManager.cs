@@ -25,4 +25,6 @@ public interface IFlowDefinitionManager
 
     ValueTask<string> ExecuteScriptAsync(string script);
 
+    ValueTask<string> ReadRequestBodyAsync(Stream stream);
+
 }

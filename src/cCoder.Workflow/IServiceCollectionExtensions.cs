@@ -168,6 +168,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IServiceScopeBroker, ServiceScopeBroker>();
         services.AddTransient<IWorkflowHubBroker, WorkflowHubBroker>();
         services.AddTransient<IReflectionBroker, ReflectionBroker>();
+        services.AddTransient<IStreamBroker, StreamBroker>();
         services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
@@ -209,6 +210,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IScheduledTaskService, ScheduledTaskService>();
         services.AddTransient<IWorkflowMetadataTypeService, WorkflowMetadataTypeService>();
         services.AddTransient<IWorkflowMetadataTypeManager, WorkflowMetadataTypeService>();
+        services.AddTransient<IWorkflowRequestBodyService, WorkflowRequestBodyService>();
         services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
         services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();
@@ -260,6 +262,11 @@ public static partial class IServiceCollectionExtensions
             serviceKey: FlowDefinitionOperation.Configuration,
             implementationFactory: static (serviceProvider, _) =>
                 serviceProvider.GetRequiredService<WorkflowConfiguration>());
+
+        services.AddKeyedTransient<IWorkflowRequestBodyService>(
+            serviceKey: FlowDefinitionOperation.RequestBody,
+            implementationFactory: static (serviceProvider, _) =>
+                serviceProvider.GetRequiredService<IWorkflowRequestBodyService>());
 
         services.AddKeyedTransient<IAuthorizationBroker>(
             serviceKey: WorkflowMigrationOperation.Authorization,
