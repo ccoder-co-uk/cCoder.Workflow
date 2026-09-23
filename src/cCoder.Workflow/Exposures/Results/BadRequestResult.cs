@@ -3,10 +3,11 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Models.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace cCoder.Workflow.Models.OData;
+namespace cCoder.Workflow.Exposures.Results;
 
 public sealed class BadRequestResult : BadRequestObjectResult
 {

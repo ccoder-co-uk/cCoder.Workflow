@@ -50,7 +50,7 @@ public partial class FlowInstanceDataController : ODataController, ICompositionE
         {
             if (!ModelState.IsValid)
             {
-                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+                return new cCoder.Workflow.Exposures.Results.BadRequestResult(ModelState);
             }
 
             updatedFlowInstanceData.Id = key;
@@ -175,7 +175,7 @@ public partial class FlowInstanceDataController : ODataController, ICompositionE
         {
             if (!ModelState.IsValid)
             {
-                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+                return new cCoder.Workflow.Exposures.Results.BadRequestResult(ModelState);
             }
 
             return StatusCode(

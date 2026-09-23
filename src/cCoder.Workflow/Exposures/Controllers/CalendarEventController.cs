@@ -134,7 +134,7 @@ public partial class CalendarEventController : ODataController, ICompositionExpo
         {
             if (!ModelState.IsValid)
             {
-                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+                return new cCoder.Workflow.Exposures.Results.BadRequestResult(ModelState);
             }
 
             return StatusCode(
@@ -176,7 +176,7 @@ public partial class CalendarEventController : ODataController, ICompositionExpo
         {
             if (!ModelState.IsValid)
             {
-                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+                return new cCoder.Workflow.Exposures.Results.BadRequestResult(ModelState);
             }
 
             return Ok(value: await service.UpdateCalendarEventAsync(updatedCalendarEvent: updatedCalendarEvent));
