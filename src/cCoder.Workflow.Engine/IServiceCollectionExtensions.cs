@@ -33,6 +33,7 @@ public static class IServiceCollectionExtensions
         services.AddTransient<RoslynScriptDependency>();
         services.AddTransient<IScriptBroker, ScriptBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
+        services.AddTransient<IReflectionBroker, ReflectionBroker>();
         services.AddTransient<
             IWorkflowHttpClientBroker,
             WorkflowHttpClientBroker>();

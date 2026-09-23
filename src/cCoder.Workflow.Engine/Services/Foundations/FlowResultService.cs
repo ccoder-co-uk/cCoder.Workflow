@@ -2,10 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Net;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
+using cCoder.Workflow.Engine.Models.Exceptions;
 
 namespace cCoder.Workflow.Engine.Services.Foundations;
 
@@ -69,7 +69,7 @@ internal sealed partial class FlowResultService(
 
             if (!response.IsSuccess)
             {
-                throw new HttpRequestException(
+                throw new WorkflowEngineServiceException(
                     $"Workflow result save failed with status "
                     + $"{response.StatusCode} "
                     + $"({response.Status})."

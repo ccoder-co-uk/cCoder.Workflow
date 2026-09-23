@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Net;
 using System.Reflection;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities.Activities;
@@ -10,6 +9,7 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
+using cCoder.Workflow.Engine.Models.Exceptions;
 
 namespace cCoder.Workflow.Engine.Services.Foundations;
 
@@ -17,7 +17,8 @@ internal sealed partial class FlowInstanceService(
     IScriptBroker scriptBroker,
     IWorkflowContextBroker workflowContextBroker,
     IWorkflowHttpClientBroker workflowHttpClientBroker,
-    IJsonBroker jsonBroker)
+    IJsonBroker jsonBroker,
+    IReflectionBroker reflectionBroker)
     : IFlowInstanceService
 {
     public ValueTask<FlowExecution> ExecuteFlowExecutionAsync(
@@ -126,7 +127,7 @@ internal sealed partial class FlowInstanceService(
 
         if (!response.IsSuccess)
         {
-            throw new HttpRequestException(
+            throw new WorkflowEngineServiceException(
                 $"Workflow state save failed with status "
                 + $"{response.StatusCode} ({response.Status})."
                 + Environment.NewLine
@@ -193,14 +194,15 @@ internal sealed partial class FlowInstanceService(
             PropertyInfo[] properties = activity.GetType()
                 .GetProperties()
                 .Where(predicate: property =>
-                    property.GetCustomAttribute<
-                        IgnoreWhenFlowCompleteAttribute>() is not null)
+                    reflectionBroker.HasAttribute<
+                        IgnoreWhenFlowCompleteAttribute>(property: property))
                 .ToArray();
 
             foreach (PropertyInfo property in properties)
             {
-                property.SetValue(
-                    obj: activity,
+                reflectionBroker.SetValue(
+                    property: property,
+                    instance: activity,
                     value: default);
             }
         }
