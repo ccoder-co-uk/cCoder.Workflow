@@ -4,6 +4,7 @@
 
 using System.Security;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Data.Models.Workflow;
 
 
@@ -11,9 +12,18 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class FlowInstanceDataService(
     IFlowInstanceDataBroker flowInstanceDataBroker,
-    IAuthorizationBroker authorizationBroker
+    IAuthorizationBroker authorizationBroker,
+    IODataResultBroker oDataResultBroker
 ) : IFlowInstanceDataService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return oDataResultBroker.CreateSingleResult(queryable: queryable);
+        });
+
     public FlowInstanceData Get(Guid flowInstanceDataId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
 

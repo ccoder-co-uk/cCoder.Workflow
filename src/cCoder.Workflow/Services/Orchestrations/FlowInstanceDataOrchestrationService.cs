@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Processings;
 
@@ -10,9 +11,30 @@ namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class FlowInstanceDataOrchestrationService(
     IFlowInstanceDataProcessingService processingService,
-    IFlowInstanceDataEventProcessingService eventService)
+    IFlowInstanceDataEventProcessingService eventService,
+    ILoggingBroker loggingBroker)
         : IFlowInstanceDataOrchestrationService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return processingService.CreateSingleResult(queryable: queryable);
+        });
+
+    public void LogError(Exception exception, string message) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [exception, message]);
+
+            loggingBroker.LogError(
+                exception: exception,
+                message: message);
+
+            return true;
+        });
+
     public FlowInstanceData Get(Guid flowInstanceDataId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
 

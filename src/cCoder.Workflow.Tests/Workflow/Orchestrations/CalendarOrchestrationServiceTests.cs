@@ -6,6 +6,7 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Planning;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
@@ -29,7 +30,8 @@ public partial class CalendarOrchestrationServiceTests
         orchestrationService = new CalendarOrchestrationService(
             processingService: calendarProcessingServiceMock.Object,
             calendarEventProcessingService: calendarEventProcessingServiceMock.Object,
-            eventService: eventServiceMock.Object);
+            eventService: eventServiceMock.Object,
+            loggingBroker: new Mock<ILoggingBroker>().Object);
     }
 
     private static Calendar CreateRandomCalendar() =>

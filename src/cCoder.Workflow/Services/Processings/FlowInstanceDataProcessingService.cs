@@ -9,9 +9,18 @@ using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal sealed partial class FlowInstanceDataProcessingService(IFlowInstanceDataService service)
+internal sealed partial class FlowInstanceDataProcessingService(
+    IFlowInstanceDataService service)
     : IFlowInstanceDataProcessingService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return service.CreateSingleResult(queryable: queryable);
+        });
+
     public FlowInstanceData Get(Guid flowInstanceDataId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
 

@@ -18,6 +18,14 @@ internal sealed partial class ScheduledTaskProcessingService(
     ILoggingBroker logger)
     : IScheduledTaskProcessingService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return service.CreateSingleResult(queryable: queryable);
+        });
+
     public bool IsScheduledTaskMigrationActive() =>
         TryCatch(operation: () => { return configuration.IsMigrating; });
 

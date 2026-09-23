@@ -15,6 +15,14 @@ internal sealed partial class CalendarProcessingService(
     ICalendarService service)
     : ICalendarProcessingService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return service.CreateSingleResult(queryable: queryable);
+        });
+
     public Calendar Get(int calendarId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarId]); return ExecuteGet(calendarId: calendarId); });
 

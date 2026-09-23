@@ -6,12 +6,36 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal sealed partial class WorkflowEventOrchestrationService(IWorkflowEventProcessingService processingService, IWorkflowEventEventProcessingService eventService) : IWorkflowEventOrchestrationService
+internal sealed partial class WorkflowEventOrchestrationService(
+    IWorkflowEventProcessingService processingService,
+    IWorkflowEventEventProcessingService eventService,
+    ILoggingBroker loggingBroker) : IWorkflowEventOrchestrationService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return processingService.CreateSingleResult(queryable: queryable);
+        });
+
+    public void LogError(Exception exception, string message) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [exception, message]);
+
+            loggingBroker.LogError(
+                exception: exception,
+                message: message);
+
+            return true;
+        });
+
     public (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
         object payload,
         string eventName,

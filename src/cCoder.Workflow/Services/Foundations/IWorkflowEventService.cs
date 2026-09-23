@@ -12,6 +12,8 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal interface IWorkflowEventService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);

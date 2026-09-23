@@ -4,12 +4,36 @@
 
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.Planning;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal sealed partial class ScheduledTaskOrchestrationService(IScheduledTaskProcessingService processingService, IScheduledTaskEventProcessingService eventService) : IScheduledTaskOrchestrationService
+internal sealed partial class ScheduledTaskOrchestrationService(
+    IScheduledTaskProcessingService processingService,
+    IScheduledTaskEventProcessingService eventService,
+    ILoggingBroker loggingBroker) : IScheduledTaskOrchestrationService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return processingService.CreateSingleResult(queryable: queryable);
+        });
+
+    public void LogError(Exception exception, string message) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [exception, message]);
+
+            loggingBroker.LogError(
+                exception: exception,
+                message: message);
+
+            return true;
+        });
+
     public ScheduledTask Get(int scheduledTaskId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [scheduledTaskId]); return ExecuteGet(scheduledTaskId: scheduledTaskId); });
 

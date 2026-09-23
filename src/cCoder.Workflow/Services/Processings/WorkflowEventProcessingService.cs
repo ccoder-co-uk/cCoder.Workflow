@@ -12,6 +12,14 @@ internal sealed partial class WorkflowEventProcessingService(
     IWorkflowEventService service)
         : IWorkflowEventProcessingService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return service.CreateSingleResult(queryable: queryable);
+        });
+
     public (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
         object payload,
         string eventName,

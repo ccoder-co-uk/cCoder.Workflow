@@ -6,6 +6,7 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
@@ -26,7 +27,8 @@ public partial class WorkflowEventOrchestrationServiceTests
         workflowEventEventProcessingServiceMock = new Mock<IWorkflowEventEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new WorkflowEventOrchestrationService(
             workflowEventProcessingServiceMock.Object,
-            workflowEventEventProcessingServiceMock.Object
+            workflowEventEventProcessingServiceMock.Object,
+            new Mock<ILoggingBroker>().Object
         );
     }
 

@@ -11,6 +11,8 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal interface IWorkflowEventProcessingService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
         object payload,
         string eventName,

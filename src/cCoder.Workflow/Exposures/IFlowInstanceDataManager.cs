@@ -9,7 +9,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Exposures;
 
-public interface IFlowInstanceDataManager
+public interface IFlowInstanceDataManager : IControllerErrorLogger
 {
     FlowInstanceData Get(Guid flowInstanceDataId);
 

@@ -9,6 +9,8 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal interface IScheduledTaskService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     ScheduledTask Get(int scheduledTaskId);
 
     ScheduledTask GetForExecution(int scheduledTaskId);

@@ -11,8 +11,17 @@ using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
-internal sealed partial class CalendarEventProcessingService(ICalendarEventService service) : ICalendarEventProcessingService
+internal sealed partial class CalendarEventProcessingService(
+    ICalendarEventService service) : ICalendarEventProcessingService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return service.CreateSingleResult(queryable: queryable);
+        });
+
     public CalendarEvent Get(int calendarEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarEventId]); return ExecuteGet(calendarEventId: calendarEventId); });
 

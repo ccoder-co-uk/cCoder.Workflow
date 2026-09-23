@@ -6,6 +6,7 @@ using System.Security;
 using cCoder.Data.Brokers;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Data.Models.Workflow;
 
 
@@ -16,9 +17,18 @@ internal sealed partial class WorkflowEventService(
     IAuthorizationBroker authorizationBroker,
     IJsonBroker jsonBroker,
     IReflectionBroker reflectionBroker,
-    ILoggingBroker loggingBroker
+    ILoggingBroker loggingBroker,
+    IODataResultBroker oDataResultBroker
 ) : IWorkflowEventService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return oDataResultBroker.CreateSingleResult(queryable: queryable);
+        });
+
     public (int? AppId, string EventContext) PrepareDispatch(
         object payload,
         string eventName,

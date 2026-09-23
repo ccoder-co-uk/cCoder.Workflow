@@ -7,6 +7,7 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
@@ -14,9 +15,30 @@ namespace cCoder.Workflow.Services.Orchestrations;
 internal sealed partial class CalendarOrchestrationService(
     ICalendarProcessingService processingService,
     ICalendarEventProcessingService calendarEventProcessingService,
-    ICalendarEntityEventProcessingService eventService)
+    ICalendarEntityEventProcessingService eventService,
+    ILoggingBroker loggingBroker)
     : ICalendarOrchestrationService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return processingService.CreateSingleResult(queryable: queryable);
+        });
+
+    public void LogError(Exception exception, string message) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [exception, message]);
+
+            loggingBroker.LogError(
+                exception: exception,
+                message: message);
+
+            return true;
+        });
+
     public Calendar Get(int calendarId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarId]); return ExecuteGet(calendarId: calendarId); });
 

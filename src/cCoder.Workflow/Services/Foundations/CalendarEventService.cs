@@ -5,6 +5,7 @@
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Storage;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Data.Models.Planning;
 
 
@@ -12,9 +13,18 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class CalendarEventService(
     ICalendarEventBroker calendarEventBroker,
-    IAuthorizationBroker authorizationBroker
+    IAuthorizationBroker authorizationBroker,
+    IODataResultBroker oDataResultBroker
 ) : ICalendarEventService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return oDataResultBroker.CreateSingleResult(queryable: queryable);
+        });
+
     public CalendarEvent Get(int calendarEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarEventId]); return ExecuteGet(calendarEventId: calendarEventId); });
 

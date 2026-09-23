@@ -18,6 +18,7 @@ using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
@@ -171,6 +172,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowHubBroker, WorkflowHubBroker>();
         services.AddTransient<IReflectionBroker, ReflectionBroker>();
         services.AddTransient<IStreamBroker, StreamBroker>();
+        services.AddTransient<IODataResultBroker, ODataResultBroker>();
         services.AddTransient<IWorkflowHttpClientBroker, WorkflowHttpClientBroker>();
         services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();

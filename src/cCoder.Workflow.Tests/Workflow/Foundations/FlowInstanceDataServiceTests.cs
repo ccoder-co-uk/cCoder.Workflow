@@ -5,6 +5,7 @@
 using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using FizzWare.NBuilder;
@@ -25,7 +26,8 @@ public partial class FlowInstanceDataServiceTests
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         flowInstanceDataService = new FlowInstanceDataService(
             flowInstanceDataBrokerMock.Object,
-            authorizationBrokerMock.Object
+            authorizationBrokerMock.Object,
+            new Mock<IODataResultBroker>().Object
         );
     }
 

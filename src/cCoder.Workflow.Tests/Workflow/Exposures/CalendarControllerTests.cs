@@ -4,7 +4,6 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
-using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +16,6 @@ namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 public partial class CalendarControllerTests
 {
     private readonly Mock<ICalendarManager> calendarManagerMock = new();
-    private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
     private readonly CalendarController controller;
 
     public static TheoryData<Exception, int> FailureExceptions => new()
@@ -30,8 +28,7 @@ public partial class CalendarControllerTests
     public CalendarControllerTests()
     {
         controller = new CalendarController(
-            service: calendarManagerMock.Object,
-            loggingBroker: loggingBrokerMock.Object)
+            service: calendarManagerMock.Object)
         {
             ControllerContext = new ControllerContext
             {
