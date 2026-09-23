@@ -98,4 +98,33 @@ public partial class FlowInstanceDataServiceTests
             .BeOfType(expectedType: expectedType);
 
     }
+
+    [Theory]
+    [MemberData(nameof(ExceptionMappings))]
+    public async Task ShouldMapAddAsyncFailure(
+        Exception exception,
+        Type expectedType)
+    {
+        // Given
+        FlowInstanceData flowInstanceData = CreateRandomFlowInstanceData();
+
+        flowInstanceDataBrokerMock
+            .Setup(expression: broker => broker.SelectAppId(
+                flowInstanceData: flowInstanceData))
+            .Throws(exception: exception);
+
+        // When
+        Func<Task> action = async () => await flowInstanceDataService
+            .AddFlowInstanceDataAsync(
+                newFlowInstanceData: flowInstanceData);
+
+        // Then
+        Exception thrown = (await action
+            .Should()
+            .ThrowAsync<Exception>()).Which;
+
+        thrown
+            .Should()
+            .BeOfType(expectedType: expectedType);
+    }
 }
