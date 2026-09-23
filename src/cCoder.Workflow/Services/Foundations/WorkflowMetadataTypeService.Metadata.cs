@@ -6,12 +6,11 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
-using cCoder.Workflow.Dependencies.OData;
 using cCoder.Workflow.Models.OData;
 
-namespace cCoder.Workflow.Extensions.OData;
+namespace cCoder.Workflow.Services.Foundations;
 
-internal static class TypeExtensions
+internal sealed partial class WorkflowMetadataTypeService
 {
     private static readonly IReadOnlyDictionary<Type, string> TypeNames =
         new Dictionary<Type, string>
@@ -34,24 +33,8 @@ internal static class TypeExtensions
             { typeof(float?), "number" }
         };
 
-    internal static MetadataContainer CreateMetadataContainer(
-        this Type type,
-        bool isEntity = false,
-        bool hasEndpoint = false)
-    {
-        MetadataContainer metadata = new();
-
-        PopulateMetadataContainer(
-            metadata: metadata,
-            type: type,
-            isEntity: isEntity,
-            hasEndpoint: hasEndpoint);
-
-        return metadata;
-    }
-
-    internal static ExtendedMetadataContainer CreateExtendedMetadataContainer(
-        this Type type,
+    private ExtendedMetadataContainer CreateExtendedMetadataContainer(
+        Type type,
         bool isEntity = false,
         bool hasEndpoint = false)
     {
@@ -66,7 +49,7 @@ internal static class TypeExtensions
         return metadata;
     }
 
-    internal static string GetCSharpTypeName(this Type type)
+    private string GetCSharpTypeName(Type type)
     {
         if (!type.IsGenericType)
         {
@@ -75,46 +58,29 @@ internal static class TypeExtensions
 
         IEnumerable<string> genericNames =
             type.GenericTypeArguments.Select(
-                selector: argument => argument.GetCSharpTypeName());
+                selector: GetCSharpTypeName);
 
         return $"{type.Name.Split(separator: '`')[0]}<{string.Join(separator: ",", values: genericNames)}>"
             .Replace(oldValue: "System.Object", newValue: "dynamic");
     }
 
-    internal static bool IsJoinType(this Type type)
+    private bool IsJoinType(Type type)
     {
-        TableAttribute table = type.GetCustomAttribute<TableAttribute>();
+        TableAttribute table = reflectionBroker.GetCustomAttribute<TableAttribute>(
+            member: type);
 
         return table != null
-            && type.GetProperties().Length == 4
-            && type.GetProperties()
+            && reflectionBroker.GetProperties(type: type).Length == 4
+            && reflectionBroker.GetProperties(type: type)
                 .Where(predicate: property =>
                     property.PropertyType.IsValueType
                     || property.PropertyType == typeof(string))
                 .All(predicate: property =>
-                    property.GetCustomAttribute<ForeignKeyAttribute>() != null);
+                    reflectionBroker.GetCustomAttribute<ForeignKeyAttribute>(
+                        member: property) != null);
     }
 
-    internal static PropertyInfo GetIdProperty(this Type type)
-    {
-        if (type.IsJoinType())
-        {
-            return new CompositePropertyInfo(type);
-        }
-
-        return type.GetProperty(name: "ID")
-            ?? type.GetProperty(name: "Id")
-            ?? type.GetProperty(name: type.Name + "Id")
-            ?? type.GetProperty(name: type.Name + "ID")
-            ?? type.GetProperties()
-                .FirstOrDefault(predicate: property =>
-                    property.GetCustomAttributes(
-                        attributeType: typeof(KeyAttribute),
-                        inherit: false)
-                    .Any());
-    }
-
-    private static void PopulateMetadataContainer(
+    private void PopulateMetadataContainer(
         MetadataContainer metadata,
         Type type,
         bool isEntity,
@@ -126,40 +92,41 @@ internal static class TypeExtensions
         metadata.DisplayName = type.Name;
         metadata.Description = type.Name;
         metadata.ServerType = type.AssemblyQualifiedName;
-        metadata.ServerTypeName = type.GetCSharpTypeName();
+        metadata.ServerTypeName = GetCSharpTypeName(type: type);
         metadata.IsEntity = isEntity;
-        metadata.IsJoinEntity = isEntity && type.IsJoinType();
+        metadata.IsJoinEntity = isEntity && IsJoinType(type: type);
         metadata.HasEndpoint = hasEndpoint;
 
         metadata.Properties = type.IsValueType || type == typeof(string)
             ? []
-            : type.GetProperties()
-                .Select(selector: property => CreatePropertyContainer(property: property))
+            : reflectionBroker.GetProperties(type: type)
+                .Select(selector: CreatePropertyContainer)
                 .ToArray();
-
     }
 
-    private static PropertyContainer CreatePropertyContainer(PropertyInfo property) =>
+    private PropertyContainer CreatePropertyContainer(PropertyInfo property) =>
         new()
         {
             Name = property.Name,
             Type = GetClientType(type: property.PropertyType),
             ServerType = property.PropertyType.ToString(),
-            ServerTypeName = property.PropertyType.GetCSharpTypeName(),
+            ServerTypeName = GetCSharpTypeName(type: property.PropertyType),
             IsValueType = property.PropertyType.IsValueType
                 || property.PropertyType == typeof(string),
             DisplayName = property.Name,
             ShortDisplayName = property.Name,
             Description = property.Name,
             IsReadOnly = !property.CanWrite,
-            Template = property.GetCustomAttribute<KeyAttribute>() is not null
+            Template = reflectionBroker.GetCustomAttribute<KeyAttribute>(
+                member: property) is not null
                 || property.Name == "Id"
                     ? "key"
                     : property.Name,
             IsRequired = (!(property.PropertyType.IsGenericType
                     && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 && property.PropertyType.IsValueType)
-                || property.GetCustomAttribute<RequiredAttribute>() is not null
+                || reflectionBroker.GetCustomAttribute<RequiredAttribute>(
+                    member: property) is not null
         };
 
     private static string GetClientType(Type type) =>
