@@ -7,6 +7,9 @@ using System.Net.Sockets;
 using System.Text;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Models;
+using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Services.Foundations;
+using cCoder.Workflow.Dependencies;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -33,6 +36,14 @@ public partial class FlowDefinitionAggregationServiceTests
                 .GetOperationService<WorkflowConfiguration>(
                     operation: FlowDefinitionOperation.Configuration))
             .Returns(value: configuration);
+
+        serviceProviderBrokerMock
+            .Setup(expression: broker => broker
+                .GetOperationService<IWorkflowScriptExecutionService>(
+                    operation: FlowDefinitionOperation.ScriptExecution))
+            .Returns(value: new WorkflowScriptExecutionService(
+                httpClientBroker: new WorkflowHttpClientBroker(
+                    httpClientDependency: new WorkflowHttpClientDependency())));
 
         Task responseTask = Task.Run(function: async () =>
         {

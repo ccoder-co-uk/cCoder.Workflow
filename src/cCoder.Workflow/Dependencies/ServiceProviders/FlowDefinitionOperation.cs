@@ -11,5 +11,6 @@ internal enum FlowDefinitionOperation
     Metadata,
     Authorization,
     Configuration,
-    RequestBody
+    RequestBody,
+    ScriptExecution
 }

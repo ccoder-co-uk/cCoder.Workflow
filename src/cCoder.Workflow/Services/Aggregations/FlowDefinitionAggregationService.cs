@@ -2,9 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Net;
-using cCoder.Workflow.Dependencies;
-using System.Text;
 using cCoder.Data;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Extensions.OData;
@@ -120,16 +117,11 @@ internal sealed partial class FlowDefinitionAggregationService(
             },
             isValueTask: true);
 
-    private async ValueTask<string> ExecuteScriptRequestAsync(string script)
-    {
-        using WorkflowHttpClientDependency api = new(
-            apiRoot: GetConfiguration().ServiceUrl,
-            timeout: TimeSpan.FromMinutes(minutes: 10));
-
-        return await api.PostTextAsync(
-            requestUri: "ExecuteScript",
-            content: script);
-    }
+    private ValueTask<string> ExecuteScriptRequestAsync(string script) =>
+        GetWorkflowScriptExecutionService()
+            .ExecuteAsync(
+                serviceUrl: GetConfiguration().ServiceUrl,
+                script: script);
 
     private string ResolveCallerId(string asUserId)
     {
@@ -161,4 +153,8 @@ internal sealed partial class FlowDefinitionAggregationService(
     private IWorkflowRequestBodyService GetWorkflowRequestBodyService() =>
         serviceProviderBroker.GetOperationService<IWorkflowRequestBodyService>(
             operation: FlowDefinitionOperation.RequestBody);
+
+    private IWorkflowScriptExecutionService GetWorkflowScriptExecutionService() =>
+        serviceProviderBroker.GetOperationService<IWorkflowScriptExecutionService>(
+            operation: FlowDefinitionOperation.ScriptExecution);
 }
