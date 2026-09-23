@@ -40,9 +40,10 @@ public partial class ScheduledTaskServiceTests
             .Returns(value: true);
 
         authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+            .Setup(expression: broker => broker.IsAuthorized(
                 appId: input.AppId,
-                privilege: "ScheduledTask_create"));
+                privilege: "ScheduledTask_create"))
+            .Returns(value: true);
 
         authorizationBrokerMock
             .Setup(expression: broker => broker.GetCurrentUser())

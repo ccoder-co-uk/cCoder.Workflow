@@ -68,10 +68,10 @@ internal sealed partial class CalendarEventService(
 
     private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent calendarEvent)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: calendarEventBroker.SelectAppId(calendarEvent: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_create"
-        );
+        ));
 
         CalendarEvent newCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
@@ -90,10 +90,10 @@ privilege: $"{nameof(CalendarEvent)}_create"
 
     private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent calendarEvent)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: calendarEventBroker.SelectAppId(calendarEvent: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_update"
-        );
+        ));
 
         CalendarEvent updateCalendarEvent = CreateStorageCalendarEvent(item: calendarEvent);
 
@@ -123,10 +123,10 @@ updatedCalendarEvent: updateCalendarEvent
             return;
         }
 
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: calendarEventBroker.SelectAppId(calendarEvent: calendarEvent),
 privilege: $"{nameof(CalendarEvent)}_delete"
-        );
+        ));
 
         _ = await calendarEventBroker.DeleteCalendarEventAsync(
 deletedCalendarEvent: CreateStorageCalendarEvent(item: calendarEvent)

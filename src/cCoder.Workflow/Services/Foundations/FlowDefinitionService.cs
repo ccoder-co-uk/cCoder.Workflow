@@ -23,10 +23,10 @@ internal sealed partial class FlowDefinitionService(
         {
             ValidateInputs(inputs: [userId, appId]);
 
-            authorizationBroker.Authorize(
+            Authorize(isAuthorized: authorizationBroker.IsAuthorized(
                 userId: userId,
                 appId: appId,
-                privilege: "flowdefinition_execute");
+                privilege: "flowdefinition_execute"));
 
             return true;
         });
@@ -109,7 +109,7 @@ internal sealed partial class FlowDefinitionService(
 
     private async ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition flowDefinition)
     {
-        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_create");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_create"));
         FlowDefinition newFlowDefinition = CreateStorageFlowDefinition(item: flowDefinition);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
@@ -139,7 +139,7 @@ internal sealed partial class FlowDefinitionService(
 
     private async ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition flowDefinition)
     {
-        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_update");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_update"));
         FlowDefinition updateFlowDefinition = CreateStorageFlowDefinition(item: flowDefinition);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
@@ -178,7 +178,7 @@ updatedFlowDefinition: updateFlowDefinition
             return;
         }
 
-        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete"));
         _ = await flowDefinitionBroker.DeleteFlowDefinitionAsync(deletedFlowDefinition: CreateStorageFlowDefinition(item: flowDefinition));
     }
 
@@ -195,7 +195,7 @@ updatedFlowDefinition: updateFlowDefinition
             return;
         }
 
-        authorizationBroker.Authorize(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: flowDefinition.AppId, privilege: $"{nameof(FlowDefinition)}_delete"));
         await flowDefinitionBroker.DeleteFlowDefinitionWithInstancesAsync(flowDefinitionId: flowDefinitionId);
     }
 

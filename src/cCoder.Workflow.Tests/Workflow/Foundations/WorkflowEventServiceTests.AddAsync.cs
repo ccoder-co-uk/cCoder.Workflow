@@ -28,7 +28,8 @@ public partial class WorkflowEventServiceTests
         workflowEventBrokerMock.Setup(expression: x => x.SelectAppId(workflowEvent: It.IsAny<WorkflowEvent>()))
             .Returns(value: (int?)7);
 
-        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"));
+        authorizationBrokerMock.Setup(expression: x => x.IsAuthorized(appId: (int?)7, privilege: "WorkflowEvent_create"))
+            .Returns(value: true);
 
         workflowEventBrokerMock
             .Setup(expression: x =>
@@ -146,7 +147,7 @@ times: Times.AtMostOnce()
         workflowEventBrokerMock.VerifyNoOtherCalls();
 
         authorizationBrokerMock.Verify(
-expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"),
+expression: x => x.IsAuthorized(appId: (int?)7, privilege: "WorkflowEvent_create"),
 times: Times.Once
         );
     }
@@ -161,8 +162,8 @@ times: Times.Once
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
-            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"))
-            .Throws(exception: new SecurityException(message: "Access Denied!"));
+            .Setup(expression: x => x.IsAuthorized(appId: (int?)7, privilege: "WorkflowEvent_create"))
+            .Returns(value: false);
 
         // When
         Func<Task> action = async () => await workflowEventService.AddWorkflowEventAsync(newWorkflowEvent: workflowEvent);
@@ -180,7 +181,7 @@ times: Times.AtMostOnce()
         workflowEventBrokerMock.VerifyNoOtherCalls();
 
         authorizationBrokerMock.Verify(
-expression: x => x.Authorize(appId: (int?)7, privilege: "WorkflowEvent_create"),
+expression: x => x.IsAuthorized(appId: (int?)7, privilege: "WorkflowEvent_create"),
 times: Times.Once
         );
     }

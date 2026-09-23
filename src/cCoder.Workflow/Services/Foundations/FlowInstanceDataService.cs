@@ -67,10 +67,10 @@ internal sealed partial class FlowInstanceDataService(
 
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_create"
-        );
+        ));
 
         FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
@@ -118,10 +118,10 @@ newFlowInstanceData: queuedFlowInstanceData
 
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_update"
-        );
+        ));
 
         FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
@@ -148,10 +148,10 @@ updatedFlowInstanceData: updateFlowInstanceData
     {
         FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
 
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_delete"
-        );
+        ));
 
         _ = await flowInstanceDataBroker.DeleteFlowInstanceDataAsync(
 deletedFlowInstanceData: CreateStorageFlowInstanceData(item: flowInstanceData)

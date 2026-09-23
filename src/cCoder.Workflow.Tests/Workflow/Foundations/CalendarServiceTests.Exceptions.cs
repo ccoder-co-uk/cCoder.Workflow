@@ -46,7 +46,7 @@ public partial class CalendarServiceTests
         Calendar calendar = CreateCalendar();
 
         authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+            .Setup(expression: broker => broker.IsAuthorized(
                 appId: calendar.AppId,
                 privilege: "Calendar_create"))
             .Throws(exception: exception);

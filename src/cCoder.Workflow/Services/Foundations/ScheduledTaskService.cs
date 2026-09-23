@@ -130,7 +130,7 @@ internal sealed partial class ScheduledTaskService(
     private async ValueTask<ScheduledTask> ExecuteAddAsync(ScheduledTask scheduledTask)
     {
         ValidateScheduledTaskAccess(scheduledTask: scheduledTask);
-        authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_create");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_create"));
         ScheduledTask newScheduledTask = CreateStorageScheduledTask(item: scheduledTask);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
@@ -165,7 +165,7 @@ internal sealed partial class ScheduledTaskService(
     private async ValueTask<ScheduledTask> ExecuteUpdateAsync(ScheduledTask scheduledTask)
     {
         ValidateScheduledTaskAccess(scheduledTask: scheduledTask);
-        authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_update");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_update"));
         ScheduledTask updateScheduledTask = CreateStorageScheduledTask(item: scheduledTask);
         string currentUserId = authorizationBroker.GetCurrentUser().Id;
         DateTimeOffset now = DateTimeOffset.UtcNow;
@@ -208,7 +208,7 @@ updatedScheduledTask: updateScheduledTask
             return;
         }
 
-        authorizationBroker.Authorize(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_delete");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: scheduledTask.AppId, privilege: $"{nameof(ScheduledTask)}_delete"));
 
         _ = await scheduledTaskBroker.DeleteScheduledTaskAsync(
 deletedScheduledTask: CreateStorageScheduledTask(item: scheduledTask)

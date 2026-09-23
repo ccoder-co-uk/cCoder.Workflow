@@ -34,7 +34,8 @@ public partial class FlowInstanceDataServiceTests
         flowInstanceDataBrokerMock.Setup(expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()))
             .Returns(value: (int?)7);
 
-        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"));
+        authorizationBrokerMock.Setup(expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowInstanceData_delete"))
+            .Returns(value: true);
 
         flowInstanceDataBrokerMock
             .Setup(
@@ -67,7 +68,7 @@ times: Times.AtMostOnce()
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
 
         authorizationBrokerMock.Verify(
-expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"),
+expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowInstanceData_delete"),
 times: Times.Once
         );
 
@@ -89,8 +90,8 @@ times: Times.Once
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
-            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"))
-            .Throws(exception: new SecurityException(message: "Access Denied!"));
+            .Setup(expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowInstanceData_delete"))
+            .Returns(value: false);
 
         // When
         Func<Task> action = async () =>
@@ -111,7 +112,7 @@ times: Times.AtMostOnce()
         flowInstanceDataBrokerMock.VerifyNoOtherCalls();
 
         authorizationBrokerMock.Verify(
-expression: x => x.Authorize(appId: (int?)7, privilege: "FlowInstanceData_delete"),
+expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowInstanceData_delete"),
 times: Times.Once
         );
 

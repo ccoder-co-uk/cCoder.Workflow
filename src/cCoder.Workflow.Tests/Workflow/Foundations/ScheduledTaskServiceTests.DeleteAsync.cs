@@ -23,9 +23,10 @@ public partial class ScheduledTaskServiceTests
                 .AsQueryable());
 
         authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+            .Setup(expression: broker => broker.IsAuthorized(
                 appId: scheduledTask.AppId,
-                privilege: "ScheduledTask_delete"));
+                privilege: "ScheduledTask_delete"))
+            .Returns(value: true);
 
         scheduledTaskBrokerMock
             .Setup(expression: broker => broker.DeleteScheduledTaskAsync(

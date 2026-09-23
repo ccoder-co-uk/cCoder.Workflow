@@ -6,7 +6,6 @@ using cCoder.Data;
 using cCoder.Data.Models.Security;
 using cCoder.CodeAnalysis.Exposures;
 using Microsoft.EntityFrameworkCore;
-using System.Security;
 
 namespace cCoder.Workflow.Brokers;
 
@@ -44,25 +43,19 @@ internal class AuthorizationBroker(
         return user?.IsAdminOfApp(appId: appId) ?? false;
     }
 
-    public void Authorize(int? appId, string privilege)
-    {
-        User user = GetCurrentUser();
-
-        EnsureAuthorized(
-            user: user,
+    public bool IsAuthorized(int? appId, string privilege) =>
+        GetCurrentUser()?.Can(
             appId: appId,
-            privilege: privilege);
-    }
+            operation: privilege) == true;
 
-    public void Authorize(string userId, int? appId, string privilege)
+    public bool IsAuthorized(string userId, int? appId, string privilege)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         User user = LoadUserWithRoles(coreDataContext: coreDataContext, userId: userId);
 
-        EnsureAuthorized(
-            user: user,
+        return user?.Can(
             appId: appId,
-            privilege: privilege);
+            operation: privilege) == true;
     }
 
     public bool UserBelongsToApp(string userId, int? appId)
@@ -92,16 +85,4 @@ resultSelector: (_, role) => role.AppId)
                 .ThenInclude(navigationPropertyPath: userRole => userRole.Role)
             .FirstOrDefault(predicate: foundUser => foundUser.Id == userId);
 
-    private static void EnsureAuthorized(
-        User user,
-        int? appId,
-        string privilege)
-    {
-        if (user?.Can(
-            appId: appId,
-            operation: privilege) != true)
-        {
-            throw new SecurityException(message: "Access Denied!");
-        }
-    }
 }

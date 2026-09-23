@@ -16,9 +16,9 @@ public interface IAuthorizationBroker
 
     bool IsAdminOfApp(int appId, string userName);
 
-    void Authorize(int? appId, string privilege);
+    bool IsAuthorized(int? appId, string privilege);
 
-    void Authorize(string userId, int? appId, string privilege);
+    bool IsAuthorized(string userId, int? appId, string privilege);
 
     bool UserBelongsToApp(string userId, int? appId);
 }

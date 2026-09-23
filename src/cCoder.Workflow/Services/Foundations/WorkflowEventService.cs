@@ -89,10 +89,10 @@ internal sealed partial class WorkflowEventService(
             int? appId = ExecuteGetAppIdForWorkflowEvent(
                 workflowEvent: workflowEvent);
 
-            authorizationBroker.Authorize(
+            Authorize(isAuthorized: authorizationBroker.IsAuthorized(
                 userId: workflowEvent.ExecuteAs,
                 appId: appId,
-                privilege: "app_admin");
+                privilege: "app_admin"));
 
             return true;
         });
@@ -172,10 +172,10 @@ internal sealed partial class WorkflowEventService(
 
     private async ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent workflowEvent)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: workflowEventBroker.SelectAppId(workflowEvent: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_create"
-        );
+        ));
 
         WorkflowEvent newWorkflowEvent = CreateStorageWorkflowEvent(item: workflowEvent);
 
@@ -200,10 +200,10 @@ privilege: $"{nameof(WorkflowEvent)}_create"
 
     private async ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent workflowEvent)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: workflowEventBroker.SelectAppId(workflowEvent: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_update"
-        );
+        ));
 
         WorkflowEvent updateWorkflowEvent = CreateStorageWorkflowEvent(item: workflowEvent);
 
@@ -228,10 +228,10 @@ updatedWorkflowEvent: updateWorkflowEvent
     {
         WorkflowEvent workflowEvent = Get(workflowEventId: workflowEventId);
 
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: workflowEventBroker.SelectAppId(workflowEvent: workflowEvent),
 privilege: $"{nameof(WorkflowEvent)}_delete"
-        );
+        ));
 
         _ = await workflowEventBroker.DeleteWorkflowEventAsync(
 deletedWorkflowEvent: CreateStorageWorkflowEvent(item: workflowEvent)

@@ -61,6 +61,14 @@ internal sealed partial class ScheduledTaskService
         }
     }
 
+    private static void Authorize(bool isAuthorized)
+    {
+        if (!isAuthorized)
+        {
+            throw new System.Security.SecurityException(message: "Access Denied!");
+        }
+    }
+
     private static void Validate(params object[] inputs) =>
         _ = inputs;
 }
