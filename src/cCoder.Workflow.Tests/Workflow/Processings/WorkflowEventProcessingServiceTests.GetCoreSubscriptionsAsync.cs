@@ -28,6 +28,11 @@ public partial class WorkflowEventProcessingServiceTests
                 eventContext: "page_update/home"))
             .Returns(value: [matchingEvent]);
 
+        workflowEventServiceMock
+            .Setup(expression: service => service
+                .LogWorkflowEventSubscriptionsFound(count: 1))
+            .Returns(value: true);
+
         // When
         WorkflowEvent[] result = await workflowEventProcessingService.GetSubscriptionsAsync(
             appId: 1,
@@ -45,6 +50,11 @@ public partial class WorkflowEventProcessingServiceTests
             expression: service => service.GetSubscriptions(
                 appId: 1,
                 eventContext: "page_update/home"),
+            times: Times.Once);
+
+        workflowEventServiceMock.Verify(
+            expression: service => service
+                .LogWorkflowEventSubscriptionsFound(count: 1),
             times: Times.Once);
 
         workflowEventServiceMock.VerifyNoOtherCalls();

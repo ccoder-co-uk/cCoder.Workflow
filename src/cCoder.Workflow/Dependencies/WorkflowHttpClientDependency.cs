@@ -4,34 +4,27 @@
 
 using System.Net;
 using System.Text;
-using cCoder.Workflow.Models;
 
 namespace cCoder.Workflow.Dependencies;
 
-internal sealed class WorkflowHttpClientDependency : HttpClient
+internal sealed class WorkflowHttpClientDependency : IDisposable
 {
-    internal WorkflowHttpClientDependency(
-        string apiRoot,
-        TimeSpan? timeout = null)
-        : base(handler: new HttpClientHandler
-        {
-            AutomaticDecompression =
-                DecompressionMethods.GZip | DecompressionMethods.Deflate
-        })
+    private readonly HttpClient client = new(handler: new HttpClientHandler
     {
-        BaseAddress = new Uri(apiRoot);
+        AutomaticDecompression =
+            DecompressionMethods.GZip | DecompressionMethods.Deflate
+    });
 
-        if (timeout is not null)
-        {
-            Timeout = timeout.Value;
-        }
-    }
-
-    internal async ValueTask<string> PostTextAsync(
+    public async ValueTask<string> PostTextAsync(
+        string apiRoot,
+        TimeSpan timeout,
         string requestUri,
         string content)
     {
-        using HttpResponseMessage response = await PostAsync(
+        client.BaseAddress = new Uri(apiRoot);
+        client.Timeout = timeout;
+
+        using HttpResponseMessage response = await client.PostAsync(
             requestUri: requestUri,
             content: new StringContent(
                 content: content,
@@ -41,21 +34,6 @@ internal sealed class WorkflowHttpClientDependency : HttpClient
         return await response.Content.ReadAsStringAsync();
     }
 
-    internal async ValueTask<WorkflowHttpResult> PostJsonAsync(
-        string requestUri,
-        string content)
-    {
-        using HttpResponseMessage response = await PostAsync(
-            requestUri: requestUri,
-            content: new StringContent(
-                content: content,
-                encoding: Encoding.UTF8,
-                mediaType: "application/json"));
-
-        return new WorkflowHttpResult
-        {
-            IsSuccess = response.IsSuccessStatusCode,
-            Body = await response.Content.ReadAsStringAsync()
-        };
-    }
+    public void Dispose() =>
+        client.Dispose();
 }

@@ -31,8 +31,17 @@ internal sealed class WorkflowHttpClientBroker
         using WorkflowHttpClientDependency dependency =
             new(apiRoot: apiRoot, authToken: authToken);
 
-        return await dependency.PutJsonAsync(
+        (bool isSuccess, int statusCode, string status, string body) =
+            await dependency.PutJsonAsync(
             requestUri: requestUri,
             payload: payload);
+
+        return new WorkflowHttpResult
+        {
+            IsSuccess = isSuccess,
+            StatusCode = statusCode,
+            Status = status,
+            Body = body
+        };
     }
 }

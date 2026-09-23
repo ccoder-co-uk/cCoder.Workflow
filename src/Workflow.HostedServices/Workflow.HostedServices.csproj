@@ -19,11 +19,11 @@
     <ProjectReference Include="$(LocalSecurityDataProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.8.28.1700" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.8.28.2245" />
-    <PackageReference Include="cCoder.Eventing.Http" Version="2026.8.28.2245" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.8.28.1335" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.8.28.1335" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.9.22.2048" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.9.22.2040" />
+    <PackageReference Include="cCoder.Eventing.Http" Version="2026.9.22.2040" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.9.22.2049" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.9.22.2049" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cCoder.Workflow\cCoder.Workflow.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />

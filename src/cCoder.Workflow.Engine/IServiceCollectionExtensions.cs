@@ -3,10 +3,11 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Engine.Brokers;
-using cCoder.Workflow.Engine.Dependencies;
 using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Services.Orchestrations;
+using cCoder.Workflow.Engine.Services.Foundations;
 using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Coordinations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace cCoder.Workflow.Engine;
@@ -19,7 +20,7 @@ public static class IServiceCollectionExtensions
         services.AddLogging();
         services.AddBrokers();
         services.AddOrchestrations();
-        services.AddProcessings();
+        services.AddFoundations();
 
         return services;
     }
@@ -30,9 +31,9 @@ public static class IServiceCollectionExtensions
         services.AddTransient<
             Brokers.Loggings.ILoggingBroker,
             Brokers.Loggings.LoggingBroker>();
-        services.AddTransient<RoslynScriptDependency>();
-        services.AddTransient<IScriptBroker, ScriptBroker>();
+        services.AddTransient<IRoslynScriptBroker, RoslynScriptBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
+        services.AddTransient<IReflectionBroker, ReflectionBroker>();
         services.AddTransient<
             IWorkflowHttpClientBroker,
             WorkflowHttpClientBroker>();
@@ -53,29 +54,33 @@ public static class IServiceCollectionExtensions
             WorkflowScriptExecutionService>();
         services.AddTransient<
             IFlowExecutionOrchestrationService,
-            FlowExecutionOrchestrationAdapter>();
+            FlowExecutionOrchestrationService>();
         services.AddTransient<
-            IWorkflowScriptExecutionOrchestrationService,
-            WorkflowScriptExecutionOrchestrationAdapter>();
+            IWorkflowLifecycleOrchestrationService,
+            WorkflowLifecycleOrchestrationService>();
         services.AddTransient<
-            IWorkflowRequestOrchestrationService,
-            WorkflowRequestOrchestrationService>();
+            IWorkflowRequestCoordinationService,
+            WorkflowRequestCoordinationService>();
     }
 
-    private static void AddProcessings(
+    private static void AddFoundations(
         this IServiceCollection services)
     {
         services.AddTransient<
             IWorkflowScriptExecutionProcessingService,
             WorkflowScriptExecutionProcessingService>();
+        services.AddTransient<IScriptService, ScriptService>();
         services.AddTransient<
-            IFlowCommunicationProcessingService,
-            FlowCommunicationProcessingService>();
+            IFlowCommunicationService,
+            FlowCommunicationService>();
         services.AddTransient<
-            IFlowInstanceProcessingService,
-            FlowInstanceProcessingService>();
+            IFlowInstanceDataService,
+            FlowInstanceDataService>();
         services.AddTransient<
-            IFlowResultProcessingService,
-            FlowResultProcessingService>();
+            IWorkflowRuntimeService,
+            WorkflowRuntimeService>();
+        services.AddTransient<
+            IFlowResultService,
+            FlowResultService>();
     }
 }

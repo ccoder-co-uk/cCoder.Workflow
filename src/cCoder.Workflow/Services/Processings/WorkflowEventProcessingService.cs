@@ -2,21 +2,24 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class WorkflowEventProcessingService(
-    IWorkflowEventService service,
-    IAuthorizationBroker authorizationBroker,
-    IJsonBroker jsonBroker,
-    ILoggingBroker logger)
+    IWorkflowEventService service)
         : IWorkflowEventProcessingService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return service.CreateSingleResult(queryable: queryable);
+        });
+
     public (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
         object payload,
         string eventName,
@@ -25,33 +28,17 @@ internal sealed partial class WorkflowEventProcessingService(
         {
             ValidateInputs(inputs: [payload, eventName, appIdOverride]);
 
-            return ExecutePrepareWorkflowEventDispatch(
+            return service.PrepareDispatch(
                 payload: payload,
                 eventName: eventName,
                 appIdOverride: appIdOverride);
         });
 
-    private (int? AppId, string EventContext) ExecutePrepareWorkflowEventDispatch(
-        object payload,
-        string eventName,
-        int? appIdOverride)
-    {
-        int? appId = appIdOverride ?? GetIntProperty(payload: payload, propertyName: "AppId");
-        string context = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
-        string eventContext = $"{eventName}{context}";
-
-        logger.LogDebug(
-            message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-            args: [appId, eventContext]);
-
-        return (appId, eventContext);
-    }
-
     public string SerializeWorkflowEventPayload(object payload) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [payload]);
-            return jsonBroker.Serialize(value: payload);
+            return service.SerializePayload(payload: payload);
         });
 
     public ValueTask LogWorkflowEventQueueFailureAsync(
@@ -62,24 +49,13 @@ internal sealed partial class WorkflowEventProcessingService(
             {
                 ValidateInputs(inputs: [workflowEvent, exception]);
 
-                logger.LogWarning(
-                    exception: exception,
-                    message: "Failed to queue a new workflow instance for subscription {SubscriptionId}, flow {FlowId}.",
-                    args: [workflowEvent.Id, workflowEvent.FlowId]);
+                _ = service.LogWorkflowEventQueueFailure(
+                    workflowEvent: workflowEvent,
+                    exception: exception);
 
                 return ValueTask.CompletedTask;
             },
             isValueTask: true);
-
-    private static int? GetIntProperty(object payload, string propertyName) =>
-        payload.GetType()
-            .GetProperty(name: propertyName)?.GetValue(obj: payload) as int?
-        ?? (payload.GetType()
-            .GetProperty(name: propertyName)?.GetValue(obj: payload) is int value ? value : null);
-
-    private static string GetStringProperty(object payload, string propertyName) =>
-        payload.GetType()
-            .GetProperty(name: propertyName)?.GetValue(obj: payload)?.ToString();
 
     public WorkflowEvent Get(Guid workflowEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
@@ -90,7 +66,7 @@ internal sealed partial class WorkflowEventProcessingService(
     }
 
     public IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<WorkflowEvent> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -98,7 +74,7 @@ internal sealed partial class WorkflowEventProcessingService(
     }
 
     public ValueTask<WorkflowEvent[]> GetSubscriptionsAsync(int appId, string eventContext) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId, eventContext]); return await ExecuteGetSubscriptionsAsync(appId: appId, eventContext: eventContext); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateSubscriptionsOnGet(inputs: [appId, eventContext]); return await ExecuteGetSubscriptionsAsync(appId: appId, eventContext: eventContext); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent[]> ExecuteGetSubscriptionsAsync(int appId, string eventContext)
     {
@@ -106,13 +82,14 @@ internal sealed partial class WorkflowEventProcessingService(
             appId: appId,
             eventContext: eventContext);
 
-        logger.LogDebug(message: "Found {Count} subscribers, calling ...", args: subscriptions.Length);
+        _ = service.LogWorkflowEventSubscriptionsFound(
+            count: subscriptions.Length);
 
         return ValueTask.FromResult(result: subscriptions);
     }
 
     public ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newWorkflowEvent]); return await ExecuteAddAsync(entity: newWorkflowEvent); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateWorkflowEventOnAdd(inputs: [newWorkflowEvent]); return await ExecuteAddAsync(entity: newWorkflowEvent); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent> ExecuteAddAsync(WorkflowEvent entity)
     {
@@ -121,7 +98,7 @@ internal sealed partial class WorkflowEventProcessingService(
     }
 
     public ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedWorkflowEvent]); return await ExecuteUpdateAsync(entity: updatedWorkflowEvent); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateWorkflowEventOnUpdate(inputs: [updatedWorkflowEvent]); return await ExecuteUpdateAsync(entity: updatedWorkflowEvent); }, isValueTask: true);
 
     private ValueTask<WorkflowEvent> ExecuteUpdateAsync(WorkflowEvent entity)
     {
@@ -138,7 +115,7 @@ internal sealed partial class WorkflowEventProcessingService(
     }
 
     public ValueTask<IEnumerable<Result<WorkflowEvent>>> AddOrUpdateWorkflowEvent(IEnumerable<WorkflowEvent> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateWorkflowEventOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private async ValueTask<IEnumerable<Result<WorkflowEvent>>> ExecuteAddOrUpdate(IEnumerable<WorkflowEvent> items)
     {
@@ -175,7 +152,7 @@ internal sealed partial class WorkflowEventProcessingService(
     }
 
     public ValueTask DeleteAllWorkflowEventAsync(IEnumerable<WorkflowEvent> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllWorkflowEventOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteAllAsync(IEnumerable<WorkflowEvent> items)
     {
@@ -187,7 +164,6 @@ internal sealed partial class WorkflowEventProcessingService(
 
     private void SecurityCheckEvent(WorkflowEvent workflowEvent)
     {
-        int? appId = service.GetAppIdForWorkflowEvent(workflowEvent: workflowEvent);
-        authorizationBroker.Authorize(userId: workflowEvent.ExecuteAs, appId: appId, privilege: "app_admin");
+        _ = service.AuthorizeWorkflowEvent(workflowEvent: workflowEvent);
     }
 }

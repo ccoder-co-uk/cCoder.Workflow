@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Planning;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using Moq;
@@ -20,7 +21,8 @@ public partial class ScheduledTaskOrchestrationServiceTests
     {
         service = new ScheduledTaskOrchestrationService(
             processingService: processingServiceMock.Object,
-            eventService: eventServiceMock.Object);
+            eventService: eventServiceMock.Object,
+            loggingBroker: new Mock<ILoggingBroker>().Object);
     }
 
     private static ScheduledTask CreateScheduledTask() =>

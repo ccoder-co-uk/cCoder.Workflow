@@ -2,9 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Data.Models.CMS;
 using Microsoft.AspNetCore.Mvc;
+using Workflow.Web.Brokers.Loggings;
 using Workflow.Web.Services.Processings;
 
 using Workflow.Web.Exposures;
@@ -15,7 +16,8 @@ namespace Workflow.Web.Controllers;
 public sealed class CoreAppController(
     ICoreAppManager coreAppProcessingService,
     ILoggingBroker loggingBroker)
-    : ControllerBase
+    : ControllerBase,
+      ICompositionExposure
 {
     [HttpGet("/Api/ContentManagement/App({key:int})")]
     public async Task<IActionResult> Get([FromRoute] int key)

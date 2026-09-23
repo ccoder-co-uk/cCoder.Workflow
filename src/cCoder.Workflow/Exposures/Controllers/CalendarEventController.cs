@@ -2,8 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
-using cCoder.Workflow.Brokers.OData;
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Extensions.OData;
 using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
@@ -17,23 +16,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;
 
-public partial class CalendarEventController : ODataController
+public partial class CalendarEventController : ODataController, ICompositionExposure
 {
-    private readonly ILoggingBroker loggingBroker;
     private readonly ICalendarEventManager service;
 
     public CalendarEventController(
-        ICalendarEventManager service,
-        ILoggingBroker loggingBroker
+        ICalendarEventManager service
     )
     {
         this.service = service;
-        this.loggingBroker = loggingBroker;
     }
 
     [HttpGet]
@@ -54,19 +49,19 @@ public partial class CalendarEventController : ODataController
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
@@ -96,23 +91,23 @@ public partial class CalendarEventController : ODataController
                 return NotFound();
             }
 
-            return Ok(value: new ODataResultBroker().CreateSingleResult(queryable: result));
+            return Ok(value: service.CreateSingleResult(queryable: result));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
@@ -133,7 +128,7 @@ public partial class CalendarEventController : ODataController
         {
             if (!ModelState.IsValid)
             {
-                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+                return new cCoder.Workflow.Exposures.Results.BadRequestResult(ModelState);
             }
 
             return StatusCode(
@@ -142,19 +137,19 @@ public partial class CalendarEventController : ODataController
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
@@ -175,26 +170,26 @@ public partial class CalendarEventController : ODataController
         {
             if (!ModelState.IsValid)
             {
-                return new cCoder.Workflow.Models.OData.BadRequestResult(ModelState);
+                return new cCoder.Workflow.Exposures.Results.BadRequestResult(ModelState);
             }
 
             return Ok(value: await service.UpdateCalendarEventAsync(updatedCalendarEvent: updatedCalendarEvent));
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
@@ -210,19 +205,19 @@ public partial class CalendarEventController : ODataController
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            service.LogError(exception: exception, message: "Controller request failed.");
 
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }

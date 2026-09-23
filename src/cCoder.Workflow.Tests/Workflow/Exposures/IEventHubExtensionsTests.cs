@@ -157,10 +157,10 @@ public sealed partial class IEventHubExtensionsTests
             item: ("scheduled_task_execute", typeof(ScheduledTask), typeof(IFlowDefinitionCoordinationService)));
 
         expectedRegistrations.Add(
-            item: ("flow_instance_data_add", typeof(FlowInstanceData), typeof(IWorkflowInstanceProcessingService)));
+            item: ("flow_instance_data_add", typeof(FlowInstanceData), typeof(IWorkflowInstanceAggregationService)));
 
         expectedRegistrations.Add(
-            item: ("flow_instance_data_update", typeof(FlowInstanceData), typeof(IWorkflowInstanceProcessingService)));
+            item: ("flow_instance_data_update", typeof(FlowInstanceData), typeof(IWorkflowInstanceAggregationService)));
 
         // When
         eventHubMock.Object.ListenToWorkflowEvents();
@@ -248,7 +248,7 @@ public sealed partial class IEventHubExtensionsTests
         // Given
         Mock<IEventHub> eventHubMock = new();
 
-        Mock<IWorkflowInstanceProcessingService> processingServiceMock =
+        Mock<IWorkflowInstanceAggregationService> processingServiceMock =
             new(behavior: MockBehavior.Strict);
 
         FlowInstanceData queuedAddInstance =
@@ -274,17 +274,17 @@ public sealed partial class IEventHubExtensionsTests
 
         eventHubMock.Object.ListenToWorkflowEvents();
 
-        Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask> addHandler =
-            (Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask>)GetHandler(
+        Func<IWorkflowInstanceAggregationService, FlowInstanceData, ValueTask> addHandler =
+            (Func<IWorkflowInstanceAggregationService, FlowInstanceData, ValueTask>)GetHandler(
                 eventHubMock: eventHubMock,
                 eventName: "flow_instance_data_add",
-                serviceType: typeof(IWorkflowInstanceProcessingService));
+                serviceType: typeof(IWorkflowInstanceAggregationService));
 
-        Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask> updateHandler =
-            (Func<IWorkflowInstanceProcessingService, FlowInstanceData, ValueTask>)GetHandler(
+        Func<IWorkflowInstanceAggregationService, FlowInstanceData, ValueTask> updateHandler =
+            (Func<IWorkflowInstanceAggregationService, FlowInstanceData, ValueTask>)GetHandler(
                 eventHubMock: eventHubMock,
                 eventName: "flow_instance_data_update",
-                serviceType: typeof(IWorkflowInstanceProcessingService));
+                serviceType: typeof(IWorkflowInstanceAggregationService));
 
         // When
         await addHandler(

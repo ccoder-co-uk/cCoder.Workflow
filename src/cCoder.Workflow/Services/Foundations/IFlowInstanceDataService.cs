@@ -12,6 +12,8 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal interface IFlowInstanceDataService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     FlowInstanceData Get(Guid flowInstanceDataId);
 
     IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false);

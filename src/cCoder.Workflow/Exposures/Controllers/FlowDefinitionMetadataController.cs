@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Brokers.Loggings;
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Services.Foundations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace cCoder.Workflow.Exposures.Controllers;
 public sealed class FlowDefinitionMetadataController(
     IWorkflowMetadataTypeManager service,
     ILoggingBroker loggingBroker)
-    : ControllerBase
+    : ControllerBase, ICompositionExposure
 {
     [HttpGet("KnownActivityTypes()")]
     [EnableQuery(

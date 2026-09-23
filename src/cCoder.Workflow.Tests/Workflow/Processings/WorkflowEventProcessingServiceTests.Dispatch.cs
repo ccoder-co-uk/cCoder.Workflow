@@ -17,10 +17,12 @@ public partial class WorkflowEventProcessingServiceTests
         // Given
         var payload = new { AppId = 7, Path = "/home" };
 
-        loggingBrokerMock
-            .Setup(expression: broker => broker.LogDebug(
-                message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-                args: It.IsAny<object[]>()));
+        workflowEventServiceMock
+            .Setup(expression: service => service.PrepareDispatch(
+                payload: payload,
+                eventName: "page_update",
+                appIdOverride: null))
+            .Returns(value: (7, "page_update/home"));
 
         // When
         (int? AppId, string EventContext) result = workflowEventProcessingService
@@ -35,7 +37,7 @@ public partial class WorkflowEventProcessingServiceTests
         result.EventContext.Should()
             .Be(expected: "page_update/home");
 
-        loggingBrokerMock.VerifyAll();
+        workflowEventServiceMock.VerifyAll();
     }
 
     [Fact]
@@ -44,10 +46,12 @@ public partial class WorkflowEventProcessingServiceTests
         // Given
         var payload = new { Name = "Payload" };
 
-        loggingBrokerMock
-            .Setup(expression: broker => broker.LogDebug(
-                message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-                args: It.IsAny<object[]>()));
+        workflowEventServiceMock
+            .Setup(expression: service => service.PrepareDispatch(
+                payload: payload,
+                eventName: "event",
+                appIdOverride: 9))
+            .Returns(value: (9, "event"));
 
         // When
         (int? AppId, string EventContext) result = workflowEventProcessingService
@@ -63,7 +67,7 @@ public partial class WorkflowEventProcessingServiceTests
         result.EventContext.Should()
             .Be(expected: "event");
 
-        loggingBrokerMock.VerifyAll();
+        workflowEventServiceMock.VerifyAll();
     }
 
     [Fact]
@@ -72,8 +76,9 @@ public partial class WorkflowEventProcessingServiceTests
         // Given
         object payload = new { Value = 1 };
 
-        jsonBrokerMock
-            .Setup(expression: broker => broker.Serialize(value: payload))
+        workflowEventServiceMock
+            .Setup(expression: service => service.SerializePayload(
+                payload: payload))
             .Returns(value: "serialized");
 
         // When
@@ -84,7 +89,7 @@ public partial class WorkflowEventProcessingServiceTests
         result.Should()
             .Be(expected: "serialized");
 
-        jsonBrokerMock.VerifyAll();
+        workflowEventServiceMock.VerifyAll();
     }
 
     [Fact]
@@ -94,11 +99,11 @@ public partial class WorkflowEventProcessingServiceTests
         WorkflowEvent workflowEvent = CreateRandomWorkflowEvent();
         Exception exception = new(message: "Queue failed");
 
-        loggingBrokerMock
-            .Setup(expression: broker => broker.LogWarning(
-                exception: exception,
-                message: "Failed to queue a new workflow instance for subscription {SubscriptionId}, flow {FlowId}.",
-                args: It.IsAny<object[]>()));
+        workflowEventServiceMock
+            .Setup(expression: service => service.LogWorkflowEventQueueFailure(
+                workflowEvent: workflowEvent,
+                exception: exception))
+            .Returns(value: true);
 
         // When
         await workflowEventProcessingService.LogWorkflowEventQueueFailureAsync(
@@ -106,6 +111,6 @@ public partial class WorkflowEventProcessingServiceTests
             exception: exception);
 
         // Then
-        loggingBrokerMock.VerifyAll();
+        workflowEventServiceMock.VerifyAll();
     }
 }

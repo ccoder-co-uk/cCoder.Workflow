@@ -3,14 +3,16 @@
 // ---------------------------------------------------------------
 
 using cCoder.Workflow.Activities.Models;
-using cCoder.Workflow.Engine.Services.Orchestrations;
+using cCoder.Workflow.Engine.Services.Coordinations;
 
 namespace cCoder.Workflow.Engine.Exposures;
 
-internal sealed class FlowRunner(IFlowExecutionOrchestrationService flowExecutionOrchestrationService)
+internal sealed class FlowRunner(IWorkflowRequestCoordinationService workflowRequestCoordinationService)
     : IFlowRunner
 {
     public Task RunAsync(WorkflowRequest workflowRequest) =>
-        flowExecutionOrchestrationService.ExecuteAsync(
-            workflowRequest: workflowRequest);
+        workflowRequestCoordinationService
+            .ExecuteWorkflowRequestAsync(
+                workflowRequest: workflowRequest)
+            .AsTask();
 }

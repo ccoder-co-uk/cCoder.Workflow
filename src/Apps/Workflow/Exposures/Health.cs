@@ -4,15 +4,21 @@
 
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Workflow.Services.Processings.WorkflowFunctions;
+using Workflow.Services.Foundations.WorkflowHttpResponses;
 
 namespace Workflow.Exposures;
 
-public sealed class Health(
-    IWorkflowFunctionsManager workflowFunctionsProcessingService)
+internal sealed class Health
 {
+    private readonly IWorkflowHttpResponseService workflowHttpResponseService;
+
+    public Health(IWorkflowHttpResponseService workflowHttpResponseService) =>
+        this.workflowHttpResponseService = workflowHttpResponseService;
+
     [Function(nameof(Health))]
     public Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Health")] HttpRequestData request) =>
-        workflowFunctionsProcessingService.ProcessHealthAsync(request: request);
+        workflowHttpResponseService.CreateHttpResponseDataAsync(
+            request: request,
+            content: "OK");
 }

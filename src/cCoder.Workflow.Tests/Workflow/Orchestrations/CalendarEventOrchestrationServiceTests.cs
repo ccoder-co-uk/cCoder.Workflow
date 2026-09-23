@@ -6,6 +6,7 @@ using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Planning;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using FizzWare.NBuilder;
@@ -26,7 +27,8 @@ public partial class CalendarEventOrchestrationServiceTests
         calendarEventEventProcessingServiceMock = new Mock<ICalendarEventEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new CalendarEventOrchestrationService(
             calendarEventProcessingServiceMock.Object,
-            calendarEventEventProcessingServiceMock.Object
+            calendarEventEventProcessingServiceMock.Object,
+            new Mock<ILoggingBroker>().Object
         );
     }
 

@@ -375,9 +375,9 @@ action: calendar =>
             [
                 new Data.Models.Packaging.PackageItem
                 {
-                    Type = "Core/FlowDefinition",
+                    Type = "Workflow/FlowDefinition",
                     Data = GetJsonBroker()
-                        .Serialize(
+                        .SerializeForOData(
                             value: GetFlowDefinitionOrchestrationService()
                             .GetAll(ignoreFilters:true)
                             .Where(predicate:flowDefinition => flowDefinition.AppId == appId)
@@ -406,9 +406,9 @@ action: calendar =>
             [
                 new Data.Models.Packaging.PackageItem
                 {
-                    Type = "Core/ScheduledTask",
+                    Type = "Workflow/ScheduledTask",
                     Data = GetJsonBroker()
-                        .Serialize(
+                        .SerializeForOData(
                             value: GetScheduledTaskOrchestrationService()
                                 .GetAll(ignoreFilters: true)
                                 .Where(predicate: task => task.AppId == appId)

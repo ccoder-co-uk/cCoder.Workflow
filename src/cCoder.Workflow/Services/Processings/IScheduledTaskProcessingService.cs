@@ -12,6 +12,8 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal interface IScheduledTaskProcessingService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     bool IsScheduledTaskMigrationActive();
 
     TimeSpan GetScheduledTaskPollingInterval();

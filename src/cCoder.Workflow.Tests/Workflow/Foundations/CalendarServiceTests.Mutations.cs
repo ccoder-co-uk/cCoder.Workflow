@@ -25,9 +25,10 @@ public partial class CalendarServiceTests
             : "Calendar_create";
 
         authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+            .Setup(expression: broker => broker.IsAuthorized(
                 appId: input.AppId,
-                privilege: privilege));
+                privilege: privilege))
+            .Returns(value: true);
 
         if (isUpdate)
         {
@@ -86,9 +87,10 @@ public partial class CalendarServiceTests
                 .AsQueryable());
 
         authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+            .Setup(expression: broker => broker.IsAuthorized(
                 appId: calendar.AppId,
-                privilege: "Calendar_delete"));
+                privilege: "Calendar_delete"))
+            .Returns(value: true);
 
         calendarBrokerMock
             .Setup(expression: broker => broker.DeleteCalendarAsync(

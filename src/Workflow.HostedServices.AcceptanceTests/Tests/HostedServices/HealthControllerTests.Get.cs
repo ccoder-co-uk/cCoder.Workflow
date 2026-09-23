@@ -35,13 +35,13 @@ public sealed partial class HealthControllerTests
             .Contain(expected: "Workflow Hosted Services");
 
         actualHome.Should()
-            .Contain(expected: "InstanceMaintenanceBackgroundServiceDependency");
+            .Contain(expected: "InstanceMaintenanceBackgroundService");
 
         actualHome.Should()
-            .Contain(expected: "QueueInstanceBackgroundServiceDependency");
+            .Contain(expected: "QueueInstanceBackgroundService");
 
         actualHome.Should()
-            .Contain(expected: "ScheduledTaskRunnerBackgroundServiceDependency");
+            .Contain(expected: "ScheduledTaskRunnerBackgroundService");
 
         actualHome.Should()
             .Contain(expected: "flow_instance_data_add");

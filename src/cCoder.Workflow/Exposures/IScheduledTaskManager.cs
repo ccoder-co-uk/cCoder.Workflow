@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Exposures;
 
-public interface IScheduledTaskManager
+public interface IScheduledTaskManager : IControllerErrorLogger
 {
     ScheduledTask Get(int scheduledTaskId);
 

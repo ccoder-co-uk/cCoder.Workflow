@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using System.Dynamic;
-using cCoder.Workflow.Extensions.OData;
+using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Models.OData;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
@@ -19,7 +19,8 @@ using cCoder.Workflow.Activities.Activities.Templating;
 
 namespace cCoder.Workflow.Services.Foundations;
 
-internal sealed partial class WorkflowMetadataTypeService : IWorkflowMetadataTypeService
+internal sealed partial class WorkflowMetadataTypeService(
+    IReflectionBroker reflectionBroker) : IWorkflowMetadataTypeService
 {
     public MetadataContainerSet GetCoreMetadata() =>
         TryCatch(operation: () => { return ExecuteGetCoreMetadata(); });
@@ -153,7 +154,7 @@ types:        [
                     .ToArray(),
         };
 
-    private static MetadataContainerSet Set(string name, Type[] types) =>
+    private MetadataContainerSet Set(string name, Type[] types) =>
         new()
         {
             Name = name,
@@ -163,17 +164,18 @@ types:        [
                 .ToArray(),
         };
 
-    private static ExtendedMetadataContainer Metadata(Type type, string category)
+    private ExtendedMetadataContainer Metadata(Type type, string category)
     {
-        ExtendedMetadataContainer metadata = type.CreateExtendedMetadataContainer();
+        ExtendedMetadataContainer metadata = CreateExtendedMetadataContainer(type: type);
         metadata.Category = category;
 
         return metadata;
     }
 
-    private static ExtendedMetadataContainer Entity<T>()
+    private ExtendedMetadataContainer Entity<T>()
     {
-        ExtendedMetadataContainer metadata = typeof(T).CreateExtendedMetadataContainer(
+        ExtendedMetadataContainer metadata = CreateExtendedMetadataContainer(
+            type: typeof(T),
             isEntity: true,
             hasEndpoint: true);
 

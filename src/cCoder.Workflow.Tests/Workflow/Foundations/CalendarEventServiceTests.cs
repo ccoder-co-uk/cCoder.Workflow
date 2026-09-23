@@ -5,6 +5,7 @@
 using cCoder.Data.Models.Planning;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Storage;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Services.Foundations;
 using Moq;
 
@@ -22,7 +23,8 @@ public partial class CalendarEventServiceTests
 
         calendarEventService = new CalendarEventService(
             calendarEventBroker: calendarEventBrokerMock.Object,
-            authorizationBroker: authorizationBrokerMock.Object);
+            authorizationBroker: authorizationBrokerMock.Object,
+            oDataResultBroker: new Mock<IODataResultBroker>().Object);
 
     }
 

@@ -12,7 +12,8 @@ using cCoder.Workflow.Brokers.Events;
 using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
-using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Services.Aggregations;
+using cCoder.Workflow.Services.Foundations;
 using Moq;
 using Xunit;
 
@@ -22,19 +23,19 @@ namespace cCoder.Core.Services.Tests.Workflow.Processings;
 public sealed partial class WorkflowInstanceProcessingServiceTests
 {
     private readonly Mock<IWorkflowInstanceManagementBroker> workflowInstanceManagementBrokerMock;
-    private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock;
+    private readonly Mock<IFlowInstanceDataBroker> flowInstanceDataBrokerMock;
     private readonly Mock<ILoggingBroker> loggingBrokerMock;
     private readonly Mock<ITokenManager> tokenManagerMock;
     private readonly Mock<IWorkflowExecutionEventBroker> workflowExecutionEventBrokerMock;
     private readonly WorkflowConfiguration configuration;
-    private readonly WorkflowInstanceProcessingService processingService;
+    private readonly WorkflowInstanceAggregationService processingService;
 
     public WorkflowInstanceProcessingServiceTests()
     {
         workflowInstanceManagementBrokerMock = new(
             behavior: MockBehavior.Strict);
 
-        flowInstanceDataManagerMock = new(
+        flowInstanceDataBrokerMock = new(
             behavior: MockBehavior.Strict);
         loggingBrokerMock = new();
         tokenManagerMock = new();
@@ -53,13 +54,34 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
             }
         };
 
-        processingService = new WorkflowInstanceProcessingService(
-            workflowInstanceManagementBroker: workflowInstanceManagementBrokerMock.Object,
-            flowInstanceDataManager: flowInstanceDataManagerMock.Object,
-            tokenManager: tokenManagerMock.Object,
-            workflowExecutionEventBroker: workflowExecutionEventBrokerMock.Object,
-            workflowConfiguration: configuration,
-            log: loggingBrokerMock.Object);
+        IWorkflowInstanceManagementService managementService =
+            new WorkflowInstanceManagementService(
+                workflowInstanceManagementBroker: workflowInstanceManagementBrokerMock.Object);
+
+        IWorkflowConfigurationService configurationService =
+            new WorkflowConfigurationService(
+                configurationBroker: new WorkflowConfigurationBroker(
+                    configuration: configuration));
+
+        IWorkflowTokenService tokenService =
+            new WorkflowTokenService(
+                workflowTokenBroker: new WorkflowTokenBroker(
+                    tokenManager: tokenManagerMock.Object));
+
+        IWorkflowExecutionEventService executionEventService =
+            new WorkflowExecutionEventService(
+                workflowExecutionEventBroker: workflowExecutionEventBrokerMock.Object);
+
+        processingService = new WorkflowInstanceAggregationService(
+            workflowInstanceManagementService: managementService,
+            flowInstanceDataService: new FlowInstanceDataService(
+                flowInstanceDataBroker: flowInstanceDataBrokerMock.Object,
+                authorizationBroker: Mock.Of<IAuthorizationBroker>(),
+                oDataResultBroker: Mock.Of<cCoder.Workflow.Brokers.OData.IODataResultBroker>()),
+            workflowTokenService: tokenService,
+            workflowExecutionEventService: executionEventService,
+            workflowConfigurationService: configurationService,
+            loggingBroker: loggingBrokerMock.Object);
     }
 
     [Theory]
@@ -71,9 +93,18 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         IQueryable<FlowInstanceData> expected =
             new[] { CreateQueuedFlowInstanceData() }.AsQueryable();
 
-        flowInstanceDataManagerMock
-            .Setup(expression: manager => manager.GetAll(ignoreFilters: ignoreFilters))
-            .Returns(value: expected);
+        if (ignoreFilters)
+        {
+            flowInstanceDataBrokerMock
+                .Setup(expression: broker => broker.SelectAllFlowInstanceDataIgnoringQueryFilters())
+                .Returns(value: expected);
+        }
+        else
+        {
+            flowInstanceDataBrokerMock
+                .Setup(expression: broker => broker.SelectAllFlowInstanceData())
+                .Returns(value: expected);
+        }
 
         // When
         IQueryable<FlowInstanceData> actual =
@@ -82,11 +113,8 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         // Then
         Assert.Same(expected: expected, actual: actual);
 
-        flowInstanceDataManagerMock.Verify(
-            expression: manager => manager.GetAll(ignoreFilters: ignoreFilters),
-            times: Times.Once);
-
-        flowInstanceDataManagerMock.VerifyNoOtherCalls();
+        flowInstanceDataBrokerMock.VerifyAll();
+        flowInstanceDataBrokerMock.VerifyNoOtherCalls();
         workflowInstanceManagementBrokerMock.VerifyNoOtherCalls();
     }
 

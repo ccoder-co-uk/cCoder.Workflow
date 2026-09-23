@@ -24,15 +24,9 @@ public partial class WorkflowEventProcessingServiceTests
         foreach (WorkflowEvent item in new[] { added, updated })
         {
             workflowEventServiceMock
-                .Setup(expression: service => service.GetAppIdForWorkflowEvent(
+                .Setup(expression: service => service.AuthorizeWorkflowEvent(
                     workflowEvent: item))
-                .Returns(value: 7);
-
-            authorizationBrokerMock
-                .Setup(expression: broker => broker.Authorize(
-                    userId: item.ExecuteAs,
-                    appId: 7,
-                    privilege: "app_admin"));
+                .Returns(value: true);
         }
 
         workflowEventServiceMock
@@ -55,7 +49,6 @@ public partial class WorkflowEventProcessingServiceTests
         results[0].Message.Should().Be(expected: "Added Successfully");
         results[1].Message.Should().Be(expected: "Updated Successfully");
         workflowEventServiceMock.VerifyAll();
-        authorizationBrokerMock.VerifyAll();
     }
 
     [Fact]
@@ -66,7 +59,7 @@ public partial class WorkflowEventProcessingServiceTests
         item.Id = Guid.Empty;
 
         workflowEventServiceMock
-            .Setup(expression: service => service.GetAppIdForWorkflowEvent(
+            .Setup(expression: service => service.AuthorizeWorkflowEvent(
                 workflowEvent: item))
             .Throws(exception: new Exception(message: "failed"));
 

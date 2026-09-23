@@ -7,12 +7,13 @@ using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
+using cCoder.Workflow.Engine.Services.Foundations;
 using Microsoft.Extensions.Logging;
 
 namespace cCoder.Workflow.Engine.Services.Processings;
 
 internal sealed partial class WorkflowScriptExecutionProcessingService(
-    IScriptBroker scriptBroker,
+    IScriptService scriptService,
     IJsonBroker jsonBroker,
     cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker logger)
     : IWorkflowScriptExecutionProcessingService
@@ -32,14 +33,14 @@ internal sealed partial class WorkflowScriptExecutionProcessingService(
                     ?? throw new InvalidOperationException(
                         "Workflow script execution details could not be deserialized.");
 
-                return await scriptBroker.Run<string>(
+                return await scriptService.Run<string>(
                     code: details.Script,
                     imports: Activity.ScriptImports.ToArray(),
                     args: details.Model,
                     log: Log);
             }
 
-            object result = await scriptBroker.Run<object>(
+            object result = await scriptService.Run<object>(
                 code: payload,
                 imports: Activity.ScriptImports.ToArray(),
                 log: Log);

@@ -31,10 +31,7 @@ internal sealed partial class FlowDefinitionAggregationService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
-        catch (System.Security.SecurityException)
-        {
-            throw;
-        }
+        catch (System.Security.SecurityException) { throw; }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);
@@ -65,10 +62,7 @@ internal sealed partial class FlowDefinitionAggregationService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
-        catch (System.Security.SecurityException)
-        {
-            throw;
-        }
+        catch (System.Security.SecurityException) { throw; }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);
@@ -99,10 +93,7 @@ internal sealed partial class FlowDefinitionAggregationService
         {
             throw new WorkflowDependencyException(innerException: innerException);
         }
-        catch (System.Security.SecurityException)
-        {
-            throw;
-        }
+        catch (System.Security.SecurityException) { throw; }
         catch (Exception innerException)
         {
             throw new WorkflowServiceException(innerException: innerException);

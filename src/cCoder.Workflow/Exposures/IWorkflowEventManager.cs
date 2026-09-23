@@ -9,7 +9,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Exposures;
 
-public interface IWorkflowEventManager
+public interface IWorkflowEventManager : IControllerErrorLogger
 {
     (int? AppId, string EventContext) PrepareWorkflowEventDispatch(
         object payload,

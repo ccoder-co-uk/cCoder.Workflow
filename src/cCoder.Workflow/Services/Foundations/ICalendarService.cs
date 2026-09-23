@@ -13,6 +13,8 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal interface ICalendarService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     Calendar Get(int calendarId);
 
     IQueryable<Calendar> GetAll(bool ignoreFilters = false);

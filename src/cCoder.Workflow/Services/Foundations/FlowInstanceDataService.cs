@@ -4,6 +4,7 @@
 
 using System.Security;
 using cCoder.Workflow.Brokers;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Data.Models.Workflow;
 
 
@@ -11,9 +12,18 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class FlowInstanceDataService(
     IFlowInstanceDataBroker flowInstanceDataBroker,
-    IAuthorizationBroker authorizationBroker
+    IAuthorizationBroker authorizationBroker,
+    IODataResultBroker oDataResultBroker
 ) : IFlowInstanceDataService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return oDataResultBroker.CreateSingleResult(queryable: queryable);
+        });
+
     public FlowInstanceData Get(Guid flowInstanceDataId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [flowInstanceDataId]); return ExecuteGet(flowInstanceDataId: flowInstanceDataId); });
 
@@ -57,10 +67,10 @@ internal sealed partial class FlowInstanceDataService(
 
     private async ValueTask<FlowInstanceData> ExecuteAddAsync(FlowInstanceData flowInstanceData)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_create"
-        );
+        ));
 
         FlowInstanceData newFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
@@ -108,10 +118,10 @@ newFlowInstanceData: queuedFlowInstanceData
 
     private async ValueTask<FlowInstanceData> ExecuteUpdateAsync(FlowInstanceData flowInstanceData)
     {
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_update"
-        );
+        ));
 
         FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
@@ -138,10 +148,10 @@ updatedFlowInstanceData: updateFlowInstanceData
     {
         FlowInstanceData flowInstanceData = Get(flowInstanceDataId: flowInstanceDataId);
 
-        authorizationBroker.Authorize(
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(
 appId: flowInstanceDataBroker.SelectAppId(flowInstanceData: flowInstanceData),
 privilege: $"{nameof(FlowInstanceData)}_delete"
-        );
+        ));
 
         _ = await flowInstanceDataBroker.DeleteFlowInstanceDataAsync(
 deletedFlowInstanceData: CreateStorageFlowInstanceData(item: flowInstanceData)

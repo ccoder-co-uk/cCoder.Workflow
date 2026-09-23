@@ -2,8 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
+using cCoder.CodeAnalysis.Exposures;
 using Microsoft.AspNetCore.Mvc;
+using Workflow.HostedServices.Brokers.Loggings;
 using Workflow.HostedServices.Services.Processings;
 
 using Workflow.HostedServices.Exposures;
@@ -15,7 +16,8 @@ namespace Workflow.HostedServices.Controllers;
 public sealed class HealthController(
     IHealthManager healthProcessingService,
     ILoggingBroker loggingBroker)
-    : ControllerBase
+    : ControllerBase,
+      ICompositionExposure
 {
     [HttpGet]
     public IActionResult Get()

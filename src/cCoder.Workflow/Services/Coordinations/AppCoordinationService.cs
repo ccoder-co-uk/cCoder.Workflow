@@ -18,7 +18,7 @@ internal sealed partial class AppCoordinationService(
     : IAppCoordinationService
 {
     public ValueTask AddAppAsync(App newApp) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newApp]); await ExecuteAddAsync(app: newApp); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAppOnAdd(inputs: [newApp]); await ExecuteAddAsync(app: newApp); }, isValueTask: true);
 
     private async ValueTask ExecuteAddAsync(App app)
     {
@@ -31,7 +31,7 @@ internal sealed partial class AppCoordinationService(
     }
 
     public ValueTask UpdateAppAsync(App updatedApp) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedApp]); await ExecuteUpdateAsync(app: updatedApp); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAppOnUpdate(inputs: [updatedApp]); await ExecuteUpdateAsync(app: updatedApp); }, isValueTask: true);
 
     private async ValueTask ExecuteUpdateAsync(App app)
     {

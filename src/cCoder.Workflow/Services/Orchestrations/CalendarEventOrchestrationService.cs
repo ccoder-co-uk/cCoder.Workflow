@@ -7,12 +7,36 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
-internal sealed partial class CalendarEventOrchestrationService(ICalendarEventProcessingService processingService, ICalendarEventEventProcessingService eventService) : ICalendarEventOrchestrationService
+internal sealed partial class CalendarEventOrchestrationService(
+    ICalendarEventProcessingService processingService,
+    ICalendarEventEventProcessingService eventService,
+    ILoggingBroker loggingBroker) : ICalendarEventOrchestrationService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return processingService.CreateSingleResult(queryable: queryable);
+        });
+
+    public void LogError(Exception exception, string message) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [exception, message]);
+
+            loggingBroker.LogError(
+                exception: exception,
+                message: message);
+
+            return true;
+        });
+
     public CalendarEvent Get(int calendarEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarEventId]); return ExecuteGet(calendarEventId: calendarEventId); });
 
@@ -22,7 +46,7 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
     }
 
     public IQueryable<CalendarEvent> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<CalendarEvent> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -30,7 +54,7 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
     }
 
     public ValueTask<CalendarEvent> AddCalendarEventAsync(CalendarEvent newCalendarEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newCalendarEvent]); return await ExecuteAddAsync(entity: newCalendarEvent); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateCalendarEventOnAdd(inputs: [newCalendarEvent]); return await ExecuteAddAsync(entity: newCalendarEvent); }, isValueTask: true);
 
     private async ValueTask<CalendarEvent> ExecuteAddAsync(CalendarEvent entity)
     {
@@ -40,7 +64,7 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
     }
 
     public ValueTask<CalendarEvent> UpdateCalendarEventAsync(CalendarEvent updatedCalendarEvent) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(entity: updatedCalendarEvent); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateCalendarEventOnUpdate(inputs: [updatedCalendarEvent]); return await ExecuteUpdateAsync(entity: updatedCalendarEvent); }, isValueTask: true);
 
     private async ValueTask<CalendarEvent> ExecuteUpdateAsync(CalendarEvent entity)
     {
@@ -67,7 +91,7 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
     }
 
     public ValueTask<IEnumerable<Result<CalendarEvent>>> AddOrUpdateCalendarEvent(IEnumerable<CalendarEvent> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateCalendarEventOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private ValueTask<IEnumerable<Result<CalendarEvent>>> ExecuteAddOrUpdate(IEnumerable<CalendarEvent> items)
     {
@@ -75,7 +99,7 @@ internal sealed partial class CalendarEventOrchestrationService(ICalendarEventPr
     }
 
     public ValueTask DeleteAllCalendarEventAsync(IEnumerable<CalendarEvent> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllCalendarEventOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteAllAsync(IEnumerable<CalendarEvent> items)
     {

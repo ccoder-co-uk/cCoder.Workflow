@@ -35,16 +35,22 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
         WorkflowRequest request = CreateWorkflowRequest();
         FlowExecution capturedExecution = null;
 
-        flowCommunicationProcessingServiceMock
+        workflowLifecycleOrchestrationServiceMock
             .Setup(expression: service => service
-                .ConnectWorkflowRequestAsync(workflowRequest: request))
+                .StartFlowExecutionAsync(
+                    flowExecution: It.IsAny<FlowExecution>()))
             .Returns(value: ValueTask.CompletedTask);
 
-        flowCommunicationProcessingServiceMock
-            .Setup(expression: service => service.LogWorkflowRequestAsync(
-                workflowRequest: request,
-                level: It.IsAny<WorkflowLogLevel>(),
-                message: It.IsAny<string>()))
+        workflowLifecycleOrchestrationServiceMock
+            .Setup(expression: service => service
+                .SaveFlowExecutionAsync(
+                    flowExecution: It.IsAny<FlowExecution>()))
+            .Returns(value: ValueTask.CompletedTask);
+
+        workflowLifecycleOrchestrationServiceMock
+            .Setup(expression: service => service
+                .FinishFlowExecutionAsync(
+                    flowExecution: It.IsAny<FlowExecution>()))
             .Returns(value: ValueTask.CompletedTask);
 
         flowInstanceProcessingServiceMock
@@ -55,14 +61,6 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
             .Returns<FlowExecution>(valueFunction: execution =>
                 ValueTask.FromResult(
                     result: CompleteExecution(execution: execution)));
-
-        flowResultProcessingServiceMock
-            .Setup(expression: service => service.SaveFlowInstanceDataAsync(
-                flowInstanceData:
-                    It.IsAny<cCoder.Data.Models.Workflow.FlowInstanceData>(),
-                apiRoot: request.Api,
-                authToken: request.AuthToken))
-            .Returns(value: ValueTask.CompletedTask);
 
         var service = CreateService();
 
@@ -78,25 +76,8 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
             .Should()
             .BeSameAs(expected: request);
 
-        capturedExecution.Log
-            .Should()
-            .NotBeNull();
-
-        flowCommunicationProcessingServiceMock.Verify(
-            expression: dependency => dependency.LogWorkflowRequestAsync(
-                workflowRequest: request,
-                level: It.IsAny<WorkflowLogLevel>(),
-                message: It.IsAny<string>()),
-            times: Times.Exactly(callCount: 3));
-
-        flowCommunicationProcessingServiceMock.Verify(
-            expression: dependency => dependency
-                .ConnectWorkflowRequestAsync(workflowRequest: request),
-            times: Times.Once());
-
-        flowCommunicationProcessingServiceMock.VerifyNoOtherCalls();
+        workflowLifecycleOrchestrationServiceMock.VerifyAll();
         flowInstanceProcessingServiceMock.VerifyAll();
-        flowResultProcessingServiceMock.VerifyAll();
     }
 
     [Theory]
@@ -116,8 +97,7 @@ public sealed partial class WorkflowRequestOrchestrationServiceTests
             .Should()
             .ThrowAsync<WorkflowEngineValidationException>();
 
-        flowCommunicationProcessingServiceMock.VerifyNoOtherCalls();
+        workflowLifecycleOrchestrationServiceMock.VerifyNoOtherCalls();
         flowInstanceProcessingServiceMock.VerifyNoOtherCalls();
-        flowResultProcessingServiceMock.VerifyNoOtherCalls();
     }
 }

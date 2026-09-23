@@ -18,18 +18,20 @@ using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.Controllers;
-using cCoder.Workflow.Dependencies.HostedServices;
+using cCoder.Workflow.Exposures.HostedServices;
+using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
-using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Foundations.Events;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
+using cCoder.Workflow.Services.Foundations;
 using cCoder.Eventing;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
@@ -116,20 +118,9 @@ public static partial class IServiceCollectionExtensions
     private static void AddHostedServiceExposures(
         this IServiceCollection services)
     {
-        services.AddSingleton<IInstanceMaintenanceBackgroundServiceDependency, InstanceMaintenanceBackgroundServiceDependency>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IInstanceMaintenanceBackgroundServiceDependency>());
-
-        services.AddSingleton<IQueueInstanceBackgroundServiceDependency, QueueInstanceBackgroundServiceDependency>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IQueueInstanceBackgroundServiceDependency>());
-
-        services.AddSingleton<IScheduledTaskRunnerBackgroundServiceDependency, ScheduledTaskRunnerBackgroundServiceDependency>();
-
-        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
-            serviceProvider.GetRequiredService<IScheduledTaskRunnerBackgroundServiceDependency>());
+        services.AddHostedService<InstanceMaintenanceBackgroundService>();
+        services.AddHostedService<QueueInstanceBackgroundService>();
+        services.AddHostedService<ScheduledTaskRunnerBackgroundService>();
     }
 
     private static void AddEventingTypes(this IServiceCollection services)
@@ -175,8 +166,16 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddBrokers(this IServiceCollection services)
     {
+        services.AddTransient<WorkflowHttpClientDependency>();
         services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
-        services.AddTransient<IFlowDefinitionServiceProviderBroker, FlowDefinitionServiceProviderBroker>();
+        services.AddTransient<IServiceScopeBroker, ServiceScopeBroker>();
+        services.AddTransient<IWorkflowHubBroker, WorkflowHubBroker>();
+        services.AddTransient<IReflectionBroker, ReflectionBroker>();
+        services.AddTransient<IStreamBroker, StreamBroker>();
+        services.AddTransient<IODataResultBroker, ODataResultBroker>();
+        services.AddTransient<IWorkflowHttpClientBroker, WorkflowHttpClientBroker>();
+        services.AddSingleton<IWorkflowConfigurationBroker, WorkflowConfigurationBroker>();
+        services.AddTransient<IWorkflowTokenBroker, WorkflowTokenBroker>();
         services.AddTransient<IWorkflowMigrationServiceProviderBroker, WorkflowMigrationServiceProviderBroker>();
         services.AddTransient<IFlowDefinitionEventBroker, FlowDefinitionEventBroker>();
         services.AddTransient<IFlowInstanceDataEventBroker, FlowInstanceDataEventBroker>();
@@ -199,6 +198,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddCoordinations(this IServiceCollection services)
     {
         services.AddTransient<IFlowDefinitionCoordinationService, FlowDefinitionCoordinationService>();
+        services.AddTransient<IFlowDefinitionManagementCoordinationService, FlowDefinitionManagementCoordinationService>();
     }
 
     private static void AddExposures(this IServiceCollection services)
@@ -209,6 +209,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddFoundations(this IServiceCollection services)
     {
+        services.AddTransient<IWorkflowHubService, WorkflowHubService>();
         services.AddTransient<ICalendarService, CalendarService>();
         services.AddTransient<ICalendarEventService, CalendarEventService>();
         services.AddTransient<IFlowDefinitionService, FlowDefinitionService>();
@@ -216,9 +217,15 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IScheduledTaskService, ScheduledTaskService>();
         services.AddTransient<IWorkflowMetadataTypeService, WorkflowMetadataTypeService>();
         services.AddTransient<IWorkflowMetadataTypeManager, WorkflowMetadataTypeService>();
+        services.AddTransient<IWorkflowRequestBodyService, WorkflowRequestBodyService>();
+        services.AddTransient<IWorkflowScriptExecutionService, WorkflowScriptExecutionService>();
+        services.AddSingleton<IWorkflowConfigurationService, WorkflowConfigurationService>();
         services.AddTransient<ICalendarEntityEventService, CalendarEntityEventService>();
         services.AddTransient<ICalendarEventEventService, CalendarEventEventService>();
         services.AddTransient<IWorkflowEventService, WorkflowEventService>();
+        services.AddTransient<IWorkflowInstanceManagementService, WorkflowInstanceManagementService>();
+        services.AddTransient<IWorkflowTokenService, WorkflowTokenService>();
+        services.AddTransient<IWorkflowExecutionEventService, WorkflowExecutionEventService>();
         services.AddTransient<IFlowDefinitionEventService, FlowDefinitionEventService>();
         services.AddTransient<IFlowInstanceDataEventService, FlowInstanceDataEventService>();
         services.AddTransient<IScheduledTaskEventService, ScheduledTaskEventService>();
@@ -237,35 +244,16 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IWorkflowMigrationAggregationService, WorkflowMigrationAggregationService>();
         services.AddTransient<IFlowDefinitionOrchestrationService, FlowDefinitionOrchestrationService>();
         services.AddTransient<IFlowQueueOrchestrationService, FlowQueueOrchestrationService>();
+        services.AddTransient<IWorkflowInteractionOrchestrationService, WorkflowInteractionOrchestrationService>();
         services.AddTransient<IFlowInstanceDataOrchestrationService, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IFlowInstanceDataManager, FlowInstanceDataOrchestrationService>();
         services.AddTransient<IScheduledTaskOrchestrationService, ScheduledTaskOrchestrationService>();
         services.AddTransient<IScheduledTaskManager, ScheduledTaskOrchestrationService>();
         services.AddTransient<ITaskRunnerOrchestrationService, TaskRunnerOrchestrationService>();
-        services.AddTransient<IWorkflowInstanceProcessingService, WorkflowInstanceProcessingService>();
-        services.AddTransient<IWorkflowInstanceManager, WorkflowInstanceProcessingService>();
+        services.AddTransient<IWorkflowInstanceAggregationService, WorkflowInstanceAggregationService>();
+        services.AddTransient<IWorkflowInstanceManager, WorkflowInstanceAggregationService>();
         services.AddTransient<IWorkflowEventOrchestrationService, WorkflowEventOrchestrationService>();
         services.AddTransient<IWorkflowEventManager, WorkflowEventOrchestrationService>();
-
-        services.AddKeyedTransient<IFlowDefinitionOrchestrationService>(
-            serviceKey: FlowDefinitionOperation.Crud,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IFlowDefinitionOrchestrationService>());
-
-        services.AddKeyedTransient<IFlowDefinitionCoordinationService>(
-            serviceKey: FlowDefinitionOperation.Queue,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IFlowDefinitionCoordinationService>());
-
-        services.AddKeyedTransient<IAuthorizationBroker>(
-            serviceKey: FlowDefinitionOperation.Authorization,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<IAuthorizationBroker>());
-
-        services.AddKeyedTransient<WorkflowConfiguration>(
-            serviceKey: FlowDefinitionOperation.Configuration,
-            implementationFactory: static (serviceProvider, _) =>
-                serviceProvider.GetRequiredService<WorkflowConfiguration>());
 
         services.AddKeyedTransient<IAuthorizationBroker>(
             serviceKey: WorkflowMigrationOperation.Authorization,

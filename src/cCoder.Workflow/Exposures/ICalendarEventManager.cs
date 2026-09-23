@@ -10,7 +10,7 @@ using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Exposures;
 
-public interface ICalendarEventManager
+public interface ICalendarEventManager : IControllerErrorLogger
 {
     CalendarEvent Get(int calendarEventId);
 

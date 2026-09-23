@@ -28,7 +28,8 @@ public partial class FlowDefinitionServiceTests
         flowDefinitionBrokerMock.Setup(expression: x => x.SelectAppId(flowDefinition: It.IsAny<FlowDefinition>()))
             .Returns(value: (int?)7);
 
-        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"));
+        authorizationBrokerMock.Setup(expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowDefinition_update"))
+            .Returns(value: true);
 
         flowDefinitionBrokerMock
             .Setup(expression: x => x.UpdateFlowDefinitionAsync(updatedFlowDefinition: It.IsAny<FlowDefinition>()))
@@ -137,7 +138,7 @@ times: Times.AtMostOnce()
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
 
         authorizationBrokerMock.Verify(
-expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"),
+expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowDefinition_update"),
 times: Times.Once
         );
     }
@@ -149,8 +150,8 @@ times: Times.Once
         FlowDefinition flowDefinition = CreateRandomFlowDefinition(appId: 7);
 
         authorizationBrokerMock
-            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"))
-            .Throws(exception: new SecurityException(message: "Access Denied!"));
+            .Setup(expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowDefinition_update"))
+            .Returns(value: false);
 
         // When
         Func<Task> action = async () => await flowDefinitionService.UpdateFlowDefinitionAsync(updatedFlowDefinition: flowDefinition);
@@ -168,7 +169,7 @@ times: Times.AtMostOnce()
         flowDefinitionBrokerMock.VerifyNoOtherCalls();
 
         authorizationBrokerMock.Verify(
-expression: x => x.Authorize(appId: (int?)7, privilege: "FlowDefinition_update"),
+expression: x => x.IsAuthorized(appId: (int?)7, privilege: "FlowDefinition_update"),
 times: Times.Once
         );
     }

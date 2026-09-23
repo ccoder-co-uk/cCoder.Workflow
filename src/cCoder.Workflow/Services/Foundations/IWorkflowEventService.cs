@@ -12,6 +12,8 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal interface IWorkflowEventService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     WorkflowEvent Get(Guid workflowEventId);
 
     IQueryable<WorkflowEvent> GetAll(bool ignoreFilters = false);
@@ -25,4 +27,14 @@ internal interface IWorkflowEventService
     ValueTask<WorkflowEvent> UpdateWorkflowEventAsync(WorkflowEvent updatedWorkflowEvent);
 
     ValueTask DeleteAsync(Guid workflowEventId);
+
+    (int? AppId, string EventContext) PrepareDispatch(
+        object payload,
+        string eventName,
+        int? appIdOverride = null);
+
+    string SerializePayload(object payload);
+    bool LogWorkflowEventSubscriptionsFound(int count);
+    bool LogWorkflowEventQueueFailure(WorkflowEvent workflowEvent, Exception exception);
+    bool AuthorizeWorkflowEvent(WorkflowEvent workflowEvent);
 }

@@ -5,6 +5,7 @@
 using System.Security;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Storage;
+using cCoder.Workflow.Brokers.OData;
 using cCoder.Data.Models.Planning;
 
 
@@ -12,9 +13,18 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class CalendarService(
     ICalendarBroker calendarBroker,
-    IAuthorizationBroker authorizationBroker
+    IAuthorizationBroker authorizationBroker,
+    IODataResultBroker oDataResultBroker
 ) : ICalendarService
 {
+    public object CreateSingleResult<T>(IQueryable<T> queryable) =>
+        TryCatch(operation: () =>
+        {
+            ValidateInputs(inputs: [queryable]);
+
+            return oDataResultBroker.CreateSingleResult(queryable: queryable);
+        });
+
     public Calendar Get(int calendarId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [calendarId]); return ExecuteGet(calendarId: calendarId); });
 
@@ -57,7 +67,7 @@ internal sealed partial class CalendarService(
 
     private async ValueTask<Calendar> ExecuteAddAsync(Calendar calendar)
     {
-        authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_create");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_create"));
         Calendar newCalendar = CreateStorageCalendar(item: calendar);
 
         Calendar result = await calendarBroker.InsertCalendarAsync(newCalendar: newCalendar);
@@ -73,7 +83,7 @@ internal sealed partial class CalendarService(
 
     private async ValueTask<Calendar> ExecuteUpdateAsync(Calendar calendar)
     {
-        authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_update");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_update"));
         Calendar updateCalendar = CreateStorageCalendar(item: calendar);
 
         Calendar result = await calendarBroker.UpdateCalendarAsync(updatedCalendar: updateCalendar);
@@ -97,7 +107,7 @@ internal sealed partial class CalendarService(
             return;
         }
 
-        authorizationBroker.Authorize(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_delete");
+        Authorize(isAuthorized: authorizationBroker.IsAuthorized(appId: calendar.AppId, privilege: $"{nameof(Calendar)}_delete"));
         _ = await calendarBroker.DeleteCalendarAsync(deletedCalendar: CreateStorageCalendar(item: calendar));
     }
 

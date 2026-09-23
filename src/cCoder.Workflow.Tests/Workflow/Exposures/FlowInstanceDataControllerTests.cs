@@ -4,7 +4,6 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
-using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +16,6 @@ namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 public partial class FlowInstanceDataControllerTests
 {
     private readonly Mock<IFlowInstanceDataManager> flowInstanceDataManagerMock = new();
-    private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
     private readonly FlowInstanceDataController controller;
 
     public static TheoryData<Exception, int> FailureExceptions => new()
@@ -30,8 +28,7 @@ public partial class FlowInstanceDataControllerTests
     public FlowInstanceDataControllerTests()
     {
         controller = new FlowInstanceDataController(
-            service: flowInstanceDataManagerMock.Object,
-            loggingBroker: loggingBrokerMock.Object)
+            service: flowInstanceDataManagerMock.Object)
         {
             ControllerContext = new ControllerContext
             {

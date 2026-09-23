@@ -2,10 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data.Models.Security;
-using cCoder.Workflow.Brokers;
-using cCoder.Workflow.Dependencies.ServiceProviders;
-using cCoder.Workflow.Services.Coordinations;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -16,32 +12,16 @@ namespace cCoder.Workflow.Tests.Workflow.Aggregations;
 public partial class FlowDefinitionAggregationServiceTests
 {
     [Fact]
-    public async Task ShouldQueueWithCurrentUserIdWhenCallerIsMissing()
+    public async Task ShouldPreserveMissingCallerForQueueCoordination()
     {
         // Given
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
-        User currentUser = new() { Id = "admin" };
-
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionCoordinationService>(
-                    operation: FlowDefinitionOperation.Queue))
-            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
-
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker.GetOperationService<IAuthorizationBroker>(
-                operation: FlowDefinitionOperation.Authorization))
-            .Returns(value: authorizationBrokerMock.Object);
-
-        authorizationBrokerMock
-            .Setup(expression: broker => broker.GetCurrentUser())
-            .Returns(value: currentUser);
 
         flowDefinitionCoordinationServiceMock
             .Setup(expression: service => service.QueueAsync(
                 flowDefinitionId: flowId,
-                asUserId: currentUser.Id,
+                asUserId: null,
                 args: "{}"))
             .ReturnsAsync(value: queuedId);
 
@@ -52,22 +32,18 @@ public partial class FlowDefinitionAggregationServiceTests
             args: "{}");
 
         // Then
-        result.Should()
+        result
+            .Should()
             .Be(expected: queuedId);
-
-
-        authorizationBrokerMock.Verify(expression: broker => broker.GetCurrentUser(), times: Times.Once);
 
         flowDefinitionCoordinationServiceMock.Verify(
             expression: foundService => foundService.QueueAsync(
                 flowDefinitionId: flowId,
-                asUserId: currentUser.Id,
+                asUserId: null,
                 args: "{}"),
             times: Times.Once);
 
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.VerifyNoOtherCalls();
-        serviceProviderBrokerMock.VerifyAll();
     }
 
     [Fact]
@@ -76,12 +52,6 @@ public partial class FlowDefinitionAggregationServiceTests
         // Given
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
-
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionCoordinationService>(
-                    operation: FlowDefinitionOperation.Queue))
-            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
 
         flowDefinitionCoordinationServiceMock
             .Setup(expression: service => service.QueueAsync(
@@ -109,8 +79,6 @@ public partial class FlowDefinitionAggregationServiceTests
             times: Times.Once);
 
         flowDefinitionCoordinationServiceMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.VerifyNoOtherCalls();
-        serviceProviderBrokerMock.VerifyAll();
     }
 
     [Fact]
@@ -119,21 +87,6 @@ public partial class FlowDefinitionAggregationServiceTests
         // Given
         Guid flowId = Guid.NewGuid();
         Guid queuedId = Guid.NewGuid();
-
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker
-                .GetOperationService<IFlowDefinitionCoordinationService>(
-                    operation: FlowDefinitionOperation.Queue))
-            .Returns(value: flowDefinitionCoordinationServiceMock.Object);
-
-        serviceProviderBrokerMock
-            .Setup(expression: broker => broker.GetOperationService<IAuthorizationBroker>(
-                operation: FlowDefinitionOperation.Authorization))
-            .Returns(value: authorizationBrokerMock.Object);
-
-        authorizationBrokerMock
-            .Setup(expression: broker => broker.GetCurrentUser())
-            .Returns(value: null);
 
         flowDefinitionCoordinationServiceMock
             .Setup(expression: foundService => foundService.QueueAsync(
@@ -150,8 +103,6 @@ public partial class FlowDefinitionAggregationServiceTests
 
         // Then
         result.Should().Be(expected: queuedId);
-        serviceProviderBrokerMock.VerifyAll();
-        authorizationBrokerMock.VerifyAll();
         flowDefinitionCoordinationServiceMock.VerifyAll();
     }
 }

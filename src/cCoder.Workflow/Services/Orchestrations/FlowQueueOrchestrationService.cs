@@ -6,11 +6,13 @@ using System.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Services.Processings;
 
 namespace cCoder.Workflow.Services.Orchestrations;
 
 internal sealed partial class FlowQueueOrchestrationService(
+    IAuthorizationBroker authorizationBroker,
     IFlowDefinitionProcessingService flowDefinitionProcessingService,
     IFlowInstanceDataProcessingService flowInstanceDataProcessingService,
     IFlowInstanceDataEventProcessingService flowInstanceDataEventProcessingService)
@@ -37,17 +39,19 @@ internal sealed partial class FlowQueueOrchestrationService(
         string asUserId,
         string args)
     {
+        string callerId = ResolveCallerId(asUserId: asUserId);
+
         FlowDefinition flowDefinition = flowDefinitionProcessingService
             .GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: foundFlowDefinition => foundFlowDefinition.Id == flowDefinitionId);
 
         _ = flowDefinitionProcessingService.AuthorizeFlowDefinitionExecution(
-            userId: asUserId,
+            userId: callerId,
             appId: flowDefinition?.AppId);
 
         FlowInstanceData flowInstance = CreateFlowInstanceData(
             flowDefinition: flowDefinition,
-            caller: asUserId,
+            caller: callerId,
             args: args);
 
         flowInstance = await flowInstanceDataProcessingService
@@ -57,6 +61,20 @@ internal sealed partial class FlowQueueOrchestrationService(
             .RaiseFlowInstanceDataAddEventAsync(flowInstanceData: flowInstance);
 
         return flowInstance.Id;
+    }
+
+    private string ResolveCallerId(string asUserId)
+    {
+        if (!string.IsNullOrWhiteSpace(value: asUserId)
+            && !string.Equals(
+                a: asUserId,
+                b: "Guest",
+                comparisonType: StringComparison.Ordinal))
+        {
+            return asUserId;
+        }
+
+        return authorizationBroker.GetCurrentUser()?.Id ?? "Guest";
     }
 
     private FlowInstanceData CreateFlowInstanceData(

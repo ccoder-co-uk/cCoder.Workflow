@@ -6,15 +6,16 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Models;
-using cCoder.Workflow.Engine.Services.Processings;
+using cCoder.Workflow.Engine.Services.Foundations;
+using cCoder.Workflow.Engine.Services.Orchestrations;
 using Moq;
 using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Tests;
 
-public sealed partial class FlowInstanceProcessingServiceTests
+public sealed partial class FlowInstanceServiceTests
 {
-    private readonly Mock<IScriptBroker> scriptBrokerMock =
+    private readonly Mock<IScriptService> scriptBrokerMock =
         new(behavior: MockBehavior.Strict);
 
     private readonly Mock<IWorkflowContextBroker> workflowContextBrokerMock =
@@ -24,12 +25,16 @@ public sealed partial class FlowInstanceProcessingServiceTests
         workflowHttpClientBrokerMock =
             new(behavior: MockBehavior.Strict);
 
-    private FlowInstanceProcessingService CreateService() =>
+    private FlowExecutionOrchestrationService CreateService() =>
         new(
-            scriptBroker: scriptBrokerMock.Object,
-            workflowContextBroker: workflowContextBrokerMock.Object,
-            workflowHttpClientBroker: workflowHttpClientBrokerMock.Object,
-            jsonBroker: new JsonBroker());
+            scriptService: scriptBrokerMock.Object,
+            flowInstanceDataService: new FlowInstanceDataService(
+                workflowHttpClientBroker: workflowHttpClientBrokerMock.Object,
+                jsonBroker: new JsonBroker()),
+            workflowRuntimeService: new WorkflowRuntimeService(
+                workflowContextBroker: workflowContextBrokerMock.Object,
+                jsonBroker: new JsonBroker(),
+                reflectionBroker: new ReflectionBroker()));
 
     private void SetupStateSave(FlowExecution execution) =>
         workflowHttpClientBrokerMock

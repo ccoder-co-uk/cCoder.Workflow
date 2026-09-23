@@ -65,7 +65,7 @@ public partial class FlowDefinitionServiceTests
         FlowDefinition flowDefinition = CreateRandomFlowDefinition();
 
         authorizationBrokerMock
-            .Setup(expression: broker => broker.Authorize(
+            .Setup(expression: broker => broker.IsAuthorized(
                 appId: flowDefinition.AppId,
                 privilege: "FlowDefinition_create"))
             .Throws(exception: exception);

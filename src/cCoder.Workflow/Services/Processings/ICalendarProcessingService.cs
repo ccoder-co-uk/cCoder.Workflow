@@ -12,6 +12,8 @@ namespace cCoder.Workflow.Services.Processings;
 
 internal interface ICalendarProcessingService
 {
+    object CreateSingleResult<T>(IQueryable<T> queryable);
+
     Calendar Get(int calendarId);
 
     IQueryable<Calendar> GetAll(bool ignoreFilters = false);

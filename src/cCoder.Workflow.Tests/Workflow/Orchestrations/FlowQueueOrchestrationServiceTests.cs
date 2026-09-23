@@ -7,6 +7,7 @@
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Models;
+using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using Moq;
@@ -16,6 +17,7 @@ namespace cCoder.Core.Services.Tests.Workflow.Orchestrations;
 public partial class FlowQueueOrchestrationServiceTests
 {
     private readonly Mock<IFlowDefinitionProcessingService> flowDefinitionProcessingServiceMock;
+    private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
     private readonly Mock<IFlowInstanceDataProcessingService> flowInstanceDataProcessingServiceMock;
     private readonly Mock<IFlowInstanceDataEventProcessingService>
         flowInstanceDataEventProcessingServiceMock;
@@ -23,6 +25,9 @@ public partial class FlowQueueOrchestrationServiceTests
 
     public FlowQueueOrchestrationServiceTests()
     {
+        authorizationBrokerMock =
+            new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+
         flowDefinitionProcessingServiceMock =
             new Mock<IFlowDefinitionProcessingService>(behavior: MockBehavior.Strict);
 
@@ -34,6 +39,7 @@ public partial class FlowQueueOrchestrationServiceTests
                 behavior: MockBehavior.Strict);
 
         orchestrationService = new FlowQueueOrchestrationService(
+            authorizationBroker: authorizationBrokerMock.Object,
             flowDefinitionProcessingService: flowDefinitionProcessingServiceMock.Object,
             flowInstanceDataProcessingService: flowInstanceDataProcessingServiceMock.Object,
             flowInstanceDataEventProcessingService:

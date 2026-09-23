@@ -2,8 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
-using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Models;
@@ -15,48 +13,35 @@ using cCoder.Workflow.Services.Foundations;
 namespace cCoder.Workflow.Services.Processings;
 
 internal sealed partial class FlowDefinitionProcessingService(
-    IFlowDefinitionService service,
-    IAuthorizationBroker authorizationBroker,
-    IJsonBroker jsonBroker,
-    ILoggingBroker log)
+    IFlowDefinitionService service)
     : IFlowDefinitionProcessingService
 {
     public bool AuthorizeFlowDefinitionExecution(string userId, int? appId) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [userId, appId]);
-            return ExecuteAuthorizeFlowDefinitionExecution(userId: userId, appId: appId);
+            return service.AuthorizeExecution(userId: userId, appId: appId);
         });
-
-    private bool ExecuteAuthorizeFlowDefinitionExecution(string userId, int? appId)
-    {
-        authorizationBroker.Authorize(
-            userId: userId,
-            appId: appId,
-            privilege: "flowdefinition_execute");
-
-        return true;
-    }
 
     public object ParseFlowDefinition(string definitionJson) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [definitionJson]);
-            return jsonBroker.ParseJson<Flow>(json: definitionJson);
+            return service.ParseDefinition(definitionJson: definitionJson);
         });
 
     public object ParseFlowDefinitionData(string args) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [args]);
-            return jsonBroker.ParseJson(json: args);
+            return service.ParseData(args: args);
         });
 
     public string SerializeFlowDefinitionContext(object context) =>
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [context]);
-            return jsonBroker.Serialize(value: context);
+            return service.SerializeContext(context: context);
         });
 
     public FlowDefinition Get(Guid flowDefinitionId) =>
@@ -68,7 +53,7 @@ internal sealed partial class FlowDefinitionProcessingService(
     }
 
     public IQueryable<FlowDefinition> GetAll(bool ignoreFilters = false) =>
-        TryCatch(operation: () => { ValidateInputs(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
+        TryCatch(operation: () => { ValidateAllOnGet(inputs: [ignoreFilters]); return ExecuteGetAll(ignoreFilters: ignoreFilters); });
 
     private IQueryable<FlowDefinition> ExecuteGetAll(bool ignoreFilters = false)
     {
@@ -76,7 +61,7 @@ internal sealed partial class FlowDefinitionProcessingService(
     }
 
     public ValueTask<FlowDefinition> AddFlowDefinitionAsync(FlowDefinition newFlowDefinition) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [newFlowDefinition]); return await ExecuteAddAsync(entity: newFlowDefinition); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateFlowDefinitionOnAdd(inputs: [newFlowDefinition]); return await ExecuteAddAsync(entity: newFlowDefinition); }, isValueTask: true);
 
     private ValueTask<FlowDefinition> ExecuteAddAsync(FlowDefinition entity)
     {
@@ -84,7 +69,7 @@ internal sealed partial class FlowDefinitionProcessingService(
     }
 
     public ValueTask<FlowDefinition> UpdateFlowDefinitionAsync(FlowDefinition updatedFlowDefinition) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [updatedFlowDefinition]); return await ExecuteUpdateAsync(entity: updatedFlowDefinition); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateFlowDefinitionOnUpdate(inputs: [updatedFlowDefinition]); return await ExecuteUpdateAsync(entity: updatedFlowDefinition); }, isValueTask: true);
 
     private ValueTask<FlowDefinition> ExecuteUpdateAsync(FlowDefinition entity)
     {
@@ -100,23 +85,19 @@ internal sealed partial class FlowDefinitionProcessingService(
     }
 
     public ValueTask DeleteByAppIdAsync(int appId) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateByAppIdOnDelete(inputs: [appId]); await ExecuteDeleteByAppIdAsync(appId: appId); }, isValueTask: true);
 
     private ValueTask ExecuteDeleteByAppIdAsync(int appId) =>
         service.DeleteWithInstancesByAppIdAsync(appId: appId);
 
     public ValueTask<IEnumerable<Result<FlowDefinition>>> AddOrUpdateFlowDefinition(IEnumerable<FlowDefinition> items) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateOrUpdateFlowDefinitionOnAdd(inputs: [items]); return await ExecuteAddOrUpdate(items: items); }, isValueTask: true);
 
     private async ValueTask<IEnumerable<Result<FlowDefinition>>> ExecuteAddOrUpdate(IEnumerable<FlowDefinition> items)
     {
         FlowDefinition[] itemArray = items.ToArray();
 
-        log.LogDebug(
-            message: "AddOrUpdate:\n"
-                + jsonBroker.Serialize(
-                    value: itemArray.Select(
-                        selector: item => new { item.Id, item.Name })));
+        _ = service.LogFlowDefinitionAddOrUpdate(flowDefinitions: itemArray);
 
         List<Result<FlowDefinition>> results = new List<Result<FlowDefinition>>();
 
@@ -155,7 +136,7 @@ internal sealed partial class FlowDefinitionProcessingService(
     }
 
     public ValueTask DeleteAllFlowDefinitionAsync(IEnumerable<FlowDefinition> deletedItems) =>
-        TryCatch(operation: async () => { ValidateInputs(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
+        TryCatch(operation: async () => { ValidateAllFlowDefinitionOnDelete(inputs: [deletedItems]); await ExecuteDeleteAllAsync(items: deletedItems); }, isValueTask: true);
 
     private async ValueTask ExecuteDeleteAllAsync(IEnumerable<FlowDefinition> items)
     {

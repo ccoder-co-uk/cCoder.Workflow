@@ -5,18 +5,26 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Workflow.Services.Processings.WorkflowFunctions;
+using Workflow.Services.Orchestrations.WorkflowScriptFunctions;
 
 namespace Workflow.Exposures;
 
-public sealed class ExecuteScript(
-    IWorkflowFunctionsManager workflowFunctionsProcessingService)
+internal sealed class ExecuteScript
 {
+    private readonly IWorkflowScriptFunctionsOrchestrationService
+        workflowScriptFunctionsOrchestrationService;
+
+    public ExecuteScript(
+        IWorkflowScriptFunctionsOrchestrationService
+            workflowScriptFunctionsOrchestrationService) =>
+        this.workflowScriptFunctionsOrchestrationService =
+            workflowScriptFunctionsOrchestrationService;
+
     [Function(nameof(ExecuteScript))]
     public Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData request,
         [FromQuery] bool useDetails = false) =>
-        workflowFunctionsProcessingService.ProcessExecuteScriptAsync(
+        workflowScriptFunctionsOrchestrationService.ProcessExecuteScriptAsync(
             request: request,
             useDetails: useDetails);
 }
