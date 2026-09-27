@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -13,7 +14,7 @@ namespace cCoder.Workflow.Exposures;
 
 internal class WorkflowPackageManager(
     IWorkflowMigrationAggregationService workflowMigrationAggregationService
-) : IWorkflowPackageManager
+) : IWorkflowPackageManager, ICompositionExposure
 {
     public ValueTask ImportPackageAsync(int appId, WorkflowPackage workflowPackage) =>
         workflowMigrationAggregationService.ImportPackageWorkflowPackageAsync(appId: appId, workflowPackage: workflowPackage);
