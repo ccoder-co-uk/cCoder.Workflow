@@ -2,13 +2,14 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Services.Coordinations;
 
 namespace cCoder.Workflow.Exposures;
 
 internal sealed class WorkflowEventHandler(
     IWorkflowEventCoordinationService workflowEventCoordinationService)
-    : IWorkflowEventHandler
+    : IWorkflowEventHandler, ICompositionExposure
 {
     public Task RaiseEvents(
         object payload,

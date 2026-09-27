@@ -11129,11 +11129,21 @@
     {
       "Name": "cCoder.Workflow.Exposures.FlowDefinitionEventHandler",
       "StandardElementType": "Exposure",
-      "LineNumber": 10,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow:cCoder.Workflow.Exposures.IFlowDefinitionEventHandler",
           "FullName": "cCoder.Workflow.Exposures.IFlowDefinitionEventHandler",
@@ -11150,7 +11160,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.FlowDefinitionEventHandler.HandleFlowDefinitionDeleteAsync(cCoder.Data.Models.Workflow.FlowDefinition)",
           "Name": "HandleFlowDefinitionDeleteAsync",
-          "LineNumber": 14,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "flowDefinition",
@@ -11316,11 +11326,21 @@
     {
       "Name": "cCoder.Workflow.Exposures.WorkflowAppExposure",
       "StandardElementType": "Exposure",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow:cCoder.Workflow.Exposures.IWorkflowAppExposure",
           "FullName": "cCoder.Workflow.Exposures.IWorkflowAppExposure",
@@ -11337,7 +11357,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.WorkflowAppExposure.AddAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAsync",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "newApp",
@@ -11386,7 +11406,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.WorkflowAppExposure.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 22,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "appId",
@@ -11433,7 +11453,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.WorkflowAppExposure.UpdateAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "updatedApp",
@@ -11484,11 +11504,21 @@
     {
       "Name": "cCoder.Workflow.Exposures.WorkflowEventHandler",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow:cCoder.Workflow.Exposures.IWorkflowEventHandler",
           "FullName": "cCoder.Workflow.Exposures.IWorkflowEventHandler",
@@ -11505,7 +11535,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.WorkflowEventHandler.RaiseEvents(System.Object,System.String,System.Int32?)",
           "Name": "RaiseEvents",
-          "LineNumber": 13,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "payload",
@@ -11880,11 +11910,21 @@
     {
       "Name": "cCoder.Workflow.Exposures.WorkflowPackageManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 14,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow:cCoder.Workflow.Exposures.IWorkflowPackageManager",
           "FullName": "cCoder.Workflow.Exposures.IWorkflowPackageManager",
@@ -11901,7 +11941,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.WorkflowPackageManager.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "appId",
@@ -11952,7 +11992,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.WorkflowPackageManager.ImportPackageAsync(System.Int32,cCoder.Workflow.Models.WorkflowPackage)",
           "Name": "ImportPackageAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "appId",

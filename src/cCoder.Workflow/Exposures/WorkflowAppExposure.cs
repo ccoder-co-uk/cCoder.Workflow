@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -11,7 +12,7 @@ using cCoder.Workflow.Services.Coordinations;
 namespace cCoder.Workflow.Exposures;
 
 internal class WorkflowAppExposure(IAppCoordinationService appCoordinationService)
-    : IWorkflowAppExposure
+    : IWorkflowAppExposure, ICompositionExposure
 {
     public ValueTask AddAsync(App newApp) =>
         appCoordinationService.AddAppAsync(newApp: newApp);

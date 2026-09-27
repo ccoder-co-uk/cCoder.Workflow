@@ -1302,11 +1302,21 @@
     {
       "Name": "cCoder.Workflow.Engine.Exposures.FlowRunner",
       "StandardElementType": "Exposure",
-      "LineNumber": 10,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
       "Interfaces": [
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        },
         {
           "Id": "cCoder.Workflow.Engine:cCoder.Workflow.Engine.Exposures.IFlowRunner",
           "FullName": "cCoder.Workflow.Engine.Exposures.IFlowRunner",
@@ -1323,7 +1333,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Exposures.FlowRunner.RunAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "RunAsync",
-          "LineNumber": 13,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "workflowRequest",
