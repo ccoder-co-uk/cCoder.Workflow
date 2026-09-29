@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+
 using System.Text;
 
 namespace cCoder.Workflow.Activities.Activities.Sftp;

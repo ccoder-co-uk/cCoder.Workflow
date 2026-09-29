@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
 

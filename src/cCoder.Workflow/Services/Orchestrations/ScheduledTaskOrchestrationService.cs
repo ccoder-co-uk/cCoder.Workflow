@@ -2,7 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using cCoder.Workflow.Models.Results;
 using cCoder.Data.Models.Planning;
 using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Processings;

@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using cCoder.Workflow;
 using cCoder.Eventing;
 using FluentAssertions;

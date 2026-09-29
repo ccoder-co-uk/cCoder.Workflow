@@ -4,24 +4,22 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
-using cCoder.Data.Models.Planning;
+using System;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.OData.Deltas;
-using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class FlowDefinitionControllerTests
+public partial class WorkflowEventControllerTests
 {
     [Fact]
     public void ShouldReturnServerErrorWhenGetFails()
     {
-        flowDefinitionManagerMock.Setup(expression: service =>
-                service.GetFlowDefinition(flowDefinitionId: Guid.Empty))
+        workflowEventManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.Get(key: Guid.Empty);
@@ -32,7 +30,7 @@ public partial class FlowDefinitionControllerTests
     [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
-        flowDefinitionManagerMock.Setup(expression: service => service.GetAllFlowDefinitions())
+        workflowEventManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -44,11 +42,11 @@ public partial class FlowDefinitionControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPostFailsAsync(Exception exception, int expectedStatusCode)
     {
-        FlowDefinition item = new();
-        flowDefinitionManagerMock.Setup(expression: service => service.AddFlowDefinitionAsync(item))
+        WorkflowEvent item = new();
+        workflowEventManagerMock.Setup(expression: service => service.AddWorkflowEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newFlowDefinition: item);
+        IActionResult result = await controller.Post(newWorkflowEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -57,11 +55,11 @@ public partial class FlowDefinitionControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPutFailsAsync(Exception exception, int expectedStatusCode)
     {
-        FlowDefinition item = new();
-        flowDefinitionManagerMock.Setup(expression: service => service.UpdateFlowDefinitionAsync(item))
+        WorkflowEvent item = new();
+        workflowEventManagerMock.Setup(expression: service => service.UpdateWorkflowEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: Guid.Empty, updatedFlowDefinition: item);
+        IActionResult result = await controller.Put(key: Guid.Empty, updatedWorkflowEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -70,42 +68,10 @@ public partial class FlowDefinitionControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenDeleteFailsAsync(Exception exception, int expectedStatusCode)
     {
-        flowDefinitionManagerMock.Setup(expression: service => service.DeleteFlowDefinitionAsync(flowDefinitionId: Guid.Empty))
+        workflowEventManagerMock.Setup(expression: service => service.DeleteAsync(workflowEventId: Guid.Empty))
             .Throws(exception: exception);
 
         IActionResult result = await controller.Delete(key: Guid.Empty);
-
-        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
-    }
-
-    [Theory]
-    [MemberData(nameof(FailureExceptions))]
-    public async Task ShouldReturnServerErrorWhenExecuteFailsAsync(
-        Exception exception,
-        int expectedStatusCode)
-    {
-        flowDefinitionManagerMock.Setup(expression: service => service.QueueFlowDefinitionAsync(
-                flowDefinitionId: Guid.Empty,
-                asUserId: It.IsAny<string>(),
-                args: It.IsAny<string>()))
-            .Throws(exception: exception);
-
-        IActionResult result = await controller.PostAsync(key: Guid.Empty);
-
-        result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
-    }
-
-    [Theory]
-    [MemberData(nameof(FailureExceptions))]
-    public async Task ShouldReturnServerErrorWhenExecuteScriptFailsAsync(
-        Exception exception,
-        int expectedStatusCode)
-    {
-        flowDefinitionManagerMock.Setup(expression: service =>
-                service.ExecuteScriptAsync(It.IsAny<string>()))
-            .Throws(exception: exception);
-
-        IActionResult result = await controller.PostScript();
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }

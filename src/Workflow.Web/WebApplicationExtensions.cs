@@ -2,6 +2,14 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using System;
+using System.Threading.Tasks;
+
 using System.Security;
 using cCoder.Security;
 using cCoder.Workflow;

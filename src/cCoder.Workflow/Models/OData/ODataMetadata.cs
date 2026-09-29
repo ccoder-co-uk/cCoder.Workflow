@@ -2,11 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Collections;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using cCoder.Workflow.Extensions.OData;
-
 namespace cCoder.Workflow.Models.OData;
 
 public class MetadataContainerSet

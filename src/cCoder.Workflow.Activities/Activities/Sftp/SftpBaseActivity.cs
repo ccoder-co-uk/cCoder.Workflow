@@ -1,5 +1,7 @@
+using System;
+using System.IO;
+
 using System.Text;
-using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 using Renci.SshNet;
 

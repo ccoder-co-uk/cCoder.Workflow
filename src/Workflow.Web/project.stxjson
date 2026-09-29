@@ -9,7 +9,7 @@
     {
       "Name": "Apps.Shared.Hosting.NoOpSession",
       "StandardElementType": "Dependency",
-      "LineNumber": 7,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -47,7 +47,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.Clear()",
           "Name": "Clear",
-          "LineNumber": 27,
+          "LineNumber": 32,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -69,7 +69,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.CommitAsync(System.Threading.CancellationToken)",
           "Name": "CommitAsync",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -96,7 +96,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.LoadAsync(System.Threading.CancellationToken)",
           "Name": "LoadAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -123,7 +123,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.Remove(System.String)",
           "Name": "Remove",
-          "LineNumber": 26,
+          "LineNumber": 31,
           "Inputs": [
             {
               "Name": "key",
@@ -150,7 +150,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.Set(System.String,System.Byte[])",
           "Name": "Set",
-          "LineNumber": 25,
+          "LineNumber": 30,
           "Inputs": [
             {
               "Name": "key",
@@ -181,7 +181,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.TryGetValue(System.String,System.Byte[])",
           "Name": "TryGetValue",
-          "LineNumber": 19,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "key",
@@ -214,7 +214,7 @@
     {
       "Name": "Apps.Shared.Hosting.NoOpSessionFeature",
       "StandardElementType": "Dependency",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -241,7 +241,7 @@
     {
       "Name": "Workflow.Web.Brokers.CoreAppBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -262,7 +262,7 @@
         {
           "Id": "Workflow.Web.Brokers.CoreAppBroker.SelectAppAsync(System.Int32)",
           "Name": "SelectAppAsync",
-          "LineNumber": 14,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "appId",
@@ -387,7 +387,7 @@
     {
       "Name": "Workflow.Web.Brokers.Loggings.LoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -418,7 +418,7 @@
         {
           "Id": "Workflow.Web.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String)",
           "Name": "LogError",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "exception",
@@ -459,7 +459,7 @@
     {
       "Name": "Workflow.Web.Controllers.CoreAppController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 15,
+      "LineNumber": 19,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -489,7 +489,7 @@
         {
           "Id": "Workflow.Web.Controllers.CoreAppController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 23,
+          "LineNumber": 27,
           "Inputs": [
             {
               "Name": "key",
@@ -620,7 +620,7 @@
     {
       "Name": "Workflow.Web.Controllers.CoreUserController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 15,
+      "LineNumber": 18,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -650,7 +650,7 @@
         {
           "Id": "Workflow.Web.Controllers.CoreUserController.Get()",
           "Name": "Get",
-          "LineNumber": 23,
+          "LineNumber": 26,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -759,7 +759,7 @@
     {
       "Name": "Workflow.Web.Controllers.HealthController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 14,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -789,7 +789,7 @@
         {
           "Id": "Workflow.Web.Controllers.HealthController.Get()",
           "Name": "Get",
-          "LineNumber": 23,
+          "LineNumber": 26,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -888,7 +888,7 @@
     {
       "Name": "Workflow.Web.Extensions.IConfigurationExtensions",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -899,7 +899,7 @@
     {
       "Name": "Workflow.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 21,
+      "LineNumber": 26,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -909,7 +909,7 @@
         {
           "Id": "Workflow.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.Web.Models.AppConfiguration\u003E)",
           "Name": "AddWeb",
-          "LineNumber": 23,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "services",
@@ -1040,7 +1040,7 @@
     {
       "Name": "Workflow.Web.Program",
       "StandardElementType": "App",
-      "LineNumber": 12,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -1050,7 +1050,7 @@
         {
           "Id": "Workflow.Web.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "args",
@@ -1106,7 +1106,7 @@
     {
       "Name": "Workflow.Web.Services.Foundations.CoreAppService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1127,7 +1127,7 @@
         {
           "Id": "Workflow.Web.Services.Foundations.CoreAppService.GetAppAsync(System.Int32)",
           "Name": "GetAppAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "appId",
@@ -1298,7 +1298,7 @@
     {
       "Name": "Workflow.Web.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 13,
+      "LineNumber": 21,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1311,7 +1311,7 @@
     {
       "Name": "Workflow.Web.Brokers.ICoreAppBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -1321,7 +1321,7 @@
         {
           "Id": "Workflow.Web.Brokers.ICoreAppBroker.SelectAppAsync(System.Int32)",
           "Name": "SelectAppAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "appId",
@@ -1380,7 +1380,7 @@
     {
       "Name": "Workflow.Web.Brokers.Loggings.ILoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -1390,7 +1390,7 @@
         {
           "Id": "Workflow.Web.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
           "Name": "LogError",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "exception",
@@ -1421,7 +1421,7 @@
     {
       "Name": "Workflow.Web.Exposures.ICoreAppManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -1431,7 +1431,7 @@
         {
           "Id": "Workflow.Web.Exposures.ICoreAppManager.GetAppAsync(System.Int32)",
           "Name": "GetAppAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "appId",
@@ -1522,7 +1522,7 @@
     {
       "Name": "Workflow.Web.Services.Foundations.ICoreAppService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 11,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -1544,7 +1544,7 @@
     {
       "Name": "Workflow.Web.Services.Foundations.ICoreUserService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 11,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,

@@ -2,12 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Extensions.OData;
+using System;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Models.OData;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Planning;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;

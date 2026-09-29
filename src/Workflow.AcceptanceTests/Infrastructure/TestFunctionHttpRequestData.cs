@@ -2,13 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Collections.Specialized;
-using System.Net;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Security.Claims;
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Azure.Functions.Worker.Context.Features;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Workflow.AcceptanceTests.Infrastructure;
 

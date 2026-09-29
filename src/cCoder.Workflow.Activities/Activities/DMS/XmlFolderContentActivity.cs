@@ -1,3 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using System.IO.Compression;
 using System.Text;
 using cCoder.Workflow.Activities.Models;

@@ -4,36 +4,36 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
-using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class CalendarEventControllerTests
+public partial class CalendarControllerTests
 {
 
     [Fact]
-    public void ShouldReturnCalendarEventWhenGetFindsRequestedCalendarEvent()
+    public void ShouldReturnCalendarWhenGetFindsRequestedCalendar()
     {
-        CalendarEvent calendarEvent = new() { Id = 1 };
-        calendarEventManagerMock.Setup(expression: service => service.GetAll(false))
-            .Returns(value: new[] { calendarEvent }.AsQueryable());
+        Calendar calendar = new() { Id = 1 };
+        calendarManagerMock.Setup(expression: service => service.GetAll(false))
+            .Returns(value: new[] { calendar }.AsQueryable());
 
-        IActionResult result = controller.Get(key: calendarEvent.Id);
+        IActionResult result = controller.Get(key: calendar.Id);
 
         result.Should().BeOfType<OkObjectResult>();
     }
 
     [Fact]
-    public void ShouldReturnNotFoundWhenGetCannotFindRequestedCalendarEvent()
+    public void ShouldReturnNotFoundWhenGetCannotFindRequestedCalendar()
     {
-        calendarEventManagerMock.Setup(expression: service => service.GetAll(false))
-            .Returns(value: Array.Empty<CalendarEvent>().AsQueryable());
+        calendarManagerMock.Setup(expression: service => service.GetAll(false))
+            .Returns(value: Array.Empty<Calendar>().AsQueryable());
 
         IActionResult result = controller.Get(key: 1);
 
@@ -45,7 +45,7 @@ public partial class CalendarEventControllerTests
     {
         controller.ModelState.AddModelError(key: "Name", errorMessage: "Required");
 
-        IActionResult result = await controller.Post(newCalendarEvent: new CalendarEvent());
+        IActionResult result = await controller.Post(newCalendar: new Calendar());
 
         result.Should().BeAssignableTo<BadRequestObjectResult>();
     }
@@ -55,7 +55,7 @@ public partial class CalendarEventControllerTests
     {
         controller.ModelState.AddModelError(key: "Name", errorMessage: "Required");
 
-        IActionResult result = await controller.Put(key: 1, updatedCalendarEvent: new CalendarEvent());
+        IActionResult result = await controller.Put(key: 1, updatedCalendar: new Calendar());
 
         result.Should().BeAssignableTo<BadRequestObjectResult>();
     }
@@ -63,7 +63,7 @@ public partial class CalendarEventControllerTests
     [Fact]
     public async Task ShouldReturnNoContentWhenDeleteSucceedsAsync()
     {
-        calendarEventManagerMock.Setup(expression: service => service.DeleteAsync(calendarEventId: 1))
+        calendarManagerMock.Setup(expression: service => service.DeleteAsync(calendarId: 1))
             .Returns(value: ValueTask.CompletedTask);
 
         IActionResult result = await controller.Delete(key: 1);

@@ -2,8 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Threading;
+
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Context.Features;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Workflow.AcceptanceTests.Infrastructure;

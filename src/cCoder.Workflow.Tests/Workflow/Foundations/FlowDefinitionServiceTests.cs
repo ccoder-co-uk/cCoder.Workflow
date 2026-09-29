@@ -2,11 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using AuthorizationBroker = cCoder.Workflow.Brokers.AuthorizationBroker;
+using System;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Loggings;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using FizzWare.NBuilder;

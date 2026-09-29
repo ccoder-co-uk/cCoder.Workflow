@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+
 using cCoder.CodeAnalysis.Exposures;
 using Microsoft.Extensions.DependencyInjection;
 

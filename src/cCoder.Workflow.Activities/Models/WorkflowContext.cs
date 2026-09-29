@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace cCoder.Workflow.Activities.Models;
 
 /// <summary>

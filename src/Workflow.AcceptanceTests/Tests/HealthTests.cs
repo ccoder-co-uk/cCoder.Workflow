@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using Workflow.AcceptanceTests.Infrastructure;
 using Workflow.Exposures;
 using Workflow.Services.Foundations.WorkflowHttpResponses;
 using Moq;

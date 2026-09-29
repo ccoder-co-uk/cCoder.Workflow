@@ -2,6 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace Apps.Shared.Hosting;
 
 public sealed class NoOpSession : ISession

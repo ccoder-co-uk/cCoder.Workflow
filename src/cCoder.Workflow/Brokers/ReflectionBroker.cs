@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+
 using cCoder.CodeAnalysis.Exposures;
 using System.Reflection;
 

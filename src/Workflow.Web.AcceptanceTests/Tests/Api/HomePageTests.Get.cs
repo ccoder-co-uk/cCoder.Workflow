@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using FluentAssertions;
 using System.Net;
 using Xunit;

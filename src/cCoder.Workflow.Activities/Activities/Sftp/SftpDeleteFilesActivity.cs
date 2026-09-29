@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace cCoder.Workflow.Activities.Activities.Sftp;
 
 public class SftpDeleteFilesActivity : SftpBaseActivity

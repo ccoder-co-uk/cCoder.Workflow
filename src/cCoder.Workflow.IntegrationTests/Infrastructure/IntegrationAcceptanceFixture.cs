@@ -2,6 +2,12 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using System.Diagnostics;
 using System.Net;
 using System.Security.Cryptography;
@@ -15,7 +21,6 @@ using cCoder.Security;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Models;
-using cCoder.Security.Models.Configurations;
 using cCoder.Workflow;
 using cCoder.Workflow.Testing;
 using Microsoft.AspNetCore.Http;

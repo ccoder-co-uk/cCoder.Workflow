@@ -4,6 +4,7 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
+using System;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures;
 using Microsoft.AspNetCore.Http;
@@ -13,10 +14,10 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class WorkflowEventControllerTests
+public partial class CalendarControllerTests
 {
-    private readonly Mock<IWorkflowEventManager> workflowEventManagerMock = new();
-    private readonly WorkflowEventController controller;
+    private readonly Mock<ICalendarManager> calendarManagerMock = new();
+    private readonly CalendarController controller;
 
     public static TheoryData<Exception, int> FailureExceptions => new()
     {
@@ -25,10 +26,10 @@ public partial class WorkflowEventControllerTests
         { new Exception(), 500 }
     };
 
-    public WorkflowEventControllerTests()
+    public CalendarControllerTests()
     {
-        controller = new WorkflowEventController(
-            service: workflowEventManagerMock.Object)
+        controller = new CalendarController(
+            service: calendarManagerMock.Object)
         {
             ControllerContext = new ControllerContext
             {

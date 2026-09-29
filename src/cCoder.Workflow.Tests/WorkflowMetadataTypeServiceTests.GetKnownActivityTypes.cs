@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
+
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Activities.Sftp;
 using cCoder.Workflow.Activities.Activities.Templating;

@@ -2,8 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Engine.Models;
 using FluentAssertions;
 using Moq;
 using Xunit;

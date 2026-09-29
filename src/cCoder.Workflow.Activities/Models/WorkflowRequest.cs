@@ -1,3 +1,5 @@
+using System;
+
 namespace cCoder.Workflow.Activities.Models;
 
 public class WorkflowRequest

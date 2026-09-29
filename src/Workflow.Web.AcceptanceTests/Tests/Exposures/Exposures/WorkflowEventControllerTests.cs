@@ -4,10 +4,9 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
-using cCoder.Workflow.Brokers.Loggings;
+using System;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures;
-using cCoder.Security.Models.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -15,12 +14,10 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class FlowDefinitionControllerTests
+public partial class WorkflowEventControllerTests
 {
-    private readonly Mock<IFlowDefinitionManager> flowDefinitionManagerMock = new();
-    private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
-    private readonly Mock<ISSOAuthInfo> authInfoMock = new();
-    private readonly FlowDefinitionController controller;
+    private readonly Mock<IWorkflowEventManager> workflowEventManagerMock = new();
+    private readonly WorkflowEventController controller;
 
     public static TheoryData<Exception, int> FailureExceptions => new()
     {
@@ -29,12 +26,10 @@ public partial class FlowDefinitionControllerTests
         { new Exception(), 500 }
     };
 
-    public FlowDefinitionControllerTests()
+    public WorkflowEventControllerTests()
     {
-        controller = new FlowDefinitionController(
-            service: flowDefinitionManagerMock.Object,
-            authInfo: authInfoMock.Object,
-            loggingBroker: loggingBrokerMock.Object)
+        controller = new WorkflowEventController(
+            service: workflowEventManagerMock.Object)
         {
             ControllerContext = new ControllerContext
             {

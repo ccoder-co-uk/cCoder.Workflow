@@ -4,22 +4,22 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
+using System;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.OData.Deltas;
-using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class CalendarEventControllerTests
+public partial class ScheduledTaskControllerTests
 {
     [Fact]
     public void ShouldReturnServerErrorWhenGetFails()
     {
-        calendarEventManagerMock.Setup(expression: service => service.GetAll())
+        scheduledTaskManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.Get(key: 1);
@@ -30,7 +30,7 @@ public partial class CalendarEventControllerTests
     [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
-        calendarEventManagerMock.Setup(expression: service => service.GetAll())
+        scheduledTaskManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -42,11 +42,11 @@ public partial class CalendarEventControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPostFailsAsync(Exception exception, int expectedStatusCode)
     {
-        CalendarEvent item = new();
-        calendarEventManagerMock.Setup(expression: service => service.AddCalendarEventAsync(item))
+        ScheduledTask item = new();
+        scheduledTaskManagerMock.Setup(expression: service => service.AddScheduledTaskAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newCalendarEvent: item);
+        IActionResult result = await controller.Post(newScheduledTask: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -55,11 +55,11 @@ public partial class CalendarEventControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPutFailsAsync(Exception exception, int expectedStatusCode)
     {
-        CalendarEvent item = new();
-        calendarEventManagerMock.Setup(expression: service => service.UpdateCalendarEventAsync(item))
+        ScheduledTask item = new();
+        scheduledTaskManagerMock.Setup(expression: service => service.UpdateScheduledTaskAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: 1, updatedCalendarEvent: item);
+        IActionResult result = await controller.Put(key: 1, updatedScheduledTask: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -68,12 +68,26 @@ public partial class CalendarEventControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenDeleteFailsAsync(Exception exception, int expectedStatusCode)
     {
-        calendarEventManagerMock.Setup(expression: service => service.DeleteAsync(calendarEventId: 1))
+        scheduledTaskManagerMock.Setup(expression: service => service.DeleteAsync(scheduledTaskId: 1))
             .Throws(exception: exception);
 
         IActionResult result = await controller.Delete(key: 1);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
+    }
+
+    [Fact]
+    public async Task ShouldReturnServerErrorWhenExecuteFailsAsync()
+    {
+        scheduledTaskManagerMock.Setup(expression: service =>
+                service.ExecuteAsync(scheduledTaskId: 1, incrementNextExecution: true))
+            .Throws(exception: new Exception());
+
+        IActionResult result = await controller.PostAsync(
+            key: 1,
+            incrementNextExecution: true);
+
+        result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
     }
 }
 

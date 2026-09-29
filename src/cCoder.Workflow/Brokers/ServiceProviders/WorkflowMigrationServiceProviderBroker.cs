@@ -2,6 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using System;
+
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
 

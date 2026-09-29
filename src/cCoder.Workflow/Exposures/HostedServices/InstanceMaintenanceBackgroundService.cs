@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Threading;
+using System.Threading.Tasks;
+
 using cCoder.CodeAnalysis.Exposures;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Services.Aggregations;
