@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace cCoder.Workflow.Activities.Support;
 
 public class Path

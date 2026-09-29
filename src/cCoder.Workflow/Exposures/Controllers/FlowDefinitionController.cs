@@ -2,19 +2,18 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.AspNetCore.Http;
+
+using System;
+using System.Threading.Tasks;
+
 using cCoder.Workflow.Brokers.Loggings;
 using cCoder.CodeAnalysis.Exposures;
-using cCoder.Workflow.Extensions.OData;
-using cCoder.Workflow.Models.OData;
-using cCoder.Workflow.Models;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Models.Configurations;
-using cCoder.Workflow.Services.Aggregations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.Workflow.Exposures.Controllers;

@@ -1,6 +1,9 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using System.Net;
 using System.Net.Http.Headers;
-using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Activities.Models;
 using Newtonsoft.Json;

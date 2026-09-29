@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+
 using Microsoft.AspNetCore.OData.Results;
 
 namespace cCoder.Workflow.Brokers.OData;

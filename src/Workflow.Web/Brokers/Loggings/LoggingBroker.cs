@@ -2,6 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.Extensions.Logging;
+
+using System;
+
 using cCoder.CodeAnalysis.Exposures;
 
 namespace Workflow.Web.Brokers.Loggings;

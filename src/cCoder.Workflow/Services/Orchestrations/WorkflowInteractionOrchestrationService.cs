@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.IO;
+using System.Threading.Tasks;
+
 using cCoder.Workflow.Services.Foundations;
 
 namespace cCoder.Workflow.Services.Orchestrations;

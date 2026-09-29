@@ -2,6 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using cCoder.Workflow.Models.Results;
+
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Moq;

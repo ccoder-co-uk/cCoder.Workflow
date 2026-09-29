@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace cCoder.Workflow.Activities.Activities.Transformation;
 
 public class ConvertActivity<TSource, TResult> : TransformationActivity<IEnumerable<TSource>, TResult[]>

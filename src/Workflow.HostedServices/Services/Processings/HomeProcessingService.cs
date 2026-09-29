@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+
 namespace Workflow.HostedServices.Services.Processings;
 
 internal sealed partial class HomeProcessingService(

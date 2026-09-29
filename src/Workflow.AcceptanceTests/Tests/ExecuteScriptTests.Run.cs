@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 using System.Net;
 using FluentAssertions;
 using Microsoft.Azure.Functions.Worker.Http;

@@ -2,11 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 using cCoder.CodeAnalysis.Exposures;
-using cCoder.Workflow.Models;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
-using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Coordinations;
 
 namespace cCoder.Workflow.Exposures;

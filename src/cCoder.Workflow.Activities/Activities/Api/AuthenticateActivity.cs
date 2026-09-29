@@ -1,3 +1,7 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using System.Text;
 using cCoder.Workflow.Activities.Brokers;
 using Newtonsoft.Json;

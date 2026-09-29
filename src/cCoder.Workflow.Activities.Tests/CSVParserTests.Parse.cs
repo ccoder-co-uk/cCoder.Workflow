@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+
 using cCoder.Workflow.Activities.Support;
 using FluentAssertions;
 using Xunit;

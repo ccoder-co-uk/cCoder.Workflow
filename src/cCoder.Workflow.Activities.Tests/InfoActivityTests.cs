@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 using cCoder.Workflow.Activities.Activities;
 using cCoder.Workflow.Activities.Models;
 

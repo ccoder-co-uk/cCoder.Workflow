@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+
 using System.ComponentModel.DataAnnotations;
 using cCoder.Workflow.Models.Exceptions;
 

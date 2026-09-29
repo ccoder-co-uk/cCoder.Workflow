@@ -4,8 +4,11 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
+using System;
+using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures;
+using cCoder.Security.Models.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -13,10 +16,12 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class CalendarControllerTests
+public partial class FlowDefinitionControllerTests
 {
-    private readonly Mock<ICalendarManager> calendarManagerMock = new();
-    private readonly CalendarController controller;
+    private readonly Mock<IFlowDefinitionManager> flowDefinitionManagerMock = new();
+    private readonly Mock<ILoggingBroker> loggingBrokerMock = new();
+    private readonly Mock<ISSOAuthInfo> authInfoMock = new();
+    private readonly FlowDefinitionController controller;
 
     public static TheoryData<Exception, int> FailureExceptions => new()
     {
@@ -25,10 +30,12 @@ public partial class CalendarControllerTests
         { new Exception(), 500 }
     };
 
-    public CalendarControllerTests()
+    public FlowDefinitionControllerTests()
     {
-        controller = new CalendarController(
-            service: calendarManagerMock.Object)
+        controller = new FlowDefinitionController(
+            service: flowDefinitionManagerMock.Object,
+            authInfo: authInfoMock.Object,
+            loggingBroker: loggingBrokerMock.Object)
         {
             ControllerContext = new ControllerContext
             {

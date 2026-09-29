@@ -2,10 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Models;
+using System;
 using cCoder.Workflow.Brokers.Loggings;
-using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Services.Foundations;
 using cCoder.Workflow.Services.Processings;

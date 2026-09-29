@@ -1,3 +1,5 @@
+using System.Linq;
+
 using System.ComponentModel.DataAnnotations;
 using cCoder.Workflow.Activities.Activities;
 using Newtonsoft.Json;

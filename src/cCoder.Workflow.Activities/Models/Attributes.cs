@@ -1,3 +1,5 @@
+using System;
+
 namespace cCoder.Workflow.Activities.Models;
 
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]

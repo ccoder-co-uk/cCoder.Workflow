@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Loggings;
 using cCoder.Workflow.Services.Foundations;

@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+
 #pragma warning disable STXFORMAT005, STXFORMAT009, STXTEST005
 
 using cCoder.Data.Models.CMS;

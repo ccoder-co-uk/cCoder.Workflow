@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+
 using cCoder.CodeAnalysis.Exposures;
 using Microsoft.AspNetCore.OData.Results;
 

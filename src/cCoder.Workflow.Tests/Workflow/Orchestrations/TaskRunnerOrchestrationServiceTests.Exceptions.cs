@@ -2,7 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data.Models.Planning;
+using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Xunit;

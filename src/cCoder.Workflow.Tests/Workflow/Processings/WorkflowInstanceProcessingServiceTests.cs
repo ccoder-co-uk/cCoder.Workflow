@@ -2,6 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Workflow;
 using cCoder.Security.Models.Entities;
@@ -10,7 +15,6 @@ using cCoder.Workflow.Activities.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
 using cCoder.Workflow.Brokers.Loggings;
-using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Foundations;

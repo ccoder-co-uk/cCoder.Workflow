@@ -4,6 +4,9 @@
 
 #pragma warning disable STXFORMAT001, STXFORMAT005, STXFORMAT009, STXFORMAT013, STXTEST005
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using cCoder.Workflow.Exposures.Controllers;
 using FluentAssertions;

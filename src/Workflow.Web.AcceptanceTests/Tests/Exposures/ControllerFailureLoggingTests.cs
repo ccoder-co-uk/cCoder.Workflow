@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.IO;
+using System;
+using System.Threading.Tasks;
 using System.Security;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
@@ -14,7 +17,6 @@ using cCoder.Security.Models.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.OData.Deltas;
 using Moq;
 using Xunit;
 

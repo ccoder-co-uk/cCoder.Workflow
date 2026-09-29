@@ -2,11 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Models;
-using cCoder.Data.Models.CMS;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Planning;
-using cCoder.Data.Models.Security;
-using cCoder.Data.Models.Workflow;
 
 
 namespace cCoder.Workflow.Services.Foundations.Events;

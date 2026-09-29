@@ -9,7 +9,7 @@
     {
       "Name": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -40,7 +40,7 @@
         {
           "Id": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String)",
           "Name": "LogError",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "exception",
@@ -81,7 +81,7 @@
     {
       "Name": "Workflow.HostedServices.Controllers.HealthController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 14,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -111,7 +111,7 @@
         {
           "Id": "Workflow.HostedServices.Controllers.HealthController.Get()",
           "Name": "Get",
-          "LineNumber": 23,
+          "LineNumber": 26,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -210,7 +210,7 @@
     {
       "Name": "Workflow.HostedServices.Controllers.HomeController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 14,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -240,7 +240,7 @@
         {
           "Id": "Workflow.HostedServices.Controllers.HomeController.Get()",
           "Name": "Get",
-          "LineNumber": 22,
+          "LineNumber": 25,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -339,7 +339,7 @@
     {
       "Name": "Workflow.HostedServices.Extensions.IConfigurationExtensions",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -350,7 +350,7 @@
     {
       "Name": "Workflow.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 19,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -360,7 +360,7 @@
         {
           "Id": "Workflow.HostedServices.IServiceCollectionExtensions.AddHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CWorkflow.HostedServices.Models.AppConfiguration\u003E)",
           "Name": "AddHostedServices",
-          "LineNumber": 21,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "services",
@@ -491,7 +491,7 @@
     {
       "Name": "Workflow.HostedServices.Program",
       "StandardElementType": "App",
-      "LineNumber": 16,
+      "LineNumber": 23,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -501,7 +501,7 @@
         {
           "Id": "Workflow.HostedServices.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 18,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "args",
@@ -648,7 +648,7 @@
     {
       "Name": "Workflow.HostedServices.Services.Processings.HomeProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -669,7 +669,7 @@
         {
           "Id": "Workflow.HostedServices.Services.Processings.HomeProcessingService.GetHome()",
           "Name": "GetHome",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [],
           "ReturnType": "System.String",
           "Implements": [
@@ -715,7 +715,7 @@
     {
       "Name": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -725,7 +725,7 @@
         {
           "Id": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
           "Name": "LogError",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "exception",

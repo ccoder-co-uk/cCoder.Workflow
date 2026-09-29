@@ -2,6 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+using System;
+
 using cCoder.Data.Models.Workflow;
 using cCoder.Eventing.Http;
 using cCoder.Eventing.Models;

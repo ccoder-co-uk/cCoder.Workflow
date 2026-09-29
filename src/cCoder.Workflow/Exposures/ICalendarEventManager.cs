@@ -2,11 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Models;
-using cCoder.Data.Models.CMS;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using cCoder.Workflow.Models.Results;
 using cCoder.Data.Models.Planning;
-using cCoder.Data.Models.Security;
-using cCoder.Data.Models.Workflow;
 
 namespace cCoder.Workflow.Exposures;
 

@@ -182,7 +182,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -213,7 +213,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogDebug(System.String,System.Object[])",
           "Name": "LogDebug",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "message",
@@ -252,7 +252,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 25,
+          "LineNumber": 27,
           "Inputs": [
             {
               "Name": "exception",
@@ -295,7 +295,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogError(System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 22,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "message",
@@ -334,7 +334,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogInformation(System.String,System.Object[])",
           "Name": "LogInformation",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "message",
@@ -373,7 +373,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker.LogWarning(System.String,System.Object[])",
           "Name": "LogWarning",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "message",
@@ -414,7 +414,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.ReflectionBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -445,7 +445,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.GetGenericTypeArguments(System.Type)",
           "Name": "GetGenericTypeArguments",
-          "LineNumber": 30,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "type",
@@ -472,7 +472,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.GetTypeName(System.Type)",
           "Name": "GetTypeName",
-          "LineNumber": 27,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "type",
@@ -499,7 +499,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.HasAttribute(System.Reflection.PropertyInfo)",
           "Name": "HasAttribute",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "property",
@@ -534,7 +534,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.IsGenericType(System.Type)",
           "Name": "IsGenericType",
-          "LineNumber": 24,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "type",
@@ -561,7 +561,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.ReflectionBroker.SetValue(System.Reflection.PropertyInfo,System.Object,System.Object)",
           "Name": "SetValue",
-          "LineNumber": 18,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "property",
@@ -606,7 +606,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -627,7 +627,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.BuildOptions(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E,System.String[])",
           "Name": "BuildOptions",
-          "LineNumber": 30,
+          "LineNumber": 35,
           "Inputs": [
             {
               "Name": "references",
@@ -673,7 +673,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type)",
           "Name": "EvaluateAsync",
-          "LineNumber": 37,
+          "LineNumber": 42,
           "Inputs": [
             {
               "Name": "code",
@@ -720,7 +720,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetCurrentAssemblies()",
           "Name": "GetCurrentAssemblies",
-          "LineNumber": 13,
+          "LineNumber": 18,
           "Inputs": [],
           "ReturnType": "System.Reflection.Assembly[]",
           "Implements": [
@@ -750,7 +750,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetExecutingAssembly()",
           "Name": "GetExecutingAssembly",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [],
           "ReturnType": "System.Reflection.Assembly",
           "Implements": [
@@ -780,7 +780,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetExportedTypes(System.Reflection.Assembly)",
           "Name": "GetExportedTypes",
-          "LineNumber": 27,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "assembly",
@@ -815,7 +815,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.GetFiles(System.String,System.String)",
           "Name": "GetFiles",
-          "LineNumber": 19,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "path",
@@ -854,7 +854,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.RoslynScriptBroker.LoadFile(System.String)",
           "Name": "LoadFile",
-          "LineNumber": 24,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "path",
@@ -891,7 +891,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -912,7 +912,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "CreateWorkflowExecutionContext",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -939,7 +939,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Models.WorkflowExecutionContext,System.String,System.String)",
           "Name": "ExecuteWorkflowExecutionContextAsync",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "workflowExecutionContext",
@@ -984,7 +984,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1005,7 +1005,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)",
           "Name": "GetStringAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -1040,7 +1040,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
           "Name": "PutJsonAsync",
-          "LineNumber": 25,
+          "LineNumber": 27,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -1081,7 +1081,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1102,7 +1102,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker.ConnectAsync(System.String)",
           "Name": "ConnectAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "url",
@@ -1129,7 +1129,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker.DisconnectAsync()",
           "Name": "DisconnectAsync",
-          "LineNumber": 29,
+          "LineNumber": 31,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [
@@ -1159,7 +1159,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHubConnectionBroker.SendAsync(System.String,System.String,System.String)",
           "Name": "SendAsync",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "level",
@@ -1196,7 +1196,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
       "StandardElementType": "Dependency",
-      "LineNumber": 12,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1217,7 +1217,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency.Dispose()",
           "Name": "Dispose",
-          "LineNumber": 61,
+          "LineNumber": 65,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -1249,7 +1249,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
       "StandardElementType": "Dependency",
-      "LineNumber": 10,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1270,7 +1270,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency.DisposeAsync()",
           "Name": "DisposeAsync",
-          "LineNumber": 56,
+          "LineNumber": 60,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [
@@ -1302,7 +1302,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Exposures.FlowRunner",
       "StandardElementType": "Exposure",
-      "LineNumber": 11,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1333,7 +1333,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Exposures.FlowRunner.RunAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "RunAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -1391,7 +1391,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1412,7 +1412,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Exposures.WorkflowScriptExecutionService.ExecuteAsync(System.String,System.Boolean)",
           "Name": "ExecuteAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "payload",
@@ -1474,7 +1474,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Extensions.TypeExtensions",
       "StandardElementType": "Exposure",
-      "LineNumber": 7,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1484,7 +1484,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Extensions.TypeExtensions.GetCSharpTypeName(System.Type)",
           "Name": "GetCSharpTypeName",
-          "LineNumber": 9,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "type",
@@ -1585,7 +1585,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -1605,7 +1605,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -1625,7 +1625,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Models.Exceptions.WorkflowEngineValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -1665,7 +1665,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Models.FlowExecution",
       "StandardElementType": "Model",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -1725,7 +1725,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext",
       "StandardElementType": "Dependency",
-      "LineNumber": 16,
+      "LineNumber": 20,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -1760,7 +1760,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext.ExecuteAsync(System.String,System.String)",
           "Name": "ExecuteAsync",
-          "LineNumber": 41,
+          "LineNumber": 45,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -1846,7 +1846,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Models.WorkflowExecutionContext.Log(cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
           "Name": "Log",
-          "LineNumber": 92,
+          "LineNumber": 96,
           "Inputs": [
             {
               "Name": "level",
@@ -1926,7 +1926,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService",
       "StandardElementType": "CoordinationService",
-      "LineNumber": 11,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1947,7 +1947,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Coordinations.WorkflowRequestCoordinationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "ExecuteWorkflowRequestAsync",
-          "LineNumber": 16,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -2151,7 +2151,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2172,7 +2172,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService.GetFlowInstanceDataAsync(System.String,System.String,System.Guid)",
           "Name": "GetFlowInstanceDataAsync",
-          "LineNumber": 17,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -2245,7 +2245,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowInstanceDataService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
           "Name": "SaveFlowInstanceDataAsync",
-          "LineNumber": 39,
+          "LineNumber": 42,
           "Inputs": [
             {
               "Name": "flowInstanceData",
@@ -2311,7 +2311,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.FlowResultService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2332,7 +2332,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowResultService.Deserialize(System.String)",
           "Name": "Deserialize",
-          "LineNumber": 17,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "value",
@@ -2381,7 +2381,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowResultService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
           "Name": "SaveFlowInstanceDataAsync",
-          "LineNumber": 33,
+          "LineNumber": 36,
           "Inputs": [
             {
               "Name": "flowInstanceData",
@@ -2445,7 +2445,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.FlowResultService.Serialize(System.Object)",
           "Name": "Serialize",
-          "LineNumber": 25,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "value",
@@ -2496,7 +2496,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.ScriptService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 13,
+      "LineNumber": 18,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2517,7 +2517,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.ScriptService.BuildScript(System.String,System.String[],System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
           "Name": "BuildScript",
-          "LineNumber": 22,
+          "LineNumber": 27,
           "Inputs": [
             {
               "Name": "code",
@@ -2566,7 +2566,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.ScriptService.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
           "Name": "Run",
-          "LineNumber": 70,
+          "LineNumber": 75,
           "Inputs": [
             {
               "Name": "code",
@@ -2619,7 +2619,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.ScriptService.Run(System.String,System.String[],System.Object,System.Action\u003CcCoder.Workflow.Activities.Models.WorkflowLogLevel, System.String\u003E)",
           "Name": "Run",
-          "LineNumber": 164,
+          "LineNumber": 169,
           "Inputs": [
             {
               "Name": "code",
@@ -2669,7 +2669,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 16,
+      "LineNumber": 19,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2690,7 +2690,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.WorkflowRuntimeService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 22,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -2757,7 +2757,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 12,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2778,7 +2778,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.FlowExecutionOrchestrationService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 18,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -2837,7 +2837,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 11,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2858,7 +2858,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.FinishFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "FinishFlowExecutionAsync",
-          "LineNumber": 91,
+          "LineNumber": 95,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -2907,7 +2907,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.RecordFlowExecutionFailureAsync(cCoder.Workflow.Engine.Models.FlowExecution,System.Exception)",
           "Name": "RecordFlowExecutionFailureAsync",
-          "LineNumber": 56,
+          "LineNumber": 60,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -2956,7 +2956,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.SaveFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "SaveFlowExecutionAsync",
-          "LineNumber": 44,
+          "LineNumber": 48,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -3005,7 +3005,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.WorkflowLifecycleOrchestrationService.StartFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "StartFlowExecutionAsync",
-          "LineNumber": 16,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -3077,7 +3077,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 15,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -3098,7 +3098,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.WorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
           "Name": "ExecuteWorkflowScriptAsync",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "payload",
@@ -3297,7 +3297,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.IReflectionBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -3307,7 +3307,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.GetGenericTypeArguments(System.Type)",
           "Name": "GetGenericTypeArguments",
-          "LineNumber": 23,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "type",
@@ -3332,7 +3332,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.GetTypeName(System.Type)",
           "Name": "GetTypeName",
-          "LineNumber": 21,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "type",
@@ -3357,7 +3357,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.HasAttribute(System.Reflection.PropertyInfo)",
           "Name": "HasAttribute",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "property",
@@ -3382,7 +3382,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.IsGenericType(System.Type)",
           "Name": "IsGenericType",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "type",
@@ -3407,7 +3407,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IReflectionBroker.SetValue(System.Reflection.PropertyInfo,System.Object,System.Object)",
           "Name": "SetValue",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "property",
@@ -3442,7 +3442,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -3452,7 +3452,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.BuildOptions(System.Collections.Generic.IEnumerable\u003CSystem.Reflection.Assembly\u003E,System.String[])",
           "Name": "BuildOptions",
-          "LineNumber": 22,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "references",
@@ -3481,7 +3481,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.EvaluateAsync(System.String,Microsoft.CodeAnalysis.Scripting.ScriptOptions,System.Object,System.Type)",
           "Name": "EvaluateAsync",
-          "LineNumber": 26,
+          "LineNumber": 30,
           "Inputs": [
             {
               "Name": "code",
@@ -3518,7 +3518,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetCurrentAssemblies()",
           "Name": "GetCurrentAssemblies",
-          "LineNumber": 12,
+          "LineNumber": 16,
           "Inputs": [],
           "ReturnType": "System.Reflection.Assembly[]",
           "Implements": [],
@@ -3538,7 +3538,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetExecutingAssembly()",
           "Name": "GetExecutingAssembly",
-          "LineNumber": 14,
+          "LineNumber": 18,
           "Inputs": [],
           "ReturnType": "System.Reflection.Assembly",
           "Implements": [],
@@ -3558,7 +3558,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetExportedTypes(System.Reflection.Assembly)",
           "Name": "GetExportedTypes",
-          "LineNumber": 20,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "assembly",
@@ -3583,7 +3583,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.GetFiles(System.String,System.String)",
           "Name": "GetFiles",
-          "LineNumber": 16,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "path",
@@ -3612,7 +3612,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IRoslynScriptBroker.LoadFile(System.String)",
           "Name": "LoadFile",
-          "LineNumber": 18,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "path",
@@ -3639,7 +3639,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -3649,7 +3649,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.CreateWorkflowExecutionContext(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "CreateWorkflowExecutionContext",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -3674,7 +3674,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowContextBroker.ExecuteWorkflowExecutionContextAsync(cCoder.Workflow.Engine.Models.WorkflowExecutionContext,System.String,System.String)",
           "Name": "ExecuteWorkflowExecutionContextAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "workflowExecutionContext",
@@ -3709,7 +3709,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -3719,7 +3719,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)",
           "Name": "GetStringAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -3752,7 +3752,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
           "Name": "PutJsonAsync",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -3791,7 +3791,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -3801,7 +3801,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.ConnectAsync(System.String)",
           "Name": "ConnectAsync",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "url",
@@ -3826,7 +3826,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.DisconnectAsync()",
           "Name": "DisconnectAsync",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [],
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [],
@@ -3846,7 +3846,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.SendAsync(System.String,System.String,System.String)",
           "Name": "SendAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "level",
@@ -3881,7 +3881,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -3891,7 +3891,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker.LogDebug(System.String,System.Object[])",
           "Name": "LogDebug",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "message",
@@ -3920,7 +3920,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "exception",
@@ -3953,7 +3953,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker.LogError(System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "message",
@@ -3982,7 +3982,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker.LogInformation(System.String,System.Object[])",
           "Name": "LogInformation",
-          "LineNumber": 10,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "message",
@@ -4011,7 +4011,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.Loggings.ILoggingBroker.LogWarning(System.String,System.Object[])",
           "Name": "LogWarning",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "message",
@@ -4042,7 +4042,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Exposures.IFlowRunner",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -4052,7 +4052,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Exposures.IFlowRunner.RunAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "RunAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -4079,7 +4079,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Exposures.IWorkflowScriptExecutionService",
       "StandardElementType": "Exposure",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -4089,7 +4089,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Exposures.IWorkflowScriptExecutionService.ExecuteAsync(System.String,System.Boolean)",
           "Name": "ExecuteAsync",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "payload",
@@ -4120,7 +4120,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService",
       "StandardElementType": "CoordinationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4130,7 +4130,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Coordinations.IWorkflowRequestCoordinationService.ExecuteWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "ExecuteWorkflowRequestAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -4157,7 +4157,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4167,7 +4167,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.ConnectWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest)",
           "Name": "ConnectWorkflowRequestAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -4192,7 +4192,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowCommunicationService.LogWorkflowRequestAsync(cCoder.Workflow.Activities.Models.WorkflowRequest,cCoder.Workflow.Activities.Models.WorkflowLogLevel,System.String)",
           "Name": "LogWorkflowRequestAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "workflowRequest",
@@ -4227,7 +4227,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4237,7 +4237,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.GetFlowInstanceDataAsync(System.String,System.String,System.Guid)",
           "Name": "GetFlowInstanceDataAsync",
-          "LineNumber": 11,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -4270,7 +4270,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowInstanceDataService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
           "Name": "SaveFlowInstanceDataAsync",
-          "LineNumber": 16,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "flowInstanceData",
@@ -4305,7 +4305,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4315,7 +4315,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.Deserialize(System.String)",
           "Name": "Deserialize",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "value",
@@ -4340,7 +4340,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.SaveFlowInstanceDataAsync(cCoder.Data.Models.Workflow.FlowInstanceData,System.String,System.String)",
           "Name": "SaveFlowInstanceDataAsync",
-          "LineNumber": 15,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "flowInstanceData",
@@ -4373,7 +4373,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IFlowResultService.Serialize(System.Object)",
           "Name": "Serialize",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "value",
@@ -4422,7 +4422,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4432,7 +4432,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Foundations.IWorkflowRuntimeService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -4459,7 +4459,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4469,7 +4469,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IFlowExecutionOrchestrationService.ExecuteFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "ExecuteFlowExecutionAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -4496,7 +4496,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 9,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4506,7 +4506,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.FinishFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "FinishFlowExecutionAsync",
-          "LineNumber": 19,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -4531,7 +4531,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.RecordFlowExecutionFailureAsync(cCoder.Workflow.Engine.Models.FlowExecution,System.Exception)",
           "Name": "RecordFlowExecutionFailureAsync",
-          "LineNumber": 15,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -4560,7 +4560,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.SaveFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "SaveFlowExecutionAsync",
-          "LineNumber": 13,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -4585,7 +4585,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Orchestrations.IWorkflowLifecycleOrchestrationService.StartFlowExecutionAsync(cCoder.Workflow.Engine.Models.FlowExecution)",
           "Name": "StartFlowExecutionAsync",
-          "LineNumber": 11,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "flowExecution",
@@ -4612,7 +4612,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -4622,7 +4622,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Services.Processings.IWorkflowScriptExecutionProcessingService.ExecuteWorkflowScriptAsync(System.String,System.Boolean)",
           "Name": "ExecuteWorkflowScriptAsync",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "payload",

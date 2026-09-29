@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+
 namespace cCoder.Workflow.Brokers;
 
 internal interface IServiceScopeBroker

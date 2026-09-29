@@ -1,3 +1,6 @@
+using System.Net.Http;
+using System.Threading.Tasks;
+
 namespace cCoder.Workflow.Activities.Support;
 
 public static class HttpContentExtensions

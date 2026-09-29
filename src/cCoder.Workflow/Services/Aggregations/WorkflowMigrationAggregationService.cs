@@ -2,12 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Workflow.Brokers.Loggings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.Planning;
 using cCoder.Data.Models.Workflow;
-using cCoder.Workflow.Extensions.OData;
-using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Dependencies.ServiceProviders;

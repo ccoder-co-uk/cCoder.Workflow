@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.Extensions.Configuration;
+
 using Workflow.HostedServices.Models;
 
 namespace Workflow.HostedServices.Extensions;

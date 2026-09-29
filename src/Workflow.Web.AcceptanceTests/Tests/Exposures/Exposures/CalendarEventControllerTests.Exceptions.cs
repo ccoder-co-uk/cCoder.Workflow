@@ -4,22 +4,22 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
+using System;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.OData.Deltas;
-using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class CalendarControllerTests
+public partial class CalendarEventControllerTests
 {
     [Fact]
     public void ShouldReturnServerErrorWhenGetFails()
     {
-        calendarManagerMock.Setup(expression: service => service.GetAll())
+        calendarEventManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.Get(key: 1);
@@ -30,7 +30,7 @@ public partial class CalendarControllerTests
     [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
-        calendarManagerMock.Setup(expression: service => service.GetAll())
+        calendarEventManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -42,11 +42,11 @@ public partial class CalendarControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPostFailsAsync(Exception exception, int expectedStatusCode)
     {
-        Calendar item = new();
-        calendarManagerMock.Setup(expression: service => service.AddCalendarAsync(item))
+        CalendarEvent item = new();
+        calendarEventManagerMock.Setup(expression: service => service.AddCalendarEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newCalendar: item);
+        IActionResult result = await controller.Post(newCalendarEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -55,11 +55,11 @@ public partial class CalendarControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPutFailsAsync(Exception exception, int expectedStatusCode)
     {
-        Calendar item = new();
-        calendarManagerMock.Setup(expression: service => service.UpdateCalendarAsync(item))
+        CalendarEvent item = new();
+        calendarEventManagerMock.Setup(expression: service => service.UpdateCalendarEventAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: 1, updatedCalendar: item);
+        IActionResult result = await controller.Put(key: 1, updatedCalendarEvent: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -68,7 +68,7 @@ public partial class CalendarControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenDeleteFailsAsync(Exception exception, int expectedStatusCode)
     {
-        calendarManagerMock.Setup(expression: service => service.DeleteAsync(calendarId: 1))
+        calendarEventManagerMock.Setup(expression: service => service.DeleteAsync(calendarEventId: 1))
             .Throws(exception: exception);
 
         IActionResult result = await controller.Delete(key: 1);

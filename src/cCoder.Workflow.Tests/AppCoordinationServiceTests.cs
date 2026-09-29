@@ -2,6 +2,12 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using cCoder.Workflow.Models.Results;
+
 #pragma warning disable STXFORMAT005, STXFORMAT009, STXTEST005
 
 using cCoder.Data.Models.CMS;

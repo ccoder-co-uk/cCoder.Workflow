@@ -2,6 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using cCoder.Workflow.Testing;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Web.AcceptanceTests.Models;

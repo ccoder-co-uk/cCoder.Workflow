@@ -2,9 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+
 using cCoder.Data.Models.Planning;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Foundations;

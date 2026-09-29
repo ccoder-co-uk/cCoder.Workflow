@@ -4,26 +4,25 @@
 
 #pragma warning disable STXFORMAT005, STXFORMAT008, STXFORMAT009, STXTEST005
 
+using System;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Planning;
-using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.OData.Deltas;
-using Moq;
 using Xunit;
 
 namespace cCoder.Core.Services.Tests.Workflow.Exposures;
 
-public partial class FlowInstanceDataControllerTests
+public partial class CalendarControllerTests
 {
     [Fact]
     public void ShouldReturnServerErrorWhenGetFails()
     {
-        flowInstanceDataManagerMock.Setup(expression: service => service.GetAll())
+        calendarManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
-        IActionResult result = controller.Get(key: Guid.Empty);
+        IActionResult result = controller.Get(key: 1);
 
         result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(500);
     }
@@ -31,7 +30,7 @@ public partial class FlowInstanceDataControllerTests
     [Fact]
     public void ShouldReturnServerErrorWhenGetAllFails()
     {
-        flowInstanceDataManagerMock.Setup(expression: service => service.GetAll())
+        calendarManagerMock.Setup(expression: service => service.GetAll())
             .Throws(exception: new Exception());
 
         IActionResult result = controller.GetAll(queryOptions: null);
@@ -43,11 +42,11 @@ public partial class FlowInstanceDataControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPostFailsAsync(Exception exception, int expectedStatusCode)
     {
-        FlowInstanceData item = new();
-        flowInstanceDataManagerMock.Setup(expression: service => service.AddFlowInstanceDataAsync(item))
+        Calendar item = new();
+        calendarManagerMock.Setup(expression: service => service.AddCalendarAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Post(newFlowInstanceData: item);
+        IActionResult result = await controller.Post(newCalendar: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -56,11 +55,11 @@ public partial class FlowInstanceDataControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenPutFailsAsync(Exception exception, int expectedStatusCode)
     {
-        FlowInstanceData item = new();
-        flowInstanceDataManagerMock.Setup(expression: service => service.UpdateFlowInstanceDataAsync(item))
+        Calendar item = new();
+        calendarManagerMock.Setup(expression: service => service.UpdateCalendarAsync(item))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Put(key: Guid.Empty, updatedFlowInstanceData: item);
+        IActionResult result = await controller.Put(key: 1, updatedCalendar: item);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }
@@ -69,10 +68,10 @@ public partial class FlowInstanceDataControllerTests
     [MemberData(nameof(FailureExceptions))]
     public async Task ShouldReturnServerErrorWhenDeleteFailsAsync(Exception exception, int expectedStatusCode)
     {
-        flowInstanceDataManagerMock.Setup(expression: service => service.DeleteAsync(flowInstanceDataId: Guid.Empty))
+        calendarManagerMock.Setup(expression: service => service.DeleteAsync(calendarId: 1))
             .Throws(exception: exception);
 
-        IActionResult result = await controller.Delete(key: Guid.Empty);
+        IActionResult result = await controller.Delete(key: 1);
 
         result.Should().BeAssignableTo<IStatusCodeActionResult>().Which.StatusCode.Should().Be(expectedStatusCode);
     }

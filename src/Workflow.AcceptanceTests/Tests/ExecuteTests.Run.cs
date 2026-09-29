@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+
 using System.Net;
 using cCoder.Workflow.Activities.Models;
 using FluentAssertions;

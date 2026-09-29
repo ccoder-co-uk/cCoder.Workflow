@@ -2,7 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using System;
 using cCoder.Data.Brokers;
 using cCoder.Data.Models;
 using cCoder.Data.Models.CMS;
@@ -14,7 +17,6 @@ using cCoder.Data.Models.Logging;
 using cCoder.Data.Models.Mail;
 using cCoder.Data.Models.Security;
 using cCoder.Workflow.Extensions.OData;
-using cCoder.Workflow.Models.OData;
 using cCoder.Workflow.Models;
 using cCoder.Workflow.Brokers;
 using cCoder.Workflow.Brokers.Events;
@@ -22,7 +24,6 @@ using cCoder.Workflow.Brokers.OData;
 using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
-using cCoder.Workflow.Exposures.Controllers;
 using cCoder.Workflow.Exposures.HostedServices;
 using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Dependencies.ServiceProviders;
@@ -33,12 +34,7 @@ using cCoder.Workflow.Services.Orchestrations;
 using cCoder.Workflow.Services.Processings;
 using cCoder.Workflow.Services.Foundations;
 using cCoder.Eventing;
-using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Batch;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using Microsoft.OpenApi;
 using IAuthorizationBroker = cCoder.Workflow.Brokers.IAuthorizationBroker;
 using IJsonBroker = cCoder.Workflow.Brokers.IJsonBroker;
 using DataFile = cCoder.Data.Models.DMS.File;
