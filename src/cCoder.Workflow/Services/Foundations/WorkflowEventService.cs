@@ -160,7 +160,7 @@ internal sealed partial class WorkflowEventService(
         {
             ValidateSubscriptionsOnGet(inputs: [appId, eventContext]);
 
-            return workflowEventBroker.SelectWorkflowEventSubscriptions(
+            return workflowEventBroker.SelectSubscribedWorkflowEvents(
                 appId: appId,
                 eventContext: eventContext);
         });

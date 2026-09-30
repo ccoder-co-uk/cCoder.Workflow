@@ -15,7 +15,7 @@ public interface IWorkflowEventBroker
 
     IQueryable<WorkflowEvent> SelectAllWorkflowEventsIgnoringQueryFilters();
 
-    WorkflowEvent[] SelectWorkflowEventSubscriptions(int appId, string eventContext);
+    WorkflowEvent[] SelectSubscribedWorkflowEvents(int appId, string eventContext);
 
     ValueTask<WorkflowEvent> AddWorkflowEventAsync(WorkflowEvent newWorkflowEvent);
 

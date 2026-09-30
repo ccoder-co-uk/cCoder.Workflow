@@ -59,13 +59,13 @@ internal sealed partial class WorkflowEventOrchestrationService(
             return processingService.SerializeWorkflowEventPayload(payload: payload);
         });
 
-    public ValueTask<WorkflowEvent[]> GetWorkflowEventSubscriptionsAsync(
+    public ValueTask<WorkflowEvent[]> GetSubscribedWorkflowEventsAsync(
         int appId,
         string eventContext) =>
         TryCatch(
             operation: async () =>
             {
-                ValidateWorkflowEventSubscriptionsOnGet(inputs: [appId, eventContext]);
+                ValidateSubscribedWorkflowEventsOnGet(inputs: [appId, eventContext]);
 
                 return await processingService.GetSubscriptionsAsync(
                     appId: appId,

@@ -22,7 +22,7 @@ internal sealed class WorkflowEventBroker(ICoreContextFactory coreContextFactory
             .WorflowEvents
             .IgnoreQueryFilters();
 
-    public WorkflowEvent[] SelectWorkflowEventSubscriptions(
+    public WorkflowEvent[] SelectSubscribedWorkflowEvents(
         int appId,
         string eventContext) =>
         coreContextFactory.CreateCoreContext()

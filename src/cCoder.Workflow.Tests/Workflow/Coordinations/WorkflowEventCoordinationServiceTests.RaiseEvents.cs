@@ -30,7 +30,7 @@ public partial class WorkflowEventCoordinationServiceTests
             .Returns(value: (page.AppId, $"page_update{page.Path}"));
 
         workflowEventOrchestrationServiceMock
-            .Setup(expression: x => x.GetWorkflowEventSubscriptionsAsync(
+            .Setup(expression: x => x.GetSubscribedWorkflowEventsAsync(
                 appId: page.AppId,
                 eventContext: $"page_update{page.Path}"))
             .ReturnsAsync(value: [subscription]);
@@ -58,7 +58,7 @@ public partial class WorkflowEventCoordinationServiceTests
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.Verify(
-            expression: x => x.GetWorkflowEventSubscriptionsAsync(
+            expression: x => x.GetSubscribedWorkflowEventsAsync(
                 appId: page.AppId,
                 eventContext: $"page_update{page.Path}"),
             times: Times.Once);

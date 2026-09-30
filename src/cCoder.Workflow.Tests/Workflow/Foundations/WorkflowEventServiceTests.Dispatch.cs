@@ -129,7 +129,7 @@ public partial class WorkflowEventServiceTests
         // Given
         WorkflowEvent[] expected = [CreateRandomWorkflowEvent()];
 
-        workflowEventBrokerMock.Setup(expression: broker => broker.SelectWorkflowEventSubscriptions(
+        workflowEventBrokerMock.Setup(expression: broker => broker.SelectSubscribedWorkflowEvents(
             appId: 5,
             eventContext: "page_update/home"))
             .Returns(value: expected);
