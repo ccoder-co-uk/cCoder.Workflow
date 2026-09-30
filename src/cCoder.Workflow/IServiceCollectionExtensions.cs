@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using System;
+using System.Net;
+using System.Net.Http;
 using cCoder.Data.Brokers;
 using cCoder.Data.Models;
 using cCoder.Data.Models.CMS;
@@ -25,7 +27,6 @@ using cCoder.Workflow.Brokers.Storage;
 using cCoder.Workflow.Brokers.ServiceProviders;
 using cCoder.Workflow.Exposures;
 using cCoder.Workflow.Exposures.HostedServices;
-using cCoder.Workflow.Dependencies;
 using cCoder.Workflow.Dependencies.ServiceProviders;
 using cCoder.Workflow.Services.Aggregations;
 using cCoder.Workflow.Services.Coordinations;
@@ -162,7 +163,14 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddBrokers(this IServiceCollection services)
     {
-        services.AddTransient<WorkflowHttpClientDependency>();
+        services.AddHttpClient(name: nameof(WorkflowHttpClientBroker))
+            .ConfigurePrimaryHttpMessageHandler(
+                static () => new HttpClientHandler
+                {
+                    AutomaticDecompression =
+                        DecompressionMethods.GZip |
+                        DecompressionMethods.Deflate
+                });
         services.AddTransient<Brokers.Loggings.ILoggingBroker, Brokers.Loggings.LoggingBroker>();
         services.AddTransient<IServiceScopeBroker, ServiceScopeBroker>();
         services.AddTransient<IWorkflowHubBroker, WorkflowHubBroker>();

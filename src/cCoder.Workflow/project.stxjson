@@ -5347,11 +5347,18 @@
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
-              "MethodName": "PostTextAsync",
-              "MethodId": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency.PostTextAsync(System.String,System.TimeSpan,System.String,System.String)",
+              "TypeName": "System.Net.Http.IHttpClientFactory",
+              "MethodName": "CreateClient",
+              "MethodId": "System.Net.Http.IHttpClientFactory.CreateClient(System.String)",
               "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Uri",
+              "MethodName": ".ctor",
+              "MethodId": "System.Uri..ctor(System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [],
@@ -6555,125 +6562,6 @@
           "ThrowsExceptionTypes": [
             "System.NotImplementedException"
           ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency",
-      "StandardElementType": "Dependency",
-      "LineNumber": 14,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "System.Private.CoreLib:System.IDisposable",
-          "FullName": "System.IDisposable",
-          "Name": "IDisposable",
-          "Namespace": "System",
-          "AssemblyName": "System.Private.CoreLib",
-          "Kind": "Interface",
-          "IsInCurrentProject": false,
-          "StandardElementType": "Dependency"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency.Dispose()",
-          "Name": "Dispose",
-          "LineNumber": 41,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "System.IDisposable.Dispose()"
-          ],
-          "Calls": [
-            {
-              "TypeName": "System.Net.Http.HttpMessageInvoker",
-              "MethodName": "Dispose",
-              "MethodId": "System.Net.Http.HttpMessageInvoker.Dispose()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency.PostTextAsync(System.String,System.TimeSpan,System.String,System.String)",
-          "Name": "PostTextAsync",
-          "LineNumber": 22,
-          "Inputs": [
-            {
-              "Name": "apiRoot",
-              "Type": "System.String"
-            },
-            {
-              "Name": "timeout",
-              "Type": "System.TimeSpan"
-            },
-            {
-              "Name": "requestUri",
-              "Type": "System.String"
-            },
-            {
-              "Name": "content",
-              "Type": "System.String"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.String\u003E",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "System.Net.Http.HttpClient",
-              "MethodName": "PostAsync",
-              "MethodId": "System.Net.Http.HttpClient.PostAsync(System.String?,System.Net.Http.HttpContent?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Net.Http.HttpContent",
-              "MethodName": "ReadAsStringAsync",
-              "MethodId": "System.Net.Http.HttpContent.ReadAsStringAsync()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Net.Http.StringContent",
-              "MethodName": ".ctor",
-              "MethodId": "System.Net.Http.StringContent..ctor(System.String,System.Text.Encoding?,System.String?)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Uri",
-              "MethodName": ".ctor",
-              "MethodId": "System.Uri..ctor(System.String)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
           "HttpMethods": [],
           "HttpResponses": [],
           "IsHttpRequestHandler": false,
@@ -12331,7 +12219,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E)",
           "Name": "AddWorkflowHostedServices",
-          "LineNumber": 81,
+          "LineNumber": 82,
           "Inputs": [
             {
               "Name": "services",
@@ -12375,7 +12263,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Workflow.Models.WorkflowConfiguration)",
           "Name": "AddWorkflowHostedServices",
-          "LineNumber": 90,
+          "LineNumber": 91,
           "Inputs": [
             {
               "Name": "services",
@@ -12412,7 +12300,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action\u003CcCoder.Workflow.Models.WorkflowConfiguration\u003E,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
           "Name": "AddWorkflowWeb",
-          "LineNumber": 47,
+          "LineNumber": 48,
           "Inputs": [
             {
               "Name": "services",
@@ -12460,7 +12348,7 @@
         {
           "Id": "cCoder.Workflow.IServiceCollectionExtensions.AddWorkflowWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Workflow.Models.WorkflowConfiguration,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
           "Name": "AddWorkflowWeb",
-          "LineNumber": 57,
+          "LineNumber": 58,
           "Inputs": [
             {
               "Name": "services",
@@ -39022,7 +38910,7 @@
     },
     {
       "FromType": "cCoder.Workflow.Brokers.WorkflowHttpClientBroker",
-      "ToType": "cCoder.Workflow.Dependencies.WorkflowHttpClientDependency"
+      "ToType": "System.Net.Http.IHttpClientFactory"
     },
     {
       "FromType": "cCoder.Workflow.Brokers.WorkflowHubBroker",

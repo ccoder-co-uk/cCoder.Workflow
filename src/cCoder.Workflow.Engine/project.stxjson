@@ -984,7 +984,7 @@
     {
       "Name": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1005,7 +1005,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)",
           "Name": "GetStringAsync",
-          "LineNumber": 15,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -1024,7 +1024,15 @@
           "Implements": [
             "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.GetStringAsync(System.String,System.String,System.String)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "System.Net.Http.HttpClient",
+              "MethodName": "GetStringAsync",
+              "MethodId": "System.Net.Http.HttpClient.GetStringAsync(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
           "ThrowsExceptionTypes": [],
@@ -1040,7 +1048,7 @@
         {
           "Id": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)",
           "Name": "PutJsonAsync",
-          "LineNumber": 27,
+          "LineNumber": 31,
           "Inputs": [
             {
               "Name": "apiRoot",
@@ -1063,7 +1071,36 @@
           "Implements": [
             "cCoder.Workflow.Engine.Brokers.IWorkflowHttpClientBroker.PutJsonAsync(System.String,System.String,System.String,System.String)"
           ],
-          "Calls": [],
+          "Calls": [
+            {
+              "TypeName": "System.Enum",
+              "MethodName": "ToString",
+              "MethodId": "System.Enum.ToString()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Net.Http.HttpClient",
+              "MethodName": "PutAsync",
+              "MethodId": "System.Net.Http.HttpClient.PutAsync(System.String?,System.Net.Http.HttpContent?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Net.Http.HttpContent",
+              "MethodName": "ReadAsStringAsync",
+              "MethodId": "System.Net.Http.HttpContent.ReadAsStringAsync()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Net.Http.StringContent",
+              "MethodName": ".ctor",
+              "MethodId": "System.Net.Http.StringContent..ctor(System.String,System.Text.Encoding?,System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
           "ThrowsExceptionTypes": [],
@@ -1179,59 +1216,6 @@
             "cCoder.Workflow.Engine.Brokers.IWorkflowHubConnectionBroker.SendAsync(System.String,System.String,System.String)"
           ],
           "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
-      "StandardElementType": "Dependency",
-      "LineNumber": 16,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "System.Private.CoreLib:System.IDisposable",
-          "FullName": "System.IDisposable",
-          "Name": "IDisposable",
-          "Namespace": "System",
-          "AssemblyName": "System.Private.CoreLib",
-          "Kind": "Interface",
-          "IsInCurrentProject": false,
-          "StandardElementType": "Dependency"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency.Dispose()",
-          "Name": "Dispose",
-          "LineNumber": 65,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "System.IDisposable.Dispose()"
-          ],
-          "Calls": [
-            {
-              "TypeName": "System.Net.Http.HttpMessageInvoker",
-              "MethodName": "Dispose",
-              "MethodId": "System.Net.Http.HttpMessageInvoker.Dispose()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
           "ThrowsExceptionTypes": [],
@@ -1540,7 +1524,7 @@
     {
       "Name": "cCoder.Workflow.Engine.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 15,
+      "LineNumber": 18,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -1550,7 +1534,7 @@
         {
           "Id": "cCoder.Workflow.Engine.IServiceCollectionExtensions.AddWorkflowEngineHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)",
           "Name": "AddWorkflowEngineHostedServices",
-          "LineNumber": 17,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "services",
@@ -1561,9 +1545,30 @@
           "Implements": [],
           "Calls": [
             {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions",
+              "MethodName": "ConfigurePrimaryHttpMessageHandler",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions.ConfigurePrimaryHttpMessageHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.Func\u003CSystem.Net.Http.HttpMessageHandler\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.HttpClientFactoryServiceCollectionExtensions",
+              "MethodName": "AddHttpClient",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.HttpClientFactoryServiceCollectionExtensions.AddHttpClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "Microsoft.Extensions.DependencyInjection.LoggingServiceCollectionExtensions",
               "MethodName": "AddLogging",
               "MethodId": "Microsoft.Extensions.DependencyInjection.LoggingServiceCollectionExtensions.AddLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Net.Http.HttpClientHandler",
+              "MethodName": ".ctor",
+              "MethodId": "System.Net.Http.HttpClientHandler..ctor()",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -4657,8 +4662,8 @@
       "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.Workflow.Engine.Brokers.Loggings.LoggingBroker\u003E"
     },
     {
-      "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowHttpClientDependency",
-      "ToType": "System.String"
+      "FromType": "cCoder.Workflow.Engine.Brokers.WorkflowHttpClientBroker",
+      "ToType": "System.Net.Http.IHttpClientFactory"
     },
     {
       "FromType": "cCoder.Workflow.Engine.Dependencies.WorkflowHubConnectionDependency",
