@@ -27,12 +27,12 @@ public partial class WorkflowEventCoordinationServiceTests
                 payload: page,
                 eventName: "page_update",
                 appIdOverride: null))
-            .Returns(value: (page.AppId, $"page_update{page.Path}"));
+            .Returns(value: (page.AppId, $"page_update|{page.Path}"));
 
         workflowEventOrchestrationServiceMock
             .Setup(expression: x => x.GetSubscribedWorkflowEventsAsync(
                 appId: page.AppId,
-                eventContext: $"page_update{page.Path}"))
+                eventContext: $"page_update|{page.Path}"))
             .ReturnsAsync(value: [subscription]);
 
         workflowEventOrchestrationServiceMock
@@ -60,7 +60,7 @@ public partial class WorkflowEventCoordinationServiceTests
         workflowEventOrchestrationServiceMock.Verify(
             expression: x => x.GetSubscribedWorkflowEventsAsync(
                 appId: page.AppId,
-                eventContext: $"page_update{page.Path}"),
+                eventContext: $"page_update|{page.Path}"),
             times: Times.Once);
 
         workflowEventOrchestrationServiceMock.Verify(

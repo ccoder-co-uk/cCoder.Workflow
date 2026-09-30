@@ -17,13 +17,13 @@ public partial class WorkflowEventProcessingServiceTests
     {
         // Given
         WorkflowEvent matchingEvent = CreateRandomWorkflowEvent();
-        matchingEvent.EventContext = "page_update/home";
+        matchingEvent.EventContext = "page_update|home";
         matchingEvent.Flow = new FlowDefinition { AppId = 1 };
 
         workflowEventServiceMock
             .Setup(expression: service => service.GetSubscriptions(
                 appId: 1,
-                eventContext: "page_update/home"))
+                eventContext: "page_update|home"))
             .Returns(value: [matchingEvent]);
 
         workflowEventServiceMock
@@ -34,7 +34,7 @@ public partial class WorkflowEventProcessingServiceTests
         // When
         WorkflowEvent[] result = await workflowEventProcessingService.GetSubscriptionsAsync(
             appId: 1,
-            eventContext: "page_update/home");
+            eventContext: "page_update|home");
 
         // Then
         result
@@ -47,7 +47,7 @@ public partial class WorkflowEventProcessingServiceTests
         workflowEventServiceMock.Verify(
             expression: service => service.GetSubscriptions(
                 appId: 1,
-                eventContext: "page_update/home"),
+                eventContext: "page_update|home"),
             times: Times.Once);
 
         workflowEventServiceMock.Verify(

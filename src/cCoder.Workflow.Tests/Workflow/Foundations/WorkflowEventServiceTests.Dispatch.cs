@@ -20,7 +20,7 @@ public partial class WorkflowEventServiceTests
 
         loggingBrokerMock.Setup(expression: broker => broker.LogDebug(
             message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-            args: new object[] { 7, "page_update/home" }));
+            args: new object[] { 7, "page_update|/home" }));
 
         // When
         (int? AppId, string EventContext) result = workflowEventService.PrepareDispatch(
@@ -30,7 +30,7 @@ public partial class WorkflowEventServiceTests
         // Then
         result
             .Should()
-            .Be(expected: (7, "page_update/home"));
+            .Be(expected: (7, "page_update|/home"));
 
         loggingBrokerMock.VerifyAll();
     }
@@ -43,7 +43,7 @@ public partial class WorkflowEventServiceTests
 
         loggingBrokerMock.Setup(expression: broker => broker.LogDebug(
             message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
-            args: new object[] { 9, "event" }));
+            args: new object[] { 9, "event|" }));
 
         // When
         (int? AppId, string EventContext) result = workflowEventService.PrepareDispatch(
@@ -54,7 +54,34 @@ public partial class WorkflowEventServiceTests
         // Then
         result
             .Should()
-            .Be(expected: (9, "event"));
+            .Be(expected: (9, "event|"));
+
+        loggingBrokerMock.VerifyAll();
+    }
+
+    [Fact]
+    public void ShouldPrepareFileDispatchFromFolderPath()
+    {
+        // Given
+        var payload = new
+        {
+            AppId = 21,
+            Path = "data/masterdata/received/file.csv"
+        };
+
+        loggingBrokerMock.Setup(expression: broker => broker.LogDebug(
+            message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+            args: new object[] { 21, "file_add|data/masterdata/received" }));
+
+        // When
+        (int? AppId, string EventContext) result = workflowEventService.PrepareDispatch(
+            payload: payload,
+            eventName: "file_add");
+
+        // Then
+        result
+            .Should()
+            .Be(expected: (21, "file_add|data/masterdata/received"));
 
         loggingBrokerMock.VerifyAll();
     }
@@ -131,13 +158,13 @@ public partial class WorkflowEventServiceTests
 
         workflowEventBrokerMock.Setup(expression: broker => broker.SelectSubscribedWorkflowEvents(
             appId: 5,
-            eventContext: "page_update/home"))
+            eventContext: "page_update|home"))
             .Returns(value: expected);
 
         // When
         WorkflowEvent[] result = workflowEventService.GetSubscriptions(
             appId: 5,
-            eventContext: "page_update/home");
+            eventContext: "page_update|home");
 
         // Then
         result
