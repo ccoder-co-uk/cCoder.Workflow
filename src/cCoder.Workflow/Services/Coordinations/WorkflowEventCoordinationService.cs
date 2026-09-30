@@ -34,7 +34,7 @@ internal sealed partial class WorkflowEventCoordinationService(
         }
 
         WorkflowEvent[] subscriptions =
-            await workflowEventOrchestrationService.GetWorkflowEventSubscriptionsAsync(
+            await workflowEventOrchestrationService.GetSubscribedWorkflowEventsAsync(
                 appId: appId.Value,
                 eventContext: eventContext);
 

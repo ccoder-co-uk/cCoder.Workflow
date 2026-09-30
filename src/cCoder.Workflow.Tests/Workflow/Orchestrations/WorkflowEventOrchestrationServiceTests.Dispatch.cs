@@ -61,7 +61,7 @@ public partial class WorkflowEventOrchestrationServiceTests
     }
 
     [Fact]
-    public async Task ShouldGetWorkflowEventSubscriptionsAsync()
+    public async Task ShouldGetSubscribedWorkflowEventsAsync()
     {
         // Given
         WorkflowEvent[] expected = [CreateRandomWorkflowEvent()];
@@ -74,7 +74,7 @@ public partial class WorkflowEventOrchestrationServiceTests
 
         // When
         WorkflowEvent[] actual = await orchestrationService
-            .GetWorkflowEventSubscriptionsAsync(appId: 7, eventContext: "event");
+            .GetSubscribedWorkflowEventsAsync(appId: 7, eventContext: "event");
 
         // Then
         actual.Should().BeSameAs(expected: expected);

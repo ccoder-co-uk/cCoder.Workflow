@@ -20,7 +20,7 @@ public interface IWorkflowEventManager : IControllerErrorLogger
 
     string SerializeWorkflowEventPayload(object payload);
 
-    ValueTask<WorkflowEvent[]> GetWorkflowEventSubscriptionsAsync(
+    ValueTask<WorkflowEvent[]> GetSubscribedWorkflowEventsAsync(
         int appId,
         string eventContext);
 

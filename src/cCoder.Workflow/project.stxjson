@@ -261,8 +261,8 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Data.Brokers.WorkflowEventBroker.SelectWorkflowEventSubscriptions(System.Int32,System.String)",
-          "Name": "SelectWorkflowEventSubscriptions",
+          "Id": "cCoder.Data.Brokers.WorkflowEventBroker.SelectSubscribedWorkflowEvents(System.Int32,System.String)",
+          "Name": "SelectSubscribedWorkflowEvents",
           "LineNumber": 25,
           "Inputs": [
             {
@@ -276,7 +276,7 @@
           ],
           "ReturnType": "cCoder.Data.Models.Workflow.WorkflowEvent[]",
           "Implements": [
-            "cCoder.Data.Brokers.IWorkflowEventBroker.SelectWorkflowEventSubscriptions(System.Int32,System.String)"
+            "cCoder.Data.Brokers.IWorkflowEventBroker.SelectSubscribedWorkflowEvents(System.Int32,System.String)"
           ],
           "Calls": [
             {
@@ -18787,8 +18787,8 @@
           "Calls": [
             {
               "TypeName": "cCoder.Data.Brokers.IWorkflowEventBroker",
-              "MethodName": "SelectWorkflowEventSubscriptions",
-              "MethodId": "cCoder.Data.Brokers.IWorkflowEventBroker.SelectWorkflowEventSubscriptions(System.Int32,System.String)",
+              "MethodName": "SelectSubscribedWorkflowEvents",
+              "MethodId": "cCoder.Data.Brokers.IWorkflowEventBroker.SelectSubscribedWorkflowEvents(System.Int32,System.String)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             }
@@ -22800,8 +22800,8 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService.GetWorkflowEventSubscriptionsAsync(System.Int32,System.String)",
-          "Name": "GetWorkflowEventSubscriptionsAsync",
+          "Id": "cCoder.Workflow.Services.Orchestrations.WorkflowEventOrchestrationService.GetSubscribedWorkflowEventsAsync(System.Int32,System.String)",
+          "Name": "GetSubscribedWorkflowEventsAsync",
           "LineNumber": 62,
           "Inputs": [
             {
@@ -22815,7 +22815,7 @@
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Workflow.WorkflowEvent[]\u003E",
           "Implements": [
-            "cCoder.Workflow.Exposures.IWorkflowEventManager.GetWorkflowEventSubscriptionsAsync(System.Int32,System.String)"
+            "cCoder.Workflow.Exposures.IWorkflowEventManager.GetSubscribedWorkflowEventsAsync(System.Int32,System.String)"
           ],
           "Calls": [
             {
@@ -27536,8 +27536,8 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Data.Brokers.IWorkflowEventBroker.SelectWorkflowEventSubscriptions(System.Int32,System.String)",
-          "Name": "SelectWorkflowEventSubscriptions",
+          "Id": "cCoder.Data.Brokers.IWorkflowEventBroker.SelectSubscribedWorkflowEvents(System.Int32,System.String)",
+          "Name": "SelectSubscribedWorkflowEvents",
           "LineNumber": 18,
           "Inputs": [
             {
@@ -32355,8 +32355,8 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.Workflow.Exposures.IWorkflowEventManager.GetWorkflowEventSubscriptionsAsync(System.Int32,System.String)",
-          "Name": "GetWorkflowEventSubscriptionsAsync",
+          "Id": "cCoder.Workflow.Exposures.IWorkflowEventManager.GetSubscribedWorkflowEventsAsync(System.Int32,System.String)",
+          "Name": "GetSubscribedWorkflowEventsAsync",
           "LineNumber": 23,
           "Inputs": [
             {

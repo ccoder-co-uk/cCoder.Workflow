@@ -9,7 +9,7 @@ internal sealed partial class WorkflowEventOrchestrationService
     private static void ValidateInputs(params object[] inputs) =>
         Validate(inputs: inputs);
 
-    private static void ValidateWorkflowEventSubscriptionsOnGet(params object[] inputs) =>
+    private static void ValidateSubscribedWorkflowEventsOnGet(params object[] inputs) =>
         Validate(inputs: inputs);
 
     private static void ValidateAllOnGet(params object[] inputs) =>
