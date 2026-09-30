@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Net;
+using System.Net.Http;
+using cCoder.Workflow.Activities.Support;
 using cCoder.Workflow.Engine.Brokers;
 using cCoder.Workflow.Engine.Exposures;
 using cCoder.Workflow.Engine.Services.Orchestrations;
@@ -18,6 +21,16 @@ public static class IServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddLogging();
+        services.AddHttpClient(name: nameof(WorkflowHttpClientBroker))
+            .ConfigurePrimaryHttpMessageHandler(
+                static () => new HttpClientHandler
+                {
+                    AutomaticDecompression =
+                        DecompressionMethods.GZip |
+                        DecompressionMethods.Deflate,
+                    ServerCertificateCustomValidationCallback =
+                        CertChainValidator.ValidateCertChain
+                });
         services.AddBrokers();
         services.AddOrchestrations();
         services.AddFoundations();
