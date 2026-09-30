@@ -20,13 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.12" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
     <PackageReference Include="cCoder.Data" Version="2026.9.30.925" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.9.30.924" />
-    <PackageReference Include="cCoder.Eventing.Http" Version="2026.9.30.924" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.9.30.1112" />
+    <PackageReference Include="cCoder.Eventing.Http" Version="2026.9.30.1112" />
     <PackageReference Include="cCoder.Security.Data" Version="2026.9.30.955" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="cCoder.Security" Version="2026.9.30.955" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>

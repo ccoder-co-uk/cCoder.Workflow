@@ -24,7 +24,7 @@ public partial class WorkflowEventProcessingServiceTests
                 payload: payload,
                 eventName: "page_update",
                 appIdOverride: null))
-            .Returns(value: (7, "page_update/home"));
+            .Returns(value: (7, "page_update|/home"));
 
         // When
         (int? AppId, string EventContext) result = workflowEventProcessingService
@@ -37,7 +37,7 @@ public partial class WorkflowEventProcessingServiceTests
             .Be(expected: 7);
 
         result.EventContext.Should()
-            .Be(expected: "page_update/home");
+            .Be(expected: "page_update|/home");
 
         workflowEventServiceMock.VerifyAll();
     }
@@ -53,7 +53,7 @@ public partial class WorkflowEventProcessingServiceTests
                 payload: payload,
                 eventName: "event",
                 appIdOverride: 9))
-            .Returns(value: (9, "event"));
+            .Returns(value: (9, "event|"));
 
         // When
         (int? AppId, string EventContext) result = workflowEventProcessingService
@@ -67,7 +67,7 @@ public partial class WorkflowEventProcessingServiceTests
             .Be(expected: 9);
 
         result.EventContext.Should()
-            .Be(expected: "event");
+            .Be(expected: "event|");
 
         workflowEventServiceMock.VerifyAll();
     }

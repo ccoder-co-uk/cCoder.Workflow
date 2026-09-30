@@ -51,7 +51,7 @@ public partial class WorkflowEventCoordinationServiceTests
         {
             Id = Guid.NewGuid(),
             Type = "Any",
-            EventContext = $"page_update{page.Path}",
+            EventContext = $"page_update|{page.Path}",
             FlowId = flowId,
             ExecuteAs = executeAs,
             ExecuteAsUser = new User { Id = executeAs },

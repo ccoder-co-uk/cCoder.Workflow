@@ -32,10 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.Data" Version="2026.9.30.925" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.12" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.9.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.11" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
   <ItemGroup>

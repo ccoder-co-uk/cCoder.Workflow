@@ -41,8 +41,9 @@ internal sealed partial class WorkflowEventService(
         {
             ValidateInputs(inputs: [payload, eventName, appIdOverride]);
             int? appId = appIdOverride ?? GetIntProperty(payload: payload, propertyName: "AppId");
-            string context = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
-            string eventContext = $"{eventName}{context}";
+            string path = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
+            string context = GetEventContext(eventName: eventName, path: path);
+            string eventContext = $"{eventName}|{context}";
 
             loggingBroker.LogDebug(
                 message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
@@ -116,6 +117,21 @@ internal sealed partial class WorkflowEventService(
             instance: payload,
             propertyName: propertyName)?
             .ToString();
+
+    private static string GetEventContext(string eventName, string path)
+    {
+        if (eventName is "file_add" or "file_update" or "file_delete")
+        {
+            int lastSeparator = path.LastIndexOf(value: '/');
+
+            if (lastSeparator >= 0)
+            {
+                return path[..lastSeparator];
+            }
+        }
+
+        return path;
+    }
 
     public WorkflowEvent Get(Guid workflowEventId) =>
         TryCatch(operation: () => { ValidateInputs(inputs: [workflowEventId]); return ExecuteGet(workflowEventId: workflowEventId); });
