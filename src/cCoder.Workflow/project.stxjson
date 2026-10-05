@@ -18352,7 +18352,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.AddWorkflowEventAsync(cCoder.Data.Models.Workflow.WorkflowEvent)",
           "Name": "AddWorkflowEventAsync",
-          "LineNumber": 190,
+          "LineNumber": 212,
           "Inputs": [
             {
               "Name": "newWorkflowEvent",
@@ -18493,7 +18493,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 244,
+          "LineNumber": 266,
           "Inputs": [
             {
               "Name": "workflowEventId",
@@ -18537,7 +18537,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 136,
+          "LineNumber": 158,
           "Inputs": [
             {
               "Name": "workflowEventId",
@@ -18579,7 +18579,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 160,
+          "LineNumber": 182,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -18618,7 +18618,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.GetAppIdForWorkflowEvent(cCoder.Data.Models.Workflow.WorkflowEvent)",
           "Name": "GetAppIdForWorkflowEvent",
-          "LineNumber": 184,
+          "LineNumber": 206,
           "Inputs": [
             {
               "Name": "workflowEvent",
@@ -18657,7 +18657,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.GetSubscriptions(System.Int32,System.String)",
           "Name": "GetSubscriptions",
-          "LineNumber": 174,
+          "LineNumber": 196,
           "Inputs": [
             {
               "Name": "appId",
@@ -18908,7 +18908,7 @@
         {
           "Id": "cCoder.Workflow.Services.Foundations.WorkflowEventService.UpdateWorkflowEventAsync(cCoder.Data.Models.Workflow.WorkflowEvent)",
           "Name": "UpdateWorkflowEventAsync",
-          "LineNumber": 218,
+          "LineNumber": 240,
           "Inputs": [
             {
               "Name": "updatedWorkflowEvent",

@@ -40,7 +40,7 @@ internal sealed partial class WorkflowEventService(
         TryCatch(operation: () =>
         {
             ValidateInputs(inputs: [payload, eventName, appIdOverride]);
-            int? appId = appIdOverride ?? GetIntProperty(payload: payload, propertyName: "AppId");
+            int? appId = appIdOverride ?? GetAppId(payload: payload);
             string path = GetStringProperty(payload: payload, propertyName: "Path") ?? string.Empty;
             string context = GetEventContext(eventName: eventName, path: path);
             string eventContext = $"{eventName}|{context}";
@@ -111,6 +111,28 @@ internal sealed partial class WorkflowEventService(
             propertyName: propertyName) is int value
                 ? value
                 : null);
+
+    private int? GetAppId(object payload)
+    {
+        int? directAppId = GetIntProperty(
+            payload: payload,
+            propertyName: "AppId");
+
+        if (directAppId.HasValue)
+        {
+            return directAppId;
+        }
+
+        object folder = reflectionBroker.GetPropertyValue(
+            instance: payload,
+            propertyName: "Folder");
+
+        return folder is null
+            ? null
+            : GetIntProperty(
+                payload: folder,
+                propertyName: "AppId");
+    }
 
     private string GetStringProperty(object payload, string propertyName) =>
         reflectionBroker.GetPropertyValue(
