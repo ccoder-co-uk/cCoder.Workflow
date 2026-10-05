@@ -28,6 +28,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Workflow.AcceptanceTests\appsettings.testing.json" Link="appsettings.testing.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Workflow.AcceptanceTests\appsettings.testing.json" Link="appsettings.testing.json" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\Workflow.AcceptanceTests\appsettings.testing.json')" />
   </ItemGroup>
 </Project>
