@@ -4,9 +4,11 @@
 
 using System;
 
+using cCoder.Data.Models.DMS;
 using cCoder.Data.Models.Workflow;
 using FluentAssertions;
 using Xunit;
+using DataFile = cCoder.Data.Models.DMS.File;
 
 namespace cCoder.Core.Services.Tests.Workflow.Foundations;
 
@@ -66,6 +68,33 @@ public partial class WorkflowEventServiceTests
         var payload = new
         {
             AppId = 21,
+            Path = "data/masterdata/received/file.csv"
+        };
+
+        loggingBrokerMock.Setup(expression: broker => broker.LogDebug(
+            message: "Workflow trigger event: AppId {AppId}, Context {EventContext}",
+            args: new object[] { 21, "file_add|data/masterdata/received" }));
+
+        // When
+        (int? AppId, string EventContext) result = workflowEventService.PrepareDispatch(
+            payload: payload,
+            eventName: "file_add");
+
+        // Then
+        result
+            .Should()
+            .Be(expected: (21, "file_add|data/masterdata/received"));
+
+        loggingBrokerMock.VerifyAll();
+    }
+
+    [Fact]
+    public void ShouldPrepareFileDispatchFromFolderAppId()
+    {
+        // Given
+        DataFile payload = new()
+        {
+            Folder = new Folder { AppId = 21 },
             Path = "data/masterdata/received/file.csv"
         };
 
