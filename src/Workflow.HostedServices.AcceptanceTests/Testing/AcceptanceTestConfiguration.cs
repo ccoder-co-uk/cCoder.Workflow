@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace cCoder.Workflow.Testing;
 
@@ -27,23 +28,40 @@ internal sealed class AcceptanceTestConfiguration
     {
         string suffix = $"-acceptance-{Guid.NewGuid():N}";
 
+        IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath: AppContext.BaseDirectory)
+            .AddJsonFile(
+                path: "appsettings.testing.json",
+                optional: true)
+            .Build();
+
         return new AcceptanceTestConfiguration(
             coreConnectionString: AddDatabaseSuffix(
                 connectionString: ReadRequiredValue(
+                    configuration: configuration,
+                    configurationKey: "CoreData:ConnectionString",
                     variableName: "CoreData__ConnectionString"),
                 suffix: suffix),
             securityConnectionString: AddDatabaseSuffix(
                 connectionString: ReadRequiredValue(
+                    configuration: configuration,
+                    configurationKey: "SecurityData:ConnectionString",
                     variableName: "SecurityData__ConnectionString"),
                 suffix: suffix),
             securityDecryptionKey: ReadRequiredValue(
+                configuration: configuration,
+                configurationKey: "Security:DecryptionKey",
                 variableName: "Security__DecryptionKey"));
     }
 
-    private static string ReadRequiredValue(string variableName)
+    private static string ReadRequiredValue(
+        IConfiguration configuration,
+        string configurationKey,
+        string variableName)
     {
         string value =
-            Environment.GetEnvironmentVariable(variable: variableName)
+            configuration[configurationKey]
+            ?? Environment.GetEnvironmentVariable(variable: variableName)
             ?? Environment.GetEnvironmentVariable(
                 variable: variableName,
                 target: EnvironmentVariableTarget.User)
@@ -65,11 +83,7 @@ internal sealed class AcceptanceTestConfiguration
         string suffix)
     {
         SqlConnectionStringBuilder builder =
-            new(connectionString: connectionString)
-            {
-                Encrypt = true,
-                TrustServerCertificate = true
-            };
+            new(connectionString: connectionString);
 
         if (string.IsNullOrWhiteSpace(value: builder.InitialCatalog))
         {

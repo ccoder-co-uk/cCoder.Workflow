@@ -144,11 +144,7 @@ END";
     private static SqlConnectionStringBuilder CreateAcceptanceConnectionStringBuilder(
         string connectionString)
     {
-        SqlConnectionStringBuilder builder = new(connectionString)
-        {
-            Encrypt = true,
-            TrustServerCertificate = true,
-        };
+        SqlConnectionStringBuilder builder = new(connectionString);
 
         return builder;
     }
