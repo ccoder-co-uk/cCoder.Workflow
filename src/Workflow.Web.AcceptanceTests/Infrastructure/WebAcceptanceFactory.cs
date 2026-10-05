@@ -10,11 +10,14 @@ using cCoder.Eventing.Models;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Models;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Web.AcceptanceTests.Models;
 
 
@@ -26,6 +29,7 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment(environment: "Acceptance");
+        builder.ConfigureLogging(configureLogging: logging => logging.ClearProviders());
 
         builder.ConfigureAppConfiguration(configureDelegate: (_, config) =>
         {
@@ -51,6 +55,10 @@ initialData: [
 
         builder.ConfigureTestServices(servicesConfiguration: services =>
         {
+            services
+                .AddDataProtection()
+                .UseEphemeralDataProtectionProvider();
+
             services.RemoveAll<ICoreContextFactory>();
             services.RemoveAll<DataConfiguration>();
             services.RemoveAll<EventProvider>();

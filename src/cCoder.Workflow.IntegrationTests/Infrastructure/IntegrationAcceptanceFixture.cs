@@ -135,7 +135,7 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
 
         await workflowApplication.StartAsync(
 fileName: ResolveFuncExecutablePath(),
-arguments: $"start --port {workflowHttpPort} --csharp --no-build",
+arguments: $"start --port {workflowHttpPort} --no-build",
 workingDirectory: workflowOutputDirectory,
 environmentVariables: new Dictionary<string, string>
 {
