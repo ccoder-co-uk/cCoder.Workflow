@@ -32,7 +32,7 @@
     <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurityData=$(UseLocalSecurity)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.9.30.1214" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.10.8.1248" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SSH.NET" Version="2026.0.0" />
   </ItemGroup>

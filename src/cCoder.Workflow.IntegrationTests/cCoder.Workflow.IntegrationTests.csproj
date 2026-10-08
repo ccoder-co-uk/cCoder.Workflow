@@ -6,8 +6,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.AppSecurity" Version="2026.9.30.1231" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.9.30.1202" />
+    <PackageReference Include="cCoder.AppSecurity" Version="2026.10.8.1310" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.10.8.1235" />
     <PackageReference Include="FluentAssertions" Version="8.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.12" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
