@@ -31,7 +31,7 @@
     <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurityData=$(UseLocalSecurity)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.9.30.1214" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.10.8.1248" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.12" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.9.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
