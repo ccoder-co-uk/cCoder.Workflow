@@ -125,7 +125,7 @@ public sealed partial class WorkflowLifecycleOrchestrationServiceTests
     }
 
     [Fact]
-    public async Task RecordFlowExecutionFailureAsync_WhenResultIsMissing_OnlyLogsFailure()
+    public async Task RecordFlowExecutionFailureAsync_WhenResultIsMissing_LogsAndPropagatesFailure()
     {
         // Given
         FlowExecution flowExecution = CreateFlowExecution();
@@ -133,11 +133,16 @@ public sealed partial class WorkflowLifecycleOrchestrationServiceTests
         WorkflowLifecycleOrchestrationService service = CreateService();
 
         // When
-        await service.RecordFlowExecutionFailureAsync(
+        Exception failure = await Record.ExceptionAsync(testCode: async () =>
+            await service.RecordFlowExecutionFailureAsync(
             flowExecution: flowExecution,
-            exception: new Exception(message: "failed"));
+            exception: new Exception(message: "failed")));
 
         // Then
+        Assert.NotNull(@object: failure);
+        AggregateException aggregate = Assert.IsType<AggregateException>(@object: failure.InnerException);
+        Assert.Equal(expected: 2, actual: aggregate.InnerExceptions.Count);
+
         flowResultServiceMock.Verify(expression: dependency =>
             dependency.SaveFlowInstanceDataAsync(
                 flowInstanceData: It.IsAny<FlowInstanceData>(),
@@ -177,11 +182,16 @@ public sealed partial class WorkflowLifecycleOrchestrationServiceTests
         WorkflowLifecycleOrchestrationService service = CreateService();
 
         // When
-        await service.RecordFlowExecutionFailureAsync(
+        Exception failure = await Record.ExceptionAsync(testCode: async () =>
+            await service.RecordFlowExecutionFailureAsync(
             flowExecution: flowExecution,
-            exception: new Exception(message: "execution failed"));
+            exception: new Exception(message: "execution failed")));
 
         // Then
+        Assert.NotNull(@object: failure);
+        AggregateException aggregate = Assert.IsType<AggregateException>(@object: failure.InnerException);
+        Assert.Equal(expected: 2, actual: aggregate.InnerExceptions.Count);
+
         flowCommunicationServiceMock.Verify(expression: dependency =>
             dependency.LogWorkflowRequestAsync(
                 workflowRequest: flowExecution.Request,

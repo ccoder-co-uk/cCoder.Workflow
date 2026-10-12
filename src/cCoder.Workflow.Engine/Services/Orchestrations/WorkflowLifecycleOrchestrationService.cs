@@ -64,6 +64,8 @@ internal sealed partial class WorkflowLifecycleOrchestrationService(
         {
             ValidateInputs(inputs: [flowExecution, exception]);
 
+            Exception persistenceFailure = null;
+
             try
             {
                 await PersistFailureAsync(
@@ -72,24 +74,37 @@ internal sealed partial class WorkflowLifecycleOrchestrationService(
             }
             catch (Exception failurePersistenceException)
             {
-                await flowCommunicationService.LogWorkflowRequestAsync(
-                    workflowRequest: flowExecution.Request,
-                    level: WorkflowLogLevel.Error,
-                    message:
-                        "Workflow failure state could not be persisted."
-                        + Environment.NewLine
-                        + failurePersistenceException.Message);
+                persistenceFailure = failurePersistenceException;
             }
 
-            await flowCommunicationService.LogWorkflowRequestAsync(
-                workflowRequest: flowExecution.Request,
-                level: WorkflowLogLevel.Fatal,
-                message:
-                    "Failed to process request, abandoning execution"
-                    + Environment.NewLine
-                    + exception.Message
-                    + Environment.NewLine
-                    + exception.StackTrace);
+            try
+            {
+                if (persistenceFailure is not null)
+                {
+                    await flowCommunicationService.LogWorkflowRequestAsync(
+                        workflowRequest: flowExecution.Request,
+                        level: WorkflowLogLevel.Error,
+                        message: "Workflow failure state could not be persisted."
+                            + Environment.NewLine + persistenceFailure.Message);
+                }
+
+                await flowCommunicationService.LogWorkflowRequestAsync(
+                    workflowRequest: flowExecution.Request,
+                    level: WorkflowLogLevel.Fatal,
+                    message: "Failed to process request, abandoning execution"
+                        + Environment.NewLine + exception);
+            }
+            catch (Exception loggingFailure)
+            {
+                throw new AggregateException(innerExceptions:
+                    new[] { exception, persistenceFailure, loggingFailure }
+                        .Where(predicate: failure => failure is not null));
+            }
+
+            if (persistenceFailure is not null)
+            {
+                throw new AggregateException(innerExceptions: [exception, persistenceFailure]);
+            }
         });
 
     public ValueTask FinishFlowExecutionAsync(
@@ -110,7 +125,7 @@ internal sealed partial class WorkflowLifecycleOrchestrationService(
     {
         if (flowExecution.Result is null)
         {
-            return;
+            throw new InvalidOperationException(message: "Workflow failure cannot be persisted without its instance.");
         }
 
         WorkflowContext context = DeserializeContext(

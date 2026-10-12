@@ -45,8 +45,6 @@ internal sealed partial class WorkflowRequestCoordinationService(
                     .RecordFlowExecutionFailureAsync(
                         flowExecution: flowExecution,
                         exception: exception);
-
-                throw;
             }
             finally
             {
