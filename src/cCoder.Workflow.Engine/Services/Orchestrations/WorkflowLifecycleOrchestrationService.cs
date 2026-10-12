@@ -169,7 +169,7 @@ internal sealed partial class WorkflowLifecycleOrchestrationService(
     {
         if (string.IsNullOrWhiteSpace(value: contextString))
         {
-            return new WorkflowContext { ExecutionLog = [] };
+            return null;
         }
 
         try

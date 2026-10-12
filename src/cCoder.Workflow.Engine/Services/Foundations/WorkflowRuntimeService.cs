@@ -68,14 +68,14 @@ internal sealed partial class WorkflowRuntimeService(
                 ?? throw new InvalidOperationException(
                     "Workflow context response was empty.");
         }
-        catch
+        catch (Exception exception)
         {
             await LogFlowExecutionAsync(
                 flowExecution: flowExecution,
                 level: WorkflowLogLevel.Error,
                 message:
                     $"Failed to deserialize flow context:"
-                    + $"{Environment.NewLine}{rawContext}");
+                    + $"{Environment.NewLine}{exception}");
 
             throw;
         }
