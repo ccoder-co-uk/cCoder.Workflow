@@ -48,7 +48,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     {
         // Given
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
                 flowInstanceDataId: It.IsAny<Guid>(),
                 cancellationToken: It.IsAny<CancellationToken>()))
             .Throws(exception: exception);
@@ -73,6 +73,8 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public async Task ShouldStopContinuousMaintenanceWhenCancelledAsync()
     {
         // Given
+        SetupNoExpiredInstances();
+
         using CancellationTokenSource cancellation = new();
         cancellation.Cancel();
 

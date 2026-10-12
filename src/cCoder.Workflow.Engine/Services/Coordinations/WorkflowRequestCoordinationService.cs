@@ -29,6 +29,8 @@ internal sealed partial class WorkflowRequestCoordinationService(
                 .StartFlowExecutionAsync(
                     flowExecution: flowExecution);
 
+            bool attemptConflict = false;
+
             try
             {
                 flowExecution = await flowExecutionOrchestrationService
@@ -39,6 +41,10 @@ internal sealed partial class WorkflowRequestCoordinationService(
                     .SaveFlowExecutionAsync(
                         flowExecution: flowExecution);
             }
+            catch (Exception exception) when (IsAttemptConflict(exception: exception))
+            {
+                attemptConflict = true;
+            }
             catch (Exception exception)
             {
                 await workflowLifecycleOrchestrationService
@@ -48,11 +54,28 @@ internal sealed partial class WorkflowRequestCoordinationService(
             }
             finally
             {
-                await workflowLifecycleOrchestrationService
-                    .FinishFlowExecutionAsync(
-                        flowExecution: flowExecution);
+                if (!attemptConflict)
+                {
+                    await workflowLifecycleOrchestrationService
+                        .FinishFlowExecutionAsync(flowExecution: flowExecution);
+                }
             }
         });
+
+    private static bool IsAttemptConflict(Exception exception)
+    {
+        while (exception is not null)
+        {
+            if (exception is WorkflowAttemptConflictException)
+            {
+                return true;
+            }
+
+            exception = exception.InnerException;
+        }
+
+        return false;
+    }
 
     private static FlowExecution CreateFlowExecution(
         WorkflowRequest workflowRequest) =>

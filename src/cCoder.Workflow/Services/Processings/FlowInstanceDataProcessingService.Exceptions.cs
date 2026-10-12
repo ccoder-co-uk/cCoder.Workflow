@@ -30,6 +30,7 @@ internal sealed partial class FlowInstanceDataProcessingService
         {
             throw new WorkflowValidationException(innerException: innerException);
         }
+        catch (cCoder.Workflow.Activities.Models.WorkflowAttemptConflictException) { throw; }
         catch (InvalidOperationException innerException)
         {
             throw new WorkflowDependencyException(innerException: innerException);
@@ -64,6 +65,7 @@ internal sealed partial class FlowInstanceDataProcessingService
         {
             throw new WorkflowValidationException(innerException: innerException);
         }
+        catch (cCoder.Workflow.Activities.Models.WorkflowAttemptConflictException) { throw; }
         catch (InvalidOperationException innerException)
         {
             throw new WorkflowDependencyException(innerException: innerException);
@@ -98,6 +100,7 @@ internal sealed partial class FlowInstanceDataProcessingService
         {
             throw new WorkflowValidationException(innerException: innerException);
         }
+        catch (cCoder.Workflow.Activities.Models.WorkflowAttemptConflictException) { throw; }
         catch (InvalidOperationException innerException)
         {
             throw new WorkflowDependencyException(innerException: innerException);

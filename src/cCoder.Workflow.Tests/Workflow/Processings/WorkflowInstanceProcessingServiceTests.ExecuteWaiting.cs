@@ -24,10 +24,10 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         Guid instanceId = Guid.NewGuid();
 
         workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: 0);
+            .ReturnsAsync(value: (FlowInstanceData)null);
 
         // When
         await processingService.ExecuteWaitingQueuedInstanceByIdAsync(
@@ -35,7 +35,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
 
         // Then
         workflowInstanceManagementBrokerMock.Verify(
-            expression: broker => broker.UpdateQueuedInstanceClaimAsync(
+            expression: broker => broker.SelectClaimedInstanceAsync(
                 flowInstanceDataId: instanceId,
                 cancellationToken: It.IsAny<CancellationToken>()),
             times: Times.Once);
@@ -45,20 +45,10 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public async Task ShouldMarkClaimedWorkflowInstanceFailedWhenTokenIssueFailsAsync()
     {
         // Given
-        FlowInstanceData instance = CreateAwaitingExecutionFlowInstanceData();
+        FlowInstanceData instance = CreateQueuedFlowInstanceData();
         Exception exception = new(message: "Token issue failed");
 
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
-                flowInstanceDataId: instance.Id,
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: 1);
-
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
-                flowInstanceDataId: instance.Id,
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: instance);
+        SetupQueuedClaim(instance: instance);
 
         tokenManagerMock
             .Setup(expression: manager => manager.IssueTokenAsync(
@@ -86,19 +76,9 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public async Task ShouldRaiseWorkflowExecuteEventForClaimedInstanceAsync()
     {
         // Given
-        FlowInstanceData instance = CreateAwaitingExecutionFlowInstanceData();
+        FlowInstanceData instance = CreateQueuedFlowInstanceData();
 
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
-                flowInstanceDataId: instance.Id,
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: 1);
-
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
-                flowInstanceDataId: instance.Id,
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: instance);
+        SetupQueuedClaim(instance: instance);
 
         tokenManagerMock
             .Setup(expression: manager => manager.IssueTokenAsync(
@@ -131,20 +111,10 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public async Task ShouldLogWhenWorkflowEventPublishFailsAsync()
     {
         // Given
-        FlowInstanceData instance = CreateAwaitingExecutionFlowInstanceData();
+        FlowInstanceData instance = CreateQueuedFlowInstanceData();
         Exception exception = new(message: "Service Bus publish failed");
 
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.UpdateQueuedInstanceClaimAsync(
-                flowInstanceDataId: instance.Id,
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: 1);
-
-        workflowInstanceManagementBrokerMock
-            .Setup(expression: broker => broker.SelectClaimedInstanceAsync(
-                flowInstanceDataId: instance.Id,
-                cancellationToken: It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: instance);
+        SetupQueuedClaim(instance: instance);
 
         tokenManagerMock
             .Setup(expression: manager => manager.IssueTokenAsync(

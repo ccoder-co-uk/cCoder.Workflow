@@ -18,6 +18,10 @@ public interface IFlowInstanceDataBroker
 
     ValueTask<FlowInstanceData> AddFlowInstanceDataAsync(FlowInstanceData newFlowInstanceData);
 
+    ValueTask<FlowInstanceData> SelectFlowInstanceDataByIdAsync(System.Guid instanceId);
+
+    ValueTask<int> CompareExchangeFlowInstanceDataAsync(cCoder.Workflow.Models.WorkflowInstanceExchange workflowInstanceExchange);
+
     ValueTask<FlowInstanceData> UpdateFlowInstanceDataAsync(FlowInstanceData updatedFlowInstanceData);
 
     ValueTask<int> DeleteFlowInstanceDataAsync(FlowInstanceData deletedFlowInstanceData);

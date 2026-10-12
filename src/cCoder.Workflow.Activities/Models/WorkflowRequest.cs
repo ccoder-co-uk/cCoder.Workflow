@@ -10,6 +10,8 @@ public class WorkflowRequest
 
     public Guid InstanceId { get; set; }
 
+    public Guid? ExecutionAttemptId { get; set; }
+
     public string AuthToken { get; set; }
 
     public WorkflowRequest() { }

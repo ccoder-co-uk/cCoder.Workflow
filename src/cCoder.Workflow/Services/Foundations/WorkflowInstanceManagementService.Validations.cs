@@ -6,6 +6,9 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class WorkflowInstanceManagementService
 {
+    private static void ValidateExpiredFlowInstanceDataOnGet(params object[] inputs) =>
+        Validate(inputs: inputs);
+
     private static void ValidateInputs(params object[] inputs) =>
         Validate(inputs: inputs);
 

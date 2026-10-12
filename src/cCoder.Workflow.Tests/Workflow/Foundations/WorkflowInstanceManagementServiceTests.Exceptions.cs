@@ -32,7 +32,8 @@ public sealed partial class WorkflowInstanceManagementServiceTests
             .Throws(exception: exception);
 
         var service = new WorkflowInstanceManagementService(
-            workflowInstanceManagementBroker: brokerMock.Object);
+            workflowInstanceManagementBroker: brokerMock.Object,
+                jsonBroker: new cCoder.Workflow.Brokers.JsonBroker());
 
         // When
         Action action = () => service.GetFailedExecutionStats();

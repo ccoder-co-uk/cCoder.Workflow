@@ -13,6 +13,10 @@ public class WorkflowContext
 
     public Guid InstanceId { get; set; }
 
+    public Guid? ExecutionAttemptId { get; set; }
+
+    public Guid? ExecutionOwnerId { get; set; }
+
     public Flow Flow { get; set; }
 
     public IDictionary<string, object> Variables { get; set; }

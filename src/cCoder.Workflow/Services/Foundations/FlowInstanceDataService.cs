@@ -17,7 +17,8 @@ namespace cCoder.Workflow.Services.Foundations;
 internal sealed partial class FlowInstanceDataService(
     IFlowInstanceDataBroker flowInstanceDataBroker,
     IAuthorizationBroker authorizationBroker,
-    IODataResultBroker oDataResultBroker
+    IODataResultBroker oDataResultBroker,
+    IJsonBroker jsonBroker
 ) : IFlowInstanceDataService
 {
     public object CreateSingleResult<T>(IQueryable<T> queryable) =>
@@ -129,9 +130,20 @@ privilege: $"{nameof(FlowInstanceData)}_update"
 
         FlowInstanceData updateFlowInstanceData = CreateStorageFlowInstanceData(item: flowInstanceData);
 
-        FlowInstanceData result = await flowInstanceDataBroker.UpdateFlowInstanceDataAsync(
-updatedFlowInstanceData: updateFlowInstanceData
-        );
+        FlowInstanceData expected = await flowInstanceDataBroker.SelectFlowInstanceDataByIdAsync(
+            instanceId: flowInstanceData.Id);
+
+        ValidateAttemptUpdate(expected: expected, replacement: updateFlowInstanceData);
+
+        int updated = await flowInstanceDataBroker.CompareExchangeFlowInstanceDataAsync(
+            workflowInstanceExchange: new cCoder.Workflow.Models.WorkflowInstanceExchange { Expected = expected, Replacement = updateFlowInstanceData });
+
+        if (updated != 1)
+        {
+            throw new cCoder.Workflow.Activities.Models.WorkflowAttemptConflictException();
+        }
+
+        FlowInstanceData result = updateFlowInstanceData;
 
         flowInstanceData.Id = result.Id;
         flowInstanceData.FlowDefinitionId = result.FlowDefinitionId;

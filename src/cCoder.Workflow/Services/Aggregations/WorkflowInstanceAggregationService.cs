@@ -22,9 +22,22 @@ internal sealed partial class WorkflowInstanceAggregationService(
     IWorkflowTokenService workflowTokenService,
     IWorkflowExecutionEventService workflowExecutionEventService,
     IWorkflowConfigurationService workflowConfigurationService,
-    ILoggingBroker loggingBroker)
+    ILoggingBroker loggingBroker,
+    cCoder.Workflow.Brokers.IJsonBroker jsonBroker)
     : IWorkflowInstanceAggregationService
 {
+    public ValueTask<bool> RecordTerminalFailureAsync(
+        Guid instanceId, Guid flowId, Guid attemptId, string failureDescription,
+        CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateInputs(inputs: [instanceId, flowId, attemptId, failureDescription, cancellationToken]);
+
+            return await workflowInstanceManagementService.RecordTerminalFailureAsync(
+                instanceId: instanceId, flowId: flowId, attemptId: attemptId,
+                failureDescription: failureDescription, cancellationToken: cancellationToken);
+        }, isValueTask: true);
+
     public IQueryable<FlowInstanceData> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: () =>
         {
@@ -83,6 +96,27 @@ internal sealed partial class WorkflowInstanceAggregationService(
     {
         try
         {
+            TimeSpan timeout = GetExecutingInstanceTimeout();
+
+            if (timeout <= TimeSpan.Zero)
+            {
+                throw new System.ComponentModel.DataAnnotations.ValidationException(message: "Workflow execution timeout must be positive.");
+            }
+
+            DateTimeOffset cutoff = DateTimeOffset.UtcNow.Subtract(value: timeout);
+            int failed = 0;
+
+            foreach (FlowInstanceData instance in workflowInstanceManagementService.GetExpiredFlowInstanceData(cutoff: cutoff))
+            {
+                failed += await workflowInstanceManagementService.FailExpiredFlowInstanceDataAsync(
+                    flowInstanceData: instance, cutoff: cutoff, cancellationToken: cancellationToken);
+            }
+
+            if (failed > 0)
+            {
+                loggingBroker.LogWarning(message: "Marked {Count} abandoned workflow executions Failed for administrative recovery.", args: failed);
+            }
+
             await DropOldInstancesAsync(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
@@ -163,20 +197,8 @@ internal sealed partial class WorkflowInstanceAggregationService(
 
     private async Task ExecuteInstanceAsync(Guid instanceId, CancellationToken cancellationToken = default)
     {
-        int claimedCount = await workflowInstanceManagementService
-            .ClaimQueuedFlowInstanceDataAsync(
-                flowInstanceDataId: instanceId,
-                cancellationToken: cancellationToken);
-
-        if (claimedCount == 0)
-        {
-            return;
-        }
-
-        FlowInstanceData dbInstance = await workflowInstanceManagementService
-            .GetClaimedFlowInstanceDataAsync(
-                flowInstanceDataId: instanceId,
-                cancellationToken: cancellationToken);
+        FlowInstanceData dbInstance = await workflowInstanceManagementService.PrepareQueuedInstanceAsync(
+            instanceId: instanceId, cancellationToken: cancellationToken);
 
         if (dbInstance is null || dbInstance.State != "AwaitingExecution")
         {
@@ -201,6 +223,24 @@ internal sealed partial class WorkflowInstanceAggregationService(
         }
         catch (Exception exception)
         {
+            Guid? attemptId = jsonBroker.ParseAttemptContext(json: dbInstance.ContextString)?.ExecutionAttemptId;
+
+            try
+            {
+                if (attemptId.HasValue)
+                {
+                    await workflowInstanceManagementService.RecordTerminalFailureAsync(
+                        instanceId: dbInstance.Id, flowId: dbInstance.FlowDefinitionId,
+                        attemptId: attemptId.Value,
+                        failureDescription: "Workflow dispatch failed before execution: " + exception.GetType().Name,
+                        cancellationToken: cancellationToken);
+                }
+            }
+            catch (Exception persistenceFailure)
+            {
+                throw new AggregateException(innerExceptions: [exception, persistenceFailure]);
+            }
+
             loggingBroker.LogError(
                 exception: exception.InnerException ?? exception,
                 message: "Flow instance {InstanceId} execution failed.",
@@ -214,7 +254,8 @@ internal sealed partial class WorkflowInstanceAggregationService(
             Api = CreateApiRoot(domain: dbInstance.FlowDefinition.App.Domain),
             FlowId = dbInstance.FlowDefinition.Id,
             AuthToken = token.Id,
-            InstanceId = dbInstance.Id
+            InstanceId = dbInstance.Id,
+            ExecutionAttemptId = jsonBroker.ParseAttemptContext(json: dbInstance.ContextString)?.ExecutionAttemptId
         };
 
     private string CreateApiRoot(string domain)

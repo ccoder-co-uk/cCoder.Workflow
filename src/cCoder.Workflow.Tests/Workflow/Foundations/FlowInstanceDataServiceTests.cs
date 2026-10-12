@@ -28,7 +28,8 @@ public partial class FlowInstanceDataServiceTests
             flowInstanceDataBrokerMock.Object,
             authorizationBrokerMock.Object,
             new Mock<IODataResultBroker>().Object
-        );
+        ,
+                jsonBroker: new cCoder.Workflow.Brokers.JsonBroker());
     }
 
     private static FlowInstanceData CreateRandomFlowInstanceData(

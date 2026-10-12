@@ -38,6 +38,8 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public async Task ShouldLogDroppedWorkflowInstancesDuringMaintenanceAsync()
     {
         // Given
+        SetupNoExpiredInstances();
+
         workflowInstanceManagementBrokerMock
             .Setup(expression: broker => broker.FlushOldInstancesAsync(
                 cutoff: It.IsAny<DateTimeOffset>(),
@@ -61,6 +63,8 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
     public async Task ShouldLogMaintenanceFailureAndInnerFailureAsync()
     {
         // Given
+        SetupNoExpiredInstances();
+
         Exception innerException = new(message: "inner");
         Exception exception = new(message: "outer", innerException: innerException);
 

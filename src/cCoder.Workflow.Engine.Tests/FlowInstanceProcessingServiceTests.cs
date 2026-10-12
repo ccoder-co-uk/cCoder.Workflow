@@ -34,7 +34,8 @@ public sealed partial class FlowInstanceServiceTests
             workflowRuntimeService: new WorkflowRuntimeService(
                 workflowContextBroker: workflowContextBrokerMock.Object,
                 jsonBroker: new JsonBroker(),
-                reflectionBroker: new ReflectionBroker()));
+                reflectionBroker: new ReflectionBroker()),
+            jsonBroker: new JsonBroker());
 
     private void SetupStateSave(FlowExecution execution) =>
         workflowHttpClientBrokerMock

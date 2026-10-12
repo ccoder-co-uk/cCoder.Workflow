@@ -18,6 +18,8 @@ public sealed class FlowExecution
 
     public Guid Id { get; set; }
 
+    public Guid? ExecutionOwnerId { get; set; }
+
     public int AppId { get; set; }
 
     public string Caller { get; set; }

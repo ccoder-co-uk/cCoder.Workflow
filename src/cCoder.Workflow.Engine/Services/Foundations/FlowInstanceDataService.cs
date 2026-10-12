@@ -71,6 +71,12 @@ internal sealed partial class FlowInstanceDataService(
                         + $"({flowInstanceData.Id})",
                     payload: payload);
 
+            if (response.StatusCode == 409 && response.Body?.Contains(
+                value: "WorkflowAttemptConflict", comparisonType: StringComparison.Ordinal) == true)
+            {
+                throw new cCoder.Workflow.Activities.Models.WorkflowAttemptConflictException();
+            }
+
             if (!response.IsSuccess)
             {
                 throw new WorkflowEngineServiceException(

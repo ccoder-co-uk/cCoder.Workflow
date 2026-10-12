@@ -26,8 +26,11 @@ public sealed partial class WorkflowRequestCoordinationServiceTests
     {
         // Given
         Mock<IFlowResultService> results = new();
+
         Mock<IFlowCommunicationService> communication = new();
+
         Mock<IFlowExecutionOrchestrationService> execution = new();
+
         FlowInstanceData instance = new() { ContextString = "original-context" };
 
         execution.Setup(expression: service => service.ExecuteFlowExecutionAsync(flowExecution: It.IsAny<FlowExecution>()))
@@ -44,6 +47,7 @@ public sealed partial class WorkflowRequestCoordinationServiceTests
                     apiRoot: It.IsAny<string>(),
                     authToken: It.IsAny<string>()))
                 .Throws(exception: new InvalidOperationException(message: "API unavailable"));
+
         }
 
         if (loggingFails)
@@ -53,6 +57,7 @@ public sealed partial class WorkflowRequestCoordinationServiceTests
                     level: WorkflowLogLevel.Fatal,
                     message: It.IsAny<string>()))
                 .Throws(exception: new InvalidOperationException(message: "logging unavailable"));
+
         }
 
         WorkflowLifecycleOrchestrationService lifecycle = new(
@@ -91,21 +96,55 @@ public sealed partial class WorkflowRequestCoordinationServiceTests
         if (persistenceFails || loggingFails)
         {
             Assert.NotNull(@object: failure);
+
             Assert.Contains(expectedSubstring: "workflow evaluation failed", actualString: failure.ToString());
 
             if (persistenceFails)
             {
                 Assert.Contains(expectedSubstring: "API unavailable", actualString: failure.ToString());
+
             }
 
             if (loggingFails)
             {
                 Assert.Contains(expectedSubstring: "logging unavailable", actualString: failure.ToString());
+
             }
         }
         else
         {
             Assert.Null(@object: failure);
+
         }
     }
+
+    [Fact]
+    public async Task ShouldSettleConfirmedConflictWithoutFailureOrCompletionLoggingAsync()
+    {
+        // Given
+        Mock<IFlowExecutionOrchestrationService> execution = new();
+
+        Mock<IWorkflowLifecycleOrchestrationService> lifecycle = new();
+
+        execution.Setup(expression: service => service.ExecuteFlowExecutionAsync(flowExecution: It.IsAny<FlowExecution>()))
+            .Throws(exception: new InvalidOperationException(message: "wrapped", innerException: new WorkflowAttemptConflictException()));
+
+        lifecycle.Setup(expression: service => service.FinishFlowExecutionAsync(flowExecution: It.IsAny<FlowExecution>()))
+            .Throws(exception: new InvalidOperationException(message: "logging unavailable"));
+
+        WorkflowRequestCoordinationService coordinator = new(
+            flowExecutionOrchestrationService: execution.Object, workflowLifecycleOrchestrationService: lifecycle.Object);
+
+        // When
+        await coordinator.ExecuteWorkflowRequestAsync(workflowRequest: new WorkflowRequest(
+            api: "https://trusted.example/Api/", token: "token", flowId: Guid.NewGuid(), instanceId: Guid.NewGuid()));
+
+        // Then
+        lifecycle.Verify(expression: service => service.RecordFlowExecutionFailureAsync(
+            flowExecution: It.IsAny<FlowExecution>(), exception: It.IsAny<Exception>()), times: Times.Never);
+
+        lifecycle.Verify(expression: service => service.FinishFlowExecutionAsync(flowExecution: It.IsAny<FlowExecution>()), times: Times.Never);
+
+    }
+
 }

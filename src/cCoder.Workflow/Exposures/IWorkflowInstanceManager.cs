@@ -13,6 +13,13 @@ namespace cCoder.Workflow.Exposures;
 
 public interface IWorkflowInstanceManager
 {
+    ValueTask<bool> RecordTerminalFailureAsync(
+        Guid instanceId,
+        Guid flowId,
+        Guid attemptId,
+        string failureDescription,
+        CancellationToken cancellationToken = default);
+
     Task RunAsync(CancellationToken cancellationToken = default);
     Task RunInstanceMaintenanceContinuouslyAsync(CancellationToken cancellationToken = default);
     Task RunInstanceMaintenanceAsync(CancellationToken cancellationToken = default);

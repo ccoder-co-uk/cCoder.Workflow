@@ -12,6 +12,19 @@ namespace cCoder.Workflow.Services.Foundations;
 
 internal interface IWorkflowInstanceManagementService
 {
+    ValueTask<bool> RecordTerminalFailureAsync(
+        Guid instanceId,
+        Guid flowId,
+        Guid attemptId,
+        string failureDescription,
+        CancellationToken cancellationToken = default);
+
+    ValueTask<FlowInstanceData> PrepareQueuedInstanceAsync(Guid instanceId, CancellationToken cancellationToken);
+
+    FlowInstanceData[] GetExpiredFlowInstanceData(DateTimeOffset cutoff);
+
+    ValueTask<int> FailExpiredFlowInstanceDataAsync(FlowInstanceData flowInstanceData, DateTimeOffset cutoff, CancellationToken cancellationToken);
+
     object[] GetFailedExecutionStats();
 
     FlowInstanceData[] GetQueuedFlowInstanceData();

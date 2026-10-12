@@ -21,5 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cCoder.Workflow.Engine\cCoder.Workflow.Engine.csproj" />
+    <ProjectReference Include="..\cCoder.Workflow\cCoder.Workflow.csproj" />
   </ItemGroup>
 </Project>

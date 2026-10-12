@@ -6,6 +6,12 @@ namespace cCoder.Workflow.Brokers;
 
 public interface IJsonBroker
 {
+    cCoder.Workflow.Models.WorkflowAttemptContext ParseAttemptContext(string json);
+
+    string SerializeAttemptContext(cCoder.Workflow.Models.WorkflowAttemptContext workflowAttemptContext);
+
+    System.Text.Json.JsonElement SerializeElement(object value);
+
     object ParseJson(string json);
 
     T ParseJson<T>(string json);

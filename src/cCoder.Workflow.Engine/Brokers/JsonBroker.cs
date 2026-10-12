@@ -10,6 +10,16 @@ namespace cCoder.Workflow.Engine.Brokers;
 
 internal sealed class JsonBroker : IJsonBroker, IUtilityBroker
 {
+    public cCoder.Workflow.Activities.Models.WorkflowAttemptIdentity DeserializeAttemptIdentity(string value) =>
+        System.Text.Json.JsonSerializer.Deserialize<cCoder.Workflow.Activities.Models.WorkflowAttemptIdentity>(json: value);
+
+    public string AssignExecutionOwner(string context, System.Guid ownerId)
+    {
+        System.Text.Json.Nodes.JsonNode document = System.Text.Json.Nodes.JsonNode.Parse(json: context);
+        document["ExecutionOwnerId"] = ownerId;
+        return document.ToJsonString();
+    }
+
     public T Deserialize<T>(string value) =>
         JsonConvert.DeserializeObject<T>(
             value: value,

@@ -12,7 +12,8 @@ using cCoder.Workflow.Brokers;
 namespace cCoder.Workflow.Services.Foundations;
 
 internal sealed partial class WorkflowInstanceManagementService(
-    IWorkflowInstanceManagementBroker workflowInstanceManagementBroker)
+    IWorkflowInstanceManagementBroker workflowInstanceManagementBroker,
+    IJsonBroker jsonBroker)
     : IWorkflowInstanceManagementService
 {
     public object[] GetFailedExecutionStats() =>

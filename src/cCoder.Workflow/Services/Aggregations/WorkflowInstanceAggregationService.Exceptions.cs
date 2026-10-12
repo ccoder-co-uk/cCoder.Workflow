@@ -109,4 +109,15 @@ internal sealed partial class WorkflowInstanceAggregationService
             throw new WorkflowServiceException(innerException: innerException);
         }
     }
+
+    private static async ValueTask<TResult> TryCatch<TResult>(Func<ValueTask<TResult>> operation, bool isValueTask)
+    {
+        try { return await operation(); }
+        catch (WorkflowValidationException innerException) { throw new WorkflowValidationException(innerException: innerException); }
+        catch (WorkflowDependencyException innerException) { throw new WorkflowDependencyException(innerException: innerException); }
+        catch (ValidationException innerException) { throw new WorkflowValidationException(innerException: innerException); }
+        catch (InvalidOperationException innerException) { throw new WorkflowDependencyException(innerException: innerException); }
+        catch (System.Security.SecurityException) { throw; }
+        catch (Exception innerException) { throw new WorkflowServiceException(innerException: innerException); }
+    }
 }

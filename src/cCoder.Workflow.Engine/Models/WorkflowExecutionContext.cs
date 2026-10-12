@@ -37,6 +37,8 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
         this.flowExecution = flowExecution;
         Flow = flowExecution.Flow;
         InstanceId = flowExecution.Id;
+        ExecutionAttemptId = flowExecution.Request.ExecutionAttemptId;
+        ExecutionOwnerId = flowExecution.ExecutionOwnerId;
     }
 
     [JsonIgnore]

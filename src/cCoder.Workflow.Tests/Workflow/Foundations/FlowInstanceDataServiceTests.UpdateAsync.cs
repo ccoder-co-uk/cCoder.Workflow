@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Security;
 using cCoder.Data.Models.Security;
 using cCoder.Data.Models.Workflow;
+using cCoder.Workflow.Models;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -35,9 +36,13 @@ public partial class FlowInstanceDataServiceTests
             .Returns(value: true);
 
         flowInstanceDataBrokerMock
-            .Setup(expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.IsAny<FlowInstanceData>()))
-            .Callback<FlowInstanceData>(action: candidate => submitted = candidate)
-            .ReturnsAsync(valueFunction: (FlowInstanceData value) => value);
+            .Setup(expression: x => x.SelectFlowInstanceDataByIdAsync(instanceId: flowInstanceData.Id))
+            .ReturnsAsync(value: flowInstanceData);
+
+        flowInstanceDataBrokerMock
+            .Setup(expression: x => x.CompareExchangeFlowInstanceDataAsync(workflowInstanceExchange: It.IsAny<WorkflowInstanceExchange>()))
+            .Callback<WorkflowInstanceExchange>(action: exchange => submitted = exchange.Replacement)
+            .ReturnsAsync(value: 1);
 
         // When
         FlowInstanceData result = await flowInstanceDataService.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: flowInstanceData);
@@ -65,9 +70,13 @@ public partial class FlowInstanceDataServiceTests
 
 
         flowInstanceDataBrokerMock.Verify(
-expression: x => x.UpdateFlowInstanceDataAsync(updatedFlowInstanceData: It.IsAny<FlowInstanceData>()),
+expression: x => x.CompareExchangeFlowInstanceDataAsync(workflowInstanceExchange: It.IsAny<WorkflowInstanceExchange>()),
 times: Times.Once
         );
+
+        flowInstanceDataBrokerMock.Verify(
+            expression: x => x.SelectFlowInstanceDataByIdAsync(instanceId: flowInstanceData.Id),
+            times: Times.Once);
 
         flowInstanceDataBrokerMock.Verify(
 expression: x => x.SelectAppId(flowInstanceData: It.IsAny<FlowInstanceData>()),

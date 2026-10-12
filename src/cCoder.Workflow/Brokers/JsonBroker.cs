@@ -10,6 +10,15 @@ namespace cCoder.Workflow.Brokers;
 
 internal class JsonBroker : IJsonBroker, IUtilityBroker
 {
+    public cCoder.Workflow.Models.WorkflowAttemptContext ParseAttemptContext(string json) =>
+        System.Text.Json.JsonSerializer.Deserialize<cCoder.Workflow.Models.WorkflowAttemptContext>(json: json);
+
+    public string SerializeAttemptContext(cCoder.Workflow.Models.WorkflowAttemptContext workflowAttemptContext) =>
+        System.Text.Json.JsonSerializer.Serialize(value: workflowAttemptContext);
+
+    public System.Text.Json.JsonElement SerializeElement(object value) =>
+        System.Text.Json.JsonSerializer.SerializeToElement(value: value);
+
     public object ParseJson(string json) =>
         JsonConvert.DeserializeObject(
             value: json,

@@ -52,6 +52,12 @@ public partial class FlowInstanceDataController : ODataController, ICompositionE
             return Ok(value: await service.UpdateFlowInstanceDataAsync(
                 updatedFlowInstanceData: updatedFlowInstanceData));
         }
+        catch (cCoder.Workflow.Activities.Models.WorkflowAttemptConflictException exception)
+        {
+            service.LogError(exception: exception, message: "Workflow attempt update was rejected.");
+
+            return Conflict(error: "WorkflowAttemptConflict");
+        }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
             service.LogError(exception: exception, message: "Controller request failed.");
