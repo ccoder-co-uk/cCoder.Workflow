@@ -191,7 +191,7 @@ public sealed partial class WorkflowLifecycleOrchestrationServiceTests
     }
 
     [Fact]
-    public async Task RecordFlowExecutionFailureAsync_WhenContextIsInvalid_UsesEmptyContext()
+    public async Task RecordFlowExecutionFailureAsync_WhenContextIsInvalid_PreservesOriginalContext()
     {
         // Given
         FlowExecution flowExecution = CreateFlowExecution();
@@ -215,10 +215,12 @@ public sealed partial class WorkflowLifecycleOrchestrationServiceTests
             exception: new Exception(message: "failed"));
 
         // Then
+        Assert.Equal(expected: "context", actual: flowExecution.Result.ContextString);
+        Assert.Equal(expected: "Failed", actual: flowExecution.Result.State);
+
         flowResultServiceMock.Verify(expression: service => service.Serialize(
-            value: It.Is<WorkflowContext>(match: value =>
-                value.ExecutionLog.Count == 1)),
-            times: Times.Once);
+            value: It.IsAny<WorkflowContext>()),
+            times: Times.Never);
     }
 
     [Fact]

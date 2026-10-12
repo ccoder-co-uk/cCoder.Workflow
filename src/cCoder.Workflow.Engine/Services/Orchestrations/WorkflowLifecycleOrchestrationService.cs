@@ -116,6 +116,19 @@ internal sealed partial class WorkflowLifecycleOrchestrationService(
         WorkflowContext context = DeserializeContext(
             contextString: flowExecution.Result.ContextString);
 
+        if (context is null)
+        {
+            flowExecution.Result.State = "Failed";
+            flowExecution.Result.End = DateTimeOffset.UtcNow;
+
+            await flowResultService.SaveFlowInstanceDataAsync(
+                flowInstanceData: flowExecution.Result,
+                apiRoot: flowExecution.Request.Api,
+                authToken: flowExecution.Request.AuthToken);
+
+            return;
+        }
+
         context.ExecutionState = "Failed";
         context.ExecutionLog = context.ExecutionLog?.ToList() ?? [];
 
@@ -162,12 +175,11 @@ internal sealed partial class WorkflowLifecycleOrchestrationService(
         try
         {
             return flowResultService.Deserialize<WorkflowContext>(
-                value: contextString)
-                ?? new WorkflowContext { ExecutionLog = [] };
+                value: contextString);
         }
         catch
         {
-            return new WorkflowContext { ExecutionLog = [] };
+            return null;
         }
     }
 }
