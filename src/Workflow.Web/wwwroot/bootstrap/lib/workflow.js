@@ -249,7 +249,7 @@ class Activity extends Collidable {
         draw.enableShadows(ctx, this.x, this.y, this.w, this.h, "#111");
         ctx.font = "30px WebComponentsIcons";
         ctx.fillStyle = window.flowTheme.colours.primary;
-        ctx.fillText(this.getIcon(this.meta.category), this.x + 20, this.y + 73);
+        ctx.fillText(this.getIcon(this.meta.Category || this.meta.category), this.x + 20, this.y + 73);
 
         draw.disableShadows(ctx);
 
@@ -258,22 +258,23 @@ class Activity extends Collidable {
     }
 
     getIcon(forName) {
+        forName = (forName || "Activity").split("`")[0].replace("Activity", "");
         switch (forName) {
-            case "ApiActivity":
+            case "Api":
                 return "\ue672";
-            case "DMSActivity":
+            case "DMS":
                 return "\ue900";
-            case "SftpActivity":
+            case "Sftp":
                 return "\ue904";
-            case "TransactionActivity":
+            case "Transaction":
                 return "\ue694";
-            case "LogActivity":
+            case "Log":
                 return "\ue64a";
-            case "TransformationActivity":
+            case "Transformation":
                 return "\ue518"
-            case "FlowControlActivity":
+            case "FlowControl":
                 return "\ue144";
-            case "TemplatingActivity":
+            case "Templating":
                 return "\ue647";
             default:
                 return "\ue13a";
@@ -872,7 +873,7 @@ class WorkflowDesigner {
                     ? 'Activity'
                     : typeName.replace('Activity', '');
 
-                let newType = $('<li><span name="add" class="k-icon k-i-add"></span>' + typeName + '</li>');
+                let newType = $('<li><span name="add" class="k-icon ' + this.categoryIconMap(categoryName) + '"></span>' + typeName + '</li>');
                 newType.data('model', t);
                 newType.css('cursor', 'pointer');
                 let helper = $('<div class="flow-helper"></div>');
