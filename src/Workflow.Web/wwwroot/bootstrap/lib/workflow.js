@@ -291,7 +291,7 @@ class Activity extends Collidable {
         var that = this.parent;
         var dialog = $('<div><div name="content"></div></div>').appendTo(document.body);
         var d = dialog.kendoWindow({
-            title: 'Edit Acitvity',
+            title: 'Edit Activity',
             modal: true,
             visible: false,
             close: function() { this.destroy(); },
