@@ -155,7 +155,7 @@ public sealed partial class WorkflowInstanceProcessingServiceTests
         workflowExecutionEventBrokerMock
             .Setup(expression: broker => broker.RaiseWorkflowExecuteEventAsync(
                 message: It.IsAny<EventMessage<WorkflowRequest>>()))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         loggingBrokerMock
             .Setup(expression: broker => broker.LogError(

@@ -444,13 +444,13 @@ public sealed partial class ControllerFailureLoggingTests
             .Throws(exception: exception);
 
         calendarManagerMock.Setup(expression: service => service.DeleteAsync(calendarId: 1))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         calendarEventManagerMock.Setup(expression: service => service.DeleteAsync(calendarEventId: 1))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         flowDefinitionManagerMock.Setup(expression: service => service.DeleteFlowDefinitionAsync(flowDefinitionId: key))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         flowDefinitionManagerMock.Setup(expression: service => service.ReadRequestBodyAsync(
                 stream: It.IsAny<Stream>()))
@@ -463,18 +463,18 @@ public sealed partial class ControllerFailureLoggingTests
             .ThrowsAsync(exception: exception);
 
         flowInstanceDataManagerMock.Setup(expression: service => service.DeleteAsync(flowInstanceDataId: key))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         scheduledTaskManagerMock.Setup(expression: service => service.DeleteAsync(scheduledTaskId: 1))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         scheduledTaskManagerMock.Setup(expression: service => service.ExecuteAsync(
             scheduledTaskId: 1,
             incrementNextExecution: true))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         workflowEventManagerMock.Setup(expression: service => service.DeleteAsync(workflowEventId: key))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         CalendarController calendarController = CreateController(
             serviceMock: calendarManagerMock,
@@ -546,7 +546,7 @@ public sealed partial class ControllerFailureLoggingTests
         scheduledTaskManagerMock.Setup(expression: service => service.ExecuteAsync(
             scheduledTaskId: 1,
             incrementNextExecution: true))
-            .ThrowsAsync(exception: exception);
+            .Returns(value: ValueTask.FromException(exception: exception));
 
         var flowDefinitionController = new FlowDefinitionController(
             service: flowDefinitionManagerMock.Object,
