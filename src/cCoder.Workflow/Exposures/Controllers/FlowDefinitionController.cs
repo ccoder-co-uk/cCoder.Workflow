@@ -248,7 +248,10 @@ public partial class FlowDefinitionController(
             string script = await service.ReadRequestBodyAsync(
                 stream: Request.Body);
 
-            return Ok(value: await service.ExecuteScriptAsync(script: script));
+            string result = await service.ExecuteScriptAsync(script: script);
+            loggingBroker.LogInformation(message: "Flow definition script execution succeeded.");
+
+            return Ok(value: result);
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {

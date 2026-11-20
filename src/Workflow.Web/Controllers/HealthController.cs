@@ -31,13 +31,13 @@ public sealed class HealthController(
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Health validation failed.");
+            loggingBroker.LogWarning(exception: exception, message: "Health validation failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Health authorization failed.");
+            loggingBroker.LogWarning(exception: exception, message: "Health authorization failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }

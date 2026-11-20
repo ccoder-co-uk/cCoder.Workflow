@@ -30,13 +30,13 @@ public sealed class HomeController(
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Home validation failed.");
+            loggingBroker.LogWarning(exception: exception, message: "Home validation failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Home authorization failed.");
+            loggingBroker.LogWarning(exception: exception, message: "Home authorization failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }

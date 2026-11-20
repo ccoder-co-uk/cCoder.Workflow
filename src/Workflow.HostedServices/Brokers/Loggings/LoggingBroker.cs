@@ -14,6 +14,9 @@ internal sealed class LoggingBroker(ILogger<LoggingBroker> logger)
     : ILoggingBroker,
       IUtilityBroker
 {
+    public void LogWarning(Exception exception, string message) =>
+        logger.LogWarning(exception: exception, message: message);
+
     public void LogError(Exception exception, string message) =>
         logger.LogError(exception: exception, message: message);
 }

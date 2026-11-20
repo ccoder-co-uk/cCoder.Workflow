@@ -8521,6 +8521,13 @@
               "IsDependencyBoundary": false
             },
             {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogInformation",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogInformation(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.Workflow.Exposures.IFlowDefinitionManager",
               "MethodName": "ExecuteScriptAsync",
               "MethodId": "cCoder.Workflow.Exposures.IFlowDefinitionManager.ExecuteScriptAsync(System.String)",
@@ -9612,7 +9619,7 @@
     {
       "Name": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 20,
+      "LineNumber": 21,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -9642,7 +9649,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Delete(System.Int32)",
           "Name": "Delete",
-          "LineNumber": 228,
+          "LineNumber": 234,
           "Inputs": [
             {
               "Name": "key",
@@ -9757,7 +9764,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 109,
+          "LineNumber": 113,
           "Inputs": [
             {
               "Name": "key",
@@ -9808,6 +9815,20 @@
               "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogWarning",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogWarning",
+              "MethodId": "cCoder.Workflow.Brokers.Loggings.ILoggingBroker.LogWarning(System.String,System.Object[])",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.Workflow.Exposures.IControllerErrorLogger",
@@ -9907,7 +9928,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.GetAll(Microsoft.AspNetCore.OData.Query.ODataQueryOptions\u003CcCoder.Data.Models.Planning.ScheduledTask\u003E)",
           "Name": "GetAll",
-          "LineNumber": 73,
+          "LineNumber": 77,
           "Inputs": [
             {
               "Name": "queryOptions",
@@ -10019,7 +10040,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Post(cCoder.Data.Models.Planning.ScheduledTask)",
           "Name": "Post",
-          "LineNumber": 154,
+          "LineNumber": 160,
           "Inputs": [
             {
               "Name": "newScheduledTask",
@@ -10134,7 +10155,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.PostAsync(System.Int32,System.Boolean)",
           "Name": "PostAsync",
-          "LineNumber": 33,
+          "LineNumber": 37,
           "Inputs": [
             {
               "Name": "key",
@@ -10253,7 +10274,7 @@
         {
           "Id": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController.Put(System.Int32,cCoder.Data.Models.Planning.ScheduledTask)",
           "Name": "Put",
-          "LineNumber": 196,
+          "LineNumber": 202,
           "Inputs": [
             {
               "Name": "key",
@@ -38959,6 +38980,10 @@
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.FlowInstanceDataController",
       "ToType": "cCoder.Workflow.Services.Orchestrations.FlowInstanceDataOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",
+      "ToType": "cCoder.Workflow.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.Workflow.Exposures.Controllers.ScheduledTaskController",

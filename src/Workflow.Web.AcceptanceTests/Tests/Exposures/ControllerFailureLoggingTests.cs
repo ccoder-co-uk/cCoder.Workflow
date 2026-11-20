@@ -612,7 +612,9 @@ public sealed partial class ControllerFailureLoggingTests
             serviceMock: serviceMock,
             loggingBrokerMock: loggingBrokerMock);
 
-        return new ScheduledTaskController(service: serviceMock.Object);
+        return new ScheduledTaskController(
+            service: serviceMock.Object,
+            loggingBroker: loggingBrokerMock.Object);
     }
 
     private static WorkflowEventController CreateController(

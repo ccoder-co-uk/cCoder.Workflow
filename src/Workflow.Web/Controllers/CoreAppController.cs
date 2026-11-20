@@ -32,8 +32,12 @@ public sealed class CoreAppController(
 
             if (app is null)
             {
+                loggingBroker.LogWarning(message: "App was not found.");
+
                 return NotFound();
             }
+
+            loggingBroker.LogInformation(message: "App request succeeded.");
 
             return Ok(value: new
             {
@@ -48,13 +52,13 @@ public sealed class CoreAppController(
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "App validation failed.");
+            loggingBroker.LogWarning(exception: exception, message: "App validation failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "App authorization failed.");
+            loggingBroker.LogWarning(exception: exception, message: "App authorization failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }

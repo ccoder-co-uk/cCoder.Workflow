@@ -28,18 +28,19 @@ public sealed class CoreUserController(
         try
         {
             User user = coreUserProcessingService.GetUser();
+            loggingBroker.LogInformation(message: "User request succeeded.");
 
             return Ok(value: user);
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "User validation failed.");
+            loggingBroker.LogWarning(exception: exception, message: "User validation failed.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "User authorization failed.");
+            loggingBroker.LogWarning(exception: exception, message: "User authorization failed.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }

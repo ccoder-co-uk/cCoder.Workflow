@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using cCoder.CodeAnalysis.Exposures;
 using cCoder.Data.Models.Planning;
+using cCoder.Workflow.Brokers.Loggings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -20,12 +21,15 @@ namespace cCoder.Workflow.Exposures.Controllers;
 public partial class ScheduledTaskController : ODataController, ICompositionExposure
 {
     private readonly IScheduledTaskManager service;
+    private readonly ILoggingBroker loggingBroker;
 
     public ScheduledTaskController(
-        IScheduledTaskManager service
+        IScheduledTaskManager service,
+        ILoggingBroker loggingBroker
     )
     {
         this.service = service;
+        this.loggingBroker = loggingBroker;
     }
 
     [HttpPost]
@@ -117,6 +121,8 @@ public partial class ScheduledTaskController : ODataController, ICompositionExpo
 
             if (scheduledTask is null)
             {
+                loggingBroker.LogWarning(message: "Scheduled task was not found.");
+
                 return NotFound();
             }
 
@@ -124,13 +130,13 @@ public partial class ScheduledTaskController : ODataController, ICompositionExpo
         }
         catch (cCoder.Workflow.Models.Exceptions.WorkflowValidationException exception)
         {
-            service.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(exception: exception, message: "Controller request was rejected.");
 
             return BadRequest(error: "The workflow request is invalid.");
         }
         catch (System.Security.SecurityException exception)
         {
-            service.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(exception: exception, message: "Controller request was forbidden.");
 
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
