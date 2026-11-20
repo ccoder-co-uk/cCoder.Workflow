@@ -40,7 +40,7 @@
         {
           "Id": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String)",
           "Name": "LogError",
-          "LineNumber": 17,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "exception",
@@ -60,6 +60,45 @@
               "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
               "MethodName": "LogError",
               "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogError(Microsoft.Extensions.Logging.ILogger,System.Exception?,System.String?,System.Object?[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "Workflow.HostedServices.Brokers.Loggings.LoggingBroker.LogWarning(System.Exception,System.String)",
+          "Name": "LogWarning",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [
+            "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
+              "MethodName": "LogWarning",
+              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(Microsoft.Extensions.Logging.ILogger,System.Exception?,System.String?,System.Object?[])",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -141,6 +180,13 @@
               "TypeName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
               "MethodName": "LogError",
               "MethodId": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogWarning",
+              "MethodId": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
@@ -270,6 +316,13 @@
               "TypeName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
               "MethodName": "LogError",
               "MethodId": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker",
+              "MethodName": "LogWarning",
+              "MethodId": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
@@ -725,6 +778,35 @@
         {
           "Id": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String)",
           "Name": "LogError",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "exception",
+              "Type": "System.Exception"
+            },
+            {
+              "Name": "message",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "Workflow.HostedServices.Brokers.Loggings.ILoggingBroker.LogWarning(System.Exception,System.String)",
+          "Name": "LogWarning",
           "LineNumber": 11,
           "Inputs": [
             {
