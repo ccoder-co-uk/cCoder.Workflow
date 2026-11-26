@@ -131,6 +131,8 @@ public sealed class IntegrationAcceptanceFixture : IAsyncLifetime
                     path3: "Web"))
             ]);
 
+        Dictionary<string, string> webEnvironment = CreateCommonEnvironment();
+        string authorityPath = AddHttpsCertificateEnvironment(environment: webEnvironment);
         workflowApplication = new ExternalProcessApplication("Workflow");
 
         await workflowApplication.StartAsync(
@@ -139,7 +141,10 @@ arguments: $"start --port {workflowHttpPort} --no-build",
 workingDirectory: workflowOutputDirectory,
 environmentVariables: new Dictionary<string, string>
 {
-    ["FUNCTIONS_WORKER_RUNTIME"] = "dotnet-isolated"
+    ["FUNCTIONS_WORKER_RUNTIME"] = "dotnet-isolated",
+    ["DOTNET_ENVIRONMENT"] = "Acceptance",
+    ["AZURE_FUNCTIONS_ENVIRONMENT"] = "Acceptance",
+    ["Workflow__AcceptanceAuthorityPath"] = authorityPath
 },
             readinessProbe: () => ProbeHealthAsync(baseAddress: WorkflowBaseAddress),
             timeout: TimeSpan.FromMinutes(minutes: 2),
@@ -159,8 +164,6 @@ environmentVariables: hostedServicesEnvironment,
             timeout: TimeSpan.FromMinutes(minutes: 2),
             readinessDiagnostics: GetHealthProbeDiagnostics);
 
-        Dictionary<string, string> webEnvironment = CreateCommonEnvironment();
-        AddHttpsCertificateEnvironment(environment: webEnvironment);
         webEnvironment["ASPNETCORE_URLS"] = WebBaseAddress.ToString();
 
         webApplication = new ExternalProcessApplication("Web");
@@ -405,7 +408,7 @@ environmentVariables: webEnvironment,
         return client;
     }
 
-    private void AddHttpsCertificateEnvironment(Dictionary<string, string> environment)
+    private string AddHttpsCertificateEnvironment(Dictionary<string, string> environment)
     {
         string certificatePath = Path.Combine(path1: artifactsRoot, path2: "localhost-https.pfx");
 
@@ -436,14 +439,40 @@ item: new X509KeyUsageExtension(
         request.CertificateExtensions.Add(
 item: new X509EnhancedKeyUsageExtension([new Oid("1.3.6.1.5.5.7.3.1")], critical: false));
 
-        using X509Certificate2 certificate = request.CreateSelfSigned(
-notBefore: DateTimeOffset.UtcNow.AddMinutes(minutes: -5),
-notAfter: DateTimeOffset.UtcNow.AddDays(days: 1));
+        using RSA authorityKey = RSA.Create(keySizeInBits: 2048);
+
+        CertificateRequest authorityRequest = new(
+            "CN=Workflow Integration Test CA",
+            authorityKey,
+            HashAlgorithmName.SHA256,
+            RSASignaturePadding.Pkcs1);
+
+        authorityRequest.CertificateExtensions.Add(
+            item: new X509BasicConstraintsExtension(true, true, 0, true));
+
+        authorityRequest.CertificateExtensions.Add(
+            item: new X509KeyUsageExtension(X509KeyUsageFlags.KeyCertSign, critical: true));
+
+        DateTimeOffset notBefore = DateTimeOffset.UtcNow.AddMinutes(minutes: -5);
+        DateTimeOffset notAfter = DateTimeOffset.UtcNow.AddDays(days: 1);
+        using X509Certificate2 authority = authorityRequest.CreateSelfSigned(notBefore: notBefore, notAfter: notAfter);
+
+        using X509Certificate2 leaf = request.Create(
+            issuerCertificate: authority,
+            notBefore: notBefore,
+            notAfter: notAfter,
+            serialNumber: RandomNumberGenerator.GetBytes(count: 16));
+
+        using X509Certificate2 certificate = leaf.CopyWithPrivateKey(privateKey: rsa);
+        string authorityPath = Path.Combine(path1: artifactsRoot, path2: "localhost-ca.cer");
+        File.WriteAllBytes(path: authorityPath, bytes: authority.Export(contentType: X509ContentType.Cert));
 
         File.WriteAllBytes(path: certificatePath, bytes: certificate.Export(contentType: X509ContentType.Pkcs12, password: certificatePassword));
 
         environment["ASPNETCORE_Kestrel__Certificates__Default__Path"] = certificatePath;
         environment["ASPNETCORE_Kestrel__Certificates__Default__Password"] = certificatePassword;
+
+        return authorityPath;
     }
 
     private static int FindFreePort()

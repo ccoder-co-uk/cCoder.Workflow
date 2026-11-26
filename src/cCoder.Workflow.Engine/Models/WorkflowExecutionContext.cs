@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Workflow.Activities;
 using cCoder.Workflow.Activities.Activities;
@@ -17,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace cCoder.Workflow.Engine.Models;
 
-public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
+public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext, IWorkflowPortalContext
 {
     private readonly FlowExecution flowExecution;
 
@@ -42,6 +43,23 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
     [JsonIgnore]
     public IScriptRunner Script => flowExecution.Script;
 
+    async Task<App> IWorkflowPortalContext.GetPortalAppAsync(int appId)
+    {
+        if (flowExecution.GetPortalAppJsonAsync is null)
+        {
+            string apiRoot = (string)Variables["Api"];
+            string authToken = (string)Variables["AuthToken"];
+            using HttpClient api = CreateApiClient(apiRoot: apiRoot);
+            api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
+            return await api.GetAsync<App>(query: $"ContentManagement/App({appId})");
+        }
+
+        return JsonConvert.DeserializeObject<App>(
+            value: await flowExecution.GetPortalAppJsonAsync(appId),
+            settings: new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None });
+    }
+
     public async Task ExecuteAsync(string apiRoot, string authToken = null)
     {
         try
@@ -52,10 +70,12 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
             Variables["AuthToken"] = authToken;
             Variables["InstanceId"] = InstanceId.ToString();
 
-            using HttpClient api = CreateApiClient(apiRoot: apiRoot);
-            api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+            User user = flowExecution.GetCallerJsonAsync is null
+                ? await ResolveCallerAsync(apiRoot: apiRoot, authToken: authToken)
+                : JsonConvert.DeserializeObject<User>(
+                    value: await flowExecution.GetCallerJsonAsync(),
+                    settings: new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None });
 
-            User user = await api.GetAsync<User>(query: "AppSecurity/User/Me()");
             flowExecution.Caller = user.Id;
             Variables["UserId"] = user.Id;
             Variables["UserName"] = user.DisplayName;
@@ -116,6 +136,14 @@ public sealed class WorkflowExecutionContext : WorkflowContext, IWorkflowContext
         }
 
         ExecutionState = "Failed";
+    }
+
+    private static async Task<User> ResolveCallerAsync(string apiRoot, string authToken)
+    {
+        using HttpClient api = CreateApiClient(apiRoot: apiRoot);
+        api.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
+        return await api.GetAsync<User>(query: "AppSecurity/User/Me()");
     }
 
     private static HttpClient CreateApiClient(

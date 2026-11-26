@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
+using cCoder.Data.Models.CMS;
 using cCoder.Workflow.Activities.Models;
 
 namespace cCoder.Workflow.Activities;
@@ -13,4 +15,9 @@ public interface IWorkflowContext
     Flow Flow { get; }
 
     void Log(WorkflowLogLevel level, string message);
+}
+
+public interface IWorkflowPortalContext
+{
+    Task<App> GetPortalAppAsync(int appId);
 }

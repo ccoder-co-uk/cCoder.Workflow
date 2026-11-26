@@ -12,6 +12,21 @@ namespace cCoder.Workflow.Engine.Services.Foundations;
 
 internal sealed partial class FlowInstanceDataService
 {
+    private static void ValidateCallerJsonOnGet(params object[] inputs) =>
+        Validate(inputs: inputs);
+
+    private static void ValidatePortalAppJsonOnGet(params object[] inputs)
+    {
+        Validate(inputs: inputs);
+
+        if (inputs
+            .OfType<int>()
+            .FirstOrDefault() <= 0)
+        {
+            throw new ValidationException(message: "A workflow app identifier is required.");
+        }
+    }
+
     private static void ValidateFlowInstanceDataOnGet(
         params object[] inputs)
     {
