@@ -11,6 +11,10 @@ namespace cCoder.Workflow.Engine.Services.Foundations;
 
 internal interface IFlowInstanceDataService
 {
+    Task<string> GetCallerJsonAsync(string apiRoot, string authToken);
+
+    Task<string> GetPortalAppJsonAsync(string apiRoot, string authToken, int appId);
+
     Task<FlowInstanceData> GetFlowInstanceDataAsync(
         string apiRoot,
         string authToken,

@@ -28,6 +28,15 @@ internal sealed partial class FlowExecutionOrchestrationService(
             flowExecution.Start = DateTimeOffset.UtcNow;
             flowExecution.Script = scriptService;
 
+            flowExecution.GetCallerJsonAsync = () => flowInstanceDataService.GetCallerJsonAsync(
+                apiRoot: request.Api,
+                authToken: request.AuthToken);
+
+            flowExecution.GetPortalAppJsonAsync = appId => flowInstanceDataService.GetPortalAppJsonAsync(
+                apiRoot: request.Api,
+                authToken: request.AuthToken,
+                appId: appId);
+
             FlowInstanceData instanceData =
                 await GetFlowInstanceDataAsync(
                     flowExecution: flowExecution);

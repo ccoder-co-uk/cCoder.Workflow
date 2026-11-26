@@ -24,8 +24,10 @@ public sealed class Start : CoreActivity
 
         if (Context.Variables.ContainsKey("AppId"))
         {
-            using HttpClient api = GetHttpClient();
-            App app = await api.GetAsync<App>($"ContentManagement/App({Context.Variables["AppId"]})");
+            int appId = (int)Context.Variables["AppId"];
+            App app = Context is IWorkflowPortalContext portal
+                ? await portal.GetPortalAppAsync(appId)
+                : await GetAppAsync(appId);
             Context.Variables.Add(new KeyValuePair<string, object>("App", app));
             Log(WorkflowLogLevel.Info, "Grabbed app information");
         }
@@ -37,5 +39,11 @@ public sealed class Start : CoreActivity
     {
         Context = context;
         await base.ExecuteInternal(context);
+    }
+
+    private async Task<App> GetAppAsync(int appId)
+    {
+        using HttpClient api = GetHttpClient();
+        return await api.GetAsync<App>($"ContentManagement/App({appId})");
     }
 }

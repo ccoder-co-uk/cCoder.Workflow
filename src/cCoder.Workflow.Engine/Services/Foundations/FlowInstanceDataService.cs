@@ -17,6 +17,28 @@ internal sealed partial class FlowInstanceDataService(
     IJsonBroker jsonBroker)
     : IFlowInstanceDataService
 {
+    public Task<string> GetCallerJsonAsync(string apiRoot, string authToken) =>
+        TryCatch(operation: async () =>
+        {
+            ValidateCallerJsonOnGet(inputs: [apiRoot, authToken]);
+
+            return await workflowHttpClientBroker.GetStringAsync(
+                apiRoot: apiRoot,
+                authToken: authToken,
+                requestUri: "AppSecurity/User/Me()");
+        });
+
+    public Task<string> GetPortalAppJsonAsync(string apiRoot, string authToken, int appId) =>
+        TryCatch(operation: async () =>
+        {
+            ValidatePortalAppJsonOnGet(inputs: [apiRoot, authToken, appId]);
+
+            return await workflowHttpClientBroker.GetStringAsync(
+                apiRoot: apiRoot,
+                authToken: authToken,
+                requestUri: $"ContentManagement/App({appId})");
+        });
+
     public Task<FlowInstanceData> GetFlowInstanceDataAsync(
         string apiRoot,
         string authToken,

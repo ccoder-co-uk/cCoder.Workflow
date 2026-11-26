@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 
 using cCoder.Data.Models.Workflow;
 using cCoder.Workflow.Activities;
@@ -21,6 +22,10 @@ public sealed class FlowExecution
     public int AppId { get; set; }
 
     public string Caller { get; set; }
+
+    internal Func<Task<string>> GetCallerJsonAsync { get; set; }
+
+    internal Func<int, Task<string>> GetPortalAppJsonAsync { get; set; }
 
     public string Name { get; set; }
 
